@@ -1,0 +1,86 @@
+{
+  "name": "Youth/Student Story",
+  "description": "Young person or student needing assistance",
+  "transcript": "Hi, my name is Emma White. I'm 19 years old and I'm a college student at the University of Boston. I'm trying to pay for my tuition and living expenses on my own because my parents can't help me financially. I work part-time at a coffee shop, but it's not enough. I'm struggling to afford textbooks, rent for my dorm, and food. I've been skipping meals sometimes to save money. I really want to finish my degree in nursing so I can help people, but I'm worried I might have to drop out if I can't get some financial support. I need help with education costs, housing, and food. I'm in Boston, Massachusetts. My email is emma.white.student@college.edu. I'm working really hard and maintaining good grades. I just need a little help to make it through. Thank you for considering my request.",
+  "expectedExtraction": {
+    "nameCandidate": "Emma White",
+    "contactCandidates": {
+      "emails": ["emma.white.student@college.edu"],
+      "phones": []
+    },
+    "locationCandidates": ["Boston", "Massachusetts"],
+    "needsCategories": ["EDUCATION", "HOUSING", "FOOD"],
+    "urgencyScore": 0.6,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hi, my name is Emma White.",
+      "start": 0,
+      "end": 2000
+    },
+    {
+      "text": "I'm 19 years old and I'm a college student at the University of Boston.",
+      "start": 2000,
+      "end": 5500
+    },
+    {
+      "text": "I'm trying to pay for my tuition and living expenses on my own because my parents can't help me financially.",
+      "start": 5500,
+      "end": 10000
+    },
+    {
+      "text": "I work part-time at a coffee shop, but it's not enough.",
+      "start": 10000,
+      "end": 13000
+    },
+    {
+      "text": "I'm struggling to afford textbooks, rent for my dorm, and food.",
+      "start": 13000,
+      "end": 16500
+    },
+    {
+      "text": "I've been skipping meals sometimes to save money.",
+      "start": 16500,
+      "end": 19000
+    },
+    {
+      "text": "I really want to finish my degree in nursing so I can help people, but I'm worried I might have to drop out if I can't get some financial support.",
+      "start": 19000,
+      "end": 24500
+    },
+    {
+      "text": "I need help with education costs, housing, and food.",
+      "start": 24500,
+      "end": 27500
+    },
+    {
+      "text": "I'm in Boston, Massachusetts.",
+      "start": 27500,
+      "end": 29000
+    },
+    {
+      "text": "My email is emma.white.student@college.edu.",
+      "start": 29000,
+      "end": 31500
+    },
+    {
+      "text": "I'm working really hard and maintaining good grades.",
+      "start": 31500,
+      "end": 34000
+    },
+    {
+      "text": "I just need a little help to make it through.",
+      "start": 34000,
+      "end": 36000
+    },
+    {
+      "text": "Thank you for considering my request.",
+      "start": 36000,
+      "end": 38000
+    }
+  ],
+  "wordCount": 170,
+  "duration": 38000,
+  "detectedLanguage": "en"
+}

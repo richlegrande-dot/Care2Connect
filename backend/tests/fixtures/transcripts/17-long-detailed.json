@@ -1,0 +1,28 @@
+{
+  "name": "Long Transcript with Truncation",
+  "description": "Very long transcript to test truncation logic",
+  "transcript": "My name is David Wilson and I need help. I have been struggling with housing for over six months now. I lost my job at the manufacturing plant when they downsized the entire department. I was working there for twelve years, and I thought I had job security. But when the company started having financial difficulties, they had to let go of many long-term employees. I tried to find work immediately, but the job market in our area is really tough right now. I applied to dozens of places, both in manufacturing and in retail, but most places either aren't hiring or they want someone with different experience. I've been staying with friends and family members, moving from couch to couch, but I can't keep imposing on people forever. I need to find my own place. I'm looking for about three thousand dollars to cover first month's rent, last month's rent, and a security deposit for an apartment. I live in Portland, Oregon area. I've found a few potential apartments that would work, but I need the upfront money. You can reach me at david.wilson.housing@email.com or call me at 503-555-7890. I'm really hoping someone can help me get back on my feet. I'm continuing to apply for jobs every single day, and I'm confident I'll find work soon, but I just need help with this housing situation right now.",
+  "expectedExtraction": {
+    "nameCandidate": "David Wilson",
+    "contactCandidates": {
+      "emails": ["david.wilson.housing@email.com"],
+      "phones": ["503-555-7890"]
+    },
+    "locationCandidates": ["Portland", "Oregon"],
+    "needsCategories": ["HOUSING", "EMPLOYMENT"],
+    "urgencyScore": 0.8,
+    "keyPointsCount": 6
+  },
+  "segments": [
+    {
+      "text": "My name is David Wilson and I need help.",
+      "start": 0,
+      "end": 3000
+    },
+    {
+      "text": "I have been struggling with housing for over six months now.",
+      "start": 3000,
+      "end": 7000
+    }
+  ]
+}

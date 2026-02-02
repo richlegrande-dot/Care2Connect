@@ -1,0 +1,517 @@
+/**
+ * L3 Service Integration Tests - Story Extraction Service
+ * 
+ * Service-level integration tests for the complete story extraction pipeline
+ */
+
+import { describe, test, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
+import { configureTestEnvironment, resetTestEnvironment } from '../../helpers/testEnv';
+import { loadFixture, makeTranscript } from '../../helpers/makeTranscript';
+import { createMockTelemetryCollector, assertTelemetryRecorded } from '../../helpers/mockTelemetry';
+import { assertNoPII } from '../../helpers/assertNoPII';
+import { StoryExtractionService } from '../../../src/services/storyExtractionService';
+import { TelemetryCollector } from '../../../src/services/telemetryCollector';
+import { TranscriptInput } from '../../../src/types/transcriptTypes';
+
+describe('L3 Service Integration Tests - Story Extraction Service', () => {
+  let storyService: StoryExtractionService;
+  let mockTelemetry: TelemetryCollector;
+  
+  beforeAll(() => {
+    configureTestEnvironment();
+  });
+  
+  afterAll(() => {
+    resetTestEnvironment();
+  });
+  
+  beforeEach(() => {
+    mockTelemetry = createMockTelemetryCollector();
+    storyService = new StoryExtractionService({
+      telemetryCollector: mockTelemetry,
+      enableRulesEngine: true,
+      enableOpenAI: false, // Forced off by test environment
+      enableValidation: true,
+      enableQualityScoring: true
+    });
+  });
+
+  describe('Complete Story Extraction Pipeline', () => {
+    
+    test('should extract complete story from housing eviction fixture', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Validate complete story structure
+      expect(story).toHaveProperty('id');
+      expect(story).toHaveProperty('personalInfo');
+      expect(story).toHaveProperty('requestDetails');
+      expect(story).toHaveProperty('metadata');
+      expect(story).toHaveProperty('qualityAssessment');
+      
+      // Validate personal info
+      expect(story.personalInfo.name).toBe(fixture.expectedResults.name);
+      expect(story.personalInfo.nameConfidence).toBeGreaterThan(0.5);
+      
+      // Validate request details
+      expect(story.requestDetails.amount).toBe(fixture.expectedResults.amount);
+      expect(story.requestDetails.urgency).toBe(fixture.expectedResults.urgency);
+      expect(story.requestDetails.needs).toEqual(expect.arrayContaining(fixture.expectedResults.needs));
+      
+      // Validate quality assessment
+      expect(story.qualityAssessment.overallScore).toBeGreaterThan(0.7);
+      expect(story.qualityAssessment.isComplete).toBe(true);
+      expect(story.qualityAssessment.validationPassed).toBe(true);
+      
+      // Validate metadata
+      expect(story.metadata.extractionMethod).toBe('rules_engine');
+      expect(story.metadata.processingTimeMs).toBeGreaterThan(0);
+      expect(story.metadata.transcriptLength).toBe(fixture.transcriptText.length);
+    });
+    
+    test('should extract complete story from medical emergency fixture', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Medical emergency should have high urgency and quality
+      expect(story.requestDetails.urgency).toBe('CRITICAL');
+      expect(story.requestDetails.needs).toContain('MEDICAL');
+      expect(story.qualityAssessment.overallScore).toBeGreaterThan(0.8);
+      expect(story.qualityAssessment.urgencyAppropriate).toBe(true);
+    });
+    
+    test('should handle empty/dry fixture with graceful degradation', async () => {
+      const fixture = loadFixture('10_dry_empty');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      expect(story.personalInfo.name).toBeNull();
+      expect(story.requestDetails.amount).toBeNull();
+      expect(story.requestDetails.urgency).toBe('LOW');
+      expect(story.requestDetails.needs).toEqual([]);
+      expect(story.qualityAssessment.isComplete).toBe(false);
+      expect(story.qualityAssessment.overallScore).toBeLessThan(0.3);
+      expect(story.qualityAssessment.completenessIssues).toContain('missing_name');
+      expect(story.qualityAssessment.completenessIssues).toContain('missing_amount');
+    });
+    
+  });
+
+  describe('Service Integration Points', () => {
+    
+    test('should integrate with transcript signal extractor', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Should use signal extractor for core field extraction
+      expect(story.metadata.components).toContain('TranscriptSignalExtractor');
+      expect(story.metadata.extractionSteps).toContain('signal_extraction');
+      
+      assertTelemetryRecorded(mockTelemetry, 'service_integration', {
+        service: 'StoryExtractionService',
+        component: 'TranscriptSignalExtractor',
+        integrationSuccessful: true
+      });
+    });
+    
+    test('should integrate with validation service', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Should validate extracted data
+      expect(story.qualityAssessment.validationPassed).toBeDefined();
+      expect(story.qualityAssessment.validationErrors).toBeDefined();
+      expect(story.qualityAssessment.validationWarnings).toBeDefined();
+      
+      assertTelemetryRecorded(mockTelemetry, 'validation_integration', {
+        validationEnabled: true,
+        validationResults: expect.any(Object)
+      });
+    });
+    
+    test('should integrate with quality scoring service', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Should include comprehensive quality scores
+      expect(story.qualityAssessment.overallScore).toBeDefined();
+      expect(story.qualityAssessment.completenessScore).toBeDefined();
+      expect(story.qualityAssessment.confidenceScore).toBeDefined();
+      expect(story.qualityAssessment.consistencyScore).toBeDefined();
+      
+      assertTelemetryRecorded(mockTelemetry, 'quality_scoring_integration', {
+        qualityScoringEnabled: true,
+        scores: expect.any(Object)
+      });
+    });
+    
+    test('should integrate with telemetry collector', async () => {
+      const fixture = loadFixture('03_range_amount');
+      const transcript = makeTranscript(fixture);
+      
+      await storyService.extractStory(transcript);
+      
+      assertTelemetryRecorded(mockTelemetry, 'story_extraction_started');
+      assertTelemetryRecorded(mockTelemetry, 'story_extraction_completed', {
+        storyId: expect.any(String),
+        extractionTimeMs: expect.any(Number),
+        qualityScore: expect.any(Number),
+        completeness: expect.any(Number)
+      });
+    });
+    
+  });
+
+  describe('Story Enrichment and Enhancement', () => {
+    
+    test('should enrich story with contextual information', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Should add contextual enrichment
+      expect(story.enrichment).toBeDefined();
+      expect(story.enrichment.situationAnalysis).toBeDefined();
+      expect(story.enrichment.riskFactors).toBeDefined();
+      expect(story.enrichment.urgencyFactors).toBeDefined();
+      
+      // Housing eviction should identify housing-specific risks
+      expect(story.enrichment.riskFactors).toContain('homelessness_risk');
+      expect(story.enrichment.urgencyFactors).toContain('eviction_timeline');
+    });
+    
+    test('should add medical-specific enrichment for medical cases', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      expect(story.enrichment.medicalContext).toBeDefined();
+      expect(story.enrichment.riskFactors).toContain('health_deterioration_risk');
+      expect(story.enrichment.urgencyFactors).toContain('medical_urgency');
+      expect(story.enrichment.situationAnalysis.category).toBe('medical_emergency');
+    });
+    
+    test('should calculate story completeness metrics', async () => {
+      const fixture = loadFixture('03_range_amount');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      expect(story.completenessMetrics).toBeDefined();
+      expect(story.completenessMetrics.requiredFieldsPresent).toBeDefined();
+      expect(story.completenessMetrics.optionalFieldsPresent).toBeDefined();
+      expect(story.completenessMetrics.completenessPercentage).toBeGreaterThanOrEqual(0);
+      expect(story.completenessMetrics.completenessPercentage).toBeLessThanOrEqual(100);
+      expect(story.completenessMetrics.missingCriticalFields).toBeDefined();
+    });
+    
+    test('should generate story summary and key points', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      expect(story.summary).toBeDefined();
+      expect(story.summary.keyPoints).toBeDefined();
+      expect(story.summary.keyPoints.length).toBeGreaterThan(0);
+      expect(story.summary.situation).toBeDefined();
+      expect(story.summary.needs).toBeDefined();
+      expect(story.summary.urgencyReason).toBeDefined();
+      
+      // Should not contain PII in summary
+      assertNoPII(story.summary.situation, 'Story summary');
+      assertNoPII(story.summary.needs, 'Story needs summary');
+    });
+    
+  });
+
+  describe('Error Handling and Resilience', () => {
+    
+    test('should handle malformed transcript gracefully', async () => {
+      const malformedInputs = [
+        null,
+        undefined,
+        { text: null },
+        { text: '', segments: null },
+        { text: 'valid', segments: 'invalid' }
+      ];
+      
+      for (const input of malformedInputs) {
+        const story = await storyService.extractStory(input as any);
+        
+        expect(story).toBeDefined();
+        expect(story.qualityAssessment.isComplete).toBe(false);
+        expect(story.metadata.errors).toContain('invalid_input');
+      }
+    });
+    
+    test('should recover from component failures', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      // Simulate component failure by creating service without validation
+      const faultyService = new StoryExtractionService({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: false, // Disable rules engine
+        enableOpenAI: false,
+        enableValidation: false, // Disable validation
+        enableQualityScoring: false // Disable quality scoring
+      });
+      
+      const story = await faultyService.extractStory(transcript);
+      
+      expect(story).toBeDefined();
+      expect(story.metadata.extractionMethod).toBe('fallback');
+      expect(story.metadata.componentFailures).toContain('rules_engine');
+      expect(story.qualityAssessment.overallScore).toBeLessThan(0.5);
+    });
+    
+    test('should handle extraction timeouts', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const timeoutService = new StoryExtractionService({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: true,
+        enableOpenAI: false,
+        timeout: 1 // 1ms timeout to force timeout
+      });
+      
+      const story = await timeoutService.extractStory(transcript);
+      
+      expect(story.metadata.timeoutOccurred).toBe(true);
+      expect(story.metadata.partialExtraction).toBe(true);
+      expect(story.qualityAssessment.reliabilityScore).toBeLessThan(0.7);
+    });
+    
+    test('should log and track service errors', async () => {
+      const invalidTranscript = { text: 'corrupt data', segments: 'invalid' };
+      
+      await storyService.extractStory(invalidTranscript as any);
+      
+      assertTelemetryRecorded(mockTelemetry, 'service_error', {
+        service: 'StoryExtractionService',
+        errorType: expect.any(String),
+        errorContext: expect.any(Object),
+        recoveryAction: expect.any(String)
+      });
+    });
+    
+  });
+
+  describe('Performance and Scalability', () => {
+    
+    test('should complete story extraction within acceptable time', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const startTime = Date.now();
+      const story = await storyService.extractStory(transcript);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(10000); // Should complete within 10 seconds
+      expect(story.metadata.processingTimeMs).toBeGreaterThan(0);
+      expect(story.metadata.processingTimeMs).toBeLessThan(10000);
+    });
+    
+    test('should handle large transcripts efficiently', async () => {
+      const largeTranscriptText = 'I need help with my situation. '.repeat(10000);
+      const largeTranscript = makeTranscript({
+        transcriptText: largeTranscriptText,
+        segments: [],
+        expectedResults: {}
+      });
+      
+      const startTime = Date.now();
+      const story = await storyService.extractStory(largeTranscript);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(30000); // Large transcripts may take longer
+      expect(story).toBeDefined();
+      expect(story.metadata.transcriptLength).toBeGreaterThan(1000);
+    });
+    
+    test('should demonstrate horizontal scaling capability', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '03_range_amount'];
+      const promises = fixtures.map(fixtureName => {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        return storyService.extractStory(transcript);
+      });
+      
+      const startTime = Date.now();
+      const stories = await Promise.all(promises);
+      const endTime = Date.now();
+      
+      expect(stories).toHaveLength(3);
+      stories.forEach(story => {
+        expect(story).toBeDefined();
+        expect(story.qualityAssessment).toBeDefined();
+      });
+      
+      // Parallel processing should be more efficient than sequential
+      expect(endTime - startTime).toBeLessThan(20000);
+    });
+    
+    test('should optimize memory usage for repeated extractions', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      
+      const initialMemory = process.memoryUsage().heapUsed;
+      
+      // Perform multiple extractions
+      for (let i = 0; i < 10; i++) {
+        const transcript = makeTranscript(fixture);
+        await storyService.extractStory(transcript);
+      }
+      
+      const finalMemory = process.memoryUsage().heapUsed;
+      const memoryIncrease = finalMemory - initialMemory;
+      
+      // Memory increase should be reasonable (less than 100MB)
+      expect(memoryIncrease).toBeLessThan(100 * 1024 * 1024);
+    });
+    
+  });
+
+  describe('Data Flow and State Management', () => {
+    
+    test('should maintain consistent story state throughout pipeline', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Story should maintain consistency across all sections
+      expect(story.personalInfo.name).toBe(story.metadata.extractedName);
+      expect(story.requestDetails.amount).toBe(story.metadata.extractedAmount);
+      expect(story.requestDetails.urgency).toBe(story.metadata.extractedUrgency);
+      
+      // Quality assessment should reflect actual extraction results
+      const hasName = story.personalInfo.name !== null;
+      const hasAmount = story.requestDetails.amount !== null;
+      expect(story.qualityAssessment.hasRequiredFields.name).toBe(hasName);
+      expect(story.qualityAssessment.hasRequiredFields.amount).toBe(hasAmount);
+    });
+    
+    test('should track story state transitions', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await storyService.extractStory(transcript);
+      
+      assertTelemetryRecorded(mockTelemetry, 'story_state_transition', {
+        from: 'unprocessed',
+        to: 'signal_extraction'
+      });
+      
+      assertTelemetryRecorded(mockTelemetry, 'story_state_transition', {
+        from: 'signal_extraction',
+        to: 'validation'
+      });
+      
+      assertTelemetryRecorded(mockTelemetry, 'story_state_transition', {
+        from: 'validation',
+        to: 'enrichment'
+      });
+      
+      assertTelemetryRecorded(mockTelemetry, 'story_state_transition', {
+        from: 'enrichment',
+        to: 'completed'
+      });
+    });
+    
+    test('should provide story processing metadata', async () => {
+      const fixture = loadFixture('03_range_amount');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      expect(story.metadata.pipelineSteps).toBeDefined();
+      expect(story.metadata.pipelineSteps).toContain('transcript_input');
+      expect(story.metadata.pipelineSteps).toContain('signal_extraction');
+      expect(story.metadata.pipelineSteps).toContain('validation');
+      expect(story.metadata.pipelineSteps).toContain('quality_scoring');
+      expect(story.metadata.pipelineSteps).toContain('enrichment');
+      
+      expect(story.metadata.stepTimings).toBeDefined();
+      Object.values(story.metadata.stepTimings).forEach(timing => {
+        expect(timing).toBeGreaterThan(0);
+      });
+    });
+    
+  });
+
+  describe('Quality Assurance Integration', () => {
+    
+    test('should validate story completeness across all fixtures', async () => {
+      const fixtureNames = ['01_housing_eviction', '02_medical_emergency', '03_range_amount', '04_ambiguous'];
+      
+      for (const fixtureName of fixtureNames) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        const story = await storyService.extractStory(transcript);
+        
+        // All stories should have consistent structure
+        expect(story.id).toMatch(/^story_\d+_[a-f0-9]{8}$/);
+        expect(story.personalInfo).toBeDefined();
+        expect(story.requestDetails).toBeDefined();
+        expect(story.metadata).toBeDefined();
+        expect(story.qualityAssessment).toBeDefined();
+        
+        // Quality assessment should be comprehensive
+        expect(story.qualityAssessment.overallScore).toBeGreaterThanOrEqual(0);
+        expect(story.qualityAssessment.overallScore).toBeLessThanOrEqual(1);
+        expect(story.qualityAssessment.validationPassed).toBeDefined();
+        expect(story.qualityAssessment.isComplete).toBeDefined();
+      }
+    });
+    
+    test('should ensure story quality meets minimum thresholds', async () => {
+      const qualityFixtures = ['01_housing_eviction', '02_medical_emergency'];
+      
+      for (const fixtureName of qualityFixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        const story = await storyService.extractStory(transcript);
+        
+        // High-quality fixtures should meet quality thresholds
+        expect(story.qualityAssessment.overallScore).toBeGreaterThan(0.6);
+        expect(story.qualityAssessment.completenessScore).toBeGreaterThan(0.7);
+        expect(story.qualityAssessment.confidenceScore).toBeGreaterThan(0.5);
+        expect(story.qualityAssessment.validationPassed).toBe(true);
+        expect(story.qualityAssessment.isComplete).toBe(true);
+      }
+    });
+    
+    test('should provide actionable quality improvement suggestions', async () => {
+      const lowQualityFixture = loadFixture('10_dry_empty');
+      const transcript = makeTranscript(lowQualityFixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      expect(story.qualityAssessment.improvementSuggestions).toBeDefined();
+      expect(story.qualityAssessment.improvementSuggestions.length).toBeGreaterThan(0);
+      expect(story.qualityAssessment.completenessIssues).toBeDefined();
+      expect(story.qualityAssessment.completenessIssues.length).toBeGreaterThan(0);
+      
+      // Should suggest specific improvements
+      expect(story.qualityAssessment.improvementSuggestions).toContain('gather_more_personal_information');
+      expect(story.qualityAssessment.improvementSuggestions).toContain('clarify_financial_request');
+    });
+    
+  });
+
+});

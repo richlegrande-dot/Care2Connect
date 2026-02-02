@@ -1,0 +1,408 @@
+/**
+ * L2 Component Tests - Transcript Signal Extractor Integration
+ * 
+ * Component-level tests for the unified transcript processing pipeline
+ */
+
+import { describe, test, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
+import { configureTestEnvironment, resetTestEnvironment } from '../../helpers/testEnv';
+import { loadFixture, makeTranscript } from '../../helpers/makeTranscript';
+import { assertTelemetryRecorded, createMockTelemetryCollector } from '../../helpers/mockTelemetry';
+import { extractStoryDetails } from '../../../src/services/storyExtractionService';
+import { TelemetryCollector } from '../../../src/services/telemetry';
+
+describe('L2 Component Tests - Transcript Signal Extractor', () => {
+  let extractor: TranscriptSignalExtractor;
+  let mockTelemetry: TelemetryCollector;
+  
+  beforeAll(() => {
+    configureTestEnvironment();
+  });
+  
+  afterAll(() => {
+    resetTestEnvironment();
+  });
+  
+  beforeEach(() => {
+    mockTelemetry = createMockTelemetryCollector();
+    extractor = new TranscriptSignalExtractor({
+      telemetryCollector: mockTelemetry,
+      enableRulesEngine: true,
+      enableOpenAI: false, // Forced off by test environment
+      confidenceThreshold: 0.3
+    });
+  });
+
+  describe('Complete Pipeline Integration', () => {
+    
+    test('should extract all signals from housing eviction fixture', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      // Validate extracted signals match fixture expectations
+      expect(result.name).toBe(fixture.expectedResults.name);
+      expect(result.amount).toBe(fixture.expectedResults.amount);
+      expect(result.urgency).toBe(fixture.expectedResults.urgency);
+      expect(result.needs).toEqual(expect.arrayContaining(fixture.expectedResults.needs));
+      
+      // Validate quality scores
+      expect(result.qualityScore.overall).toBeGreaterThan(0.7);
+      expect(result.qualityScore.completeness).toBeGreaterThan(0.8);
+      
+      // Validate telemetry was recorded
+      assertTelemetryRecorded(mockTelemetry, 'extraction_completed', {
+        hasName: true,
+        hasAmount: true,
+        qualityScore: expect.any(Number),
+        extractionTimeMs: expect.any(Number)
+      });
+    });
+    
+    test('should extract all signals from medical emergency fixture', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      expect(result.name).toBe(fixture.expectedResults.name);
+      expect(result.amount).toBe(fixture.expectedResults.amount);
+      expect(result.urgency).toBe(fixture.expectedResults.urgency);
+      expect(result.needs).toEqual(expect.arrayContaining(fixture.expectedResults.needs));
+      
+      // Medical emergency should have high urgency and quality
+      expect(result.urgency).toBe('CRITICAL');
+      expect(result.qualityScore.overall).toBeGreaterThan(0.8);
+    });
+    
+    test('should handle empty/dry fixture gracefully', async () => {
+      const fixture = loadFixture('10_dry_empty');
+      const transcript = makeTranscript(fixture);
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      expect(result.name).toBeNull();
+      expect(result.amount).toBeNull();
+      expect(result.urgency).toBe('LOW');
+      expect(result.needs).toEqual([]);
+      expect(result.qualityScore.overall).toBeLessThan(0.3);
+      
+      // Should still record telemetry for failed extraction
+      assertTelemetryRecorded(mockTelemetry, 'extraction_completed');
+    });
+    
+  });
+
+  describe('Rules Engine Integration', () => {
+    
+    test('should use rules engine when enabled', async () => {
+      const fixture = loadFixture('03_range_amount');
+      const transcript = makeTranscript(fixture);
+      
+      extractor = new TranscriptSignalExtractor({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: true,
+        enableOpenAI: false,
+        confidenceThreshold: 0.3
+      });
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      expect(result.extractionMethod).toBe('rules_engine');
+      expect(result.amount).toBeTruthy();
+      expect(result.qualityScore.confidence).toBeGreaterThan(0.5);
+    });
+    
+    test('should fallback when rules engine disabled', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      extractor = new TranscriptSignalExtractor({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: false,
+        enableOpenAI: false,
+        confidenceThreshold: 0.3
+      });
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      expect(result.extractionMethod).toBe('fallback');
+      expect(result.qualityScore.overall).toBeLessThan(0.7); // Lower quality without rules
+    });
+    
+  });
+
+  describe('Confidence Threshold Handling', () => {
+    
+    test('should respect confidence thresholds for extraction', async () => {
+      const fixture = loadFixture('04_ambiguous');
+      const transcript = makeTranscript(fixture);
+      
+      // High threshold - should reject low-confidence extractions
+      extractor = new TranscriptSignalExtractor({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: true,
+        enableOpenAI: false,
+        confidenceThreshold: 0.8
+      });
+      
+      const highThresholdResult = await extractor.extractSignals(transcript);
+      
+      // Low threshold - should accept low-confidence extractions  
+      extractor = new TranscriptSignalExtractor({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: true,
+        enableOpenAI: false,
+        confidenceThreshold: 0.2
+      });
+      
+      const lowThresholdResult = await extractor.extractSignals(transcript);
+      
+      // High threshold should be more restrictive
+      if (highThresholdResult.name === null && lowThresholdResult.name !== null) {
+        expect(lowThresholdResult.confidence.name).toBeLessThan(0.8);
+        expect(lowThresholdResult.confidence.name).toBeGreaterThan(0.2);
+      }
+    });
+    
+    test('should include confidence scores in results', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      expect(result.confidence).toBeDefined();
+      expect(result.confidence.name).toBeGreaterThanOrEqual(0);
+      expect(result.confidence.name).toBeLessThanOrEqual(1);
+      expect(result.confidence.amount).toBeGreaterThanOrEqual(0);
+      expect(result.confidence.amount).toBeLessThanOrEqual(1);
+      expect(result.confidence.urgency).toBeGreaterThanOrEqual(0);
+      expect(result.confidence.urgency).toBeLessThanOrEqual(1);
+      expect(result.confidence.needs).toBeGreaterThanOrEqual(0);
+      expect(result.confidence.needs).toBeLessThanOrEqual(1);
+    });
+    
+  });
+
+  describe('Error Handling and Resilience', () => {
+    
+    test('should handle malformed transcript input', async () => {
+      const malformedInputs = [
+        null,
+        undefined,
+        { text: null },
+        { text: '', segments: null },
+        { text: 'valid', segments: 'invalid' }
+      ];
+      
+      for (const input of malformedInputs) {
+        expect(async () => {
+          await extractor.extractSignals(input as any);
+        }).not.toThrow();
+        
+        const result = await extractor.extractSignals(input as any);
+        expect(result.name).toBeNull();
+        expect(result.amount).toBeNull();
+      }
+    });
+    
+    test('should handle extraction timeouts gracefully', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      // Create extractor with very short timeout
+      extractor = new TranscriptSignalExtractor({
+        telemetryCollector: mockTelemetry,
+        enableRulesEngine: true,
+        enableOpenAI: false,
+        timeout: 1 // 1ms timeout to force timeout
+      });
+      
+      const result = await extractor.extractSignals(transcript);
+      
+      // Should fallback gracefully on timeout
+      expect(result).toBeDefined();
+      expect(result.extractionMethod).toContain('timeout');
+    });
+    
+    test('should record extraction errors in telemetry', async () => {
+      const invalidTranscript = { text: null, segments: 'invalid' };
+      
+      await extractor.extractSignals(invalidTranscript as any);
+      
+      assertTelemetryRecorded(mockTelemetry, 'extraction_error', {
+        errorType: expect.any(String),
+        hasRecovery: expect.any(Boolean)
+      });
+    });
+    
+  });
+
+  describe('Performance and Efficiency', () => {
+    
+    test('should complete extraction within reasonable time', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const startTime = Date.now();
+      const result = await extractor.extractSignals(transcript);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(5000); // Should complete within 5 seconds
+      expect(result.extractionTimeMs).toBeDefined();
+      expect(result.extractionTimeMs).toBeGreaterThan(0);
+    });
+    
+    test('should handle large transcripts efficiently', async () => {
+      const largeTranscriptText = 'I need help with my situation. '.repeat(10000);
+      const largeTranscript = makeTranscript({
+        transcriptText: largeTranscriptText,
+        segments: [],
+        expectedResults: {}
+      });
+      
+      const startTime = Date.now();
+      const result = await extractor.extractSignals(largeTranscript);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(10000); // Even large transcripts should complete
+      expect(result).toBeDefined();
+    });
+    
+    test('should cache repeated extractions', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      // First extraction
+      const startTime1 = Date.now();
+      const result1 = await extractor.extractSignals(transcript);
+      const endTime1 = Date.now();
+      
+      // Second extraction (should be cached)
+      const startTime2 = Date.now();
+      const result2 = await extractor.extractSignals(transcript);
+      const endTime2 = Date.now();
+      
+      expect(result1.name).toBe(result2.name);
+      expect(result1.amount).toBe(result2.amount);
+      
+      // Second call should be faster due to caching
+      expect(endTime2 - startTime2).toBeLessThan(endTime1 - startTime1);
+    });
+    
+  });
+
+  describe('Telemetry Integration', () => {
+    
+    test('should record complete extraction metrics', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      await extractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(mockTelemetry, 'extraction_started');
+      assertTelemetryRecorded(mockTelemetry, 'extraction_completed', {
+        hasName: true,
+        hasAmount: true,
+        urgencyLevel: 'CRITICAL',
+        needsCount: expect.any(Number),
+        qualityScore: expect.any(Number),
+        extractionTimeMs: expect.any(Number),
+        extractionMethod: expect.any(String),
+        transcriptLength: expect.any(Number)
+      });
+    });
+    
+    test('should record confidence score distribution', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await extractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(mockTelemetry, 'confidence_scores', {
+        nameConfidence: expect.any(Number),
+        amountConfidence: expect.any(Number),
+        urgencyConfidence: expect.any(Number),
+        needsConfidence: expect.any(Number),
+        overallConfidence: expect.any(Number)
+      });
+    });
+    
+    test('should record extraction method usage', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await extractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(mockTelemetry, 'extraction_method_used', {
+        method: 'rules_engine',
+        successful: true,
+        fallbackReason: null
+      });
+    });
+    
+  });
+
+  describe('Integration Validation', () => {
+    
+    test('should validate all fixtures produce expected results', async () => {
+      const fixtureNames = ['01_housing_eviction', '02_medical_emergency', '03_range_amount', '04_ambiguous'];
+      
+      for (const fixtureName of fixtureNames) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        const result = await extractor.extractSignals(transcript);
+        
+        // Validate basic structure
+        expect(result).toHaveProperty('name');
+        expect(result).toHaveProperty('amount');
+        expect(result).toHaveProperty('urgency');
+        expect(result).toHaveProperty('needs');
+        expect(result).toHaveProperty('confidence');
+        expect(result).toHaveProperty('qualityScore');
+        expect(result).toHaveProperty('extractionMethod');
+        expect(result).toHaveProperty('extractionTimeMs');
+        
+        // Validate against expected results if defined
+        if (fixture.expectedResults) {
+          if (fixture.expectedResults.name) {
+            expect(result.name).toBe(fixture.expectedResults.name);
+          }
+          if (fixture.expectedResults.amount) {
+            expect(result.amount).toBe(fixture.expectedResults.amount);
+          }
+          if (fixture.expectedResults.urgency) {
+            expect(result.urgency).toBe(fixture.expectedResults.urgency);
+          }
+          if (fixture.expectedResults.needs) {
+            expect(result.needs).toEqual(expect.arrayContaining(fixture.expectedResults.needs));
+          }
+        }
+      }
+    });
+    
+    test('should maintain consistency across multiple runs', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const results = [];
+      for (let i = 0; i < 5; i++) {
+        const result = await extractor.extractSignals(transcript);
+        results.push(result);
+      }
+      
+      // All results should be identical (deterministic)
+      const firstResult = results[0];
+      results.slice(1).forEach(result => {
+        expect(result.name).toBe(firstResult.name);
+        expect(result.amount).toBe(firstResult.amount);
+        expect(result.urgency).toBe(firstResult.urgency);
+        expect(result.needs).toEqual(firstResult.needs);
+      });
+    });
+    
+  });
+
+});

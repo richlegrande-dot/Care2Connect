@@ -1,0 +1,344 @@
+import { Request, Response } from 'express';
+import { ResourceFinderService, ResourceSearchParams } from '../services/resourceFinderService';
+import { prisma } from '../utils/database';
+
+const resourceFinderService = new ResourceFinderService();
+
+export class ResourceController {
+  /**
+   * Search for local resources
+   */
+  static async searchResources(req: Request, res: Response) {
+    try {
+      const {
+        zipCode,
+        city,
+        state,
+        category,
+        limit,
+        radius,
+      } = req.query;
+
+      const searchParams: ResourceSearchParams = {
+        zipCode: zipCode as string,
+        city: city as string,
+        state: state as string,
+        category: category as string,
+        limit: limit ? parseInt(limit as string) : 10,
+        radius: radius ? parseInt(radius as string) : 25,
+      };
+
+      const resources = await resourceFinderService.findResources(searchParams);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          resources,
+          searchParams,
+          totalResults: resources.length,
+        },
+      });
+    } catch (error) {
+      console.error('Resource search error:', error);
+      res.status(500).json({
+        error: 'Resource search failed',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Get personalized resource recommendations
+   */
+  static async getResourceRecommendations(req: Request, res: Response) {
+    try {
+      const { userId } = req.params;
+
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: { profile: true },
+      });
+
+      if (!user || !user.profile) {
+        return res.status(404).json({
+          error: 'User or profile not found',
+        });
+      }
+
+      const location = user.location || user.zipCode;
+      const recommendations = await resourceFinderService.getPersonalizedRecommendations(
+        user.profile,
+        location
+      );
+
+      res.status(200).json({
+        success: true,
+        data: {
+          resources: recommendations,
+          userNeeds: user.profile.urgentNeeds,
+          location,
+        },
+      });
+    } catch (error) {
+      console.error('Resource recommendations error:', error);
+      res.status(500).json({
+        error: 'Failed to get resource recommendations',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Get resource categories
+   */
+  static async getResourceCategories(req: Request, res: Response) {
+    try {
+      const categories = await resourceFinderService.getResourceCategories();
+
+      res.status(200).json({
+        success: true,
+        data: {
+          categories,
+        },
+      });
+    } catch (error) {
+      console.error('Resource categories error:', error);
+      res.status(500).json({
+        error: 'Failed to get resource categories',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Get resource details by ID
+   */
+  static async getResourceDetails(req: Request, res: Response) {
+    try {
+      const { resourceId } = req.params;
+
+      const resource = await prisma.resource.findUnique({
+        where: { id: resourceId },
+      });
+
+      if (!resource) {
+        return res.status(404).json({
+          error: 'Resource not found',
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: {
+          resource: {
+            id: resource.id,
+            name: resource.name,
+            description: resource.description,
+            category: resource.category,
+            address: resource.address,
+            city: resource.city,
+            state: resource.state,
+            zipCode: resource.zipCode,
+            phone: resource.phone,
+            email: resource.email,
+            website: resource.website,
+            hours: resource.hours,
+            services: resource.services,
+            eligibility: resource.eligibility,
+            verified: resource.verified,
+            lastUpdated: resource.lastUpdated,
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Resource details error:', error);
+      res.status(500).json({
+        error: 'Failed to get resource details',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Add a new resource (admin/caseworker functionality)
+   */
+  static async addResource(req: Request, res: Response) {
+    try {
+      const {
+        name,
+        description,
+        category,
+        address,
+        city,
+        state,
+        zipCode,
+        phone,
+        email,
+        website,
+        hours,
+        services,
+        eligibility,
+        verified = false,
+      } = req.body;
+
+      if (!name || !category) {
+        return res.status(400).json({
+          error: 'Missing required fields',
+          message: 'Name and category are required',
+        });
+      }
+
+      const resourceData = {
+        name,
+        description,
+        category,
+        address,
+        city,
+        state,
+        zipCode,
+        phone,
+        email,
+        website,
+        hours,
+        services: services || [],
+        eligibility,
+        verified,
+      };
+
+      const resource = await resourceFinderService.addResource(resourceData);
+
+      res.status(201).json({
+        success: true,
+        data: {
+          resource,
+        },
+      });
+    } catch (error) {
+      console.error('Add resource error:', error);
+      res.status(500).json({
+        error: 'Failed to add resource',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Update resource information (admin/caseworker functionality)
+   */
+  static async updateResource(req: Request, res: Response) {
+    try {
+      const { resourceId } = req.params;
+      const updateData = req.body;
+
+      const existingResource = await prisma.resource.findUnique({
+        where: { id: resourceId },
+      });
+
+      if (!existingResource) {
+        return res.status(404).json({
+          error: 'Resource not found',
+        });
+      }
+
+      const updatedResource = await prisma.resource.update({
+        where: { id: resourceId },
+        data: {
+          ...updateData,
+          lastUpdated: new Date(),
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        data: {
+          resource: updatedResource,
+        },
+      });
+    } catch (error) {
+      console.error('Update resource error:', error);
+      res.status(500).json({
+        error: 'Failed to update resource',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Delete a resource (admin functionality)
+   */
+  static async deleteResource(req: Request, res: Response) {
+    try {
+      const { resourceId } = req.params;
+      const { confirmDelete } = req.body;
+
+      if (!confirmDelete) {
+        return res.status(400).json({
+          error: 'Confirmation required',
+          message: 'Please confirm deletion by setting confirmDelete to true',
+        });
+      }
+
+      const resource = await prisma.resource.findUnique({
+        where: { id: resourceId },
+      });
+
+      if (!resource) {
+        return res.status(404).json({
+          error: 'Resource not found',
+        });
+      }
+
+      await prisma.resource.delete({
+        where: { id: resourceId },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Resource deleted successfully',
+      });
+    } catch (error) {
+      console.error('Delete resource error:', error);
+      res.status(500).json({
+        error: 'Failed to delete resource',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+
+  /**
+   * Search resources by urgent needs
+   */
+  static async searchByNeeds(req: Request, res: Response) {
+    try {
+      const { needs, location } = req.body;
+
+      if (!needs || !Array.isArray(needs)) {
+        return res.status(400).json({
+          error: 'Invalid needs',
+          message: 'Needs must be provided as an array',
+        });
+      }
+
+      const mockProfile = { urgentNeeds: needs };
+      const recommendations = await resourceFinderService.getPersonalizedRecommendations(
+        mockProfile,
+        location
+      );
+
+      res.status(200).json({
+        success: true,
+        data: {
+          resources: recommendations,
+          needs,
+          location,
+        },
+      });
+    } catch (error) {
+      console.error('Search by needs error:', error);
+      res.status(500).json({
+        error: 'Failed to search resources by needs',
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      });
+    }
+  }
+}

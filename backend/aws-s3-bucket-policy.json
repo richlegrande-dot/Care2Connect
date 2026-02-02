@@ -1,0 +1,62 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CareConnectAudioUpload",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::ACCOUNT-ID:user/careconnect-backend"
+      },
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::careconnect-audio-files/*",
+      "Condition": {
+        "StringEquals": {
+          "s3:x-amz-server-side-encryption": "AES256"
+        },
+        "NumericLessThanEquals": {
+          "s3:content-length": "52428800"
+        }
+      }
+    },
+    {
+      "Sid": "CareConnectQRCodeAccess",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::ACCOUNT-ID:user/careconnect-backend"
+      },
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::careconnect-qr-codes/*"
+    },
+    {
+      "Sid": "PublicQRCodeRead",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::careconnect-qr-codes/*"
+    },
+    {
+      "Sid": "DenyInsecureConnections",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::careconnect-audio-files/*",
+        "arn:aws:s3:::careconnect-qr-codes/*"
+      ],
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}

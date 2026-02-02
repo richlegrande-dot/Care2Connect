@@ -1,0 +1,62 @@
+[
+  {
+    "id": "age-001",
+    "transcript": "I'm 34 years old and looking for housing.",
+    "expectedAge": 34,
+    "format": "years_old"
+  },
+  {
+    "id": "age-002",
+    "transcript": "My age is 42 and I've been homeless for 6 months.",
+    "expectedAge": 42,
+    "format": "age_is"
+  },
+  {
+    "id": "age-003",
+    "transcript": "I'm a 28-year-old veteran seeking employment.",
+    "expectedAge": 28,
+    "format": "hyphenated"
+  },
+  {
+    "id": "age-004",
+    "transcript": "I am 56 years of age, recently lost my job.",
+    "expectedAge": 56,
+    "format": "years_of_age"
+  },
+  {
+    "id": "age-005",
+    "transcript": "Age 31. Need help with medical bills.",
+    "expectedAge": 31,
+    "format": "age_number"
+  },
+  {
+    "id": "age-006",
+    "transcript": "I'm 25 yrs old, single mother of two.",
+    "expectedAge": 25,
+    "format": "yrs_old"
+  },
+  {
+    "id": "age-007",
+    "transcript": "I am 48 and need assistance with food.",
+    "expectedAge": 48,
+    "format": "i_am_number"
+  },
+  {
+    "id": "age-008",
+    "transcript": "63 years old, disabled veteran.",
+    "expectedAge": 63,
+    "format": "number_first"
+  },
+  {
+    "id": "age-009",
+    "transcript": "I'm 37, lost my housing last month.",
+    "expectedAge": 37,
+    "format": "comma_separated"
+  },
+  {
+    "id": "age-010",
+    "transcript": "My name is John, I'm 51 years old.",
+    "expectedAge": 51,
+    "format": "embedded"
+  }
+]

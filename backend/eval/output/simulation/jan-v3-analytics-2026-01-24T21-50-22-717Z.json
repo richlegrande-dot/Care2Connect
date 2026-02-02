@@ -1,0 +1,3295 @@
+{
+  "metadata": {
+    "timestamp": "2026-01-24T21:50:22.727Z",
+    "version": "jan_v3.0_analytics",
+    "mode": "simulation",
+    "total_execution_time_ms": 1879,
+    "total_tests": 30
+  },
+  "summary": {
+    "pass_rate": 96.66666666666667,
+    "passed": 29,
+    "failed": 1,
+    "avg_execution_time_ms": 0.8666666666666667,
+    "field_accuracy": {
+      "name": 19,
+      "category": 29,
+      "urgency": 28,
+      "amount": 30
+    },
+    "difficulty_breakdown": {
+      "easy": {
+        "passed": 6,
+        "total": 6
+      },
+      "medium": {
+        "passed": 10,
+        "total": 10
+      },
+      "hard": {
+        "passed": 9,
+        "total": 9
+      },
+      "adversarial": {
+        "passed": 4,
+        "total": 5
+      }
+    }
+  },
+  "detailed_results": [
+    {
+      "id": "T001",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Sarah Johnson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 6,
+      "debug": {
+        "name": {
+          "testId": "T001",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Sarah Johnson",
+              "fullMatch": "my name is Sarah Johnson",
+              "beforeCleaning": "Sarah Johnson",
+              "afterCleaning": "Sarah Johnson",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Sarah Johnson",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T001",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(about to be evicted|behind on payments|about to lose|losing|threatening eviction|eviction|foreclosure|catch up on rent)/i",
+              "matched": true,
+              "matchText": "about to be evicted"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "HOUSING",
+            "amountBased": 1500
+          }
+        }
+      }
+    },
+    {
+      "id": "T002",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "car accident"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "car accident",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "testId": "T002",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/i",
+              "matched": true,
+              "rawCapture": "car accident",
+              "fullMatch": "car accident and we need",
+              "beforeCleaning": "car accident",
+              "afterCleaning": "car accident",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "car accident",
+          "tier": "fragment"
+        },
+        "urgency": {
+          "testId": "T002",
+          "patternMatches": [
+            {
+              "level": "CRITICAL",
+              "pattern": "/(?:my|our|the)\\s+(?:daughter|son|child|kid).*(?:accident|injured).*surgery/i",
+              "matched": true,
+              "matchText": "My daughter was in a car accident and we need help"
+            }
+          ],
+          "scores": {
+            "critical": 10,
+            "high": 10
+          },
+          "finalLevel": "CRITICAL",
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 8000
+          }
+        }
+      }
+    },
+    {
+      "id": "T003",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jennifer Davis"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "testId": "T003",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Jennifer Davis",
+              "fullMatch": "My name is Jennifer Davis",
+              "beforeCleaning": "Jennifer Davis",
+              "afterCleaning": "Jennifer Davis",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Jennifer Davis",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T003",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(children affected|family suffering|kids asking|can't provide|disappointing|struggling.*food|can't.*buy food|kids.*hungry)/i",
+              "matched": true,
+              "matchText": "struggling to buy food"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "EMPLOYMENT",
+            "amountBased": 2000
+          }
+        }
+      }
+    },
+    {
+      "id": "T004",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Robert Martinez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T004",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Robert Martinez",
+              "fullMatch": "I'm Robert Martinez",
+              "beforeCleaning": "Robert Martinez",
+              "afterCleaning": "Robert Martinez",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Robert Martinez",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T004",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "trying"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "EDUCATION",
+            "amountBased": 3500
+          }
+        }
+      }
+    },
+    {
+      "id": "T005",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "not sure"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "not sure",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "missingFields": [
+          "goalAmount"
+        ],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T005",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "not sure",
+              "fullMatch": "I'm not sure",
+              "beforeCleaning": "not sure",
+              "afterCleaning": "not sure",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "not sure",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T005",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": null
+          }
+        }
+      }
+    },
+    {
+      "id": "T006",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "David Wilson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T006",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "David Wilson",
+              "fullMatch": "my name is David Wilson",
+              "beforeCleaning": "David Wilson",
+              "afterCleaning": "David Wilson",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "David Wilson",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T006",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(lost job|laid off|unemployment running out|can't find work|can't get to work|injured at work|can't work|out of work|savings.*gone|been out.*work)/i",
+              "matched": true,
+              "matchText": "laid off"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "HOUSING",
+            "amountBased": 1200
+          }
+        }
+      }
+    },
+    {
+      "id": "T007",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Maria Garcia"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T007",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Maria Garcia",
+              "fullMatch": "I'm Maria Garcia",
+              "beforeCleaning": "Maria Garcia",
+              "afterCleaning": "Maria Garcia",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Maria Garcia",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T007",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "EMPLOYMENT",
+            "amountBased": 800
+          }
+        }
+      }
+    },
+    {
+      "id": "T008",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "This is"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "This is",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "testId": "T008",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "facing eviction",
+              "fullMatch": "I'm facing eviction",
+              "beforeCleaning": "facing eviction",
+              "afterCleaning": "facing eviction",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": false,
+                "notFiller": true
+              },
+              "accepted": false
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "contextual",
+              "pattern": "/\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b(?=.*(?:need|help|situation|problem|story|calling|assistance))/i",
+              "matched": true,
+              "rawCapture": "This is",
+              "fullMatch": "This is",
+              "beforeCleaning": "This is",
+              "afterCleaning": "This is",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "This is",
+          "tier": "contextual"
+        },
+        "urgency": {
+          "testId": "T008",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(about to be evicted|behind on payments|about to lose|losing|threatening eviction|eviction|foreclosure|catch up on rent)/i",
+              "matched": true,
+              "matchText": "eviction"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "LEGAL",
+            "amountBased": 2250
+          }
+        }
+      }
+    },
+    {
+      "id": "T009",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Ashley Williams"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T009",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": true,
+              "rawCapture": "Ashley Williams",
+              "fullMatch": "Ashley Williams calling",
+              "beforeCleaning": "Ashley Williams",
+              "afterCleaning": "Ashley Williams",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Ashley Williams",
+          "tier": "speaker"
+        },
+        "urgency": {
+          "testId": "T009",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "EDUCATION",
+            "amountBased": 4000
+          }
+        }
+      }
+    },
+    {
+      "id": "T010",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Christopher Lee"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T010",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Christopher Lee",
+              "fullMatch": "My name is Christopher Lee",
+              "beforeCleaning": "Christopher Lee",
+              "afterCleaning": "Christopher Lee",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Christopher Lee",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T010",
+          "patternMatches": [
+            {
+              "level": "CRITICAL",
+              "pattern": "/(emergency|critical|immediately|right away|life threatening|911|ambulance|dying|death)(?!.*(?:bills|injured.*surgery|surgery.*injured))/i",
+              "matched": true,
+              "matchText": "emergency"
+            }
+          ],
+          "scores": {
+            "critical": 10,
+            "high": 10
+          },
+          "finalLevel": "CRITICAL",
+          "contextAdjustments": {
+            "categoryBased": "EMERGENCY",
+            "amountBased": 5000
+          }
+        }
+      }
+    },
+    {
+      "id": "T011",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Amanda Taylor"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T011",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Amanda Taylor",
+              "fullMatch": "I'm Amanda Taylor",
+              "beforeCleaning": "Amanda Taylor",
+              "afterCleaning": "Amanda Taylor",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Amanda Taylor",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T011",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "OTHER",
+            "amountBased": 1000
+          }
+        }
+      }
+    },
+    {
+      "id": "T012",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "calling not"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "calling not",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T012",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "calling not",
+              "fullMatch": "I'm calling not",
+              "beforeCleaning": "calling not",
+              "afterCleaning": "calling not",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "calling not",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T012",
+          "patternMatches": [
+            {
+              "level": "LOW",
+              "pattern": "/(wedding|ceremony|celebration|funeral)(?!.*(?:tomorrow|today|this week|urgent))/i",
+              "matched": true,
+              "matchText": "wedding"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "LOW",
+          "mediumDetected": false,
+          "contextAdjustments": {
+            "categoryBased": "FAMILY",
+            "amountBased": 3000
+          }
+        }
+      }
+    },
+    {
+      "id": "T013",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "twenty"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "twenty",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T013",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "twenty",
+              "fullMatch": "I'm twenty",
+              "beforeCleaning": "twenty",
+              "afterCleaning": "twenty",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "twenty",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T013",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 6000
+          }
+        }
+      }
+    },
+    {
+      "id": "T014",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Elizabeth Rodriguez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "children"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T014",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": true,
+              "rawCapture": "Elizabeth Rodriguez",
+              "fullMatch": "My full name is Elizabeth Rodriguez",
+              "beforeCleaning": "Elizabeth Rodriguez",
+              "afterCleaning": "Elizabeth Rodriguez",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Elizabeth Rodriguez",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T014",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "FAMILY",
+            "amountBased": 1500
+          }
+        }
+      }
+    },
+    {
+      "id": "T015",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": null
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "missingFields": [
+          "name"
+        ],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T015",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            }
+          ],
+          "finalChoice": null,
+          "tier": null
+        },
+        "urgency": {
+          "testId": "T015",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(urgent|soon|quickly|asap|time sensitive|running out of time|deadline)/i",
+              "matched": true,
+              "matchText": "urgent"
+            },
+            {
+              "level": "HIGH",
+              "pattern": "/(about to be evicted|behind on payments|about to lose|losing|threatening eviction|eviction|foreclosure|catch up on rent)/i",
+              "matched": true,
+              "matchText": "eviction"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 10
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "HOUSING",
+            "amountBased": 2500
+          }
+        }
+      }
+    },
+    {
+      "id": "T016",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": null
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": null,
+        "category": "SAFETY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah",
+        "category": "SAFETY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T016",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "contextual",
+              "pattern": "/\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b(?=.*(?:need|help|situation|problem|story|calling|assistance))/i",
+              "matched": true,
+              "rawCapture": "Um",
+              "fullMatch": "Um",
+              "beforeCleaning": "Um",
+              "afterCleaning": "Um",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": false
+              },
+              "accepted": false
+            }
+          ],
+          "finalChoice": null,
+          "tier": null
+        },
+        "urgency": {
+          "testId": "T016",
+          "patternMatches": [
+            {
+              "level": "CRITICAL",
+              "pattern": "/(violent.*(?:kids|children|family)|violence.*(?:kids|children|family)|abuse.*(?:kids|children|family)|stalker|threatening.*(?:harm|kill)|danger.*(?:life|kids|children)|unsafe|escape|flee|hiding)/i",
+              "matched": true,
+              "matchText": "violent and, like, I need to get out with my kids"
+            }
+          ],
+          "scores": {
+            "critical": 10,
+            "high": 10
+          },
+          "finalLevel": "CRITICAL",
+          "contextAdjustments": {
+            "categoryBased": "SAFETY",
+            "amountBased": 3000
+          }
+        }
+      }
+    },
+    {
+      "id": "T017",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Marcus Johnson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Marcus Johnson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 4500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Marcus Johnson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 4500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T017",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Marcus Johnson",
+              "fullMatch": "my name is Marcus Johnson",
+              "beforeCleaning": "Marcus Johnson",
+              "afterCleaning": "Marcus Johnson",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Marcus Johnson",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T017",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(lost job|laid off|unemployment running out|can't find work|can't get to work|injured at work|can't work|out of work|savings.*gone|been out.*work)/i",
+              "matched": true,
+              "matchText": "injured at work"
+            },
+            {
+              "level": "HIGH",
+              "pattern": "/(injured.*surgery|surgery.*work|can't work.*medical|medical.*can't work)/i",
+              "matched": true,
+              "matchText": "injured at work. Now I can't work and I need help "
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 10
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 4500
+          }
+        }
+      }
+    },
+    {
+      "id": "T018",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": null
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": null,
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Park",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T018",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "contextual",
+              "pattern": "/\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b(?=.*(?:need|help|situation|problem|story|calling|assistance))/i",
+              "matched": true,
+              "rawCapture": "So",
+              "fullMatch": "So",
+              "beforeCleaning": "So",
+              "afterCleaning": "So",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": false
+              },
+              "accepted": false
+            }
+          ],
+          "finalChoice": null,
+          "tier": null
+        },
+        "urgency": {
+          "testId": "T018",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(lost job|laid off|unemployment running out|can't find work|can't get to work|injured at work|can't work|out of work|savings.*gone|been out.*work)/i",
+              "matched": true,
+              "matchText": "can't get to work"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "EMPLOYMENT",
+            "amountBased": 2200
+          }
+        }
+      }
+    },
+    {
+      "id": "T019",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Thomas Wright"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1750,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T019",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Thomas Wright",
+              "fullMatch": "I'm Thomas Wright",
+              "beforeCleaning": "Thomas Wright",
+              "afterCleaning": "Thomas Wright",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Thomas Wright",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T019",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 1500
+          }
+        }
+      }
+    },
+    {
+      "id": "T020",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "behind two"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "behind two",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Rachel Martinez",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T020",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "behind two",
+              "fullMatch": "I'm behind two",
+              "beforeCleaning": "behind two",
+              "afterCleaning": "behind two",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "behind two",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T020",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(about to be evicted|behind on payments|about to lose|losing|threatening eviction|eviction|foreclosure|catch up on rent)/i",
+              "matched": true,
+              "matchText": "eviction"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "HOUSING",
+            "amountBased": 950
+          }
+        }
+      }
+    },
+    {
+      "id": "T021",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Patricia Collins"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T021",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Patricia Collins",
+              "fullMatch": "My name is Patricia Collins",
+              "beforeCleaning": "Patricia Collins",
+              "afterCleaning": "Patricia Collins",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Patricia Collins",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T021",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 3500
+          }
+        }
+      }
+    },
+    {
+      "id": "T022",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Daniel Kim"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Daniel Kim",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Daniel Kim",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T022",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": true,
+              "rawCapture": "Daniel Kim",
+              "fullMatch": "Daniel Kim calling",
+              "beforeCleaning": "Daniel Kim",
+              "afterCleaning": "Daniel Kim",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Daniel Kim",
+          "tier": "speaker"
+        },
+        "urgency": {
+          "testId": "T022",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(lost job|laid off|unemployment running out|can't find work|can't get to work|injured at work|can't work|out of work|savings.*gone|been out.*work)/i",
+              "matched": true,
+              "matchText": "been out of work since 2023 and my savings are gon"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "EMPLOYMENT",
+            "amountBased": 2000
+          }
+        }
+      }
+    },
+    {
+      "id": "T023",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Linda Torres"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T023",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Linda Torres",
+              "fullMatch": "my name is Linda Torres",
+              "beforeCleaning": "Linda Torres",
+              "afterCleaning": "Linda Torres",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Linda Torres",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T023",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 4000
+          }
+        }
+      }
+    },
+    {
+      "id": "T024",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "Hello"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Hello",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Brian Anderson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T024",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "contextual",
+              "pattern": "/\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b(?=.*(?:need|help|situation|problem|story|calling|assistance))/i",
+              "matched": true,
+              "rawCapture": "Hello",
+              "fullMatch": "Hello",
+              "beforeCleaning": "Hello",
+              "afterCleaning": "Hello",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Hello",
+          "tier": "contextual"
+        },
+        "urgency": {
+          "testId": "T024",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "EMPLOYMENT",
+            "amountBased": 2500
+          }
+        }
+      }
+    },
+    {
+      "id": "T025",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "threatening eviction"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "threatening eviction",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Santos",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T025",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:on the|from)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)'s\\s+(?:story|situation|problem|case|need)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/i",
+              "matched": true,
+              "rawCapture": "threatening eviction",
+              "fullMatch": "threatening eviction and I need",
+              "beforeCleaning": "threatening eviction",
+              "afterCleaning": "threatening eviction",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "threatening eviction",
+          "tier": "fragment"
+        },
+        "urgency": {
+          "testId": "T025",
+          "patternMatches": [
+            {
+              "level": "HIGH",
+              "pattern": "/(about to be evicted|behind on payments|about to lose|losing|threatening eviction|eviction|foreclosure|catch up on rent)/i",
+              "matched": true,
+              "matchText": "threatening eviction"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 5
+          },
+          "finalLevel": "HIGH",
+          "contextAdjustments": {
+            "categoryBased": "HOUSING",
+            "amountBased": 1800
+          }
+        }
+      }
+    },
+    {
+      "id": "T026",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Katherine Williams"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Katherine Williams",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Katherine Williams",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "testId": "T026",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(?:speaking|calling|here)/i",
+              "matched": true,
+              "rawCapture": "Katherine Williams",
+              "fullMatch": "Katherine Williams calling",
+              "beforeCleaning": "Katherine Williams",
+              "afterCleaning": "Katherine Williams",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Katherine Williams",
+          "tier": "speaker"
+        },
+        "urgency": {
+          "testId": "T026",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 5000
+          }
+        }
+      }
+    },
+    {
+      "id": "T027",
+      "passed": true,
+      "weightedScore": 0.75,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Robert Chen"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Robert Chen",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Chen",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T027",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Robert Chen",
+              "fullMatch": "My name is Robert Chen",
+              "beforeCleaning": "Robert Chen",
+              "afterCleaning": "Robert Chen",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Robert Chen",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T027",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "EMPLOYMENT",
+            "amountBased": 2800
+          }
+        }
+      }
+    },
+    {
+      "id": "T028",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jessica Morgan"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jessica Morgan",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jessica Morgan",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 0,
+      "debug": {
+        "name": {
+          "testId": "T028",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "calling because",
+              "fullMatch": "I'm calling because",
+              "beforeCleaning": "calling because",
+              "afterCleaning": "calling",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": false,
+                "notFiller": true
+              },
+              "accepted": false
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "calling because",
+              "fullMatch": "Um, hi... I'm calling because",
+              "beforeCleaning": "calling because",
+              "afterCleaning": "calling",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": false,
+                "notFiller": true
+              },
+              "accepted": false
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/i",
+              "matched": true,
+              "rawCapture": "Jessica Morgan",
+              "fullMatch": "it's Jessica Morgan.",
+              "beforeCleaning": "Jessica Morgan",
+              "afterCleaning": "Jessica Morgan",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Jessica Morgan",
+          "tier": "third_person"
+        },
+        "urgency": {
+          "testId": "T028",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "HIGH",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "LEGAL",
+            "amountBased": 3500
+          }
+        }
+      }
+    },
+    {
+      "id": "T029",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Carlos Ramirez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Carlos Ramirez",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Carlos Ramirez",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T029",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "Carlos Ramirez",
+              "fullMatch": "My name is Carlos Ramirez",
+              "beforeCleaning": "Carlos Ramirez",
+              "afterCleaning": "Carlos Ramirez",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "Carlos Ramirez",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T029",
+          "patternMatches": [
+            {
+              "level": "CRITICAL",
+              "pattern": "/(emergency|critical|immediately|right away|life threatening|911|ambulance|dying|death)(?!.*(?:bills|injured.*surgery|surgery.*injured))/i",
+              "matched": true,
+              "matchText": "emergency"
+            }
+          ],
+          "scores": {
+            "critical": 10,
+            "high": 10
+          },
+          "finalLevel": "CRITICAL",
+          "contextAdjustments": {
+            "categoryBased": "EMERGENCY",
+            "amountBased": 4000
+          }
+        }
+      }
+    },
+    {
+      "id": "T030",
+      "passed": false,
+      "weightedScore": 0.6,
+      "gradeLetter": "D",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "not"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "not",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Angela Foster",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 1,
+      "debug": {
+        "name": {
+          "testId": "T030",
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][a-z]+\\s+[A-Z][a-z]+)\\b/i",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:my name is|i am|i'm)\\s+(?:like,?\\s+)?([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\b/i",
+              "matched": true,
+              "rawCapture": "not calling",
+              "fullMatch": "I'm not calling",
+              "beforeCleaning": "not calling",
+              "afterCleaning": "not",
+              "validation": {
+                "lengthOk": true,
+                "formatOk": true,
+                "notBlacklisted": true,
+                "notFiller": true
+              },
+              "accepted": true
+            }
+          ],
+          "finalChoice": "not",
+          "tier": "direct"
+        },
+        "urgency": {
+          "testId": "T030",
+          "patternMatches": [
+            {
+              "level": "MEDIUM",
+              "pattern": "/(help|assistance|support|need|require|looking for|hoping|trying)(?!.*(wedding|ceremony|celebration|personal matter|hard to explain|difficult to explain))/i",
+              "matched": true,
+              "matchText": "need"
+            }
+          ],
+          "scores": {
+            "critical": 0,
+            "high": 0
+          },
+          "finalLevel": "MEDIUM",
+          "mediumDetected": true,
+          "contextAdjustments": {
+            "categoryBased": "HEALTHCARE",
+            "amountBased": 3000
+          }
+        }
+      }
+    }
+  ]
+}

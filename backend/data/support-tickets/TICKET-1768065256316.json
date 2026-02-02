@@ -1,0 +1,11 @@
+{
+  "id": "TICKET-1768065256316",
+  "issueType": "missing_fields",
+  "description": "Fields are missing from extraction",
+  "contactEmail": null,
+  "contactPhone": null,
+  "context": null,
+  "clientId": null,
+  "createdAt": "2026-01-10T17:14:16.316Z",
+  "status": "OPEN"
+}

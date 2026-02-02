@@ -1,0 +1,344 @@
+# GitHub Actions CI Workflow for Evaluation System
+# This workflow runs the parsing evaluation suite but is NOT scheduled by default
+# Enable scheduling only after thorough testing and approval
+
+name: Parsing Evaluation
+
+# Trigger conditions - MANUAL ONLY by default
+on:
+  workflow_dispatch:    # Manual trigger only
+    inputs:
+      evaluation_mode:
+        description: 'Evaluation mode to run'
+        required: true
+        default: 'ci'
+        type: choice
+        options:
+          - development
+          - ci
+          - production
+      baseline_comparison:
+        description: 'Run baseline comparison'
+        required: false
+        default: true
+        type: boolean
+      generate_artifacts:
+        description: 'Generate output artifacts'
+        required: false
+        default: true
+        type: boolean
+      
+  # UNCOMMENT BELOW TO ENABLE AUTOMATIC SCHEDULING
+  # schedule:
+  #   - cron: '0 6 * * 1-5'  # 6 AM UTC, Monday-Friday
+  
+  # UNCOMMENT BELOW TO ENABLE PR TRIGGERS
+  # pull_request:
+  #   paths:
+  #     - 'backend/services/storyExtractionService.ts'
+  #     - 'backend/utils/transcriptSignalExtractor.ts'
+  #     - 'backend/eval/**'
+
+# Environment variables
+env:
+  NODE_VERSION: '18'
+  EVALUATION_MODE: ${{ github.event.inputs.evaluation_mode || 'ci' }}
+  BASELINE_COMPARISON: ${{ github.event.inputs.baseline_comparison || 'true' }}
+  GENERATE_ARTIFACTS: ${{ github.event.inputs.generate_artifacts || 'true' }}
+
+jobs:
+  # Pre-flight validation job
+  validation:
+    name: Pre-flight Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    outputs:
+      can-proceed: ${{ steps.validation.outputs.can-proceed }}
+      validation-message: ${{ steps.validation.outputs.message }}
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Run Configuration Validation
+        id: validation
+        run: |
+          echo "🔍 Running pre-flight validation..."
+          
+          # Check if evaluation system is properly configured
+          if [[ ! -f "backend/eval/datasets/golden_dataset.jsonl" ]]; then
+            echo "can-proceed=false" >> $GITHUB_OUTPUT
+            echo "message=Missing golden dataset file" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          # Validate dataset integrity
+          npm run eval:validate-dataset
+          
+          # Check for PII in test data
+          npm run eval:scan-pii
+          
+          # Validate network blocking is working
+          npm run eval:test-network-block
+          
+          echo "can-proceed=true" >> $GITHUB_OUTPUT
+          echo "message=All validations passed" >> $GITHUB_OUTPUT
+          echo "✅ Pre-flight validation complete"
+
+  # Main evaluation job
+  evaluation:
+    name: Run Parsing Evaluation
+    runs-on: ubuntu-latest
+    needs: validation
+    if: needs.validation.outputs.can-proceed == 'true'
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Create Output Directory
+        run: mkdir -p backend/eval/output/ci
+        
+      - name: Download Baseline (if comparison enabled)
+        if: env.BASELINE_COMPARISON == 'true'
+        run: |
+          # Check if baseline exists from previous runs
+          if [[ -f "backend/eval/output/baselines/latest-baseline.json" ]]; then
+            echo "📁 Using existing baseline for comparison"
+          else
+            echo "⚠️ No baseline found - first run will establish baseline"
+          fi
+        
+      - name: Run Parsing Evaluation
+        id: evaluation
+        run: |
+          echo "🚀 Starting parsing evaluation in $EVALUATION_MODE mode..."
+          
+          # Set performance budget based on mode
+          case $EVALUATION_MODE in
+            "development")
+              export PERF_BUDGET="DEVELOPMENT"
+              ;;
+            "ci")
+              export PERF_BUDGET="CI"
+              ;;
+            "production")
+              export PERF_BUDGET="PRODUCTION"
+              ;;
+          esac
+          
+          # Run the evaluation with proper error handling
+          set +e  # Don't exit on first error
+          npm run eval:run 2>&1 | tee evaluation.log
+          EVAL_EXIT_CODE=$?
+          set -e
+          
+          # Check if evaluation completed
+          if [[ $EVAL_EXIT_CODE -eq 0 ]]; then
+            echo "evaluation-status=success" >> $GITHUB_OUTPUT
+            echo "✅ Evaluation completed successfully"
+          else
+            echo "evaluation-status=failed" >> $GITHUB_OUTPUT
+            echo "❌ Evaluation failed with exit code $EVAL_EXIT_CODE"
+            
+            # Still continue to process partial results if available
+            if [[ -f "backend/eval/output/ci/results.jsonl" ]]; then
+              echo "📊 Partial results available for analysis"
+            fi
+          fi
+        continue-on-error: true
+        
+      - name: Run Baseline Comparison
+        if: env.BASELINE_COMPARISON == 'true' && steps.evaluation.outputs.evaluation-status == 'success'
+        run: |
+          echo "📊 Running baseline comparison..."
+          npm run eval:compare-baseline
+          
+      - name: Generate Artifacts
+        if: env.GENERATE_ARTIFACTS == 'true'
+        run: |
+          echo "📋 Generating evaluation artifacts..."
+          
+          # Generate all artifact types (internal, funder, public)
+          npm run eval:generate-artifacts
+          
+          # List generated files
+          echo "Generated artifacts:"
+          find backend/eval/output/ci -name "evaluation-*" -type f | head -10
+        
+      - name: Upload Evaluation Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evaluation-results-${{ github.run_number }}
+          path: |
+            backend/eval/output/ci/
+            evaluation.log
+          retention-days: 30
+          
+      - name: Upload Artifacts for Funder Sharing
+        uses: actions/upload-artifact@v4
+        if: env.GENERATE_ARTIFACTS == 'true' && steps.evaluation.outputs.evaluation-status == 'success'
+        with:
+          name: funder-safe-report-${{ github.run_number }}
+          path: |
+            backend/eval/output/ci/funder-safe.*
+            backend/eval/output/ci/public-summary.*
+          retention-days: 7
+          
+      - name: Create Evaluation Summary
+        if: always()
+        run: |
+          echo "# 📊 Parsing Evaluation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** $EVALUATION_MODE" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ steps.evaluation.outputs.evaluation-status }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Add results summary if available
+          if [[ -f "backend/eval/output/ci/public-summary.md" ]]; then
+            echo "## Results" >> $GITHUB_STEP_SUMMARY
+            cat backend/eval/output/ci/public-summary.md >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts:** Available in workflow artifacts section" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Check for Regressions
+        if: env.BASELINE_COMPARISON == 'true' && steps.evaluation.outputs.evaluation-status == 'success'
+        run: |
+          # Check if regression report indicates significant degradation
+          if [[ -f "backend/eval/output/ci/regression-report.json" ]]; then
+            SIGNIFICANT_REGRESSION=$(cat backend/eval/output/ci/regression-report.json | jq -r '.significantRegression')
+            
+            if [[ "$SIGNIFICANT_REGRESSION" == "true" ]]; then
+              echo "🚨 Significant regression detected!"
+              echo "regression-detected=true" >> $GITHUB_OUTPUT
+              
+              # Add warning to summary
+              echo "⚠️ **WARNING: Significant regression detected in parsing quality**" >> $GITHUB_STEP_SUMMARY
+              echo "Review the regression report for details." >> $GITHUB_STEP_SUMMARY
+              
+              # Optionally fail the build on major regressions
+              # exit 1
+            else
+              echo "✅ No significant regressions detected"
+            fi
+          fi
+
+  # Baseline update job (only on main branch)
+  update-baseline:
+    name: Update Baseline
+    runs-on: ubuntu-latest
+    needs: [validation, evaluation]
+    if: |
+      needs.evaluation.outputs.evaluation-status == 'success' &&
+      github.ref == 'refs/heads/main' &&
+      github.event_name != 'pull_request'
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Download Results Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: evaluation-results-${{ github.run_number }}
+          path: backend/eval/output/ci/
+          
+      - name: Update Baseline
+        run: |
+          echo "📊 Updating evaluation baseline..."
+          
+          # Create baseline directory if it doesn't exist
+          mkdir -p backend/eval/output/baselines
+          
+          # Copy current results as new baseline
+          if [[ -f "backend/eval/output/ci/results.jsonl" ]]; then
+            cp backend/eval/output/ci/results.jsonl backend/eval/output/baselines/latest-baseline.json
+            echo "✅ Baseline updated successfully"
+          else
+            echo "❌ No results file found to update baseline"
+            exit 1
+          fi
+          
+      - name: Commit Baseline Update
+        run: |
+          # Configure git (using GitHub Actions bot)
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add and commit baseline if changed
+          git add backend/eval/output/baselines/
+          
+          if git diff --staged --quiet; then
+            echo "📊 No baseline changes to commit"
+          else
+            git commit -m "chore: update parsing evaluation baseline [skip ci]"
+            git push
+            echo "✅ Baseline committed and pushed"
+          fi
+
+  # Notification job (runs after all others)
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [validation, evaluation, update-baseline]
+    if: always()
+    
+    steps:
+      - name: Prepare Notification
+        id: prepare
+        run: |
+          STATUS="${{ needs.evaluation.outputs.evaluation-status || 'unknown' }}"
+          VALIDATION="${{ needs.validation.outputs.can-proceed || 'false' }}"
+          
+          if [[ "$VALIDATION" == "false" ]]; then
+            echo "status=validation-failed" >> $GITHUB_OUTPUT
+            echo "message=${{ needs.validation.outputs.validation-message }}" >> $GITHUB_OUTPUT
+          elif [[ "$STATUS" == "success" ]]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "message=Parsing evaluation completed successfully" >> $GITHUB_OUTPUT
+          elif [[ "$STATUS" == "failed" ]]; then
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "message=Parsing evaluation failed - check logs for details" >> $GITHUB_OUTPUT
+          else
+            echo "status=unknown" >> $GITHUB_OUTPUT
+            echo "message=Evaluation status unknown" >> $GITHUB_OUTPUT
+          fi
+          
+      # EXAMPLE: Slack notification (configure webhook in repository secrets)
+      # - name: Slack Notification
+      #   if: env.SLACK_WEBHOOK_URL != ''
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ steps.prepare.outputs.status }}
+      #     text: ${{ steps.prepare.outputs.message }}
+      #     webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
+      - name: Log Final Status
+        run: |
+          echo "🔔 Final Status: ${{ steps.prepare.outputs.status }}"
+          echo "📝 Message: ${{ steps.prepare.outputs.message }}"

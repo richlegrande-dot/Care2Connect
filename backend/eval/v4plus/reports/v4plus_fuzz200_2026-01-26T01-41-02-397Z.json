@@ -1,0 +1,165 @@
+{
+  "metadata": {
+    "dataset": "fuzz200",
+    "totalCases": 200,
+    "timestamp": "2026-01-26T01:41:02.391Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "0.00%",
+    "acceptablePassRate": "0.00%",
+    "strictPasses": 0,
+    "acceptablePasses": 0,
+    "strictFailures": 200,
+    "acceptableFailures": 200
+  },
+  "performance": {
+    "avgLatencyMs": "0.77",
+    "totalLatencyMs": "154.11",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "amount_missing",
+        "description": "Amount not extracted when present",
+        "count": 165,
+        "percentage": "82.5%",
+        "exampleCases": [
+          "FUZZ_001",
+          "FUZZ_003",
+          "FUZZ_004"
+        ]
+      },
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 86,
+        "percentage": "43.0%",
+        "exampleCases": [
+          "FUZZ_001",
+          "FUZZ_002",
+          "FUZZ_003"
+        ]
+      },
+      {
+        "bucket": "category_too_generic",
+        "description": "Defaulted to OTHER when specific category present",
+        "count": 56,
+        "percentage": "28.0%",
+        "exampleCases": [
+          "FUZZ_004",
+          "FUZZ_005",
+          "FUZZ_006"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 35,
+        "percentage": "17.5%",
+        "exampleCases": [
+          "FUZZ_002",
+          "FUZZ_006",
+          "FUZZ_013"
+        ]
+      },
+      {
+        "bucket": "category_wrong",
+        "description": "Incorrect category selected",
+        "count": 23,
+        "percentage": "11.5%",
+        "exampleCases": [
+          "FUZZ_003",
+          "FUZZ_011",
+          "FUZZ_028"
+        ]
+      },
+      {
+        "bucket": "name_wrong",
+        "description": "Completely incorrect name extracted",
+        "count": 22,
+        "percentage": "11.0%",
+        "exampleCases": [
+          "FUZZ_005",
+          "FUZZ_015",
+          "FUZZ_017"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 1,
+        "percentage": "0.5%",
+        "exampleCases": [
+          "FUZZ_197"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "amount_missing",
+      "priority": "HIGH",
+      "affectedCases": 165,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "HIGH",
+      "affectedCases": 86,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "category_too_generic",
+      "priority": "HIGH",
+      "affectedCases": 56,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "HIGH",
+      "affectedCases": 35,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "category_wrong",
+      "priority": "HIGH",
+      "affectedCases": 23,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "name_wrong",
+      "priority": "HIGH",
+      "affectedCases": 22,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    }
+  ]
+}

@@ -1,0 +1,505 @@
+{
+  "timestamp": "2026-01-16T12:16:51.582Z",
+  "system": "Jan v.2.5 Baseline Evaluation - Enhanced Simulation",
+  "overview": {
+    "totalTests": 15,
+    "successCount": 1,
+    "failureCount": 14,
+    "successRate": 6.7,
+    "avgExecutionTime": 0,
+    "avgConfidence": 0.833
+  },
+  "fieldAccuracy": {
+    "name": 0.467,
+    "category": 0.667,
+    "urgencyLevel": 0.6,
+    "goalAmount": 0.533
+  },
+  "failureBuckets": {
+    "URGENCY_MISCLASSIFICATION": 6,
+    "NAME_INCORRECT": 7,
+    "AMOUNT_INCORRECT": 3,
+    "AMOUNT_MISSING": 4,
+    "CATEGORY_MISCLASSIFICATION": 5
+  },
+  "detailedResults": [
+    {
+      "id": "T001",
+      "description": "Housing eviction with clear goal amount",
+      "success": false,
+      "results": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "urgencyLevel: expected \"HIGH\", got \"MEDIUM\""
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 1
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T002",
+      "description": "Medical emergency with urgent need",
+      "success": false,
+      "results": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 8000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "differences": [
+        "urgencyLevel: expected \"CRITICAL\", got \"MEDIUM\""
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 1
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T003",
+      "description": "Employment loss with family support needed",
+      "success": false,
+      "results": {
+        "name": null,
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "differences": [
+        "name: expected \"Jennifer Davis\", got \"null\"",
+        "urgencyLevel: expected \"HIGH\", got \"MEDIUM\""
+      ],
+      "confidence": {
+        "name": 0,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T004",
+      "description": "Educational need with partial amount mentioned",
+      "success": false,
+      "results": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "goalAmount: expected 3500, got 3000 (tolerance: ±100)"
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 1
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T005",
+      "description": "Vague amount with family emergency",
+      "success": false,
+      "results": {
+        "name": null,
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "missingFields": [
+          "goalAmount"
+        ],
+        "beneficiaryRelationship": "mother"
+      },
+      "differences": [
+        "name: expected \"Lisa Thompson\", got \"null\""
+      ],
+      "confidence": {
+        "name": 0,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0,
+        "overall": 0.5
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T006",
+      "description": "False positive - wage mentioned instead of goal",
+      "success": false,
+      "results": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "urgencyLevel: expected \"HIGH\", got \"MEDIUM\"",
+        "goalAmount: expected 1200, got null"
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T007",
+      "description": "Age mentioned - should not be confused with amount",
+      "success": false,
+      "results": {
+        "name": "Maria Garcia and",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "name: expected \"Maria Garcia\", got \"Maria Garcia and\"",
+        "goalAmount: expected 800, got null"
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T008",
+      "description": "Legal issue with exact amount needed",
+      "success": false,
+      "results": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "name: expected \"James Brown\", got \"null\"",
+        "category: expected \"LEGAL\", got \"HOUSING\"",
+        "goalAmount: expected 2250, got 2000 (tolerance: ±100)"
+      ],
+      "confidence": {
+        "name": 0,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T009",
+      "description": "Multiple people mentioned - name extraction challenge",
+      "success": true,
+      "results": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "differences": [],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 1
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T010",
+      "description": "Emergency with time pressure",
+      "success": false,
+      "results": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "differences": [
+        "name: expected \"Christopher Lee\", got \"null\"",
+        "category: expected \"EMERGENCY\", got \"HOUSING\""
+      ],
+      "confidence": {
+        "name": 0,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T011",
+      "description": "No clear category - should default to OTHER",
+      "success": false,
+      "results": {
+        "name": "Amanda Taylor",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "category: expected \"OTHER\", got \"HOUSING\"",
+        "urgencyLevel: expected \"LOW\", got \"MEDIUM\"",
+        "goalAmount: expected 1000, got null"
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T012",
+      "description": "Name with title/honorific",
+      "success": false,
+      "results": {
+        "name": "Dr",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "differences": [
+        "name: expected \"Patricia Johnson\", got \"Dr\"",
+        "category: expected \"FAMILY\", got \"HEALTHCARE\"",
+        "urgencyLevel: expected \"LOW\", got \"MEDIUM\""
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 1
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T013",
+      "description": "Mixed numbers - date components present",
+      "success": false,
+      "results": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "differences": [
+        "goalAmount: expected 6000, got null"
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T014",
+      "description": "Fuzzy name scenario - nickname used",
+      "success": false,
+      "results": {
+        "name": "Liz",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "children"
+      },
+      "differences": [
+        "name: expected \"Elizabeth Rodriguez\", got \"Liz\"",
+        "category: expected \"FAMILY\", got \"EMPLOYMENT\""
+      ],
+      "confidence": {
+        "name": 0.85,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 1
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T015",
+      "description": "No name provided - missing field test",
+      "success": false,
+      "results": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "missingFields": [
+          "name"
+        ],
+        "beneficiaryRelationship": "family"
+      },
+      "differences": [
+        "goalAmount: expected 2500, got 2000 (tolerance: ±100)"
+      ],
+      "confidence": {
+        "name": 0,
+        "category": 0.8,
+        "urgencyLevel": 0.7,
+        "goalAmount": 0.9,
+        "overall": 0.75
+      },
+      "executionTime": 0
+    }
+  ]
+}

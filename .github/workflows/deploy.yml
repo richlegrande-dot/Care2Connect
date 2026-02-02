@@ -1,0 +1,341 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://api.careconnect.org/api
+          NEXT_PUBLIC_FRONTEND_URL: https://careconnect.org
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+          vercel-args: '--prod'
+
+      - name: Comment PR with deployment URL
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 Frontend deployed to Vercel: https://careconnect.org'
+            })
+
+  deploy-backend:
+    name: Deploy Backend to Render
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      - name: Build backend
+        working-directory: ./backend
+        run: npm run build
+
+      - name: Deploy to Render
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          method: 'POST'
+          timeout: 300000
+
+      - name: Wait for deployment
+        run: sleep 120
+
+      - name: Health check
+        run: |
+          timeout 300 bash -c 'until curl -f https://api.careconnect.org/api/health; do sleep 10; done'
+
+  deploy-backend-fly:
+    name: Deploy Backend to Fly.io (Alternative)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && false  # Disabled by default, enable if using Fly.io
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Fly.io CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Fly.io
+        working-directory: ./backend
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Health check
+        run: |
+          timeout 300 bash -c 'until curl -f https://careconnect-backend.fly.dev/api/health; do sleep 10; done'
+
+  run-migrations:
+    name: Run Database Migrations
+    runs-on: ubuntu-latest
+    needs: [deploy-backend]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      - name: Run database migrations
+        working-directory: ./backend
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Seed database (if needed)
+        working-directory: ./backend
+        run: |
+          if [ -f "prisma/seed.ts" ]; then
+            npx prisma db seed
+          fi
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  smoke-tests:
+    name: Post-Deployment Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-frontend, deploy-backend, run-migrations]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install test dependencies
+        run: npm install -g newman
+
+      - name: Test API endpoints
+        run: |
+          # Health check
+          curl -f https://api.careconnect.org/api/health || exit 1
+          
+          # Test anonymous user creation
+          curl -X POST https://api.careconnect.org/api/auth/anonymous \
+            -H "Content-Type: application/json" \
+            -f || exit 1
+
+      - name: Test frontend deployment
+        run: |
+          # Check if frontend is accessible
+          curl -f https://careconnect.org || exit 1
+          
+          # Check if main resources load
+          curl -f https://careconnect.org/_next/static/css/ || true
+
+      - name: Run Newman API tests
+        run: |
+          if [ -f "tests/postman/CareConnect-API.postman_collection.json" ]; then
+            newman run tests/postman/CareConnect-API.postman_collection.json \
+              --environment tests/postman/Production.postman_environment.json \
+              --reporters cli,json \
+              --reporter-json-export newman-results.json
+          fi
+
+  update-status-page:
+    name: Update Status Page
+    runs-on: ubuntu-latest
+    needs: [smoke-tests]
+    if: always() && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Update status page - Success
+        if: needs.smoke-tests.result == 'success'
+        run: |
+          curl -X POST "https://api.statuspage.io/v1/pages/${{ secrets.STATUSPAGE_PAGE_ID }}/incidents" \
+            -H "Authorization: OAuth ${{ secrets.STATUSPAGE_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "incident": {
+                "name": "Deployment Completed Successfully",
+                "status": "resolved",
+                "incident_updates": [{
+                  "body": "CareConnect has been successfully deployed to production.",
+                  "status": "resolved"
+                }]
+              }
+            }' || true
+
+      - name: Update status page - Failure
+        if: needs.smoke-tests.result == 'failure'
+        run: |
+          curl -X POST "https://api.statuspage.io/v1/pages/${{ secrets.STATUSPAGE_PAGE_ID }}/incidents" \
+            -H "Authorization: OAuth ${{ secrets.STATUSPAGE_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "incident": {
+                "name": "Deployment Issues Detected",
+                "status": "investigating",
+                "incident_updates": [{
+                  "body": "We are investigating issues with the latest deployment.",
+                  "status": "investigating"
+                }]
+              }
+            }' || true
+
+  notify-team:
+    name: Notify Team
+    runs-on: ubuntu-latest
+    needs: [deploy-frontend, deploy-backend, smoke-tests]
+    if: always() && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Notify Slack on Success
+        if: needs.smoke-tests.result == 'success'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: |
+            🚀 CareConnect Production Deployment Successful!
+            
+            ✅ Frontend: https://careconnect.org
+            ✅ Backend API: https://api.careconnect.org
+            ✅ All smoke tests passed
+            
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack on Failure
+        if: |
+          needs.deploy-frontend.result == 'failure' || 
+          needs.deploy-backend.result == 'failure' || 
+          needs.smoke-tests.result == 'failure'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          text: |
+            ❌ CareConnect Production Deployment Failed!
+            
+            Frontend: ${{ needs.deploy-frontend.result }}
+            Backend: ${{ needs.deploy-backend.result }}
+            Smoke Tests: ${{ needs.smoke-tests.result }}
+            
+            Please check the GitHub Actions logs.
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Send email notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "CareConnect Deployment Status: ${{ job.status }}"
+          to: ${{ secrets.ADMIN_EMAIL }}
+          from: github-actions@careconnect.org
+          body: |
+            CareConnect Production Deployment Status: ${{ job.status }}
+            
+            Deployment Results:
+            - Frontend: ${{ needs.deploy-frontend.result }}
+            - Backend: ${{ needs.deploy-backend.result }}
+            - Smoke Tests: ${{ needs.smoke-tests.result }}
+            
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+            
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  rollback-on-failure:
+    name: Rollback on Critical Failure
+    runs-on: ubuntu-latest
+    needs: [smoke-tests]
+    if: failure() && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Trigger Render rollback
+        run: |
+          echo "Triggering rollback to previous version..."
+          curl -X POST "${{ secrets.RENDER_ROLLBACK_HOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_TOKEN }}" || true
+
+      - name: Notify team of rollback
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          text: |
+            🔄 ROLLBACK INITIATED
+            
+            Critical failure detected in CareConnect deployment.
+            Automatic rollback to previous version has been triggered.
+            
+            Please investigate the issue immediately.
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,0 +1,60 @@
+# Caddy Reverse Proxy Configuration for Care2Connects Production
+# This replaces the fragile reverse-proxy.js Node.js process
+# Listen on port 8080 (Cloudflare Tunnel target)
+
+{
+    # Global options
+    auto_https off
+    admin off
+    
+    # Disable default port 80/443 binding
+    # We only want port 8080 for tunnel
+}
+
+# Listen on 0.0.0.0:8080 for IPv4 (Cloudflare Tunnel origin)
+:8080 {
+    # Route frontend domain to Next.js
+    @frontend host care2connects.org
+    handle @frontend {
+        reverse_proxy 127.0.0.1:3000 {
+            # Health check to detect frontend down
+            health_uri /
+            health_interval 10s
+            health_timeout 5s
+            
+            # Pass through original headers
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto https
+        }
+    }
+    
+    # Route API subdomain to backend
+    @api host api.care2connects.org
+    handle @api {
+        reverse_proxy 127.0.0.1:3001 {
+            # Health check to detect backend down
+            health_uri /health/live
+            health_interval 10s
+            health_timeout 5s
+            
+            # Pass through original headers
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto https
+        }
+    }
+    
+    # Catch-all for unmatched hosts
+    handle {
+        respond "Invalid hostname. Expected: care2connects.org or api.care2connects.org" 404
+    }
+    
+    # Access logging for troubleshooting
+    log {
+        output file C:/Users/richl/Care2system/logs/caddy-access.log
+        format console
+    }
+}

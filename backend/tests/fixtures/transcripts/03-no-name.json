@@ -1,0 +1,61 @@
+{
+  "name": "Story Without Name",
+  "description": "Complete story but speaker doesn't introduce themselves",
+  "transcript": "I'm calling because I desperately need assistance. I've been homeless for the past two months after being evicted from my apartment. I'm currently staying in a shelter in Los Angeles. I need help finding permanent housing and getting back on my feet. I also need medical care because I have diabetes and can't afford my medication. You can reach me at 213-555-9876. I'm really hoping someone can help me. This situation has been so difficult and stressful.",
+  "expectedExtraction": {
+    "nameCandidate": null,
+    "contactCandidates": {
+      "emails": [],
+      "phones": ["213-555-9876"]
+    },
+    "locationCandidates": ["Los Angeles"],
+    "needsCategories": ["HOUSING", "HEALTHCARE"],
+    "urgencyScore": 0.8,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "I'm calling because I desperately need assistance.",
+      "start": 0,
+      "end": 3000
+    },
+    {
+      "text": "I've been homeless for the past two months after being evicted from my apartment.",
+      "start": 3000,
+      "end": 7500
+    },
+    {
+      "text": "I'm currently staying in a shelter in Los Angeles.",
+      "start": 7500,
+      "end": 10500
+    },
+    {
+      "text": "I need help finding permanent housing and getting back on my feet.",
+      "start": 10500,
+      "end": 14000
+    },
+    {
+      "text": "I also need medical care because I have diabetes and can't afford my medication.",
+      "start": 14000,
+      "end": 18000
+    },
+    {
+      "text": "You can reach me at 213-555-9876.",
+      "start": 18000,
+      "end": 20500
+    },
+    {
+      "text": "I'm really hoping someone can help me.",
+      "start": 20500,
+      "end": 23000
+    },
+    {
+      "text": "This situation has been so difficult and stressful.",
+      "start": 23000,
+      "end": 26000
+    }
+  ],
+  "wordCount": 95,
+  "duration": 26000,
+  "detectedLanguage": "en"
+}

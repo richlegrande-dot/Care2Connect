@@ -1,0 +1,295 @@
+import OpenAI from 'openai';
+import { JobSearchService } from './jobSearchService';
+import { ResourceFinderService } from './resourceFinderService';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export class ChatAssistantService {
+  private jobSearchService: JobSearchService;
+  private resourceFinderService: ResourceFinderService;
+
+  constructor() {
+    this.jobSearchService = new JobSearchService();
+    this.resourceFinderService = new ResourceFinderService();
+  }
+
+  /**
+   * Generate AI response based on user message and profile context
+   */
+  async generateResponse(
+    userMessage: string,
+    userProfile: any,
+    conversationHistory: any[] = []
+  ): Promise<string> {
+    const systemPrompt = this.buildSystemPrompt(userProfile);
+    
+    try {
+      // Determine if user needs specific services
+      const intent = await this.classifyIntent(userMessage);
+      
+      let contextData = null;
+      
+      // Fetch relevant data based on intent
+      switch (intent.type) {
+        case 'job_search':
+          contextData = await this.getJobSearchContext(userProfile, intent.keywords);
+          break;
+        case 'resources':
+          contextData = await this.getResourceContext(userProfile, intent.category);
+          break;
+        case 'donation_help':
+          contextData = await this.getDonationContext(userProfile);
+          break;
+      }
+
+      // Build messages for OpenAI
+      const messages = [
+        { role: 'system' as const, content: systemPrompt },
+        ...conversationHistory.map(msg => ({
+          role: msg.role as 'user' | 'assistant',
+          content: msg.content,
+        })),
+        { role: 'user' as const, content: userMessage },
+      ];
+
+      // Add context data if available
+      if (contextData) {
+        messages.push({
+          role: 'system' as const,
+          content: `Additional context: ${JSON.stringify(contextData, null, 2)}`,
+        });
+      }
+
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4',
+        messages,
+        temperature: 0.7,
+        max_tokens: 1000,
+      });
+
+      return completion.choices[0].message.content || 'I apologize, but I encountered an issue generating a response. Please try again.';
+    } catch (error) {
+      console.error('Chat assistant error:', error);
+      return 'I apologize, but I\'m having trouble connecting to my knowledge base right now. Please try again in a moment.';
+    }
+  }
+
+  /**
+   * Classify user intent to determine what services to invoke
+   */
+  private async classifyIntent(message: string): Promise<{
+    type: 'job_search' | 'resources' | 'donation_help' | 'general' | 'form_help';
+    keywords?: string[];
+    category?: string;
+  }> {
+    const classificationPrompt = `Classify the following message into one of these categories:
+    - job_search: User asking about jobs, employment, work opportunities
+    - resources: User asking about services, shelter, food, healthcare, support
+    - donation_help: User asking about fundraising, donations, financial assistance
+    - form_help: User asking about applications, paperwork, documentation
+    - general: General conversation, encouragement, or other topics
+
+    Also extract relevant keywords or categories if applicable.
+    
+    Message: "${message}"
+    
+    Respond with JSON: {"type": "...", "keywords": [...], "category": "..."}`;
+
+    try {
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: classificationPrompt }],
+        temperature: 0.3,
+        response_format: { type: 'json_object' },
+      });
+
+      return JSON.parse(completion.choices[0].message.content || '{"type": "general"}');
+    } catch (error) {
+      console.error('Intent classification error:', error);
+      return { type: 'general' };
+    }
+  }
+
+  /**
+   * Get job search context
+   */
+  private async getJobSearchContext(userProfile: any, keywords?: string[]) {
+    try {
+      const searchTerms = keywords || userProfile.skills || [];
+      const location = userProfile.user?.location || userProfile.user?.zipCode;
+      
+      const jobs = await this.jobSearchService.searchJobs({
+        keywords: searchTerms.join(' '),
+        location,
+        limit: 5,
+      });
+
+      return {
+        type: 'job_search',
+        recentJobs: jobs.slice(0, 5),
+        userSkills: userProfile.skills,
+        location,
+      };
+    } catch (error) {
+      console.error('Job search context error:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get local resources context
+   */
+  private async getResourceContext(userProfile: any, category?: string) {
+    try {
+      const location = userProfile.user?.location || userProfile.user?.zipCode;
+      
+      const resources = await this.resourceFinderService.findResources({
+        zipCode: location,
+        category,
+        limit: 5,
+      });
+
+      return {
+        type: 'resources',
+        resources: resources.slice(0, 5),
+        location,
+        urgentNeeds: userProfile.urgentNeeds,
+      };
+    } catch (error) {
+      console.error('Resource context error:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get donation help context
+   */
+  private async getDonationContext(userProfile: any) {
+    return {
+      type: 'donation_help',
+      hasCashtag: !!userProfile.cashtag,
+      hasGoFundMe: !!userProfile.gofundmeUrl,
+      donationPitch: userProfile.donationPitch,
+      profileUrl: `/profile/${userProfile.id}`,
+    };
+  }
+
+  /**
+   * Build system prompt with user context
+   */
+  private buildSystemPrompt(userProfile: any): string {
+    return `You are a compassionate support assistant for CareConnect, helping individuals experiencing homelessness.
+
+User Profile Context:
+- Name: ${userProfile.name || 'Not provided'}
+- Skills: ${userProfile.skills?.join(', ') || 'None listed'}
+- Housing Status: ${userProfile.housingStatus || 'Not specified'}
+- Urgent Needs: ${userProfile.urgentNeeds?.join(', ') || 'None specified'}
+- Long-term Goals: ${userProfile.longTermGoals?.join(', ') || 'None specified'}
+- Location: ${userProfile.user?.location || 'Not specified'}
+
+Your role is to:
+1. Provide practical, actionable advice
+2. Help with employment opportunities and job search strategies
+3. Guide them to local resources and services
+4. Assist with donation strategies and fundraising
+5. Help with forms, applications, and documentation
+6. Offer encouragement and emotional support
+7. Provide step-by-step guidance for complex tasks
+
+Guidelines:
+- Be empathetic, respectful, and empowering
+- Provide specific, actionable advice
+- Reference their profile information when relevant
+- Never make assumptions about their situation beyond what's provided
+- Always maintain their dignity and focus on their strengths
+- If you reference external resources or job listings, be clear about how to access them
+- Encourage them to update their profile if they mention new information
+- Be concise but thorough in your responses
+
+Remember: You are a support system, not a replacement for professional services. Always encourage seeking appropriate professional help when needed.`;
+  }
+
+  /**
+   * Generate conversation starters based on user profile
+   */
+  async generateConversationStarters(userProfile: any): Promise<string[]> {
+    const starters = [];
+
+    // Job-related starters
+    if (userProfile.skills?.length > 0) {
+      starters.push(`I see you have skills in ${userProfile.skills.slice(0, 2).join(' and ')}. Would you like help finding job opportunities in these areas?`);
+    }
+
+    // Goals-related starters
+    if (userProfile.longTermGoals?.length > 0) {
+      starters.push(`You mentioned wanting to ${userProfile.longTermGoals[0]}. What's the first step you'd like to take toward this goal?`);
+    }
+
+    // Urgent needs starters
+    if (userProfile.urgentNeeds?.length > 0) {
+      starters.push(`I can help you find resources for ${userProfile.urgentNeeds[0]}. Would you like me to search for local services?`);
+    }
+
+    // Donation starters
+    if (!userProfile.cashtag && !userProfile.gofundmeUrl) {
+      starters.push("Would you like help setting up ways for people to donate and support you?");
+    }
+
+    // Default starters
+    if (starters.length === 0) {
+      starters.push(
+        "How can I help you today?",
+        "Would you like help finding job opportunities?",
+        "Are you looking for local resources or services?",
+        "Do you need help with any applications or paperwork?"
+      );
+    }
+
+    return starters.slice(0, 3); // Return up to 3 starters
+  }
+
+  /**
+   * Generate follow-up questions based on conversation context
+   */
+  async generateFollowUpQuestions(lastResponse: string, userProfile: any): Promise<string[]> {
+    const prompt = `Based on this conversation response and user profile, suggest 2-3 helpful follow-up questions:
+
+Response: "${lastResponse}"
+
+User Profile: ${JSON.stringify(userProfile, null, 2)}
+
+Generate practical, supportive follow-up questions that would help the user take next steps.`;
+
+    try {
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+        max_tokens: 200,
+      });
+
+      const response = completion.choices[0].message.content || '';
+      
+      // Extract questions from response
+      const questions = response
+        .split('\n')
+        .filter(line => line.trim().includes('?'))
+        .map(line => line.replace(/^\d+\.?\s*/, '').trim())
+        .slice(0, 3);
+
+      return questions.length > 0 ? questions : [
+        "Is there anything else I can help you with?",
+        "Would you like more information about any of these options?",
+      ];
+    } catch (error) {
+      console.error('Follow-up generation error:', error);
+      return [
+        "Is there anything else I can help you with?",
+        "Would you like more information about any of these options?",
+      ];
+    }
+  }
+}

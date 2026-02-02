@@ -1,0 +1,31 @@
+{
+  "name": "Short Incomplete Story",
+  "description": "Very short transcript with missing critical information",
+  "transcript": "I need help. Things are really tough right now.",
+  "expectedExtraction": {
+    "nameCandidate": null,
+    "contactCandidates": {
+      "emails": [],
+      "phones": []
+    },
+    "locationCandidates": [],
+    "needsCategories": [],
+    "urgencyScore": 0.5,
+    "keyPointsCount": 2
+  },
+  "segments": [
+    {
+      "text": "I need help.",
+      "start": 0,
+      "end": 1500
+    },
+    {
+      "text": "Things are really tough right now.",
+      "start": 1500,
+      "end": 3500
+    }
+  ],
+  "wordCount": 9,
+  "duration": 3500,
+  "detectedLanguage": "en"
+}

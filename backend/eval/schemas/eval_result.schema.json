@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Evaluation Result Schema",
+  "description": "Schema for detailed evaluation results",
+  "type": "object",
+  "required": ["timestamp", "parserVersion", "datasetId", "summary", "cases"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "parserVersion": {
+      "type": "string",
+      "description": "Git commit hash or version identifier"
+    },
+    "datasetId": {
+      "type": "string",
+      "description": "Dataset identifier used for evaluation"
+    },
+    "summary": {
+      "type": "object",
+      "required": ["totalCases", "passedCases", "failedCases", "passRate"],
+      "properties": {
+        "totalCases": { "type": "number" },
+        "passedCases": { "type": "number" },
+        "failedCases": { "type": "number" },
+        "passRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "fieldAccuracy": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "number", "minimum": 0, "maximum": 1 },
+            "category": { "type": "number", "minimum": 0, "maximum": 1 },
+            "urgencyLevel": { "type": "number", "minimum": 0, "maximum": 1 },
+            "goalAmount": { "type": "number", "minimum": 0, "maximum": 1 },
+            "missingFields": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "averageConfidence": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "number", "minimum": 0, "maximum": 1 },
+            "category": { "type": "number", "minimum": 0, "maximum": 1 },
+            "urgencyLevel": { "type": "number", "minimum": 0, "maximum": 1 },
+            "goalAmount": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "fallbackUsage": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "number", "minimum": 0, "maximum": 1 },
+            "category": { "type": "number", "minimum": 0, "maximum": 1 },
+            "urgencyLevel": { "type": "number", "minimum": 0, "maximum": 1 },
+            "goalAmount": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["caseId", "passed", "fieldResults"],
+        "properties": {
+          "caseId": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "fieldResults": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "object", "properties": { "passed": { "type": "boolean" }, "expected": {}, "actual": {} } },
+              "category": { "type": "object", "properties": { "passed": { "type": "boolean" }, "expected": {}, "actual": {} } },
+              "urgencyLevel": { "type": "object", "properties": { "passed": { "type": "boolean" }, "expected": {}, "actual": {} } },
+              "goalAmount": { "type": "object", "properties": { "passed": { "type": "boolean" }, "expected": {}, "actual": {} } },
+              "missingFields": { "type": "object", "properties": { "passed": { "type": "boolean" }, "expected": {}, "actual": {} } }
+            }
+          },
+          "confidence": { "type": "object" },
+          "fallbackTier": { "type": "object" },
+          "transcriptHash": { "type": "string" }
+        }
+      }
+    }
+  }
+}

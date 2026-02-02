@@ -1,0 +1,461 @@
+import axios from 'axios';
+import { prisma } from '../utils/database';
+
+export interface ResourceSearchParams {
+  zipCode?: string;
+  city?: string;
+  state?: string;
+  category?: string;
+  limit?: number;
+  radius?: number;
+}
+
+export interface LocalResource {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+  hours?: any;
+  services: string[];
+  eligibility?: string;
+  verified: boolean;
+  distance?: number;
+  source: string;
+}
+
+export class ResourceFinderService {
+  /**
+   * Find local resources based on search parameters
+   */
+  async findResources(params: ResourceSearchParams): Promise<LocalResource[]> {
+    const results: LocalResource[] = [];
+
+    try {
+      // Try FindHelp.org API if available
+      if (process.env.FINDHELP_API_KEY) {
+        const findhelpResources = await this.searchFindHelpAPI(params);
+        results.push(...findhelpResources);
+      }
+
+      // Search our database for cached/local resources
+      const localResources = await this.searchLocalDatabase(params);
+      results.push(...localResources);
+
+      // If no results, provide default/mock resources for development
+      if (results.length === 0) {
+        const defaultResources = this.getDefaultResources(params);
+        results.push(...defaultResources);
+      }
+
+      // Deduplicate and sort by relevance
+      const uniqueResources = this.deduplicateResources(results);
+      const sortedResources = this.sortResourcesByRelevance(uniqueResources, params);
+
+      return sortedResources.slice(0, params.limit || 10);
+    } catch (error) {
+      console.error('Resource search error:', error);
+      return this.getDefaultResources(params);
+    }
+  }
+
+  /**
+   * Search FindHelp.org API (if available)
+   */
+  private async searchFindHelpAPI(params: ResourceSearchParams): Promise<LocalResource[]> {
+    try {
+      // Note: FindHelp.org API integration would go here
+      // This is a placeholder implementation
+      const response = await axios.get('https://api.findhelp.org/v1/search', {
+        headers: {
+          'Authorization': `Bearer ${process.env.FINDHELP_API_KEY}`,
+        },
+        params: {
+          location: `${params.zipCode || params.city}, ${params.state}`,
+          category: params.category,
+          radius: params.radius || 25,
+          limit: params.limit || 10,
+        },
+      });
+
+      return response.data.resources?.map((resource: any) => ({
+        id: resource.id,
+        name: resource.name,
+        description: resource.description,
+        category: resource.category,
+        address: resource.address,
+        city: resource.city,
+        state: resource.state,
+        zipCode: resource.zip_code,
+        phone: resource.phone,
+        email: resource.email,
+        website: resource.website,
+        hours: resource.hours,
+        services: resource.services || [],
+        eligibility: resource.eligibility,
+        verified: resource.verified || false,
+        source: 'FindHelp.org',
+      })) || [];
+    } catch (error) {
+      console.error('FindHelp API error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Search local database for resources
+   */
+  private async searchLocalDatabase(params: ResourceSearchParams): Promise<LocalResource[]> {
+    try {
+      const where: any = {};
+
+      if (params.category) {
+        where.category = params.category.toUpperCase();
+      }
+
+      if (params.zipCode) {
+        where.zipCode = params.zipCode;
+      } else if (params.city) {
+        where.city = {
+          contains: params.city,
+          mode: 'insensitive',
+        };
+      }
+
+      if (params.state) {
+        where.state = {
+          contains: params.state,
+          mode: 'insensitive',
+        };
+      }
+
+      const resources = await prisma.resource.findMany({
+        where,
+        take: params.limit || 10,
+        orderBy: [
+          { verified: 'desc' },
+          { lastUpdated: 'desc' },
+        ],
+      });
+
+      return resources.map(resource => ({
+        id: resource.id,
+        name: resource.name,
+        description: resource.description,
+        category: resource.category,
+        address: resource.address,
+        city: resource.city,
+        state: resource.state,
+        zipCode: resource.zipCode,
+        phone: resource.phone,
+        email: resource.email,
+        website: resource.website,
+        hours: resource.hours,
+        services: resource.services,
+        eligibility: resource.eligibility,
+        verified: resource.verified,
+        source: 'Local Database',
+      }));
+    } catch (error) {
+      console.error('Local database search error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get default/mock resources for development
+   */
+  private getDefaultResources(params: ResourceSearchParams): LocalResource[] {
+    const defaultResources = [
+      {
+        id: 'default-1',
+        name: 'City Homeless Shelter',
+        description: 'Emergency shelter providing temporary housing, meals, and basic services.',
+        category: 'SHELTER',
+        address: '123 Main Street',
+        city: params.city || 'Local City',
+        state: params.state || 'State',
+        zipCode: params.zipCode || '12345',
+        phone: '(555) 123-4567',
+        website: 'https://example-shelter.org',
+        hours: { monday: '24/7', tuesday: '24/7', wednesday: '24/7', thursday: '24/7', friday: '24/7', saturday: '24/7', sunday: '24/7' },
+        services: ['Emergency shelter', 'Meals', 'Case management', 'Job placement assistance'],
+        eligibility: 'Adults 18+, families with children',
+        verified: true,
+        source: 'Demo',
+      },
+      {
+        id: 'default-2',
+        name: 'Community Food Bank',
+        description: 'Free food distribution and emergency food assistance.',
+        category: 'FOOD',
+        address: '456 Oak Avenue',
+        city: params.city || 'Local City',
+        state: params.state || 'State',
+        zipCode: params.zipCode || '12345',
+        phone: '(555) 234-5678',
+        website: 'https://example-foodbank.org',
+        hours: { monday: '9am-5pm', tuesday: '9am-5pm', wednesday: '9am-5pm', thursday: '9am-5pm', friday: '9am-5pm' },
+        services: ['Food pantry', 'Emergency food boxes', 'Nutrition education'],
+        eligibility: 'Income qualified households',
+        verified: true,
+        source: 'Demo',
+      },
+      {
+        id: 'default-3',
+        name: 'Free Health Clinic',
+        description: 'Free medical care and health services for uninsured individuals.',
+        category: 'HEALTHCARE',
+        address: '789 Pine Street',
+        city: params.city || 'Local City',
+        state: params.state || 'State',
+        zipCode: params.zipCode || '12345',
+        phone: '(555) 345-6789',
+        website: 'https://example-clinic.org',
+        hours: { monday: '8am-4pm', tuesday: '8am-4pm', wednesday: '8am-4pm', thursday: '8am-4pm', friday: '8am-4pm' },
+        services: ['Primary care', 'Mental health services', 'Prescription assistance', 'Health screenings'],
+        eligibility: 'Uninsured or underinsured individuals',
+        verified: true,
+        source: 'Demo',
+      },
+      {
+        id: 'default-4',
+        name: 'Job Training Center',
+        description: 'Free job training programs and employment assistance.',
+        category: 'JOB_TRAINING',
+        address: '321 Elm Street',
+        city: params.city || 'Local City',
+        state: params.state || 'State',
+        zipCode: params.zipCode || '12345',
+        phone: '(555) 456-7890',
+        website: 'https://example-jobtraining.org',
+        hours: { monday: '9am-5pm', tuesday: '9am-5pm', wednesday: '9am-5pm', thursday: '9am-5pm', friday: '9am-5pm' },
+        services: ['Job training', 'Resume assistance', 'Interview preparation', 'Job placement'],
+        eligibility: 'Adults seeking employment',
+        verified: true,
+        source: 'Demo',
+      },
+      {
+        id: 'default-5',
+        name: 'Public Transportation Assistance',
+        description: 'Free bus passes and transportation assistance for low-income individuals.',
+        category: 'TRANSPORTATION',
+        address: '654 Transit Way',
+        city: params.city || 'Local City',
+        state: params.state || 'State',
+        zipCode: params.zipCode || '12345',
+        phone: '(555) 567-8901',
+        website: 'https://example-transit.org',
+        hours: { monday: '7am-6pm', tuesday: '7am-6pm', wednesday: '7am-6pm', thursday: '7am-6pm', friday: '7am-6pm' },
+        services: ['Free bus passes', 'Transportation vouchers', 'Route planning assistance'],
+        eligibility: 'Low-income individuals and families',
+        verified: true,
+        source: 'Demo',
+      },
+    ];
+
+    // Filter by category if specified
+    if (params.category) {
+      return defaultResources.filter(resource => 
+        resource.category === params.category.toUpperCase()
+      );
+    }
+
+    return defaultResources;
+  }
+
+  /**
+   * Remove duplicate resources
+   */
+  private deduplicateResources(resources: LocalResource[]): LocalResource[] {
+    const seen = new Set();
+    return resources.filter(resource => {
+      const key = `${resource.name}-${resource.address}`.toLowerCase();
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+  }
+
+  /**
+   * Sort resources by relevance
+   */
+  private sortResourcesByRelevance(resources: LocalResource[], params: ResourceSearchParams): LocalResource[] {
+    return resources.sort((a, b) => {
+      // Prioritize verified resources
+      if (a.verified && !b.verified) return -1;
+      if (!a.verified && b.verified) return 1;
+
+      // Prioritize matching category
+      if (params.category) {
+        const aMatches = a.category === params.category.toUpperCase();
+        const bMatches = b.category === params.category.toUpperCase();
+        if (aMatches && !bMatches) return -1;
+        if (!aMatches && bMatches) return 1;
+      }
+
+      // Prioritize distance if available
+      if (a.distance && b.distance) {
+        return a.distance - b.distance;
+      }
+
+      return 0;
+    });
+  }
+
+  /**
+   * Get resource categories
+   */
+  async getResourceCategories(): Promise<{ category: string; count: number; description: string }[]> {
+    try {
+      const categories = await prisma.resource.groupBy({
+        by: ['category'],
+        _count: {
+          id: true,
+        },
+      });
+
+      const categoryDescriptions: Record<string, string> = {
+        SHELTER: 'Emergency housing and temporary shelter services',
+        FOOD: 'Food assistance, food banks, and meal programs',
+        HEALTHCARE: 'Medical care, mental health, and health services',
+        JOB_TRAINING: 'Employment training and job placement programs',
+        MENTAL_HEALTH: 'Counseling, therapy, and mental health support',
+        TRANSPORTATION: 'Public transit assistance and transportation services',
+        LEGAL_AID: 'Legal assistance and advocacy services',
+        EDUCATION: 'Educational programs and literacy services',
+        CLOTHING: 'Clothing assistance and donation centers',
+        FINANCIAL_ASSISTANCE: 'Emergency financial aid and assistance programs',
+        ADDICTION_RECOVERY: 'Substance abuse treatment and recovery programs',
+        FAMILY_SERVICES: 'Family support and child care services',
+        OTHER: 'Other community services and resources',
+      };
+
+      return categories.map(cat => ({
+        category: cat.category,
+        count: cat._count.id,
+        description: categoryDescriptions[cat.category] || 'Community services',
+      }));
+    } catch (error) {
+      console.error('Category retrieval error:', error);
+      return Object.entries({
+        SHELTER: 'Emergency housing and temporary shelter services',
+        FOOD: 'Food assistance, food banks, and meal programs',
+        HEALTHCARE: 'Medical care, mental health, and health services',
+        JOB_TRAINING: 'Employment training and job placement programs',
+        TRANSPORTATION: 'Public transit assistance and transportation services',
+      }).map(([category, description]) => ({
+        category,
+        count: 0,
+        description,
+      }));
+    }
+  }
+
+  /**
+   * Add a new resource to the database
+   */
+  async addResource(resourceData: Omit<LocalResource, 'id' | 'source'>): Promise<LocalResource> {
+    try {
+      const resource = await prisma.resource.create({
+        data: {
+          name: resourceData.name,
+          description: resourceData.description,
+          category: resourceData.category as any,
+          address: resourceData.address,
+          city: resourceData.city,
+          state: resourceData.state,
+          zipCode: resourceData.zipCode,
+          phone: resourceData.phone,
+          email: resourceData.email,
+          website: resourceData.website,
+          hours: resourceData.hours,
+          services: resourceData.services,
+          eligibility: resourceData.eligibility,
+          verified: resourceData.verified,
+        },
+      });
+
+      return {
+        ...resourceData,
+        id: resource.id,
+        source: 'Local Database',
+      };
+    } catch (error) {
+      console.error('Add resource error:', error);
+      throw new Error('Failed to add resource');
+    }
+  }
+
+  /**
+   * Get personalized resource recommendations
+   */
+  async getPersonalizedRecommendations(userProfile: any, location?: string): Promise<LocalResource[]> {
+    const urgentNeeds = userProfile.urgentNeeds || [];
+    const categories = this.mapNeedsToCategories(urgentNeeds);
+
+    const recommendations: LocalResource[] = [];
+
+    // Search for resources matching urgent needs
+    for (const category of categories) {
+      const resources = await this.findResources({
+        zipCode: location,
+        category,
+        limit: 3,
+      });
+      recommendations.push(...resources);
+    }
+
+    return this.deduplicateResources(recommendations);
+  }
+
+  /**
+   * Map user needs to resource categories
+   */
+  private mapNeedsToCategories(needs: string[]): string[] {
+    const needsMapping: Record<string, string> = {
+      'housing': 'SHELTER',
+      'shelter': 'SHELTER',
+      'food': 'FOOD',
+      'meals': 'FOOD',
+      'healthcare': 'HEALTHCARE',
+      'medical': 'HEALTHCARE',
+      'mental health': 'MENTAL_HEALTH',
+      'counseling': 'MENTAL_HEALTH',
+      'job': 'JOB_TRAINING',
+      'employment': 'JOB_TRAINING',
+      'work': 'JOB_TRAINING',
+      'transportation': 'TRANSPORTATION',
+      'legal': 'LEGAL_AID',
+      'clothes': 'CLOTHING',
+      'clothing': 'CLOTHING',
+      'money': 'FINANCIAL_ASSISTANCE',
+      'financial': 'FINANCIAL_ASSISTANCE',
+      'addiction': 'ADDICTION_RECOVERY',
+      'substance': 'ADDICTION_RECOVERY',
+      'family': 'FAMILY_SERVICES',
+      'children': 'FAMILY_SERVICES',
+    };
+
+    const categories = new Set<string>();
+
+    needs.forEach(need => {
+      const lowerNeed = need.toLowerCase();
+      Object.entries(needsMapping).forEach(([keyword, category]) => {
+        if (lowerNeed.includes(keyword)) {
+          categories.add(category);
+        }
+      });
+    });
+
+    return Array.from(categories);
+  }
+}

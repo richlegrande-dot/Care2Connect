@@ -1,0 +1,62 @@
+[
+  {
+    "id": "needs-001",
+    "transcript": "I'm homeless and desperately need shelter. I've been on the streets for 3 months.",
+    "expectedNeeds": ["HOUSING"],
+    "urgency": "urgent"
+  },
+  {
+    "id": "needs-002",
+    "transcript": "I can't afford food for my kids. We're going hungry and I don't know what to do.",
+    "expectedNeeds": ["FOOD"],
+    "urgency": "urgent"
+  },
+  {
+    "id": "needs-003",
+    "transcript": "I lost my job last month and need help finding employment. I have construction experience.",
+    "expectedNeeds": ["EMPLOYMENT"],
+    "urgency": "high"
+  },
+  {
+    "id": "needs-004",
+    "transcript": "I need medical care but have no insurance. My diabetes is getting worse.",
+    "expectedNeeds": ["HEALTHCARE"],
+    "urgency": "high"
+  },
+  {
+    "id": "needs-005",
+    "transcript": "I'm facing eviction and also lost my job. Need help with both housing and employment.",
+    "expectedNeeds": ["HOUSING", "EMPLOYMENT"],
+    "urgency": "urgent"
+  },
+  {
+    "id": "needs-006",
+    "transcript": "I need help with childcare so I can go to work. My kids are 3 and 5.",
+    "expectedNeeds": ["CHILDCARE"],
+    "urgency": "medium"
+  },
+  {
+    "id": "needs-007",
+    "transcript": "I'm a veteran and need help with PTSD treatment and finding work.",
+    "expectedNeeds": ["HEALTHCARE", "EMPLOYMENT"],
+    "urgency": "high"
+  },
+  {
+    "id": "needs-008",
+    "transcript": "My car broke down and I can't get to work. Need help with transportation.",
+    "expectedNeeds": ["TRANSPORTATION"],
+    "urgency": "high"
+  },
+  {
+    "id": "needs-009",
+    "transcript": "I'm escaping domestic violence and need a safe place to stay immediately.",
+    "expectedNeeds": ["SAFETY", "HOUSING"],
+    "urgency": "urgent"
+  },
+  {
+    "id": "needs-010",
+    "transcript": "I can't afford my medications and my health is declining. Need prescription assistance.",
+    "expectedNeeds": ["HEALTHCARE"],
+    "urgency": "urgent"
+  }
+]

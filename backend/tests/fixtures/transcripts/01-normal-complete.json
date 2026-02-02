@@ -1,0 +1,71 @@
+{
+  "name": "Normal Complete Story",
+  "description": "Complete story with all fields present",
+  "transcript": "Hi, my name is Sarah Johnson. I'm reaching out because I really need help. I lost my job three months ago due to company downsizing, and I've been struggling to keep up with rent and bills. I'm currently living in Denver, Colorado. I have two young children, ages 5 and 7, and we're at risk of losing our apartment. I need help with housing costs and food for my kids. I've been applying for jobs every day, but it's been really hard. My email is sarah.johnson@email.com and my phone number is 303-555-1234. I'm hopeful that with some support, I can get back on my feet and provide for my family. Thank you for listening to my story.",
+  "expectedExtraction": {
+    "nameCandidate": "Sarah Johnson",
+    "contactCandidates": {
+      "emails": ["sarah.johnson@email.com"],
+      "phones": ["303-555-1234"]
+    },
+    "locationCandidates": ["Denver", "Colorado"],
+    "needsCategories": ["HOUSING", "FOOD", "EMPLOYMENT"],
+    "urgencyScore": 0.7,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hi, my name is Sarah Johnson.",
+      "start": 0,
+      "end": 2500
+    },
+    {
+      "text": "I'm reaching out because I really need help.",
+      "start": 2500,
+      "end": 5000
+    },
+    {
+      "text": "I lost my job three months ago due to company downsizing, and I've been struggling to keep up with rent and bills.",
+      "start": 5000,
+      "end": 10000
+    },
+    {
+      "text": "I'm currently living in Denver, Colorado.",
+      "start": 10000,
+      "end": 12500
+    },
+    {
+      "text": "I have two young children, ages 5 and 7, and we're at risk of losing our apartment.",
+      "start": 12500,
+      "end": 17000
+    },
+    {
+      "text": "I need help with housing costs and food for my kids.",
+      "start": 17000,
+      "end": 20000
+    },
+    {
+      "text": "I've been applying for jobs every day, but it's been really hard.",
+      "start": 20000,
+      "end": 23000
+    },
+    {
+      "text": "My email is sarah.johnson@email.com and my phone number is 303-555-1234.",
+      "start": 23000,
+      "end": 27000
+    },
+    {
+      "text": "I'm hopeful that with some support, I can get back on my feet and provide for my family.",
+      "start": 27000,
+      "end": 31000
+    },
+    {
+      "text": "Thank you for listening to my story.",
+      "start": 31000,
+      "end": 33000
+    }
+  ],
+  "wordCount": 145,
+  "duration": 33000,
+  "detectedLanguage": "en"
+}

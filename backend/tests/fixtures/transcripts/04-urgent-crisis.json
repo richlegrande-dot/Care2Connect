@@ -1,0 +1,91 @@
+{
+  "name": "Urgent Crisis Situation",
+  "description": "Story with high urgency markers and safety concerns",
+  "transcript": "This is an emergency. My name is Maria Rodriguez. I'm in immediate danger. I fled my home yesterday because of domestic violence. I'm currently hiding in a friend's house with my three children. We have nothing - no clothes, no food, no money. I desperately need emergency shelter, food, and protection. I'm in Phoenix, Arizona. Please, I need help urgently. My safety and my children's safety are at risk. I can't go back home. I need emergency assistance right now. You can reach me at maria.emergency@gmail.com. This is a crisis situation.",
+  "expectedExtraction": {
+    "nameCandidate": "Maria Rodriguez",
+    "contactCandidates": {
+      "emails": ["maria.emergency@gmail.com"],
+      "phones": []
+    },
+    "locationCandidates": ["Phoenix", "Arizona"],
+    "needsCategories": ["SAFETY", "HOUSING", "FOOD"],
+    "urgencyScore": 1.0,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "This is an emergency.",
+      "start": 0,
+      "end": 1500
+    },
+    {
+      "text": "My name is Maria Rodriguez.",
+      "start": 1500,
+      "end": 3500
+    },
+    {
+      "text": "I'm in immediate danger.",
+      "start": 3500,
+      "end": 5500
+    },
+    {
+      "text": "I fled my home yesterday because of domestic violence.",
+      "start": 5500,
+      "end": 9000
+    },
+    {
+      "text": "I'm currently hiding in a friend's house with my three children.",
+      "start": 9000,
+      "end": 12500
+    },
+    {
+      "text": "We have nothing - no clothes, no food, no money.",
+      "start": 12500,
+      "end": 15500
+    },
+    {
+      "text": "I desperately need emergency shelter, food, and protection.",
+      "start": 15500,
+      "end": 19000
+    },
+    {
+      "text": "I'm in Phoenix, Arizona.",
+      "start": 19000,
+      "end": 21000
+    },
+    {
+      "text": "Please, I need help urgently.",
+      "start": 21000,
+      "end": 23000
+    },
+    {
+      "text": "My safety and my children's safety are at risk.",
+      "start": 23000,
+      "end": 26000
+    },
+    {
+      "text": "I can't go back home.",
+      "start": 26000,
+      "end": 27500
+    },
+    {
+      "text": "I need emergency assistance right now.",
+      "start": 27500,
+      "end": 30000
+    },
+    {
+      "text": "You can reach me at maria.emergency@gmail.com.",
+      "start": 30000,
+      "end": 33000
+    },
+    {
+      "text": "This is a crisis situation.",
+      "start": 33000,
+      "end": 35000
+    }
+  ],
+  "wordCount": 120,
+  "duration": 35000,
+  "detectedLanguage": "en"
+}

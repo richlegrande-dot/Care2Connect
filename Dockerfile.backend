@@ -1,0 +1,100 @@
+# Backend Dockerfile for Care2system
+# PRODUCTION HARDENING: Optimized backend container
+
+FROM node:20-alpine AS base
+
+# Install security updates and essential packages
+RUN apk update && apk upgrade && \
+    apk add --no-cache \
+    curl \
+    dumb-init \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S care2system -u 1001
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY backend/package*.json ./
+
+# Development dependencies stage
+FROM base AS deps
+RUN npm ci --only=production && npm cache clean --force
+
+# Build stage
+FROM base AS builder
+COPY backend/package*.json ./
+RUN npm ci
+COPY backend/ .
+RUN npm run build && \
+    npm prune --production
+
+# Production stage
+FROM base AS runner
+
+ENV NODE_ENV=production
+ENV PORT=3001
+
+# Copy production dependencies
+COPY --from=deps --chown=care2system:nodejs /app/node_modules ./node_modules
+
+# Copy built application
+COPY --from=builder --chown=care2system:nodejs /app/dist ./dist
+COPY --from=builder --chown=care2system:nodejs /app/package.json ./package.json
+
+# Create necessary directories with proper permissions
+RUN mkdir -p logs uploads && \
+    chown -R care2system:nodejs logs uploads
+
+# Health check script
+COPY --chown=care2system:nodejs <<EOF /app/healthcheck.js
+const http = require('http');
+
+const options = {
+  hostname: 'localhost',
+  port: process.env.PORT || 3001,
+  path: '/api/health',
+  method: 'GET',
+  timeout: 5000
+};
+
+const req = http.request(options, (res) => {
+  if (res.statusCode === 200) {
+    console.log('Health check passed');
+    process.exit(0);
+  } else {
+    console.log(\`Health check failed: \${res.statusCode}\`);
+    process.exit(1);
+  }
+});
+
+req.on('error', (err) => {
+  console.log(\`Health check error: \${err.message}\`);
+  process.exit(1);
+});
+
+req.on('timeout', () => {
+  console.log('Health check timeout');
+  req.destroy();
+  process.exit(1);
+});
+
+req.end();
+EOF
+
+# Switch to non-root user
+USER care2system
+
+# Expose port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD node /app/healthcheck.js
+
+# Start application with proper signal handling
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "dist/server.js"]

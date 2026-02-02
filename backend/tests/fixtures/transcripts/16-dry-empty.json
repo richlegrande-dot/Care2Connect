@@ -1,0 +1,23 @@
+{
+  "name": "Dry/Empty Transcript",
+  "description": "Transcript with no meaningful speech content", 
+  "transcript": "...",
+  "expectedExtraction": {
+    "nameCandidate": null,
+    "contactCandidates": {
+      "emails": [],
+      "phones": []
+    },
+    "locationCandidates": [],
+    "needsCategories": [],
+    "urgencyScore": 0.0,
+    "keyPointsCount": 0
+  },
+  "segments": [
+    {
+      "text": "...",
+      "start": 0,
+      "end": 1000
+    }
+  ]
+}

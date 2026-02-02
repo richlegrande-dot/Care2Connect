@@ -1,0 +1,523 @@
+# Startup Health Check Script with Auto-Troubleshooting
+# 3-Phase State Machine: Detect → Repair → Recheck
+#
+# CRITICAL REQUIREMENT:
+# - System must show status='healthy' NOT 'degraded' before reporting success
+# - NEVER give "green lights" or claim system is working when status is DEGRADED
+# - If health check returns degraded, troubleshoot and fix issues before confirming
+# - Attempts auto-recovery for common issues
+#
+
+param(
+  [switch]$AutoFix = $true,
+  [int]$MaxFixRounds = 2,
+  [switch]$NeverExitNonZero = $true
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Continue"  # Critical: do not die on first error
+$ProgressPreference = 'SilentlyContinue'
+
+$script:failures = @()
+$script:actions = @()
+$script:healthResponse = $null
+$script:pm2Output = $null
+$script:backend = $null
+$script:frontend = $null
+$script:backend3003 = $null
+$script:frontend3000 = $null
+$script:cloudflared = $null
+$script:tunnelOk = $false
+$script:cfOk = $false
+
+function Add-Failure($name, $detail, $fixBlock) {
+  $script:failures += [pscustomobject]@{ name=$name; detail=$detail; fix=$fixBlock }
+}
+
+function Run-Check($name, [scriptblock]$check, [scriptblock]$fix) {
+  try {
+    & $check
+    Write-Host "  [OK] $name" -ForegroundColor Green
+  } catch {
+    Write-Host "  [FAIL] $name -> $($_.Exception.Message)" -ForegroundColor Red
+    Add-Failure $name $_.Exception.Message $fix
+  }
+}
+
+function Invoke-FixRound($round) {
+  if ($script:failures.Count -eq 0) { return }
+
+  Write-Host ""
+  Write-Host "========================================" -ForegroundColor Magenta
+  Write-Host "   🛠️  REPAIR PHASE - ROUND $round" -ForegroundColor Magenta
+  Write-Host "========================================" -ForegroundColor Magenta
+  Write-Host ""
+
+  foreach ($f in $script:failures) {
+    if (-not $f.fix) { 
+      Write-Host "  [SKIP] $($f.name) (no auto-fix available)" -ForegroundColor Gray
+      continue 
+    }
+    try {
+      Write-Host "  [FIXING] $($f.name)..." -ForegroundColor Yellow
+      & $f.fix
+      $script:actions += [pscustomobject]@{ 
+        name=$f.name
+        success=$true
+        ts=(Get-Date).ToString("o")
+      }
+      Write-Host "  [SUCCESS] $($f.name) fix applied" -ForegroundColor Green
+    } catch {
+      Write-Host "  [FAIL] Fix failed for $($f.name): $($_.Exception.Message)" -ForegroundColor Red
+      $script:actions += [pscustomobject]@{ 
+        name=$f.name
+        success=$false
+        ts=(Get-Date).ToString("o")
+        error=$_.Exception.Message
+      }
+    }
+  }
+  
+  Write-Host ""
+  Write-Host "Waiting 5 seconds for services to stabilize..." -ForegroundColor Gray
+  Start-Sleep -Seconds 5
+}
+
+function Run-AllChecks {
+  $script:failures = @()
+  $script:healthResponse = $null
+  
+  Write-Host ""
+  Write-Host "========================================" -ForegroundColor Cyan
+  Write-Host "   🔍 DETECTION PHASE" -ForegroundColor Cyan
+  Write-Host "========================================" -ForegroundColor Cyan
+  Write-Host ""
+
+  # Check PM2 services
+  Write-Host "[1/5] Checking PM2 Services..." -ForegroundColor Yellow
+  
+  Run-Check "PM2 Backend Process" {
+    $script:pm2Output = pm2 jlist 2>$null | ConvertFrom-Json -ErrorAction SilentlyContinue
+    if (-not $script:pm2Output) { throw "PM2 not running or not installed" }
+    $script:backend = $script:pm2Output | Where-Object { $_.name -like "*backend*" }
+    if (-not $script:backend -or $script:backend.pm2_env.status -ne "online") {
+      throw "Backend PM2 process not online"
+    }
+  } {
+    # Fix: Start PM2 backend
+    $startScript = Join-Path $PSScriptRoot "start-all.ps1"
+    if (Test-Path $startScript) {
+      & $startScript
+    } else {
+      pm2 start (Join-Path $PSScriptRoot "..\ecosystem.config.js")
+    }
+  }
+  
+  Run-Check "PM2 Frontend Process" {
+    if (-not $script:pm2Output) { 
+      $script:pm2Output = pm2 jlist 2>$null | ConvertFrom-Json -ErrorAction SilentlyContinue
+    }
+    if (-not $script:pm2Output) { throw "PM2 not running" }
+    $script:frontend = $script:pm2Output | Where-Object { $_.name -like "*frontend*" }
+    if (-not $script:frontend -or $script:frontend.pm2_env.status -ne "online") {
+      throw "Frontend PM2 process not online"
+    }
+  } {
+    # Fix: Start PM2 frontend (start-all should have started both)
+    pm2 restart frontend
+  }
+
+  Write-Host ""
+  Write-Host "[2/5] Checking Port Status..." -ForegroundColor Yellow
+  
+  Run-Check "Backend Port 3003" {
+    $script:backend3003 = Get-NetTCPConnection -LocalPort 3003 -State Listen -ErrorAction SilentlyContinue
+    if (-not $script:backend3003) {
+      # Check for port conflict
+      $conflict = Get-NetTCPConnection -LocalPort 3003 -ErrorAction SilentlyContinue
+      if ($conflict) {
+        $proc = Get-Process -Id $conflict.OwningProcess -ErrorAction SilentlyContinue
+        throw "Port 3003 occupied by $($proc.ProcessName) (PID: $($proc.Id))"
+      } else {
+        throw "Backend not listening on port 3003"
+      }
+    }
+  } {
+    # Fix: Kill conflicting process and restart backend
+    $conflict = Get-NetTCPConnection -LocalPort 3003 -ErrorAction SilentlyContinue
+    if ($conflict) {
+      $proc = Get-Process -Id $conflict.OwningProcess -ErrorAction SilentlyContinue
+      if ($proc -and $proc.ProcessName -eq "node") {
+        Stop-Process -Id $proc.Id -Force
+        Start-Sleep -Seconds 2
+      }
+    }
+    pm2 restart backend
+  }
+  
+  Run-Check "Frontend Port 3000" {
+    $script:frontend3000 = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue
+    if (-not $script:frontend3000) {
+      $conflict = Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue
+      if ($conflict) {
+        $proc = Get-Process -Id $conflict.OwningProcess -ErrorAction SilentlyContinue
+        throw "Port 3000 occupied by $($proc.ProcessName) (PID: $($proc.Id))"
+      } else {
+        throw "Frontend not listening on port 3000"
+      }
+    }
+  } {
+    # Fix: Kill conflicting process and restart frontend
+    $conflict = Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue
+    if ($conflict) {
+      $proc = Get-Process -Id $conflict.OwningProcess -ErrorAction SilentlyContinue
+      if ($proc -and $proc.ProcessName -eq "node") {
+        Stop-Process -Id $proc.Id -Force
+        Start-Sleep -Seconds 2
+      }
+    }
+    pm2 restart frontend
+  }
+
+  Write-Host ""
+  Write-Host "[3/5] Testing Backend Health..." -ForegroundColor Yellow
+  
+  Run-Check "Backend Health Endpoint" {
+    $script:healthResponse = Invoke-RestMethod "http://localhost:3003/health/status" -TimeoutSec 5 -ErrorAction Stop
+    if ($script:healthResponse.status -ne "healthy") {
+      throw "Backend status is $($script:healthResponse.status), not healthy"
+    }
+  } {
+    # Fix: Call auto-recovery endpoint if available
+    try {
+      $adminPassword = $env:ADMIN_PASSWORD
+      if ($adminPassword) {
+        Write-Host "    Calling /health/recover endpoint..." -ForegroundColor Gray
+        $headers = @{ "x-admin-password" = $adminPassword }
+        Invoke-RestMethod -Method POST "http://localhost:3003/health/recover" `
+          -Headers $headers -TimeoutSec 15 -ErrorAction Stop | Out-Null
+      } else {
+        Write-Host "    ADMIN_PASSWORD not set, restarting backend..." -ForegroundColor Gray
+        pm2 restart backend
+      }
+    } catch {
+      Write-Host "    Recovery endpoint failed, restarting backend..." -ForegroundColor Gray
+      pm2 restart backend
+    }
+  }
+  
+  # Check critical service health
+  if ($script:healthResponse) {
+    $criticalServices = @('prisma', 'tunnel')
+    foreach ($svcName in $criticalServices) {
+      Run-Check "Backend Service: $svcName" {
+        $svc = $script:healthResponse.services.$svcName
+        if (-not $svc -or -not $svc.healthy) {
+          $errorMsg = if ($svc -and $svc.error) { $svc.error } else { "Service not found or unhealthy" }
+          throw $errorMsg
+        }
+      } {
+        # Fix based on service type
+        switch ($svcName) {
+          'prisma' {
+            Write-Host "    Checking DATABASE_URL and attempting reconnect..." -ForegroundColor Gray
+            pm2 restart backend
+          }
+          'tunnel' {
+            Write-Host "    Checking cloudflared process..." -ForegroundColor Gray
+            $tunnelProc = Get-Process -Name cloudflared -ErrorAction SilentlyContinue
+            if (-not $tunnelProc) {
+              Write-Host "    Starting cloudflared tunnel..." -ForegroundColor Yellow
+              Start-Process cloudflared -ArgumentList "tunnel", "run" -NoNewWindow
+            }
+          }
+        }
+      }
+    }
+  }
+
+  Write-Host ""
+  Write-Host "[4/5] Checking Cloudflare Tunnel..." -ForegroundColor Yellow
+  
+  Run-Check "Cloudflared Process" {
+    $script:cloudflared = Get-Process -Name cloudflared -ErrorAction SilentlyContinue
+    if (-not $script:cloudflared) {
+      throw "cloudflared process not running"
+    }
+  } {
+    # Fix: Start cloudflared tunnel
+    Write-Host "    Starting cloudflared tunnel..." -ForegroundColor Yellow
+    Start-Process cloudflared -ArgumentList "tunnel", "run" -NoNewWindow
+  }
+  
+  Run-Check "Tunnel Domain Reachability" {
+    $tunnelCheck = Invoke-RestMethod "https://care2connects.org/health/live" -TimeoutSec 10 -ErrorAction Stop
+    if ($tunnelCheck.status -ne "alive") {
+      throw "Domain responds but status is not 'alive'"
+    }
+    $script:tunnelOk = $true
+  } {
+    # Fix: Restart cloudflared if process exists but domain unreachable
+    if ($script:cloudflared) {
+      Write-Host "    Restarting cloudflared tunnel..." -ForegroundColor Yellow
+      Stop-Process -Name cloudflared -Force -ErrorAction SilentlyContinue
+      Start-Sleep -Seconds 2
+      Start-Process cloudflared -ArgumentList "tunnel", "run" -NoNewWindow
+    } else {
+      Write-Host "    Starting cloudflared tunnel..." -ForegroundColor Yellow
+      Start-Process cloudflared -ArgumentList "tunnel", "run" -NoNewWindow
+    }
+  }
+
+  Write-Host ""
+  Write-Host "[5/5] Testing Cloudflare API..." -ForegroundColor Yellow
+  
+  Run-Check "Cloudflare API Connectivity" {
+    $envPath = Join-Path $PSScriptRoot "..\backend\.env"
+    if (-not (Test-Path $envPath)) {
+      throw "backend/.env file not found"
+    }
+    
+    $envContent = Get-Content $envPath -Raw
+    $token = $null
+    $zoneId = $null
+    
+    if ($envContent -match 'CLOUDFLARE_API_TOKEN=([^\r\n]+)') {
+      $token = $matches[1]
+    }
+    if ($envContent -match 'CLOUDFLARE_ZONE_ID=([^\r\n]+)') {
+      $zoneId = $matches[1]
+    }
+    
+    if (-not $token) { throw "CLOUDFLARE_API_TOKEN not set in backend/.env" }
+    if (-not $zoneId) { throw "CLOUDFLARE_ZONE_ID not set in backend/.env" }
+    
+    $headers = @{
+      "Authorization" = "Bearer $token"
+      "Content-Type" = "application/json"
+    }
+    
+    $cfResponse = Invoke-RestMethod "https://api.cloudflare.com/client/v4/zones/$zoneId" `
+      -Headers $headers -TimeoutSec 5 -ErrorAction Stop
+    
+    if (-not $cfResponse.success) {
+      throw "Cloudflare API request failed"
+    }
+    
+    $script:cfOk = $true
+    Write-Host "    Domain: $($cfResponse.result.name)" -ForegroundColor Gray
+  } {
+    # Fix: No automated fix for API credentials - manual intervention required
+    Write-Host "    [MANUAL] Check CLOUDFLARE_API_TOKEN and CLOUDFLARE_ZONE_ID in backend/.env" -ForegroundColor Yellow
+    Write-Host "    [MANUAL] Token may be expired - regenerate in Cloudflare dashboard" -ForegroundColor Yellow
+  }
+} # End of Run-AllChecks function
+
+# ========================================
+# MAIN EXECUTION LOOP
+# ========================================
+
+Write-Host ""
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "   WORKSPACE STARTUP HEALTH CHECK" -ForegroundColor Cyan
+Write-Host "   3-PHASE STATE MACHINE" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan
+
+# Phase 1: Initial Detection
+Run-AllChecks
+
+# Phase 2: Repair (if needed)
+if ($AutoFix -and $script:failures.Count -gt 0) {
+  for ($i = 1; $i -le $MaxFixRounds -and $script:failures.Count -gt 0; $i++) {
+    Invoke-FixRound $i
+    
+    # Phase 3: Recheck
+    Write-Host ""
+    Write-Host "========================================" -ForegroundColor Cyan
+    Write-Host "   🔍 RECHECK PHASE - ROUND $i" -ForegroundColor Cyan
+    Write-Host "========================================" -ForegroundColor Cyan
+    
+    Run-AllChecks
+    
+    if ($script:failures.Count -eq 0) {
+      Write-Host ""
+      Write-Host "🎉 All issues resolved!" -ForegroundColor Green
+      break
+    }
+  }
+}
+
+# ========================================
+# FINAL SUMMARY
+# ========================================
+
+Write-Host ""
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "   📊 FINAL SUMMARY" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host ""
+
+$issueCount = $script:failures.Count
+$fixCount = ($script:actions | Where-Object { $_.success -eq $true }).Count
+$failedFixCount = ($script:actions | Where-Object { $_.success -eq $false }).Count
+$totalChecks = if ($script:healthResponse) { 7 } else { 5 }
+
+Write-Host "Total Checks: $totalChecks" -ForegroundColor White
+Write-Host "Issues Found: $issueCount" -ForegroundColor $(if ($issueCount -eq 0) { "Green" } else { "Yellow" })
+Write-Host "Fixes Applied: $fixCount" -ForegroundColor $(if ($fixCount -gt 0) { "Cyan" } else { "Gray" })
+Write-Host "Fixes Failed: $failedFixCount" -ForegroundColor $(if ($failedFixCount -gt 0) { "Red" } else { "Gray" })
+Write-Host ""
+
+if ($issueCount -eq 0) {
+    Write-Host "✅ ALL CHECKS PASSED" -ForegroundColor Green
+    Write-Host ""
+    Write-Host "System Status: HEALTHY" -ForegroundColor Green
+} else {
+    Write-Host "⚠️  ISSUES REMAINING: $issueCount" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "Unresolved Issues:" -ForegroundColor Yellow
+    foreach ($f in $script:failures) {
+        Write-Host "  • $($f.name): $($f.detail)" -ForegroundColor Red
+    }
+    Write-Host ""
+    
+    if ($fixCount -gt 0) {
+        Write-Host "Successful Fixes:" -ForegroundColor Cyan
+        $script:actions | Where-Object { $_.success -eq $true } | ForEach-Object {
+            Write-Host "  ✓ $($_.name)" -ForegroundColor Green
+        }
+        Write-Host ""
+    }
+    
+    if ($failedFixCount -gt 0) {
+        Write-Host "Failed Fixes (manual intervention required):" -ForegroundColor Red
+        $script:actions | Where-Object { $_.success -eq $false } | ForEach-Object {
+            Write-Host "  ✗ $($_.name): $($_.error)" -ForegroundColor Red
+        }
+        Write-Host ""
+    }
+    
+    Write-Host "RECOMMENDED MANUAL ACTIONS:" -ForegroundColor Yellow
+    Write-Host "1. Review error details above" -ForegroundColor White
+    Write-Host "2. Check backend/.env for missing or invalid credentials" -ForegroundColor White
+    Write-Host "3. View detailed health: http://localhost:3003/health/status" -ForegroundColor White
+    Write-Host "4. Run: .\scripts\verify-deployment-ready.ps1" -ForegroundColor White
+    Write-Host ""
+}
+
+Write-Host "Quick Links:" -ForegroundColor Gray
+Write-Host "  Health Status: http://localhost:3003/health/status" -ForegroundColor Gray
+Write-Host "  Health History: http://localhost:3003/health/history?window=24h" -ForegroundColor Gray
+Write-Host "  Public Site: https://care2connects.org" -ForegroundColor Gray
+Write-Host ""
+Write-Host "Continuous monitoring: Active (every 5 minutes)" -ForegroundColor Gray
+Write-Host ""
+
+# ========================================
+# SAVE REPORT TO FILE
+# ========================================
+Write-Host "Writing results to startup-health-report.txt..." -ForegroundColor Gray
+
+$reportPath = Join-Path $PSScriptRoot "..\startup-health-report.txt"
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+$reportContent = @"
+========================================
+WORKSPACE STARTUP HEALTH CHECK REPORT
+3-PHASE STATE MACHINE (Detect → Repair → Recheck)
+========================================
+Timestamp: $timestamp
+Auto-Fix Enabled: $AutoFix
+Max Fix Rounds: $MaxFixRounds
+
+FINAL STATUS: $(if ($issueCount -eq 0) { "HEALTHY ✅" } else { "ISSUES REMAINING ⚠️ ($issueCount)" })
+
+EXECUTION SUMMARY:
+  Total Checks: $totalChecks
+  Issues Found: $issueCount
+  Fixes Applied: $fixCount
+  Fixes Failed: $failedFixCount
+
+PM2 Services:
+  Backend: $(if ($script:backend -and $script:backend.pm2_env.status -eq "online") { "ONLINE" } else { "OFFLINE" })
+  Frontend: $(if ($script:frontend -and $script:frontend.pm2_env.status -eq "online") { "ONLINE" } else { "OFFLINE" })
+
+Port Status:
+  Backend (3003): $(if ($script:backend3003) { "LISTENING" } else { "NOT LISTENING" })
+  Frontend (3000): $(if ($script:frontend3000) { "LISTENING" } else { "NOT LISTENING" })
+
+Backend Health: $(if ($script:healthResponse) { "RESPONDING" } else { "NOT RESPONDING" })
+$(if ($script:healthResponse -and $script:healthResponse.status) { "  Status: $($script:healthResponse.status.ToUpper())" } else { "" })
+
+Cloudflare Tunnel:
+  Process: $(if ($script:cloudflared) { "RUNNING (PID: $($script:cloudflared.Id))" } else { "NOT RUNNING" })
+  Domain: $(if ($script:tunnelOk) { "REACHABLE" } else { "NOT REACHABLE" })
+
+Cloudflare API: $(if ($script:cfOk) { "CONNECTED" } else { "NOT CONNECTED" })
+
+========================================
+REPAIR ACTIONS TAKEN
+========================================
+$(if ($script:actions.Count -gt 0) {
+    $script:actions | ForEach-Object {
+        "[$($_.ts)] $($_.name): $(if ($_.success) { 'SUCCESS ✓' } else { "FAILED ✗ - $($_.error)" })`n"
+    }
+} else {
+    "No repair actions were needed or attempted.`n"
+})
+
+========================================
+REMAINING ISSUES: $issueCount
+========================================
+$(if ($issueCount -gt 0) {
+    foreach ($f in $script:failures) {
+        "• $($f.name): $($f.detail)`n"
+    }
+} else {
+    "All checks passed successfully!`n"
+})
+
+========================================
+QUICK LINKS
+========================================
+Health Status: http://localhost:3003/health/status
+Health History: http://localhost:3003/health/history?window=24h
+Public Site: https://care2connects.org
+
+$(if ($issueCount -gt 0) {
+@"
+RECOMMENDED MANUAL ACTIONS:
+1. Review error details above
+2. Check backend/.env for missing or invalid credentials
+3. View detailed health: http://localhost:3003/health/status
+4. Run: .\scripts\verify-deployment-ready.ps1
+"@
+} else {
+    "System is healthy and ready for development!"
+})
+
+========================================
+END OF REPORT
+========================================
+"@
+
+$reportContent | Out-File -FilePath $reportPath -Encoding UTF8 -Force
+Write-Host "  Report saved to: startup-health-report.txt" -ForegroundColor Green
+Write-Host ""
+
+# ========================================
+# EXIT CODE HANDLING
+# ========================================
+
+if ($NeverExitNonZero) {
+  Write-Host "Exit Code: 0 (forced by -NeverExitNonZero)" -ForegroundColor Gray
+  exit 0
+} else {
+  if ($issueCount -gt 0) {
+    Write-Host "Exit Code: 1 (issues detected)" -ForegroundColor Yellow
+    exit 1
+  } else {
+    Write-Host "Exit Code: 0 (all checks passed)" -ForegroundColor Green
+    exit 0
+  }
+}

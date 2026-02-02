@@ -1,0 +1,3 @@
+@echo off
+echo Starting backend...
+"C:\Program Files\nodejs\npx.cmd" tsx watch src/server.ts

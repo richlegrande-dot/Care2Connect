@@ -1,0 +1,728 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model audio_files {
+  id           String   @id
+  createdAt    DateTime @default(now())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  duration     Int?
+  filePath     String
+  transcribed  Boolean  @default(false)
+  transcript   String?
+  uploadedBy   String?
+  processed    Boolean  @default(false)
+}
+
+model donation_drafts {
+  id                String            @id
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime
+  ticketId          String            @unique
+  title             String
+  goalAmount        Decimal?
+  currency          String            @default("USD")
+  story             String
+  beneficiary       String?
+  location          String?
+  editableJson      Json?
+  finalizedAt       DateTime?
+  category          String?
+  summary           String?
+  tags              String[]
+  timeline          String?
+  urgency           String?
+  extractedAt       DateTime?
+  generationMode    String?           @default("AUTOMATED")
+  manuallyEditedAt  DateTime?
+  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([generationMode])
+  @@index([ticketId])
+}
+
+model donations {
+  id              String           @id
+  userId          String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime
+  amount          Decimal?
+  amountCents     Int?
+  currency        String           @default("usd")
+  platform        DonationPlatform
+  reference       String?
+  stripeSessionId String?          @unique
+  stripePaymentId String?
+  status          String           @default("pending")
+  donorEmail      String?
+  donorName       String?
+  message         String?
+  users           users            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model generated_documents {
+  id                String            @id
+  createdAt         DateTime          @default(now())
+  ticketId          String
+  docType           DocumentType
+  storageUrl        String?
+  filePath          String?
+  sha256            String?
+  mimeType          String?
+  sizeBytes         Int?
+  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([docType])
+  @@index([ticketId])
+}
+
+model health_check_runs {
+  id             String   @id
+  createdAt      DateTime @default(now())
+  uptime         Int
+  cpuUsage       Float?
+  memoryUsage    Float?
+  eventLoopDelay Float?
+  checks         Json
+  status         String
+  latency        Int?
+
+  @@index([createdAt])
+}
+
+model incidents {
+  id               String    @id
+  service          String
+  severity         String
+  status           String
+  firstSeenAt      DateTime  @default(now())
+  lastSeenAt       DateTime
+  resolvedAt       DateTime?
+  summary          String
+  details          String
+  lastCheckPayload Json?
+  recommendation   String
+}
+
+model jobs_cache {
+  id           String   @id
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+  keywords     String?
+  location     String?
+  radius       Int?
+  jobResults   Json
+  totalResults Int      @default(0)
+  source       String
+  users        users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model knowledge_audit_logs {
+  id         String          @id
+  createdAt  DateTime        @default(now())
+  actor      String          @default("admin")
+  action     AuditAction
+  entityType AuditEntityType
+  entityId   String
+  beforeJson Json?
+  afterJson  Json?
+  diffJson   Json?
+  reason     String?
+
+  @@index([action])
+  @@index([createdAt])
+  @@index([entityId])
+  @@index([entityType])
+}
+
+model knowledge_bindings {
+  id                 String             @id
+  createdAt          DateTime           @default(now())
+  incidentId         String
+  knowledgeChunkId   String
+  score              Float?
+  reason             String?
+  pipeline_incidents pipeline_incidents @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@index([incidentId])
+  @@index([knowledgeChunkId])
+}
+
+model knowledge_chunks {
+  id                String            @id
+  createdAt         DateTime          @default(now())
+  sourceId          String
+  chunkText         String
+  tags              String[]
+  language          String?
+  deletedAt         DateTime?
+  isDeleted         Boolean           @default(false)
+  metadata          Json?
+  updatedAt         DateTime
+  knowledge_sources knowledge_sources @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@index([isDeleted])
+  @@index([language])
+  @@index([sourceId])
+}
+
+model knowledge_sources {
+  id               String              @id
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime
+  sourceType       KnowledgeSourceType
+  title            String
+  url              String?
+  licenseNote      String?
+  fetchedAt        DateTime?
+  contentHash      String?
+  deletedAt        DateTime?
+  isDeleted        Boolean             @default(false)
+  metadata         Json?
+  description      String?
+  knowledge_chunks knowledge_chunks[]
+
+  @@index([createdAt])
+  @@index([isDeleted])
+  @@index([sourceType])
+}
+
+model messages {
+  id          String      @id
+  userId      String
+  createdAt   DateTime    @default(now())
+  role        MessageRole
+  content     String
+  contextData Json?
+  users       users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model model_tuning_profiles {
+  id                String               @id
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime
+  scope             TuningScope
+  scopeKey          String?
+  recommendedEngine TranscriptionEngine?
+  vadSensitivity    Float?
+  chunkSeconds      Float?
+  silenceTrimMs     Int?
+  retryPolicyJson   Json?
+  sampleCount       Int                  @default(0)
+  successRate       Float?
+  avgLatencyMs      Float?
+  lastComputedAt    DateTime?
+
+  @@unique([scope, scopeKey])
+}
+
+model pipeline_incidents {
+  id                  String               @id
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime
+  ticketId            String?
+  stage               PipelineStage
+  severity            IncidentSeverity
+  errorCode           String?
+  errorMessage        String
+  contextJson         Json?
+  recommendationsJson Json?
+  status              IncidentStatus
+  resolvedAt          DateTime?
+  knowledge_bindings  knowledge_bindings[]
+  recording_tickets   recording_tickets?   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([severity])
+  @@index([stage])
+  @@index([status])
+  @@index([ticketId])
+}
+
+model profile_tickets {
+  id               String              @id
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime
+  name             String?
+  age              Int?
+  location         String?
+  story            String?
+  status           ProfileTicketStatus @default(CREATED)
+  transcriptionId  String?
+  analysisComplete Boolean             @default(false)
+  qrCodeUrl        String?
+  gofundmeDraftUrl String?
+  profilePageUrl   String?
+  language         String?
+  processingErrors Json?
+
+  @@index([status])
+}
+
+model profiles {
+  id            String    @id
+  userId        String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+  transcript    String?
+  storySummary  String?
+  bio           String?
+  name          String?
+  age           Int?
+  skills        String[]
+  jobHistory    Json?
+  housingStatus String?
+  healthNotes   String?
+  urgentNeeds   Json?
+  longTermGoals Json?
+  donationPitch String?
+  tags          String[]
+  cashtag       String?
+  gofundmeUrl   String?
+  qrCodeUrl     String?
+  viewCount     Int       @default(0)
+  lastViewed    DateTime?
+  users         users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model qr_code_history {
+  id            String        @id
+  createdAt     DateTime      @default(now())
+  qrCodeId      String
+  version       Int
+  amountCents   Int
+  targetUrl     String
+  reason        String
+  qr_code_links qr_code_links @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([qrCodeId])
+}
+
+model qr_code_links {
+  id                String            @id
+  createdAt         DateTime          @default(now())
+  ticketId          String            @unique
+  targetUrl         String
+  imageStorageUrl   String?
+  amountCents       Int?
+  scanCount         Int               @default(0)
+  updatedAt         DateTime
+  version           Int               @default(1)
+  qr_code_history   qr_code_history[]
+  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+model recording_tickets {
+  id                     String                   @id
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime
+  displayName            String?
+  contactType            ContactType
+  contactValue           String
+  status                 RecordingTicketStatus    @default(DRAFT)
+  lastStep               String?
+  audioFileId            String?
+  audioUrl               String?
+  needsInfo              Json?
+  donation_drafts        donation_drafts?
+  generated_documents    generated_documents[]
+  pipeline_incidents     pipeline_incidents[]
+  qr_code_links          qr_code_links?
+  stripe_attributions    stripe_attributions[]
+  support_tickets        support_tickets[]
+  transcription_sessions transcription_sessions[]
+
+  @@index([contactType, contactValue])
+  @@index([createdAt])
+  @@index([status])
+}
+
+model resources {
+  id          String           @id
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime
+  name        String
+  description String?
+  category    ResourceCategory
+  address     String?
+  city        String?
+  state       String?
+  zipCode     String?
+  phone       String?
+  email       String?
+  website     String?
+  hours       Json?
+  services    String[]
+  eligibility String?
+  verified    Boolean          @default(false)
+  lastUpdated DateTime         @default(now())
+}
+
+model speech_analysis_results {
+  id                     String                 @id
+  createdAt              DateTime               @default(now())
+  sessionId              String
+  analyzerVersion        String
+  resultJson             Json
+  qualityScore           Float?
+  warnings               Json?
+  transcription_sessions transcription_sessions @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+model stripe_attributions {
+  id                String            @id
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime
+  ticketId          String
+  checkoutSessionId String            @unique
+  paymentIntentId   String?           @unique
+  amount            Decimal
+  currency          String
+  status            PaymentStatus     @default(CREATED)
+  webhookEventId    String?           @unique
+  metadataSnapshot  Json?
+  chargeId          String?
+  donorCountry      String?
+  donorEmailHash    String?
+  donorLastName     String?
+  paidAt            DateTime?
+  refundedAt        DateTime?
+  stripeCreatedAt   DateTime?
+  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([paymentIntentId])
+  @@index([status])
+  @@index([ticketId])
+}
+
+model stripe_events {
+  id            String   @id
+  createdAt     DateTime @default(now())
+  stripeEventId String   @unique
+  type          String
+  stripeCreated DateTime
+  livemode      Boolean
+  processedAt   DateTime @default(now())
+  error         String?
+
+  @@index([stripeEventId])
+  @@index([type])
+}
+
+model support_tickets {
+  id                String             @id
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime
+  ticketId          String?
+  recordingTicketId String?
+  status            TicketStatus       @default(OPEN)
+  category          String
+  message           String
+  contact           String?
+  resolvedAt        DateTime?
+  adminNotes        String?
+  systemSnapshot    Json?
+  recording_tickets recording_tickets? @relation(fields: [recordingTicketId], references: [id])
+
+  @@index([recordingTicketId])
+  @@index([status])
+  @@index([ticketId])
+}
+
+model system_incidents {
+  id          String    @id
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  severity    String
+  category    String
+  title       String
+  description String?
+  metadata    Json?
+  occurredAt  DateTime  @default(now())
+  resolved    Boolean   @default(false)
+  resolvedAt  DateTime?
+  resolvedBy  String?
+
+  @@index([category])
+  @@index([occurredAt])
+  @@index([resolved])
+  @@index([severity])
+}
+
+model transcription_error_events {
+  id                     String                  @id
+  createdAt              DateTime                @default(now())
+  sessionId              String?
+  engine                 TranscriptionEngine?
+  stage                  TranscriptionStage
+  errorCode              String
+  errorMessageSafe       String
+  retryCount             Int                     @default(0)
+  isTransient            Boolean                 @default(false)
+  metaJson               Json?
+  transcription_sessions transcription_sessions? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([errorCode])
+  @@index([sessionId])
+  @@index([stage])
+}
+
+model transcription_feedback {
+  id                     String                 @id
+  createdAt              DateTime               @default(now())
+  sessionId              String
+  rating                 Int
+  issueTags              String[]
+  correctedTranscript    String?
+  notes                  String?
+  createdByAdminId       String?
+  transcription_sessions transcription_sessions @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([rating])
+  @@index([sessionId])
+}
+
+model transcription_segments {
+  id                     String                 @id
+  createdAt              DateTime               @default(now())
+  sessionId              String
+  index                  Int
+  startMs                Int
+  endMs                  Int
+  text                   String?
+  confidence             Float?
+  tokens                 Int?
+  transcription_sessions transcription_sessions @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+model transcription_sessions {
+  id                         String                       @id
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime
+  userId                     String?
+  anonymousId                String?
+  recordingTicketId          String?
+  source                     TranscriptionSource
+  engine                     TranscriptionEngine
+  engineVersion              String?
+  languageHint               String?
+  detectedLanguage           String?
+  durationMs                 Int?
+  sampleRate                 Int?
+  channelCount               Int?
+  status                     TranscriptionStatus
+  consentToStoreText         Boolean                      @default(false)
+  consentToStoreMetrics      Boolean                      @default(true)
+  transcriptText             String?
+  transcriptPreview          String?
+  redactionApplied           Boolean                      @default(false)
+  retentionUntil             DateTime?
+  speech_analysis_results    speech_analysis_results[]
+  transcription_error_events transcription_error_events[]
+  transcription_feedback     transcription_feedback[]
+  transcription_segments     transcription_segments[]
+  recording_tickets          recording_tickets?           @relation(fields: [recordingTicketId], references: [id])
+
+  @@index([createdAt])
+  @@index([engine])
+  @@index([recordingTicketId])
+  @@index([retentionUntil])
+  @@index([status])
+  @@index([userId])
+}
+
+model users {
+  id              String       @id
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime
+  anonymous       Boolean      @default(true)
+  email           String?      @unique
+  phone           String?
+  supabaseId      String?      @unique
+  location        String?
+  zipCode         String?
+  isProfilePublic Boolean      @default(false)
+  consentGiven    Boolean      @default(false)
+  donations       donations[]
+  jobs_cache      jobs_cache[]
+  messages        messages[]
+  profiles        profiles?
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum AuditEntityType {
+  KNOWLEDGE_SOURCE
+  KNOWLEDGE_CHUNK
+}
+
+enum ContactType {
+  EMAIL
+  PHONE
+}
+
+enum DocumentType {
+  GOFUNDME_DRAFT
+  RECEIPT
+  OTHER
+}
+
+enum DonationPlatform {
+  CASHAPP
+  GOFUNDME
+  VENMO
+  PAYPAL
+  STRIPE
+  OTHER
+}
+
+enum IncidentSeverity {
+  INFO
+  WARN
+  ERROR
+  CRITICAL
+}
+
+enum IncidentStatus {
+  OPEN
+  RESOLVED
+  AUTO_RESOLVED
+}
+
+enum KnowledgeSourceType {
+  DOC
+  URL
+  NOTE
+  IMPORT
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum PaymentStatus {
+  CREATED
+  PAID
+  FAILED
+  REFUNDED
+  DISPUTED
+  EXPIRED
+}
+
+enum PipelineStage {
+  UPLOAD
+  TRANSCRIPTION
+  ANALYSIS
+  DRAFT
+  DOC_GEN
+  STRIPE
+  WEBHOOK
+  HEALTH
+  DB
+}
+
+enum ProfileTicketStatus {
+  CREATED
+  UPLOADING
+  TRANSCRIBING
+  ANALYZING
+  GENERATING_QR
+  GENERATING_DOC
+  COMPLETED
+  FAILED
+}
+
+enum RecordingTicketStatus {
+  DRAFT
+  RECORDING
+  PROCESSING
+  READY
+  PUBLISHED
+  ERROR
+  PAYMENT_RECEIVED
+  NEEDS_INFO
+}
+
+enum ResourceCategory {
+  SHELTER
+  FOOD
+  HEALTHCARE
+  JOB_TRAINING
+  MENTAL_HEALTH
+  TRANSPORTATION
+  LEGAL_AID
+  EDUCATION
+  CLOTHING
+  FINANCIAL_ASSISTANCE
+  ADDICTION_RECOVERY
+  FAMILY_SERVICES
+  OTHER
+}
+
+enum TicketStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+}
+
+enum TranscriptionEngine {
+  OPENAI
+  NVT
+  EVTS
+  EVTS_WHISPER
+  EVTS_VOSK
+  WHISPER
+  MANUAL
+  ASSEMBLYAI
+}
+
+enum TranscriptionSource {
+  WEB_RECORDING
+  UPLOAD
+  API
+  SYSTEM_SMOKE_TEST
+}
+
+enum TranscriptionStage {
+  UPLOAD
+  DECODE
+  TRANSCRIBE
+  ANALYZE
+  PERSIST
+  VALIDATION
+}
+
+enum TranscriptionStatus {
+  SUCCESS
+  PARTIAL
+  FAILED
+  PROCESSING
+}
+
+enum TuningScope {
+  GLOBAL
+  LANGUAGE
+  ROUTE
+  ENGINE
+}

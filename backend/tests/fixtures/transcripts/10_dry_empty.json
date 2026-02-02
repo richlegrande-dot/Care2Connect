@@ -1,0 +1,15 @@
+{
+  "id": "10_dry_empty",
+  "description": "Minimal content transcript to test fallback mechanisms",
+  "transcriptText": "I need help please. Thank you.",
+  "expected": {
+    "needsCategories": ["GENERAL"],
+    "urgencyLevel": "LOW",
+    "goalAmount": 1500,
+    "missingFields": ["name", "amount", "category", "story"],
+    "confidenceMin": 0.1,
+    "shouldNotContain": {
+      "piiInTelemetry": true
+    }
+  }
+}

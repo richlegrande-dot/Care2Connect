@@ -1,0 +1,66 @@
+{
+  "name": "No Contact Information",
+  "description": "Story missing contact details",
+  "transcript": "I need help with my situation. I've been living in my car for the past month because I lost my apartment. I'm in Chicago and it's getting really cold. I need shelter and I need food. I also need help finding work. This is a very difficult time for me. I'm not sure what to do next. I hope someone can assist me with getting back on track. Thank you for listening.",
+  "expectedExtraction": {
+    "nameCandidate": null,
+    "contactCandidates": {
+      "emails": [],
+      "phones": []
+    },
+    "locationCandidates": ["Chicago"],
+    "needsCategories": ["HOUSING", "FOOD", "EMPLOYMENT"],
+    "urgencyScore": 0.7,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "I need help with my situation.",
+      "start": 0,
+      "end": 2500
+    },
+    {
+      "text": "I've been living in my car for the past month because I lost my apartment.",
+      "start": 2500,
+      "end": 6500
+    },
+    {
+      "text": "I'm in Chicago and it's getting really cold.",
+      "start": 6500,
+      "end": 9000
+    },
+    {
+      "text": "I need shelter and I need food.",
+      "start": 9000,
+      "end": 11000
+    },
+    {
+      "text": "I also need help finding work.",
+      "start": 11000,
+      "end": 13000
+    },
+    {
+      "text": "This is a very difficult time for me.",
+      "start": 13000,
+      "end": 15500
+    },
+    {
+      "text": "I'm not sure what to do next.",
+      "start": 15500,
+      "end": 17500
+    },
+    {
+      "text": "I hope someone can assist me with getting back on track.",
+      "start": 17500,
+      "end": 20500
+    },
+    {
+      "text": "Thank you for listening.",
+      "start": 20500,
+      "end": 22000
+    }
+  ],
+  "wordCount": 75,
+  "duration": 22000,
+  "detectedLanguage": "en"
+}

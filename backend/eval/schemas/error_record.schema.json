@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Error Record Schema",
+  "description": "Schema for JSONL error records",
+  "type": "object",
+  "required": ["timestamp", "parserVersion", "datasetId", "caseId", "failureBucket", "fieldFailures", "actual", "expected", "transcriptHash"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "parserVersion": {
+      "type": "string",
+      "description": "Git commit hash or version identifier"
+    },
+    "datasetId": {
+      "type": "string",
+      "description": "Dataset identifier"
+    },
+    "caseId": {
+      "type": "string",
+      "description": "Test case identifier"
+    },
+    "failureBucket": {
+      "type": "string",
+      "description": "Categorized failure type",
+      "enum": [
+        "AMOUNT_FALSE_POSITIVE_WAGE",
+        "AMOUNT_FALSE_POSITIVE_AGE", 
+        "AMOUNT_FALSE_POSITIVE_DATE",
+        "AMOUNT_MISSING",
+        "AMOUNT_INCORRECT",
+        "NAME_FALSE_POSITIVE_LOCATION",
+        "NAME_MISSING",
+        "NAME_INCORRECT",
+        "CATEGORY_MISCLASSIFICATION",
+        "URGENCY_UNDERSCORED",
+        "URGENCY_OVERSCORED",
+        "MISSINGFIELDS_INCORRECT",
+        "FALLBACK_USED_UNEXPECTEDLY",
+        "CONFIDENCE_TOO_LOW",
+        "CONFIDENCE_TOO_HIGH",
+        "MULTIPLE_FIELD_FAILURES",
+        "UNKNOWN_FAILURE"
+      ]
+    },
+    "fieldFailures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "expected", "actual", "reason"],
+        "properties": {
+          "field": { "type": "string" },
+          "expected": {},
+          "actual": {},
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "actual": {
+      "type": "object",
+      "description": "Actual parser output"
+    },
+    "expected": {
+      "type": "object", 
+      "description": "Expected parser output"
+    },
+    "confidence": {
+      "type": "object",
+      "description": "Confidence scores by field"
+    },
+    "fallbackTier": {
+      "type": "object",
+      "description": "Fallback tiers used by field"
+    },
+    "transcriptHash": {
+      "type": "string",
+      "description": "SHA256 hash of transcript for correlation"
+    },
+    "transcriptPreviewRedacted": {
+      "type": "string",
+      "description": "First 120 chars with PII redacted",
+      "maxLength": 150
+    },
+    "traceData": {
+      "type": "object",
+      "description": "Debug trace information (only if TRACE_EXPORT=true)"
+    }
+  }
+}

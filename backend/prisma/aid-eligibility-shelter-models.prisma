@@ -1,0 +1,242 @@
+// Prisma Schema Extension for Aid Eligibility & Shelter Bed Tracking
+// Add these models to your existing schema.prisma file
+
+model AidProgram {
+  id                    String   @id @default(cuid())
+  name                  String   // HUD, SNAP, TANF, SSI, etc.
+  description           String?
+  category              ProgramCategory // housing, food, cash, disability, etc.
+  jurisdiction          Jurisdiction // federal, state, local
+  resourceLinks         Json?    // application URLs, PDFs, contact info
+  basicCriteria         Json?    // income thresholds, residency, age, family size requirements
+  documentationRequired Json?    // required documents list
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  // Relations
+  assessments          AidEligibilityAssessment[]
+  
+  @@map("aid_programs")
+}
+
+model AidEligibilityAssessment {
+  id                    String   @id @default(cuid())
+  userId                String?  // Optional for anonymous assessments
+  sessionId             String?  // For anonymous tracking
+  programIds            String[] // Array of program IDs assessed
+  inputProfileSnapshot  Json     // User profile data at time of assessment
+  questionnaireData     Json     // Responses to eligibility questionnaire
+  rulesEngineResult     Json     // Output from rules-based assessment
+  aiAssessment          Json     // AI analysis and explanations
+  overallResult         EligibilityResult
+  confidenceScore       Int      // 0-100 confidence in assessment
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  // Relations
+  user                 User?    @relation(fields: [userId], references: [id])
+  programs             AidProgram[] @relation("AssessmentPrograms")
+  
+  @@map("aid_eligibility_assessments")
+}
+
+model ShelterFacility {
+  id                   String   @id @default(cuid())
+  name                 String
+  description          String?
+  address              String
+  city                 String
+  state                String
+  zipCode              String?
+  latitude             Float?
+  longitude            Float?
+  phone                String?
+  email                String?
+  website              String?
+  
+  // Capacity Information
+  capacityTotal        Int?     // Total bed capacity
+  capacityMen          Int?     // Men's beds
+  capacityWomen        Int?     // Women's beds
+  capacityFamilies     Int?     // Family units
+  capacityYouth        Int?     // Youth beds (under 25)
+  capacityVeterans     Int?     // Veteran-specific beds
+  capacityDisabled     Int?     // Accessible beds
+  
+  // Operational Details
+  categories           ShelterCategory[] // populations served
+  checkinHours         String?  // "6:00 PM - 8:00 PM"
+  checkoutTime         String?  // "7:00 AM"
+  intakeRequirements   Json?    // ID required, sobriety, etc.
+  services             String[] // meals, case management, etc.
+  accessibility        String[] // wheelchair accessible, etc.
+  
+  // Current Availability (snapshot)
+  currentAvailableMen     Int? @default(0)
+  currentAvailableWomen   Int? @default(0)
+  currentAvailableFamilies Int? @default(0)
+  currentAvailableYouth   Int? @default(0)
+  currentAvailableTotal   Int? @default(0)
+  
+  // System Integration
+  externalSystemId     String?  // HMIS or city system ID
+  dataSource          String?   // "manual", "api", "import"
+  lastManualUpdateAt  DateTime?
+  lastAutoUpdateAt    DateTime?
+  isActive            Boolean   @default(true)
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  
+  // Relations
+  availabilityLogs    ShelterAvailabilityLog[]
+  
+  @@map("shelter_facilities")
+}
+
+model ShelterAvailabilityLog {
+  id                   String   @id @default(cuid())
+  shelterId           String
+  timestamp           DateTime @default(now())
+  
+  // Availability counts at this timestamp
+  availableMen        Int?     @default(0)
+  availableWomen      Int?     @default(0)
+  availableFamilies   Int?     @default(0)
+  availableYouth      Int?     @default(0)
+  availableTotal      Int?     @default(0)
+  
+  // Occupancy counts (optional)
+  occupiedMen         Int?
+  occupiedWomen       Int?
+  occupiedFamilies    Int?
+  occupiedYouth       Int?
+  occupiedTotal       Int?
+  
+  // Metadata
+  source              AvailabilitySource // manual, api, scheduled_sync
+  updatedBy           String?  // user ID if manual update
+  notes               String?  // optional notes about availability
+  
+  // Relations
+  shelter             ShelterFacility @relation(fields: [shelterId], references: [id])
+  
+  @@map("shelter_availability_logs")
+}
+
+// Enums for Aid Eligibility System
+enum ProgramCategory {
+  HOUSING
+  FOOD
+  CASH_ASSISTANCE
+  HEALTHCARE
+  DISABILITY
+  EMPLOYMENT
+  CHILDCARE
+  EDUCATION
+  TRANSPORTATION
+  UTILITIES
+  EMERGENCY_ASSISTANCE
+  OTHER
+}
+
+enum Jurisdiction {
+  FEDERAL
+  STATE
+  COUNTY
+  CITY
+  LOCAL
+}
+
+enum EligibilityResult {
+  LIKELY_ELIGIBLE
+  POSSIBLY_ELIGIBLE
+  NEEDS_REVIEW
+  LIKELY_INELIGIBLE
+  INSUFFICIENT_DATA
+}
+
+// Enums for Shelter System
+enum ShelterCategory {
+  MEN
+  WOMEN
+  FAMILIES
+  CHILDREN
+  YOUTH
+  VETERANS
+  DISABLED
+  LGBTQ
+  SENIORS
+  GENERAL
+  EMERGENCY_ONLY
+  TRANSITIONAL
+  SEASONAL
+}
+
+enum AvailabilitySource {
+  MANUAL
+  API
+  SCHEDULED_SYNC
+  IMPORT
+  ESTIMATED
+}
+
+// Add to existing User model if not already present
+// Extend User model with eligibility-related fields
+model User {
+  // ... existing fields ...
+  
+  // Eligibility Assessment History
+  eligibilityAssessments AidEligibilityAssessment[]
+  
+  // Optional demographic data for assessments (with consent)
+  householdSize         Int?
+  hasChildren          Boolean?
+  isVeteran            Boolean?
+  hasDisability        Boolean?
+  currentHousingStatus  HousingStatus?
+  monthlyIncome        Float?
+  incomeSource         IncomeSource[]
+  
+  // Consent flags
+  consentToAssessment  Boolean @default(false)
+  consentToDataStorage Boolean @default(false)
+}
+
+enum HousingStatus {
+  HOUSED
+  TEMPORARILY_HOUSED
+  UNSHELTERED
+  SHELTER
+  TRANSITIONAL_HOUSING
+  AT_RISK
+  DOUBLED_UP
+  HOTEL_MOTEL
+  OTHER
+}
+
+enum IncomeSource {
+  EMPLOYMENT
+  SSI
+  SSDI
+  UNEMPLOYMENT
+  TANF
+  SNAP
+  VETERANS_BENEFITS
+  PENSION
+  FAMILY_SUPPORT
+  OTHER
+  NONE
+}
+
+// Migration indices for performance
+// @@index([city, state])
+// @@index([latitude, longitude])
+// @@index([categories])
+// @@index([isActive])
+// @@index([lastManualUpdateAt])
+// @@index([userId])
+// @@index([sessionId])
+// @@index([createdAt])
+// @@index([shelterId, timestamp])

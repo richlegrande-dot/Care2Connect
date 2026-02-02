@@ -1,0 +1,37 @@
+﻿{
+    "parser_tests":  [
+                         {
+                             "category":  "parser",
+                             "status":  "PASS",
+                             "timestamp":  "2026-01-29 11:40:12",
+                             "details":  "Profile data extraction working",
+                             "test":  "Parser: Combined Approach Test"
+                         }
+                     ],
+    "overall_status":  "READY_WITH_WARNINGS",
+    "health_checks":  [
+                          {
+                              "category":  "health",
+                              "status":  "PASS",
+                              "timestamp":  "2026-01-29 11:40:11",
+                              "details":  "HTTP 200",
+                              "test":  "Health: Server Liveness"
+                          },
+                          {
+                              "category":  "health",
+                              "status":  "PASS",
+                              "timestamp":  "2026-01-29 11:40:11",
+                              "details":  "HTTP 200",
+                              "test":  "Health: Server Readiness"
+                          }
+                      ],
+    "database_tests":  [
+                           {
+                               "category":  "database",
+                               "status":  "PASS",
+                               "timestamp":  "2026-01-29 11:40:12",
+                               "details":  "Connected",
+                               "test":  "Database: Connectivity Test"
+                           }
+                       ]
+}

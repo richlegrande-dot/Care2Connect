@@ -1,0 +1,76 @@
+{
+  "name": "Family with Children",
+  "description": "Single parent story with focus on children's needs",
+  "transcript": "Hello, my name is Amanda Davis. I'm a single mother of four children, ages 2, 5, 8, and 11. My husband passed away last year and I've been struggling ever since. I work two part-time jobs but it's still not enough to cover rent, food, and school supplies for the kids. We live in Houston, Texas. My oldest daughter needs glasses and I can't afford them. We also need help with childcare so I can work more hours. The kids sometimes go to bed hungry and that breaks my heart. I'm trying so hard but I need help. You can reach me at amanda.davis.mom@email.com or 713-555-8899. I just want to give my kids a better life.",
+  "expectedExtraction": {
+    "nameCandidate": "Amanda Davis",
+    "contactCandidates": {
+      "emails": ["amanda.davis.mom@email.com"],
+      "phones": ["713-555-8899"]
+    },
+    "locationCandidates": ["Houston", "Texas"],
+    "needsCategories": ["HOUSING", "FOOD", "CHILDCARE", "HEALTHCARE"],
+    "urgencyScore": 0.7,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hello, my name is Amanda Davis.",
+      "start": 0,
+      "end": 2500
+    },
+    {
+      "text": "I'm a single mother of four children, ages 2, 5, 8, and 11.",
+      "start": 2500,
+      "end": 6000
+    },
+    {
+      "text": "My husband passed away last year and I've been struggling ever since.",
+      "start": 6000,
+      "end": 10000
+    },
+    {
+      "text": "I work two part-time jobs but it's still not enough to cover rent, food, and school supplies for the kids.",
+      "start": 10000,
+      "end": 15000
+    },
+    {
+      "text": "We live in Houston, Texas.",
+      "start": 15000,
+      "end": 17000
+    },
+    {
+      "text": "My oldest daughter needs glasses and I can't afford them.",
+      "start": 17000,
+      "end": 20000
+    },
+    {
+      "text": "We also need help with childcare so I can work more hours.",
+      "start": 20000,
+      "end": 23000
+    },
+    {
+      "text": "The kids sometimes go to bed hungry and that breaks my heart.",
+      "start": 23000,
+      "end": 26500
+    },
+    {
+      "text": "I'm trying so hard but I need help.",
+      "start": 26500,
+      "end": 29000
+    },
+    {
+      "text": "You can reach me at amanda.davis.mom@email.com or 713-555-8899.",
+      "start": 29000,
+      "end": 33000
+    },
+    {
+      "text": "I just want to give my kids a better life.",
+      "start": 33000,
+      "end": 35500
+    }
+  ],
+  "wordCount": 155,
+  "duration": 35500,
+  "detectedLanguage": "en"
+}

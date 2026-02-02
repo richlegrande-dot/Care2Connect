@@ -1,0 +1,29 @@
+{
+  "transcripts": [
+    "My name is John Smith. I'm 42 years old and I've been experiencing housing insecurity for the past six months. I have over 15 years of experience in carpentry and construction. I'm a hard worker and I'm looking for stable housing and employment opportunities. I'm staying at a local shelter right now, but I need to find something more permanent. I'm good with my hands and I can do electrical work, plumbing, and general repairs. My goal is to get back on my feet, find steady work, and eventually save up for my own place. I just need a little help to get started.",
+    
+    "Hi, my name is Maria Garcia. I'm seeking support with food and healthcare access. I have a background in retail and customer service, with about 8 years of experience. I'm currently living with a friend, but the situation is temporary. I'm looking for work and also need help with medical expenses. I have some health issues that require ongoing treatment and medication. I'm a hard worker and I'm determined to get back to financial stability. I love helping people and I'm good at customer service. I'm also bilingual in English and Spanish.",
+    
+    "This is James Washington. I'm 35 years old and I'm working toward getting my life back together. I've struggled with some personal challenges, but I'm committed to moving forward. I have experience in food service and I'm a certified forklift operator. I'm looking for employment and stable housing. I'm currently in a transitional housing program, but I need to find permanent housing soon. I'm also working on getting my driver's license reinstated. I'm a reliable person and I show up when I say I will. I just need someone to give me a chance.",
+    
+    "My name is Sarah Chen. I'm 28 years old and I recently experienced domestic violence and had to leave my home. I'm currently staying at a women's shelter with my two children, ages 5 and 7. I have a college degree in business administration and I worked in office administration before I had to leave. I'm looking for safe, stable housing for me and my kids, and I need to find employment. I'm a hard worker and I'm good with computers and office software. My children are my priority and I want to provide them with a stable, safe home.",
+    
+    "Hi, I'm David Martinez. I'm 50 years old and I'm a veteran. I served in the Army for 12 years. I've been dealing with some health issues including PTSD, but I'm getting help and treatment through the VA. I'm looking for employment and housing. I have skills in logistics, inventory management, and team leadership from my military service. I'm also working on getting some additional training in IT support. I'm a disciplined person and I work well under pressure. I just need an opportunity to prove myself.",
+    
+    "My name is Lisa Thompson. I'm 31 years old and I'm seeking support to overcome food insecurity and find stable employment. I have experience in hospitality and I'm a certified nursing assistant. I love taking care of people and I'm very compassionate. I'm currently staying with family, but it's overcrowded and I need to find my own place. I'm also working on getting some additional certifications in healthcare. I'm a positive person and I don't give up easily.",
+    
+    "This is Michael Brown. I'm 45 years old and I worked as a truck driver for 20 years. I lost my job due to a medical issue, but I'm getting treatment now and I'm ready to get back to work. I have a CDL license and a clean driving record. I'm looking for employment in transportation or logistics. I'm also interested in warehouse management. I'm currently staying at a motel, but I need more stable housing. I'm a responsible person and I'm good at managing schedules and meeting deadlines.",
+    
+    "My name is Jennifer Lee. I'm 26 years old and I'm a recent college graduate with a degree in social work. I'm looking for entry-level positions in social services or nonprofit work. I'm passionate about helping people and making a difference in my community. I'm currently living with roommates, but the lease is ending soon and I need to find affordable housing. I have some student loan debt, but I'm managing it. I'm organized, compassionate, and dedicated to social justice.",
+    
+    "Hi, I'm Robert Williams. I'm 38 years old and I've been clean and sober for two years now. I'm proud of my recovery and I'm committed to staying on this path. I'm looking for employment and stable housing. I have experience in landscaping, janitorial work, and general labor. I'm a hard worker and I'm reliable. I'm currently in a sober living house, but I'm ready to transition to independent living. I attend AA meetings regularly and I have a strong support system.",
+    
+    "My name is Angela Davis. I'm 33 years old and I'm a single mom with three kids. I recently lost my job due to company downsizing. I have experience in office administration, customer service, and bookkeeping. I'm looking for employment and affordable childcare. My kids are 8, 6, and 4 years old. We're currently living in a small apartment, but we're struggling with rent. I'm a hard worker and I'm determined to provide for my family. I'm also taking online courses to improve my computer skills."
+  ],
+  "metadata": {
+    "purpose": "Stress test fixtures for Care2system V1",
+    "date_created": "2026-01-05",
+    "total_fixtures": 10,
+    "notes": "These are realistic sample transcripts for testing without hitting external APIs"
+  }
+}

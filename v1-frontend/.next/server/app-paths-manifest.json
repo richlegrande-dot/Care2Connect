@@ -1,0 +1,9 @@
+{
+  "/not-found": "app/not-found.js",
+  "/resume-story/page": "app/resume-story/page.js",
+  "/page": "app/page.js",
+  "/admin/knowledge/page": "app/admin/knowledge/page.js",
+  "/admin/donations/page": "app/admin/donations/page.js",
+  "/admin/system-health/page": "app/admin/system-health/page.js",
+  "/admin/knowledge/incidents/page": "app/admin/knowledge/incidents/page.js"
+}

@@ -1,0 +1,1557 @@
+﻿
+> careconnect-backend@1.0.0 test
+> jest
+
+node.exe : ΓùÅ Validation 
+Warning:
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (ΓùÅ Val  
+  idation Warning::String)   
+  [], RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+  Unknown option 
+"moduleNameMapping" with 
+value {"^@/(.*)$": 
+"<rootDir>/src/$1"} was 
+found.
+  This is probably a typing 
+mistake. Fixing it will 
+remove this message.
+
+  Configuration 
+Documentation:
+  https://jestjs.io/docs/conf
+iguration
+
+ΓùÅ Validation Warning:
+
+  Unknown option 
+"moduleNameMapping" with 
+value {"^@/(.*)$": 
+"<rootDir>/src/$1"} was 
+found.
+  This is probably a typing 
+mistake. Fixing it will 
+remove this message.
+
+  Configuration 
+Documentation:
+  https://jestjs.io/docs/conf
+iguration
+
+FAIL tests/extraction/storyEx
+traction.test.ts
+  ΓùÅ Story Extraction 
+Service Tests ΓÇ║ 
+extractGoFundMeData ΓÇ║ 
+should extract valid data 
+from complete story
+
+    TypeError: Cannot read 
+properties of undefined 
+(reading 'completions')
+
+    [0m [90m 65 |[39m     
+  [36mconst[39m mockOpenAI 
+[33m=[39m require([32m'ope
+nai'[39m)[33m.[39m[36mdef
+ault[39m[33m;[39m
+     [90m 66 |[39m       
+[36mconst[39m mockInstance 
+[33m=[39m [36mnew[39m 
+mockOpenAI()[33m;[39m
+    
+[31m[1m>[22m[39m[90m 67 
+|[39m       mockInstance[33
+m.[39mchat[33m.[39mcomplet
+ions[33m.[39mcreate[33m.[
+39mmockResolvedValue(mockAIRe
+sponse)[33m;[39m
+     [90m    |[39m         
+                
+[31m[1m^[22m[39m
+     [90m 68 |[39m
+     [90m 69 |[39m       
+[36mconst[39m result 
+[33m=[39m [36mawait[39m e
+xtractionService[33m.[39mex
+tractGoFundMeData([32m'Compl
+ete story transcript 
+here'[39m)[33m;[39m
+     [90m 70 |[39m[0m
+
+      at Object.<anonymous> (
+tests/extraction/storyExtract
+ion.test.ts:67:25)
+
+  ΓùÅ Story Extraction 
+Service Tests ΓÇ║ 
+extractGoFundMeData ΓÇ║ 
+should handle invalid AI 
+response gracefully
+
+    TypeError: Cannot read 
+properties of undefined 
+(reading 'completions')
+
+    [0m [90m 88 |[39m     
+  [36mconst[39m mockOpenAI 
+[33m=[39m require([32m'ope
+nai'[39m)[33m.[39m[36mdef
+ault[39m[33m;[39m
+     [90m 89 |[39m       
+[36mconst[39m mockInstance 
+[33m=[39m [36mnew[39m 
+mockOpenAI()[33m;[39m
+    
+[31m[1m>[22m[39m[90m 90 
+|[39m       mockInstance[33
+m.[39mchat[33m.[39mcomplet
+ions[33m.[39mcreate[33m.[
+39mmockResolvedValue(mockAIRe
+sponse)[33m;[39m
+     [90m    |[39m         
+                
+[31m[1m^[22m[39m
+     [90m 91 |[39m
+     [90m 92 |[39m       
+[36mconst[39m result 
+[33m=[39m [36mawait[39m e
+xtractionService[33m.[39mex
+tractGoFundMeData([32m'Test 
+transcript'[39m)[33m;[39m
+     [90m 93 |[39m[0m
+
+      at Object.<anonymous> (
+tests/extraction/storyExtract
+ion.test.ts:90:25)
+
+  ΓùÅ Story Extraction 
+Service Tests ΓÇ║ 
+extractGoFundMeData ΓÇ║ 
+should identify missing 
+fields correctly
+
+    TypeError: Cannot read 
+properties of undefined 
+(reading 'completions')
+
+    [0m [90m 126 |[39m    
+   [36mconst[39m 
+mockOpenAI [33m=[39m requir
+e([32m'openai'[39m)[33m.[
+39m[36mdefault[39m[33m;[3
+9m
+     [90m 127 |[39m       
+[36mconst[39m mockInstance 
+[33m=[39m [36mnew[39m 
+mockOpenAI()[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+128 |[39m       mockInstance
+[33m.[39mchat[33m.[39mcom
+pletions[33m.[39mcreate[33
+m.[39mmockResolvedValue(mock
+AIResponse)[33m;[39m
+     [90m     |[39m        
+                 
+[31m[1m^[22m[39m
+     [90m 129 |[39m
+     [90m 130 |[39m       
+[36mconst[39m result 
+[33m=[39m [36mawait[39m e
+xtractionService[33m.[39mex
+tractGoFundMeData([32m'Very 
+short story'[39m)[33m;[39m
+     [90m 131 |[39m[0m
+
+      at Object.<anonymous> (
+tests/extraction/storyExtract
+ion.test.ts:128:25)
+
+  ΓùÅ Story Extraction 
+Service Tests ΓÇ║ 
+extractGoFundMeData ΓÇ║ 
+should handle API errors 
+gracefully
+
+    TypeError: Cannot read 
+properties of undefined 
+(reading 'completions')
+
+    [0m [90m 139 |[39m    
+   [36mconst[39m 
+mockOpenAI [33m=[39m requir
+e([32m'openai'[39m)[33m.[
+39m[36mdefault[39m[33m;[3
+9m
+     [90m 140 |[39m       
+[36mconst[39m mockInstance 
+[33m=[39m [36mnew[39m 
+mockOpenAI()[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+141 |[39m       mockInstance
+[33m.[39mchat[33m.[39mcom
+pletions[33m.[39mcreate[33
+m.[39mmockRejectedValue([36
+mnew[39m 
+[33mError[39m([32m'API 
+Error'[39m))[33m;[39m
+     [90m     |[39m        
+                 
+[31m[1m^[22m[39m
+     [90m 142 |[39m
+     [90m 143 |[39m       
+[36mconst[39m result 
+[33m=[39m [36mawait[39m e
+xtractionService[33m.[39mex
+tractGoFundMeData([32m'Test 
+transcript'[39m)[33m;[39m
+     [90m 144 |[39m[0m
+
+      at Object.<anonymous> (
+tests/extraction/storyExtract
+ion.test.ts:141:25)
+
+  ΓùÅ Story Extraction 
+Service Tests ΓÇ║ 
+mergeFollowUpAnswers ΓÇ║ 
+should merge answers 
+correctly
+
+    expect(received).toBeLess
+Than(expected)
+
+    Expected: < 2
+    Received:   3
+
+    [0m [90m 181 |[39m    
+   expect(result[33m.[39mna
+me[33m.[39msource)[33m.[3
+9mtoBe([32m'followup'[39m)
+[33m;[39m
+     [90m 182 |[39m       e
+xpect(result[33m.[39mgoalAm
+ount[33m.[39mvalue)[33m.[
+39mtoBe([35m5000[39m)[33m;
+[39m
+    
+[31m[1m>[22m[39m[90m 
+183 |[39m       expect(resul
+t[33m.[39mmissingFields[33
+m.[39mlength)[33m.[39mtoBe
+LessThan(initialDraft[33m.[
+39mmissingFields[33m.[39mle
+ngth)[33m;[39m
+     [90m     |[39m        
+                             
+      [31m[1m^[22m[39m
+     [90m 184 |[39m     
+})[33m;[39m
+     [90m 185 |[39m   
+})[33m;[39m
+     [90m 186 |[39m[0m
+
+      at Object.<anonymous> (
+tests/extraction/storyExtract
+ion.test.ts:183:43)
+
+FAIL tests/donations/qrDonati
+ons.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96mtests/donations/qrDo
+nations.test.ts[0m:[93m26[
+0m:[93m46[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '"data:i
+mage/png;base64,mockqrcode"' 
+is not assignable to 
+parameter of type 'never'.
+
+    [7m26[0m       mockQRCo
+de.toDataURL.mockResolvedValu
+e('data:image/png;base64,mock
+qrcode');
+    [7m  [0m [91m         
+                             
+       ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~[0m
+    [96mtests/donations/qrDo
+nations.test.ts[0m:[93m73[
+0m:[93m46[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '"data:i
+mage/png;base64,mockqrcode"' 
+is not assignable to 
+parameter of type 'never'.
+
+    [7m73[0m       mockQRCo
+de.toDataURL.mockResolvedValu
+e('data:image/png;base64,mock
+qrcode');
+    [7m  [0m [91m         
+                             
+       ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~[0m
+    [96mtests/donations/qrDo
+nations.test.ts[0m:[93m91[
+0m:[93m46[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type 'Error' 
+is not assignable to 
+parameter of type 'never'.
+
+    [7m91[0m       mockQRCo
+de.toDataURL.mockRejectedValu
+e(new Error('QR generation 
+failed'));
+    [7m  [0m [91m         
+                             
+       ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~[0m
+    [96mtests/donations/qrDo
+nations.test.ts[0m:[93m180
+[0m:[93m46[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '"data:i
+mage/png;base64,test"' is 
+not assignable to parameter 
+of type 'never'.
+
+    [7m180[0m       mockQRC
+ode.toDataURL.mockResolvedVal
+ue('data:image/png;base64,tes
+t');
+    [7m   [0m [91m        
+                             
+        ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~[0m
+
+FAIL 
+tests/routes/profile.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96mtests/routes/profile
+.test.ts[0m:[93m2[0m:[93m
+21[0m - [91merror[0m[90m 
+TS2307: [0mCannot find 
+module '../../src/app' or 
+its corresponding type 
+declarations.
+
+    [7m2[0m import { app } 
+from '../../src/app';
+    [7m [0m [91m          
+          ~~~~~~~~~~~~~~~[0m
+    [96mtests/routes/profile
+.test.ts[0m:[93m15[0m:[93
+m32[0m - 
+[91merror[0m[90m TS2307: 
+[0mCannot find module '../..
+/src/services/ProfileService'
+ or its corresponding type 
+declarations.
+
+    [7m15[0m import { 
+ProfileService } from '../../
+src/services/ProfileService';
+    [7m  [0m [91m         
+                      ~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+FAIL tests/routes/transcribe.
+test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m2[0m:[
+93m21[0m - 
+[91merror[0m[90m TS2307: 
+[0mCannot find module 
+'../../src/app' or its 
+corresponding type 
+declarations.
+
+    [7m2[0m import { app } 
+from '../../src/app';
+    [7m [0m [91m          
+          ~~~~~~~~~~~~~~~[0m
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m19[0m:
+[93m38[0m - 
+[91merror[0m[90m TS1149: 
+[0mFile name 'C:/Users/richl
+/Care2system/backend/src/serv
+ices/TranscriptionService.ts'
+ differs from already 
+included file name 'C:/Users/
+richl/Care2system/backend/src
+/services/transcriptionServic
+e.ts' only in casing.
+      The file is in the 
+program because:
+        Imported via '../serv
+ices/transcriptionService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/controll
+ers/transcribeController.ts'
+        Imported via '../serv
+ices/transcriptionService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/routes/t
+ranscription.ts'
+        Imported via '../serv
+ices/transcriptionService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/controll
+ers/profileController.ts'
+        Root file specified 
+for compilation
+        Root file specified 
+for compilation
+        Imported via '../../s
+rc/services/TranscriptionServ
+ice' from file 'C:/Users/rich
+l/Care2system/backend/tests/r
+outes/transcribe.test.ts'
+
+    [7m19[0m import { 
+TranscriptionService } from '
+../../src/services/Transcript
+ionService';
+    [7m  [0m [91m         
+                            ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~[0m
+
+      [96msrc/controllers/tr
+anscribeController.ts[0m:[9
+3m5[0m:[93m38[0m
+        [7m5[0m import { 
+TranscriptionService } from '
+../services/transcriptionServ
+ice';
+        [7m [0m [96m      
+                             
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~[0m
+        File is included via 
+import here.
+      [96msrc/routes/transcr
+iption.ts[0m:[93m8[0m:[93
+m59[0m
+        [7m8[0m import { 
+TranscriptionService, 
+TranscriptionResult } from '.
+./services/transcriptionServi
+ce';
+        [7m [0m [96m      
+                             
+                       ~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+        File is included via 
+import here.
+      [96msrc/controllers/pr
+ofileController.ts[0m:[93m3
+[0m:[93m60[0m
+        [7m3[0m import { 
+TranscriptionService, 
+ExtractedProfileData } from '
+../services/transcriptionServ
+ice';
+        [7m [0m [96m      
+                             
+                        ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+        File is included via 
+import here.
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m20[0m:
+[93m31[0m - 
+[91merror[0m[90m TS2307: 
+[0mCannot find module '../..
+/src/services/OpenAIService' 
+or its corresponding type 
+declarations.
+
+    [7m20[0m import { 
+OpenAIService } from '../../s
+rc/services/OpenAIService';
+    [7m  [0m [91m         
+                     ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~[0
+m
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m52[0m:
+[93m29[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m52[0m       (Transcr
+iptionService.transcribeAudio
+ as jest.Mock).mockResolvedVa
+lue(mockTranscriptionResult);
+    [7m  [0m [91m         
+                   
+~~~~~~~~~~~~~~~[0m
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m74[0m:
+[93m35[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m74[0m       expect(T
+ranscriptionService.transcrib
+eAudio).toHaveBeenCalled();
+    [7m  [0m [91m         
+                         
+~~~~~~~~~~~~~~~[0m
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m90[0m:
+[93m29[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m90[0m       (Transcr
+iptionService.transcribeAudio
+ as 
+jest.Mock).mockRejectedValue(
+    [7m  [0m [91m         
+                   
+~~~~~~~~~~~~~~~[0m
+    [96mtests/routes/transcr
+ibe.test.ts[0m:[93m119[0m:
+[93m29[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m119[0m       (Transc
+riptionService.transcribeAudi
+o as jest.Mock).mockResolvedV
+alue(mockTranscriptionResult)
+;
+    [7m   [0m [91m        
+                    
+~~~~~~~~~~~~~~~[0m
+
+FAIL tests/services/Transcrip
+tionService.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m1[0m:[93m38[0m - 
+[91merror[0m[90m TS1149: 
+[0mFile name 'C:/Users/richl
+/Care2system/backend/src/serv
+ices/TranscriptionService.ts'
+ differs from already 
+included file name 'C:/Users/
+richl/Care2system/backend/src
+/services/transcriptionServic
+e.ts' only in casing.
+      The file is in the 
+program because:
+        Imported via '../serv
+ices/transcriptionService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/controll
+ers/transcribeController.ts'
+        Imported via '../serv
+ices/transcriptionService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/routes/t
+ranscription.ts'
+        Imported via '../serv
+ices/transcriptionService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/controll
+ers/profileController.ts'
+        Root file specified 
+for compilation
+        Root file specified 
+for compilation
+        Imported via '../../s
+rc/services/TranscriptionServ
+ice' from file 'C:/Users/rich
+l/Care2system/backend/tests/s
+ervices/TranscriptionService.
+test.ts'
+
+    [7m1[0m import { 
+TranscriptionService } from '
+../../src/services/Transcript
+ionService';
+    [7m [0m [91m          
+                           ~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~[0m
+
+      [96msrc/controllers/tr
+anscribeController.ts[0m:[9
+3m5[0m:[93m38[0m
+        [7m5[0m import { 
+TranscriptionService } from '
+../services/transcriptionServ
+ice';
+        [7m [0m [96m      
+                             
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~[0m
+        File is included via 
+import here.
+      [96msrc/routes/transcr
+iption.ts[0m:[93m8[0m:[93
+m59[0m
+        [7m8[0m import { 
+TranscriptionService, 
+TranscriptionResult } from '.
+./services/transcriptionServi
+ce';
+        [7m [0m [96m      
+                             
+                       ~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+        File is included via 
+import here.
+      [96msrc/controllers/pr
+ofileController.ts[0m:[93m3
+[0m:[93m60[0m
+        [7m3[0m import { 
+TranscriptionService, 
+ExtractedProfileData } from '
+../services/transcriptionServ
+ice';
+        [7m [0m [96m      
+                             
+                        ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+        File is included via 
+import here.
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m6[0m:[93m20[0m - 
+[91merror[0m[90m TS2352: 
+[0mConversion of type '{ 
+audio: { transcriptions: { 
+create: jest.Mock<any, any, 
+any>; }; }; }' to type 
+'Mocked<OpenAI>' may be a 
+mistake because neither type 
+sufficiently overlaps with 
+the other. If this was 
+intentional, convert the 
+expression to 'unknown' 
+first.
+      Type '{ audio: { 
+transcriptions: { create: 
+Mock<any, any, any>; }; }; 
+}' is missing the following 
+properties from type '{ 
+apiKey: string; 
+organization: string | null; 
+project: string | null; 
+completions: Completions; 
+chat: Chat; embeddings: 
+Embeddings; files: Files; 
+... 27 more ...; 
+fetchWithTimeout: (url: 
+never, init: RequestInit | 
+undefined, ms: number, 
+controller: AbortController) 
+=> Promise<...>; }': apiKey, 
+organization, project, 
+completions, and 30 more.
+
+    [7m  6[0m const 
+mockOpenAI = {
+    [7m   [0m [91m        
+           ~[0m
+    [7m  7[0m   audio: {
+    [7m   [0m 
+[91m~~~~~~~~~~[0m
+    [7m...[0m 
+    [7m 11[0m   }
+    [7m   [0m [91m~~~[0m
+    [7m 12[0m } as 
+jest.Mocked<OpenAI>;
+    [7m   [0m [91m~~~~~~~~
+~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m40[0m:[93m46[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'mockResolvedValue' does not 
+exist on type '{ (body: Trans
+criptionCreateParamsNonStream
+ing<"json" | undefined>, 
+options?: 
+RequestOptions<unknown> | 
+undefined): APIPromise<...>; 
+(body: TranscriptionCreatePar
+amsNonStreaming<...>, 
+options?: 
+RequestOptions<...> | 
+undefined): APIPromise<...>; 
+(body: TranscriptionCreatePar
+amsNonStreaming<...>, 
+options?: RequestOpti...'.
+
+    [7m40[0m       mockOpen
+AI.audio.transcriptions.creat
+e.mockResolvedValue(mockTrans
+cription as any);
+    [7m  [0m [91m         
+                             
+       ~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m42[0m:[93m49[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m42[0m       const 
+result = await TranscriptionS
+ervice.transcribeAudio(mockFi
+le);
+    [7m  [0m [91m         
+                             
+          ~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m73[0m:[93m46[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'mockRejectedValue' does not 
+exist on type '{ (body: Trans
+criptionCreateParamsNonStream
+ing<"json" | undefined>, 
+options?: 
+RequestOptions<unknown> | 
+undefined): APIPromise<...>; 
+(body: TranscriptionCreatePar
+amsNonStreaming<...>, 
+options?: 
+RequestOptions<...> | 
+undefined): APIPromise<...>; 
+(body: TranscriptionCreatePar
+amsNonStreaming<...>, 
+options?: RequestOpti...'.
+
+    [7m73[0m       mockOpen
+AI.audio.transcriptions.creat
+e.mockRejectedValue(new 
+Error('Transcription 
+failed'));
+    [7m  [0m [91m         
+                             
+       ~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m75[0m:[93m41[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m75[0m       await ex
+pect(TranscriptionService.tra
+nscribeAudio(mockFile)).rejec
+ts.toThrow('Transcription 
+failed');
+    [7m  [0m [91m         
+                             
+  ~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m86[0m:[93m41[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m86[0m       await ex
+pect(TranscriptionService.tra
+nscribeAudio(mockFile)).rejec
+ts.toThrow('Unsupported file 
+format');
+    [7m  [0m [91m         
+                             
+  ~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m97[0m:[93m41[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'transcribeAudio' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m97[0m       await ex
+pect(TranscriptionService.tra
+nscribeAudio(mockFile)).rejec
+ts.toThrow('File too large');
+    [7m  [0m [91m         
+                             
+  ~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m111[0m:[93m43[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'validateAudioFile' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m111[0m         
+expect(() => TranscriptionSer
+vice.validateAudioFile(file 
+as Express.Multer.File)).not.
+toThrow();
+    [7m   [0m [91m        
+                             
+     ~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m123[0m:[93m43[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'validateAudioFile' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m123[0m         
+expect(() => TranscriptionSer
+vice.validateAudioFile(file 
+as Express.Multer.File))
+    [7m   [0m [91m        
+                             
+     ~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/Trans
+criptionService.test.ts[0m:
+[93m134[0m:[93m41[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'validateAudioFile' does not 
+exist on type 'typeof 
+TranscriptionService'.
+
+    [7m134[0m       
+expect(() => TranscriptionSer
+vice.validateAudioFile(largeF
+ile as Express.Multer.File))
+    [7m   [0m [91m        
+                             
+   ~~~~~~~~~~~~~~~~~[0m
+
+FAIL tests/services/ProfileSe
+rvice.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96mtests/services/Profi
+leService.test.ts[0m:[93m1
+[0m:[93m32[0m - 
+[91merror[0m[90m TS2307: 
+[0mCannot find module '../..
+/src/services/ProfileService'
+ or its corresponding type 
+declarations.
+
+    [7m1[0m import { 
+ProfileService } from '../../
+src/services/ProfileService';
+    [7m [0m [91m          
+                     ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~[
+0m
+    [96mtests/services/Profi
+leService.test.ts[0m:[93m11
+[0m:[93m31[0m - 
+[91merror[0m[90m TS2307: 
+[0mCannot find module '../..
+/src/services/OpenAIService' 
+or its corresponding type 
+declarations.
+
+    [7m11[0m import { 
+OpenAIService } from '../../s
+rc/services/OpenAIService';
+    [7m  [0m [91m         
+                     ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~[0
+m
+    [96mtests/services/Profi
+leService.test.ts[0m:[93m62
+[0m:[93m52[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '{ id: 
+string; email: string; 
+anonymous: boolean; 
+location: string; createdAt: 
+Date; updatedAt: Date; }' is 
+not assignable to parameter 
+of type '{ id: string; 
+createdAt: Date; updatedAt: 
+Date; anonymous: boolean; 
+email: string | null; phone: 
+string | null; supabaseId: 
+string | null; location: 
+string | null; zipCode: 
+string | null; 
+isProfilePublic: boolean; 
+consentGiven: boolean; } | 
+Prisma__UserClient<...> | 
+null'.
+      Type '{ id: string; 
+email: string; anonymous: 
+boolean; location: string; 
+createdAt: Date; updatedAt: 
+Date; }' is missing the 
+following properties from 
+type '{ id: string; 
+createdAt: Date; updatedAt: 
+Date; anonymous: boolean; 
+email: string | null; phone: 
+string | null; supabaseId: 
+string | null; location: 
+string | null; zipCode: 
+string | null; 
+isProfilePublic: boolean; 
+consentGiven: boolean; }': 
+phone, supabaseId, zipCode, 
+isProfilePublic, consentGiven
+
+    [7m62[0m       prismaMo
+ck.user.findUnique.mockResolv
+edValue(mockUser);
+    [7m  [0m [91m         
+                             
+             ~~~~~~~~[0m
+    [96mtests/services/Profi
+leService.test.ts[0m:[93m64
+[0m:[93m51[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '{ id: 
+string; userId: string; 
+name: string; bio: string; 
+skills: string[]; 
+urgentNeeds: string[]; 
+longTermGoals: string[]; 
+donationPitch: string; 
+cashtag: null; gofundmeUrl: 
+null; isProfilePublic: 
+boolean; ... 5 more ...; 
+updatedAt: Date; }' is not 
+assignable to parameter of 
+type '{ id: string; userId: 
+string; createdAt: Date; 
+updatedAt: Date; transcript: 
+string | null; storySummary: 
+string | null; bio: string | 
+null; name: string | null; 
+age: number | null; ... 12 
+more ...; lastViewed: Date | 
+null; } | 
+Prisma__ProfileClient<...>'.
+      Type '{ id: string; 
+userId: string; name: 
+string; bio: string; skills: 
+string[]; urgentNeeds: 
+string[]; longTermGoals: 
+string[]; donationPitch: 
+string; cashtag: null; 
+gofundmeUrl: null; 
+isProfilePublic: boolean; 
+... 5 more ...; updatedAt: 
+Date; }' is missing the 
+following properties from 
+type '{ id: string; userId: 
+string; createdAt: Date; 
+updatedAt: Date; transcript: 
+string | null; storySummary: 
+string | null; bio: string | 
+null; name: string | null; 
+age: number | null; ... 12 
+more ...; lastViewed: Date | 
+null; }': transcript, 
+storySummary, age, 
+jobHistory, and 5 more.
+
+    [7m64[0m       prismaMo
+ck.profile.create.mockResolve
+dValue(mockProfile);
+    [7m  [0m [91m         
+                             
+            ~~~~~~~~~~~[0m
+    [96mtests/services/Profi
+leService.test.ts[0m:[93m14
+9[0m:[93m55[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '{ id: 
+string; userId: string; 
+name: string; bio: string; 
+skills: string[]; 
+urgentNeeds: string[]; 
+longTermGoals: string[]; 
+donationPitch: string; 
+cashtag: string; 
+gofundmeUrl: null; 
+isProfilePublic: boolean; 
+... 6 more ...; user: { ...; 
+}; }' is not assignable to 
+parameter of type '{ id: 
+string; userId: string; 
+createdAt: Date; updatedAt: 
+Date; transcript: string | 
+null; storySummary: string | 
+null; bio: string | null; 
+name: string | null; age: 
+number | null; ... 12 more 
+...; lastViewed: Date | 
+null; } | 
+Prisma__ProfileClient<...> | 
+null'.
+      Type '{ id: string; 
+userId: string; name: 
+string; bio: string; skills: 
+string[]; urgentNeeds: 
+string[]; longTermGoals: 
+string[]; donationPitch: 
+string; cashtag: string; 
+gofundmeUrl: null; 
+isProfilePublic: boolean; 
+... 6 more ...; user: { ...; 
+}; }' is missing the 
+following properties from 
+type '{ id: string; userId: 
+string; createdAt: Date; 
+updatedAt: Date; transcript: 
+string | null; storySummary: 
+string | null; bio: string | 
+null; name: string | null; 
+age: number | null; ... 12 
+more ...; lastViewed: Date | 
+null; }': transcript, 
+storySummary, age, 
+jobHistory, and 5 more.
+
+    [7m149[0m       prismaM
+ock.profile.findUnique.mockRe
+solvedValue(mockProfile);
+    [7m   [0m [91m        
+                             
+                 
+~~~~~~~~~~~[0m
+    [96mtests/services/Profi
+leService.test.ts[0m:[93m15
+0[0m:[93m51[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type '{ 
+viewCount: number; id: 
+string; userId: string; 
+name: string; bio: string; 
+skills: string[]; 
+urgentNeeds: string[]; 
+longTermGoals: string[]; 
+donationPitch: string; 
+cashtag: string; 
+gofundmeUrl: null; 
+isProfilePublic: boolean; 
+... 5 more ...; user: { ...; 
+}; }' is not assignable to 
+parameter of type '{ id: 
+string; userId: string; 
+createdAt: Date; updatedAt: 
+Date; transcript: string | 
+null; storySummary: string | 
+null; bio: string | null; 
+name: string | null; age: 
+number | null; ... 12 more 
+...; lastViewed: Date | 
+null; } | 
+Prisma__ProfileClient<...>'.
+      Type '{ viewCount: 
+number; id: string; userId: 
+string; name: string; bio: 
+string; skills: string[]; 
+urgentNeeds: string[]; 
+longTermGoals: string[]; 
+donationPitch: string; 
+cashtag: string; 
+gofundmeUrl: null; 
+isProfilePublic: boolean; 
+... 5 more ...; user: { ...; 
+}; }' is missing the 
+following properties from 
+type '{ id: string; userId: 
+string; createdAt: Date; 
+updatedAt: Date; transcript: 
+string | null; storySummary: 
+string | null; bio: string | 
+null; name: string | null; 
+age: number | null; ... 12 
+more ...; lastViewed: Date | 
+null; }': transcript, 
+storySummary, age, 
+jobHistory, and 5 more.
+
+    [7m150[0m       prismaM
+ock.profile.update.mockResolv
+edValue({
+    [7m   [0m [91m        
+                             
+             ~[0m
+    [7m151[0m         
+...mockProfile,
+    [7m   [0m [91m~~~~~~~~
+~~~~~~~~~~~~~~~[0m
+    [7m152[0m         
+viewCount: 16
+    [7m   [0m [91m~~~~~~~~
+~~~~~~~~~~~~~[0m
+    [7m153[0m       });
+    [7m   [0m 
+[91m~~~~~~~[0m
+
+FAIL tests/services/ChatAssis
+tantService.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m1[0m:[93m38[0m - 
+[91merror[0m[90m TS1149: 
+[0mFile name 'C:/Users/richl
+/Care2system/backend/src/serv
+ices/ChatAssistantService.ts'
+ differs from already 
+included file name 'C:/Users/
+richl/Care2system/backend/src
+/services/chatAssistantServic
+e.ts' only in casing.
+      The file is in the 
+program because:
+        Imported via '../serv
+ices/chatAssistantService' 
+from file 'C:/Users/richl/Car
+e2system/backend/src/controll
+ers/chatController.ts'
+        Root file specified 
+for compilation
+        Root file specified 
+for compilation
+        Imported via '../../s
+rc/services/ChatAssistantServ
+ice' from file 'C:/Users/rich
+l/Care2system/backend/tests/s
+ervices/ChatAssistantService.
+test.ts'
+
+    [7m1[0m import { 
+ChatAssistantService } from '
+../../src/services/ChatAssist
+antService';
+    [7m [0m [91m          
+                           ~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~[0m
+
+      [96msrc/controllers/ch
+atController.ts[0m:[93m2[0
+m:[93m38[0m
+        [7m2[0m import { 
+ChatAssistantService } from '
+../services/chatAssistantServ
+ice';
+        [7m [0m [96m      
+                             
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~[0m
+        File is included via 
+import here.
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m6[0m:[93m20[0m - 
+[91merror[0m[90m TS2352: 
+[0mConversion of type '{ 
+chat: { completions: { 
+create: jest.Mock<any, any, 
+any>; }; }; }' to type 
+'Mocked<OpenAI>' may be a 
+mistake because neither type 
+sufficiently overlaps with 
+the other. If this was 
+intentional, convert the 
+expression to 'unknown' 
+first.
+      Type '{ chat: { 
+completions: { create: 
+Mock<any, any, any>; }; }; 
+}' is missing the following 
+properties from type '{ 
+apiKey: string; 
+organization: string | null; 
+project: string | null; 
+completions: Completions; 
+chat: Chat; embeddings: 
+Embeddings; files: Files; 
+... 27 more ...; 
+fetchWithTimeout: (url: 
+never, init: RequestInit | 
+undefined, ms: number, 
+controller: AbortController) 
+=> Promise<...>; }': apiKey, 
+organization, project, 
+completions, and 30 more.
+
+    [7m  6[0m const 
+mockOpenAI = {
+    [7m   [0m [91m        
+           ~[0m
+    [7m  7[0m   chat: {
+    [7m   [0m 
+[91m~~~~~~~~~[0m
+    [7m...[0m 
+    [7m 11[0m   }
+    [7m   [0m [91m~~~[0m
+    [7m 12[0m } as 
+jest.Mocked<OpenAI>;
+    [7m   [0m [91m~~~~~~~~
+~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m79[0m:[93m42[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'mockResolvedValue' does not 
+exist on type '{ (body: ChatC
+ompletionCreateParamsNonStrea
+ming, options?: 
+RequestOptions<unknown> | 
+undefined): 
+APIPromise<ChatCompletion>; 
+(body: ChatCompletionCreatePa
+ramsStreaming, options?: 
+RequestOptions<...> | 
+undefined): APIPromise<...>; 
+(body: ChatCompletionCreatePa
+ramsBase, options?: 
+RequestOptions<...> | 
+undefined): APIP...'.
+
+    [7m79[0m       mockOpen
+AI.chat.completions.create.mo
+ckResolvedValue(mockChatRespo
+nse as any);
+    [7m  [0m [91m         
+                             
+   ~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m81[0m:[93m49[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 'sendMessage' 
+does not exist on type 
+'typeof 
+ChatAssistantService'.
+
+    [7m81[0m       const 
+result = await ChatAssistantS
+ervice.sendMessage('user-123'
+, 'I need help finding a job 
+in construction');
+    [7m  [0m [91m         
+                             
+          ~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m131[0m:[93m42[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'mockResolvedValue' does not 
+exist on type '{ (body: ChatC
+ompletionCreateParamsNonStrea
+ming, options?: 
+RequestOptions<unknown> | 
+undefined): 
+APIPromise<ChatCompletion>; 
+(body: ChatCompletionCreatePa
+ramsStreaming, options?: 
+RequestOptions<...> | 
+undefined): APIPromise<...>; 
+(body: ChatCompletionCreatePa
+ramsBase, options?: 
+RequestOptions<...> | 
+undefined): APIP...'.
+
+    [7m131[0m       mockOpe
+nAI.chat.completions.create.m
+ockResolvedValue(mockChatResp
+onse as any);
+    [7m   [0m [91m        
+                             
+    ~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m133[0m:[93m49[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 'sendMessage' 
+does not exist on type 
+'typeof 
+ChatAssistantService'.
+
+    [7m133[0m       const 
+result = await ChatAssistantS
+ervice.sendMessage('user-123'
+, 'Hello');
+    [7m   [0m [91m        
+                             
+           ~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m148[0m:[93m41[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 'sendMessage' 
+does not exist on type 
+'typeof 
+ChatAssistantService'.
+
+    [7m148[0m       await e
+xpect(ChatAssistantService.se
+ndMessage('nonexistent-user',
+ 'Hello'))
+    [7m   [0m [91m        
+                             
+   ~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m174[0m:[93m49[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'getConversationHistory' 
+does not exist on type 
+'typeof 
+ChatAssistantService'.
+
+    [7m174[0m       const 
+result = await ChatAssistantS
+ervice.getConversationHistory
+('user-123', 1, 20);
+    [7m   [0m [91m        
+                             
+           
+~~~~~~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m197[0m:[93m49[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'getConversationStarters' 
+does not exist on type 
+'typeof 
+ChatAssistantService'.
+
+    [7m197[0m       const 
+result = await ChatAssistantS
+ervice.getConversationStarter
+s('user-123');
+    [7m   [0m [91m        
+                             
+           
+~~~~~~~~~~~~~~~~~~~~~~~[0m
+    [96mtests/services/ChatA
+ssistantService.test.ts[0m:
+[93m208[0m:[93m49[0m - 
+[91merror[0m[90m TS2339: 
+[0mProperty 
+'getConversationStarters' 
+does not exist on type 
+'typeof 
+ChatAssistantService'.
+
+    [7m208[0m       const 
+result = await ChatAssistantS
+ervice.getConversationStarter
+s('user-123');
+    [7m   [0m [91m        
+                             
+           
+~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+FAIL tests/transcription/tran
+scription.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96msrc/controllers/tran
+scribeController.ts[0m:[93m
+81[0m:[93m73[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type 
+'TranscriptionResult' is not 
+assignable to parameter of 
+type 'string'.
+
+    [7m81[0m       const 
+profileData = await transcrip
+tionService.extractProfileDat
+a(transcript);
+    [7m  [0m [91m         
+                             
+                             
+     ~~~~~~~~~~[0m
+    [96msrc/controllers/tran
+scribeController.ts[0m:[93m
+88[0m:[93m11[0m - 
+[91merror[0m[90m TS2322: 
+[0mType 
+'TranscriptionResult' is not 
+assignable to type 'string | 
+NullableStringFieldUpdateOper
+ationsInput | null | 
+undefined'.
+
+    [7m88[0m           
+transcript,
+    [7m  [0m [91m         
+ ~~~~~~~~~~[0m
+
+      [96m../node_modules/.p
+risma/client/index.d.ts[0m:
+[93m10404[0m:[93m5[0m
+        [7m10404[0m     
+transcript?: NullableStringFi
+eldUpdateOperationsInput | 
+string | null
+        [7m     [0m [96m  
+  ~~~~~~~~~~[0m
+        The expected type 
+comes from property 
+'transcript' which is 
+declared here on type '(Witho
+ut<AudioFileUpdateInput, Audi
+oFileUncheckedUpdateInput> & 
+AudioFileUncheckedUpdateInput
+) | (Without<...> & 
+AudioFileUpdateInput)'
+
+FAIL tests/exports/docxExport
+.test.ts
+  ΓùÅ Test suite failed to 
+run
+
+    [96msrc/controllers/tran
+scribeController.ts[0m:[93m
+81[0m:[93m73[0m - 
+[91merror[0m[90m TS2345: 
+[0mArgument of type 
+'TranscriptionResult' is not 
+assignable to parameter of 
+type 'string'.
+
+    [7m81[0m       const 
+profileData = await transcrip
+tionService.extractProfileDat
+a(transcript);
+    [7m  [0m [91m         
+                             
+                             
+     ~~~~~~~~~~[0m
+    [96msrc/controllers/tran
+scribeController.ts[0m:[93m
+88[0m:[93m11[0m - 
+[91merror[0m[90m TS2322: 
+[0mType 
+'TranscriptionResult' is not 
+assignable to type 'string | 
+NullableStringFieldUpdateOper
+ationsInput | null | 
+undefined'.
+
+    [7m88[0m           
+transcript,
+    [7m  [0m [91m         
+ ~~~~~~~~~~[0m
+
+      [96m../node_modules/.p
+risma/client/index.d.ts[0m:
+[93m10404[0m:[93m5[0m
+        [7m10404[0m     
+transcript?: NullableStringFi
+eldUpdateOperationsInput | 
+string | null
+        [7m     [0m [96m  
+  ~~~~~~~~~~[0m
+        The expected type 
+comes from property 
+'transcript' which is 
+declared here on type '(Witho
+ut<AudioFileUpdateInput, Audi
+oFileUncheckedUpdateInput> & 
+AudioFileUncheckedUpdateInput
+) | (Without<...> & 
+AudioFileUpdateInput)'
+
+Test Suites: 9 failed, 9 
+total
+Tests:       5 failed, 2 
+passed, 7 total
+Snapshots:   0 total
+Time:        8.628 s
+Ran all test suites.
+npm error Lifecycle script 
+`test` failed with error:
+npm error code 1
+npm error path C:\Users\richl
+\Care2system\backend
+npm error workspace 
+careconnect-backend@1.0.0
+npm error location C:\Users\r
+ichl\Care2system\backend
+npm error command failed
+npm error command 
+C:\windows\system32\cmd.exe 
+/d /s /c jest
+

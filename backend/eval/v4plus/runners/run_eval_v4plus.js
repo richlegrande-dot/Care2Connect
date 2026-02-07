@@ -170,10 +170,23 @@ class V4PlusEvaluationRunner {
       
     } else if (datasetName === 'all') {
       // Load all datasets (290 cases: 30 + 60 + 200)
+      console.log('🔄 Loading core30...');
       const core30 = this.loadDataset('core30');
+      console.log(`✅ core30 loaded: ${core30.length} cases`);
+      
+      console.log('🔄 Loading hard60...');
       const hard60 = this.loadDataset('hard60');
+      console.log(`✅ hard60 loaded: ${hard60.length} cases`);
+      
+      console.log('🔄 Loading fuzz200...');
       const fuzz200 = this.loadDataset('fuzz200');
-      return [...core30, ...hard60, ...fuzz200];
+      console.log(`✅ fuzz200 loaded: ${fuzz200.length} cases`);
+      
+      console.log('🔄 Loading realistic50...');
+      const realistic50 = this.loadDataset('realistic50');
+      console.log(`✅ realistic50 loaded: ${realistic50.length} cases`);
+      
+      return [...core30, ...hard60, ...realistic50, ...fuzz200];
     } else if (datasetName === 'all500') {
       // Load all datasets with 500 fuzz cases (590 cases: 30 + 60 + 500)
       const core30 = this.loadDataset('core30');

@@ -629,10 +629,12 @@ router.post('/db/self-test', adminTokenAuth, async (req: Request, res: Response)
         }
       });
       
-      const tuningProfile = await prisma.modelTuningProfile.create({
+      const tuningProfile = await prisma.model_tuning_profiles.create({
         data: {
+          id: `test-profile-${Date.now()}`,
           scope: 'GLOBAL',
-          scopeKey: 'test'
+          scopeKey: 'test',
+          updatedAt: new Date()
         }
       });
       
@@ -649,7 +651,7 @@ router.post('/db/self-test', adminTokenAuth, async (req: Request, res: Response)
       await prisma.transcriptionErrorEvent.delete({ where: { id: errorEvent.id } });
       await prisma.speechAnalysisResult.delete({ where: { id: analysis.id } });
       await prisma.transcriptionSegment.delete({ where: { id: segment.id } });
-      await prisma.modelTuningProfile.delete({ where: { id: tuningProfile.id } });
+      await prisma.model_tuning_profiles.delete({ where: { id: tuningProfile.id } });
       await prisma.transcriptionSession.delete({ where: { id: session.id } });
       
       results.tests.SpeechIntelligence = {
@@ -748,7 +750,7 @@ router.post('/db/self-test', adminTokenAuth, async (req: Request, res: Response)
       });
 
       // Create QR code link
-      const qrCode = await prisma.qRCodeLink.create({
+      const qrCode = await prisma.qr_code_links.create({
         data: {
           ticketId: ticket.id,
           targetUrl: 'https://checkout.stripe.com/test'
@@ -767,7 +769,7 @@ router.post('/db/self-test', adminTokenAuth, async (req: Request, res: Response)
       });
 
       // Cleanup (order matters due to relations)
-      await prisma.qRCodeLink.delete({ where: { id: qrCode.id } });
+      await prisma.qr_code_links.delete({ where: { id: qrCode.id } });
       await prisma.stripeAttribution.delete({ where: { id: attribution.id } });
       await prisma.generatedDocument.delete({ where: { id: document.id } });
       await prisma.donationDraft.delete({ where: { id: draft.id } });

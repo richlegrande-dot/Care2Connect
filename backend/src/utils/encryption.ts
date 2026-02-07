@@ -9,7 +9,7 @@ export class EncryptionService {
    */
   static encrypt(text: string): { encrypted: string; iv: string; tag: string } {
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipher(ALGORITHM, ENCRYPTION_KEY);
+    const cipher = crypto.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
     cipher.setAAD(Buffer.from(JSON.stringify({}), 'utf8'));
     
     let encrypted = cipher.update(text, 'utf8', 'hex');
@@ -30,7 +30,7 @@ export class EncryptionService {
   static decrypt(encryptedData: { encrypted: string; iv: string; tag: string }): string {
     const { encrypted, iv, tag } = encryptedData;
     
-    const decipher = crypto.createDecipher(ALGORITHM, ENCRYPTION_KEY);
+    const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), Buffer.from(iv, 'hex'));
     decipher.setAAD(Buffer.from(JSON.stringify({}), 'utf8'));
     decipher.setAuthTag(Buffer.from(tag, 'hex'));
     

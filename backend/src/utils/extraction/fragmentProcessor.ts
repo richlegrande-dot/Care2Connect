@@ -385,7 +385,7 @@ export class FragmentProcessor {
 
     } catch (error) {
       console.error('[FRAGMENT_PROCESSOR_ERROR] Fragment processing failed:', {
-        error: error.message,
+        error: (error as Error).message,
         transcriptLength: transcript?.length || 0,
         timestamp: new Date().toISOString()
       });
@@ -448,7 +448,7 @@ export class FragmentProcessor {
       return { qualityScore, issues };
 
     } catch (error) {
-      console.error('[QUALITY_ASSESSMENT_ERROR]:', error.message);
+      console.error('[QUALITY_ASSESSMENT_ERROR]:', (error as Error).message);
       return { qualityScore: 0.5, issues: ['assessment_failed'] };
     }
   }

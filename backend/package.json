@@ -93,6 +93,7 @@
     "assemblyai": "^4.22.1",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
+    "cheerio": "^1.2.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "docx": "^9.5.1",
@@ -115,7 +116,6 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "adm-zip": "^0.5.10",
     "@prisma/client": "^6.19.1",
     "@prisma/extension-optimize": "^2.0.1",
     "@prisma/instrumentation": "^6.19.1",
@@ -134,6 +134,7 @@
     "@types/qrcode": "^1.5.6",
     "@types/supertest": "^2.0.16",
     "@types/uuid": "^9.0.7",
+    "adm-zip": "^0.5.10",
     "concurrently": "^8.2.2",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",

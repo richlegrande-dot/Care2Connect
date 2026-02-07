@@ -1,4 +1,4 @@
-import logger from '../config/logger';
+import { logger } from '../utils/structuredLogger';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -32,7 +32,7 @@ export interface ShelterRanking {
 export class ShelterRankingEngine {
 
   async rankShelters(criteria: ShelterSearchCriteria): Promise<ShelterRanking[]> {
-    logger.info('Ranking shelters for user criteria', { 
+    logger.info('RANK_SHELTERS', 'Ranking shelters for user criteria', { 
       location: criteria.lat && criteria.lng ? 'provided' : 'not provided',
       populationType: criteria.populationType,
       hasAvailableBeds: criteria.hasAvailableBeds
@@ -42,7 +42,7 @@ export class ShelterRankingEngine {
     const shelters = await this.getSheltersWithAvailability(criteria);
     
     if (shelters.length === 0) {
-      logger.warn('No shelters found matching base criteria');
+      logger.warn('NO_SHELTERS_FOUND', 'No shelters found matching base criteria');
       return [];
     }
 
@@ -57,7 +57,7 @@ export class ShelterRankingEngine {
     // Sort by score (highest first)
     rankings.sort((a, b) => b.score - a.score);
 
-    logger.info(`Ranked ${rankings.length} shelters`, {
+    logger.info('RANK_COMPLETE', `Ranked ${rankings.length} shelters`, {
       topScore: rankings[0]?.score,
       averageScore: rankings.length > 0 ? 
         (rankings.reduce((sum, r) => sum + r.score, 0) / rankings.length).toFixed(1) : 0
@@ -161,7 +161,7 @@ export class ShelterRankingEngine {
     reasoning.push(populationScore.reason);
 
     // Distance scoring (15% of total weight)
-    let distance: number | undefined;
+    let distance: number | null = null;
     if (criteria.lat && criteria.lng) {
       distance = this.calculateDistance(
         criteria.lat, criteria.lng, 
@@ -169,11 +169,11 @@ export class ShelterRankingEngine {
       );
       
       if (distance !== null && distance <= (criteria.maxDistance || 50)) {
-        const distanceScore = this.calculateDistanceScore(distance, criteria.maxDistance);
+        const distanceScore = this.calculateDistanceScore(distance!, criteria.maxDistance);
         score += distanceScore;
-        reasoning.push(`Within ${distance.toFixed(1)} miles`);
+        reasoning.push(`Within ${distance!.toFixed(1)} miles`);
       } else if (distance !== null) {
-        warnings.push(`Outside preferred range: ${distance.toFixed(1)} miles`);
+        warnings.push(`Outside preferred range: ${distance!.toFixed(1)} miles`);
       }
     }
 
@@ -227,7 +227,7 @@ export class ShelterRankingEngine {
     return {
       shelter,
       score: Math.max(0, Math.round(score * 10) / 10), // Round to 1 decimal
-      distance,
+      distance: distance ?? undefined,
       availabilityMatch,
       serviceMatches,
       accessibilityMatch,

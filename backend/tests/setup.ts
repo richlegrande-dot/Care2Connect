@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+// Load test environment variables
+const testEnvPath = path.resolve(__dirname, '..', '.env.test');
+dotenv.config({ path: testEnvPath });
 
 // Set test environment variables before any imports
 process.env.NODE_ENV = 'test';

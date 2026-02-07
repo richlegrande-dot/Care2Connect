@@ -17,10 +17,30 @@ try {
   // Silent fallback - no console warnings in production
 }
 
+// Phase 1 Enhancement: Import v3a enhancements for threshold adjustment
+let UrgencyEnhancements_v3a;
+try {
+  if (process.env.USE_V3A_ENHANCEMENTS === 'true') {
+    UrgencyEnhancements_v3a = require('./UrgencyEnhancements_v3a.js');
+    console.log('✅ UrgencyEnhancements_v3a loaded - Phase 1 active');
+  }
+} catch (error) {
+  console.warn('⚠️ UrgencyEnhancements_v3a not found, using baseline');
+}
+
 class UrgencyAssessmentService {
   constructor() {
     this.engine = UrgencyAssessmentEngine ? new UrgencyAssessmentEngine() : null;
     this.fallbackPatterns = this.initializeFallbackPatterns();
+    
+    // Phase 1: Check for v3a enhancements (threshold adjustment)
+    this.useV3aEnhancements = process.env.USE_V3A_ENHANCEMENTS === 'true';
+    this.v3aThresholds = null;
+    
+    if (this.useV3aEnhancements && UrgencyEnhancements_v3a) {
+      this.v3aThresholds = UrgencyEnhancements_v3a.ENHANCED_THRESHOLDS;
+      console.log(`🎯 Phase 1 Active - Enhanced thresholds: CRITICAL≥${this.v3aThresholds.CRITICAL}, HIGH≥${this.v3aThresholds.HIGH}`);
+    }
   }
 
   /**
@@ -208,12 +228,22 @@ class UrgencyAssessmentService {
           }
         }
         
-        // Apply ADJUSTED THRESHOLDS (PHASE 2: Reduced over-assessment)
+        // Apply ENHANCED THRESHOLDS (Phase 1: v3a or baseline)
         let boostedUrgencyLevel;
-        if (boostedScore >= 0.80) boostedUrgencyLevel = 'CRITICAL';  // Raised from 0.75
-        else if (boostedScore >= 0.50) boostedUrgencyLevel = 'HIGH';  // Raised from 0.45
-        else if (boostedScore >= 0.15) boostedUrgencyLevel = 'MEDIUM'; // Unchanged
-        else boostedUrgencyLevel = 'LOW';
+        
+        if (this.useV3aEnhancements && this.v3aThresholds) {
+          // Phase 1: Enhanced thresholds for under-assessment fix
+          if (boostedScore >= this.v3aThresholds.CRITICAL) boostedUrgencyLevel = 'CRITICAL';   // 0.75 (was 0.80)
+          else if (boostedScore >= this.v3aThresholds.HIGH) boostedUrgencyLevel = 'HIGH';       // 0.45 (was 0.50)
+          else if (boostedScore >= this.v3aThresholds.MEDIUM) boostedUrgencyLevel = 'MEDIUM';   // 0.15 (unchanged)
+          else boostedUrgencyLevel = 'LOW';
+        } else {
+          // Baseline thresholds (stable configuration)
+          if (boostedScore >= 0.80) boostedUrgencyLevel = 'CRITICAL';  // Baseline
+          else if (boostedScore >= 0.50) boostedUrgencyLevel = 'HIGH';  // Baseline
+          else if (boostedScore >= 0.15) boostedUrgencyLevel = 'MEDIUM'; // Baseline
+          else boostedUrgencyLevel = 'LOW';
+        }
         
         return {
           urgencyLevel: boostedUrgencyLevel,

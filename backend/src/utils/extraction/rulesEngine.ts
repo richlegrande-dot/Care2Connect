@@ -513,8 +513,8 @@ export function extractNameWithConfidence(transcript: string): { value: string |
   } catch (error) {
     // Phase 3: Never fail the revenue pipeline - always return valid structure
     console.error('[EXTRACTION_ERROR] Name extraction failed:', {
-      error: error.message,
-      stackTrace: error.stack?.slice(0, 200),
+      error: (error as Error).message,
+      stackTrace: (error as Error).stack?.slice(0, 200),
       transcriptLength: transcript?.length || 0,
       timestamp: new Date().toISOString()
     });
@@ -529,7 +529,7 @@ export function extractNameWithConfidence(transcript: string): { value: string |
         };
       }
     } catch (fallbackError) {
-      console.error('[CRITICAL_FAILSAFE] Even fallback name extraction failed:', fallbackError.message);
+      console.error('[CRITICAL_FAILSAFE] Even fallback name extraction failed:', (fallbackError as Error).message);
     }
     
     return { value: null, confidence: 0 };
@@ -651,7 +651,7 @@ export function extractGoalAmountWithConfidence(transcript: string, context?: {
     
   } catch (error) {
     console.error('[EXTRACTION_ERROR] Amount extraction failed:', {
-      error: error.message,
+      error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
       timestamp: new Date().toISOString()
     });
@@ -692,7 +692,7 @@ export function extractGoalAmountWithDetection(transcript: string, context?: {
     
   } catch (error) {
     console.error('[EXTRACTION_ERROR] Detailed amount extraction failed:', {
-      error: error.message,
+      error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
       timestamp: new Date().toISOString()
     });
@@ -807,7 +807,7 @@ export function extractBeneficiaryRelationship(transcript: string): 'myself' | '
     return 'myself'; // Default assumption
   } catch (error) {
     console.error('[EXTRACTION_ERROR] Relationship extraction failed:', {
-      error: error.message,
+      error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
       timestamp: new Date().toISOString()
     });
@@ -921,7 +921,7 @@ export function extractUrgency(transcript: string): 'LOW' | 'MEDIUM' | 'HIGH' | 
     
   } catch (error) {
     console.error('[EXTRACTION_ERROR] Urgency extraction failed:', {
-      error: error.message,
+      error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
       timestamp: new Date().toISOString()
     });
@@ -968,7 +968,7 @@ export function extractUrgencyWithAssessment(transcript: string, context?: {
     
   } catch (error) {
     console.error('[EXTRACTION_ERROR] Detailed urgency extraction failed:', {
-      error: error.message,
+      error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
       timestamp: new Date().toISOString()
     });

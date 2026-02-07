@@ -14,7 +14,7 @@ module.exports = {
     {
       name: 'careconnect-backend',
       cwd: 'C:\\Users\\richl\\Care2system\\backend',
-      script: 'start-backend.js',
+      script: 'dist\\server.js',
       interpreter: 'node',
       env: {
         NODE_ENV: 'development',
@@ -44,9 +44,11 @@ module.exports = {
       out_file: './logs/frontend-out.log',
       time: true,
       autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      restart_delay: 4000
+      max_restarts: 3,
+      min_uptime: '60s',
+      restart_delay: 10000,
+      kill_timeout: 60000,
+      listen_timeout: 60000
     }
   ]
 };

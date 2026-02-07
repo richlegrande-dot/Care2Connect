@@ -224,8 +224,8 @@ async function checkStripe(): Promise<HealthCheckResult> {
       lastCheck: new Date(),
       details: { 
         status: response.status, 
-        accountId: data.id ? data.id.substring(0, 8) + '***' : 'unknown',
-        country: data.country
+        accountId: (data as any).id ? (data as any).id.substring(0, 8) + '***' : 'unknown',
+        country: (data as any).country
       }
     };
 
@@ -272,14 +272,14 @@ async function checkCloudflare(): Promise<HealthCheckResult> {
     const latency = Date.now() - start;
     const data = await response.json();
 
-    if (!response.ok || !data.success) {
+    if (!response.ok || !(data as any).success) {
       return {
         service: 'cloudflare',
         healthy: false,
         latency,
         lastCheck: new Date(),
-        error: data.errors?.[0]?.message || 'Token verification failed',
-        details: { status: response.status, errors: data.errors }
+        error: (data as any).errors?.[0]?.message || 'Token verification failed',
+        details: { status: response.status, errors: (data as any).errors }
       };
     }
 

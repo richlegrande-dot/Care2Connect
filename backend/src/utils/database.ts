@@ -6,6 +6,10 @@ declare global {
 
 function isDatabaseUrlValid(url?: string) {
   if (!url) return false;
+  // Allow SQLite URLs in test environment
+  if (process.env.NODE_ENV === 'test' && url.startsWith('file:')) {
+    return true;
+  }
   return /^(postgres|postgresql):\/\//i.test(url);
 }
 

@@ -255,7 +255,7 @@ router.post('/sessions/:id/feedback', ...authMiddleware, async (req: Request, re
  */
 router.get('/tuning-profiles', async (req: Request, res: Response) => {
   try {
-    const profiles = await prisma.modelTuningProfile.findMany({
+    const profiles = await prisma.model_tuning_profiles.findMany({
       orderBy: [
         { scope: 'asc' },
         { scopeKey: 'asc' }

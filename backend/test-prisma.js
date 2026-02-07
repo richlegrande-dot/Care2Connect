@@ -1,0 +1,10 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env.test' });
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+console.log('Prisma client created');
+console.log('Has recordingTickets:', 'recordingTickets' in prisma);
+console.log('Has speechAnalysisResults:', 'speechAnalysisResults' in prisma);
+console.log('Has recording_tickets:', 'recording_tickets' in prisma);
+console.log('Has speech_analysis_results:', 'speech_analysis_results' in prisma);
+prisma.$disconnect().catch(() => {});

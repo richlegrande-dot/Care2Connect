@@ -13,14 +13,14 @@ module.exports = {
   apps: [
     {
       name: 'care2connect-backend-dev',
-      script: 'C:\\Program Files\\nodejs\\npx.cmd',
-      args: 'tsx watch src/server.ts',
+      script: 'node',
+      args: ['--import', 'tsx', './src/server.ts'],
       cwd: './backend',
       env: {
         NODE_ENV: 'development',
         PORT: 3001,
         BACKEND_PORT: 3001,
-        START_BACKGROUND_SERVICES: 'false', // Disabled in dev by default
+        START_BACKGROUND_SERVICES: 'false',
         V1_STABLE: 'true',
         AI_PROVIDER: 'rules',
         HEALTHCHECKS_ENABLED: 'false'
@@ -32,12 +32,13 @@ module.exports = {
       max_restarts: 10,
       min_uptime: '10s',
       restart_delay: 2000,
+      kill_timeout: 180000, // 3 minutes
       watch: false
     },
     {
       name: 'care2connect-frontend-dev',
-      script: 'C:\\Program Files\\nodejs\\npx.cmd',
-      args: 'next dev',
+      script: 'node',
+      args: ['C:/Users/richl/Care2system/node_modules/.bin/next', 'dev', '--port', '3000'],
       cwd: './frontend',
       env: {
         NODE_ENV: 'development',
@@ -51,6 +52,7 @@ module.exports = {
       max_restarts: 10,
       min_uptime: '10s',
       restart_delay: 2000,
+      kill_timeout: 180000, // 3 minutes
       watch: false
     }
   ]

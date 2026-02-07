@@ -44,8 +44,8 @@ describe('Pipeline Integration Tests (Mocked)', () => {
     await prisma.transcriptionSegment.deleteMany({});
     await prisma.transcriptionSession.deleteMany({});
     await prisma.donationDraft.deleteMany({});
-    await prisma.qrCodeLink.deleteMany({});
-    await prisma.stripeAttribution.deleteMany({});
+    await prisma.qr_code_links.deleteMany({});
+    await prisma.stripe_attributions.deleteMany({});
     await prisma.pipelineIncident.deleteMany({});
     await prisma.recordingTicket.deleteMany({ where: { id: testTicketId } });
   });
@@ -107,13 +107,13 @@ describe('Pipeline Integration Tests (Mocked)', () => {
       });
       
       // Verify speech analysis was created
-      const session = await prisma.transcriptionSession.findFirst({
+      const session = await prisma.transcription_sessions.findFirst({
         where: { recordingTicketId: testTicketId },
-        include: { speechAnalysisResults: true },
+        include: { speechAnalysisResult: true },
       });
       
-      expect(session?.speechAnalysisResults.length).toBeGreaterThan(0);
-      const analysis = session?.speechAnalysisResults[0];
+      expect(session?.speechAnalysisResult.length).toBeGreaterThan(0);
+      const analysis = session?.speechAnalysisResult[0];
       expect(analysis?.detectedLanguage).toBe('en');
     }, 30000);
 
@@ -221,7 +221,7 @@ describe('Pipeline Integration Tests (Mocked)', () => {
         audioFilePath: audioPath,
       });
       
-      const qrLink = await prisma.qRCodeLink.findFirst({
+      const qrLink = await prisma.qr_code_links.findFirst({
         where: { ticketId: testTicketId },
       });
       
@@ -242,7 +242,7 @@ describe('Pipeline Integration Tests (Mocked)', () => {
         audioFilePath: audioPath,
       });
       
-      const attribution = await prisma.stripeAttribution.findFirst({
+      const attribution = await prisma.stripe_attributions.findFirst({
         where: { ticketId: testTicketId },
       });
       
@@ -374,12 +374,12 @@ describe('Pipeline Integration Tests (Mocked)', () => {
       expect(result.success).toBe(true);
       
       // Should detect high urgency
-      const session = await prisma.transcriptionSession.findFirst({
+      const session = await prisma.transcription_sessions.findFirst({
         where: { recordingTicketId: testTicketId },
-        include: { speechAnalysisResults: true },
+        include: { speechAnalysisResult: true },
       });
       
-      expect(session?.speechAnalysisResults[0]?.detectedLanguage).toBe('en');
+      expect(session?.speechAnalysisResult[0]?.detectedLanguage).toBe('en');
     }, 30000);
 
     it('should handle medical needs transcript', async () => {

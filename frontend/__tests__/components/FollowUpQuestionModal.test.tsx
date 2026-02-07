@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { FollowUpQuestionModal } from '@/components/FollowUpQuestionModal';
+import FollowUpQuestionModal from '@/components/FollowUpQuestionModal';
 
 const mockFollowUpQuestions = [
   {

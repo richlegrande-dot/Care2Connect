@@ -1,4 +1,4 @@
-import logger from '../config/logger';
+import { logger } from '../utils/structuredLogger';
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
@@ -134,12 +134,12 @@ export class ShelterAvailabilitySync {
 
   async syncAllSources(): Promise<{ successful: number; failed: number; totalUpdated: number }> {
     if (this.syncInProgress) {
-      logger.warn('Shelter availability sync already in progress');
+      logger.warn('SYNC_IN_PROGRESS', 'Shelter availability sync already in progress');
       return { successful: 0, failed: 0, totalUpdated: 0 };
     }
 
     this.syncInProgress = true;
-    logger.info('Starting shelter availability sync for all sources');
+    logger.info('SYNC_START_ALL', 'Starting shelter availability sync for all sources');
 
     let successful = 0;
     let failed = 0;
@@ -148,7 +148,7 @@ export class ShelterAvailabilitySync {
     try {
       for (const source of AVAILABILITY_DATA_SOURCES) {
         if (!source.isActive) {
-          logger.debug(`Skipping inactive source: ${source.name}`);
+          logger.debug('SKIP_INACTIVE', `Skipping inactive source: ${source.name}`);
           continue;
         }
 
@@ -157,14 +157,14 @@ export class ShelterAvailabilitySync {
           totalUpdated += updated;
           successful++;
           
-          logger.info(`Successfully synced ${source.name}: ${updated} shelters updated`);
+          logger.info('SYNC_SUCCESS', `Successfully synced ${source.name}: ${updated} shelters updated`);
           
           // Rate limiting between sources
           await this.delay(2000);
           
         } catch (error) {
           failed++;
-          logger.error(`Failed to sync ${source.name}:`, error);
+          logger.error('SYNC_FAILED', `Failed to sync ${source.name}:`, { error: error instanceof Error ? error.message : 'Unknown error' });
           this.lastSyncResults.set(source.id, {
             success: false,
             error: error instanceof Error ? error.message : 'Unknown error',
@@ -173,7 +173,7 @@ export class ShelterAvailabilitySync {
         }
       }
 
-      logger.info(`Shelter availability sync complete: ${successful} successful, ${failed} failed, ${totalUpdated} total updates`);
+      logger.info('SYNC_COMPLETE', `Shelter availability sync complete: ${successful} successful, ${failed} failed, ${totalUpdated} total updates`);
       
     } finally {
       this.syncInProgress = false;
@@ -183,7 +183,7 @@ export class ShelterAvailabilitySync {
   }
 
   async syncDataSource(source: AvailabilityDataSource): Promise<number> {
-    logger.info(`Syncing shelter availability from ${source.name}`);
+    logger.info('SYNC_START', `Syncing shelter availability from ${source.name}`);
     
     let shelterUpdates: ShelterAvailabilityUpdate[] = [];
 
@@ -212,7 +212,7 @@ export class ShelterAvailabilitySync {
           await this.applyShelterUpdate(update);
           updatedCount++;
         } catch (updateError) {
-          logger.error(`Failed to update shelter ${update.shelterId}:`, updateError);
+          logger.error('UPDATE_FAILED', `Failed to update shelter ${update.shelterId}:`, { error: updateError instanceof Error ? updateError.message : 'Unknown error' });
         }
       }
 
@@ -226,7 +226,7 @@ export class ShelterAvailabilitySync {
       return updatedCount;
 
     } catch (error) {
-      logger.error(`Error syncing from ${source.name}:`, error);
+      logger.error('SYNC_ERROR', `Error syncing from ${source.name}:`, { error: error instanceof Error ? error.message : 'Unknown error' });
       throw error;
     }
   }
@@ -304,7 +304,7 @@ export class ShelterAvailabilitySync {
       if (lines[i].trim()) {
         const values = lines[i].split(',');
         const record: any = {};
-        headers.forEach((header, index) => {
+        headers.forEach((header: string, index: number) => {
           record[header] = values[index]?.trim() || '';
         });
         records.push(record);
@@ -330,7 +330,7 @@ export class ShelterAvailabilitySync {
     const updates: ShelterAvailabilityUpdate[] = [];
 
     // Example HTML scraping logic (customize based on actual site structure)
-    $('.shelter-item, .facility-row, .availability-item').each((index, element) => {
+    $('.shelter-item, .facility-row, .availability-item').each((index: number, element: any) => {
       const shelterName = $(element).find('.name, .facility-name, h3').first().text().trim();
       const availableBeds = $(element).find('.available-beds, .beds-available').first().text().trim();
       
@@ -416,7 +416,7 @@ export class ShelterAvailabilitySync {
         }
 
       } catch (recordError) {
-        logger.warn(`Failed to process record from ${source.name}:`, recordError);
+        logger.warn('RECORD_PROCESS_FAILED', `Failed to process record from ${source.name}:`, { error: recordError instanceof Error ? recordError.message : 'Unknown error' });
       }
     }
 
@@ -489,7 +489,7 @@ export class ShelterAvailabilitySync {
     }
 
     if (!shelter) {
-      logger.warn(`Shelter not found for update: ${update.shelterId}`);
+      logger.warn('SHELTER_NOT_FOUND', `Shelter not found for update: ${update.shelterId}`);
       return;
     }
 
@@ -507,7 +507,7 @@ export class ShelterAvailabilitySync {
         occupiedFamilies: update.occupiedFamilies,
         occupiedYouth: update.occupiedYouth,
         occupiedTotal: update.occupiedTotal,
-        source: update.source,
+        source: update.source.toUpperCase() as any,
         updatedBy: update.updatedBy,
         notes: update.notes
       }
@@ -529,7 +529,7 @@ export class ShelterAvailabilitySync {
       data: updateData
     });
 
-    logger.debug(`Updated shelter availability: ${shelter.name}`, {
+    logger.debug('SHELTER_AVAILABILITY_UPDATED', `Updated shelter availability: ${shelter.name}`, {
       shelterId: shelter.id,
       availableTotal: update.availableTotal
     });
@@ -551,7 +551,7 @@ export class ShelterAvailabilitySync {
 
     await this.applyShelterUpdate(fullUpdate);
     
-    logger.info(`Manual shelter availability update applied`, {
+    logger.info('SHELTER_AVAILABILITY_MANUAL_UPDATE', `Manual shelter availability update applied`, {
       shelterId,
       updatedBy,
       availableTotal: update.availableTotal
@@ -617,7 +617,7 @@ export class ShelterAvailabilitySync {
         }
       }
 
-      logger.info(`Bulk shelter availability update complete`, {
+      logger.info('SHELTER_AVAILABILITY_BULK_UPDATE_COMPLETE', `Bulk shelter availability update complete`, {
         processed: results.processed,
         updated: results.updated,
         errors: results.errors.length,
@@ -625,7 +625,7 @@ export class ShelterAvailabilitySync {
       });
 
     } catch (error) {
-      logger.error('Bulk update failed:', error);
+      logger.error('BULK_UPDATE_FAILED', 'Bulk update failed:', { error: error instanceof Error ? error.message : 'Unknown error' });
       results.errors.push(`Bulk update failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
 
@@ -687,7 +687,7 @@ export class ShelterAvailabilitySync {
   }
 
   async estimateAvailabilityForUnsynced(): Promise<void> {
-    logger.info('Estimating availability for shelters without recent updates');
+    logger.info('ESTIMATE_AVAILABILITY', 'Estimating availability for shelters without recent updates');
 
     // Find shelters that haven't been updated in the last 6 hours
     const staleShelters = await prisma.shelterFacility.findMany({
@@ -730,11 +730,11 @@ export class ShelterAvailabilitySync {
         }
 
       } catch (error) {
-        logger.warn(`Failed to estimate availability for shelter ${shelter.id}:`, error);
+        logger.warn('ESTIMATE_FAILED', `Failed to estimate availability for shelter ${shelter.id}:`, { error: error instanceof Error ? error.message : 'Unknown error' });
       }
     }
 
-    logger.info(`Estimated availability for ${estimatedCount} shelters`);
+    logger.info('ESTIMATE_COMPLETE', `Estimated availability for ${estimatedCount} shelters`);
   }
 
   private delay(ms: number): Promise<void> {

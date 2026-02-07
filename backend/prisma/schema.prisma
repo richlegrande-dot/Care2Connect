@@ -23,13 +23,13 @@ model audio_files {
 }
 
 model donation_drafts {
-  id                String            @id
-  createdAt         DateTime          @default(now())
+  id                String          @id
+  createdAt         DateTime        @default(now())
   updatedAt         DateTime
-  ticketId          String            @unique
+  ticketId          String          @unique
   title             String
   goalAmount        Decimal?
-  currency          String            @default("USD")
+  currency          String          @default("USD")
   story             String
   beneficiary       String?
   location          String?
@@ -41,9 +41,9 @@ model donation_drafts {
   timeline          String?
   urgency           String?
   extractedAt       DateTime?
-  generationMode    String?           @default("AUTOMATED")
+  generationMode    String?         @default("AUTOMATED")
   manuallyEditedAt  DateTime?
-  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  recording_tickets RecordingTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
   @@index([generationMode])
   @@index([ticketId])
@@ -69,8 +69,8 @@ model donations {
 }
 
 model generated_documents {
-  id                String            @id
-  createdAt         DateTime          @default(now())
+  id                String          @id
+  createdAt         DateTime        @default(now())
   ticketId          String
   docType           DocumentType
   storageUrl        String?
@@ -78,7 +78,7 @@ model generated_documents {
   sha256            String?
   mimeType          String?
   sizeBytes         Int?
-  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  recording_tickets RecordingTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
   @@index([docType])
   @@index([ticketId])
@@ -239,7 +239,7 @@ model pipeline_incidents {
   status              IncidentStatus
   resolvedAt          DateTime?
   knowledge_bindings  knowledge_bindings[]
-  recording_tickets   recording_tickets?   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  recording_tickets   RecordingTicket?     @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])
   @@index([severity])
@@ -319,10 +319,10 @@ model qr_code_links {
   updatedAt         DateTime
   version           Int               @default(1)
   qr_code_history   qr_code_history[]
-  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  recording_tickets RecordingTicket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
-model recording_tickets {
+model RecordingTicket {
   id                     String                   @id
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime
@@ -345,6 +345,7 @@ model recording_tickets {
   @@index([contactType, contactValue])
   @@index([createdAt])
   @@index([status])
+  @@map("recording_tickets")
 }
 
 model resources {
@@ -368,7 +369,7 @@ model resources {
   lastUpdated DateTime         @default(now())
 }
 
-model speech_analysis_results {
+model SpeechAnalysisResult {
   id                     String                 @id
   createdAt              DateTime               @default(now())
   sessionId              String
@@ -379,19 +380,20 @@ model speech_analysis_results {
   transcription_sessions transcription_sessions @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
   @@index([sessionId])
+  @@map("speech_analysis_results")
 }
 
 model stripe_attributions {
-  id                String            @id
-  createdAt         DateTime          @default(now())
+  id                String          @id
+  createdAt         DateTime        @default(now())
   updatedAt         DateTime
   ticketId          String
-  checkoutSessionId String            @unique
-  paymentIntentId   String?           @unique
+  checkoutSessionId String          @unique
+  paymentIntentId   String?         @unique
   amount            Decimal
   currency          String
-  status            PaymentStatus     @default(CREATED)
-  webhookEventId    String?           @unique
+  status            PaymentStatus   @default(CREATED)
+  webhookEventId    String?         @unique
   metadataSnapshot  Json?
   chargeId          String?
   donorCountry      String?
@@ -400,7 +402,7 @@ model stripe_attributions {
   paidAt            DateTime?
   refundedAt        DateTime?
   stripeCreatedAt   DateTime?
-  recording_tickets recording_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  recording_tickets RecordingTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])
   @@index([paymentIntentId])
@@ -423,19 +425,19 @@ model stripe_events {
 }
 
 model support_tickets {
-  id                String             @id
-  createdAt         DateTime           @default(now())
+  id                String           @id
+  createdAt         DateTime         @default(now())
   updatedAt         DateTime
   ticketId          String?
   recordingTicketId String?
-  status            TicketStatus       @default(OPEN)
+  status            TicketStatus     @default(OPEN)
   category          String
   message           String
   contact           String?
   resolvedAt        DateTime?
   adminNotes        String?
   systemSnapshot    Json?
-  recording_tickets recording_tickets? @relation(fields: [recordingTicketId], references: [id])
+  recording_tickets RecordingTicket? @relation(fields: [recordingTicketId], references: [id])
 
   @@index([recordingTicketId])
   @@index([status])
@@ -532,11 +534,11 @@ model transcription_sessions {
   transcriptPreview          String?
   redactionApplied           Boolean                      @default(false)
   retentionUntil             DateTime?
-  speech_analysis_results    speech_analysis_results[]
+  speech_analysis_results    SpeechAnalysisResult[]
   transcription_error_events transcription_error_events[]
   transcription_feedback     transcription_feedback[]
   transcription_segments     transcription_segments[]
-  recording_tickets          recording_tickets?           @relation(fields: [recordingTicketId], references: [id])
+  recording_tickets          RecordingTicket?             @relation(fields: [recordingTicketId], references: [id])
 
   @@index([createdAt])
   @@index([engine])
@@ -558,6 +560,23 @@ model users {
   zipCode         String?
   isProfilePublic Boolean      @default(false)
   consentGiven    Boolean      @default(false)
+  
+  // Eligibility Assessment History
+  eligibilityAssessments AidEligibilityAssessment[]
+  
+  // Optional demographic data for assessments (with consent)
+  householdSize         Int?
+  hasChildren          Boolean?
+  isVeteran            Boolean?
+  hasDisability        Boolean?
+  currentHousingStatus  HousingStatus?
+  monthlyIncome        Float?
+  incomeSource         IncomeSource[]
+  
+  // Consent flags
+  consentToAssessment  Boolean @default(false)
+  consentToDataStorage Boolean @default(false)
+  
   donations       donations[]
   jobs_cache      jobs_cache[]
   messages        messages[]
@@ -573,6 +592,7 @@ enum AuditAction {
 enum AuditEntityType {
   KNOWLEDGE_SOURCE
   KNOWLEDGE_CHUNK
+  PIPELINE_INCIDENT
 }
 
 enum ContactType {
@@ -725,4 +745,215 @@ enum TuningScope {
   LANGUAGE
   ROUTE
   ENGINE
+}
+
+// Aid Eligibility & Shelter Models
+
+model AidProgram {
+  id                    String   @id @default(cuid())
+  name                  String   // HUD, SNAP, TANF, SSI, etc.
+  description           String?
+  category              ProgramCategory // housing, food, cash, disability, etc.
+  jurisdiction          Jurisdiction // federal, state, local
+  resourceLinks         Json?    // application URLs, PDFs, contact info
+  basicCriteria         Json?    // income thresholds, residency, age, family size requirements
+  documentationRequired Json?    // required documents list
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  // Relations
+  assessments          AidEligibilityAssessment[] @relation("AssessmentPrograms")
+  
+  @@map("aid_programs")
+}
+
+model AidEligibilityAssessment {
+  id                    String   @id @default(cuid())
+  userId                String?  // Optional for anonymous assessments
+  sessionId             String?  // For anonymous tracking
+  programIds            String[] // Array of program IDs assessed
+  inputProfileSnapshot  Json     // User profile data at time of assessment
+  questionnaireData     Json     // Responses to eligibility questionnaire
+  rulesEngineResult     Json     // Output from rules-based assessment
+  aiAssessment          Json     // AI analysis and explanations
+  overallResult         EligibilityResult
+  confidenceScore       Int      // 0-100 confidence in assessment
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  // Relations
+  user                 users?    @relation(fields: [userId], references: [id])
+  programs             AidProgram[] @relation("AssessmentPrograms")
+  
+  @@map("aid_eligibility_assessments")
+}
+
+model ShelterFacility {
+  id                   String   @id @default(cuid())
+  name                 String
+  description          String?
+  address              String
+  city                 String
+  state                String
+  zipCode              String?
+  latitude             Float?
+  longitude            Float?
+  phone                String?
+  email                String?
+  website              String?
+  
+  // Capacity Information
+  capacityTotal        Int?     // Total bed capacity
+  capacityMen          Int?     // Men's beds
+  capacityWomen        Int?     // Women's beds
+  capacityFamilies     Int?     // Family units
+  capacityYouth        Int?     // Youth beds (under 25)
+  capacityVeterans     Int?     // Veteran-specific beds
+  capacityDisabled     Int?     // Accessible beds
+  
+  // Operational Details
+  categories           ShelterCategory[] // populations served
+  checkinHours         String?  // "6:00 PM - 8:00 PM"
+  checkoutTime         String?  // "7:00 AM"
+  intakeRequirements   Json?    // ID required, sobriety, etc.
+  services             String[] // meals, case management, etc.
+  accessibility        String[] // wheelchair accessible, etc.
+  
+  // Current Availability (snapshot)
+  currentAvailableMen     Int? @default(0)
+  currentAvailableWomen   Int? @default(0)
+  currentAvailableFamilies Int? @default(0)
+  currentAvailableYouth   Int? @default(0)
+  currentAvailableTotal   Int? @default(0)
+  
+  // System Integration
+  externalSystemId     String?  // HMIS or city system ID
+  dataSource          String?   // "manual", "api", "import"
+  lastManualUpdateAt  DateTime?
+  lastAutoUpdateAt    DateTime?
+  isActive            Boolean   @default(true)
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  
+  // Relations
+  availabilityLogs    ShelterAvailabilityLog[]
+  
+  @@map("shelter_facilities")
+}
+
+model ShelterAvailabilityLog {
+  id                   String   @id @default(cuid())
+  shelterId           String
+  timestamp           DateTime @default(now())
+  
+  // Availability counts at this timestamp
+  availableMen        Int?     @default(0)
+  availableWomen      Int?     @default(0)
+  availableFamilies   Int?     @default(0)
+  availableYouth      Int?     @default(0)
+  availableTotal      Int?     @default(0)
+  
+  // Occupancy counts (optional)
+  occupiedMen         Int?
+  occupiedWomen       Int?
+  occupiedFamilies    Int?
+  occupiedYouth       Int?
+  occupiedTotal       Int?
+  
+  // Metadata
+  source              AvailabilitySource // manual, api, scheduled_sync
+  updatedBy           String?  // user ID if manual update
+  notes               String?  // optional notes about availability
+  
+  // Relations
+  shelter             ShelterFacility @relation(fields: [shelterId], references: [id])
+  
+  @@map("shelter_availability_logs")
+}
+
+// Enums for Aid Eligibility System
+enum ProgramCategory {
+  HOUSING
+  FOOD
+  CASH_ASSISTANCE
+  HEALTHCARE
+  DISABILITY
+  EMPLOYMENT
+  CHILDCARE
+  EDUCATION
+  TRANSPORTATION
+  UTILITIES
+  EMERGENCY_ASSISTANCE
+  OTHER
+}
+
+enum Jurisdiction {
+  FEDERAL
+  STATE
+  COUNTY
+  CITY
+  LOCAL
+}
+
+enum EligibilityResult {
+  LIKELY_ELIGIBLE
+  POSSIBLY_ELIGIBLE
+  NEEDS_REVIEW
+  LIKELY_INELIGIBLE
+  INSUFFICIENT_DATA
+}
+
+// Enums for Shelter System
+enum ShelterCategory {
+  MEN
+  WOMEN
+  FAMILIES
+  CHILDREN
+  YOUTH
+  VETERANS
+  DISABLED
+  LGBTQ
+  SENIORS
+  GENERAL
+  EMERGENCY_ONLY
+  TRANSITIONAL
+  SEASONAL
+}
+
+enum AvailabilitySource {
+  MANUAL
+  API
+  SCHEDULED_SYNC
+  IMPORT
+  ESTIMATED
+}
+
+// Extend User model with eligibility-related fields
+// Note: This extends the existing users model
+enum HousingStatus {
+  HOUSED
+  TEMPORARILY_HOUSED
+  UNSHELTERED
+  SHELTER
+  TRANSITIONAL_HOUSING
+  AT_RISK
+  DOUBLED_UP
+  HOTEL_MOTEL
+  OTHER
+}
+
+enum IncomeSource {
+  EMPLOYMENT
+  SSI
+  SSDI
+  UNEMPLOYMENT
+  TANF
+  SNAP
+  VETERANS_BENEFITS
+  PENSION
+  FAMILY_SUPPORT
+  OTHER
+  NONE
 }

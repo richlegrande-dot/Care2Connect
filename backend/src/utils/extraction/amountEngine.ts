@@ -219,8 +219,8 @@ class ContextualAmountPass {
       if (pattern.test(transcript)) {
         candidates.push({
           value,
+          type: 'other',
           confidence,
-          source: 'vague_expression',
           context: 'vague amount'
         });
       }
@@ -676,7 +676,7 @@ export class AmountDetectionEngine {
       
     } catch (error) {
       console.error('[AMOUNT_ENGINE_ERROR] Amount detection failed:', {
-        error: error.message,
+        error: (error as Error).message,
         transcriptLength: transcript?.length || 0,
         timestamp: new Date().toISOString()
       });

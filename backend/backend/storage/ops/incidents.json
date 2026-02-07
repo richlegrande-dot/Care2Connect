@@ -797,12 +797,12 @@
     "severity": "warn",
     "status": "open",
     "firstSeenAt": "2026-01-25T12:56:03.818Z",
-    "lastSeenAt": "2026-02-02T17:14:48.022Z",
+    "lastSeenAt": "2026-02-03T06:54:24.538Z",
     "summary": "Tunnel external check failed",
     "details": "API: 530",
     "lastCheckPayload": {
       "api": 530,
-      "latency": 138
+      "latency": 117
     },
     "recommendation": "Check DNS propagation and tunnel routing (may be normal during DNS changes)"
   },
@@ -860,13 +860,13 @@
     "severity": "warn",
     "status": "open",
     "firstSeenAt": "2026-01-25T22:31:50.159Z",
-    "lastSeenAt": "2026-01-27T13:03:13.691Z",
+    "lastSeenAt": "2026-02-03T05:34:25.132Z",
     "summary": "Tunnel external check: Connection failed",
     "details": "Cannot reach care2connects.org: fetch failed",
     "lastCheckPayload": {
       "error": "fetch failed",
       "domain": "care2connects.org",
-      "latency": 142,
+      "latency": 633,
       "errorType": "Connection failed"
     },
     "recommendation": "Check cloudflared tunnel status and DNS configuration"
@@ -1021,13 +1021,13 @@
     "severity": "warn",
     "status": "open",
     "firstSeenAt": "2026-01-26T19:38:42.243Z",
-    "lastSeenAt": "2026-01-26T19:53:42.226Z",
+    "lastSeenAt": "2026-02-02T17:49:18.045Z",
     "summary": "Tunnel external check: Timeout",
     "details": "Cannot reach care2connects.org: The operation was aborted due to timeout",
     "lastCheckPayload": {
       "error": "The operation was aborted due to timeout",
       "domain": "care2connects.org",
-      "latency": 15003,
+      "latency": 15002,
       "errorType": "Timeout"
     },
     "recommendation": "External connectivity issue - local tunnel may still be working"
@@ -1175,5 +1175,69 @@
     },
     "recommendation": "Check DATABASE_URL and database server status",
     "resolvedAt": "2026-01-29T14:28:27.274Z"
+  },
+  "inc_1770096864978_p30sp1vdg": {
+    "id": "inc_1770096864978_p30sp1vdg",
+    "service": "assemblyai",
+    "severity": "critical",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-03T05:34:24.979Z",
+    "lastSeenAt": "2026-02-03T05:34:24.979Z",
+    "summary": "AssemblyAI API network error",
+    "details": "Failed to connect to AssemblyAI API: fetch failed",
+    "lastCheckPayload": {
+      "error": "fetch failed",
+      "latency": 679
+    },
+    "recommendation": "Check network connectivity and AssemblyAI service status",
+    "resolvedAt": "2026-02-03T05:39:24.807Z"
+  },
+  "inc_1770096865099_xustc27ga": {
+    "id": "inc_1770096865099_xustc27ga",
+    "service": "stripe",
+    "severity": "critical",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-03T05:34:25.099Z",
+    "lastSeenAt": "2026-02-03T05:34:25.099Z",
+    "summary": "Stripe API network error",
+    "details": "Failed to connect to Stripe API: fetch failed",
+    "lastCheckPayload": {
+      "error": "fetch failed",
+      "latency": 781
+    },
+    "recommendation": "Check network connectivity and Stripe service status",
+    "resolvedAt": "2026-02-03T05:39:24.611Z"
+  },
+  "inc_1770096865129_yzss8ahon": {
+    "id": "inc_1770096865129_yzss8ahon",
+    "service": "cloudflare",
+    "severity": "warn",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-03T05:34:25.129Z",
+    "lastSeenAt": "2026-02-03T05:34:25.129Z",
+    "summary": "Cloudflare API network error",
+    "details": "Failed to connect to Cloudflare API: fetch failed",
+    "lastCheckPayload": {
+      "error": "fetch failed",
+      "latency": 698
+    },
+    "recommendation": "Check network connectivity (non-critical)",
+    "resolvedAt": "2026-02-03T05:39:25.309Z"
+  },
+  "inc_1770096866251_iciov4s5c": {
+    "id": "inc_1770096866251_iciov4s5c",
+    "service": "prisma",
+    "severity": "critical",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-03T05:34:26.251Z",
+    "lastSeenAt": "2026-02-03T05:34:26.251Z",
+    "summary": "Database connection failed",
+    "details": "Failed to connect to PostgreSQL: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `db.prisma.io:5432`\n\nPlease make sure your database server is running at `db.prisma.io:5432`.",
+    "lastCheckPayload": {
+      "error": "\nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `db.prisma.io:5432`\n\nPlease make sure your database server is running at `db.prisma.io:5432`.",
+      "latency": 1933
+    },
+    "recommendation": "Check DATABASE_URL and database server status",
+    "resolvedAt": "2026-02-03T05:39:25.047Z"
   }
 }

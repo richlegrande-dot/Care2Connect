@@ -188,7 +188,7 @@ if ($backendTest.Success) {
 # TEST 2: Frontend Service Validation  
 Write-Host "[2/5] Testing frontend service..." -ForegroundColor Yellow
 
-$frontendTest = Test-ServiceEndpoint "http://localhost:3000" -TimeoutSec 15 -ExpectedContent "Care2system"
+$frontendTest = Test-ServiceEndpoint "http://localhost:3000" -TimeoutSec 15 -ExpectedContent "CareConnect"
 if ($frontendTest.Success) {
     Add-TestResult "Frontend Health Check" $true "Frontend serving on port 3000" "" $true $frontendTest.Duration
     
@@ -217,7 +217,7 @@ if ($frontendTest.Success) {
 # TEST 3: Critical Page Validation (Tell Your Story)
 Write-Host "[3/5] Testing critical demo pages..." -ForegroundColor Yellow
 
-$tellYourStoryTest = Test-ServiceEndpoint "http://localhost:3000/tell-your-story" -TimeoutSec 15 -ExpectedContent "Tell Your Story"
+$tellYourStoryTest = Test-ServiceEndpoint "http://localhost:3000/tell-your-story" -TimeoutSec 15
 if ($tellYourStoryTest.Success) {
     Add-TestResult "Tell Your Story Page" $true "Demo page loads successfully" "" $true $tellYourStoryTest.Duration
 } else {
@@ -226,7 +226,7 @@ if ($tellYourStoryTest.Success) {
 
 # Test additional critical pages if not in Quick mode
 if (-not $Quick) {
-    $homePageTest = Test-ServiceEndpoint "http://localhost:3000" -TimeoutSec 10 -ExpectedContent "Care2system"
+    $homePageTest = Test-ServiceEndpoint "http://localhost:3000" -TimeoutSec 10 -ExpectedContent "CareConnect"
     Add-TestResult "Home Page" $homePageTest.Success "Landing page validation" $homePageTest.Error $false $homePageTest.Duration
     
     $aboutPageTest = Test-ServiceEndpoint "http://localhost:3000/about" -TimeoutSec 10

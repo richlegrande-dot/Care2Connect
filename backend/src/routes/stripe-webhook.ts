@@ -92,6 +92,56 @@ router.get('/stripe-webhook', (req: Request, res: Response) => {
   });
 });
 
+// GET /api/payments/stripe-webhook/health
+router.get('/stripe-webhook/health', async (req: Request, res: Response) => {
+  try {
+    const webhookState = getWebhookState();
+    
+    // Check database connectivity for webhook processing
+    let dbHealthy = false;
+    try {
+      await prisma.stripeEvent.count();
+      dbHealthy = true;
+    } catch (dbError: any) {
+      console.error('[Webhook Health] Database check failed:', dbError.message);
+    }
+
+    // Check Stripe configuration
+    const stripeConfigured = !!stripe && !!process.env.STRIPE_WEBHOOK_SECRET;
+    
+    // Check recent webhook processing
+    const recentErrors = webhookState.lastWebhookError ? 1 : 0;
+    const lastSuccess = webhookState.lastWebhookReceivedAt && !webhookState.lastWebhookError;
+    
+    const healthStatus = dbHealthy && stripeConfigured && recentErrors === 0 ? 'healthy' : 'degraded';
+    
+    res.status(healthStatus === 'healthy' ? 200 : 503).json({
+      status: healthStatus,
+      timestamp: new Date().toISOString(),
+      checks: {
+        database: dbHealthy,
+        stripeConfigured,
+        webhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+        recentErrors,
+        lastSuccess
+      },
+      metrics: {
+        lastWebhookReceivedAt: webhookState.lastWebhookReceivedAt,
+        lastWebhookEventType: webhookState.lastWebhookEventType,
+        lastWebhookVerified: webhookState.lastWebhookVerified,
+        lastWebhookError: webhookState.lastWebhookError
+      }
+    });
+  } catch (error: any) {
+    console.error('[Webhook Health] Health check failed:', error);
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      error: error.message
+    });
+  }
+});
+
 // Raw body parser middleware for this specific route
 // This should be applied before the webhook endpoint
 const rawBodyParser = (req: Request, res: Response, next: any) => {
@@ -179,10 +229,22 @@ router.post('/stripe-webhook', rawBodyParser, async (req: Request, res: Response
         // Check if this is a Phase 6 donation (has ticketId metadata)
         if (session.metadata?.ticketId) {
           console.log(`[Phase 6] Processing donation for ticket: ${session.metadata.ticketId}`);
-          await StripeService.handleCheckoutCompleted(session);
+          try {
+            await StripeService.handleCheckoutCompleted(session);
+          } catch (checkoutError: any) {
+            console.error(`[Webhook] Phase 6 checkout completion failed for ticket ${session.metadata.ticketId}:`, checkoutError);
+            processingError = `Phase 6 checkout completion failed: ${checkoutError.message}`;
+            throw checkoutError;
+          }
         } else {
           // Legacy payment flow
-          await PaymentService.handleCheckoutComplete(session.id);
+          try {
+            await PaymentService.handleCheckoutComplete(session.id);
+          } catch (legacyError: any) {
+            console.error(`[Webhook] Legacy checkout completion failed for session ${session.id}:`, legacyError);
+            processingError = `Legacy checkout completion failed: ${legacyError.message}`;
+            throw legacyError;
+          }
         }
         break;
 
@@ -191,7 +253,13 @@ router.post('/stripe-webhook', rawBodyParser, async (req: Request, res: Response
         console.log('⏰ Checkout session expired:', expiredSession.id);
         
         if (expiredSession.metadata?.ticketId) {
-          await StripeService.handleCheckoutExpired(expiredSession);
+          try {
+            await StripeService.handleCheckoutExpired(expiredSession);
+          } catch (expireError: any) {
+            console.error(`[Webhook] Checkout expiration handling failed for ticket ${expiredSession.metadata.ticketId}:`, expireError);
+            processingError = `Checkout expiration handling failed: ${expireError.message}`;
+            throw expireError;
+          }
         }
         break;
 
@@ -199,36 +267,42 @@ router.post('/stripe-webhook', rawBodyParser, async (req: Request, res: Response
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log('✅ Payment intent succeeded:', paymentIntent.id);
         
-        // Enhanced tracking: Update attribution with payment details
-        const attribution = await prisma.stripeAttribution.findFirst({
-          where: { paymentIntentId: paymentIntent.id },
-        });
-
-        if (attribution) {
-          console.log(`[Webhook] Updating attribution ${attribution.id} with payment details`);
-          
-          // Extract donor details from latest charge
-          const latestCharge = paymentIntent.latest_charge as Stripe.Charge;
-          const chargeDetails = latestCharge || (await stripe.charges.retrieve(paymentIntent.latest_charge as string));
-          
-          const donorLastName = extractDonorLastName(chargeDetails.billing_details?.name);
-          const donorCountry = chargeDetails.billing_details?.address?.country || null;
-          const donorEmailHash = hashEmail(chargeDetails.billing_details?.email);
-
-          await prisma.stripeAttribution.update({
-            where: { id: attribution.id },
-            data: {
-              status: 'PAID',
-              chargeId: chargeDetails.id,
-              donorLastName,
-              donorCountry,
-              donorEmailHash,
-              stripeCreatedAt: new Date(paymentIntent.created * 1000),
-              paidAt: new Date(),
-            },
+        try {
+          // Enhanced tracking: Update attribution with payment details
+          const attribution = await prisma.stripeAttribution.findFirst({
+            where: { paymentIntentId: paymentIntent.id },
           });
 
-          console.log(`[Webhook] ✅ Attribution updated: ${donorLastName ? `Donor: ${donorLastName}` : 'Anonymous'}`);
+          if (attribution) {
+            console.log(`[Webhook] Updating attribution ${attribution.id} with payment details`);
+            
+            // Extract donor details from latest charge
+            const latestCharge = paymentIntent.latest_charge as Stripe.Charge;
+            const chargeDetails = latestCharge || (await stripe.charges.retrieve(paymentIntent.latest_charge as string));
+            
+            const donorLastName = extractDonorLastName(chargeDetails.billing_details?.name);
+            const donorCountry = chargeDetails.billing_details?.address?.country || null;
+            const donorEmailHash = hashEmail(chargeDetails.billing_details?.email);
+
+            await prisma.stripeAttribution.update({
+              where: { id: attribution.id },
+              data: {
+                status: 'PAID',
+                chargeId: chargeDetails.id,
+                donorLastName,
+                donorCountry,
+                donorEmailHash,
+                stripeCreatedAt: new Date(paymentIntent.created * 1000),
+                paidAt: new Date(),
+              },
+            });
+
+            console.log(`[Webhook] ✅ Attribution updated: ${donorLastName ? `Donor: ${donorLastName}` : 'Anonymous'}`);
+          }
+        } catch (paymentError: any) {
+          console.error(`[Webhook] Payment intent processing failed for ${paymentIntent.id}:`, paymentError);
+          processingError = `Payment intent processing failed: ${paymentError.message}`;
+          throw paymentError;
         }
         break;
 
@@ -236,31 +310,43 @@ router.post('/stripe-webhook', rawBodyParser, async (req: Request, res: Response
         const failedPayment = event.data.object as Stripe.PaymentIntent;
         console.log('❌ Payment failed:', failedPayment.id);
         
-        // Update attribution status to FAILED
-        await prisma.stripeAttribution.updateMany({
-          where: { paymentIntentId: failedPayment.id },
-          data: { status: 'FAILED' },
-        });
+        try {
+          // Update attribution status to FAILED
+          await prisma.stripeAttribution.updateMany({
+            where: { paymentIntentId: failedPayment.id },
+            data: { status: 'FAILED' },
+          });
+        } catch (failError: any) {
+          console.error(`[Webhook] Payment failure processing failed for ${failedPayment.id}:`, failError);
+          processingError = `Payment failure processing failed: ${failError.message}`;
+          throw failError;
+        }
         break;
 
       case 'charge.refunded':
         const charge = event.data.object as Stripe.Charge;
         console.log('💰 Charge refunded:', charge.id);
         
-        // Update attribution status to REFUNDED
-        const refundedAttribution = await prisma.stripeAttribution.findFirst({
-          where: { chargeId: charge.id },
-        });
-
-        if (refundedAttribution) {
-          await prisma.stripeAttribution.update({
-            where: { id: refundedAttribution.id },
-            data: {
-              status: 'REFUNDED',
-              refundedAt: new Date(),
-            },
+        try {
+          // Update attribution status to REFUNDED
+          const refundedAttribution = await prisma.stripeAttribution.findFirst({
+            where: { chargeId: charge.id },
           });
-          console.log(`[Webhook] ✅ Attribution ${refundedAttribution.id} marked as refunded`);
+
+          if (refundedAttribution) {
+            await prisma.stripeAttribution.update({
+              where: { id: refundedAttribution.id },
+              data: {
+                status: 'REFUNDED',
+                refundedAt: new Date(),
+              },
+            });
+            console.log(`[Webhook] ✅ Attribution ${refundedAttribution.id} marked as refunded`);
+          }
+        } catch (refundError: any) {
+          console.error(`[Webhook] Refund processing failed for charge ${charge.id}:`, refundError);
+          processingError = `Refund processing failed: ${refundError.message}`;
+          throw refundError;
         }
         break;
 
@@ -268,11 +354,17 @@ router.post('/stripe-webhook', rawBodyParser, async (req: Request, res: Response
         const dispute = event.data.object as Stripe.Dispute;
         console.log('⚠️ Dispute created for charge:', dispute.charge);
         
-        // Update attribution status to DISPUTED
-        await prisma.stripeAttribution.updateMany({
-          where: { chargeId: dispute.charge as string },
-          data: { status: 'DISPUTED' },
-        });
+        try {
+          // Update attribution status to DISPUTED
+          await prisma.stripeAttribution.updateMany({
+            where: { chargeId: dispute.charge as string },
+            data: { status: 'DISPUTED' },
+          });
+        } catch (disputeError: any) {
+          console.error(`[Webhook] Dispute processing failed for charge ${dispute.charge}:`, disputeError);
+          processingError = `Dispute processing failed: ${disputeError.message}`;
+          throw disputeError;
+        }
         break;
 
       default:
@@ -293,7 +385,15 @@ router.post('/stripe-webhook', rawBodyParser, async (req: Request, res: Response
     
     // Record processing error
     updateWebhookReceived((event && event.type) || 'unknown', true, processingError);
-    res.status(500).json({ error: 'Webhook processing failed' });
+    
+    // Return detailed error response for debugging
+    res.status(500).json({ 
+      error: 'Webhook processing failed',
+      eventType: event?.type || 'unknown',
+      eventId: event?.id || 'unknown',
+      message: processingError,
+      timestamp: new Date().toISOString()
+    });
   }
 });
 

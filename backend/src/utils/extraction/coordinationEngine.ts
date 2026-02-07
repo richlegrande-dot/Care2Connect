@@ -510,7 +510,7 @@ export class MultiFieldCoordinationEngine {
 
     } catch (error) {
       console.error('[COORDINATION_ERROR] Field coordination failed:', {
-        error: error.message,
+        error: (error as Error).message,
         transcriptLength: context.transcript?.length || 0,
         timestamp: new Date().toISOString()
       });
@@ -575,7 +575,7 @@ export class MultiFieldCoordinationEngine {
       return Math.max(0.1, Math.min(1.0, score));
 
     } catch (error) {
-      console.error('[QUICK_CONSISTENCY_ERROR]:', error.message);
+      console.error('[QUICK_CONSISTENCY_ERROR]:', (error as Error).message);
       return 0.5; // Neutral score on error
     }
   }

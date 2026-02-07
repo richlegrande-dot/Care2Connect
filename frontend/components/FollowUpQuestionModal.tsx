@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { XMarkIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 
 interface FollowUpQuestion {
@@ -21,7 +21,7 @@ interface FollowUpQuestionModalProps {
   };
 }
 
-export function FollowUpQuestionModal(props: any) {
+function FollowUpQuestionModal(props: any) {
   // Support two shapes:
   // - single-question modal: { question, onAnswer, onSkip, onClose, progress }
   // - multi-question flow (used by tests): { isOpen, questions, currentDraft, onComplete, onSkip, onClose }
@@ -29,8 +29,40 @@ export function FollowUpQuestionModal(props: any) {
     const { questions, currentDraft, isOpen, onComplete, onSkip, onClose } = props
     const [index, setIndex] = useState(0)
     const [answers, setAnswers] = useState<Record<string, string>>({})
+    const [currentInput, setCurrentInput] = useState('')
+    const [errors, setErrors] = useState<Record<string, string>>({})
+    const modalRef = useRef<HTMLDivElement>(null)
 
     if (!isOpen) return null
+
+    // Focus the modal when it opens
+    useEffect(() => {
+      if (isOpen && modalRef.current) {
+        modalRef.current.focus()
+      }
+    }, [isOpen])
+
+    // Handle empty questions array
+    if (questions.length === 0) {
+      return (
+        <div tabIndex={-1} onKeyDown={(e) => { if (e.key === 'Escape') onClose?.() }} className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center">
+                  <QuestionMarkCircleIcon className="w-6 h-6 text-blue-600 mr-2" />
+                  <h3 className="text-lg font-semibold text-gray-900">Follow-up Questions</h3>
+                </div>
+                <button onClick={() => onClose?.()} className="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close dialog">
+                  <XMarkIcon className="w-6 h-6" />
+                </button>
+              </div>
+              <p className="text-gray-600">No questions available.</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
 
     const raw = questions[index]
     const question = {
@@ -41,13 +73,54 @@ export function FollowUpQuestionModal(props: any) {
       options: raw.suggestions
     }
 
-    const handleAnswer = async (ans: string) => {
-      setAnswers(a => ({ ...a, [raw.field]: ans }))
+    // Initialize current input when question changes
+    useEffect(() => {
+      setCurrentInput(answers[raw.field] || '')
+    }, [index, answers, raw.field])
+
+    const validateAnswer = (value: string, field: string): string | null => {
+      if (!value.trim()) {
+        return 'Please provide an answer.'
+      }
+      
+      if (field === 'goalAmount') {
+        const num = parseFloat(value.replace(/[$,]/g, ''))
+        if (isNaN(num) || num <= 0) {
+          return 'Please enter a valid amount.'
+        }
+      }
+      
+      return null
+    }
+
+    const handleAnswer = () => {
+      const error = validateAnswer(currentInput, raw.field)
+      if (error) {
+        setErrors({ [raw.field]: error })
+        return
+      }
+
+      // Clear any existing errors
+      setErrors({})
+
+      const newAnswers = { ...answers, [raw.field]: currentInput }
+      setAnswers(newAnswers)
+
       if (index < questions.length - 1) {
         setIndex(i => i + 1)
       } else {
-        const result = { ...answers, [raw.field]: ans }
-        onComplete?.(result)
+        onComplete?.(newAnswers)
+      }
+    }
+
+    const handleBack = () => {
+      // Save current input before navigating
+      const newAnswers = { ...answers, [raw.field]: currentInput }
+      setAnswers(newAnswers)
+      setErrors({})
+      
+      if (index > 0) {
+        setIndex(i => i - 1)
       }
     }
 
@@ -57,43 +130,93 @@ export function FollowUpQuestionModal(props: any) {
     // replace placeholders in suggestion labels
     const renderSuggestion = (s: string) => {
       if (!currentDraft) return s
-      return s.replace('\[Name\]', currentDraft.name?.value || '')
+      return s.replace(/\[Name\]/g, currentDraft.name?.value || '')
+    }
+
+    const handleSuggestionClick = (suggestion: string) => {
+      const rendered = renderSuggestion(suggestion)
+      setCurrentInput(rendered)
+      setErrors({})
     }
 
     return (
-      <div tabIndex={-1} onKeyDown={(e) => { if (e.key === 'Escape') handleClose() }} className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div ref={modalRef} tabIndex={-1} onKeyDown={(e) => { if (e.key === 'Escape') handleClose() }} className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
           <div className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center">
                 <QuestionMarkCircleIcon className="w-6 h-6 text-blue-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-900">Quick Question</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Follow-up Questions</h3>
               </div>
               <button onClick={handleClose} className="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close dialog">
                 <XMarkIcon className="w-6 h-6" />
               </button>
             </div>
 
+            <div className="mb-4 text-center">
+              <span className="text-sm text-gray-600">{index + 1} of {questions.length}</span>
+              <p className="text-sm text-gray-600">Improve your campaign</p>
+            </div>
+
             <div className="mb-6">
-              <p className="text-gray-800 text-lg mb-4">{question.question}</p>
-              <form onSubmit={(e) => { e.preventDefault(); }}>
-                <input aria-label={question.question} className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg" />
+              <p className="text-gray-800 text-lg mb-2">{question.question}</p>
+              {raw.context && <p className="text-gray-600 text-sm mb-4">{raw.context}</p>}
+              
+              <form onSubmit={(e) => { e.preventDefault(); handleAnswer() }}>
+                <input 
+                  aria-label={question.question} 
+                  className={`w-full px-4 py-3 border-2 rounded-lg ${errors[raw.field] ? 'border-red-300' : 'border-gray-300'}`}
+                  value={currentInput}
+                  onChange={(e) => {
+                    setCurrentInput(e.target.value)
+                    if (errors[raw.field]) {
+                      setErrors({})
+                    }
+                  }}
+                />
+
+                {errors[raw.field] && (
+                  <p className="text-red-600 text-sm mt-1">{errors[raw.field]}</p>
+                )}
 
                 {raw.suggestions && (
                   <div className="mt-3 flex flex-wrap gap-2">
                     {raw.suggestions.map((s: string) => (
-                      <button key={s} type="button" onClick={() => {
-                        const input = (document.querySelector(`[aria-label="${question.question}"]`) as HTMLInputElement)
-                        if (input) input.value = renderSuggestion(s)
-                      }} className="px-3 py-1 border rounded">{renderSuggestion(s)}</button>
+                      <button 
+                        key={s} 
+                        type="button" 
+                        onClick={() => handleSuggestionClick(s)}
+                        className="px-3 py-1 border rounded hover:bg-gray-50"
+                      >
+                        {renderSuggestion(s)}
+                      </button>
                     ))}
                   </div>
                 )}
 
                 <div className="flex gap-3 mt-6">
-                  {index > 0 && <button type="button" onClick={() => setIndex(i => Math.max(0, i - 1))} className="px-4 py-2">Back</button>}
-                  <button type="button" onClick={() => handleAnswer((document.querySelector(`[aria-label="${question.question}"]`) as HTMLInputElement)?.value || '')} className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg">{index === questions.length - 1 ? 'Finish' : 'Next'}</button>
-                  <button type="button" onClick={handleSkip} className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg">Skip</button>
+                  {index > 0 && (
+                    <button 
+                      type="button" 
+                      onClick={handleBack} 
+                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    >
+                      Back
+                    </button>
+                  )}
+                  <button 
+                    type="submit" 
+                    className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  >
+                    {index === questions.length - 1 ? 'Finish' : 'Next'}
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={handleSkip} 
+                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  >
+                    Skip
+                  </button>
                 </div>
               </form>
             </div>

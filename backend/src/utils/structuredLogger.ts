@@ -213,7 +213,6 @@ export function getRequestLogger(req: Request): StructuredLogger & { requestId: 
   const baseLogger = new StructuredLogger();
   
   return {
-    ...baseLogger,
     requestId,
     debug: (event, message, context?) => baseLogger.debug(event, message, { ...context, requestId }),
     info: (event, message, context?) => baseLogger.info(event, message, { ...context, requestId }),

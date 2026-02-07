@@ -103,7 +103,7 @@ async function createTestCheckoutSession(ticketId: string): Promise<{ sessionId:
     });
 
     // Create StripeAttribution record
-    await prisma.stripeAttribution.create({
+    await prisma.stripe_attributions.create({
       data: {
         ticketId,
         checkoutSessionId: session.id,
@@ -188,7 +188,7 @@ function createMockWebhookPayload(sessionId: string, ticketId: string): Stripe.E
 async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
   try {
     // Check if event already exists
-    const existingEvent = await prisma.stripeEvent.findUnique({
+    const existingEvent = await prisma.stripe_events.findUnique({
       where: { stripeEventId: eventId },
     });
 
@@ -202,7 +202,7 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
 
     // Try to create duplicate (should fail with unique constraint)
     try {
-      await prisma.stripeEvent.create({
+      await prisma.stripe_events.create({
         data: {
           stripeEventId: eventId,
           type: 'payment_intent.succeeded',
@@ -242,7 +242,7 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
  */
 async function verifyDonationAttribution(ticketId: string): Promise<TestResult> {
   try {
-    const attributions = await prisma.stripeAttribution.findMany({
+    const attributions = await prisma.stripe_attributions.findMany({
       where: { ticketId },
     });
 
@@ -373,7 +373,7 @@ async function verifyTicketStatus(ticketId: string): Promise<TestResult> {
  */
 async function verifyDonationsEndpoint(ticketId: string): Promise<TestResult> {
   try {
-    const donations = await prisma.stripeAttribution.findMany({
+    const donations = await prisma.stripe_attributions.findMany({
       where: { ticketId },
       orderBy: { paidAt: 'desc' },
     });
@@ -428,8 +428,8 @@ async function verifyDonationsEndpoint(ticketId: string): Promise<TestResult> {
 async function cleanupTestData(ticketId: string): Promise<void> {
   try {
     // Delete in correct order (respect foreign key constraints)
-    await prisma.stripeAttribution.deleteMany({ where: { ticketId } });
-    await prisma.stripeEvent.deleteMany({
+    await prisma.stripe_attributions.deleteMany({ where: { ticketId } });
+    await prisma.stripe_events.deleteMany({
       where: {
         type: 'payment_intent.succeeded',
         livemode: false,
@@ -483,7 +483,7 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
     const mockEvent = createMockWebhookPayload(sessionResult.sessionId, ticketId);
     
     // Store event in StripeEvent table
-    await prisma.stripeEvent.create({
+    await prisma.stripe_events.create({
       data: {
         stripeEventId: mockEvent.id,
         type: mockEvent.type,
@@ -494,7 +494,7 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
     });
 
     // Update attribution (simulating webhook handler)
-    const attribution = await prisma.stripeAttribution.findFirst({
+    const attribution = await prisma.stripe_attributions.findFirst({
       where: { checkoutSessionId: sessionResult.sessionId },
     });
 
@@ -505,7 +505,7 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
     const paymentIntent = mockEvent.data.object as Stripe.PaymentIntent;
     const charge = paymentIntent.latest_charge as any;
 
-    await prisma.stripeAttribution.update({
+    await prisma.stripe_attributions.update({
       where: { id: attribution.id },
       data: {
         status: 'PAID',

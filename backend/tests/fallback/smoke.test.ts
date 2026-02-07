@@ -4,46 +4,53 @@
  * Simplified test to verify core functionality without complex mocking
  */
 
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { createTestApp, cleanupTestApp } from '../createTestApp';
 
 describe('Manual Fallback - Smoke Test', () => {
-  
+
+  let appData: { prisma: any };
+
   beforeAll(async () => {
+    appData = await createTestApp();
+  });
+
+  afterAll(async () => {
+    await cleanupTestApp(appData);
+  });
+
+  beforeEach(async () => {
     // Cleanup existing test data before starting
-    await prisma.donationDraft.deleteMany({
+    await appData.prisma.donationDraft.deleteMany({
       where: { ticketId: { startsWith: 'smoke-test-' } }
     });
-    await prisma.recordingTicket.deleteMany({
+    await appData.prisma.recordingTicket.deleteMany({
       where: { id: { startsWith: 'smoke-test-' } }
     });
   });
-  
-  afterAll(async () => {
+
+  afterEach(async () => {
     // Cleanup
-    await prisma.donationDraft.deleteMany({
+    await appData.prisma.donationDraft.deleteMany({
       where: { ticketId: { startsWith: 'smoke-test-' } }
     });
-    await prisma.recordingTicket.deleteMany({
+    await appData.prisma.recordingTicket.deleteMany({
       where: { id: { startsWith: 'smoke-test-' } }
     });
-    await prisma.$disconnect();
   });
 
   it('should create database connection', async () => {
-    const result = await prisma.$queryRaw`SELECT 1 as test`;
+    const result = await appData.prisma.$queryRaw`SELECT 1 as test`;
     expect(result).toBeDefined();
   });
 
   it('should have SystemIncident table', async () => {
-    const count = await prisma.systemIncident.count();
+    const count = await appData.prisma.systemIncident.count();
     expect(typeof count).toBe('number');
   });
 
   it('should have generationMode field in DonationDraft', async () => {
     // Create a recording ticket first (required for foreign key)
-    const ticket = await prisma.recordingTicket.create({
+    const ticket = await appData.prisma.recordingTicket.create({
       data: {
         id: 'smoke-test-ticket-1',
         contactType: 'EMAIL',
@@ -52,7 +59,7 @@ describe('Manual Fallback - Smoke Test', () => {
       }
     });
 
-    const draft = await prisma.donationDraft.create({
+    const draft = await appData.prisma.donationDraft.create({
       data: {
         ticketId: 'smoke-test-ticket-1',
         title: 'Smoke Test',
@@ -69,7 +76,7 @@ describe('Manual Fallback - Smoke Test', () => {
   });
 
   it('should create SystemIncident with metadata', async () => {
-    const incident = await prisma.systemIncident.create({
+    const incident = await appData.prisma.systemIncident.create({
       data: {
         severity: 'WARN',
         category: 'PIPELINE_FALLBACK',
@@ -89,12 +96,12 @@ describe('Manual Fallback - Smoke Test', () => {
     expect((incident.metadata as any).ticketId).toBe('smoke-test-001');
 
     // Cleanup
-    await prisma.systemIncident.delete({ where: { id: incident.id } });
+    await appData.prisma.systemIncident.delete({ where: { id: incident.id } });
   });
 
   it('should query SystemIncident by metadata', async () => {
     // Create test incident
-    await prisma.systemIncident.create({
+    await appData.prisma.systemIncident.create({
       data: {
         severity: 'WARN',
         category: 'PIPELINE_FALLBACK',
@@ -107,7 +114,7 @@ describe('Manual Fallback - Smoke Test', () => {
     });
 
     // Query by category
-    const incidents = await prisma.systemIncident.findMany({
+    const incidents = await appData.prisma.systemIncident.findMany({
       where: {
         category: 'PIPELINE_FALLBACK',
         metadata: {
@@ -120,7 +127,7 @@ describe('Manual Fallback - Smoke Test', () => {
     expect(incidents.length).toBeGreaterThan(0);
     
     // Cleanup
-    await prisma.systemIncident.deleteMany({
+    await appData.prisma.systemIncident.deleteMany({
       where: {
         metadata: {
           path: ['ticketId'],

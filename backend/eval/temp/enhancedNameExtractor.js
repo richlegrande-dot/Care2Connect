@@ -66,23 +66,23 @@ class EnhancedNameExtractor {
         const patterns = [
             // Direct introductions (highest confidence)
             {
-                regex: /(?:my full name is|full name is)\s+([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/g,
+                regex: /(?:my full name is|full name is)\s+([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/gi,
                 confidence: 0.95,
                 strategy: 'direct_full_name'
             },
             {
-                regex: /\b(?:my name is)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/g,
+                regex: /(?:my name is)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
                 confidence: 0.92,
                 strategy: 'direct_name'
             },
             {
-                regex: /(?:i am|this is|i'm)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/g,
+                regex: /(?:i am|this is|i'm)\s+(?!(?:calling|speaking|here|from|going|looking|trying|sorry|asking|wondering|dr|doctor|mrs?|ms|mr|miss)\b)\s*([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/gi,
                 confidence: 0.88,
                 strategy: 'self_identification'
             },
-            // Titles and honorifics
+            // Titles and honorifics - only when introducing someone, limit to 2-3 name parts
             {
-                regex: /\b(?:dr|doctor|mrs?|ms|mr|miss)\.?\s+([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)+)\b/g,
+                regex: /(?:^|[.!?]\s+|,\s+|this is\s+|my name is\s+)(?:dr|doctor|mrs?|ms|mr|miss)\.?\s+([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+){0,2})(?:\s+(?:but|and|who|,|\.|!|\?)|\s*$)/gi,
                 confidence: 0.90,
                 strategy: 'title_honorific'
             },
@@ -251,8 +251,8 @@ class EnhancedNameExtractor {
             return false;
         if (/^(um|uh|er|ah|well|so|very|really|so|quite|like|you know)$/i.test(name))
             return false;
-        // Check for too many consecutive consonants (unlikely in names)
-        if (/[^aeiou]{4,}/i.test(name.replace(/\s/g, '')))
+        // Check for too many consecutive consonants (unlikely in names) - RELAXED for compound names
+        if (/[^aeiou]{6,}/i.test(name.replace(/\s/g, '')))
             return false;
         return true;
     }

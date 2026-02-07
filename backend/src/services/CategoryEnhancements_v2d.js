@@ -93,7 +93,7 @@ class CategoryEnhancements_v2d {
 
     // Fix 3: Prevent misclassification of employment-related descriptions
     // Additional safety check: If current category is OTHER but employment signals strong
-    if (category === 'OTHER' && text.includes('employment') || text.includes('job')) {
+    if (category === 'OTHER' && (text.includes('employment') || text.includes('job'))) {
       // Check if it's actually employment
       const employmentSignals = [
         /laid off/i,

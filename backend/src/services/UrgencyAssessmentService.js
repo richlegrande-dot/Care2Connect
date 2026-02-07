@@ -17,7 +17,29 @@ try {
   // Silent fallback - no console warnings in production
 }
 
-// Phase 1 Enhancement: Import v3a enhancements for threshold adjustment
+// Phase 1.5: Load v3b enhancement for Core30 regression fix
+let UrgencyEnhancements_v3b;
+try {
+  if (process.env.USE_V3B_ENHANCEMENTS === 'true') {
+    UrgencyEnhancements_v3b = require('./UrgencyEnhancements_v3b.js');
+    console.log('✅ UrgencyEnhancements_v3b loaded - Phase 1.5 Core30 fix active');
+  }
+} catch (error) {
+  console.warn('⚠️ UrgencyEnhancements_v3b not found, using baseline');
+}
+
+// Phase 3: Load v3c enhancement for urgency under-assessment fix
+let UrgencyEnhancements_v3c;
+try {
+  if (process.env.USE_V3C_ENHANCEMENTS === 'true') {
+    UrgencyEnhancements_v3c = require('./UrgencyEnhancements_v3c.js');
+    console.log('✅ UrgencyEnhancements_v3c loaded - Phase 3 urgency boost active');
+  }
+} catch (error) {
+  console.warn('⚠️ UrgencyEnhancements_v3c not found, using baseline');
+}
+
+// Legacy v3a support (fallback)
 let UrgencyEnhancements_v3a;
 try {
   if (process.env.USE_V3A_ENHANCEMENTS === 'true') {
@@ -33,8 +55,26 @@ class UrgencyAssessmentService {
     this.engine = UrgencyAssessmentEngine ? new UrgencyAssessmentEngine() : null;
     this.fallbackPatterns = this.initializeFallbackPatterns();
     
-    // Phase 1: Check for v3a enhancements (threshold adjustment)
-    this.useV3aEnhancements = process.env.USE_V3A_ENHANCEMENTS === 'true';
+    // Phase 1.5: Initialize v3b (Core30 regression fix) enhancement
+    this.useV3bEnhancements = process.env.USE_V3B_ENHANCEMENTS === 'true';
+    this.v3bEnhancement = null;
+    
+    if (this.useV3bEnhancements && UrgencyEnhancements_v3b) {
+      this.v3bEnhancement = UrgencyEnhancements_v3b;
+      console.log(`🎯 Phase 1.5 Active - Hybrid thresholds: Core30 protection + v3a gains`);
+    }
+    
+    // Phase 3: Initialize v3c (urgency under-assessment fix) enhancement
+    this.useV3cEnhancements = process.env.USE_V3C_ENHANCEMENTS === 'true';
+    this.v3cEnhancement = null;
+    
+    if (this.useV3cEnhancements && UrgencyEnhancements_v3c) {
+      this.v3cEnhancement = UrgencyEnhancements_v3c;
+      console.log(`🚀 Phase 3 Active - Urgency boosting: targeting under-assessment fixes`);
+    }
+    
+    // Legacy Phase 1: v3a enhancement (fallback when v3b not active)
+    this.useV3aEnhancements = process.env.USE_V3A_ENHANCEMENTS === 'true' && !this.useV3bEnhancements;
     this.v3aThresholds = null;
     
     if (this.useV3aEnhancements && UrgencyEnhancements_v3a) {
@@ -228,10 +268,17 @@ class UrgencyAssessmentService {
           }
         }
         
-        // Apply ENHANCED THRESHOLDS (Phase 1: v3a or baseline)
+        // Apply HYBRID THRESHOLDS (Phase 1.5: v3b Core30 fix or v3a/baseline)
         let boostedUrgencyLevel;
         
-        if (this.useV3aEnhancements && this.v3aThresholds) {
+        if (this.useV3bEnhancements && this.v3bEnhancement) {
+          // Phase 1.5: Hybrid threshold system (Core30 protection + v3a gains)
+          const thresholds = this.v3bEnhancement.getThresholds(transcript);
+          if (boostedScore >= thresholds.CRITICAL) boostedUrgencyLevel = 'CRITICAL';
+          else if (boostedScore >= thresholds.HIGH) boostedUrgencyLevel = 'HIGH';
+          else if (boostedScore >= thresholds.MEDIUM) boostedUrgencyLevel = 'MEDIUM';
+          else boostedUrgencyLevel = 'LOW';
+        } else if (this.useV3aEnhancements && this.v3aThresholds) {
           // Phase 1: Enhanced thresholds for under-assessment fix
           if (boostedScore >= this.v3aThresholds.CRITICAL) boostedUrgencyLevel = 'CRITICAL';   // 0.75 (was 0.80)
           else if (boostedScore >= this.v3aThresholds.HIGH) boostedUrgencyLevel = 'HIGH';       // 0.45 (was 0.50)
@@ -245,11 +292,32 @@ class UrgencyAssessmentService {
           else boostedUrgencyLevel = 'LOW';
         }
         
+        // Phase 3: Apply v3c urgency boost enhancement (targeting under-assessment)
+        let finalUrgencyLevel = boostedUrgencyLevel;
+        let finalScore = boostedScore;
+        let finalReasons = boostedReasons;
+        
+        if (this.useV3cEnhancements && this.v3cEnhancement) {
+          const baseResult = {
+            level: boostedUrgencyLevel,
+            score: boostedScore,
+            category: context.category || 'OTHER'
+          };
+          
+          const v3cResult = this.v3cEnhancement.enhanceUrgency(transcript, baseResult);
+          
+          if (v3cResult.enhanced) {
+            finalUrgencyLevel = v3cResult.level;
+            finalScore = v3cResult.score;
+            finalReasons = [...boostedReasons, ...v3cResult.reasons.slice(0, 2)];
+          }
+        }
+        
         return {
-          urgencyLevel: boostedUrgencyLevel,
-          score: boostedScore,
+          urgencyLevel: finalUrgencyLevel,
+          score: finalScore,
           confidence: assessment.confidence,
-          reasons: boostedReasons
+          reasons: finalReasons
         };
       } catch (error) {
         // Silent fallback to pattern matching

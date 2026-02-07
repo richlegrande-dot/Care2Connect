@@ -115,6 +115,10 @@ class V4PlusEvaluationRunner {
       process.env.OPENAI_API_KEY = '';
     }
     
+    // Enable enhancement systems for complete evaluation
+    process.env.USE_V3B_ENHANCEMENTS = 'true';  // Phase 1.5: Core30 protection
+    process.env.USE_V2C_ENHANCEMENTS = 'false'; // Phase 2: Category improvements - TEMPORARILY DISABLED FOR TEST
+    
     // Enforce no network (simplified check)
     if (this.config.ENFORCE_NO_NETWORK) {
       const http = require('http');

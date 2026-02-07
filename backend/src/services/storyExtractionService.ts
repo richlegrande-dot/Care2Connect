@@ -16,6 +16,17 @@ import {
 } from '../utils/extraction/rulesEngine';
 import { extractSignals } from './speechIntelligence/transcriptSignalExtractor';
 
+// Phase 2: Load v2c category enhancement
+let CategoryEnhancements_v2c: any = null;
+try {
+  if (process.env.USE_V2C_ENHANCEMENTS === 'true') {
+    CategoryEnhancements_v2c = require('./CategoryEnhancements_v2c.js');
+    console.log('✅ CategoryEnhancements_v2c loaded - Phase 2 category improvements active');
+  }
+} catch (error) {
+  console.warn('⚠️ CategoryEnhancements_v2c not found, using baseline category classification');
+}
+
 export interface ExtractionResult {
   draft: GoFundMeDraft;
   success: boolean;
@@ -55,12 +66,23 @@ export class StoryExtractionService {
         extractedSignals: signals // Pass enhanced signals to improve AI generation
       });
 
-      // Apply intelligent fallbacks for missing data
+      // Apply intelligent fallbacks for missing data with Phase 2 category enhancement
+      let enhancedCategory = draftResult.category || (signals.needsCategories.length > 0 ? signals.needsCategories[0].category : 'General Support');
+      
+      // Phase 2: Apply v2c category enhancement if available
+      if (CategoryEnhancements_v2c && process.env.USE_V2C_ENHANCEMENTS === 'true') {
+        const v2cCategory = CategoryEnhancements_v2c.getEnhancedCategory(transcript, { originalCategory: enhancedCategory });
+        if (v2cCategory && v2cCategory !== enhancedCategory) {
+          console.log(`🎯 Phase 2 Category Enhancement: ${enhancedCategory} → ${v2cCategory}`);
+          enhancedCategory = v2cCategory;
+        }
+      }
+      
       let extractedData: any = {
         title: draftResult.title || this.generateFallbackTitle(signals),
         story: draftResult.story || transcript,
         goalAmount: draftResult.goalAmount || signals.goalAmount || signals.dataValidation.suggestions.goalAmount,
-        category: draftResult.category || (signals.needsCategories.length > 0 ? signals.needsCategories[0].category : 'General Support'),
+        category: enhancedCategory,
         beneficiary: draftResult.beneficiary || signals.nameCandidate || 'Individual in need',
         location: draftResult.location || (signals.locationCandidates.length > 0 ? signals.locationCandidates[0] : null),
         summary: draftResult.summary || this.generateFallbackSummary(transcript, signals),

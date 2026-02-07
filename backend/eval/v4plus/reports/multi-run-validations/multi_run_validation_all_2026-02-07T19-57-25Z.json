@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-07T19:57:25.049Z",
+    "run_count": 10,
+    "successful_runs": 10,
+    "dataset": "all",
+    "runner": "backend/eval/v4plus/runners/run_eval_v4plus.js",
+    "total_duration_sec": "13.0"
+  },
+  "statistics": {
+    "pass_rate": {
+      "median": 49.12,
+      "mean": 49.12,
+      "std_dev": 0,
+      "min": 49.12,
+      "max": 49.12,
+      "range": 0,
+      "values": [
+        49.12,
+        49.12,
+        49.12,
+        49.12,
+        49.12,
+        49.12,
+        49.12,
+        49.12,
+        49.12,
+        49.12
+      ]
+    },
+    "execution_time": {
+      "median": 812.9949999999999,
+      "mean": 815.1479999999999,
+      "std_dev": 29.347114951899453,
+      "min": 774.51,
+      "max": 863.95,
+      "range": 89.44000000000005,
+      "values": [
+        774.51,
+        777.84,
+        786.99,
+        801.87,
+        810.93,
+        815.06,
+        825.25,
+        847.38,
+        847.7,
+        863.95
+      ]
+    },
+    "core30_failures": {
+      "median": 0,
+      "mean": 0,
+      "std_dev": 0,
+      "min": 0,
+      "max": 0,
+      "range": 0,
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "acceptance_criteria": {
+    "stability_pass": true,
+    "range_pass": true,
+    "target_pass": null,
+    "overall_pass": true,
+    "core30_stable": true
+  },
+  "raw_results": [
+    {
+      "run": 1,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 863.95,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1399
+    },
+    {
+      "run": 2,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 847.7,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1333
+    },
+    {
+      "run": 3,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 810.93,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1252
+    },
+    {
+      "run": 4,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 847.38,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1314
+    },
+    {
+      "run": 5,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 786.99,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1289
+    },
+    {
+      "run": 6,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 774.51,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1267
+    },
+    {
+      "run": 7,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 815.06,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1302
+    },
+    {
+      "run": 8,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 777.84,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1243
+    },
+    {
+      "run": 9,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 801.87,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1297
+    },
+    {
+      "run": 10,
+      "passRate": 49.12,
+      "passing": 167,
+      "total": 340,
+      "executionTime": 825.25,
+      "core30Failures": 0,
+      "core30Cases": [],
+      "failureBuckets": {
+        "urgency_under_assessed": 72,
+        "urgency_over_assessed": 53,
+        "category_wrong": 27,
+        "amount_missing": 13,
+        "name_wrong": 12,
+        "amount_wrong_selection": 9,
+        "amount_outside_tolerance": 9,
+        "category_priority_violated": 7,
+        "urgency_conflicting_signals": 3
+      },
+      "duration": 1268
+    }
+  ],
+  "recommendations": [
+    "Results validated - deployment can be tagged and committed",
+    "Document median pass rate: 49.12% ± 0.00%"
+  ]
+}

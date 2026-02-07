@@ -12,6 +12,43 @@ const path = require('path');
 let urgencyService;
 const useV2 = process.env.USE_V2_URGENCY === 'true';
 
+// Phase 2: Import v2c category enhancement
+let CategoryEnhancements_v2c;
+try {
+  if (process.env.USE_V2C_ENHANCEMENTS === 'true') {
+    const categoryEnhancementPath = path.join(__dirname, '..', 'src', 'services', 'CategoryEnhancements_v2c.js');
+    CategoryEnhancements_v2c = require(categoryEnhancementPath);
+    console.log('✅ CategoryEnhancements_v2c loaded - Phase 2 category improvements active');
+  }
+} catch (err) {
+  console.warn('⚠️ CategoryEnhancements_v2c not found, using baseline category classification');
+}
+
+// Phase 2d: Import v2d category enhancement - Core30 fixes
+let CategoryEnhancements_v2d;
+try {
+  if (process.env.USE_V2D_ENHANCEMENTS === 'true') {
+    const categoryEnhancementPath = path.join(__dirname, '..', 'src', 'services', 'CategoryEnhancements_v2d.js');
+    const v2dModule = require(categoryEnhancementPath);
+    CategoryEnhancements_v2d = v2dModule.CategoryEnhancements_v2d;
+    console.log('✅ CategoryEnhancements_v2d loaded - Phase 1 Core30 category fixes active');
+  }
+} catch (err) {
+  console.warn('⚠️ CategoryEnhancements_v2d not found:', err.message);
+}
+
+// Phase 4: Import v4c category enhancement
+let CategoryEnhancements_v4c;
+try {
+  if (process.env.USE_V4C_ENHANCEMENTS === 'true') {
+    const categoryEnhancementPath = path.join(__dirname, '..', 'src', 'services', 'CategoryEnhancements_v4c.js');
+    CategoryEnhancements_v4c = require(categoryEnhancementPath);
+    console.log('✅ CategoryEnhancements_v4c loaded - Phase 4 contextual category matching active');
+  }
+} catch (error) {
+  console.warn('⚠️ CategoryEnhancements_v4c not found, using baseline category classification');
+}
+
 if (useV2) {
   try {
     // Use v2 (Phase 1 architectural improvements) - ONLY when explicitly enabled
@@ -1553,6 +1590,10 @@ class JanV3AnalyticsEvaluator {
       // Gracefully handle v2b enhancement errors - fall back to current result
       categoryDebug.push(`V2b enhancement error: ${error.message}`);
     }
+
+    // NOTE: V2c and V4c enhancements now run at the END after all legacy logic
+    // This ensures enhancements have final say and can override legacy keyword-based classifications
+    // See category enhancement section just before return statement
     
     // Legacy integration logic (preserved for other enhancements)
     try {
@@ -1662,6 +1703,66 @@ class JanV3AnalyticsEvaluator {
     }
 
     const urgencyDebug = { assessment: extractedUrgency, serviceUsed: !!urgencyService, enhanced: useEnhancedUrgency };
+
+    // V2c + V2d + V4c Enhanced Category Classification (FINAL PASS - After all legacy logic)
+    // These run last to ensure enhancements have final say and override legacy keyword-based classifications
+    try {
+      const useV2cEnhancements = process.env.USE_V2C_ENHANCEMENTS === 'true';
+      const useV2dEnhancements = process.env.USE_V2D_ENHANCEMENTS === 'true';
+      const useV4cEnhancements = process.env.USE_V4C_ENHANCEMENTS === 'true';
+      
+      // V2c: Phase 2 category improvements (DISABLED - causes regression)
+      if (useV2cEnhancements && CategoryEnhancements_v2c) {
+        const v2cBaseResult = {
+          category: finalCategory,
+          confidence: finalCategory !== 'OTHER' ? 0.8 : 0.4,
+          extractedCategory: finalCategory
+        };
+        
+        const v2cResult = CategoryEnhancements_v2c.enhanceCategory(transcript, v2cBaseResult);
+        
+        if (v2cResult && v2cResult.category !== finalCategory) {
+          categoryDebug.push(`[FINAL] V2c Enhanced: ${finalCategory} → ${v2cResult.category}`);
+          finalCategory = v2cResult.category;
+        }
+      }
+      
+      // V2d: Phase 1 Core30 category fixes (Conservative disambiguation)
+      if (useV2dEnhancements && CategoryEnhancements_v2d) {
+        const v2dEngine = new CategoryEnhancements_v2d();
+        const v2dBaseResult = {
+          category: finalCategory,
+          confidence: finalCategory !== 'OTHER' ? 0.8 : 0.4,
+          reasons: []
+        };
+        
+        const v2dResult = v2dEngine.enhanceCategory(transcript, v2dBaseResult);
+        
+        if (v2dResult && v2dResult.enhanced) {
+          categoryDebug.push(`[FINAL] V2d Enhanced: ${finalCategory} → ${v2dResult.category} (${v2dResult.reasons[v2dResult.reasons.length - 1]})`);
+          finalCategory = v2dResult.category;
+        }
+      }
+      
+      // V4c: Phase 4 contextual category matching (runs after v2c)
+      if (useV4cEnhancements && CategoryEnhancements_v4c) {
+        const v4cBaseResult = {
+          category: finalCategory,
+          categoryConfidence: finalCategory !== 'OTHER' ? 0.7 : 0.4
+        };
+        
+        const v4cResult = CategoryEnhancements_v4c.applyV4cCategoryEnhancement(v4cBaseResult, transcript);
+        
+        if (v4cResult && v4cResult.v4cEnhanced && v4cResult.category !== finalCategory) {
+          categoryDebug.push(`[FINAL] V4c Enhanced: ${finalCategory} → ${v4cResult.category}`);
+          finalCategory = v4cResult.category;
+        }
+      }
+      
+    } catch (error) {
+      categoryDebug.push(`Final enhancement error: ${error.message}`);
+      console.warn('⚠️ Final category enhancement failed:', error.message);
+    }
 
     return {
       results: {

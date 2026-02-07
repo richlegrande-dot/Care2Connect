@@ -22,7 +22,7 @@ export class RetentionManager {
       const now = new Date();
 
       // Find expired sessions
-      const expiredSessions = await prisma.transcriptionSession.findMany({
+      const expiredSessions = await prisma.transcription_sessions.findMany({
         where: {
           retentionUntil: {
             lt: now
@@ -39,7 +39,7 @@ export class RetentionManager {
 
         try {
           // Cascade delete will handle related records
-          const result = await prisma.transcriptionSession.deleteMany({
+          const result = await prisma.transcription_sessions.deleteMany({
             where: {
               id: { in: ids }
             }
@@ -72,8 +72,8 @@ export class RetentionManager {
     const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     const [total, expiringSoon, expired, avgRetention] = await Promise.all([
-      prisma.transcriptionSession.count(),
-      prisma.transcriptionSession.count({
+      prisma.transcription_sessions.count(),
+      prisma.transcription_sessions.count({
         where: {
           retentionUntil: {
             gte: now,
@@ -81,7 +81,7 @@ export class RetentionManager {
           }
         }
       }),
-      prisma.transcriptionSession.count({
+      prisma.transcription_sessions.count({
         where: {
           retentionUntil: {
             lt: now

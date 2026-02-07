@@ -88,12 +88,12 @@ export async function createPaymentQRWithMode(
   });
 
   // Save/update QR code link with generation mode
-  let qrCode = await prisma.qRCodeLink.findUnique({
+  let qrCode = await prisma.qr_code_links.findUnique({
     where: { ticketId }
   });
 
   if (qrCode) {
-    qrCode = await prisma.qRCodeLink.update({
+    qrCode = await prisma.qr_code_links.update({
       where: { id: qrCode.id },
       data: {
         targetUrl: checkoutResult.checkoutUrl,
@@ -107,7 +107,7 @@ export async function createPaymentQRWithMode(
       }
     });
   } else {
-    qrCode = await prisma.qRCodeLink.create({
+    qrCode = await prisma.qr_code_links.create({
       data: {
         ticketId,
         targetUrl: checkoutResult.checkoutUrl,
@@ -143,7 +143,7 @@ export async function generateQRFromManualDraft(
 ): Promise<any> {
   
   // Get draft
-  const draft = await prisma.donationDraft.findUnique({
+  const draft = await prisma.donation_drafts.findUnique({
     where: { id: draftId }
   });
 

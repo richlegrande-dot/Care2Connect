@@ -29,16 +29,21 @@ export async function orchestrateDonationPipeline(
   console.log(`[Pipeline Orchestrator] Starting for ticket ${ticketId}`);
 
   try {
-    // Check system health first
-    if (await isSystemDegraded()) {
-      console.warn('[Pipeline Orchestrator] System degraded, triggering fallback');
+    // Step 1: Comprehensive pipeline health check
+    const healthCheck = await checkPipelineHealth();
+    if (!healthCheck.healthy) {
+      console.warn('[Pipeline Orchestrator] Pipeline health check failed:', healthCheck.issues);
       return await createPipelineFailure('SYSTEM_DEGRADED', {
         ticketId,
-        context: { partialData: extractPartialData(transcript) }
+        context: { 
+          partialData: extractPartialData(transcript),
+          healthIssues: healthCheck.issues,
+          serviceStatus: healthCheck.services
+        }
       });
     }
 
-    // Force manual if requested
+    // Step 2: Force manual if requested
     if (forceManual) {
       return await createPipelineFailure('PARSING_INCOMPLETE', {
         ticketId,
@@ -46,15 +51,16 @@ export async function orchestrateDonationPipeline(
       });
     }
 
-    // Step 1: Validate transcript
+    // Step 3: Validate transcript with detailed error handling
     if (!transcript || transcript.trim().length === 0) {
       console.warn('[Pipeline Orchestrator] No transcript available');
       return await createPipelineFailure('TRANSCRIPTION_FAILED', { ticketId });
     }
 
-    // Step 2: Check for dry recording
-    const trimmed = transcript.trim();
-    if (trimmed === '...' || trimmed.length < 10) {
+    const trimmedTranscript = transcript.trim();
+
+    // Step 4: Check for dry recording
+    if (trimmedTranscript === '...' || trimmedTranscript.length < 10) {
       console.warn('[Pipeline Orchestrator] Dry recording detected');
       return await createPipelineFailure('PARSING_INCOMPLETE', {
         ticketId,
@@ -62,20 +68,20 @@ export async function orchestrateDonationPipeline(
       });
     }
 
-    // Step 3: Extract signals
+    // Step 5: Extract signals with comprehensive error handling
     let signals;
     try {
-      signals = await extractSignals({ text: transcript });
-    } catch (error: any) {
-      console.error('[Pipeline Orchestrator] Signal extraction failed:', error);
+      signals = await extractSignals({ text: trimmedTranscript });
+    } catch (signalError: any) {
+      console.error('[Pipeline Orchestrator] Signal extraction failed:', signalError);
       return await createPipelineFailure('PARSING_INCOMPLETE', {
         ticketId,
-        error,
+        error: signalError,
         context: { partialData: extractPartialData(transcript) }
       });
     }
 
-    // Step 4: Validate signal quality
+    // Step 6: Validate signal quality
     const hasCriticalFields = signals.nameCandidate && 
                              (signals.contactCandidates.emails.length > 0 || 
                               signals.contactCandidates.phones.length > 0);
@@ -93,7 +99,7 @@ export async function orchestrateDonationPipeline(
       });
     }
 
-    // Step 5: Generate draft (simplified for now)
+    // Step 7: Generate draft with validation
     const draft = {
       ticketId,
       title: `Help ${signals.nameCandidate}`,
@@ -103,26 +109,45 @@ export async function orchestrateDonationPipeline(
       generationMode: 'AUTOMATED' as const
     };
 
-    // Step 6: Save draft
-    const savedDraft = await prisma.donationDraft.upsert({
-      where: { ticketId },
-      update: {
-        title: draft.title,
-        story: draft.story,
-        goalAmount: draft.goalAmount,
-        generationMode: 'AUTOMATED',
-        extractedAt: new Date()
-      },
-      create: {
-        ticketId: draft.ticketId,
-        title: draft.title,
-        story: draft.story,
-        goalAmount: draft.goalAmount,
-        currency: draft.currency,
-        generationMode: 'AUTOMATED',
-        extractedAt: new Date()
-      }
-    });
+    // Validate draft data
+    if (!draft.title || draft.title.trim().length === 0) {
+      console.warn('[Pipeline Orchestrator] Invalid draft title');
+      return await createPipelineFailure('PARSING_INCOMPLETE', {
+        ticketId,
+        context: { partialData: extractPartialData(transcript, draft) }
+      });
+    }
+
+    // Step 8: Save draft with database error handling
+    let savedDraft;
+    try {
+      savedDraft = await prisma.donationDraft.upsert({
+        where: { ticketId },
+        update: {
+          title: draft.title,
+          story: draft.story,
+          goalAmount: draft.goalAmount,
+          generationMode: 'AUTOMATED',
+          extractedAt: new Date()
+        },
+        create: {
+          ticketId: draft.ticketId,
+          title: draft.title,
+          story: draft.story,
+          goalAmount: draft.goalAmount,
+          currency: draft.currency,
+          generationMode: 'AUTOMATED',
+          extractedAt: new Date()
+        }
+      });
+    } catch (dbError: any) {
+      console.error('[Pipeline Orchestrator] Database save failed:', dbError);
+      return await createPipelineFailure('PIPELINE_EXCEPTION', {
+        ticketId,
+        error: dbError,
+        context: { partialData: extractPartialData(transcript, draft) }
+      });
+    }
 
     console.log(`[Pipeline Orchestrator] Success for ticket ${ticketId}`);
 
@@ -140,13 +165,92 @@ export async function orchestrateDonationPipeline(
       }
     };
 
-  } catch (error: any) {
-    console.error('[Pipeline Orchestrator] Unexpected error:', error);
+  } catch (unexpectedError: any) {
+    console.error('[Pipeline Orchestrator] Unexpected error:', unexpectedError);
     return await createPipelineFailure('PIPELINE_EXCEPTION', {
       ticketId,
-      error,
+      error: unexpectedError,
       context: { partialData: extractPartialData(transcript) }
     });
+  }
+}
+
+/**
+ * Check pipeline health before processing
+ */
+export async function checkPipelineHealth(): Promise<{
+  healthy: boolean;
+  issues: string[];
+  services: Record<string, boolean>;
+}> {
+  const issues: string[] = [];
+  const services: Record<string, boolean> = {};
+
+  try {
+    // Check database connectivity
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      services.database = true;
+    } catch (dbError: any) {
+      services.database = false;
+      issues.push(`Database connection failed: ${dbError.message}`);
+    }
+
+    // Check system degraded status
+    try {
+      const isDegraded = await isSystemDegraded();
+      services.system = !isDegraded;
+      if (isDegraded) {
+        issues.push('System is in degraded mode');
+      }
+    } catch (healthError: any) {
+      services.system = false;
+      issues.push(`System health check failed: ${healthError.message}`);
+    }
+
+    // Check speech intelligence service availability
+    try {
+      // Simple import check - if the module loads, service is available
+      const { extractSignals } = await import('./speechIntelligence/transcriptSignalExtractor');
+      services.speechIntelligence = typeof extractSignals === 'function';
+    } catch (speechError: any) {
+      services.speechIntelligence = false;
+      issues.push(`Speech intelligence service unavailable: ${speechError.message}`);
+    }
+
+    // Check Stripe service availability
+    try {
+      const { isStripeConfigured } = await import('../config/stripe');
+      services.stripe = isStripeConfigured();
+    } catch (stripeError: any) {
+      services.stripe = false;
+      issues.push(`Stripe service unavailable: ${stripeError.message}`);
+    }
+
+    // Check required environment variables
+    const requiredEnvVars = ['DATABASE_URL', 'STRIPE_SECRET_KEY'];
+    const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    services.environment = missingEnvVars.length === 0;
+    if (missingEnvVars.length > 0) {
+      issues.push(`Missing environment variables: ${missingEnvVars.join(', ')}`);
+    }
+
+    const healthy = issues.length === 0;
+
+    console.log(`[Pipeline Health] ${healthy ? '✅' : '❌'} ${issues.length} issues found`, {
+      services,
+      issues: healthy ? [] : issues
+    });
+
+    return { healthy, issues, services };
+
+  } catch (error: any) {
+    console.error('[Pipeline Health] Health check failed:', error);
+    return {
+      healthy: false,
+      issues: [`Health check system error: ${error.message}`],
+      services: { healthCheck: false }
+    };
   }
 }
 

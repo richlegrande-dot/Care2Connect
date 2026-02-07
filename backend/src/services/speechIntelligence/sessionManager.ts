@@ -37,8 +37,9 @@ export class SessionManager {
       ? new Date(Date.now() + options.retentionDays * 24 * 60 * 60 * 1000)
       : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Default 30 days
 
-    const session = await prisma.transcriptionSession.create({
+    const session = await prisma.transcription_sessions.create({
       data: {
+        id: crypto.randomUUID(),
         userId: options.userId,
         anonymousId: options.anonymousId,
         source: options.source,
@@ -51,7 +52,8 @@ export class SessionManager {
         status: TranscriptionStatus.PROCESSING,
         consentToStoreText: options.consentToStoreText ?? false,
         consentToStoreMetrics: options.consentToStoreMetrics ?? true,
-        retentionUntil
+        retentionUntil,
+        updatedAt: new Date()
       }
     });
 
@@ -78,7 +80,7 @@ export class SessionManager {
 
     // Only store transcript if consent was given
     if (options.transcriptText) {
-      const session = await prisma.transcriptionSession.findUnique({
+      const session = await prisma.transcription_sessions.findUnique({
         where: { id: sessionId },
         select: { consentToStoreText: true }
       });
@@ -92,7 +94,7 @@ export class SessionManager {
       }
     }
 
-    return await prisma.transcriptionSession.update({
+    return await prisma.transcription_sessions.update({
       where: { id: sessionId },
       data: updateData
     });
@@ -109,12 +111,13 @@ export class SessionManager {
     confidence?: number;
     tokens?: number;
   }>) {
-    const session = await prisma.transcriptionSession.findUnique({
+    const session = await prisma.transcription_sessions.findUnique({
       where: { id: sessionId },
       select: { consentToStoreText: true }
     });
 
     const segmentData = segments.map(seg => ({
+      id: crypto.randomUUID(),
       sessionId,
       index: seg.index,
       startMs: seg.startMs,
@@ -125,7 +128,7 @@ export class SessionManager {
       tokens: seg.tokens
     }));
 
-    await prisma.transcriptionSegment.createMany({
+    await prisma.transcription_segments.createMany({
       data: segmentData
     });
   }
@@ -146,9 +149,10 @@ export class SessionManager {
     // Sanitize error message (remove paths, secrets, etc.)
     const sanitizedMessage = this.sanitizeErrorMessage(options.errorMessage);
 
-    await prisma.transcriptionErrorEvent.create({
+    await prisma.transcription_error_events.create({
       data: {
-        sessionId: options.sessionId,
+        id: crypto.randomUUID(),
+        sessionId: options.sessionId || null,
         engine: options.engine,
         stage: options.stage,
         errorCode: options.errorCode,
@@ -171,6 +175,7 @@ export class SessionManager {
   }) {
     await prisma.speechAnalysisResult.create({
       data: {
+        id: crypto.randomUUID(),
         sessionId,
         analyzerVersion: options.analyzerVersion,
         resultJson: options.resultJson,

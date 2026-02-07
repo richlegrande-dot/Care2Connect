@@ -76,14 +76,16 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
   });
 
   // Store attribution in database
-  const attribution = await prisma.stripeAttribution.create({
+  const attribution = await prisma.stripe_attributions.create({
     data: {
+      id: crypto.randomUUID(),
       ticketId: params.ticketId,
       checkoutSessionId: session.id,
       amount: params.amount,
       currency: currency,
       status: 'CREATED',
       metadataSnapshot: session.metadata as any,
+      updatedAt: new Date()
     },
   });
 
@@ -125,7 +127,7 @@ export async function handleCheckoutCompleted(session: any): Promise<void> {
   const paymentIntentId = session.payment_intent as string | null;
 
   // Find existing attribution
-  const attribution = await prisma.stripeAttribution.findUnique({
+  const attribution = await prisma.stripe_attributions.findUnique({
     where: { checkoutSessionId },
   });
 
@@ -136,7 +138,7 @@ export async function handleCheckoutCompleted(session: any): Promise<void> {
 
   // Update attribution with payment intent and initial status
   // Donor details will be filled by payment_intent.succeeded webhook
-  await prisma.stripeAttribution.update({
+  await prisma.stripe_attributions.update({
     where: { id: attribution.id },
     data: {
       paymentIntentId,
@@ -156,7 +158,7 @@ export async function handleCheckoutCompleted(session: any): Promise<void> {
 export async function handleCheckoutExpired(session: any): Promise<void> {
   const checkoutSessionId = session.id;
 
-  const attribution = await prisma.stripeAttribution.findUnique({
+  const attribution = await prisma.stripe_attributions.findUnique({
     where: { checkoutSessionId },
   });
 
@@ -164,7 +166,7 @@ export async function handleCheckoutExpired(session: any): Promise<void> {
     return;
   }
 
-  await prisma.stripeAttribution.update({
+  await prisma.stripe_attributions.update({
     where: { id: attribution.id },
     data: {
       status: 'EXPIRED',
@@ -179,7 +181,7 @@ export async function handleCheckoutExpired(session: any): Promise<void> {
  * Get all attributions for a RecordingTicket
  */
 export async function getTicketAttributions(ticketId: string) {
-  return await prisma.stripeAttribution.findMany({
+  return await prisma.stripe_attributions.findMany({
     where: { ticketId },
     orderBy: { createdAt: 'desc' },
   });

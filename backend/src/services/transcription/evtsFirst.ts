@@ -11,7 +11,7 @@
  * - OPENAI_API_KEY: Fallback key
  */
 
-import { SessionManager } from './SessionManager';
+import { SessionManager } from '../speechIntelligence/sessionManager';
 import * as fs from 'fs';
 import * as path from 'path';
 import OpenAI from 'openai';

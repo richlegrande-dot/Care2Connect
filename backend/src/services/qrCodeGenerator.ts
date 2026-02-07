@@ -64,7 +64,7 @@ export async function createPaymentQR(options: CreatePaymentQROptions): Promise<
     const cancelUrl = options.cancelUrl || `${baseUrl}/payment-cancel?ticket=${options.ticketId}`;
 
     // Check for existing QR code
-    const existingQR = await prisma.qRCodeLink.findUnique({
+    const existingQR = await prisma.qr_code_links.findUnique({
       where: { ticketId: options.ticketId },
     });
 
@@ -134,8 +134,9 @@ export async function createPaymentQR(options: CreatePaymentQROptions): Promise<
 
     if (existingQR && shouldRegenerateQR) {
       // Archive old version to history
-      await prisma.qRCodeHistory.create({
+      await prisma.qr_code_history.create({
         data: {
+          id: `history-${existingQR.id}-v${existingQR.version}-${Date.now()}`,
           qrCodeId: existingQR.id,
           version: existingQR.version,
           amountCents: existingQR.amountCents || 0,
@@ -145,7 +146,7 @@ export async function createPaymentQR(options: CreatePaymentQROptions): Promise<
       });
 
       // Update existing record with new version
-      qrCode = await prisma.qRCodeLink.update({
+      qrCode = await prisma.qr_code_links.update({
         where: { id: existingQR.id },
         data: {
           targetUrl: checkoutResult.checkoutUrl,
@@ -159,19 +160,22 @@ export async function createPaymentQR(options: CreatePaymentQROptions): Promise<
       console.log(`[QR Generator] QR code updated to version ${qrCode.version}`);
     } else {
       // Create new QR code
-      qrCode = await prisma.qRCodeLink.create({
+      qrCode = await prisma.qr_code_links.create({
         data: {
+          id: `qr-${options.ticketId}-${Date.now()}`,
           ticketId: options.ticketId,
           targetUrl: checkoutResult.checkoutUrl,
           imageStorageUrl: qrImagePath,
           version: 1,
           amountCents: amountCents,
+          updatedAt: new Date(),
         },
       });
 
       // Create initial history entry
-      await prisma.qRCodeHistory.create({
+      await prisma.qr_code_history.create({
         data: {
+          id: `history-${qrCode.id}-v1-${Date.now()}`,
           qrCodeId: qrCode.id,
           version: 1,
           amountCents: amountCents,
@@ -205,7 +209,7 @@ export async function createPaymentQR(options: CreatePaymentQROptions): Promise<
  * Get existing QR code for a ticket
  */
 export async function getTicketQRCode(ticketId: string) {
-  const qrLink = await prisma.qRCodeLink.findUnique({
+  const qrLink = await prisma.qr_code_links.findUnique({
     where: { ticketId },
   });
 
@@ -247,7 +251,7 @@ export async function getQRCodeBuffer(url: string): Promise<Buffer> {
  * Get QR code history for a ticket (Phase 6E)
  */
 export async function getQRCodeHistory(ticketId: string) {
-  const qrLink = await prisma.qRCodeLink.findUnique({
+  const qrLink = await prisma.qr_code_links.findUnique({
     where: { ticketId },
     include: {
       history: {
@@ -277,7 +281,7 @@ export async function getQRCodeHistory(ticketId: string) {
  * Increment scan count for a QR code (Phase 6E)
  */
 export async function incrementQRScanCount(ticketId: string): Promise<void> {
-  await prisma.qRCodeLink.updateMany({
+  await prisma.qr_code_links.updateMany({
     where: { ticketId },
     data: {
       scanCount: {
@@ -295,7 +299,7 @@ export async function forceRegenerateQR(
   reason: string = 'user_requested'
 ): Promise<CreatePaymentQRResult> {
   // Get existing QR to get amount
-  const existingQR = await prisma.qRCodeLink.findUnique({
+  const existingQR = await prisma.qr_code_links.findUnique({
     where: { ticketId },
   });
 
@@ -304,8 +308,9 @@ export async function forceRegenerateQR(
   }
 
   // Archive current version
-  await prisma.qRCodeHistory.create({
+  await prisma.qr_code_history.create({
     data: {
+      id: `history-${existingQR.id}-v${existingQR.version}-${Date.now()}`,
       qrCodeId: existingQR.id,
       version: existingQR.version,
       amountCents: existingQR.amountCents,

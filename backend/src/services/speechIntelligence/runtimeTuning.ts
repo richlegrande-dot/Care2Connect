@@ -29,7 +29,7 @@ export class RuntimeTuning {
     try {
       // Try language-specific profile first
       if (context.language) {
-        const languageProfile = await prisma.modelTuningProfile.findUnique({
+        const languageProfile = await prisma.model_tuning_profiles.findUnique({
           where: {
             scope_scopeKey: {
               scope: TuningScope.LANGUAGE,
@@ -45,7 +45,7 @@ export class RuntimeTuning {
 
       // Try route-specific profile
       if (context.route) {
-        const routeProfile = await prisma.modelTuningProfile.findUnique({
+        const routeProfile = await prisma.model_tuning_profiles.findUnique({
           where: {
             scope_scopeKey: {
               scope: TuningScope.ROUTE,
@@ -60,7 +60,7 @@ export class RuntimeTuning {
       }
 
       // Fall back to global profile
-      const globalProfile = await prisma.modelTuningProfile.findUnique({
+      const globalProfile = await prisma.model_tuning_profiles.findUnique({
         where: {
           scope_scopeKey: {
             scope: TuningScope.GLOBAL,
@@ -132,7 +132,7 @@ export class RuntimeTuning {
 
     const bestEngine = this.selectBestEngine(stats.engineStats);
 
-    await prisma.modelTuningProfile.upsert({
+    await prisma.model_tuning_profiles.upsert({
       where: {
         scope_scopeKey: {
           scope: TuningScope.GLOBAL,
@@ -140,20 +140,23 @@ export class RuntimeTuning {
         }
       },
       create: {
+        id: `global-default-${Date.now()}`,
         scope: TuningScope.GLOBAL,
         scopeKey: 'default',
         recommendedEngine: bestEngine,
         sampleCount: stats.totalSessions,
         successRate: stats.overallSuccessRate,
         avgLatencyMs: stats.avgLatencyMs,
-        lastComputedAt: new Date()
+        lastComputedAt: new Date(),
+        updatedAt: new Date()
       },
       update: {
         recommendedEngine: bestEngine,
         sampleCount: stats.totalSessions,
         successRate: stats.overallSuccessRate,
         avgLatencyMs: stats.avgLatencyMs,
-        lastComputedAt: new Date()
+        lastComputedAt: new Date(),
+        updatedAt: new Date()
       }
     });
 
@@ -162,7 +165,7 @@ export class RuntimeTuning {
 
   private async computeLanguageProfiles(results: { updated: number; skipped: number; errors: string[] }) {
     // Get unique languages from sessions
-    const languages = await prisma.transcriptionSession.groupBy({
+    const languages = await prisma.transcription_sessions.groupBy({
       by: ['detectedLanguage'],
       where: {
         detectedLanguage: { not: null }
@@ -185,7 +188,7 @@ export class RuntimeTuning {
 
       const bestEngine = this.selectBestEngine(stats.engineStats);
 
-      await prisma.modelTuningProfile.upsert({
+      await prisma.model_tuning_profiles.upsert({
         where: {
           scope_scopeKey: {
             scope: TuningScope.LANGUAGE,
@@ -193,20 +196,23 @@ export class RuntimeTuning {
           }
         },
         create: {
+          id: `language-${lang.detectedLanguage}-${Date.now()}`,
           scope: TuningScope.LANGUAGE,
           scopeKey: lang.detectedLanguage,
           recommendedEngine: bestEngine,
           sampleCount: stats.totalSessions,
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
-          lastComputedAt: new Date()
+          lastComputedAt: new Date(),
+          updatedAt: new Date()
         },
         update: {
           recommendedEngine: bestEngine,
           sampleCount: stats.totalSessions,
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
-          lastComputedAt: new Date()
+          lastComputedAt: new Date(),
+          updatedAt: new Date()
         }
       });
 
@@ -216,7 +222,7 @@ export class RuntimeTuning {
 
   private async computeRouteProfiles(results: { updated: number; skipped: number; errors: string[] }) {
     // Get unique sources (routes)
-    const sources = await prisma.transcriptionSession.groupBy({
+    const sources = await prisma.transcription_sessions.groupBy({
       by: ['source'],
       _count: true
     });
@@ -234,7 +240,7 @@ export class RuntimeTuning {
 
       const bestEngine = this.selectBestEngine(stats.engineStats);
 
-      await prisma.modelTuningProfile.upsert({
+      await prisma.model_tuning_profiles.upsert({
         where: {
           scope_scopeKey: {
             scope: TuningScope.ROUTE,
@@ -242,20 +248,23 @@ export class RuntimeTuning {
           }
         },
         create: {
+          id: `route-${src.source}-${Date.now()}`,
           scope: TuningScope.ROUTE,
           scopeKey: src.source,
           recommendedEngine: bestEngine,
           sampleCount: stats.totalSessions,
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
-          lastComputedAt: new Date()
+          lastComputedAt: new Date(),
+          updatedAt: new Date()
         },
         update: {
           recommendedEngine: bestEngine,
           sampleCount: stats.totalSessions,
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
-          lastComputedAt: new Date()
+          lastComputedAt: new Date(),
+          updatedAt: new Date()
         }
       });
 
@@ -276,7 +285,7 @@ export class RuntimeTuning {
       where.source = filter.value;
     }
 
-    const sessions = await prisma.transcriptionSession.findMany({
+    const sessions = await prisma.transcription_sessions.findMany({
       where,
       select: {
         engine: true,

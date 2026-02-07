@@ -127,15 +127,38 @@ export async function extractSignals(input: TranscriptInput): Promise<ExtractedS
   }
   
   // PHASE 1.1: Enhanced urgency assessment engine
-  // Feature flag: USE_ENHANCED_URGENCY_ENGINE
+  // Feature flags: ENHANCED_URGENCY=true (v1), USE_V2_URGENCY=true (v2 multi-layer)
   const useEnhancedUrgency = process.env.ENHANCED_URGENCY === 'true';
+  const useV2Urgency = process.env.USE_V2_URGENCY === 'true';
   
   let urgencyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   let urgencyScore: number;
   let urgencyConfidence: number;
   let urgencyDebug: any;
   
-  if (useEnhancedUrgency) {
+  if (useV2Urgency) {
+    // Use v2 multi-layer urgency engine (Phase 1 architectural improvements)
+    try {
+      const UrgencyServiceV2 = require('../UrgencyAssessmentService_v2.js');
+      const urgencyServiceV2 = new UrgencyServiceV2();
+      const result = await urgencyServiceV2.assessUrgency(cleanedText, {
+        category: primaryCategory
+      });
+      urgencyLevel = result.urgencyLevel;
+      urgencyScore = result.score;
+      urgencyConfidence = result.confidence;
+      urgencyDebug = { method: 'v2_multilayer', ...result.debug };
+    } catch (error) {
+      // Fallback to enhanced engine
+      console.warn('V2 urgency service failed, falling back to enhanced:', error.message);
+      const enhancedEngine = new EnhancedUrgencyEngine();
+      const result = enhancedEngine.assess(cleanedText, primaryCategory);
+      urgencyLevel = result.level;
+      urgencyScore = result.score;
+      urgencyConfidence = result.confidence;
+      urgencyDebug = { method: 'enhanced_fallback', ...result.debug };
+    }
+  } else if (useEnhancedUrgency) {
     // Use new multi-layer urgency engine
     const enhancedEngine = new EnhancedUrgencyEngine();
     const result = enhancedEngine.assess(cleanedText, primaryCategory);

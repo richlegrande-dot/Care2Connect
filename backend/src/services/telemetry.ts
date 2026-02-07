@@ -85,7 +85,7 @@ export class TelemetryCollector {
         this.flushMetrics();
       }
     } catch (error) {
-      console.error('[TELEMETRY_ERROR] Failed to record parsing metrics:', error.message);
+      console.error('[TELEMETRY_ERROR] Failed to record parsing metrics:', (error as Error).message);
     }
   }
 
@@ -102,7 +102,7 @@ export class TelemetryCollector {
 
       this.documentMetrics.push(documentMetrics);
     } catch (error) {
-      console.error('[TELEMETRY_ERROR] Failed to record document metrics:', error.message);
+      console.error('[TELEMETRY_ERROR] Failed to record document metrics:', (error as Error).message);
     }
   }
 
@@ -131,7 +131,7 @@ export class TelemetryCollector {
         this.systemMetrics = this.systemMetrics.slice(-100);
       }
     } catch (error) {
-      console.error('[TELEMETRY_ERROR] Failed to record system metrics:', error.message);
+      console.error('[TELEMETRY_ERROR] Failed to record system metrics:', (error as Error).message);
     }
   }
 
@@ -275,7 +275,7 @@ cache_hit_rate_percent ${dashboard.system.cacheEffectiveness}
 
       console.log(`[TELEMETRY] Flushed old metrics. Current buffer sizes: parsing=${this.metricsBuffer.length}, documents=${this.documentMetrics.length}`);
     } catch (error) {
-      console.error('[TELEMETRY_ERROR] Failed to flush metrics:', error.message);
+      console.error('[TELEMETRY_ERROR] Failed to flush metrics:', (error as Error).message);
     }
   }
 
@@ -421,7 +421,7 @@ export function withTelemetry<T extends (...args: any[]) => any>(
       console.error(`[TELEMETRY] Operation ${operationName} failed:`, {
         duration,
         sessionId,
-        error: error.message
+        error: (error as Error).message
       });
       throw error;
     }

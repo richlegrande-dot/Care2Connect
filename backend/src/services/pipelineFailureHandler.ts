@@ -74,7 +74,7 @@ async function logPipelineIncident(
   } = options;
 
   try {
-    await prisma.systemIncident.create({
+    await prisma.system_incidents.create({
       data: {
         id: debugId,
         severity: 'WARN',
@@ -90,7 +90,8 @@ async function logPipelineIncident(
           ...context
         },
         occurredAt: new Date(),
-        resolved: false
+        resolved: false,
+        updatedAt: new Date()
       }
     });
   } catch (dbError) {

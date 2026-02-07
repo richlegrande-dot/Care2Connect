@@ -1704,6 +1704,31 @@ class JanV3AnalyticsEvaluator {
 
     const urgencyDebug = { assessment: extractedUrgency, serviceUsed: !!urgencyService, enhanced: useEnhancedUrgency };
 
+    // V3d: Phase 1 Urgency De-escalation (Core30 over-assessment fixes)
+    const useV3dDeescalation = process.env.USE_V3D_DEESCALATION === 'true';
+    if (useV3dDeescalation) {
+      try {
+        const v3dPath = path.join(__dirname, '..', 'src', 'services', 'UrgencyEnhancements_v3d.js');
+        const { UrgencyEnhancements_v3d } = require(v3dPath);
+        const v3dEngine = new UrgencyEnhancements_v3d();
+        
+        const v3dBaseResult = {
+          urgency: extractedUrgency,
+          confidence: 0.7,
+          reasons: []
+        };
+        
+        const v3dResult = v3dEngine.deEscalateUrgency(transcript, finalCategory, v3dBaseResult);
+        
+        if (v3dResult && v3dResult.de_escalated) {
+          console.log(`📉 V3d De-escalation: ${extractedUrgency} → ${v3dResult.urgency} (${v3dResult.reasons[v3dResult.reasons.length - 1]})`);
+          extractedUrgency = v3dResult.urgency;
+        }
+      } catch (error) {
+        console.warn('[V3D] Urgency de-escalation failed:', error.message);
+      }
+    }
+
     // V2c + V2d + V4c Enhanced Category Classification (FINAL PASS - After all legacy logic)
     // These run last to ensure enhancements have final say and override legacy keyword-based classifications
     try {

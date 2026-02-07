@@ -120,6 +120,7 @@ class V4PlusEvaluationRunner {
     process.env.USE_V2C_ENHANCEMENTS = 'false'; // Phase 2: Category improvements - TEMPORARILY DISABLED FOR TEST
     process.env.USE_V2D_ENHANCEMENTS = 'true';  // Phase 1: Core30 category fixes (Conservative)
     process.env.USE_V3C_ENHANCEMENTS = 'true';  // Phase 3: Conservative urgency boost
+    process.env.USE_V3D_DEESCALATION = 'true';  // Phase 1: Core30 urgency de-escalation
     
     // Enforce no network (simplified check)
     if (this.config.ENFORCE_NO_NETWORK) {

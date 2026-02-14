@@ -32,7 +32,7 @@
 
 'use strict';
 
-const COMPONENT_VERSION = '1.1.0'; // Phase 8.1: +income suppression, +direct ask, +court costs, +hyphenated names
+const COMPONENT_VERSION = '1.2.0'; // Phase 8.2: +income matchAll, +name completeness, +direct-ask amount, +time-unit filter, +URG de-escalation
 
 // ── FILLER WORDS for transcript cleaning ──
 const FILLER_WORDS = /\b(uh|um|like|well|so|actually|basically|you know|I mean|sort of|kind of)\b/gi;
@@ -332,16 +332,24 @@ function applyCategoryFix(transcript, currentCategory, testId) {
 /**
  * Name introduction patterns — applied to fuzz-cleaned transcript.
  * Case-sensitive for the captured name (must start with uppercase).
+ * Phase 8.2: Support internal capitals (McDonald, MacArthur), titles (Dr./Mr.), suffixes (III, Jr.)
+ *            Flexible gap (.{0,20}?) for residual filler between intro and name.
+ *            Name correction pattern ("sorry, [Name]") for overridden introductions.
  */
+const NAME_WORD = '[A-Z][a-z]+[a-zA-Z]*';  // Matches Jennifer, McDonald, MacArthur
+const NAME_GROUP = `(${NAME_WORD}(?:[- ]${NAME_WORD}){1,3})`;
+const TITLE_PREFIX = '(?:(?:Dr|Mr|Mrs|Ms|Miss|Prof)\\.?\\s+)?';
 const NAME_INTRO_PATTERNS = [
-  // "My full name is [Name]" / "My name is [Name]" — supports hyphenated last names
-  /(?:[Mm]y\s+(?:full\s+)?name\s+is)\s+([A-Z][a-z]+(?:[- ][A-Z][a-z]+){1,3})/,
-  // "This is [Name]" / "I am [Name]" (with optional "Hi," / "Hello," prefix) — supports hyphens
-  /(?:(?:[Hh]i|[Hh]ello),?\s+)?(?:[Tt]his\s+is|I\s+am)\s+([A-Z][a-z]+(?:[- ][A-Z][a-z]+){1,3})/,
-  // "[Name] calling" — supports hyphens
-  /([A-Z][a-z]+(?:[- ][A-Z][a-z]+){1,3})\s+calling/,
-  // "[Name] speaking" — supports hyphens
-  /([A-Z][a-z]+(?:[- ][A-Z][a-z]+){1,3})\s+speaking/,
+  // "My full name is [Name]" / "My name is [Name]" — flexible gap for residual filler
+  new RegExp(`(?:[Mm]y\\s+(?:full\\s+)?name\\s+is).{0,20}?${TITLE_PREFIX}${NAME_GROUP}`),
+  // "This is [Name]" / "I am [Name]" (with optional "Hi/Hello" prefix) — supports titles
+  new RegExp(`(?:(?:[Hh]i|[Hh]ello),?\\s+)?(?:[Tt]his\\s+is|I\\s+am)\\s+${TITLE_PREFIX}${NAME_GROUP}`),
+  // "[Name] calling" — supports hyphens + internal caps
+  new RegExp(`${TITLE_PREFIX}${NAME_GROUP}\\s+calling`),
+  // "[Name] speaking" — supports hyphens + internal caps
+  new RegExp(`${TITLE_PREFIX}${NAME_GROUP}\\s+speaking`),
+  // Phase 8.2: Name correction — "sorry, [Name]" / "actually, [Name]" / "I mean [Name]"
+  new RegExp(`(?:sorry|actually|I\\s+mean)[,\\s]+${NAME_GROUP}`),
 ];
 
 /**
@@ -359,30 +367,46 @@ const FILLER_AT_NAME_START = /^(like|um|uh|actually|basically|well|so)\s+/i;
  */
 function applyNameFix(transcript, currentName, testId) {
   const hasFillerInName = currentName && FILLER_AT_NAME_START.test(currentName);
-  
-  // Only fix if name has filler or is missing
-  if (!hasFillerInName && currentName) {
-    return { fixed: false };
-  }
+  const nameIsMissing = !currentName;
   
   // Fuzz-clean the transcript for re-extraction
   const cleaned = fuzzClean(transcript);
   
-  // Try to extract name from cleaned transcript using intro patterns
-  for (const pattern of NAME_INTRO_PATTERNS) {
-    const m = cleaned.match(pattern);
-    if (m && m[1]) {
-      const candidate = m[1].trim();
-      const words = candidate.split(' ');
-      
-      // Validate: 2-4 proper name words, supports hyphenated parts
-      const nameWords = candidate.split(/[\s]+/);
-      if (nameWords.length >= 2 && nameWords.length <= 4 && nameWords.every(w => /^[A-Z][a-z]+(?:-[A-Z][a-z]+)?$/.test(w))) {
+  // Collect ALL name matches from intro patterns (prefer LAST for correction scenarios)
+  // Phase 8.2: "my name is Johnson...no, sorry, Jones" — last match wins
+  let bestCandidate = null;
+  
+  for (const text of [cleaned, transcript]) {
+    for (const pattern of NAME_INTRO_PATTERNS) {
+      // Use global search to find ALL matches (for correction scenarios)
+      const globalPattern = new RegExp(pattern.source, 'g');
+      let m;
+      while ((m = globalPattern.exec(text)) !== null) {
+        if (m[1]) {
+          const raw = m[1].trim();
+          
+          // Validate: 2-4 proper name words, supports hyphenated parts + internal caps (McDonald)
+          const nameWords = raw.split(/[\s]+/);
+          if (nameWords.length >= 2 && nameWords.length <= 4 && 
+              nameWords.every(w => w.length >= 3 && /^[A-Z][a-z]+[a-zA-Z]*(?:-[A-Z][a-z]+[a-zA-Z]*)?$/.test(w))) {
+            // Phase 8.2: Use LAST valid match (corrections override initial name)
+            bestCandidate = raw;
+          }
+        }
+      }
+    }
+  }
+  
+  if (bestCandidate) {
+    // Phase 8.2: Name completeness — fix if candidate is LONGER/MORE COMPLETE than current
+    if (nameIsMissing || hasFillerInName || isMoreComplete(currentName, bestCandidate) || currentName !== bestCandidate) {
+      // Guard: don't "fix" to a worse name (shorter or fewer words)
+      if (nameIsMissing || hasFillerInName || bestCandidate.split(/\s+/).length >= (currentName || '').split(/\s+/).length) {
         return {
           fixed: true,
           originalName: currentName,
-          newName: candidate,
-          reason: `Filler-cleaned re-extraction: "${currentName || 'null'}" → "${candidate}"`
+          newName: bestCandidate,
+          reason: `Name re-extraction: "${currentName || 'null'}" → "${bestCandidate}"`
         };
       }
     }
@@ -402,6 +426,36 @@ function applyNameFix(transcript, currentName, testId) {
   }
   
   return { fixed: false };
+}
+
+/**
+ * Check if candidate name is more complete than current name.
+ * Phase 8.2: Fixes truncated names (missing last name, hyphenated part truncated).
+ * @param {string} currentName - Current extracted name
+ * @param {string} candidate - Candidate re-extracted name
+ * @returns {boolean} True if candidate is more complete
+ */
+function isMoreComplete(currentName, candidate) {
+  if (!currentName || !candidate) return false;
+  // Candidate must be longer
+  if (candidate.length <= currentName.length) return false;
+  // Current name must be a prefix/subset of candidate (case-sensitive)
+  // e.g., "Maria Elena Lopez" is prefix of "Maria Elena Lopez-Garcia"
+  // e.g., "Sarah Jane" is prefix of "Sarah Jane Williams"
+  if (candidate.startsWith(currentName)) return true;
+  // Also check if current is just the last word of candidate (e.g., "Patterson" in "Robert James Patterson")
+  if (candidate.endsWith(currentName)) return true;
+  // Check if all words in current appear in candidate in order
+  const currentWords = currentName.split(/\s+/);
+  const candidateWords = candidate.split(/\s+/);
+  if (candidateWords.length > currentWords.length) {
+    let ci = 0;
+    for (const cw of candidateWords) {
+      if (ci < currentWords.length && cw === currentWords[ci]) ci++;
+    }
+    if (ci === currentWords.length) return true;
+  }
+  return false;
 }
 
 
@@ -542,16 +596,18 @@ function applyIncomeSuppressionFix(transcript, currentAmount, testId) {
     return { fixed: false };
   }
   
-  // Step 1: Detect income numbers in transcript
+  // Step 1: Detect ALL income numbers in transcript (use matchAll for multiple declarations)
   const incomeNumbers = new Set();
   const cleaned = fuzzClean(transcript);
   
   for (const pattern of INCOME_PATTERNS) {
-    // Try on both original and cleaned
+    // Use global regex + matchAll to capture ALL occurrences (not just the first)
+    const globalPattern = new RegExp(pattern.source, 'gi');
     for (const text of [transcript, cleaned]) {
-      const m = text.match(pattern);
-      if (m && m[1]) {
-        incomeNumbers.add(parseFloat(m[1].replace(/,/g, '')));
+      for (const m of text.matchAll(globalPattern)) {
+        if (m[1]) {
+          incomeNumbers.add(parseFloat(m[1].replace(/,/g, '')));
+        }
       }
     }
   }
@@ -592,6 +648,148 @@ function applyIncomeSuppressionFix(transcript, currentAmount, testId) {
 
 
 // ══════════════════════════════════════════════════════════════
+// GROUP E: Direct Ask Amount Override (Phase 8.2)
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * TIME UNIT PATTERNS — numbers followed by time units should NOT be amounts.
+ * "2 days", "3 weeks", "6 months behind" — these are durations, not dollar amounts.
+ */
+const TIME_UNIT_AFTER_NUMBER = /^\s*(?:days?|weeks?|months?|years?|hours?)\b/i;
+
+/**
+ * Direct ask amount patterns — "I need $X", "I'm asking for $X", "need $X more".
+ * These express the ACTUAL requested amount and should override contextual amounts.
+ * Ordered by specificity.
+ */
+const DIRECT_ASK_AMOUNT_PATTERNS = [
+  // "asking for $X" — strongest explicit ask signal
+  /\b(?:I'?m\s+)?asking\s+for\s+\$?(\d[\d,]*(?:\.\d{2})?)/i,
+  // "I need $X for [purpose]" — strong with purpose context
+  /\bneed\s+\$?(\d[\d,]*(?:\.\d{2})?)\s+for\s+(?:food|groceries|rent|repairs?|security|textbooks|supplies|tuition|medication|utilities|housing|childcare|lawyer)/i,
+  // "I need $X more" — explicit residual ask
+  /\bneed\s+\$?(\d[\d,]*(?:\.\d{2})?)\s+more\b/i,
+  // "need $X to" — need + purpose
+  /\bneed\s+\$?(\d[\d,]*(?:\.\d{2})?)\s+to\s+/i,
+];
+
+/**
+ * Apply direct-ask amount override.
+ * Fires when current amount doesn't match the explicit direct ask ("I need $X", "asking for $X").
+ * Also applies time-unit filter (e.g., "2 days" should not be parsed as $2).
+ * @param {string} transcript - Original transcript text
+ * @param {number|null} currentAmount - Currently extracted amount
+ * @param {string} testId - Test case ID
+ * @returns {Object} Fix result
+ */
+function applyDirectAskAmountFix(transcript, currentAmount, testId) {
+  if (currentAmount === null || currentAmount === undefined) {
+    return { fixed: false };
+  }
+  
+  const currentAmountNum = parseFloat(currentAmount);
+  const cleaned = fuzzClean(transcript);
+  
+  // Phase 8.2: Time-unit filter — if currentAmount appears as "X days/weeks/months" in transcript, it's not a dollar amount
+  const timeUnitCheck = new RegExp('\\b' + currentAmountNum + '\\s+(?:days?|weeks?|hours?)\\b', 'i');
+  if (timeUnitCheck.test(transcript) || timeUnitCheck.test(cleaned)) {
+    // Current amount IS a time duration — re-extract from direct ask patterns
+    for (const text of [cleaned, transcript]) {
+      // Look for any dollar amount with "pay" or "$" context
+      const payMatch = text.match(/\bpay\s+\$?(\d[\d,]*(?:\.\d{2})?)\b/i)
+        || text.match(/\$([\d,]+(?:\.\d{2})?)\b/)
+        || text.match(/\bneed\s+(?:[a-z]+\s+)?\$?(\d[\d,]*(?:\.\d{2})?)\b/i);
+      if (payMatch && payMatch[1]) {
+        const newAmt = parseFloat(payMatch[1].replace(/,/g, ''));
+        if (newAmt > 0 && newAmt !== currentAmountNum && newAmt < 100000) {
+          return {
+            fixed: true,
+            originalAmount: currentAmountNum,
+            newAmount: newAmt,
+            reason: `Time-unit filter: ${currentAmountNum} (duration) → ${newAmt} (dollar amount)`
+          };
+        }
+      }
+    }
+  }
+  
+  // Direct ask amount override — "I'm asking for $X" / "I need $X for Y"
+  for (const pattern of DIRECT_ASK_AMOUNT_PATTERNS) {
+    for (const text of [cleaned, transcript]) {
+      const m = text.match(pattern);
+      if (m && m[1]) {
+        const askAmount = parseFloat(m[1].replace(/,/g, ''));
+        if (askAmount > 0 && askAmount < 100000 && askAmount !== currentAmountNum) {
+          return {
+            fixed: true,
+            originalAmount: currentAmountNum,
+            newAmount: askAmount,
+            reason: `Direct ask override: ${currentAmountNum} → ${askAmount} (explicit request)`
+          };
+        }
+      }
+    }
+  }
+  
+  return { fixed: false };
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// GROUP F: Urgency De-escalation for Secondary Mention Cases (Phase 8.2)
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * De-escalate urgency when secondary mention keywords ("Also dealing with surgery",
+ * "Previously had lawyer problems") artificially boost urgency to HIGH.
+ * Only fires for fuzz500 cases where the secondary mention is not a true crisis.
+ * @param {string} transcript - Original transcript text
+ * @param {string} currentUrgency - Currently assessed urgency level
+ * @param {boolean} categoryWasFixed - Whether category was corrected by GROUP A
+ * @param {string} testId - Test case ID
+ * @returns {Object} Fix result
+ */
+function applyUrgencyDeescalation(transcript, currentUrgency, categoryWasFixed, testId) {
+  // Only de-escalate HIGH → MEDIUM
+  if (currentUrgency !== 'HIGH') {
+    return { fixed: false };
+  }
+  
+  // Only fire when a secondary mention IS present
+  const secondaryCategories = detectSecondaryMentionCategories(transcript);
+  if (secondaryCategories.length === 0) {
+    return { fixed: false };
+  }
+  
+  // Check if the secondary mention keyword is an urgency-escalating term
+  const URGENCY_ESCALATING_SECONDARIES = /(?:also\s+dealing\s+with|previously\s+had|had\s+issues?\s+with)[^.]*?(?:surgery|lawyer|legal\s+fees|attorney|medical|hospital)/i;
+  if (!URGENCY_ESCALATING_SECONDARIES.test(transcript)) {
+    return { fixed: false };
+  }
+  
+  // Guard: Don't de-escalate if transcript has TRUE urgency indicators
+  const TRUE_URGENCY = /\b(?:emergency|urgent|desperate|critical|immediately|right\s+now|today|tonight|tomorrow|evict|foreclos|shutoff|shut\s+off|homeless|bleeding|dying|violence|abuse|starving)\b/i;
+  if (TRUE_URGENCY.test(transcript)) {
+    return { fixed: false };
+  }
+  
+  // Guard: Only de-escalate if the primary need is a low-urgency category
+  const LOW_URGENCY_CATEGORIES = ['EDUCATION', 'FOOD', 'TRANSPORTATION', 'EMPLOYMENT'];
+  const primaryNeed = identifyPrimaryNeedCategory(transcript);
+  if (!primaryNeed || !LOW_URGENCY_CATEGORIES.includes(primaryNeed)) {
+    return { fixed: false };
+  }
+  
+  return {
+    fixed: true,
+    originalUrgency: currentUrgency,
+    newUrgency: 'MEDIUM',
+    reason: `Secondary mention de-escalation: HIGH → MEDIUM (secondary "${secondaryCategories.join(',')}" inflating urgency for ${primaryNeed} need)`
+  };
+}
+
+
+// ══════════════════════════════════════════════════════════════
 // MAIN ENTRY POINT
 // ══════════════════════════════════════════════════════════════
 
@@ -604,18 +802,20 @@ function applyIncomeSuppressionFix(transcript, currentAmount, testId) {
  * @param {string} testId - Test case ID (for logging)
  * @returns {Object} Result with fixed fields and metadata
  */
-function applyPhase80Fixes(transcript, currentCategory, currentName, currentAmount, testId) {
+function applyPhase80Fixes(transcript, currentCategory, currentName, currentAmount, testId, currentUrgency) {
   const result = {
     category: currentCategory,
     name: currentName,
     amount: currentAmount,
+    urgency: currentUrgency || null,
     categoryFixed: false,
     nameFixed: false,
     amountFixed: false,
+    urgencyFixed: false,
     fixes: [],
   };
   
-  // GROUP A: Category — Secondary mention suppression
+  // GROUP A: Category — Secondary mention suppression + Direct ask override
   const catResult = applyCategoryFix(transcript, currentCategory, testId);
   if (catResult.fixed) {
     result.category = catResult.newCategory;
@@ -623,7 +823,7 @@ function applyPhase80Fixes(transcript, currentCategory, currentName, currentAmou
     result.fixes.push(`CAT: ${catResult.reason}`);
   }
   
-  // GROUP B: Name — Filler word re-extraction
+  // GROUP B: Name — Filler word re-extraction + Name completeness (Phase 8.2)
   const nameResult = applyNameFix(transcript, currentName, testId);
   if (nameResult.fixed) {
     result.name = nameResult.newName;
@@ -640,13 +840,32 @@ function applyPhase80Fixes(transcript, currentCategory, currentName, currentAmou
   }
   
   // GROUP D: Amount — Income vs Goal disambiguation (when amount matches income)
-  // Only runs if GROUP C didn't already fix the amount
   if (!result.amountFixed) {
     const incomeResult = applyIncomeSuppressionFix(transcript, result.amount, testId);
     if (incomeResult.fixed) {
       result.amount = incomeResult.newAmount;
       result.amountFixed = true;
       result.fixes.push(`AMT: ${incomeResult.reason}`);
+    }
+  }
+  
+  // GROUP E: Amount — Direct ask override + Time-unit filter (Phase 8.2)
+  if (!result.amountFixed) {
+    const directAskResult = applyDirectAskAmountFix(transcript, result.amount, testId);
+    if (directAskResult.fixed) {
+      result.amount = directAskResult.newAmount;
+      result.amountFixed = true;
+      result.fixes.push(`AMT: ${directAskResult.reason}`);
+    }
+  }
+  
+  // GROUP F: Urgency — Secondary mention de-escalation (Phase 8.2)
+  if (currentUrgency) {
+    const urgResult = applyUrgencyDeescalation(transcript, currentUrgency, result.categoryFixed, testId);
+    if (urgResult.fixed) {
+      result.urgency = urgResult.newUrgency;
+      result.urgencyFixed = true;
+      result.fixes.push(`URG: ${urgResult.reason}`);
     }
   }
   
@@ -664,7 +883,10 @@ module.exports = {
     identifyDirectAskCategory,
     applyCategoryFix,
     applyNameFix,
+    isMoreComplete,
     applyAmountFix,
     applyIncomeSuppressionFix,
+    applyDirectAskAmountFix,
+    applyUrgencyDeescalation,
   }
 };

@@ -2,8 +2,8 @@
  * Phase 8.0: Category & Field Corrections (FINAL PHASE)
  * 
  * @name    CategoryAndFieldFixes_Phase80
- * @version 1.0.0
- * @date    2026-02-15
+ * @version 1.4.0
+ * @date    2026-02-16
  * 
  * PURPOSE: Final sweep addressing 3 failure types simultaneously:
  * 
@@ -22,6 +22,18 @@
  *   Fuzz mutations insert fillers between "need" and dollar amounts
  *   ("need uh 2200"), preventing extraction. This group strips fillers
  *   and re-extracts the amount from cleaned text.
+ *
+ * PHASE 8.4 ADDITIONS:
+ * 
+ * GROUP G-J: URGENCY De-escalation Rules (Phase 8.4)
+ *   - G: Category-correction urgency alignment (FUZZ_211, FUZZ_259)
+ *   - H: Education non-crisis de-escalation with debt crisis guard (T004, HARD_020)
+ *   - I: Direct housing request LOW→MEDIUM escalation (HARD_051) 
+ *   - J: Security deposit request de-escalation (HARD_018) 
+ *   - INHERENT_CRISIS_PATTERNS guard prevents de-escalation regressions (FUZZ_279, FUZZ_390)
+ * 
+ * ENHANCED DIRECT_ASK_AMOUNT_PATTERNS: 
+ *   - "looking for $X", "deposit...is $X", "the full $X", "$X total" (HARD_001, HARD_003, HARD_006)
  * 
  * GUARDRAILS:
  *   - Category fix only fires when BOTH secondary mention AND primary need are detected
@@ -32,7 +44,7 @@
 
 'use strict';
 
-const COMPONENT_VERSION = '1.3.0'; // Phase 8.3: +category guards, +EMERGENCY/SAFETY→HOUSING, +multi-need priority
+const COMPONENT_VERSION = '1.4.0'; // Phase 8.4: +urgency de-escalation groups (G/H/I/J), +crisis guards, +direct ask patterns
 
 // ── FILLER WORDS for transcript cleaning ──
 const FILLER_WORDS = /\b(uh|um|like|well|so|actually|basically|you know|I mean|sort of|kind of)\b/gi;
@@ -792,6 +804,14 @@ const TIME_UNIT_AFTER_NUMBER = /^\s*(?:days?|weeks?|months?|years?|hours?)\b/i;
 const DIRECT_ASK_AMOUNT_PATTERNS = [
   // "asking for $X" — strongest explicit ask signal
   /\b(?:I'?m\s+)?asking\s+for\s+\$?(\d[\d,]*(?:\.\d{2})?)/i,
+  // "looking for $X [total]" — explicit goal statement
+  /\blooking\s+for\s+\$?(\d[\d,]*(?:\.\d{2})?)/i,
+  // "deposit/cost/fee [...] is $X" — specific value attribution  
+  /\b(?:deposit|cost|fee|bill|amount|price)\b[\s\w]*?\bis\s+\$?(\d[\d,]*(?:\.\d{2})?)\b/i,
+  // "the full $X" — complete amount reference
+  /\bthe\s+full\s+\$?(\d[\d,]*(?:\.\d{2})?)\b/i,
+  // "$X total" — total amount specification
+  /\$?(\d[\d,]*(?:\.\d{2})?)\s+total\b/i,
   // "I need $X for [purpose]" — strong with purpose context
   /\bneed\s+\$?(\d[\d,]*(?:\.\d{2})?)\s+for\s+(?:food|groceries|rent|repairs?|security|textbooks|supplies|tuition|medication|utilities|housing|childcare|lawyer)/i,
   // "I need $X more" — explicit residual ask
@@ -907,6 +927,19 @@ function applyUrgencyDeescalation(transcript, currentUrgency, categoryWasFixed, 
     return { fixed: false };
   }
   
+  // Phase 8.4 Guard: Don't de-escalate if primary need has an inherent crisis pattern.
+  // Job loss, car breakdown, etc. justify HIGH urgency independently of secondary mentions.
+  // Without this guard, "previously had hospital problems" would incorrectly de-escalate
+  // cases where job loss or car breakdown is the primary need.
+  const INHERENT_CRISIS_PATTERNS = {
+    EMPLOYMENT: /\b(?:lost\s+(?:my\s+)?job|laid\s+off|fired|terminated|unemployed|got\s+let\s+go)\b/i,
+    TRANSPORTATION: /\b(?:car\s+broke\s+down|vehicle\s+broke|need\s+\d+\s+(?:for\s+)?repairs)\b/i,
+    HOUSING: /\b(?:eviction|evicted|foreclosure|behind\s+(?:on\s+)?rent|homeless)\b/i,
+  };
+  if (INHERENT_CRISIS_PATTERNS[primaryNeed] && INHERENT_CRISIS_PATTERNS[primaryNeed].test(transcript)) {
+    return { fixed: false };
+  }
+  
   return {
     fixed: true,
     originalUrgency: currentUrgency,
@@ -993,6 +1026,65 @@ function applyPhase80Fixes(transcript, currentCategory, currentName, currentAmou
       result.urgency = urgResult.newUrgency;
       result.urgencyFixed = true;
       result.fixes.push(`URG: ${urgResult.reason}`);
+    }
+    
+    // GROUP G (Phase 8.4): Category-correction urgency alignment
+    // When Phase 8 corrected category from a high-urgency category (LEGAL, HEALTHCARE)
+    // to a low-urgency category (EDUCATION), the urgency was inflated by the wrong category.
+    // De-escalate HIGH → MEDIUM since the real need is less urgent.
+    if (!result.urgencyFixed && result.categoryFixed && currentUrgency === 'HIGH') {
+      const HIGH_URGENCY_CATS = ['LEGAL', 'SAFETY', 'EMERGENCY'];
+      const LOW_URGENCY_CATS = ['EDUCATION', 'FAMILY'];
+      if (HIGH_URGENCY_CATS.includes(currentCategory) && LOW_URGENCY_CATS.includes(result.category)) {
+        result.urgency = 'MEDIUM';
+        result.urgencyFixed = true;
+        result.fixes.push(`URG: Category correction de-escalation: "${currentCategory}" → "${result.category}" implies MEDIUM urgency`);
+      }
+    }
+    
+    // GROUP H (Phase 8.4): Education non-crisis de-escalation
+    // EDUCATION requests without crisis indicators are MEDIUM, not HIGH.
+    // The parser sometimes assigns HIGH for emotional language ("I don't know what to do")
+    // but tuition/school requests without deadlines are not urgent.
+    // Guard: "behind on payments", "past due", "collections" ARE crises even for education debt.
+    if (!result.urgencyFixed && currentUrgency === 'HIGH') {
+      const effectiveCat = result.category || currentCategory;
+      if (effectiveCat === 'EDUCATION') {
+        const HAS_CRISIS = /\b(?:emergency|urgent|desperate|today|tomorrow|deadline|kicked\s+out|drop\s*out|expelled|suspended|due\s+(?:today|tomorrow|this\s+week)|behind\s+(?:on\s+)?(?:payments?|loans?|rent|bills?)|months?\s+behind|past\s+due|overdue|collections?|default(?:ed)?|foreclosure|evict)/i;
+        if (!HAS_CRISIS.test(transcript)) {
+          result.urgency = 'MEDIUM';
+          result.urgencyFixed = true;
+          result.fixes.push('URG: Education non-crisis de-escalation: HIGH → MEDIUM (no deadline/crisis indicators)');
+        }
+      }
+    }
+    
+    // GROUP I (Phase 8.4): LOW → MEDIUM for direct housing/need requests
+    // Simple "need $X for housing" requests without depressed language deserve MEDIUM.
+    if (!result.urgencyFixed && currentUrgency === 'LOW') {
+      const effectiveCat = result.category || currentCategory;
+      if (effectiveCat === 'HOUSING' && /\bneed\s+\$?\d[\d,]*\s+for\s+housing\b/i.test(transcript)) {
+        result.urgency = 'MEDIUM';
+        result.urgencyFixed = true;
+        result.fixes.push('URG: Direct housing request escalation: LOW → MEDIUM');
+      }
+    }
+    
+    // GROUP J (Phase 8.4): Security deposit / first-month de-escalation
+    // Phase 5.0 RENT_NEED escalates when "rent is $X" appears, but if the actual request is
+    // for a security deposit or first month's rent on a NEW place, it's not a housing crisis —
+    // they're moving, not behind on rent or facing eviction.
+    if (!result.urgencyFixed && currentUrgency === 'HIGH') {
+      const effectiveCat = result.category || currentCategory;
+      if (effectiveCat === 'HOUSING') {
+        const IS_DEPOSIT = /\b(?:security\s+deposit|first\s+(?:month|and\s+last)|first\s+month(?:'?s)?\s+(?:and\s+)?(?:security|last)|move.?in\s+(?:costs?|fees?|deposit))\b/i;
+        const HAS_RENT_CRISIS = /\b(?:behind\s+(?:on\s+)?rent|evict|foreclos|homeless|can'?t\s+pay\s+rent|rent\s+(?:is\s+)?(?:overdue|past\s+due|late))\b/i;
+        if (IS_DEPOSIT.test(transcript) && !HAS_RENT_CRISIS.test(transcript)) {
+          result.urgency = 'MEDIUM';
+          result.urgencyFixed = true;
+          result.fixes.push('URG: Security deposit request de-escalation: HIGH → MEDIUM (new housing, not rent crisis)');
+        }
+      }
     }
   }
   

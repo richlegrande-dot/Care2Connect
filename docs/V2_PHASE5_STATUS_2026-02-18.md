@@ -4,6 +4,7 @@
 > **Phase**: 5 — Governance + Production Readiness
 > **Branch**: `v2-intake-scaffold`
 > **Previous HEAD**: `cc95deb` (Phase 4 Status Report)
+> **Phase 5 Commit**: `7c72a33` (deliverables) + `0331fc8` (Node LTS alignment)
 
 ---
 
@@ -32,7 +33,7 @@ no UI changes, no V1 changes, no feature expansion, no new endpoints, no AI call
 
 Added `test-v2-intake` job that:
 - Runs `npx jest tests/intake_v2/ --verbose --bail` (195 tests)
-- Runs on `ubuntu-latest` with Node.js 18
+- Runs on `ubuntu-latest` with Node.js 24 (Active LTS)
 - No database required (all pure unit tests)
 - Runs in **parallel** with `test-backend` (no `needs` dependency)
 - Sets `ZERO_OPENAI_MODE=true` and `NODE_ENV=test`
@@ -139,9 +140,8 @@ expected 0, received 0.5) — unchanged from Phase 4 baseline.
 
 | File | Change |
 |------|--------|
-| `.github/workflows/ci.yml` | +36 lines: `test-v2-intake` job, updated `build-test` and `notify-slack` needs |
+| `.github/workflows/ci.yml` | +36 lines: `test-v2-intake` job, updated `build-test` and `notify-slack` needs; Node 18→24 LTS |
 | `docs/V2_CI_GATE_PLAN.md` | Status updated to "✅ Implemented" |
-| `backend/backend/storage/ops/incidents.json` | Unrelated auto-generated change (health monitor) |
 
 ### New (4)
 
@@ -195,7 +195,7 @@ expected 0, received 0.5) — unchanged from Phase 4 baseline.
 | Phase 2: P0-P2 Hardening | ✅ Complete | 167/167 | `ac779e9` |
 | Phase 3: Staging + Calibration | ✅ Complete | 195/195 | `37a1337` |
 | Phase 4: Staging Execution | ✅ Complete | 195/195 + 57/57 smoke | `46cfea7` |
-| **Phase 5: Governance + Readiness** | **✅ Complete** | **195/195 + 27/28 V1** | *pending commit* |
+| **Phase 5: Governance + Readiness** | **✅ Complete** | **195/195 + 27/28 V1** | `7c72a33` + `0331fc8` |
 
 ---
 
@@ -211,4 +211,14 @@ expected 0, received 0.5) — unchanged from Phase 4 baseline.
 
 *Phase 5 Status Report — V2 Intake*
 *Authored: 2026-02-18*
-*Branch: `v2-intake-scaffold` | HEAD: cc95deb (pre-commit)*
+*Branch: `v2-intake-scaffold` | HEAD: 0331fc8*
+
+---
+
+## Navigator Review Corrections (applied)
+
+| Correction | Action Taken | Commit |
+|------------|-------------|--------|
+| Node.js 18 EOL in CI | Updated `NODE_VERSION` from `'18'` to `'24'` (Active LTS) | `0331fc8` |
+| `incidents.json` auto-generated change | Reverted via `git checkout --`; not included in any Phase 5 commit | N/A (working tree) |
+| Missing commit hash in status report | Added `7c72a33` + `0331fc8` to report header and cumulative table | `0331fc8` (this update) |

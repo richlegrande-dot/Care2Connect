@@ -168,6 +168,9 @@ import errorReportingRoutes from './routes/errorReporting';
 import tunnelSetupRoutes from './routes/admin/setup/tunnel';
 import hardeningMetricsRoutes from './routes/hardening-metrics';
 
+// V2 Intake routes (gated by ENABLE_V2_INTAKE)
+import intakeV2Routes from './intake/v2/routes/intakeV2';
+
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
 import { prisma } from './utils/database';
@@ -520,6 +523,14 @@ console.log('[Phase 6N] Public site pages and profile flow endpoints mounted');
 // Hardening Metrics API (security monitoring)
 app.use('/api/hardening', hardeningMetricsRoutes);
 console.log('[Hardening] Security metrics endpoints mounted at /api/hardening/*');
+
+// V2 Intake API (Coordinated Entry)
+app.use('/api/v2/intake', intakeV2Routes);
+if (process.env.ENABLE_V2_INTAKE === 'true') {
+  console.log('[V2 Intake] Intake wizard endpoints mounted at /api/v2/intake/*');
+} else {
+  console.log('[V2 Intake] DISABLED — set ENABLE_V2_INTAKE=true to enable');
+}
 
 // Root route: serve proper welcome page for browsers
 app.get('/', (req, res) => {

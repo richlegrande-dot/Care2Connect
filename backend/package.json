@@ -36,6 +36,7 @@
     "test:qa:integration": "jest src/tests/qa-v1-zero-openai.test.ts -t 'Integration'",
     "test:connectivity": "jest tests/integration/connectivity-real.test.ts",
     "test:tunnel": "jest tests/routes/tunnel-basic.test.ts",
+    "test:v2:intake": "jest tests/intake_v2 --verbose",
     "test:intensive": "tsx scripts/test-runner.ts",
     "test:intensive:staging": "tsx scripts/test-runner.ts staging",
     "test:intensive:integration": "tsx scripts/test-runner.ts integration",
@@ -85,7 +86,11 @@
     "eval:v4plus:hard": "tsx eval/v4plus/runners/run_eval_v4plus.js --dataset hard60",
     "eval:v4plus:fuzz": "tsx eval/v4plus/runners/run_eval_v4plus.js --dataset fuzz200",
     "eval:v4plus:realistic": "tsx eval/v4plus/runners/run_eval_v4plus.js --dataset realistic50",
-    "eval:v4plus:all": "tsx eval/v4plus/runners/run_eval_v4plus.js --dataset all"
+    "eval:v4plus:all": "tsx eval/v4plus/runners/run_eval_v4plus.js --dataset all",
+    "eval:v1:baseline": "node eval/v1/run_zero_openai_eval.js",
+    "eval:v1:stability": "node eval/v1/run_zero_openai_eval.js --stability --iterations=10",
+    "eval:v1:stability:20": "node eval/v1/run_zero_openai_eval.js --stability --iterations=20",
+    "eval:v1:quick": "npm run test:qa:v1"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.5",

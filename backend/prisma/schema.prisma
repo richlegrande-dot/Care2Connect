@@ -957,3 +957,47 @@ enum IncomeSource {
   OTHER
   NONE
 }
+
+// ── V2 Intake Models ─────────────────────────────────────────
+
+enum V2IntakeStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum V2PriorityTier {
+  CRITICAL
+  HIGH
+  MODERATE
+  LOWER
+}
+
+model V2IntakeSession {
+  id               String          @id @default(cuid())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  userId           String?
+  status           V2IntakeStatus  @default(IN_PROGRESS)
+  dvSafeMode       Boolean         @default(false)
+  modules          Json            @default("{}")   // Partial<Record<ModuleId, data>>
+  completedModules String[]        @default([])
+  completedAt      DateTime?
+  policyPackVersion String?
+
+  // Computed results (populated on completion)
+  scoreResult          Json?       // ScoreResult JSON
+  explainabilityCard   Json?       // ExplainabilityCard JSON
+  actionPlan           Json?       // ActionPlanResult JSON
+  totalScore           Int?
+  stabilityLevel       Int?
+  priorityTier         V2PriorityTier?
+
+  // DV-safe storage minimization flag
+  sensitiveDataRedacted Boolean    @default(false)
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("v2_intake_sessions")
+}

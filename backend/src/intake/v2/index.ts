@@ -29,3 +29,7 @@ export {
   analyzeFairness, runFullFairnessAnalysis,
   type AuditEvent, type FairnessReport,
 } from './audit/fairnessMonitor';
+export {
+  generateCalibrationReport, computeMedian, computeMean, computeStdDev,
+  type CalibrationReport, type CalibrationSession,
+} from './calibration';

@@ -527,7 +527,8 @@ console.log('[Hardening] Security metrics endpoints mounted at /api/hardening/*'
 // V2 Intake API (Coordinated Entry)
 app.use('/api/v2/intake', intakeV2Routes);
 if (process.env.ENABLE_V2_INTAKE === 'true') {
-  console.log('[V2 Intake] Intake wizard endpoints mounted at /api/v2/intake/*');
+  const { POLICY_PACK_VERSION, SCORING_ENGINE_VERSION } = require('./intake/v2/constants');
+  console.log(`[V2 INTAKE ENABLED] POLICY_PACK=${POLICY_PACK_VERSION} ENGINE=${SCORING_ENGINE_VERSION}`);
 } else {
   console.log('[V2 Intake] DISABLED — set ENABLE_V2_INTAKE=true to enable');
 }

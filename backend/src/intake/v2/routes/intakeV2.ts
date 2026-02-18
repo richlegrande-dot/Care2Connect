@@ -31,6 +31,8 @@ import { redactSensitiveModules, getPanicButtonConfig } from '../dvSafe';
 import { v2IntakeAuthMiddleware } from '../middleware/v2Auth';
 import { buildHMISExport, hmisToCSV, type SessionData } from '../exports/hmisExport';
 import { analyzeFairness, runFullFairnessAnalysis, type CompletedSessionSummary } from '../audit/fairnessMonitor';
+import { generateCalibrationReport } from '../calibration/generateCalibrationReport';
+import type { CalibrationSession } from '../calibration/calibrationTypes';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -512,6 +514,127 @@ router.get('/audit/fairness', v2IntakeAuthMiddleware, async (req: Request, res: 
   } catch (err) {
     console.error('[V2 Intake] Fairness analysis failed:', err);
     res.status(500).json({ error: 'Failed to run fairness analysis' });
+  }
+});
+
+// ── Version Info ───────────────────────────────────────────────
+
+/**
+ * GET /version — Return system version information
+ *
+ * Returns policy pack version, scoring engine version, build commit,
+ * and migration version for staging verification.
+ */
+router.get('/version', (_req: Request, res: Response) => {
+  res.json({
+    policyPackVersion: DEFAULT_POLICY_PACK.version,
+    scoringEngineVersion: SCORING_ENGINE_VERSION,
+    buildCommit: process.env.BUILD_COMMIT || 'unknown',
+    migrationVersion: '20260218_v2_intake_tables',
+    featureFlags: {
+      v2IntakeEnabled: process.env.ENABLE_V2_INTAKE === 'true',
+      v2IntakeAuthEnabled: process.env.ENABLE_V2_INTAKE_AUTH === 'true',
+    },
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// ── Calibration Report ─────────────────────────────────────────
+
+/**
+ * GET /calibration — Generate a calibration report for clinical review
+ *
+ * Query params:
+ *   ?since=ISO_DATE  — only include sessions completed after this date
+ *   ?format=csv      — return as CSV instead of JSON
+ *
+ * This endpoint produces read-only aggregate statistics for stakeholder
+ * review sessions. It does NOT mutate any intake data.
+ */
+router.get('/calibration', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const since = req.query.since as string | undefined;
+    const format = req.query.format as string | undefined;
+    const where: Record<string, unknown> = { status: 'COMPLETED' };
+
+    if (since) {
+      where.completedAt = { gte: new Date(since) };
+    }
+
+    const sessions = await prisma.v2IntakeSession.findMany({
+      where: where as any,
+      select: {
+        modules: true,
+        totalScore: true,
+        stabilityLevel: true,
+        priorityTier: true,
+        housingScore: true,
+        safetyScore: true,
+        vulnerabilityScore: true,
+        chronicityScore: true,
+        overridesApplied: true,
+        topContributors: true,
+      },
+    });
+
+    const calibrationSessions: CalibrationSession[] = sessions
+      .filter(s => s.totalScore !== null && s.stabilityLevel !== null && s.priorityTier !== null)
+      .map(s => ({
+        totalScore: s.totalScore as number,
+        stabilityLevel: s.stabilityLevel as number,
+        priorityTier: s.priorityTier as string,
+        dimensionScores: {
+          housing: (s.housingScore as number) ?? 0,
+          safety: (s.safetyScore as number) ?? 0,
+          vulnerability: (s.vulnerabilityScore as number) ?? 0,
+          chronicity: (s.chronicityScore as number) ?? 0,
+        },
+        overridesApplied: (s.overridesApplied as string[]) ?? [],
+        topContributors: (s.topContributors as string[]) ?? [],
+      }));
+
+    const report = generateCalibrationReport(calibrationSessions);
+
+    if (format === 'csv') {
+      const lines: string[] = [];
+      lines.push('Section,Metric,Value');
+      lines.push(`Summary,Total Sessions,${report.totalSessions}`);
+      lines.push(`Summary,Mean Total Score,${report.meanTotalScore.toFixed(2)}`);
+      lines.push(`Summary,Median Total Score,${report.medianTotalScore.toFixed(2)}`);
+      lines.push(`Summary,Generated At,${report.generatedAt}`);
+      lines.push(`Summary,Policy Pack Version,${report.policyPackVersion}`);
+      lines.push(`Summary,Engine Version,${report.scoringEngineVersion}`);
+      for (const [level, count] of Object.entries(report.levelDistribution)) {
+        lines.push(`Level Distribution,Level ${level},${count}`);
+      }
+      for (const [tier, count] of Object.entries(report.tierDistribution)) {
+        lines.push(`Tier Distribution,${tier},${count}`);
+      }
+      for (const dim of report.dimensionAverages) {
+        lines.push(`Dimension Averages,${dim.dimension} Mean,${dim.mean.toFixed(2)}`);
+        lines.push(`Dimension Averages,${dim.dimension} Median,${dim.median.toFixed(2)}`);
+        lines.push(`Dimension Averages,${dim.dimension} Min,${dim.min}`);
+        lines.push(`Dimension Averages,${dim.dimension} Max,${dim.max}`);
+      }
+      for (const ovr of report.overrideFrequency) {
+        lines.push(`Override Frequency,${ovr.override},${ovr.count}`);
+      }
+      for (const contrib of report.topContributorsByFrequency) {
+        lines.push(`Top Contributors,${contrib.contributor},${contrib.count}`);
+      }
+      for (const row of report.tierVsLevelMatrix) {
+        lines.push(`Tier vs Level Matrix,${row.tier} / Level ${row.level},${row.count}`);
+      }
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="calibration-report.csv"');
+      return res.send(lines.join('\n'));
+    }
+
+    res.json(report);
+  } catch (err) {
+    console.error('[V2 Intake] Calibration report failed:', err);
+    res.status(500).json({ error: 'Failed to generate calibration report' });
   }
 });
 

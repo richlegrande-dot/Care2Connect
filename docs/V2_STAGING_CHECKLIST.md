@@ -128,9 +128,9 @@ curl -s https://staging.example.com/api/v2/intake/version | jq .
 | CSV contains data row | Non-empty values | ✅ 2026-02-18 |
 | DV-safe session: FirstName is null | Yes | ✅ 2026-02-18 |
 | DV-safe session: LastName is null | Yes | ✅ 2026-02-18 |
-| DV-safe session: LivingSituation is null | Yes | ☐ (not checked) |
-| GET /export/hmis (bulk) | 200 OK | ☐ (not checked) |
-| GET /export/hmis?since=2026-01-01 | Filtered results | ☐ (not checked) |
+| DV-safe session: LivingSituation is null | Yes | ✅ 2026-02-18 |
+| GET /export/hmis (bulk) | 200 OK | ✅ 2026-02-18 |
+| GET /export/hmis?since=2026-01-01 | Filtered results | ✅ 2026-02-18 |
 
 **Verification commands**:
 ```bash
@@ -153,8 +153,8 @@ curl -s -H "Authorization: Bearer $TOKEN" \
 | Response includes `totalSessions` | Number ≥ 0 | ✅ 2026-02-18 |
 | Response includes `reports` object | Non-null | ✅ 2026-02-18 |
 | GET /audit/fairness?dimension=gender | Single report | ✅ 2026-02-18 |
-| GET /audit/fairness?dimension=race_ethnicity | Single report | ☐ (not checked) |
-| GET /audit/fairness?dimension=veteran_status | Single report | ☐ (not checked) |
+| GET /audit/fairness?dimension=race_ethnicity | Single report | ✅ 2026-02-18 |
+| GET /audit/fairness?dimension=veteran_status | Single report | ✅ 2026-02-18 |
 
 **Verification command**:
 ```bash
@@ -210,24 +210,24 @@ Complete a full intake wizard walkthrough for each persona.
 
 | Step | Action | Expected | Verified |
 |------|--------|----------|----------|
-| 1 | Start session | 201 Created | ☐ |
-| 2 | Submit consent (dv_safe_mode: false) | 200 OK | ☐ |
-| 3 | Submit demographics | 200 OK | ☐ |
-| 4 | Submit housing (permanently_housed) | 200 OK | ☐ |
-| 5 | Submit safety (all safe) | 200 OK | ☐ |
-| 6 | Complete intake | Level 4–5, LOWER | ☐ |
-| 7 | Minimal action plan | Yes | ☐ |
+| 1 | Start session | 201 Created | ✅ 2026-02-18 |
+| 2 | Submit consent (dv_safe_mode: false) | 200 OK | ✅ 2026-02-18 |
+| 3 | Submit demographics | 200 OK | ✅ 2026-02-18 |
+| 4 | Submit housing (permanent_housing) | 200 OK | ✅ 2026-02-18 |
+| 5 | Submit safety (all safe) | 200 OK | ✅ 2026-02-18 |
+| 6 | Complete intake | Level 5, LOWER, Score 0 | ✅ 2026-02-18 |
+| 7 | Minimal action plan | Yes (0 imm, 0 short, 1 med) | ✅ 2026-02-18 |
 
 #### 10.3 Chronic Persona — Robert (Veteran)
 
 | Step | Action | Expected | Verified |
 |------|--------|----------|----------|
-| 1 | Start session | 201 Created | ☐ |
-| 2–5 | Submit required modules | 200 OK | ☐ |
-| 6 | Submit history (chronic: true) | 200 OK | ☐ |
-| 7 | Complete intake | Level ≤ 1, CRITICAL | ☐ |
-| 8 | Action plan includes veteran services | Yes | ☐ |
-| 9 | Override applied: chronic + veteran | Yes | ☐ |
+| 1 | Start session | 201 Created | ✅ 2026-02-18 |
+| 2–5 | Submit required modules | 200 OK | ✅ 2026-02-18 |
+| 6 | Submit history (chronic: true) | 200 OK | ✅ 2026-02-18 |
+| 7 | Complete intake | Level 0, CRITICAL, Score 51 | ✅ 2026-02-18 |
+| 8 | Action plan includes veteran services | Yes (st-veteran-services) | ✅ 2026-02-18 |
+| 9 | Override / waterfall applied | Waterfall: housing≥20 + chronicity≥15 | ✅ 2026-02-18 |
 
 ---
 

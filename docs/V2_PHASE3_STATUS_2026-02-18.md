@@ -206,30 +206,32 @@ Query parameters:
 Sample JSON output:
 ```json
 {
-  "sessionCount": 50,
+  "totalSessions": 50,
   "meanTotalScore": 42.3,
   "medianTotalScore": 41.0,
   "stdDevTotalScore": 12.7,
+  "minTotalScore": 5,
+  "maxTotalScore": 82,
   "levelDistribution": { "0": 3, "1": 8, "2": 12, "3": 15, "4": 9, "5": 3 },
   "tierDistribution": {
-    "EMERGENCY": 11, "RAPID": 12,
-    "TRANSITIONAL": 15, "PREVENTION": 12
+    "CRITICAL": 11, "HIGH": 12,
+    "MODERATE": 15, "LOWER": 12
   },
   "dimensionAverages": [
     { "dimension": "housing", "mean": 6.2, "median": 6.0,
       "min": 0, "max": 12, "stdDev": 3.1 }
   ],
   "overrideFrequency": [
-    { "overrideName": "DV_OVERRIDE", "count": 3, "percentage": 6.0 }
+    { "override": "fleeing_dv_floor", "count": 3, "percentage": 6.0 }
   ],
-  "topContributors": [
-    { "signalName": "income_source_none", "count": 28, "percentage": 56.0 }
+  "topContributorsByFrequency": [
+    { "contributor": "income_source_none", "count": 28, "percentage": 56.0 }
   ],
-  "tierVsLevel": [
-    { "tier": "EMERGENCY", "level": 0, "count": 3 }
+  "tierVsLevelMatrix": [
+    { "tier": "CRITICAL", "level": 0, "count": 3, "percentage": 6.0 }
   ],
-  "policyPackVersion": "1.0",
-  "scoringEngineVersion": "1.0",
+  "policyPackVersion": "v1.0.0",
+  "scoringEngineVersion": "v1.0.0",
   "generatedAt": "2026-02-18T..."
 }
 ```

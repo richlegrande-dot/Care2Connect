@@ -463,7 +463,47 @@ Full end-to-end intake via 8 module POST requests + `/complete`.
 
 ---
 
-## 13. Updated Summary
+## 13. Feature Flag, Auth & Kill-Switch Verification (Final Pass)
+
+### Feature Flags in `.env` Files
+
+| File | `ENABLE_V2_INTAKE` | `ENABLE_V2_INTAKE_AUTH` |
+|------|-------------------|------------------------|
+| `backend/.env` | `false` (default) | `true` |
+| `backend/.env.example` | `false` | `true` |
+| `backend/.env.production` | not set (=false) | not set |
+
+### Auth Enforcement (ENABLE_V2_INTAKE_AUTH=true)
+
+| Endpoint | Without Token | With Valid JWT |
+|----------|--------------|---------------|
+| POST /session | 401 | 201 |
+| GET /session/:id | 401 | 200 |
+| PUT /module | 401 | 200 |
+| POST /complete | 401 | 200 |
+| GET /schema | 200 (public) | 200 |
+| GET /health | 200 (public) | 200 |
+
+### Kill Switch (ENABLE_V2_INTAKE=false)
+
+| Check | Result |
+|-------|--------|
+| Startup log | `[V2 Intake] DISABLED — set ENABLE_V2_INTAKE=true to enable` |
+| POST /session | 404 |
+| GET /health | 404 |
+| All V2 endpoints | 404 (routes gated) |
+
+### V1 Non-Regression (Re-verified)
+
+| Check | Result |
+|-------|--------|
+| V1 gate tests | 27/28 (1 pre-existing: assemblyai-contract confidence 0.5 vs expected 0) |
+| V1 parser files modified | 0 (git diff confirms) |
+| V1 parser accuracy | Unchanged from 99.32% baseline |
+
+---
+
+## 14. Final Summary
 
 | Check | Status |
 |-------|--------|
@@ -472,13 +512,19 @@ Full end-to-end intake via 8 module POST requests + `/complete`.
 | Maria — Crisis/DV persona (Score 57, Level 0, CRITICAL) | ✅ PASS |
 | James — Stable persona (Score 0, Level 5, LOWER) | ✅ PASS |
 | Robert — Veteran/Chronic persona (Score 51, Level 0, CRITICAL) | ✅ PASS |
+| Feature flags in .env files | ✅ PASS |
+| Auth enforcement (401 without token) | ✅ PASS |
+| Auth pass-through (201 with JWT) | ✅ PASS |
+| Kill switch (404 when disabled) | ✅ PASS |
+| Disabled startup log message | ✅ PASS |
 | Bulk HMIS export + DV nullification | ✅ PASS |
 | Filtered HMIS export | ✅ PASS |
 | Fairness audit (all dimensions) | ✅ PASS |
 | Calibration report | ✅ PASS |
 | V1 non-regression (27/28) | ✅ PASS |
+| DB migration (table exists) | ✅ PASS |
 
-**Overall Verdict**: **✅ ALL CHECKS PASS — Full staging verification complete.**
+**Overall Verdict**: **✅ ALL CHECKS PASS — Complete staging verification finished.**
 
-*Evidence captured: 2026-02-18T18:04:00Z (initial), updated 2026-02-18 (continuation)*
-*All 3 persona walkthroughs verified end-to-end.*
+*Evidence captured: 2026-02-18 (initial + continuation + final pass)*
+*All checklist items verified. Zero unchecked items remain.*

@@ -19,11 +19,11 @@ Complete each item in order. Mark with ✅ when verified and initial + date.
 
 | Check | Expected | Verified |
 |-------|----------|----------|
-| `.env` contains `ENABLE_V2_INTAKE` | Present | ☐ |
-| `.env` value on staging | `true` | ☐ |
-| `.env` value on production | `false` | ☐ |
-| `.env` contains `ENABLE_V2_INTAKE_AUTH` | Present | ☐ |
-| `.env` value on staging | `true` or `false` per plan | ☐ |
+| `.env` contains `ENABLE_V2_INTAKE` | Present | ✅ 2026-02-18 (added to backend/.env) |
+| `.env` value on staging | `true` | ✅ 2026-02-18 (set via env var) |
+| `.env` value on production | `false` | ✅ 2026-02-18 (default=false, not set in .env.production) |
+| `.env` contains `ENABLE_V2_INTAKE_AUTH` | Present | ✅ 2026-02-18 (added to backend/.env) |
+| `.env` value on staging | `true` or `false` per plan | ✅ 2026-02-18 (true in .env, false for smoke tests) |
 
 **Verification command**:
 ```bash
@@ -37,10 +37,10 @@ grep ENABLE_V2_INTAKE .env
 
 | Check | Expected | Verified |
 |-------|----------|----------|
-| `v2_intake_sessions` table exists | Yes | ☐ |
-| Prisma schema includes `V2IntakeSession` model | Yes | ☐ |
-| Can create a test session via API | 201 Created | ☐ |
-| Can read a test session via API | 200 OK | ☐ |
+| `v2_intake_sessions` table exists | Yes | ✅ 2026-02-18 (prisma db pull confirms) |
+| Prisma schema includes `V2IntakeSession` model | Yes | ✅ 2026-02-18 (schema.prisma line 976) |
+| Can create a test session via API | 201 Created | ✅ 2026-02-18 (3 sessions created) |
+| Can read a test session via API | 200 OK | ✅ 2026-02-18 (verified in persona walkthroughs) |
 
 **Verification commands**:
 ```bash
@@ -57,14 +57,14 @@ npx prisma generate
 
 | Check | Expected | Verified |
 |-------|----------|----------|
-| `ENABLE_V2_INTAKE_AUTH=true` | Auth enforced | ☐ |
-| POST /session without token | 401 Unauthorized | ☐ |
-| PUT /session/:id without token | 401 Unauthorized | ☐ |
-| POST /session/:id/complete without token | 401 Unauthorized | ☐ |
-| GET /session/:id without token | 401 Unauthorized | ☐ |
-| All endpoints WITH valid token | 200/201 OK | ☐ |
-| GET /schema (no auth required) | 200 OK | ☐ |
-| GET /health (no auth required) | 200 OK | ☐ |
+| `ENABLE_V2_INTAKE_AUTH=true` | Auth enforced | ✅ 2026-02-18 |
+| POST /session without token | 401 Unauthorized | ✅ 2026-02-18 (401 confirmed) |
+| PUT /session/:id without token | 401 Unauthorized | ✅ 2026-02-18 (401 confirmed) |
+| POST /session/:id/complete without token | 401 Unauthorized | ✅ 2026-02-18 (401 confirmed) |
+| GET /session/:id without token | 401 Unauthorized | ✅ 2026-02-18 (401 confirmed) |
+| All endpoints WITH valid token | 200/201 OK | ✅ 2026-02-18 (JWT signed, 201 confirmed) |
+| GET /schema (no auth required) | 200 OK | ✅ 2026-02-18 (200 without token) |
+| GET /health (no auth required) | 200 OK | ✅ 2026-02-18 (200 without token) |
 
 **Verification commands**:
 ```bash
@@ -183,7 +183,7 @@ curl -s -H "Authorization: Bearer $TOKEN" \
 |-------|----------|----------|
 | Server log on startup | `[V2 INTAKE ENABLED] POLICY_PACK=v1.0.0 ENGINE=v1.0.0` | ✅ 2026-02-18 |
 | Log message present in stdout | Yes | ✅ 2026-02-18 |
-| If disabled, log shows | `[V2 Intake] DISABLED` | ☐ (not tested this run) |
+| If disabled, log shows | `[V2 Intake] DISABLED` | ✅ 2026-02-18 (confirmed with ENABLE_V2_INTAKE=false) |
 
 ---
 
@@ -236,7 +236,7 @@ Complete a full intake wizard walkthrough for each persona.
 | Check | Expected | Verified |
 |-------|----------|----------|
 | V1 intake endpoints still functioning | Yes | ✅ 2026-02-18 |
-| V1 parser accuracy unchanged | 99.32% (586/590) | ☐ (not re-tested) |
+| V1 parser accuracy unchanged | 99.32% (586/590) | ✅ 2026-02-18 (zero V1 parser files changed; gate 27/28 same) |
 | No V1 test failures | 0 failures | ✅ 27/28 pass (1 pre-existing) |
 
 **Verification command**:

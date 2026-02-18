@@ -1,0 +1,125 @@
+{
+  "metadata": {
+    "dataset": "core30",
+    "totalCases": 30,
+    "timestamp": "2026-01-26T20:44:54.898Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "80.00%",
+    "acceptablePassRate": "80.00%",
+    "strictPasses": 24,
+    "acceptablePasses": 24,
+    "strictFailures": 6,
+    "acceptableFailures": 6
+  },
+  "performance": {
+    "avgLatencyMs": "6.73",
+    "totalLatencyMs": "202.00",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 4,
+        "percentage": "13.3%",
+        "exampleCases": [
+          "T003",
+          "T006",
+          "T020"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 2,
+        "percentage": "6.7%",
+        "exampleCases": [
+          "T007",
+          "T023"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 6,
+    "cases": [
+      {
+        "testId": "T003",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T006",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T007",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T020",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T022",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T023",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      }
+    ]
+  },
+  "worklist": [
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "LOW",
+      "affectedCases": 4,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 2,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    }
+  ]
+}

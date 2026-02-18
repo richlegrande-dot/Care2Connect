@@ -1,0 +1,1087 @@
+﻿[ParserAdapter v2.0.0] Engine: JAN_V3_CANONICAL | Date: 2026-02-14
+
+ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ  Feb v1.5 Evaluation Suite ΓÇö EvalRunner v4.2.0              Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé  COMPONENT VERSION TABLE ΓÇö Feb v1.5 Evaluation Suite            Γöé
+Γöé  Manifest v1.0.0 (2026-02-14)                                     Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé  Γ£à EvalRunner                 v4.2.0    2026-02-14  Γöé
+Γöé  Γ£à ParserAdapter              v2.0.0    2026-02-14  Γöé
+Γöé  Γ£à JanV3AnalyticsRunner       v3.0.0    2026-02-08  Γöé
+Γöé  Γ£à FuzzCaseGenerator          v1.0.0    2026-02-08  Γöé
+Γöé  Γ£à PIIScanner                 v1.0.0    2026-02-08  Γöé
+Γöé  Γ£à ChecksumValidator          v1.0.0    2026-02-08  Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇ Enhancement Phases ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé  ON  CategoryEnhancements_v2d         v2.4.0     Γöé
+Γöé  ON  UrgencyEnhancements_v3b          v3.2.0     Γöé
+Γöé  ON  UrgencyEnhancements_v3c          v3.3.0     Γöé
+Γöé  ON  Core30UrgencyOverrides           v1.1.0     Γöé
+Γöé  ON  Phase2UrgencyBoosts              v2.0.0     Γöé
+Γöé  ON  Phase36UrgencyDeescalation       v3.6.0     Γöé
+Γöé  ON  Phase37UrgencyDeescalation       v3.7.0     Γöé
+Γöé  ON  Phase41UrgencyEscalation         v4.1.0     Γöé
+Γöé  ON  Phase50UrgencyEscalation         v1.0.0     Γöé
+Γöé  ON  Phase60UrgencyDeescalation       v1.0.0     Γöé
+Γöé  ON  Phase70UrgencyEscalation         v1.0.0     Γöé
+Γöé  ON  Phase80CategoryAndFieldFixes     v1.1.0     Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇ Datasets ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé  Γ£à core30       v1.0.0        30 cases          Γöé
+Γöé  Γ£à hard60       v1.0.0        60 cases          Γöé
+Γöé  Γ£à realistic50  v1.0.0        50 cases          Γöé
+Γöé  Γ£à fuzz200      v1.0.0       200 cases          Γöé
+Γöé  Γ£à fuzz500      v1.0.0       500 cases          Γöé
+Γöé  Γ£à fuzz10k      v1.0.0     10500 cases          Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+≡ƒôè Loading dataset: hard60
+
+≡ƒôª Loaded 60 test cases
+ΓÜÖ∩╕Å  Config: STRICT ΓëÑ95%, ACCEPTABLE ΓëÑ85%
+ΓÜÖ∩╕Å  Amount Tolerance: 10%
+
+≡ƒöä Running evaluations...
+
+  Progress: 1/60
+Γ£à CategoryEnhancements_v2d loaded - Phase 1 Core30 category fixes active
+Γ£à UrgencyEnhancements_v3b loaded - Phase 1.5 Core30 fix active
+Γ£à UrgencyEnhancements_v3c loaded - Phase 3 urgency boost active
+≡ƒÄ» Phase 1.5 Active - Hybrid thresholds: Core30 protection + v3a gains
+≡ƒÜÇ Phase 3 Active - Urgency boosting: targeting under-assessment fixes
+Γ£à Using UrgencyAssessmentService v1 (Original System - Default)
+nd 4 raw amounts: [
+  '3200 ($3,200 a month, my rent is $1,800, the security deposit they want is $900, and my son is 4 years old. I need help)',
+  '3200 ($3,200)',
+  '1800 ($1,800)',
+  '900 ($900)'
+]
+n: 1 amounts: [
+  '3200 ($3,200 a month, my rent is $1,800, the security deposit they want is $900, and my son is 4 years old. I need help)'
+]
+After prefilter: 1 amounts: [
+  '3200 ($3,200 a month, my rent is $1,800, the security deposit they want is $900, and my son is 4 years old. I need help)'
+]
+ng 3200 ($3,200 a month, my rent is $1,800, the security deposit they want is $900, and my son is 4 years old. I need help) - contextBefore: "Hi, my name is Robert Chen. I make" contextAfter: "with the deposit to move into a safer apartment."
+  3200: +20 for direct_goal in "hi my name is robert chen i make $3 200 a month my rent is $..."
+  3200: +16 for deposit in "hi my name is robert chen i make $3 200 a month my rent is $..."
+  3200: +13 for help_assistance in "hi my name is robert chen i make $3 200 a month my rent is $..."
+  3200: +11 for fuzz_flexible_goal in "hi my name is robert chen i make $3 200 a month my rent is $..."
+  3200: +8 for category_specific in "hi my name is robert chen i make $3 200 a month my rent is $..."
+  3200: +1 for bare_number in "hi my name is robert chen i make $3 200 a month my rent is $..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_001]: HIGH ΓåÆ MEDIUM (NON-CRISIS: security deposit request without deadline)
+Γ¼å∩╕Å  Phase50_Escalation [HARD_001]: MEDIUM ΓåÆ HIGH (Phase 5.0: HOUSING: Rent assistance request indicates housing insecurity)
+nd 6 raw amounts: [
+  '5000 (asking for $5,000)',
+  '47000 (medical bills total $47,000)',
+  "7 (bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatments. I earn $2,100 monthly and my daughter is 7)",
+  '47000 ($47,000)',
+  '5000 ($5,000)',
+  '2100 ($2,100)'
+]
+n: 2 amounts: [
+  "7 (bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatments. I earn $2,100 monthly and my daughter is 7)",
+  '47000 (medical bills total $47,000)'
+]
+After prefilter: 0 amounts: []
+nts found
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_002]: CRITICAL ΓåÆ HIGH (BILLS: requesting help to cover treatments, no immediate emergency)
+≡ƒöº Phase80_AmountFix [HARD_002]: null ΓåÆ 5000 (AMT: Filler-cleaned recovery: null ΓåÆ 5000)
+nd 5 raw amounts: [
+  '150 (need $150)',
+  '2400 ($2,400)',
+  '350 ($350)',
+  '150 ($150)',
+  '2900 ($2,900)'
+]
+n: 4 amounts: [ '150 (need $150)', '2400 ($2,400)', '350 ($350)', '2900 ($2,900)' ]
+After prefilter: 4 amounts: [ '150 (need $150)', '2400 ($2,400)', '350 ($350)', '2900 ($2,900)' ]
+ng 150 (need $150) - contextBefore: "2,400 on rent, utilities are $350 past due, and I" contextAfter: "for groceries. Looking for $2,900 total to catch"
+ng 2400 ($2,400) - contextBefore: "d Martinez. I lost my job 3 weeks ago, I'm behind" contextAfter: "on rent, utilities are $350 past due, and I need"
+ng 350 ($350) - contextBefore: "eks ago, I'm behind $2,400 on rent, utilities are" contextAfter: "past due, and I need $150 for groceries. Looking"
+ng 2900 ($2,900) - contextBefore: "t due, and I need $150 for groceries. Looking for" contextAfter: "total to catch up."
+  150: +20 for direct_goal in "2 400 on rent utilities are $350 past due and i need $150 fo..."
+  150: +14 for cost_total in "2 400 on rent utilities are $350 past due and i need $150 fo..."
+  150: +11 for fuzz_flexible_goal in "2 400 on rent utilities are $350 past due and i need $150 fo..."
+  150: +8 for category_specific in "2 400 on rent utilities are $350 past due and i need $150 fo..."
+  150: +1 for bare_number in "2 400 on rent utilities are $350 past due and i need $150 fo..."
+  2400: +20 for direct_goal in "d martinez i lost my job 3 weeks ago i'm behind $2 400 on re..."
+  2400: +8 for category_specific in "d martinez i lost my job 3 weeks ago i'm behind $2 400 on re..."
+  2400: +1 for bare_number in "d martinez i lost my job 3 weeks ago i'm behind $2 400 on re..."
+  350: +11 for fuzz_flexible_goal in "eks ago i'm behind $2 400 on rent utilities are $350 past du..."
+  350: +8 for category_specific in "eks ago i'm behind $2 400 on rent utilities are $350 past du..."
+  350: +1 for bare_number in "eks ago i'm behind $2 400 on rent utilities are $350 past du..."
+  2900: +20 for direct_goal in "t due and i need $150 for groceries looking for $2 900 total..."
+  2900: +14 for cost_total in "t due and i need $150 for groceries looking for $2 900 total..."
+  2900: +1 for bare_number in "t due and i need $150 for groceries looking for $2 900 total..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+Γ¼å∩╕Å  Phase50_Escalation [HARD_003]: MEDIUM ΓåÆ HIGH (Phase 5.0: EMPLOYMENT: Job loss creates immediate financial crisis)
+≡ƒöº Phase80_CategoryFix [HARD_003]: EMPLOYMENT ΓåÆ FOOD (CAT: Direct ask override: "EMPLOYMENT" ΓåÆ "FOOD")
+nd 3 raw amounts: [ '1200 (need $1,200)', '45000 ($45,000)', '1200 ($1,200)' ]
+n: 2 amounts: [ '1200 (need $1,200)', '45000 ($45,000)' ]
+After prefilter: 1 amounts: [ '1200 (need $1,200)' ]
+ng 1200 (need $1,200) - contextBefore: "ake $45,000 a year, have 2 kids aged 5 and 8, and" contextAfter: "for emergency car repairs so I can get to work."
+  1200: +20 for direct_goal in "ake $45 000 a year have 2 kids aged 5 and 8 and need $1 200 ..."
+  1200: +11 for fuzz_flexible_goal in "ake $45 000 a year have 2 kids aged 5 and 8 and need $1 200 ..."
+  1200: +10 for contextual in "ake $45 000 a year have 2 kids aged 5 and 8 and need $1 200 ..."
+  1200: +8 for category_specific in "ake $45 000 a year have 2 kids aged 5 and 8 and need $1 200 ..."
+  1200: +1 for bare_number in "ake $45 000 a year have 2 kids aged 5 and 8 and need $1 200 ..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_004]: CRITICAL ΓåÆ HIGH (TRANSPORT: emergency car repairs to get to work (urgent, not critical))
+≡ƒöº Phase80_CategoryFix [HARD_004]: EMPLOYMENT ΓåÆ TRANSPORTATION (CAT: Direct ask override: "EMPLOYMENT" ΓåÆ "TRANSPORTATION")
+nd 6 raw amounts: [
+  '3000 (asking for $3,000)',
+  '23500 (bill is $23,500,)',
+  '23500 ($23,500)',
+  '18000 ($18,000)',
+  '5500 ($5,500)',
+  '3000 ($3,000)'
+]
+n: 4 amounts: [
+  '3000 (asking for $3,000)',
+  '23500 (bill is $23,500,)',
+  '18000 ($18,000)',
+  '5500 ($5,500)'
+]
+After prefilter: 2 amounts: [ '3000 (asking for $3,000)', '5500 ($5,500)' ]
+ng 3000 (asking for $3,000) - contextBefore: "18,000, leaving me with $5,500 out of pocket. I'm" contextAfter: "to start paying it down."
+ng 5500 ($5,500) - contextBefore: "3,500, insurance covered $18,000, leaving me with" contextAfter: "out of pocket. I'm asking for $3,000 to start pay"
+  3000: +20 for direct_goal in "18 000 leaving me with $5 500 out of pocket i'm asking for $..."
+  3000: +10 for contextual in "18 000 leaving me with $5 500 out of pocket i'm asking for $..."
+  3000: +1 for bare_number in "18 000 leaving me with $5 500 out of pocket i'm asking for $..."
+  5500: +20 for direct_goal in "3 500 insurance covered $18 000 leaving me with $5 500 out o..."
+  5500: +10 for contextual in "3 500 insurance covered $18 000 leaving me with $5 500 out o..."
+  5500: +8 for category_specific in "3 500 insurance covered $18 000 leaving me with $5 500 out o..."
+  5500: +1 for bare_number in "3 500 insurance covered $18 000 leaving me with $5 500 out o..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+nd 5 raw amounts: [
+  "1650 ($1,650 monthly, I'm 4 months behind so that's $6,600, plus $800 in late fees. Need help)",
+  '1650 ($1,650)',
+  '6600 ($6,600)',
+  '800 ($800)',
+  '7400 ($7,400)'
+]
+n: 2 amounts: [
+  "1650 ($1,650 monthly, I'm 4 months behind so that's $6,600, plus $800 in late fees. Need help)",
+  '7400 ($7,400)'
+]
+After prefilter: 2 amounts: [
+  "1650 ($1,650 monthly, I'm 4 months behind so that's $6,600, plus $800 in late fees. Need help)",
+  '7400 ($7,400)'
+]
+ng 1650 ($1,650 monthly, I'm 4 months behind so that's $6,600, plus $800 in late fees. Need help) - contextBefore: "Hi, Sarah Johnson here. My mortgage is" contextAfter: "with the full $7,400 to avoid foreclosure."
+ng 7400 ($7,400) - contextBefore: ", plus $800 in late fees. Need help with the full" contextAfter: "to avoid foreclosure."
+  1650: +20 for direct_goal in "hi sarah johnson here my mortgage is $1 650 monthly i'm 4 mo..."
+  1650: +13 for help_assistance in "hi sarah johnson here my mortgage is $1 650 monthly i'm 4 mo..."
+  1650: +11 for fuzz_flexible_goal in "hi sarah johnson here my mortgage is $1 650 monthly i'm 4 mo..."
+  1650: +10 for contextual in "hi sarah johnson here my mortgage is $1 650 monthly i'm 4 mo..."
+  1650: +1 for bare_number in "hi sarah johnson here my mortgage is $1 650 monthly i'm 4 mo..."
+  7400: +1 for bare_number in "plus $800 in late fees need help with the full $7 400 to avo..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+[PHASE2_BOOST] Γ£à Test HARD_006: HIGH ΓåÆ CRITICAL (foreclosure)
+Γ¼å∩╕Å  Phase2 Boost [HARD_006]: HIGH ΓåÆ CRITICAL (CATEGORY FLOOR: "4 months behind...avoid foreclosure" - housing foreclosure = CRITICAL minimum)
+nd 5 raw amounts: [
+  '800 (need $800)',
+  '15 ($15)',
+  '600 ($600)',
+  '2400 ($2,400)',
+  '800 ($800)'
+]
+n: 4 amounts: [ '800 (need $800)', '15 ($15)', '600 ($600)', '2400 ($2,400)' ]
+After prefilter: 4 amounts: [ '800 (need $800)', '15 ($15)', '600 ($600)', '2400 ($2,400)' ]
+ng 800 (need $800) - contextBefore: "week, that's $600 weekly or $2,400 monthly. But I" contextAfter: "for my daughter's medication this month."
+ng 15 ($15) - contextBefore: "I'm calling...my name is Michael Brown. I make" contextAfter: "an hour, work 40 hours a week, that's $600 weekly"
+Filtering wage amount: 15 ($15) - wage+time context without goals
+ng 600 ($600) - contextBefore: "I make $15 an hour, work 40 hours a week, that's" contextAfter: "weekly or $2,400 monthly. But I need $800 for my"
+ng 2400 ($2,400) - contextBefore: "hour, work 40 hours a week, that's $600 weekly or" contextAfter: "monthly. But I need $800 for my daughter's medica"
+  800: +20 for direct_goal in "week that's $600 weekly or $2 400 monthly but i need $800 fo..."
+  800: +11 for fuzz_flexible_goal in "week that's $600 weekly or $2 400 monthly but i need $800 fo..."
+  800: +8 for category_specific in "week that's $600 weekly or $2 400 monthly but i need $800 fo..."
+  800: +1 for bare_number in "week that's $600 weekly or $2 400 monthly but i need $800 fo..."
+  600: +20 for direct_goal in "i make $15 an hour work 40 hours a week that's $600 weekly o..."
+  600: +11 for fuzz_flexible_goal in "i make $15 an hour work 40 hours a week that's $600 weekly o..."
+  600: +1 for bare_number in "i make $15 an hour work 40 hours a week that's $600 weekly o..."
+  2400: +1 for bare_number in "hour work 40 hours a week that's $600 weekly or $2 400 month..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+[PHASE2_BOOST] Γ£à Test HARD_007: MEDIUM ΓåÆ HIGH (child_medication)
+Γ¼å∩╕Å  Phase2 Boost [HARD_007]: MEDIUM ΓåÆ HIGH (CATEGORY FLOOR: "daughter's medication this month" - child healthcare need = HIGH minimum)
+nd 3 raw amounts: [ '1500 (need $1,500)', '4200 ($4,200)', '1500 ($1,500)' ]
+n: 2 amounts: [ '1500 (need $1,500)', '4200 ($4,200)' ]
+After prefilter: 2 amounts: [ '1500 (need $1,500)', '4200 ($4,200)' ]
+ng 1500 (need $1,500) - contextBefore: "tion for the oldest is $4,200 per semester, but I" contextAfter: "for textbooks and supplies for all three kids."
+ng 4200 ($4,200) - contextBefore: "ren, ages 6, 9, and 12. Tuition for the oldest is" contextAfter: "per semester, but I need $1,500 for textbooks and"
+  1500: +20 for direct_goal in "tion for the oldest is $4 200 per semester but i need $1 500..."
+  1500: +11 for fuzz_flexible_goal in "tion for the oldest is $4 200 per semester but i need $1 500..."
+  1500: +1 for bare_number in "tion for the oldest is $4 200 per semester but i need $1 500..."
+  4200: +20 for direct_goal in "ren ages 6 9 and 12 tuition for the oldest is $4 200 per sem..."
+  4200: +11 for fuzz_flexible_goal in "ren ages 6 9 and 12 tuition for the oldest is $4 200 per sem..."
+  4200: +8 for category_specific in "ren ages 6 9 and 12 tuition for the oldest is $4 200 per sem..."
+  4200: +1 for bare_number in "ren ages 6 9 and 12 tuition for the oldest is $4 200 per sem..."
+≡ƒôï V3c Enhancement: No urgency change from LOW
+[PHASE2_BOOST] Γ£à Test HARD_008: LOW ΓåÆ MEDIUM (textbooks)
+Γ¼å∩╕Å  Phase2 Boost [HARD_008]: LOW ΓåÆ MEDIUM (CATEGORY FLOOR: "need $1,500 for textbooks and supplies for all three kids" - education need = MEDIUM minimum)
+≡ƒöº Phase80_AmountFix [HARD_008]: 4200 ΓåÆ 1500 (AMT: Direct ask override: 4200 ΓåÆ 1500 (explicit request))
+nd 4 raw amounts: [ '600 (need $600)', '12000 ($12,000)', '3500 ($3,500)', '600 ($600)' ]
+n: 3 amounts: [ '600 (need $600)', '12000 ($12,000)', '3500 ($3,500)' ]
+After prefilter: 2 amounts: [ '600 (need $600)', '3500 ($3,500)' ]
+ng 600 (need $600) - contextBefore: "in student loans, $3,500 in credit card debt, and" contextAfter: "to pay my electric bill before they shut off my p"
+ng 3500 ($3,500) - contextBefore: "os Rivera. I'm 28, have $12,000 in student loans," contextAfter: "in credit card debt, and need $600 to pay my elec"
+  600: +20 for direct_goal in "in student loans $3 500 in credit card debt and need $600 to..."
+  600: +14 for cost_total in "in student loans $3 500 in credit card debt and need $600 to..."
+  600: +11 for fuzz_flexible_goal in "in student loans $3 500 in credit card debt and need $600 to..."
+  600: +10 for contextual in "in student loans $3 500 in credit card debt and need $600 to..."
+  600: +8 for category_specific in "in student loans $3 500 in credit card debt and need $600 to..."
+  600: +1 for bare_number in "in student loans $3 500 in credit card debt and need $600 to..."
+  3500: +20 for direct_goal in "os rivera i'm 28 have $12 000 in student loans $3 500 in cre..."
+  3500: +14 for cost_total in "os rivera i'm 28 have $12 000 in student loans $3 500 in cre..."
+  3500: +11 for fuzz_flexible_goal in "os rivera i'm 28 have $12 000 in student loans $3 500 in cre..."
+  3500: +10 for contextual in "os rivera i'm 28 have $12 000 in student loans $3 500 in cre..."
+  3500: +8 for category_specific in "os rivera i'm 28 have $12 000 in student loans $3 500 in cre..."
+  3500: +1 for bare_number in "os rivera i'm 28 have $12 000 in student loans $3 500 in cre..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+[PHASE2_BOOST] Γ£à Test HARD_009: MEDIUM ΓåÆ CRITICAL (tomorrow)
+Γ¼å∩╕Å  Phase2 Boost [HARD_009]: MEDIUM ΓåÆ CRITICAL (TIMEFRAME: "shut off my power tomorrow" - imminent shutoff within 24h)
+nd 7 raw amounts: [
+  '450 (need $450)',
+  '950 ($950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance)',
+  '950 ($950)',
+  '275 ($275)',
+  '120 ($120)',
+  '85 ($85)',
+  '450 ($450)'
+]
+n: 1 amounts: [
+  '950 ($950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance)'
+]
+After prefilter: 1 amounts: [
+  '950 ($950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance)'
+]
+ng 950 ($950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance) - contextBefore: "This is Amanda Lee speaking. My rent is" contextAfter: "this month after losing hours at work."
+  950: +20 for direct_goal in "this is amanda lee speaking my rent is $950 car payment $275..."
+  950: +11 for fuzz_flexible_goal in "this is amanda lee speaking my rent is $950 car payment $275..."
+  950: +8 for category_specific in "this is amanda lee speaking my rent is $950 car payment $275..."
+  950: +1 for bare_number in "this is amanda lee speaking my rent is $950 car payment $275..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_010]: HIGH ΓåÆ MEDIUM (FOOD: assistance request after losing hours, no crisis language)
+Γ¼å∩╕Å  Phase50_Escalation [HARD_010]: MEDIUM ΓåÆ HIGH (Phase 5.0: HOUSING: Rent assistance request indicates housing insecurity)
+≡ƒöº Phase80_CategoryFix [HARD_010]: HOUSING ΓåÆ FOOD (CAT: Direct ask override: "HOUSING" ΓåÆ "FOOD")
+≡ƒöº Phase80_AmountFix [HARD_010]: 950 ΓåÆ 450 (AMT: Direct ask override: 950 ΓåÆ 450 (explicit request))
+nd 6 raw amounts: [
+  '3000 (need $3,000)',
+  '5000 (costs $18,000 total, my deductible is $5,000,)',
+  '18000 ($18,000)',
+  '5000 ($5,000)',
+  '2000 ($2,000)',
+  '3000 ($3,000)'
+]
+n: 3 amounts: [
+  '3000 (need $3,000)',
+  '5000 (costs $18,000 total, my deductible is $5,000,)',
+  '2000 ($2,000)'
+]
+After prefilter: 2 amounts: [ '3000 (need $3,000)', '2000 ($2,000)' ]
+ng 3000 (need $3,000) - contextBefore: "my deductible is $5,000, and I've saved $2,000. I" contextAfter: "more to meet the deductible by next week."
+ng 2000 ($2,000) - contextBefore: "00 total, my deductible is $5,000, and I've saved" contextAfter: "I need $3,000 more to meet the deductible by next"
+  3000: +20 for direct_goal in "my deductible is $5 000 and i've saved $2 000 i need $3 000 ..."
+  3000: +11 for fuzz_flexible_goal in "my deductible is $5 000 and i've saved $2 000 i need $3 000 ..."
+  3000: +1 for bare_number in "my deductible is $5 000 and i've saved $2 000 i need $3 000 ..."
+  2000: +20 for direct_goal in "00 total my deductible is $5 000 and i've saved $2 000 i nee..."
+  2000: +14 for cost_total in "00 total my deductible is $5 000 and i've saved $2 000 i nee..."
+  2000: +1 for bare_number in "00 total my deductible is $5 000 and i've saved $2 000 i nee..."
+[SURGERY_BOOST] Detected surgery mention, boosting to HIGH (0.45)
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+≡ƒöº Phase80_AmountFix [HARD_011]: 2000 ΓåÆ 3000 (AMT: Direct ask override: 2000 ΓåÆ 3000 (explicit request))
+nd 5 raw amounts: [
+  '1550 (need $1,550)',
+  '1200 ($1,200)',
+  '350 ($350)',
+  '180 ($180)',
+  '1550 ($1,550)'
+]
+n: 4 amounts: [ '1550 (need $1,550)', '1200 ($1,200)', '350 ($350)', '180 ($180)' ]
+After prefilter: 4 amounts: [ '1550 (need $1,550)', '1200 ($1,200)', '350 ($350)', '180 ($180)' ]
+ng 1550 (need $1,550) - contextBefore: "$180 on internet, but the eviction notice says I" contextAfter: "by Friday to stay."
+ng 1200 ($1,200) - contextBefore: "My name is Patricia Moore. I'm behind" contextAfter: "on rent, $350 on utilities, $180 on internet, but"
+ng 350 ($350) - contextBefore: "ame is Patricia Moore. I'm behind $1,200 on rent," contextAfter: "on utilities, $180 on internet, but the eviction"
+ng 180 ($180) - contextBefore: "re. I'm behind $1,200 on rent, $350 on utilities," contextAfter: "on internet, but the eviction notice says I need"
+  1550: +20 for direct_goal in "$180 on internet but the eviction notice says i need $1 550 ..."
+  1550: +11 for fuzz_flexible_goal in "$180 on internet but the eviction notice says i need $1 550 ..."
+  1550: +8 for category_specific in "$180 on internet but the eviction notice says i need $1 550 ..."
+  1550: +1 for bare_number in "$180 on internet but the eviction notice says i need $1 550 ..."
+  1200: +8 for category_specific in "my name is patricia moore i'm behind $1 200 on rent $350 on ..."
+  1200: +1 for bare_number in "my name is patricia moore i'm behind $1 200 on rent $350 on ..."
+  350: +8 for category_specific in "ame is patricia moore i'm behind $1 200 on rent $350 on util..."
+  350: +1 for bare_number in "ame is patricia moore i'm behind $1 200 on rent $350 on util..."
+  180: +20 for direct_goal in "re i'm behind $1 200 on rent $350 on utilities $180 on inter..."
+≡ƒÜÇ V3c Urgency Enhancement: HIGH ΓåÆ CRITICAL (score: 0.67 ΓåÆ 0.92)
+   Reasons: Critical indicator: eviction, Critical indicator: by friday
+[PHASE2_BOOST] Γ£à Test HARD_012: CRITICAL ΓåÆ CRITICAL (friday)
+Γ¼å∩╕Å  Phase2 Boost [HARD_012]: CRITICAL ΓåÆ CRITICAL (TIMEFRAME: "eviction notice says I need $1,550 by Friday" - imminent eviction with specific deadline)
+nd 5 raw amounts: [
+  '1600 (need $1,600)',
+  '800 ($800)',
+  '1600 ($1,600)',
+  '2400 ($2,400)',
+  '1600 ($1,600)'
+]
+n: 4 amounts: [
+  '1600 (need $1,600)',
+  '800 ($800)',
+  '1600 ($1,600)',
+  '2400 ($2,400)'
+]
+After prefilter: 4 amounts: [
+  '1600 (need $1,600)',
+  '800 ($800)',
+  '1600 ($1,600)',
+  '2400 ($2,400)'
+]
+ng 1600 (need $1,600) - contextBefore: "monthly. I'm 6 weeks behind, that's $2,400, but I" contextAfter: "to cover just this month to avoid losing my spot."
+ng 800 ($800) - contextBefore: "This is Kevin Zhang. I have 2 kids in daycare at" contextAfter: "each, so $1,600 monthly. I'm 6 weeks behind, that"
+ng 1600 ($1,600) - contextBefore: "Zhang. I have 2 kids in daycare at $800 each, so" contextAfter: "monthly. I'm 6 weeks behind, that's $2,400, but I"
+ng 2400 ($2,400) - contextBefore: "ch, so $1,600 monthly. I'm 6 weeks behind, that's" contextAfter: "but I need $1,600 to cover just this month to avo"
+  1600: +20 for direct_goal in "monthly i'm 6 weeks behind that's $2 400 but i need $1 600 t..."
+  1600: +11 for fuzz_flexible_goal in "monthly i'm 6 weeks behind that's $2 400 but i need $1 600 t..."
+  1600: +10 for contextual in "monthly i'm 6 weeks behind that's $2 400 but i need $1 600 t..."
+  1600: +1 for bare_number in "monthly i'm 6 weeks behind that's $2 400 but i need $1 600 t..."
+  800: +8 for category_specific in "this is kevin zhang i have 2 kids in daycare at $800 each so..."
+  800: +1 for bare_number in "this is kevin zhang i have 2 kids in daycare at $800 each so..."
+  1600: +1 for bare_number in "zhang i have 2 kids in daycare at $800 each so $1 600 monthl..."
+  2400: +20 for direct_goal in "ch so $1 600 monthly i'm 6 weeks behind that's $2 400 but i ..."
+  2400: +11 for fuzz_flexible_goal in "ch so $1 600 monthly i'm 6 weeks behind that's $2 400 but i ..."
+  2400: +10 for contextual in "ch so $1 600 monthly i'm 6 weeks behind that's $2 400 but i ..."
+  2400: +1 for bare_number in "ch so $1 600 monthly i'm 6 weeks behind that's $2 400 but i ..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+  Γ¼å∩╕Å  Phase70_Escalation [HARD_013]: MEDIUM ΓåÆ HIGH (Phase 7.0: FUZZ_CHILDCARE)
+Γ¼å∩╕Å  Phase70_Escalation [HARD_013]: MEDIUM ΓåÆ HIGH (Phase 7.0: FAMILY: Childcare needs (fuzz-tolerant))
+≡ƒöº Phase80_AmountFix [HARD_013]: 2400 ΓåÆ 1600 (AMT: Direct ask override: 2400 ΓåÆ 1600 (explicit request))
+nd 6 raw amounts: [
+  '450 (asking for $450)',
+  '3 (need 3)',
+  '250 ($250)',
+  '750 ($750)',
+  '300 ($300)',
+  '450 ($450)'
+]
+n: 5 amounts: [
+  '450 (asking for $450)',
+  '3 (need 3)',
+  '250 ($250)',
+  '750 ($750)',
+  '300 ($300)'
+]
+After prefilter: 5 amounts: [
+  '450 (asking for $450)',
+  '3 (need 3)',
+  '250 ($250)',
+  '750 ($750)',
+  '300 ($300)'
+]
+ng 450 (asking for $450) - contextBefore: "ly, that's $750, but I can pay $300 myself so I'm" contextAfter: ""
+ng 3 (need 3) - contextBefore: "achel Green. Prescription costs $250 per month, I" contextAfter: "months supply, that's $750, but I can pay $300 my"
+ng 250 ($250) - contextBefore: "ello, my name is Rachel Green. Prescription costs" contextAfter: "per month, I need 3 months supply, that's $750, b"
+ng 750 ($750) - contextBefore: "ts $250 per month, I need 3 months supply, that's" contextAfter: "but I can pay $300 myself so I'm asking for $450."
+ng 300 ($300) - contextBefore: "need 3 months supply, that's $750, but I can pay" contextAfter: "myself so I'm asking for $450."
+  450: +20 for direct_goal in "ly that's $750 but i can pay $300 myself so i'm asking for $..."
+  450: +10 for contextual in "ly that's $750 but i can pay $300 myself so i'm asking for $..."
+  450: +1 for bare_number in "ly that's $750 but i can pay $300 myself so i'm asking for $..."
+  3: +14 for cost_total in "achel green prescription costs $250 per month i need 3 month..."
+  3: +10 for contextual in "achel green prescription costs $250 per month i need 3 month..."
+  3: +1 for bare_number in "achel green prescription costs $250 per month i need 3 month..."
+  250: +20 for direct_goal in "ello my name is rachel green prescription costs $250 per mon..."
+  250: +14 for cost_total in "ello my name is rachel green prescription costs $250 per mon..."
+  250: +1 for bare_number in "ello my name is rachel green prescription costs $250 per mon..."
+  750: +20 for direct_goal in "ts $250 per month i need 3 months supply that's $750 but i c..."
+  750: +11 for fuzz_flexible_goal in "ts $250 per month i need 3 months supply that's $750 but i c..."
+  750: +10 for contextual in "ts $250 per month i need 3 months supply that's $750 but i c..."
+  750: +1 for bare_number in "ts $250 per month i need 3 months supply that's $750 but i c..."
+  300: +1 for bare_number in "need 3 months supply that's $750 but i can pay $300 myself s..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+≡ƒöº Phase80_AmountFix [HARD_014]: 750 ΓåÆ 450 (AMT: Direct ask override: 750 ΓåÆ 450 (explicit request))
+nd 6 raw amounts: [
+  '2980 (need $2,980)',
+  '1200 ($1,200)',
+  '3500 ($3,500)',
+  '280 ($280)',
+  '2000 ($2,000)',
+  '2980 ($2,980)'
+]
+n: 5 amounts: [
+  '2980 (need $2,980)',
+  '1200 ($1,200)',
+  '3500 ($3,500)',
+  '280 ($280)',
+  '2000 ($2,000)'
+]
+After prefilter: 5 amounts: [
+  '2980 (need $2,980)',
+  '1200 ($1,200)',
+  '3500 ($3,500)',
+  '280 ($280)',
+  '2000 ($2,000)'
+]
+ng 2980 (need $2,980) - contextBefore: "g fees $280. I've borrowed $2,000 from family and" contextAfter: "more to cover everything."
+ng 1200 ($1,200) - contextBefore: "I'm Daniel Kim. Court costs are" contextAfter: "lawyer wants $3,500, filing fees $280. I've borro"
+ng 3500 ($3,500) - contextBefore: "Daniel Kim. Court costs are $1,200, lawyer wants" contextAfter: "filing fees $280. I've borrowed $2,000 from famil"
+ng 280 ($280) - contextBefore: "osts are $1,200, lawyer wants $3,500, filing fees" contextAfter: "I've borrowed $2,000 from family and need $2,980"
+ng 2000 ($2,000) - contextBefore: "yer wants $3,500, filing fees $280. I've borrowed" contextAfter: "from family and need $2,980 more to cover everyth"
+  2980: +20 for direct_goal in "g fees $280 i've borrowed $2 000 from family and need $2 980..."
+  2980: +14 for cost_total in "g fees $280 i've borrowed $2 000 from family and need $2 980..."
+  2980: +11 for fuzz_flexible_goal in "g fees $280 i've borrowed $2 000 from family and need $2 980..."
+  2980: +10 for contextual in "g fees $280 i've borrowed $2 000 from family and need $2 980..."
+  2980: +1 for bare_number in "g fees $280 i've borrowed $2 000 from family and need $2 980..."
+  1200: +8 for category_specific in "i'm daniel kim court costs are $1 200 lawyer wants $3 500 fi..."
+  1200: +1 for bare_number in "i'm daniel kim court costs are $1 200 lawyer wants $3 500 fi..."
+  3500: +20 for direct_goal in "daniel kim court costs are $1 200 lawyer wants $3 500 filing..."
+  3500: +14 for cost_total in "daniel kim court costs are $1 200 lawyer wants $3 500 filing..."
+  3500: +8 for category_specific in "daniel kim court costs are $1 200 lawyer wants $3 500 filing..."
+  3500: +1 for bare_number in "daniel kim court costs are $1 200 lawyer wants $3 500 filing..."
+  280: +20 for direct_goal in "osts are $1 200 lawyer wants $3 500 filing fees $280 i've bo..."
+  280: +14 for cost_total in "osts are $1 200 lawyer wants $3 500 filing fees $280 i've bo..."
+  280: +1 for bare_number in "osts are $1 200 lawyer wants $3 500 filing fees $280 i've bo..."
+  2000: +11 for fuzz_flexible_goal in "yer wants $3 500 filing fees $280 i've borrowed $2 000 from ..."
+  2000: +10 for contextual in "yer wants $3 500 filing fees $280 i've borrowed $2 000 from ..."
+  2000: +1 for bare_number in "yer wants $3 500 filing fees $280 i've borrowed $2 000 from ..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+nd 5 raw amounts: [
+  '680 (need $680)',
+  '1000 (cost $320 for both, but I also need $680 for uniforms and fees, total $1,000)',
+  '320 ($320)',
+  '680 ($680)',
+  '1000 ($1,000)'
+]
+n: 1 amounts: [
+  '1000 (cost $320 for both, but I also need $680 for uniforms and fees, total $1,000)'
+]
+After prefilter: 1 amounts: [
+  '1000 (cost $320 for both, but I also need $680 for uniforms and fees, total $1,000)'
+]
+ng 1000 (cost $320 for both, but I also need $680 for uniforms and fees, total $1,000) - contextBefore: "on. My son is 15, daughter is 12. School supplies" contextAfter: ""
+  1000: +20 for direct_goal in "on my son is 15 daughter is 12 school supplies cost $320 for..."
+  1000: +14 for cost_total in "on my son is 15 daughter is 12 school supplies cost $320 for..."
+  1000: +11 for fuzz_flexible_goal in "on my son is 15 daughter is 12 school supplies cost $320 for..."
+  1000: +8 for category_specific in "on my son is 15 daughter is 12 school supplies cost $320 for..."
+  1000: +1 for bare_number in "on my son is 15 daughter is 12 school supplies cost $320 for..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 7 raw amounts: [
+  '420 (need $420)',
+  '420 (bill is $420,)',
+  '420 ($420)',
+  '385 ($385)',
+  '95 ($95)',
+  '900 ($900)',
+  '420 ($420)'
+]
+n: 5 amounts: [
+  '420 (need $420)',
+  '420 (bill is $420,)',
+  '385 ($385)',
+  '95 ($95)',
+  '900 ($900)'
+]
+After prefilter: 5 amounts: [
+  '420 (need $420)',
+  '420 (bill is $420,)',
+  '385 ($385)',
+  '95 ($95)',
+  '900 ($900)'
+]
+ng 420 (need $420) - contextBefore: "water is $95. Total utilities are $900 but I only" contextAfter: "for gas to avoid disconnection."
+ng 420 (bill is $420,) - contextBefore: "My name is Andrew Davis. Gas" contextAfter: "electric is $385, water is $95. Total utilities a"
+ng 385 ($385) - contextBefore: "me is Andrew Davis. Gas bill is $420, electric is" contextAfter: "water is $95. Total utilities are $900 but I only"
+ng 95 ($95) - contextBefore: "vis. Gas bill is $420, electric is $385, water is" contextAfter: "Total utilities are $900 but I only need $420 for"
+ng 900 ($900) - contextBefore: "ectric is $385, water is $95. Total utilities are" contextAfter: "but I only need $420 for gas to avoid disconnecti"
+  420: +20 for direct_goal in "water is $95 total utilities are $900 but i only need $420 f..."
+  420: +14 for cost_total in "water is $95 total utilities are $900 but i only need $420 f..."
+  420: +11 for fuzz_flexible_goal in "water is $95 total utilities are $900 but i only need $420 f..."
+  420: +8 for category_specific in "water is $95 total utilities are $900 but i only need $420 f..."
+  420: +1 for bare_number in "water is $95 total utilities are $900 but i only need $420 f..."
+  420: +14 for cost_total in "my name is andrew davis gas bill is $420 electric is $385 wa..."
+  420: +8 for category_specific in "my name is andrew davis gas bill is $420 electric is $385 wa..."
+  420: +1 for bare_number in "my name is andrew davis gas bill is $420 electric is $385 wa..."
+  385: +14 for cost_total in "me is andrew davis gas bill is $420 electric is $385 water i..."
+  385: +8 for category_specific in "me is andrew davis gas bill is $420 electric is $385 water i..."
+  385: +1 for bare_number in "me is andrew davis gas bill is $420 electric is $385 water i..."
+  95: +20 for direct_goal in "vis gas bill is $420 electric is $385 water is $95 total uti..."
+  95: +11 for fuzz_flexible_goal in "vis gas bill is $420 electric is $385 water is $95 total uti..."
+  95: +1 for bare_number in "vis gas bill is $420 electric is $385 water is $95 total uti..."
+  900: +14 for cost_total in "ectric is $385 water is $95 total utilities are $900 but i o..."
+  900: +8 for category_specific in "ectric is $385 water is $95 total utilities are $900 but i o..."
+≡ƒôï V3c Enhancement: No urgency change from LOW
+[PHASE2_BOOST] Γ£à Test HARD_017: LOW ΓåÆ HIGH (disconnection)
+Γ¼å∩╕Å  Phase2 Boost [HARD_017]: LOW ΓåÆ HIGH (TIMEFRAME: "avoid disconnection" - imminent utility shutoff (2-level gap))
+nd 5 raw amounts: [
+  '2200 (need $2,200)',
+  '32000 ($32,000)',
+  '2100 ($2,100)',
+  '1100 ($1,100)',
+  '2200 ($2,200)'
+]
+n: 4 amounts: [
+  '2200 (need $2,200)',
+  '32000 ($32,000)',
+  '2100 ($2,100)',
+  '1100 ($1,100)'
+]
+After prefilter: 3 amounts: [ '2200 (need $2,200)', '2100 ($2,100)', '1100 ($1,100)' ]
+ng 2200 (need $2,200) - contextBefore: ", take home $2,100 monthly. Rent is $1,100, but I" contextAfter: "for first month and security deposit on a new pla"
+ng 2100 ($2,100) - contextBefore: "s Monica Garcia. I earn $32,000 yearly, take home" contextAfter: "monthly. Rent is $1,100, but I need $2,200 for fi"
+ng 1100 ($1,100) - contextBefore: "$32,000 yearly, take home $2,100 monthly. Rent is" contextAfter: "but I need $2,200 for first month and security de"
+  2200: +20 for direct_goal in "take home $2 100 monthly rent is $1 100 but i need $2 200 fo..."
+  2200: +11 for fuzz_flexible_goal in "take home $2 100 monthly rent is $1 100 but i need $2 200 fo..."
+  2200: +8 for category_specific in "take home $2 100 monthly rent is $1 100 but i need $2 200 fo..."
+  2200: +1 for bare_number in "take home $2 100 monthly rent is $1 100 but i need $2 200 fo..."
+  2100: +20 for direct_goal in "s monica garcia i earn $32 000 yearly take home $2 100 month..."
+  2100: +11 for fuzz_flexible_goal in "s monica garcia i earn $32 000 yearly take home $2 100 month..."
+  2100: +8 for category_specific in "s monica garcia i earn $32 000 yearly take home $2 100 month..."
+  2100: +1 for bare_number in "s monica garcia i earn $32 000 yearly take home $2 100 month..."
+  1100: +1 for bare_number in "$32 000 yearly take home $2 100 monthly rent is $1 100 but i..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+Γ¼å∩╕Å  Phase50_Escalation [HARD_018]: MEDIUM ΓåÆ HIGH (Phase 5.0: HOUSING: Rent assistance request indicates housing insecurity)
+nd 7 raw amounts: [
+  '2100 (need $2,100)',
+  '150 (costs $8,500, physical therapy is $150)',
+  '8500 ($8,500)',
+  '150 ($150)',
+  '1500 ($1,500)',
+  '300 ($300)',
+  '2100 ($2,100)'
+]
+n: 4 amounts: [
+  '2100 (need $2,100)',
+  '150 (costs $8,500, physical therapy is $150)',
+  '1500 ($1,500)',
+  '300 ($300)'
+]
+After prefilter: 4 amounts: [
+  '2100 (need $2,100)',
+  '150 (costs $8,500, physical therapy is $150)',
+  '1500 ($1,500)',
+  '300 ($300)'
+]
+ng 2100 (need $2,100) - contextBefore: "10 sessions ($1,500), medications $300 monthly. I" contextAfter: "to cover PT and 2 months meds."
+ng 150 (costs $8,500, physical therapy is $150) - contextBefore: "This is Christopher Lee. Medical treatment" contextAfter: "per session for 10 sessions ($1,500), medications"
+ng 1500 ($1,500) - contextBefore: "ical therapy is $150 per session for 10 sessions (" contextAfter: "), medications $300 monthly. I need $2,100 to cove"
+ng 300 ($300) - contextBefore: "per session for 10 sessions ($1,500), medications" contextAfter: "monthly. I need $2,100 to cover PT and 2 months m"
+  2100: +20 for direct_goal in "10 sessions ($1 500) medications $300 monthly i need $2 100 ..."
+  2100: +11 for fuzz_flexible_goal in "10 sessions ($1 500) medications $300 monthly i need $2 100 ..."
+  2100: +10 for contextual in "10 sessions ($1 500) medications $300 monthly i need $2 100 ..."
+  2100: +8 for category_specific in "10 sessions ($1 500) medications $300 monthly i need $2 100 ..."
+  2100: +1 for bare_number in "10 sessions ($1 500) medications $300 monthly i need $2 100 ..."
+  150: +14 for cost_total in "this is christopher lee medical treatment costs $8 500 physi..."
+  150: +8 for category_specific in "this is christopher lee medical treatment costs $8 500 physi..."
+  150: +1 for bare_number in "this is christopher lee medical treatment costs $8 500 physi..."
+  1500: +20 for direct_goal in "ical therapy is $150 per session for 10 sessions ($1 500) me..."
+  1500: +11 for fuzz_flexible_goal in "ical therapy is $150 per session for 10 sessions ($1 500) me..."
+  1500: +8 for category_specific in "ical therapy is $150 per session for 10 sessions ($1 500) me..."
+  1500: +1 for bare_number in "ical therapy is $150 per session for 10 sessions ($1 500) me..."
+  300: +10 for contextual in "per session for 10 sessions ($1 500) medications $300 monthl..."
+  300: +1 for bare_number in "per session for 10 sessions ($1 500) medications $300 monthl..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 6 raw amounts: [
+  '450 (need $450)',
+  '900 (asking for $900)',
+  '18000 ($18,000)',
+  '450 ($450)',
+  '2250 ($2,250)',
+  '900 ($900)'
+]
+n: 4 amounts: [
+  '450 (need $450)',
+  '900 (asking for $900)',
+  '18000 ($18,000)',
+  '2250 ($2,250)'
+]
+After prefilter: 3 amounts: [ '450 (need $450)', '900 (asking for $900)', '2250 ($2,250)' ]
+ng 450 (need $450) - contextBefore: "ily Rodriguez. I'm 29, student loans are $18,000," contextAfter: "monthly payments, I'm 5 months behind so that's $"
+ng 900 (asking for $900) - contextBefore: "ts, I'm 5 months behind so that's $2,250, but I'm" contextAfter: "to catch up 2 months."
+ng 2250 ($2,250) - contextBefore: "0 monthly payments, I'm 5 months behind so that's" contextAfter: "but I'm asking for $900 to catch up 2 months."
+  450: +20 for direct_goal in "ily rodriguez i'm 29 student loans are $18 000 need $450 mon..."
+  450: +1 for bare_number in "ily rodriguez i'm 29 student loans are $18 000 need $450 mon..."
+  900: +1 for bare_number in "ts i'm 5 months behind so that's $2 250 but i'm asking for $..."
+  2250: +20 for direct_goal in "0 monthly payments i'm 5 months behind so that's $2 250 but ..."
+  2250: +1 for bare_number in "0 monthly payments i'm 5 months behind so that's $2 250 but ..."
+≡ƒôï V3c Enhancement: No urgency change from LOW
+[PHASE2_BOOST] Γ£à Test HARD_020: LOW ΓåÆ HIGH (behind_payments)
+Γ¼å∩╕Å  Phase2 Boost [HARD_020]: LOW ΓåÆ HIGH (CATEGORY FLOOR: "5 months behind" on student loan payments - education debt crisis = HIGH (2-level gap))
+≡ƒöº Phase80_AmountFix [HARD_020]: 2250 ΓåÆ 900 (AMT: Direct ask override: 2250 ΓåÆ 900 (explicit request))
+nd 2 raw amounts: [ '1500 (need $1,500)', '1500 ($1,500)' ]
+n: 1 amounts: [ '1500 (need $1,500)' ]
+After prefilter: 1 amounts: [ '1500 (need $1,500)' ]
+ng 1500 (need $1,500) - contextBefore: "nt but not an emergency. I'm Brian Mitchell and I" contextAfter: "for rent by next week."
+  1500: +20 for direct_goal in "nt but not an emergency i'm brian mitchell and i need $1 500..."
+  1500: +11 for fuzz_flexible_goal in "nt but not an emergency i'm brian mitchell and i need $1 500..."
+  1500: +8 for category_specific in "nt but not an emergency i'm brian mitchell and i need $1 500..."
+  1500: +1 for bare_number in "nt but not an emergency i'm brian mitchell and i need $1 500..."
+[EMERGENCY_CASE] Before: 1 After applying 0.65 minimum: 1
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_021]: CRITICAL ΓåÆ HIGH (HEDGING: explicitly not an emergency + rent by next week)
+nd 1 raw amounts: [ '2000 ($2,000)' ]
+n: 1 amounts: [ '2000 ($2,000)' ]
+After prefilter: 1 amounts: [ '2000 ($2,000)' ]
+ng 2000 ($2,000) - contextBefore: "got an eviction notice yesterday and have to pay" contextAfter: "by tomorrow."
+  2000: +10 for contextual in "got an eviction notice yesterday and have to pay $2 000 by t..."
+  2000: +8 for category_specific in "got an eviction notice yesterday and have to pay $2 000 by t..."
+  2000: +1 for bare_number in "got an eviction notice yesterday and have to pay $2 000 by t..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 2 raw amounts: [ '800 (need $800)', '800 ($800)' ]
+n: 1 amounts: [ '800 (need $800)' ]
+After prefilter: 1 amounts: [ '800 (need $800)' ]
+ng 800 (need $800) - contextBefore: "panicking but I can wait a few weeks if needed. I" contextAfter: "for medical bills."
+  800: +20 for direct_goal in "panicking but i can wait a few weeks if needed i need $800 f..."
+  800: +14 for cost_total in "panicking but i can wait a few weeks if needed i need $800 f..."
+  800: +12 for necessity in "panicking but i can wait a few weeks if needed i need $800 f..."
+  800: +11 for fuzz_flexible_goal in "panicking but i can wait a few weeks if needed i need $800 f..."
+  800: +8 for category_specific in "panicking but i can wait a few weeks if needed i need $800 f..."
+  800: +1 for bare_number in "panicking but i can wait a few weeks if needed i need $800 f..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 2 raw amounts: [ '2 (ower gets shut off in 2)', '450 ($450)' ]
+n: 2 amounts: [ '2 (ower gets shut off in 2)', '450 ($450)' ]
+After prefilter: 2 amounts: [ '2 (ower gets shut off in 2)', '450 ($450)' ]
+ng 2 (ower gets shut off in 2) - contextBefore: "speaking. It's not a crisis or anything, just my p" contextAfter: "days if I don't pay $450."
+ng 450 ($450) - contextBefore: "t my power gets shut off in 2 days if I don't pay" contextAfter: ""
+  2: +14 for cost_total in "speaking it's not a crisis or anything just my power gets sh..."
+  2: +1 for bare_number in "speaking it's not a crisis or anything just my power gets sh..."
+[EMERGENCY_CASE] Before: 1 After applying 0.65 minimum: 1
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+≡ƒöº Phase80_AmountFix [HARD_024]: 2 ΓåÆ 450 (AMT: Time-unit filter: 2 (duration) ΓåÆ 450 (dollar amount))
+nd 2 raw amounts: [ '1200 (need $1,200)', '1200 ($1,200)' ]
+n: 1 amounts: [ '1200 (need $1,200)' ]
+After prefilter: 1 amounts: [ '1200 (need $1,200)' ]
+ng 1200 (need $1,200) - contextBefore: "rgent...well, maybe not urgent, just important. I" contextAfter: "for car insurance."
+  1200: +20 for direct_goal in "rgent well maybe not urgent just important i need $1 200 for..."
+  1200: +11 for fuzz_flexible_goal in "rgent well maybe not urgent just important i need $1 200 for..."
+  1200: +8 for category_specific in "rgent well maybe not urgent just important i need $1 200 for..."
+  1200: +1 for bare_number in "rgent well maybe not urgent just important i need $1 200 for..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_025]: CRITICAL ΓåÆ MEDIUM (HEDGING: "maybe not urgent" + car insurance need)
+nd 2 raw amounts: [ '600 (Need $600)', '600 ($600)' ]
+n: 1 amounts: [ '600 (Need $600)' ]
+After prefilter: 1 amounts: [ '600 (Need $600)' ]
+ng 600 (Need $600) - contextBefore: "at my wit's end, but I know others have it worse." contextAfter: "for groceries."
+  600: +20 for direct_goal in "at my wit's end but i know others have it worse need $600 fo..."
+  600: +11 for fuzz_flexible_goal in "at my wit's end but i know others have it worse need $600 fo..."
+  600: +8 for category_specific in "at my wit's end but i know others have it worse need $600 fo..."
+  600: +1 for bare_number in "at my wit's end but i know others have it worse need $600 fo..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+nd 1 raw amounts: [ '5000 ($5,000)' ]
+n: 1 amounts: [ '5000 ($5,000)' ]
+After prefilter: 1 amounts: [ '5000 ($5,000)' ]
+ng 5000 ($5,000) - contextBefore: "the foreclosure notice says I have 10 days to pay" contextAfter: ""
+  5000: +10 for contextual in "the foreclosure notice says i have 10 days to pay $5 000..."
+  5000: +1 for bare_number in "the foreclosure notice says i have 10 days to pay $5 000..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 2 raw amounts: [ '3500 (need $3,500)', '3500 ($3,500)' ]
+n: 1 amounts: [ '3500 (need $3,500)' ]
+After prefilter: 1 amounts: [ '3500 (need $3,500)' ]
+ng 3500 (need $3,500) - contextBefore: "e it. My surgery is scheduled for next week and I" contextAfter: ""
+  3500: +20 for direct_goal in "e it my surgery is scheduled for next week and i need $3 500..."
+  3500: +8 for category_specific in "e it my surgery is scheduled for next week and i need $3 500..."
+  3500: +1 for bare_number in "e it my surgery is scheduled for next week and i need $3 500..."
+[SURGERY_BOOST] Detected surgery mention, boosting to HIGH (0.45)
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 2 raw amounts: [ '950 (need $950)', '950 ($950)' ]
+n: 1 amounts: [ '950 (need $950)' ]
+After prefilter: 1 amounts: [ '950 (need $950)' ]
+ng 950 (need $950) - contextBefore: "ency...well, maybe more of an urgent situation. I" contextAfter: "for medication by Friday."
+  950: +20 for direct_goal in "ency well maybe more of an urgent situation i need $950 for ..."
+  950: +11 for fuzz_flexible_goal in "ency well maybe more of an urgent situation i need $950 for ..."
+  950: +8 for category_specific in "ency well maybe more of an urgent situation i need $950 for ..."
+  950: +1 for bare_number in "ency well maybe more of an urgent situation i need $950 for ..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_029]: CRITICAL ΓåÆ HIGH (HEDGING: "urgent situation" + medication by Friday (urgent, not critical))
+nd 2 raw amounts: [ '400 (need $400)', '400 ($400)' ]
+n: 1 amounts: [ '400 (need $400)' ]
+After prefilter: 1 amounts: [ '400 (need $400)' ]
+ng 400 (need $400) - contextBefore: "or death. My kids have been asking for food and I" contextAfter: ""
+  400: +20 for direct_goal in "or death my kids have been asking for food and i need $400..."
+  400: +8 for category_specific in "or death my kids have been asking for food and i need $400..."
+  400: +1 for bare_number in "or death my kids have been asking for food and i need $400..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+Γ¼å∩╕Å  Phase50_Escalation [HARD_030]: MEDIUM ΓåÆ HIGH (Phase 5.0: FOOD: Food insecurity with dependents requires urgent response)
+nd 2 raw amounts: [ '2500 (need $2,500)', '2500 ($2,500)' ]
+n: 1 amounts: [ '2500 (need $2,500)' ]
+After prefilter: 1 amounts: [ '2500 (need $2,500)' ]
+ng 2500 (need $2,500) - contextBefore: "ning my family. I also lost my job last month and" contextAfter: "for rent and to move to a safer place."
+  2500: +20 for direct_goal in "ning my family i also lost my job last month and need $2 500..."
+  2500: +11 for fuzz_flexible_goal in "ning my family i also lost my job last month and need $2 500..."
+  2500: +8 for category_specific in "ning my family i also lost my job last month and need $2 500..."
+  2500: +1 for bare_number in "ning my family i also lost my job last month and need $2 500..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+[PHASE2_BOOST] Γ£à Test HARD_031: MEDIUM ΓåÆ CRITICAL (threats+job_loss)
+Γ¼å∩╕Å  Phase2 Boost [HARD_031]: MEDIUM ΓåÆ CRITICAL (MULTI-CRISIS: "someone is threatening my family" + lost job + need to move - personal safety + financial crisis)
+nd 4 raw amounts: [
+  '1200 (need $1,200)',
+  '2 (costing $800. I also got laid off 2)',
+  '800 ($800)',
+  '1200 ($1,200)'
+]
+n: 2 amounts: [ '1200 (need $1,200)', '2 (costing $800. I also got laid off 2)' ]
+After prefilter: 2 amounts: [ '1200 (need $1,200)', '2 (costing $800. I also got laid off 2)' ]
+ng 1200 (need $1,200) - contextBefore: "costing $800. I also got laid off 2 weeks ago and" contextAfter: "for rent."
+ng 2 (costing $800. I also got laid off 2) - contextBefore: "rner. My mother is very sick and needs medication" contextAfter: "weeks ago and need $1,200 for rent."
+  1200: +20 for direct_goal in "costing $800 i also got laid off 2 weeks ago and need $1 200..."
+  1200: +14 for cost_total in "costing $800 i also got laid off 2 weeks ago and need $1 200..."
+  1200: +11 for fuzz_flexible_goal in "costing $800 i also got laid off 2 weeks ago and need $1 200..."
+  1200: +8 for category_specific in "costing $800 i also got laid off 2 weeks ago and need $1 200..."
+  1200: +1 for bare_number in "costing $800 i also got laid off 2 weeks ago and need $1 200..."
+  2: +20 for direct_goal in "rner my mother is very sick and needs medication costing $80..."
+  2: +14 for cost_total in "rner my mother is very sick and needs medication costing $80..."
+  2: +11 for fuzz_flexible_goal in "rner my mother is very sick and needs medication costing $80..."
+  2: +8 for category_specific in "rner my mother is very sick and needs medication costing $80..."
+  2: +1 for bare_number in "rner my mother is very sick and needs medication costing $80..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+Γ¼å∩╕Å  Phase50_Escalation [HARD_032]: MEDIUM ΓåÆ HIGH (Phase 5.0: EMPLOYMENT: Job loss creates immediate financial crisis)
+nd 2 raw amounts: [ '600 (need $600)', '600 ($600)' ]
+n: 1 amounts: [ '600 (need $600)' ]
+After prefilter: 1 amounts: [ '600 (need $600)' ]
+ng 600 (need $600) - contextBefore: "ith my children, need emergency shelter, and also" contextAfter: "for my son's medical treatment."
+  600: +20 for direct_goal in "ith my children need emergency shelter and also need $600 fo..."
+  600: +11 for fuzz_flexible_goal in "ith my children need emergency shelter and also need $600 fo..."
+  600: +8 for category_specific in "ith my children need emergency shelter and also need $600 fo..."
+  600: +1 for bare_number in "ith my children need emergency shelter and also need $600 fo..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 2 raw amounts: [ '4000 (asking for $4,000)', '4000 ($4,000)' ]
+n: 1 amounts: [ '4000 (asking for $4,000)' ]
+After prefilter: 1 amounts: [ '4000 (asking for $4,000)' ]
+ng 4000 (asking for $4,000) - contextBefore: ", lost my job, and my daughter needs surgery. I'm" contextAfter: "total."
+  4000: +20 for direct_goal in "lost my job and my daughter needs surgery i'm asking for $4 ..."
+  4000: +14 for cost_total in "lost my job and my daughter needs surgery i'm asking for $4 ..."
+  4000: +11 for fuzz_flexible_goal in "lost my job and my daughter needs surgery i'm asking for $4 ..."
+  4000: +8 for category_specific in "lost my job and my daughter needs surgery i'm asking for $4 ..."
+  4000: +1 for bare_number in "lost my job and my daughter needs surgery i'm asking for $4 ..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+[PHASE2_BOOST] Γ£à Test HARD_034: MEDIUM ΓåÆ CRITICAL (surgery+housing+job)
+Γ¼å∩╕Å  Phase2 Boost [HARD_034]: MEDIUM ΓåÆ CRITICAL (MULTI-CRISIS: housing + "lost my job" + "daughter needs surgery" - triple crisis)
+nd 2 raw amounts: [ '1800 (Need $1,800)', '1800 ($1,800)' ]
+n: 1 amounts: [ '1800 (Need $1,800)' ]
+After prefilter: 1 amounts: [ '1800 (Need $1,800)' ]
+ng 1800 (Need $1,800) - contextBefore: "eviction, can't find work, and my car broke down." contextAfter: "to fix everything."
+  1800: +20 for direct_goal in "eviction can't find work and my car broke down need $1 800 t..."
+  1800: +11 for fuzz_flexible_goal in "eviction can't find work and my car broke down need $1 800 t..."
+  1800: +8 for category_specific in "eviction can't find work and my car broke down need $1 800 t..."
+  1800: +1 for bare_number in "eviction can't find work and my car broke down need $1 800 t..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+nd 2 raw amounts: [ '3200 (need $3,200)', '3200 ($3,200)' ]
+n: 1 amounts: [ '3200 (need $3,200)' ]
+After prefilter: 1 amounts: [ '3200 (need $3,200)' ]
+ng 3200 (need $3,200) - contextBefore: "band is in the hospital, I lost my housing, and I" contextAfter: "for medical bills and a new apartment."
+  3200: +20 for direct_goal in "band is in the hospital i lost my housing and i need $3 200 ..."
+  3200: +14 for cost_total in "band is in the hospital i lost my housing and i need $3 200 ..."
+  3200: +11 for fuzz_flexible_goal in "band is in the hospital i lost my housing and i need $3 200 ..."
+  3200: +8 for category_specific in "band is in the hospital i lost my housing and i need $3 200 ..."
+  3200: +1 for bare_number in "band is in the hospital i lost my housing and i need $3 200 ..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+  Γ¼å∩╕Å  Phase70_Escalation [HARD_036]: HIGH ΓåÆ CRITICAL (Phase 7.0: HOSPITAL_CRISIS)
+Γ¼å∩╕Å  Phase70_Escalation [HARD_036]: HIGH ΓåÆ CRITICAL (Phase 7.0: HEALTHCARE: Hospital + housing loss is a combined crisis)
+nd 2 raw amounts: [ '950 (need $950)', '950 ($950)' ]
+n: 1 amounts: [ '950 (need $950)' ]
+After prefilter: 1 amounts: [ '950 (need $950)' ]
+ng 950 (need $950) - contextBefore: "utilities, and my child needs school supplies. I" contextAfter: "total."
+  950: +20 for direct_goal in "utilities and my child needs school supplies i need $950 tot..."
+  950: +14 for cost_total in "utilities and my child needs school supplies i need $950 tot..."
+  950: +11 for fuzz_flexible_goal in "utilities and my child needs school supplies i need $950 tot..."
+  950: +8 for category_specific in "utilities and my child needs school supplies i need $950 tot..."
+  950: +1 for bare_number in "utilities and my child needs school supplies i need $950 tot..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+  Γ¼å∩╕Å  Phase70_Escalation [HARD_037]: MEDIUM ΓåÆ HIGH (Phase 7.0: FUZZ_JOB_LOSS)
+Γ¼å∩╕Å  Phase70_Escalation [HARD_037]: MEDIUM ΓåÆ HIGH (Phase 7.0: EMPLOYMENT: Job loss (fuzz-tolerant))
+nd 2 raw amounts: [ '2400 (Need $2,400)', '2400 ($2,400)' ]
+n: 1 amounts: [ '2400 (Need $2,400)' ]
+After prefilter: 1 amounts: [ '2400 (Need $2,400)' ]
+ng 2400 (Need $2,400) - contextBefore: "debt, legal issues, and transportation problems." contextAfter: "for lawyer fees."
+  2400: +20 for direct_goal in "debt legal issues and transportation problems need $2 400 fo..."
+  2400: +14 for cost_total in "debt legal issues and transportation problems need $2 400 fo..."
+  2400: +11 for fuzz_flexible_goal in "debt legal issues and transportation problems need $2 400 fo..."
+  2400: +8 for category_specific in "debt legal issues and transportation problems need $2 400 fo..."
+  2400: +1 for bare_number in "debt legal issues and transportation problems need $2 400 fo..."
+≡ƒôï V3c Enhancement: No urgency change from HIGH
+≡ƒöº Phase80_CategoryFix [HARD_038]: HEALTHCARE ΓåÆ LEGAL (CAT: Direct ask override: "HEALTHCARE" ΓåÆ "LEGAL")
+nd 2 raw amounts: [ '1600 (need $1,600)', '1600 ($1,600)' ]
+n: 1 amounts: [ '1600 (need $1,600)' ]
+After prefilter: 1 amounts: [ '1600 (need $1,600)' ]
+ng 1600 (need $1,600) - contextBefore: "h crisis, lost my job, and about to be evicted. I" contextAfter: "for rent."
+  1600: +20 for direct_goal in "h crisis lost my job and about to be evicted i need $1 600 f..."
+  1600: +11 for fuzz_flexible_goal in "h crisis lost my job and about to be evicted i need $1 600 f..."
+  1600: +8 for category_specific in "h crisis lost my job and about to be evicted i need $1 600 f..."
+  1600: +1 for bare_number in "h crisis lost my job and about to be evicted i need $1 600 f..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 1 raw amounts: [ '1100 ($1,100)' ]
+n: 1 amounts: [ '1100 ($1,100)' ]
+After prefilter: 1 amounts: [ '1100 ($1,100)' ]
+ng 1100 ($1,100) - contextBefore: "d, utilities, and my kids' education. Looking for" contextAfter: "to cover all three."
+  1100: +10 for contextual in "d utilities and my kids' education looking for $1 100 to cov..."
+  1100: +8 for category_specific in "d utilities and my kids' education looking for $1 100 to cov..."
+  1100: +1 for bare_number in "d utilities and my kids' education looking for $1 100 to cov..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 2 raw amounts: [ '3000 (Need $3,000)', '3000 ($3,000)' ]
+n: 1 amounts: [ '3000 (Need $3,000)' ]
+After prefilter: 1 amounts: [ '3000 (Need $3,000)' ]
+ng 3000 (Need $3,000) - contextBefore: "ication, and my landlord is threatening eviction." contextAfter: ""
+  3000: +20 for direct_goal in "ication and my landlord is threatening eviction need $3 000..."
+  3000: +8 for category_specific in "ication and my landlord is threatening eviction need $3 000..."
+  3000: +1 for bare_number in "ication and my landlord is threatening eviction need $3 000..."
+≡ƒÜÇ V3c Urgency Enhancement: HIGH ΓåÆ CRITICAL (score: 0.60 ΓåÆ 0.85)
+   Reasons: Critical indicator: eviction, Critical indicator: can't afford
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_041]: CRITICAL ΓåÆ HIGH (MULTI-NEED: legal + medication + eviction threat (urgent, not critical))
+nd 2 raw amounts: [ '2800 (Asking for $2,800)', '2800 ($2,800)' ]
+n: 1 amounts: [ '2800 (Asking for $2,800)' ]
+After prefilter: 1 amounts: [ '2800 (Asking for $2,800)' ]
+ng 2800 (Asking for $2,800) - contextBefore: "d emergency medical care, and have nowhere to go." contextAfter: ""
+  2800: +20 for direct_goal in "d emergency medical care and have nowhere to go asking for $..."
+  2800: +8 for category_specific in "d emergency medical care and have nowhere to go asking for $..."
+  2800: +1 for bare_number in "d emergency medical care and have nowhere to go asking for $..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 2 raw amounts: [ '1400 (Need $1,400)', '1400 ($1,400)' ]
+n: 1 amounts: [ '1400 (Need $1,400)' ]
+After prefilter: 1 amounts: [ '1400 (Need $1,400)' ]
+ng 1400 (Need $1,400) - contextBefore: "t to work, medical appointments, and court dates." contextAfter: "for car repairs."
+  1400: +20 for direct_goal in "t to work medical appointments and court dates need $1 400 f..."
+  1400: +11 for fuzz_flexible_goal in "t to work medical appointments and court dates need $1 400 f..."
+  1400: +8 for category_specific in "t to work medical appointments and court dates need $1 400 f..."
+  1400: +1 for bare_number in "t to work medical appointments and court dates need $1 400 f..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+[PHASE2_BOOST] Γ£à Test HARD_043: MEDIUM ΓåÆ HIGH (work+medical+court)
+Γ¼å∩╕Å  Phase2 Boost [HARD_043]: MEDIUM ΓåÆ HIGH (MULTI-CRISIS: "transportation to get to work, medical appointments, and court dates" - triple critical dependency)
+nd 2 raw amounts: [ '980 (Need $980)', '980 ($980)' ]
+n: 1 amounts: [ '980 (Need $980)' ]
+After prefilter: 1 amounts: [ '980 (Need $980)' ]
+ng 980 (Need $980) - contextBefore: "s, lost my job, and utilities are being shut off." contextAfter: ""
+  980: +20 for direct_goal in "s lost my job and utilities are being shut off need $980..."
+  980: +8 for category_specific in "s lost my job and utilities are being shut off need $980..."
+  980: +1 for bare_number in "s lost my job and utilities are being shut off need $980..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+Γ¼å∩╕Å  Phase50_Escalation [HARD_044]: MEDIUM ΓåÆ HIGH (Phase 5.0: EMPLOYMENT: Job loss creates immediate financial crisis)
+nd 2 raw amounts: [ '6500 (need $6,500)', '6500 ($6,500)' ]
+n: 1 amounts: [ '6500 (need $6,500)' ]
+After prefilter: 1 amounts: [ '6500 (need $6,500)' ]
+ng 6500 (need $6,500) - contextBefore: "eclosure, medical emergency, and family crisis. I" contextAfter: "to save my home and get treatment."
+  6500: +20 for direct_goal in "eclosure medical emergency and family crisis i need $6 500 t..."
+  6500: +11 for fuzz_flexible_goal in "eclosure medical emergency and family crisis i need $6 500 t..."
+  6500: +10 for contextual in "eclosure medical emergency and family crisis i need $6 500 t..."
+  6500: +8 for category_specific in "eclosure medical emergency and family crisis i need $6 500 t..."
+  6500: +1 for bare_number in "eclosure medical emergency and family crisis i need $6 500 t..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 0 raw amounts: []
+DEBUG: No amounts found. Testing patterns manually:
+n: 0 amounts: []
+After prefilter: 0 amounts: []
+nts found
+[EMERGENCY_CASE] Before: 1 After applying 0.65 minimum: 1
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+nd 2 raw amounts: [ '1200 (need $1,200)', '1200 ($1,200)' ]
+n: 1 amounts: [ '1200 (need $1,200)' ]
+After prefilter: 1 amounts: [ '1200 (need $1,200)' ]
+ng 1200 (need $1,200) - contextBefore: "Hi, um, my name is...it's Mary Smith-Johnson. I" contextAfter: "for rent."
+  1200: +20 for direct_goal in "hi um my name is it's mary smith-johnson i need $1 200 for r..."
+  1200: +11 for fuzz_flexible_goal in "hi um my name is it's mary smith-johnson i need $1 200 for r..."
+  1200: +8 for category_specific in "hi um my name is it's mary smith-johnson i need $1 200 for r..."
+  1200: +1 for bare_number in "hi um my name is it's mary smith-johnson i need $1 200 for r..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 1 raw amounts: [ '3500 ($3,500)' ]
+n: 1 amounts: [ '3500 ($3,500)' ]
+After prefilter: 1 amounts: [ '3500 ($3,500)' ]
+ng 3500 ($3,500) - contextBefore: "Dr. Maria Elena Lopez-Garcia. I'm calling about a" contextAfter: "medical expense."
+  3500: +8 for category_specific in "dr maria elena lopez-garcia i'm calling about a $3 500 medic..."
+  3500: +1 for bare_number in "dr maria elena lopez-garcia i'm calling about a $3 500 medic..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+≡ƒöº Phase80_NameFix [HARD_048]: "Maria Elena Lopez" ΓåÆ "Maria Elena Lopez-Garcia" (NAME: Name re-extraction: "Maria Elena Lopez" ΓåÆ "Maria Elena Lopez-Garcia")
+nd 1 raw amounts: [ '850 ($850)' ]
+n: 1 amounts: [ '850 ($850)' ]
+After prefilter: 1 amounts: [ '850 ($850)' ]
+ng 850 ($850) - contextBefore: "ame is Michael O'Brien and I need assistance with" contextAfter: "for utilities."
+  850: +20 for direct_goal in "ame is michael o'brien and i need assistance with $850 for u..."
+  850: +13 for help_assistance in "ame is michael o'brien and i need assistance with $850 for u..."
+  850: +11 for fuzz_flexible_goal in "ame is michael o'brien and i need assistance with $850 for u..."
+  850: +8 for category_specific in "ame is michael o'brien and i need assistance with $850 for u..."
+  850: +1 for bare_number in "ame is michael o'brien and i need assistance with $850 for u..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+≡ƒöº Phase80_CategoryFix [HARD_049]: HOUSING ΓåÆ UTILITIES (CAT: Direct ask override: "HOUSING" ΓåÆ "UTILITIES")
+  Progress: 50/60
+nd 1 raw amounts: [ '600 ($600)' ]
+n: 1 amounts: [ '600 ($600)' ]
+After prefilter: 1 amounts: [ '600 ($600)' ]
+ng 600 ($600) - contextBefore: "e, Sarah Jane Williams? And I, uh, need help with" contextAfter: "for food."
+  600: +20 for direct_goal in "e sarah jane williams and i uh need help with $600 for food..."
+  600: +13 for help_assistance in "e sarah jane williams and i uh need help with $600 for food..."
+  600: +11 for fuzz_flexible_goal in "e sarah jane williams and i uh need help with $600 for food..."
+  600: +8 for category_specific in "e sarah jane williams and i uh need help with $600 for food..."
+  600: +1 for bare_number in "e sarah jane williams and i uh need help with $600 for food..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+≡ƒöº Phase80_NameFix [HARD_050]: "Sarah Jane" ΓåÆ "Sarah Jane Williams" (NAME: Name re-extraction: "Sarah Jane" ΓåÆ "Sarah Jane Williams")
+nd 2 raw amounts: [ '2100 (Need $2,100)', '2100 ($2,100)' ]
+n: 1 amounts: [ '2100 (Need $2,100)' ]
+After prefilter: 1 amounts: [ '2100 (Need $2,100)' ]
+ng 2100 (Need $2,100) - contextBefore: "s...uh...Mr. Robert James Patterson III speaking." contextAfter: "for housing."
+  2100: +20 for direct_goal in "s uh mr robert james patterson iii speaking need $2 100 for ..."
+  2100: +11 for fuzz_flexible_goal in "s uh mr robert james patterson iii speaking need $2 100 for ..."
+  2100: +8 for category_specific in "s uh mr robert james patterson iii speaking need $2 100 for ..."
+  2100: +1 for bare_number in "s uh mr robert james patterson iii speaking need $2 100 for ..."
+≡ƒôï V3c Enhancement: No urgency change from LOW
+≡ƒöº Phase80_NameFix [HARD_051]: "Patterson" ΓåÆ "Robert James Patterson" (NAME: Name re-extraction: "Patterson" ΓåÆ "Robert James Patterson")
+nd 2 raw amounts: [ '1800 (need $1,800)', '1800 ($1,800)' ]
+n: 1 amounts: [ '1800 (need $1,800)' ]
+After prefilter: 1 amounts: [ '1800 (need $1,800)' ]
+ng 1800 (need $1,800) - contextBefore: "onald and I'm calling about an eviction notice. I" contextAfter: ""
+  1800: +20 for direct_goal in "onald and i'm calling about an eviction notice i need $1 800..."
+  1800: +8 for category_specific in "onald and i'm calling about an eviction notice i need $1 800..."
+  1800: +1 for bare_number in "onald and i'm calling about an eviction notice i need $1 800..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+[PHASE2_BOOST] Γ£à Test HARD_052: MEDIUM ΓåÆ CRITICAL (eviction_notice)
+Γ¼å∩╕Å  Phase2 Boost [HARD_052]: MEDIUM ΓåÆ CRITICAL (TIMEFRAME: "calling about an eviction notice" - active eviction proceeding)
+≡ƒöº Phase80_NameFix [HARD_052]: "Jennifer Anne" ΓåÆ "Jennifer Anne McDonald" (NAME: Name re-extraction: "Jennifer Anne" ΓåÆ "Jennifer Anne McDonald")
+nd 2 raw amounts: [ '950 (need $950)', '950 ($950)' ]
+n: 1 amounts: [ '950 (need $950)' ]
+After prefilter: 1 amounts: [ '950 (need $950)' ]
+ng 950 (need $950) - contextBefore: ".well...it's complicated but...Thomas Allen Jr. I" contextAfter: ""
+  950: +20 for direct_goal in "well it's complicated but thomas allen jr i need $950..."
+  950: +1 for bare_number in "well it's complicated but thomas allen jr i need $950..."
+≡ƒôï V3c Enhancement: No urgency change from LOW
+[PHASE2_BOOST] Γ£à Test HARD_053: LOW ΓåÆ MEDIUM (generic_need)
+Γ¼å∩╕Å  Phase2 Boost [HARD_053]: LOW ΓåÆ MEDIUM (CATEGORY FLOOR: Generic need statement - OTHER with stated need = MEDIUM minimum)
+nd 2 raw amounts: [ '1500 (need $1,500)', '1500 ($1,500)' ]
+n: 1 amounts: [ '1500 (need $1,500)' ]
+After prefilter: 1 amounts: [ '1500 (need $1,500)' ]
+ng 1500 (need $1,500) - contextBefore: "This is Ms. Patricia Lynn O'Connor-Smith and I" contextAfter: "for medical treatment."
+  1500: +20 for direct_goal in "this is ms patricia lynn o'connor-smith and i need $1 500 fo..."
+  1500: +11 for fuzz_flexible_goal in "this is ms patricia lynn o'connor-smith and i need $1 500 fo..."
+  1500: +8 for category_specific in "this is ms patricia lynn o'connor-smith and i need $1 500 fo..."
+  1500: +1 for bare_number in "this is ms patricia lynn o'connor-smith and i need $1 500 fo..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 1 raw amounts: [ '700 ($700)' ]
+n: 1 amounts: [ '700 ($700)' ]
+After prefilter: 1 amounts: [ '700 ($700)' ]
+ng 700 ($700) - contextBefore: "y, I'm nervous...David Lee Chen. I need help with" contextAfter: ""
+  700: +20 for direct_goal in "y i'm nervous david lee chen i need help with $700..."
+  700: +13 for help_assistance in "y i'm nervous david lee chen i need help with $700..."
+  700: +1 for bare_number in "y i'm nervous david lee chen i need help with $700..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+nd 1 raw amounts: [ '1300 ($1,300)' ]
+n: 1 amounts: [ '1300 ($1,300)' ]
+After prefilter: 1 amounts: [ '1300 ($1,300)' ]
+ng 1300 ($1,300) - contextBefore: "manda Grace Martinez-Brown and I, uh, need, like," contextAfter: "for, um, rent or whatever."
+  1300: +20 for direct_goal in "manda grace martinez-brown and i uh need like $1 300 for um ..."
+  1300: +11 for fuzz_flexible_goal in "manda grace martinez-brown and i uh need like $1 300 for um ..."
+  1300: +8 for category_specific in "manda grace martinez-brown and i uh need like $1 300 for um ..."
+  1300: +1 for bare_number in "manda grace martinez-brown and i uh need like $1 300 for um ..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+≡ƒöº Phase80_NameFix [HARD_056]: "Amanda Grace Martinez" ΓåÆ "Amanda Grace Martinez-Brown" (NAME: Name re-extraction: "Amanda Grace Martinez" ΓåÆ "Amanda Grace Martinez-Brown")
+nd 1 raw amounts: [ '890 ($890)' ]
+n: 1 amounts: [ '890 ($890)' ]
+After prefilter: 1 amounts: [ '890 ($890)' ]
+ng 890 ($890) - contextBefore: "hristopher Michael Jones. I need...let me think..." contextAfter: "for food."
+  890: +20 for direct_goal in "hristopher michael jones i need let me think $890 for food..."
+  890: +11 for fuzz_flexible_goal in "hristopher michael jones i need let me think $890 for food..."
+  890: +8 for category_specific in "hristopher michael jones i need let me think $890 for food..."
+  890: +1 for bare_number in "hristopher michael jones i need let me think $890 for food..."
+≡ƒôï V3c Enhancement: No urgency change from MEDIUM
+≡ƒöº Phase80_NameFix [HARD_057]: "Christopher Michael" ΓåÆ "Christopher Michael Jones" (NAME: Name re-extraction: "Christopher Michael" ΓåÆ "Christopher Michael Jones")
+nd 1 raw amounts: [ '1650 ($1,650)' ]
+n: 1 amounts: [ '1650 ($1,650)' ]
+After prefilter: 1 amounts: [ '1650 ($1,650)' ]
+ng 1650 ($1,650) - contextBefore: "byΓÇöumΓÇöElizabeth Rose Thompson butΓÇöuhΓÇöI needΓÇölikeΓÇö" contextAfter: "forΓÇöyou knowΓÇöutilities and stuff."
+  1650: +20 for direct_goal in "byΓÇöumΓÇöelizabeth rose thompson butΓÇöuhΓÇöi needΓÇölikeΓÇö$1 650 forΓÇö..."
+  1650: +11 for fuzz_flexible_goal in "byΓÇöumΓÇöelizabeth rose thompson butΓÇöuhΓÇöi needΓÇölikeΓÇö$1 650 forΓÇö..."
+  1650: +8 for category_specific in "byΓÇöumΓÇöelizabeth rose thompson butΓÇöuhΓÇöi needΓÇölikeΓÇö$1 650 forΓÇö..."
+  1650: +1 for bare_number in "byΓÇöumΓÇöelizabeth rose thompson butΓÇöuhΓÇöi needΓÇölikeΓÇö$1 650 forΓÇö..."
+≡ƒôï V3c Enhancement: No urgency change from LOW
+  Γ¼å∩╕Å  Phase70_Escalation [HARD_058]: LOW ΓåÆ MEDIUM (Phase 7.0: UTILITY_NEED)
+Γ¼å∩╕Å  Phase70_Escalation [HARD_058]: LOW ΓåÆ MEDIUM (Phase 7.0: UTILITIES: Utility assistance need)
+≡ƒöº Phase80_CategoryFix [HARD_058]: HOUSING ΓåÆ UTILITIES (CAT: Direct ask override: "HOUSING" ΓåÆ "UTILITIES")
+nd 2 raw amounts: [ '2300 (need $2,300)', '2300 ($2,300)' ]
+n: 1 amounts: [ '2300 (need $2,300)' ]
+After prefilter: 1 amounts: [ '2300 (need $2,300)' ]
+ng 2300 (need $2,300) - contextBefore: "illiams and...uh...I'm calling because...well...I" contextAfter: "for...like...medical stuff...emergency...maybe."
+  2300: +20 for direct_goal in "illiams and uh i'm calling because well i need $2 300 for li..."
+  2300: +11 for fuzz_flexible_goal in "illiams and uh i'm calling because well i need $2 300 for li..."
+  2300: +8 for category_specific in "illiams and uh i'm calling because well i need $2 300 for li..."
+  2300: +1 for bare_number in "illiams and uh i'm calling because well i need $2 300 for li..."
+≡ƒôï V3c Enhancement: No urgency change from CRITICAL
+Γ¼ç∩╕Å  Phase36 De-escalation [HARD_059]: CRITICAL ΓåÆ MEDIUM (HEDGING: "emergency...maybe" + vague medical request)
+nd 1 raw amounts: [ '1900 ($1,900)' ]
+n: 1 amounts: [ '1900 ($1,900)' ]
+After prefilter: 1 amounts: [ '1900 ($1,900)' ]
+ng 1900 ($1,900) - contextBefore: "n Anderson-Martinez and, uh, I'm behind on, like," contextAfter: "for rent andΓÇöumΓÇöeviction notice cameΓÇöuhΓÇöyesterday"
+  1900: +8 for category_specific in "n anderson-martinez and uh i'm behind on like $1 900 for ren..."
+  1900: +1 for bare_number in "n anderson-martinez and uh i'm behind on like $1 900 for ren..."
+≡ƒÜÇ V3c Urgency Enhancement: MEDIUM ΓåÆ HIGH (score: 0.32 ΓåÆ 0.57)
+   Reasons: Critical indicator: eviction, High urgency indicator: rent andΓÇöumΓÇöeviction notice
+[PHASE2_BOOST] Γ£à Test HARD_060: HIGH ΓåÆ CRITICAL (yesterday)
+Γ¼å∩╕Å  Phase2 Boost [HARD_060]: HIGH ΓåÆ CRITICAL (TIMEFRAME: "eviction notice came yesterday" - just received eviction (2-level gap))
+≡ƒöº Phase80_NameFix [HARD_060]: "Rebecca Lynn" ΓåÆ "Rebecca Lynn Anderson-Martinez" (NAME: Name re-extraction: "Rebecca Lynn" ΓåÆ "Rebecca Lynn Anderson-Martinez")
+
+Γ£à Evaluation complete in 121 ms
+
+
+ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ  Feb v1.5 Evaluation Report ΓÇö EvalRunner v4.2.0              Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+≡ƒôè Dataset: hard60
+≡ƒôà Timestamp: 2026-02-14T22:07:22.235Z
+≡ƒôª Total Cases: 60
+
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  PASS RATES (Dual Threshold)
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  STRICT (ΓëÑ95%):      73.33% (44/60)
+  ACCEPTABLE (ΓëÑ85%):  73.33% (44/60)
+
+  Γ¥î Pass rates below targets. Review failure buckets.
+
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  PERFORMANCE METRICS
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  Avg Latency:  2.01 ms
+  Total Time:   120.54 ms
+  Budget:       3000 ms
+  Status:       Γ£à Within Budget
+
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  TOP 10 FAILURE BUCKETS
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  1. urgency_over_assessed (6 cases, 10.0%)
+     Urgency level too high (e.g., MEDIUM ΓåÆ CRITICAL)
+     Examples: HARD_001, HARD_005, HARD_010
+  2. category_priority_violated (5 cases, 8.3%)
+     Multi-category priority rule violated
+     Examples: HARD_035, HARD_037, HARD_040
+  3. category_wrong (4 cases, 6.7%)
+     Incorrect category selected
+     Examples: HARD_003, HARD_021, HARD_027
+  4. amount_wrong_selection (3 cases, 5.0%)
+     Wrong amount selected from multiple numbers
+     Examples: HARD_001, HARD_003, HARD_006
+  5. amount_outside_tolerance (1 cases, 1.7%)
+     Amount within range but outside tolerance
+     Examples: HARD_032
+
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  RECOMMENDED WORKLIST (Priority Order)
+ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+  1. [MEDIUM] urgency_over_assessed (6 cases)
+     Fix: Manual investigation required
+     File: services/UrgencyAssessmentService.js (or jan-v3 TIER 3)
+  2. [LOW] category_priority_violated (5 cases)
+     Fix: Review category priority rules in multi-category scenarios
+     File: services/CategoryClassificationService.js (or jan-v3 TIER 2)
+  3. [LOW] category_wrong (4 cases)
+     Fix: Manual investigation required
+     File: services/CategoryClassificationService.js (or jan-v3 TIER 2)
+  4. [LOW] amount_wrong_selection (3 cases)
+     Fix: Review amount selection strategy; may need context-aware selection
+     File: services/AmountDetectionService.js (or jan-v3 TIER 4)
+  5. [LOW] amount_outside_tolerance (1 cases)
+     Fix: Manual investigation required
+     File: services/AmountDetectionService.js (or jan-v3 TIER 4)
+
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+≡ƒôü JSON report saved: C:\Users\richl\Care2system\backend\eval\feb-v1\reports\v4plus_hard60_2026-02-14T22-07-22-236Z.json
+≡ƒôü Markdown report saved: C:\Users\richl\Care2system\backend\eval\feb-v1\reports\v4plus_hard60_2026-02-14T22-07-22-236Z.md
+Running PII scan on evaluation outputs...
+Γ£à PII Scan: No PII detected in evaluation outputs
+

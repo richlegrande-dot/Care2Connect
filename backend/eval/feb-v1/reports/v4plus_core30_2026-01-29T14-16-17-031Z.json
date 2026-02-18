@@ -1,0 +1,181 @@
+{
+  "metadata": {
+    "dataset": "core30",
+    "totalCases": 30,
+    "timestamp": "2026-01-29T14:16:17.029Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "70.00%",
+    "acceptablePassRate": "70.00%",
+    "strictPasses": 21,
+    "acceptablePasses": 21,
+    "strictFailures": 9,
+    "acceptableFailures": 9
+  },
+  "performance": {
+    "avgLatencyMs": "4.29",
+    "totalLatencyMs": "128.72",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 7,
+        "percentage": "23.3%",
+        "exampleCases": [
+          "T004",
+          "T007",
+          "T009"
+        ]
+      },
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 1,
+        "percentage": "3.3%",
+        "exampleCases": [
+          "T017"
+        ]
+      },
+      {
+        "bucket": "name_wrong",
+        "description": "Completely incorrect name extracted",
+        "count": 1,
+        "percentage": "3.3%",
+        "exampleCases": [
+          "T030"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 1,
+        "percentage": "3.3%",
+        "exampleCases": [
+          "T030"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 9,
+    "cases": [
+      {
+        "testId": "T004",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T007",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T009",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T014",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T017",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T023",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T024",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T027",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T030",
+        "expectedScore": 1,
+        "actualScore": 0.5,
+        "failedFields": [
+          "nameMatch",
+          "amountMatch"
+        ]
+      }
+    ]
+  },
+  "worklist": [
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "MEDIUM",
+      "affectedCases": 7,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "name_wrong",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    }
+  ]
+}

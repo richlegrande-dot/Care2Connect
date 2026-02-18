@@ -1,0 +1,195 @@
+{
+  "timestamp": "2026-02-04T04:04:02.957Z",
+  "count": 12,
+  "cases": [
+    {
+      "id": "HARD_013",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 181
+      }
+    },
+    {
+      "id": "HARD_017",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 152
+      }
+    },
+    {
+      "id": "HARD_020",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 174
+      }
+    },
+    {
+      "id": "HARD_026",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 117
+      }
+    },
+    {
+      "id": "HARD_027",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "low_pattern_match",
+        "explicit_urgency_keywords"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 117
+      }
+    },
+    {
+      "id": "HARD_031",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "safety_category_floor"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 175
+      }
+    },
+    {
+      "id": "HARD_034",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 125
+      }
+    },
+    {
+      "id": "HARD_036",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.54,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 130
+      }
+    },
+    {
+      "id": "HARD_038",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 120
+      }
+    },
+    {
+      "id": "HARD_041",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 126
+      }
+    },
+    {
+      "id": "HARD_043",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 131
+      }
+    },
+    {
+      "id": "HARD_052",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.[REDACTED_DIGITS],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 114
+      }
+    }
+  ]
+}

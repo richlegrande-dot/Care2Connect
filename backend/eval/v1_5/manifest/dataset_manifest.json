@@ -1,0 +1,63 @@
+{
+  "version": "feb_v1_5",
+  "created_at": "2026-02-12T13:42:56.349Z",
+  "updated_at": "2026-02-12T13:42:56.349Z",
+  "generator": "eval/v1_5/manifest/generate_manifest.js",
+  "datasets": {
+    "core30": {
+      "filename": "core30.jsonl",
+      "sha256": "b4d278cdf4dd8b82dc4618639da36d5c5ccd23288ada26faef24b5aa6104868c",
+      "line_count": 30,
+      "case_count": 30,
+      "file_size_bytes": 27975,
+      "last_modified": "2026-01-16T12:36:38.296Z",
+      "version_tag": "feb_v1_5"
+    },
+    "hard60": {
+      "filename": "hard60.jsonl",
+      "sha256": "2285f6295f34ec6513572b518f71b82129c9c33e2136d52c72f396fb66e9e509",
+      "line_count": 60,
+      "case_count": 60,
+      "file_size_bytes": 26379,
+      "last_modified": "2026-01-25T13:07:55.483Z",
+      "version_tag": "feb_v1_5"
+    },
+    "fuzz200": {
+      "filename": "fuzz200.jsonl",
+      "sha256": "6a26496b2bd9e31834e71035185fbe365dc85fb652ea975f13e2b1b1f77c33f7",
+      "line_count": 201,
+      "case_count": 200,
+      "file_size_bytes": 117764,
+      "last_modified": "2026-01-27T14:45:13.474Z",
+      "version_tag": "feb_v1_5"
+    },
+    "fuzz500": {
+      "filename": "fuzz500.jsonl",
+      "sha256": "2c24eacd30d4efaf213b9401755a91b62cd20bccbdaaf7e73784a0f1e0197729",
+      "line_count": 501,
+      "case_count": 500,
+      "file_size_bytes": 292856,
+      "last_modified": "2026-01-25T14:19:41.175Z",
+      "version_tag": "feb_v1_5"
+    },
+    "fuzz10k": {
+      "filename": "fuzz10k.jsonl",
+      "sha256": "7a4bbd235cc2147a7f4f70e801d2641bc159c7d3d3d2e0cc1f97e5d12914cac9",
+      "line_count": 10501,
+      "case_count": 10500,
+      "file_size_bytes": 6179299,
+      "last_modified": "2026-01-25T14:28:02.546Z",
+      "version_tag": "feb_v1_5"
+    },
+    "realistic50": {
+      "filename": "realistic50.jsonl",
+      "sha256": "a9fd0eea7379fbfd36dc55441f812773fae01338e5bc83738d63aa85879b8a73",
+      "line_count": 50,
+      "case_count": 50,
+      "file_size_bytes": 44936,
+      "last_modified": "2026-01-27T13:57:06.884Z",
+      "version_tag": "feb_v1_5"
+    }
+  },
+  "manifest_hash": "d6ef01c5473d319f5ca48a9ff5e0cba33ad575dfef725fb2beeda47b7f48ee66"
+}

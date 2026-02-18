@@ -1,0 +1,309 @@
+{
+  "metadata": {
+    "dataset": "all500",
+    "totalCases": 590,
+    "timestamp": "2026-02-07T14:32:45.909Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "45.59%",
+    "acceptablePassRate": "45.59%",
+    "strictPasses": 269,
+    "acceptablePasses": 269,
+    "strictFailures": 321,
+    "acceptableFailures": 321
+  },
+  "performance": {
+    "avgLatencyMs": "46.72",
+    "totalLatencyMs": "27565.40",
+    "withinBudget": false,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 194,
+        "percentage": "32.9%",
+        "exampleCases": [
+          "T022",
+          "T028",
+          "T030"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 73,
+        "percentage": "12.4%",
+        "exampleCases": [
+          "T007",
+          "T011",
+          "T012"
+        ]
+      },
+      {
+        "bucket": "category_wrong",
+        "description": "Incorrect category selected",
+        "count": 57,
+        "percentage": "9.7%",
+        "exampleCases": [
+          "T012",
+          "HARD_004",
+          "HARD_009"
+        ]
+      },
+      {
+        "bucket": "amount_missing",
+        "description": "Amount not extracted when present",
+        "count": 24,
+        "percentage": "4.1%",
+        "exampleCases": [
+          "HARD_002",
+          "FUZZ_029",
+          "FUZZ_039"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 17,
+        "percentage": "2.9%",
+        "exampleCases": [
+          "HARD_024",
+          "HARD_032",
+          "FUZZ_094"
+        ]
+      },
+      {
+        "bucket": "name_wrong",
+        "description": "Completely incorrect name extracted",
+        "count": 16,
+        "percentage": "2.7%",
+        "exampleCases": [
+          "HARD_048",
+          "HARD_050",
+          "HARD_051"
+        ]
+      },
+      {
+        "bucket": "amount_wrong_selection",
+        "description": "Wrong amount selected from multiple numbers",
+        "count": 9,
+        "percentage": "1.5%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_003",
+          "HARD_006"
+        ]
+      },
+      {
+        "bucket": "category_priority_violated",
+        "description": "Multi-category priority rule violated",
+        "count": 9,
+        "percentage": "1.5%",
+        "exampleCases": [
+          "HARD_032",
+          "HARD_035",
+          "HARD_037"
+        ]
+      },
+      {
+        "bucket": "urgency_conflicting_signals",
+        "description": "Failed to resolve conflicting urgency signals",
+        "count": 5,
+        "percentage": "0.8%",
+        "exampleCases": [
+          "HARD_025",
+          "HARD_026",
+          "HARD_027"
+        ]
+      },
+      {
+        "bucket": "category_too_generic",
+        "description": "Defaulted to OTHER when specific category present",
+        "count": 1,
+        "percentage": "0.2%",
+        "exampleCases": [
+          "FUZZ_344"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 11,
+    "cases": [
+      {
+        "testId": "T007",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T011",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T012",
+        "expectedScore": 1,
+        "actualScore": 0.5,
+        "failedFields": [
+          "categoryMatch",
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T018",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T021",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T022",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T023",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T024",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T027",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T028",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T030",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      }
+    ]
+  },
+  "worklist": [
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "HIGH",
+      "affectedCases": 194,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "HIGH",
+      "affectedCases": 73,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "category_wrong",
+      "priority": "HIGH",
+      "affectedCases": 57,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "amount_missing",
+      "priority": "HIGH",
+      "affectedCases": 24,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "HIGH",
+      "affectedCases": 17,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "name_wrong",
+      "priority": "HIGH",
+      "affectedCases": 16,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "amount_wrong_selection",
+      "priority": "MEDIUM",
+      "affectedCases": 9,
+      "suggestedFix": "Review amount selection strategy; may need context-aware selection",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "category_priority_violated",
+      "priority": "MEDIUM",
+      "affectedCases": 9,
+      "suggestedFix": "Review category priority rules in multi-category scenarios",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "urgency_conflicting_signals",
+      "priority": "LOW",
+      "affectedCases": 5,
+      "suggestedFix": "Refine urgency evaluation order (LOW → CRITICAL → HIGH → MEDIUM)",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "category_too_generic",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    }
+  ]
+}

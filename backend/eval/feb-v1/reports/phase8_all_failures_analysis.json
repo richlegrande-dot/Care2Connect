@@ -1,0 +1,2885 @@
+{
+  "timestamp": "2026-02-14T16:29:47.433Z",
+  "totalFailed": 117,
+  "buckets": {
+    "urgency_over_assessed": 13,
+    "amount_wrong": 28,
+    "amount_missing": 24,
+    "category_priority_violated": 29,
+    "category_wrong": 26,
+    "urgency_under_assessed": 1,
+    "name_wrong": 9
+  },
+  "cases": [
+    {
+      "id": "T004",
+      "dataset": "core30",
+      "transcriptText": "Hi, I'm Robert Martinez. I'm trying to finish my nursing degree but I can't afford the tuition for my last semester. It costs about three thousand five hundred dollars and I don't know what to do.",
+      "expected": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "actual": {
+        "category": "EDUCATION",
+        "urgency": "HIGH",
+        "goalAmount": 3500,
+        "name": "Robert Martinez"
+      },
+      "issues": [
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "T019",
+      "dataset": "core30",
+      "transcriptText": "Hi, I'm Thomas Wright. My son needs help with his medication costs. The pharmacy says it'll be between fifteen hundred and two thousand dollars per month. We're trying to figure out how to afford this.",
+      "expected": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1750,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "MEDIUM",
+        "goalAmount": 1500,
+        "name": "Thomas Wright"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=1750 got=1500 diff=-14.3%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "T021",
+      "dataset": "core30",
+      "transcriptText": "My name is Patricia Collins and I have a five year old daughter. She needs special therapy that costs about thirty-five hundred dollars. I'm a single mom and can't afford this on my own.",
+      "expected": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 3500,
+        "name": "Patricia Collins"
+      },
+      "issues": [
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "T023",
+      "dataset": "core30",
+      "transcriptText": "Hi, um, my name is... well, my name is Linda Torres, Linda Torres. I need help, I really need help with my mother's care. She's in the hospital and the bills are piling up. The bills are really piling up. We need maybe four thousand dollars, maybe four thousand to help with the costs.",
+      "expected": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 4000,
+        "name": "Linda Torres"
+      },
+      "issues": [
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "T024",
+      "dataset": "core30",
+      "transcriptText": "Hello, this is Brian Anderson. I lost my job and my wife is sick. We need help with basic living expenses. I think we need a couple thousand dollars to get through the next few months.",
+      "expected": {
+        "name": "Brian Anderson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "MEDIUM",
+        "goalAmount": 2500,
+        "name": "Brian Anderson"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2000 got=2500 diff=25.0%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_001",
+      "dataset": "hard60",
+      "transcriptText": "Hi, my name is Robert Chen. I make $3,200 a month, my rent is $1,800, the security deposit they want is $900, and my son is 4 years old. I need help with the deposit to move into a safer apartment.",
+      "expected": {
+        "name": "Robert Chen",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 900
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": 3200,
+        "name": "Robert Chen"
+      },
+      "issues": [
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        },
+        {
+          "type": "amount_wrong",
+          "detail": "expected=900 got=3200 diff=255.6%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_002",
+      "dataset": "hard60",
+      "transcriptText": "This is Maria Torres speaking. My medical bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatments. I earn $2,100 monthly and my daughter is 7.",
+      "expected": {
+        "name": "Maria Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 5000
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Maria Torres"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=5000 got=null"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_003",
+      "dataset": "hard60",
+      "transcriptText": "Hello, I'm David Martinez. I lost my job 3 weeks ago, I'm behind $2,400 on rent, utilities are $350 past due, and I need $150 for groceries. Looking for $2,900 total to catch up.",
+      "expected": {
+        "name": "David Martinez",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2900
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 150,
+        "name": "David Martinez"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2900 got=150 diff=-94.8%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_004",
+      "dataset": "hard60",
+      "transcriptText": "My name is Jennifer Wu. I'm 32 years old, make $45,000 a year, have 2 kids aged 5 and 8, and need $1,200 for emergency car repairs so I can get to work.",
+      "expected": {
+        "name": "Jennifer Wu",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "Jennifer Wu"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=TRANSPORTATION got=EMPLOYMENT"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_005",
+      "dataset": "hard60",
+      "transcriptText": "This is Thomas Anderson. Hospital bill is $23,500, insurance covered $18,000, leaving me with $5,500 out of pocket. I'm asking for $3,000 to start paying it down.",
+      "expected": {
+        "name": "Thomas Anderson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3000
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 3000,
+        "name": "Thomas Anderson"
+      },
+      "issues": [
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_006",
+      "dataset": "hard60",
+      "transcriptText": "Hi, Sarah Johnson here. My mortgage is $1,650 monthly, I'm 4 months behind so that's $6,600, plus $800 in late fees. Need help with the full $7,400 to avoid foreclosure.",
+      "expected": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 7400
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "CRITICAL",
+        "goalAmount": 1650,
+        "name": "Sarah Johnson"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=7400 got=1650 diff=-77.7%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_008",
+      "dataset": "hard60",
+      "transcriptText": "Hello, this is Dr. Elizabeth Carter. I have 3 children, ages 6, 9, and 12. Tuition for the oldest is $4,200 per semester, but I need $1,500 for textbooks and supplies for all three kids.",
+      "expected": {
+        "name": "Elizabeth Carter",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "EDUCATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 4200,
+        "name": "Elizabeth Carter"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=1500 got=4200 diff=180.0%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_010",
+      "dataset": "hard60",
+      "transcriptText": "This is Amanda Lee speaking. My rent is $950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance this month after losing hours at work.",
+      "expected": {
+        "name": "Amanda Lee",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": 950,
+        "name": "Amanda Lee"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=FOOD got=HOUSING"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        },
+        {
+          "type": "amount_wrong",
+          "detail": "expected=450 got=950 diff=111.1%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_011",
+      "dataset": "hard60",
+      "transcriptText": "Hi, I'm James Wilson. Surgery costs $18,000 total, my deductible is $5,000, and I've saved $2,000. I need $3,000 more to meet the deductible by next week.",
+      "expected": {
+        "name": "James Wilson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3000
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 2000,
+        "name": "James Wilson"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=3000 got=2000 diff=-33.3%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_013",
+      "dataset": "hard60",
+      "transcriptText": "This is Kevin Zhang. I have 2 kids in daycare at $800 each, so $1,600 monthly. I'm 6 weeks behind, that's $2,400, but I need $1,600 to cover just this month to avoid losing my spot.",
+      "expected": {
+        "name": "Kevin Zhang",
+        "category": "FAMILY",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1600
+      },
+      "actual": {
+        "category": "FAMILY",
+        "urgency": "HIGH",
+        "goalAmount": 2400,
+        "name": "Kevin Zhang"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=1600 got=2400 diff=50.0%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_014",
+      "dataset": "hard60",
+      "transcriptText": "Hello, my name is Rachel Green. Prescription costs $250 per month, I need 3 months supply, that's $750, but I can pay $300 myself so I'm asking for $450.",
+      "expected": {
+        "name": "Rachel Green",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "MEDIUM",
+        "goalAmount": 750,
+        "name": "Rachel Green"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=450 got=750 diff=66.7%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_018",
+      "dataset": "hard60",
+      "transcriptText": "Hi, this is Monica Garcia. I earn $32,000 yearly, take home $2,100 monthly. Rent is $1,100, but I need $2,200 for first month and security deposit on a new place.",
+      "expected": {
+        "name": "Monica Garcia",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2200
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": 2200,
+        "name": "Monica Garcia"
+      },
+      "issues": [
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_020",
+      "dataset": "hard60",
+      "transcriptText": "My name is Emily Rodriguez. I'm 29, student loans are $18,000, need $450 monthly payments, I'm 5 months behind so that's $2,250, but I'm asking for $900 to catch up 2 months.",
+      "expected": {
+        "name": "Emily Rodriguez",
+        "category": "EDUCATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 900
+      },
+      "actual": {
+        "category": "EDUCATION",
+        "urgency": "HIGH",
+        "goalAmount": 2250,
+        "name": "Emily Rodriguez"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=900 got=2250 diff=150.0%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_021",
+      "dataset": "hard60",
+      "transcriptText": "This is urgent but not an emergency. I'm Brian Mitchell and I need $1,500 for rent by next week.",
+      "expected": {
+        "name": "Brian Mitchell",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "EMERGENCY",
+        "urgency": "HIGH",
+        "goalAmount": 1500,
+        "name": "Brian Mitchell"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=HOUSING got=EMERGENCY"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_024",
+      "dataset": "hard60",
+      "transcriptText": "This is Laura Bennett speaking. It's not a crisis or anything, just my power gets shut off in 2 days if I don't pay $450.",
+      "expected": {
+        "name": "Laura Bennett",
+        "category": "UTILITIES",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "UTILITIES",
+        "urgency": "CRITICAL",
+        "goalAmount": 2,
+        "name": "Laura Bennett"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=450 got=2 diff=-99.6%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_027",
+      "dataset": "hard60",
+      "transcriptText": "This is Ryan Cooper. Not urgent, I can probably manage, but the foreclosure notice says I have 10 days to pay $5,000.",
+      "expected": {
+        "name": "Ryan Cooper",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000
+      },
+      "actual": {
+        "category": "SAFETY",
+        "urgency": "CRITICAL",
+        "goalAmount": 5000,
+        "name": "Ryan Cooper"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=HOUSING got=SAFETY"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_030",
+      "dataset": "hard60",
+      "transcriptText": "This is Catherine Young. I'm really stressed but it's not life or death. My kids have been asking for food and I need $400.",
+      "expected": {
+        "name": "Catherine Young",
+        "category": "FOOD",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 400
+      },
+      "actual": {
+        "category": "FAMILY",
+        "urgency": "HIGH",
+        "goalAmount": 400,
+        "name": "Catherine Young"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=FAMILY"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_032",
+      "dataset": "hard60",
+      "transcriptText": "This is Rebecca Turner. My mother is very sick and needs medication costing $800. I also got laid off 2 weeks ago and need $1,200 for rent.",
+      "expected": {
+        "name": "Rebecca Turner",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "Rebecca Turner"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2000 got=1200 diff=-40.0%"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_035",
+      "dataset": "hard60",
+      "transcriptText": "My name is Benjamin Clark. I'm facing eviction, can't find work, and my car broke down. Need $1,800 to fix everything.",
+      "expected": {
+        "name": "Benjamin Clark",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1800
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": 1800,
+        "name": "Benjamin Clark"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=TRANSPORTATION"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_037",
+      "dataset": "hard60",
+      "transcriptText": "Hi, I'm Gregory Hall. I'm unemployed, behind on utilities, and my child needs school supplies. I need $950 total.",
+      "expected": {
+        "name": "Gregory Hall",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": 950,
+        "name": "Gregory Hall"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EMPLOYMENT got=HOUSING"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_038",
+      "dataset": "hard60",
+      "transcriptText": "My name is Stephanie Lewis. I have medical debt, legal issues, and transportation problems. Need $2,400 for lawyer fees.",
+      "expected": {
+        "name": "Stephanie Lewis",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2400
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 2400,
+        "name": "Stephanie Lewis"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=LEGAL got=HEALTHCARE"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_040",
+      "dataset": "hard60",
+      "transcriptText": "Hi, my name is Kimberly Anderson. I need help with food, utilities, and my kids' education. Looking for $1,100 to cover all three.",
+      "expected": {
+        "name": "Kimberly Anderson",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1100
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 1100,
+        "name": "Kimberly Anderson"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=FOOD got=HOUSING"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_041",
+      "dataset": "hard60",
+      "transcriptText": "This is Gary Martinez. I'm in legal trouble, can't afford my medication, and my landlord is threatening eviction. Need $3,000.",
+      "expected": {
+        "name": "Gary Martinez",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3000
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": 3000,
+        "name": "Gary Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=HEALTHCARE got=HOUSING"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_044",
+      "dataset": "hard60",
+      "transcriptText": "My name is Carolyn Wright. I have education expenses, lost my job, and utilities are being shut off. Need $980.",
+      "expected": {
+        "name": "Carolyn Wright",
+        "category": "UTILITIES",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 980
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 980,
+        "name": "Carolyn Wright"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=UTILITIES got=EMPLOYMENT"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_049",
+      "dataset": "hard60",
+      "transcriptText": "My name is Michael O'Brien and I need assistance with $850 for utilities.",
+      "expected": {
+        "name": "Michael O'Brien",
+        "category": "UTILITIES",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 850
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 850,
+        "name": "Michael O'Brien"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=UTILITIES got=HOUSING"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_051",
+      "dataset": "hard60",
+      "transcriptText": "This is...uh...Mr. Robert James Patterson III speaking. Need $2,100 for housing.",
+      "expected": {
+        "name": "Robert James Patterson",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2100
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "LOW",
+        "goalAmount": 2100,
+        "name": "Patterson"
+      },
+      "issues": [
+        {
+          "type": "urgency_under_assessed",
+          "detail": "expected=MEDIUM got=LOW"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "HARD_058",
+      "dataset": "hard60",
+      "transcriptText": "Hi there—my name's—well—I go by—um—Elizabeth Rose Thompson but—uh—I need—like—$1,650 for—you know—utilities and stuff.",
+      "expected": {
+        "name": "Elizabeth Rose Thompson",
+        "category": "UTILITIES",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1650
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 1650,
+        "name": "Elizabeth Rose Thompson"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=UTILITIES got=HOUSING"
+        }
+      ],
+      "templateId": null
+    },
+    {
+      "id": "FUZZ_006",
+      "dataset": "fuzz500",
+      "transcriptText": "I earn $1900 monthly. 2 weeks ago. Hi, this is like Jennifer Davis. Car broke down, well. I'm 35 years old. need 950 for repairs.",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": 950,
+        "name": "like Jennifer"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"Jennifer Davis\" got=\"like Jennifer\""
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    },
+    {
+      "id": "FUZZ_029",
+      "dataset": "fuzz500",
+      "transcriptText": "My name um is Robert Brown. I need... help with 350 for groceries, well.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=350 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_034",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had hospital problems. um, Hello, Patricia Moore speaking. Court costs 2500, need help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 2500,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=LEGAL got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_035",
+      "dataset": "fuzz500",
+      "transcriptText": "I'm 41 years old. Had issues with medical too. I am Daniel Taylor, uh. My children need 1100 for childcare.",
+      "expected": {
+        "name": "Daniel Taylor",
+        "category": "FAMILY",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1100
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1100,
+        "name": "Daniel Taylor"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=FAMILY got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_011"
+    },
+    {
+      "id": "FUZZ_037",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is um John Smith. I basically need 1200 for rent.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "um John"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"John Smith\" got=\"um John\""
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_039",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, I am David Johnson. my 7 year old. Lost my job. need so 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=800 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_040",
+      "dataset": "fuzz500",
+      "transcriptText": "Sarah Williams calling. Previously had surgery problems. basically, Electric bill is 450. shutoff notice came, so.",
+      "expected": {
+        "name": "Sarah Williams",
+        "category": "UTILITIES",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "CRITICAL",
+        "goalAmount": 450,
+        "name": "Sarah Williams"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=UTILITIES got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_004"
+    },
+    {
+      "id": "FUZZ_046",
+      "dataset": "fuzz500",
+      "transcriptText": "I'm 28 years old. Hello, Patricia Moore speaking. I'm 32 years old. I earn $1900 monthly. Court costs 2500, need help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=2500 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_053",
+      "dataset": "fuzz500",
+      "transcriptText": "Also dealing with tuition. My name is Robert Brown, basically. I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "EDUCATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=EDUCATION"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_055",
+      "dataset": "fuzz500",
+      "transcriptText": "4 weeks ago. 4 weeks ago. Had issues with utilities too. I make $25 an hour. Michael Martinez here. Need 600 for my kids school supplies.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=HOUSING"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_070",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with hospital too. so, Hello, Patricia Moore speaking. Court costs 2500, need um help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 2500,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=LEGAL got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_074",
+      "dataset": "fuzz500",
+      "transcriptText": "I earn $2100 monthly. This is actually Maria Garcia. my 7 year old. I'm 28 years old. I need 3500 for surgery tomorrow.",
+      "expected": {
+        "name": "Maria Garcia",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "CRITICAL",
+        "goalAmount": 3500,
+        "name": "actually Maria"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"Maria Garcia\" got=\"actually Maria\""
+        }
+      ],
+      "templateId": "TEMPLATE_002"
+    },
+    {
+      "id": "FUZZ_080",
+      "dataset": "fuzz500",
+      "transcriptText": "This is Lisa Anderson, so. Eviction notice. need uh 2200 by Friday.",
+      "expected": {
+        "name": "Lisa Anderson",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 2200
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "CRITICAL",
+        "goalAmount": null,
+        "name": "Lisa Anderson"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=2200 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_008"
+    },
+    {
+      "id": "FUZZ_084",
+      "dataset": "fuzz500",
+      "transcriptText": "Amanda Thomas calling. about uh 1500 for security deposit.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=1500 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_089",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. I need help with 350 for groceries. Previously had medication problems. I'm 32 years old.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_091",
+      "dataset": "fuzz500",
+      "transcriptText": "Need 600!! for my kids school supplies. Also dealing with surgery. Michael Martinez here.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=HEALTHCARE"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_094",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, Patricia Moore speaking. I earn $3200 monthly. my 12 year old. 3 weeks ago. Had issues with groceries too. Court costs 2500, need help, well.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 3200,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2500 got=3200 diff=28.0%"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_097",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with medical too. My name is John Smith. I need 1200 for rent, actually.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "John Smith"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_101",
+      "dataset": "fuzz500",
+      "transcriptText": "My 12 year old. I earn $1900 monthly. My name is Robert Brown. I need help with 350 for groceries, so.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=350 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_113",
+      "dataset": "fuzz500",
+      "transcriptText": "I'm 28 years old. 4 weeks ago. My name is Robert Brown. I need uh help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=350 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_120",
+      "dataset": "fuzz500",
+      "transcriptText": "Amanda Thomas calling. about 1500 for security deposit,?? so. Previously had medical,, problems.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "MEDIUM",
+        "goalAmount": 1500,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_123",
+      "dataset": "fuzz500",
+      "transcriptText": "4 weeks ago. Hello, I am um David Johnson–. I earn $1900 monthly,,. Lost my job. need 800, you know.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 800,
+        "name": "um David"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"David Johnson\" got=\"um David\""
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_128",
+      "dataset": "fuzz500",
+      "transcriptText": "This is actually Lisa Anderson. Eviction you know notice. need 2200 by basically Friday.",
+      "expected": {
+        "name": "Lisa Anderson",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 2200
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "CRITICAL",
+        "goalAmount": 2200,
+        "name": "actually Lisa"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"Lisa Anderson\" got=\"actually Lisa\""
+        }
+      ],
+      "templateId": "TEMPLATE_008"
+    },
+    {
+      "id": "FUZZ_130",
+      "dataset": "fuzz500",
+      "transcriptText": "Actually, Hello, Patricia Moore speaking. I make $22 an hour. I make $18 an— hour. I'm 25 years old. Court you know costs 2500, need help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=2500 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_137",
+      "dataset": "fuzz500",
+      "transcriptText": "I make $15 an hour. My name is Robert Brown. I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": 15,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=350 got=15 diff=-95.7%"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_161",
+      "dataset": "fuzz500",
+      "transcriptText": "I earn $1900 monthly. I'm 35 years old. My name is Robert Brown. I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": 1900,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=350 got=1900 diff=442.9%"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_172",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had childcare problems. my 10 year old. 2 weeks ago. um, Sarah Williams calling. I earn $3200 monthly. Electric bill so is 450!!. um, shutoff notice came.",
+      "expected": {
+        "name": "Sarah Williams",
+        "category": "UTILITIES",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "UTILITIES",
+        "urgency": "CRITICAL",
+        "goalAmount": 3200,
+        "name": "Sarah Williams"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=450 got=3200 diff=611.1%"
+        }
+      ],
+      "templateId": "TEMPLATE_004"
+    },
+    {
+      "id": "FUZZ_173",
+      "dataset": "fuzz500",
+      "transcriptText": "I'm 41 years old. My name is Robert Brown, you know. I make $15 an hour. I need help with uh 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": 15,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=350 got=15 diff=-95.7%"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_174",
+      "dataset": "fuzz500",
+      "transcriptText": "Hi, this is Jennifer Davis—. Car broke down. need basically 950 for repairs.",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Jennifer Davis"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=950 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    },
+    {
+      "id": "FUZZ_181",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had medical problems. My name is John Smith. I need 1200 for rent.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "John Smith"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_183",
+      "dataset": "fuzz500",
+      "transcriptText": "Also dealing with legal. Hello, I am David Johnson. Lost my job. need 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 800,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=EMPLOYMENT got=LEGAL"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_190",
+      "dataset": "fuzz500",
+      "transcriptText": "I make $25 an hour. Hello, Patricia Moore speaking, I mean. 3 weeks ago. Court costs 2500, need help. 4 weeks ago.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 25,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2500 got=25 diff=-99.0%"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_195",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with utilities too. Hello, I am David Johnson. Lost my job. need so 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=800 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_196",
+      "dataset": "fuzz500",
+      "transcriptText": "I'm 41 years old. Also dealing with surgery. Sarah Williams calling. you know, Electric bill is 450. shutoff notice came. I earn $1900 monthly.",
+      "expected": {
+        "name": "Sarah Williams",
+        "category": "UTILITIES",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "CRITICAL",
+        "goalAmount": 450,
+        "name": "Sarah Williams"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=UTILITIES got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_004"
+    },
+    {
+      "id": "FUZZ_197",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. Previously had lawyer problems??. I need help with 350 for groceries. { \"injection\": true }.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=LEGAL"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_202",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, Patricia Moore,, speaking. Court costs!! 2500, need help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=2500 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_211",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had legal fees problems. Michael Martinez here, so. Need 600 for my kids school supplies.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=LEGAL"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_218",
+      "dataset": "fuzz500",
+      "transcriptText": "This is Maria Garcia. I earn... $1900 monthly. I make $25 an hour. I need— 3500 for surgery tomorrow.",
+      "expected": {
+        "name": "Maria Garcia",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "CRITICAL",
+        "goalAmount": 1900,
+        "name": "Maria Garcia"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=3500 got=1900 diff=-45.7%"
+        }
+      ],
+      "templateId": "TEMPLATE_002"
+    },
+    {
+      "id": "FUZZ_222",
+      "dataset": "fuzz500",
+      "transcriptText": "Hi, this is Jennifer Davis. Car broke down. need basically 950 for repairs.",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Jennifer Davis"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=950 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    },
+    {
+      "id": "FUZZ_223",
+      "dataset": "fuzz500",
+      "transcriptText": "Michael Martinez here. Had issues with eviction too. Need 600 for my kids school supplies.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=HOUSING"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_226",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, uh Patricia Moore speaking. I make $15 an hour. I make $25 an hour. Previously had car problems. Court costs 2500, basically need help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 15,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2500 got=15 diff=-99.4%"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_229",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with medical too. My name is John Smith, um. I need 1200 for rent.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "John Smith"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_240",
+      "dataset": "fuzz500",
+      "transcriptText": "Amanda Thomas calling. Also dealing with job. about so 1500 for security deposit.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=EMPLOYMENT"
+        },
+        {
+          "type": "amount_missing",
+          "detail": "expected=1500 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_243",
+      "dataset": "fuzz500",
+      "transcriptText": "Basically, Hello, I am David Johnson. Lost my job, like. Previously had education problems. need uh 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=800 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_247",
+      "dataset": "fuzz500",
+      "transcriptText": "Also dealing with eviction. Michael Martinez here. Need 600 for my kids school supplies.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=HOUSING"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_250",
+      "dataset": "fuzz500",
+      "transcriptText": "I make $25 an hour. Hello, Patricia Moore speaking. Also dealing with hospital. Court costs 2500, need help. I make $25 an hour. I make $25 an hour.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 25,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=LEGAL got=HEALTHCARE"
+        },
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2500 got=25 diff=-99.0%"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_257",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. I need help with 350 for groceries, so. Had issues with tuition too.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "EDUCATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=EDUCATION"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_259",
+      "dataset": "fuzz500",
+      "transcriptText": "Also dealing with legal fees. Michael Martinez here. Need 600 for my kids school supplies.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=LEGAL"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_260",
+      "dataset": "fuzz500",
+      "transcriptText": "This is Lisa Anderson. Previously had medical problems.... Eviction notice, I!! mean. need 2200 by Friday.",
+      "expected": {
+        "name": "Lisa Anderson",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 2200
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "CRITICAL",
+        "goalAmount": 2200,
+        "name": "Lisa Anderson"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_008"
+    },
+    {
+      "id": "FUZZ_269",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. Also dealing with medication. well, I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_276",
+      "dataset": "fuzz500",
+      "transcriptText": "Uh, Amanda Thomas calling. about I mean 1500 for security deposit. I make $25 an hour.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 25,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=1500 got=25 diff=-98.3%"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_279",
+      "dataset": "fuzz500",
+      "transcriptText": "Need 800, um. Previously had hospital problems. Hello, I am David Johnson. Lost my job.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EMPLOYMENT got=HEALTHCARE"
+        },
+        {
+          "type": "amount_missing",
+          "detail": "expected=800 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_283",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had eviction problems. Michael Martinez here. Need 600 for my kids school supplies, actually.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=HOUSING"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_293",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. 4 weeks ago. my 10 year old. my 7 year old. I need help with 350 for groceries. Had issues with car repair too.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=TRANSPORTATION"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_303",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, I am like David Johnson. I earn $1900 monthly. I make $15 an hour. Lost my job. my 10 year old. need 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 800,
+        "name": "like David"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"David Johnson\" got=\"like David\""
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_310",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, Patricia Moore speaking. Court costs 2500, need help, so. Previously had hospital problems.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 2500,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=LEGAL got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_315",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, I am David Johnson, like. Lost my job. need basically 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=800 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_330",
+      "dataset": "fuzz500",
+      "transcriptText": "Hi, this is Jennifer Davis. I earn $1900 monthly—. I'm 32 years old!!. I earn $2800 monthly,,. Car broke down, so. need 950 for repairs, well??",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": 2800,
+        "name": "Jennifer Davis"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=950 got=2800 diff=194.7%"
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    },
+    {
+      "id": "FUZZ_341",
+      "dataset": "fuzz500",
+      "transcriptText": "My name um is Robert Brown. I need help with 350 for actually groceries. Also dealing with lawyer.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=LEGAL"
+        },
+        {
+          "type": "urgency_over_assessed",
+          "detail": "expected=MEDIUM got=HIGH"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_344",
+      "dataset": "fuzz500",
+      "transcriptText": "This is Lisa Anderson. Eviction notice. Had issues with medical too. need 2200 by Friday.",
+      "expected": {
+        "name": "Lisa Anderson",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 2200
+      },
+      "actual": {
+        "category": "OTHER",
+        "urgency": "CRITICAL",
+        "goalAmount": 2200,
+        "name": "Lisa Anderson"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=OTHER"
+        }
+      ],
+      "templateId": "TEMPLATE_008"
+    },
+    {
+      "id": "FUZZ_349",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is John Smith. I need you know 1200 for rent.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "John Smith"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=1200 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_353",
+      "dataset": "fuzz500",
+      "transcriptText": "I make $25 an hour. 4 weeks ago. my 10 year old. My name is actually Robert Brown. <script>alert(\"test\")</script>. I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "actually Robert"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=350 got=null"
+        },
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"Robert Brown\" got=\"actually Robert\""
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_364",
+      "dataset": "fuzz500",
+      "transcriptText": "Sarah Williams calling. Electric bill is 450. shutoff notice came. Also dealing with surgery.",
+      "expected": {
+        "name": "Sarah Williams",
+        "category": "UTILITIES",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 450
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "CRITICAL",
+        "goalAmount": 450,
+        "name": "Sarah Williams"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=UTILITIES got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_004"
+    },
+    {
+      "id": "FUZZ_370",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, Patricia Moore speaking, I mean. Court costs 2500, need help. 4 weeks ago. my 7 year old. Previously had hospital problems. I make $25 an hour.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 2500,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=LEGAL got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_375",
+      "dataset": "fuzz500",
+      "transcriptText": "I mean, Hello,,, I am David Johnson. my 12 year— old. uh, Lost my job—. I make $25 an hour. need basically 800.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 25,
+        "name": "David Johnson"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=800 got=25 diff=-96.9%"
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_377",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. I need help with 350 for groceries. Had issues with tuition too.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "EDUCATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=EDUCATION"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_383",
+      "dataset": "fuzz500",
+      "transcriptText": "{ \"injection\": true }. I earn $2800 monthly,,. my 7 year old–. I actually am Daniel Taylor. I earn $2800 monthly. My children need basically 1100 for childcare.",
+      "expected": {
+        "name": "Daniel Taylor",
+        "category": "FAMILY",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1100
+      },
+      "actual": {
+        "category": "FAMILY",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Daniel Taylor"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=1100 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_011"
+    },
+    {
+      "id": "FUZZ_385",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with medical too. My name is John Smith. I need 1200 for rent.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "John Smith"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_389",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with car repair too. I need help with 350 for groceries. My name is Robert Brown.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=TRANSPORTATION"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_390",
+      "dataset": "fuzz500",
+      "transcriptText": "Hi, this is Jennifer Davis. Car broke down. Previously had medical bills problems. need 950 for repairs.",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 950,
+        "name": "Jennifer Davis"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=TRANSPORTATION got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    },
+    {
+      "id": "FUZZ_394",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, Patricia Moore speaking. Court uh costs 2500, need help.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=2500 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_401",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. I make $18 an hour. I need help with 350 for well groceries. I'm 25 years old. I make $15 an hour.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=350 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_415",
+      "dataset": "fuzz500",
+      "transcriptText": "Had issues with utilities too. Michael Martinez here. Need 600 for my kids school supplies.",
+      "expected": {
+        "name": "Michael Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 600
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 600,
+        "name": "Michael Martinez"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=EDUCATION got=HOUSING"
+        }
+      ],
+      "templateId": "TEMPLATE_007"
+    },
+    {
+      "id": "FUZZ_420",
+      "dataset": "fuzz500",
+      "transcriptText": "6 weeks ago. Amanda Thomas calling. uh, about 1500 for security deposit. 3 weeks ago. I make $18 an hour.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "HOUSING",
+        "urgency": "MEDIUM",
+        "goalAmount": 18,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=1500 got=18 diff=-98.8%"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_432",
+      "dataset": "fuzz500",
+      "transcriptText": "3 weeks ago. Amanda Thomas calling. Had issues with job too. my 7 year old. I earn $1900 monthly. about 1500 for security deposit.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "MEDIUM",
+        "goalAmount": 1500,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=EMPLOYMENT"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_437",
+      "dataset": "fuzz500",
+      "transcriptText": "My you know name is Robert Brown. Also dealing with car repair. I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=FOOD got=TRANSPORTATION"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_444",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had?? job problems. Amanda Thomas calling,,. about 1500 basically for security deposit.",
+      "expected": {
+        "name": "Amanda Thomas",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "MEDIUM",
+        "goalAmount": 1500,
+        "name": "Amanda Thomas"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=EMPLOYMENT"
+        }
+      ],
+      "templateId": "TEMPLATE_012"
+    },
+    {
+      "id": "FUZZ_449",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is basically Robert Brown. I need help with 350 for groceries.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": 350,
+        "name": "basically Robert"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"Robert Brown\" got=\"basically Robert\""
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_462",
+      "dataset": "fuzz500",
+      "transcriptText": "I earn,, $3200 monthly. 2 weeks ago.... my 5 year old–. Hi, this basically is Jennifer Davis. Car broke down. need um 950 for repairs.",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": null,
+        "name": "Jennifer Davis"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=950 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    },
+    {
+      "id": "FUZZ_466",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, Patricia Moore speaking. I earn $3200 monthly. Court costs 2500, need help, actually.",
+      "expected": {
+        "name": "Patricia Moore",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500
+      },
+      "actual": {
+        "category": "LEGAL",
+        "urgency": "HIGH",
+        "goalAmount": 3200,
+        "name": "Patricia Moore"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=2500 got=3200 diff=28.0%"
+        }
+      ],
+      "templateId": "TEMPLATE_010"
+    },
+    {
+      "id": "FUZZ_467",
+      "dataset": "fuzz500",
+      "transcriptText": "Previously had medical problems,,. I am Daniel Taylor. My children need 1100 for childcare.",
+      "expected": {
+        "name": "Daniel Taylor",
+        "category": "FAMILY",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1100
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1100,
+        "name": "Daniel Taylor"
+      },
+      "issues": [
+        {
+          "type": "category_wrong",
+          "detail": "expected=FAMILY got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_011"
+    },
+    {
+      "id": "FUZZ_469",
+      "dataset": "fuzz500",
+      "transcriptText": "I'm 32 years old. I need 1200 for rent. My name is John Smith. Also dealing with medical. my 12 year old.",
+      "expected": {
+        "name": "John Smith",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200
+      },
+      "actual": {
+        "category": "HEALTHCARE",
+        "urgency": "HIGH",
+        "goalAmount": 1200,
+        "name": "John Smith"
+      },
+      "issues": [
+        {
+          "type": "category_priority_violated",
+          "detail": "expected=HOUSING got=HEALTHCARE"
+        }
+      ],
+      "templateId": "TEMPLATE_001"
+    },
+    {
+      "id": "FUZZ_483",
+      "dataset": "fuzz500",
+      "transcriptText": "Hello, I am like David Johnson. I earn $1900 monthly. Lost my job. actually, need 800. I earn $2100 monthly.",
+      "expected": {
+        "name": "David Johnson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 800
+      },
+      "actual": {
+        "category": "EMPLOYMENT",
+        "urgency": "HIGH",
+        "goalAmount": 800,
+        "name": "like David"
+      },
+      "issues": [
+        {
+          "type": "name_wrong",
+          "detail": "expected=\"David Johnson\" got=\"like David\""
+        }
+      ],
+      "templateId": "TEMPLATE_003"
+    },
+    {
+      "id": "FUZZ_485",
+      "dataset": "fuzz500",
+      "transcriptText": "My name is Robert Brown. I make $18 an hour. I make $15 an hour. I need help with 350 for groceries. my 12 year old.",
+      "expected": {
+        "name": "Robert Brown",
+        "category": "FOOD",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 350
+      },
+      "actual": {
+        "category": "FOOD",
+        "urgency": "MEDIUM",
+        "goalAmount": null,
+        "name": "Robert Brown"
+      },
+      "issues": [
+        {
+          "type": "amount_missing",
+          "detail": "expected=350 got=null"
+        }
+      ],
+      "templateId": "TEMPLATE_005"
+    },
+    {
+      "id": "FUZZ_486",
+      "dataset": "fuzz500",
+      "transcriptText": "Hi, this is Jennifer Davis. I earn $3200 monthly;. Car broke!! down. I earn $2100 monthly. need 950 for repairs, I mean.",
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "TRANSPORTATION",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950
+      },
+      "actual": {
+        "category": "TRANSPORTATION",
+        "urgency": "HIGH",
+        "goalAmount": 2100,
+        "name": "Jennifer Davis"
+      },
+      "issues": [
+        {
+          "type": "amount_wrong",
+          "detail": "expected=950 got=2100 diff=121.1%"
+        }
+      ],
+      "templateId": "TEMPLATE_006"
+    }
+  ]
+}

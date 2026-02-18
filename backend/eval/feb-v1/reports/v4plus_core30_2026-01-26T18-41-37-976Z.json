@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "dataset": "core30",
+    "totalCases": 30,
+    "timestamp": "2026-01-26T18:41:37.969Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "96.67%",
+    "acceptablePassRate": "96.67%",
+    "strictPasses": 29,
+    "acceptablePasses": 29,
+    "strictFailures": 1,
+    "acceptableFailures": 1
+  },
+  "performance": {
+    "avgLatencyMs": "2.02",
+    "totalLatencyMs": "60.60",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "amount_missing",
+        "description": "Amount not extracted when present",
+        "count": 1,
+        "percentage": "3.3%",
+        "exampleCases": [
+          "T013"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 1,
+    "cases": [
+      {
+        "testId": "T013",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "amountMatch"
+        ]
+      }
+    ]
+  },
+  "worklist": [
+    {
+      "bucket": "amount_missing",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    }
+  ]
+}

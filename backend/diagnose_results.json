@@ -1,0 +1,265 @@
+{
+  "category": [
+    {
+      "id": "T004",
+      "got": "GENERAL",
+      "expected": "EDUCATION"
+    },
+    {
+      "id": "T006",
+      "got": "EMPLOYMENT",
+      "expected": "HOUSING"
+    },
+    {
+      "id": "T010",
+      "got": "HOUSING",
+      "expected": "EMERGENCY"
+    },
+    {
+      "id": "T011",
+      "got": "HOUSING",
+      "expected": "OTHER"
+    },
+    {
+      "id": "T012",
+      "got": "HEALTHCARE",
+      "expected": "FAMILY"
+    },
+    {
+      "id": "T016",
+      "got": "FAMILY",
+      "expected": "SAFETY"
+    },
+    {
+      "id": "T017",
+      "got": "EMPLOYMENT",
+      "expected": "HEALTHCARE"
+    },
+    {
+      "id": "T027",
+      "got": "EMPLOYMENT",
+      "expected": "EDUCATION"
+    },
+    {
+      "id": "T029",
+      "got": "HOUSING",
+      "expected": "EMERGENCY"
+    }
+  ],
+  "urgency": [
+    {
+      "id": "T003",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T006",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T008",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T009",
+      "got": "LOW",
+      "expected": "MEDIUM"
+    },
+    {
+      "id": "T011",
+      "got": "MEDIUM",
+      "expected": "LOW"
+    },
+    {
+      "id": "T015",
+      "got": "CRITICAL",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T017",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T019",
+      "got": "LOW",
+      "expected": "MEDIUM"
+    },
+    {
+      "id": "T020",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T022",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T023",
+      "got": "CRITICAL",
+      "expected": "MEDIUM"
+    },
+    {
+      "id": "T025",
+      "got": "CRITICAL",
+      "expected": "HIGH"
+    },
+    {
+      "id": "T026",
+      "got": "LOW",
+      "expected": "MEDIUM"
+    },
+    {
+      "id": "T028",
+      "got": "MEDIUM",
+      "expected": "HIGH"
+    }
+  ],
+  "amount": [
+    {
+      "id": "T003",
+      "got": null,
+      "expected": 2000
+    },
+    {
+      "id": "T004",
+      "got": 500,
+      "expected": 3500
+    },
+    {
+      "id": "T005",
+      "got": 4000,
+      "expected": null
+    },
+    {
+      "id": "T008",
+      "got": null,
+      "expected": 2250
+    },
+    {
+      "id": "T011",
+      "got": null,
+      "expected": 1000
+    },
+    {
+      "id": "T012",
+      "got": null,
+      "expected": 3000
+    },
+    {
+      "id": "T013",
+      "got": null,
+      "expected": 6000
+    },
+    {
+      "id": "T015",
+      "got": 500,
+      "expected": 2500
+    },
+    {
+      "id": "T016",
+      "got": null,
+      "expected": 3000
+    },
+    {
+      "id": "T017",
+      "got": 4000,
+      "expected": 4500
+    },
+    {
+      "id": "T019",
+      "got": 1500,
+      "expected": 1750
+    },
+    {
+      "id": "T020",
+      "got": null,
+      "expected": 950
+    },
+    {
+      "id": "T021",
+      "got": 500,
+      "expected": 3500
+    },
+    {
+      "id": "T022",
+      "got": null,
+      "expected": 2000
+    },
+    {
+      "id": "T024",
+      "got": 2500,
+      "expected": 2000
+    },
+    {
+      "id": "T027",
+      "got": 800,
+      "expected": 2800
+    },
+    {
+      "id": "T028",
+      "got": 500,
+      "expected": 3500
+    },
+    {
+      "id": "T030",
+      "got": null,
+      "expected": 3000
+    }
+  ],
+  "name": [
+    {
+      "id": "T006",
+      "got": null,
+      "expected": "David Wilson"
+    },
+    {
+      "id": "T007",
+      "got": null,
+      "expected": "Maria Garcia"
+    },
+    {
+      "id": "T008",
+      "got": "facing eviction",
+      "expected": "James Brown"
+    },
+    {
+      "id": "T017",
+      "got": null,
+      "expected": "Marcus Johnson"
+    },
+    {
+      "id": "T018",
+      "got": null,
+      "expected": "Jennifer Park"
+    },
+    {
+      "id": "T020",
+      "got": null,
+      "expected": "Rachel Martinez"
+    },
+    {
+      "id": "T021",
+      "got": null,
+      "expected": "Patricia Collins"
+    },
+    {
+      "id": "T024",
+      "got": "Brian",
+      "expected": "Brian Anderson"
+    },
+    {
+      "id": "T028",
+      "got": "calling because",
+      "expected": "Jessica Morgan"
+    },
+    {
+      "id": "T029",
+      "got": null,
+      "expected": "Carlos Ramirez"
+    }
+  ]
+}

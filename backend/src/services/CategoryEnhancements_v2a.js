@@ -50,12 +50,12 @@ class CategoryEnhancements {
   static fixTransportationMisclassification(cleanText, baseResult) {
     // Strong TRANSPORTATION indicators
     const vehicleTerms = /\b(car|vehicle|truck|auto|automobile)\b/i.test(cleanText);
-    const repairTerms = /\b(repair|fix|broke|broken|mechanic|maintenance)\b/i.test(cleanText);
+    const repairTerms = /\b(repair|repairs|fix|fixed|broke|broken|mechanic|maintenance)\b/i.test(cleanText);
     const workAccess = /\b(get to work|can't work|work access|commute|transportation)\b/i.test(cleanText);
 
     // HARD_004 specific pattern: "emergency car repairs so I can get to work"
     const emergencyCarRepair = /\b(emergency|urgent)\s+(car|vehicle)\s+(repair|fix)/i.test(cleanText);
-    const carRepairForWork = /(car|vehicle).*(repair|fix).*(work|job|commute)/i.test(cleanText);
+    const carRepairForWork = /(car|vehicle).*(repair|repairs|fix|fixed).*(work|job|commute)/i.test(cleanText);
 
     if ((vehicleTerms && repairTerms) || emergencyCarRepair || carRepairForWork) {
       // This is clearly TRANSPORTATION, not EMPLOYMENT
@@ -106,6 +106,25 @@ class CategoryEnhancements {
    * Pattern: Medical/hospital terms that should map to HEALTHCARE
    */
   static fixHealthcareMisclassification(cleanText, baseResult) {
+    // If the base category is already TRANSPORTATION with strong
+    // vehicle-repair signals, do not override it to HEALTHCARE
+    // just because medical terms are present (e.g. HARD_043-style
+    // "car repairs so I can get to work, medical appointments,
+    // and court dates"). In those cases, the primary goal is
+    // transportation (car repair), not direct medical expenses.
+    if (baseResult.category === 'TRANSPORTATION') {
+      const vehicleTerms = /\b(car|vehicle|truck|auto|automobile)\b/i.test(cleanText);
+      const repairTerms = /\b(repair|repairs|fix|fixed|broke|broken|mechanic|maintenance)\b/i.test(cleanText);
+      const transportationContext = /\b(transportation|get to work|commute|ride|bus|train)\b/i.test(cleanText);
+
+      if (vehicleTerms && repairTerms && transportationContext) {
+        // Preserve TRANSPORTATION when transcript clearly describes
+        // car/vehicle repairs for transportation access, even if
+        // medical terms are also present.
+        return { enhanced: false };
+      }
+    }
+
     // Map MEDICAL → HEALTHCARE for consistency
     if (baseResult.category === 'MEDICAL') {
       return {

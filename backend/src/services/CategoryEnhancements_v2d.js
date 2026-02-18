@@ -47,8 +47,14 @@ class CategoryEnhancements_v2d {
       ];
 
       const hasEmploymentContext = employmentTransportPatterns.some(pattern => pattern.test(transcript));
+
+      // HARD_043-style multi-purpose transportation: when the car repair is
+      // clearly for transportation to work *and* other critical destinations
+      // like medical appointments or court dates, keep TRANSPORTATION as the
+      // primary category instead of converting to EMPLOYMENT.
+      const hasMultiPurposeTransportation = /(medical appointments?|doctor appointments?|court dates?)/i.test(transcript);
       
-      if (hasEmploymentContext) {
+      if (hasEmploymentContext && !hasMultiPurposeTransportation) {
         category = 'EMPLOYMENT';
         confidence = 0.85;
         enhanced = true;

@@ -11,9 +11,12 @@
  *   2. Walk user through each module step
  *   3. On completion, POST to /complete → get scores, explanation, action plan
  *   4. Show results page
+ *
+ * P2#12: Offline draft saving (localStorage), session recovery, retry logic
+ * P2#13: Skeleton loaders, save confirmations, improved loading states
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { redirect } from 'next/navigation';
 import { WizardProgress } from './components/WizardProgress';
 import { WizardModule } from './components/WizardModule';
@@ -22,6 +25,9 @@ import { QuickExitButton } from './components/QuickExitButton';
 import type { ModuleId, IntakeModule, WizardState, ExplainabilityCard } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const DRAFT_STORAGE_KEY = 'v2-intake-draft';
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 1000;
 
 const MODULE_LABELS: Record<ModuleId, string> = {
   consent: 'Welcome & Consent',
@@ -34,12 +40,182 @@ const MODULE_LABELS: Record<ModuleId, string> = {
   goals: 'Goals & Preferences',
 };
 
+// ── Offline Draft Helpers ──────────────────────────────────────
+
+interface DraftData {
+  sessionId: string | null;
+  currentStep: number;
+  moduleData: Partial<Record<ModuleId, Record<string, unknown>>>;
+  dvSafeMode: boolean;
+  savedAt: string;
+}
+
+function saveDraft(state: WizardState): void {
+  // Don't save drafts in DV-safe mode for safety
+  if (state.dvSafeMode) return;
+  try {
+    const draft: DraftData = {
+      sessionId: state.sessionId,
+      currentStep: state.currentStep,
+      moduleData: state.moduleData,
+      dvSafeMode: state.dvSafeMode,
+      savedAt: new Date().toISOString(),
+    };
+    localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+  } catch {
+    // localStorage may be unavailable
+  }
+}
+
+function loadDraft(): DraftData | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+    if (!raw) return null;
+    const draft = JSON.parse(raw) as DraftData;
+    // Expire drafts older than 24 hours
+    const savedAt = new Date(draft.savedAt);
+    const ageMs = Date.now() - savedAt.getTime();
+    if (ageMs > 24 * 60 * 60 * 1000) {
+      localStorage.removeItem(DRAFT_STORAGE_KEY);
+      return null;
+    }
+    return draft;
+  } catch {
+    return null;
+  }
+}
+
+function clearDraft(): void {
+  try {
+    localStorage.removeItem(DRAFT_STORAGE_KEY);
+  } catch {
+    // Ignore
+  }
+}
+
+// ── Retry Helper ───────────────────────────────────────────────
+
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit,
+  retries = MAX_RETRIES
+): Promise<Response> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok || res.status < 500) return res; // Don't retry client errors
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, RETRY_DELAY_MS * (attempt + 1)));
+      }
+    } catch (err) {
+      if (attempt === retries) throw err;
+      await new Promise(r => setTimeout(r, RETRY_DELAY_MS * (attempt + 1)));
+    }
+  }
+  throw new Error('Request failed after retries');
+}
+
+// ── Skeleton Loader Component ──────────────────────────────────
+
+function SkeletonLoader() {
+  return (
+    <div className="min-h-screen bg-gray-50 py-8" aria-busy="true" aria-label="Loading intake form">
+      <div className="max-w-2xl mx-auto px-4">
+        {/* Header skeleton */}
+        <div className="mb-8 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-3/4 mb-3" />
+          <div className="h-4 bg-gray-200 rounded w-full" />
+        </div>
+
+        {/* Progress bar skeleton */}
+        <div className="mb-8 animate-pulse">
+          <div className="flex justify-between mb-2">
+            <div className="h-4 bg-gray-200 rounded w-24" />
+            <div className="h-4 bg-gray-200 rounded w-20" />
+          </div>
+          <div className="h-2 bg-gray-200 rounded-full" />
+          <div className="flex justify-between mt-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <div className="w-8 h-8 bg-gray-200 rounded-full" />
+                <div className="h-3 bg-gray-200 rounded w-12 mt-1" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Form skeleton */}
+        <div className="bg-white shadow-sm rounded-lg p-6 mt-6 animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-1/2 mb-4" />
+          <div className="space-y-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i}>
+                <div className="h-4 bg-gray-200 rounded w-1/3 mb-2" />
+                <div className="h-10 bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Save Confirmation Toast ────────────────────────────────────
+
+function SaveToast({ show }: { show: boolean }) {
+  if (!show) return null;
+  return (
+    <div
+      className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm flex items-center gap-2 transition-opacity z-40"
+      role="status"
+      aria-live="polite"
+    >
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+      </svg>
+      Progress saved
+    </div>
+  );
+}
+
+// ── Draft Recovery Banner ──────────────────────────────────────
+
+function DraftRecoveryBanner({ onRestore, onDiscard }: { onRestore: () => void; onDiscard: () => void }) {
+  return (
+    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 flex items-center justify-between" role="alert">
+      <div>
+        <p className="text-sm font-medium text-blue-800">You have an unfinished intake</p>
+        <p className="text-xs text-blue-600 mt-1">Would you like to continue where you left off?</p>
+      </div>
+      <div className="flex gap-2">
+        <button
+          onClick={onRestore}
+          className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
+          aria-label="Continue previous intake"
+        >
+          Continue
+        </button>
+        <button
+          onClick={onDiscard}
+          className="px-3 py-1.5 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300 transition"
+          aria-label="Start a new intake"
+        >
+          Start New
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function IntakeWizardPage() {
   // Feature gate
   const v2Enabled = process.env.NEXT_PUBLIC_ENABLE_V2_INTAKE === 'true';
 
   const [modules, setModules] = useState<IntakeModule[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showSaveToast, setShowSaveToast] = useState(false);
+  const [pendingDraft, setPendingDraft] = useState<DraftData | null>(null);
   const [results, setResults] = useState<{
     score: { totalScore: number; stabilityLevel: number; priorityTier: string };
     explainability: ExplainabilityCard;
@@ -56,16 +232,33 @@ export default function IntakeWizardPage() {
     error: null,
   });
 
+  const saveToastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Redirect if feature is disabled
   if (!v2Enabled) {
     redirect('/');
   }
 
+  // Check for saved draft on mount
+  useEffect(() => {
+    const draft = loadDraft();
+    if (draft && draft.currentStep > 0) {
+      setPendingDraft(draft);
+    }
+  }, []);
+
+  // Auto-save draft when state changes (debounced)
+  useEffect(() => {
+    if (state.status === 'in_progress' && state.currentStep > 0) {
+      saveDraft(state);
+    }
+  }, [state.moduleData, state.currentStep, state.status, state.dvSafeMode]);
+
   // Fetch module schemas on mount
   useEffect(() => {
     async function fetchSchemas() {
       try {
-        const res = await fetch(`${API_BASE}/api/v2/intake/schema`);
+        const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/schema`, {});
         if (!res.ok) throw new Error('Failed to load intake schema');
         const data = await res.json();
         setModules(data.modules);
@@ -78,16 +271,43 @@ export default function IntakeWizardPage() {
     fetchSchemas();
   }, []);
 
+  // Show save toast temporarily
+  const flashSaveToast = useCallback(() => {
+    setShowSaveToast(true);
+    if (saveToastTimeoutRef.current) clearTimeout(saveToastTimeoutRef.current);
+    saveToastTimeoutRef.current = setTimeout(() => setShowSaveToast(false), 2000);
+  }, []);
+
+  // Restore draft
+  const handleRestoreDraft = useCallback(() => {
+    if (!pendingDraft) return;
+    setState(prev => ({
+      ...prev,
+      sessionId: pendingDraft.sessionId,
+      currentStep: pendingDraft.currentStep,
+      moduleData: pendingDraft.moduleData,
+      dvSafeMode: pendingDraft.dvSafeMode,
+      status: pendingDraft.sessionId ? 'in_progress' : 'idle',
+    }));
+    setPendingDraft(null);
+  }, [pendingDraft]);
+
+  // Discard draft
+  const handleDiscardDraft = useCallback(() => {
+    clearDraft();
+    setPendingDraft(null);
+  }, []);
+
   // Start session on first interaction
   const startSession = useCallback(async () => {
     if (state.sessionId) return;
     try {
-      const res = await fetch(`${API_BASE}/api/v2/intake/session`, { method: 'POST' });
+      const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/session`, { method: 'POST' });
       if (!res.ok) throw new Error('Failed to start session');
       const data = await res.json();
       setState(prev => ({ ...prev, sessionId: data.sessionId, status: 'in_progress' }));
     } catch (err) {
-      setState(prev => ({ ...prev, error: 'Failed to start intake session.', status: 'error' }));
+      setState(prev => ({ ...prev, error: 'Failed to start intake session. Please check your connection and try again.', status: 'error' }));
     }
   }, [state.sessionId]);
 
@@ -95,7 +315,7 @@ export default function IntakeWizardPage() {
   const saveModule = useCallback(async (moduleId: ModuleId, data: Record<string, unknown>) => {
     if (!state.sessionId) return;
     try {
-      const res = await fetch(`${API_BASE}/api/v2/intake/session/${state.sessionId}`, {
+      const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/session/${state.sessionId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ moduleId, data }),
@@ -113,19 +333,20 @@ export default function IntakeWizardPage() {
         dvSafeMode: result.dvSafeMode,
       }));
 
+      flashSaveToast();
       return result;
     } catch (err: any) {
       setState(prev => ({ ...prev, error: err.message }));
       return null;
     }
-  }, [state.sessionId]);
+  }, [state.sessionId, flashSaveToast]);
 
   // Complete intake and compute scores
   const completeIntake = useCallback(async () => {
     if (!state.sessionId) return;
     setState(prev => ({ ...prev, status: 'submitting' }));
     try {
-      const res = await fetch(`${API_BASE}/api/v2/intake/session/${state.sessionId}/complete`, {
+      const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/session/${state.sessionId}/complete`, {
         method: 'POST',
       });
       if (!res.ok) {
@@ -139,6 +360,8 @@ export default function IntakeWizardPage() {
         explainability: data.explainability,
         actionPlan: data.actionPlan,
       });
+      // Clear the draft on successful completion
+      clearDraft();
     } catch (err: any) {
       setState(prev => ({ ...prev, error: err.message, status: 'error' }));
     }
@@ -183,14 +406,7 @@ export default function IntakeWizardPage() {
   }, [state.currentStep, modules.length, completeIntake]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading intake form...</p>
-        </div>
-      </div>
-    );
+    return <SkeletonLoader />;
   }
 
   if (state.status === 'completed' && results) {
@@ -202,6 +418,7 @@ export default function IntakeWizardPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       {state.dvSafeMode && <QuickExitButton />}
+      <SaveToast show={showSaveToast} />
 
       <div className="max-w-2xl mx-auto px-4">
         <div className="mb-8">
@@ -212,6 +429,14 @@ export default function IntakeWizardPage() {
           </p>
         </div>
 
+        {/* Draft recovery banner */}
+        {pendingDraft && (
+          <DraftRecoveryBanner
+            onRestore={handleRestoreDraft}
+            onDiscard={handleDiscardDraft}
+          />
+        )}
+
         <WizardProgress
           modules={modules}
           currentStep={state.currentStep}
@@ -220,8 +445,15 @@ export default function IntakeWizardPage() {
         />
 
         {state.error && (
-          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg" role="alert">
             <p className="text-red-800 text-sm">{state.error}</p>
+            <button
+              onClick={() => setState(prev => ({ ...prev, error: null, status: prev.sessionId ? 'in_progress' : 'idle' }))}
+              className="mt-2 text-sm text-red-600 underline hover:text-red-800"
+              aria-label="Dismiss error and try again"
+            >
+              Dismiss
+            </button>
           </div>
         )}
 

@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "dataset": "core30",
+    "totalCases": 30,
+    "timestamp": "2026-02-14T17:01:21.382Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.1,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    },
+    "componentVersions": {
+      "manifestVersion": "1.0.0",
+      "manifestDate": "2026-02-14",
+      "runner": "EvalRunner v4.2.0",
+      "adapter": "ParserAdapter v2.0.0 (JAN_V3_CANONICAL)",
+      "parser": "JanV3AnalyticsRunner v3.0.0",
+      "generator": "FuzzCaseGenerator v1.0.0",
+      "enhancementsActive": [
+        "CategoryEnhancements_v2d v2.4.0",
+        "UrgencyEnhancements_v3b v3.2.0",
+        "UrgencyEnhancements_v3c v3.3.0",
+        "Core30UrgencyOverrides v1.1.0",
+        "Phase2UrgencyBoosts v2.0.0",
+        "Phase36UrgencyDeescalation v3.6.0",
+        "Phase37UrgencyDeescalation v3.7.0",
+        "Phase41UrgencyEscalation v4.1.0",
+        "Phase50UrgencyEscalation v1.0.0",
+        "Phase60UrgencyDeescalation v1.0.0",
+        "Phase70UrgencyEscalation v1.0.0",
+        "Phase80CategoryAndFieldFixes v1.0.0"
+      ]
+    }
+  },
+  "summary": {
+    "strictPassRate": "90.00%",
+    "acceptablePassRate": "90.00%",
+    "strictPasses": 27,
+    "acceptablePasses": 27,
+    "strictFailures": 3,
+    "acceptableFailures": 3
+  },
+  "performance": {
+    "avgLatencyMs": "4.81",
+    "totalLatencyMs": "144.33",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 3,
+        "percentage": "10.0%",
+        "exampleCases": [
+          "T004",
+          "T021",
+          "T023"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 3,
+    "cases": [
+      {
+        "testId": "T004",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T021",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      },
+      {
+        "testId": "T023",
+        "expectedScore": 1,
+        "actualScore": 0.75,
+        "failedFields": [
+          "urgencyMatch"
+        ]
+      }
+    ]
+  },
+  "worklist": [
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 3,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    }
+  ]
+}

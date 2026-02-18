@@ -18,12 +18,25 @@ const NAME_REJECT_PATTERNS: ReadonlyArray<RegExp> = Object.freeze([
   /^(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)$/i,
   /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)$/i,
   
+  // Phase 2B: Housing/situation phrases (false positives from T008, T028)
+  /^(facing\s+eviction|calling\s+because|eviction\s+notice|losing\s+my|lost\s+my|getting\s+evicted)$/i,
+  /^(housing\s+issues|financial\s+problems|money\s+troubles|can't\s+afford)$/i,
+  
+  // Phase 2B: Action phrases that sound like names
+  /^(trying\s+to|looking\s+for|hoping\s+to|need\s+to|want\s+to|have\s+to)$/i,
+  /^(working\s+on|dealing\s+with|struggling\s+with|going\s+through)$/i,
+  
   // Common false positives
   /^(critical|urgent|emergency|important|needed|struggling|difficult|desperate)$/i,
   /^(help|need|want|trying|looking|asking|hoping)$/i,
   /^(here|there|where|when|what|how|why|who)$/i,
   /^(good|bad|okay|fine|great|terrible|awful)$/i,
   /^(today|tomorrow|yesterday|now|then|soon)$/i,
+  
+  // Skill/descriptive phrases (major bug fix)
+  /^(good at|bad at|skilled at|experienced in|expert in|familiar with)$/i,
+  /^(customer service|retail|sales|management|administration|food service)$/i,
+  /^(working|feeling|getting|going|looking for|trying to)$/i,
 ]);
 
 const NAME_CONTEXT_REJECT: ReadonlyArray<RegExp> = Object.freeze([
@@ -85,14 +98,23 @@ const COMPILED_EXTRACTION_PATTERNS: Readonly<{
   relationship: ReadonlyArray<RegExp>;
 }> = Object.freeze({
   name: Object.freeze([
-    // Basic patterns first (most common)
+    // Phase 2A: Common introduction patterns (highest priority)
+    /(?:hello,?\s+my name is|hi,?\s+i'm|hi,?\s+i am)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!and\b|but\b|or\b|from\b|years?\b|speaking|here|calling)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:and|but|or|from)|,|\.|$|'s|;)/i,
+    // Phase 2B: Additional introduction patterns for remaining cases
+    /(?:good (?:morning|afternoon|evening),?\s+(?:this )?is|yeah,?\s+(?:this )?is|oh,?\s+i'm)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|here|calling)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:speaking|calling|and|but|or)|,|\.|$|'s|;)/i,
+    /(?:my name's|i go by|they call me|everyone calls me)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|here|calling)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:and|but|or)|,|\.|$|'s|;)/i,
+    // Basic patterns (most common)
     /(?:my (?:full )?name(?:'s| is))\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!and\b|but\b|or\b|from\b|years?\b|dollars?\b|per\b|avenue\b|street\b|road\b|drive\b|way\b|lane\b|court\b|place\b|texas\b|california\b|florida\b|oregon\b|york\b|I\b|need\b|want\b|help\b)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:and|but|or|from|I|need|want|help)|,|\.|$|'s|;)/i,
-    // "I'm Maria Garcia" - capture full name (up to 4 parts)
-    /(?:i'm|i am)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|here|and|but|or|from|years?)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,3})(?=\s+(?:and|but|or|from)|,|\.|$|'s|;|\s+\d)/i,
-    // "This is Dr. James Wilson" or "This is Jennifer Wilson" - handle with or without titles
-    /(?:this is|here is)\s+(?:(?:Dr\.|Mr\.|Mrs\.|Ms\.|Rev\.|Captain)\s+)?([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:speaking|MD|Jr|Sr|PhD|and|but|or|here)|,|\.|$|'s|;)/i,
+    // "I'm Maria Garcia" - capture full name (up to 4 parts), exclude skill descriptions
+    /(?:i'm|i am)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|here|and|but|or|from|years?|good|bad|great|terrible|awful|amazing|excellent|skilled|experienced|looking|trying|working|feeling|getting|going|a)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,3})(?=\s+(?:and|but|or|from)|,|\.|$|'s|;|\s+\d)/i,
+    // "This is Dr. James Wilson" or "This is Jennifer Wilson" - FIXED: exclude "speaking"/"here" from capture
+    /(?:this is|here is)\s+(?:(?:Dr\.|Mr\.|Mrs\.|Ms\.|Rev\.|Captain)\s+)?([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|calling|here|MD|Jr|Sr|PhD|and|but|or)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:speaking|calling|MD|Jr|Sr|PhD|and|but|or|here)|,|\.|$|'s|;)/i,
     // "Call me Robert Johnson"
     /(?:call me|you can call me)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|here|and|but)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,3})(?=\.|,|$|\s+and)/i,
+    // "Thomas Anderson speaking" or "David Smith here" - name before speaking/here
+    /\b([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){1,2})\s+(?:speaking|here)(?=\s|,|\.|$)/i,
+    // "Name is David Kim" - simple name statement  
+    /(?:name is|my name)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\.|,|$|\s+and)/i,
     // Title extraction: "My name is Dr. Sarah Thompson" - extract name after title
     /(?:my (?:full )?name(?:'s| is))\s+(?:Dr\.|Mr\.|Mrs\.|Ms\.|Rev\.|Prof\.|Captain|Major|Colonel)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:MD|Jr|Sr|PhD|and|but|or|here)|,|\.|$|'s|;)/i,
     // "I'm Rev. Michael Johnson Jr." - title in I'm context
@@ -170,14 +192,24 @@ const COMPILED_NEEDS_KEYWORDS = new Map(Object.entries(Object.freeze({
   HOUSING: Object.freeze(['housing', 'shelter', 'homeless', 'eviction', 'evicted', 'rent', 'apartment', 'room', 'place to stay', 'living situation', 'housing insecurity', 'couch surfing', 'transitional', 'nowhere to live', 'facing eviction']),
   FOOD: Object.freeze(['food', 'hungry', 'meal', 'eat', 'nutrition', 'pantry', 'food bank', 'groceries', 'food stamps', 'snap', 'feeding']),
   EMPLOYMENT: Object.freeze(['job', 'work', 'employment', 'unemployed', 'income', 'paycheck', 'career', 'hire', 'hiring', 'looking for work', 'need a job', 'laid off', 'fired', 'lost my job', 'get back to work']),
-  JOBS: Object.freeze(['job', 'work', 'employment', 'unemployed', 'income', 'paycheck', 'career', 'hire', 'hiring', 'looking for work', 'need a job']),
+  // Phase 1B: JOBS removed — all 11 keywords were duplicates of EMPLOYMENT (double-counting inflated employment scores)
   HEALTHCARE: Object.freeze(['medical', 'health', 'healthcare', 'doctor', 'hospital', 'medicine', 'medication', 'sick', 'illness', 'injury', 'treatment', 'clinic', 'dental', 'medications', 'prescription', 'prescriptions', 'ptsd', 'veteran', 'declining']),
   SAFETY: Object.freeze(['safe', 'safety', 'abuse', 'violence', 'domestic violence', 'assault', 'threatened', 'danger', 'protection']),
   EDUCATION: Object.freeze(['education', 'school', 'training', 'ged', 'diploma', 'college', 'university', 'learn', 'classes']),
   TRANSPORTATION: Object.freeze(['transportation', 'bus', 'car', 'vehicle', 'ride', 'transit', 'get around', 'commute']),
-  CHILDCARE: Object.freeze(['childcare', 'daycare', 'children', 'kids', 'child', 'babysitter', 'care for children', 'need childcare', 'my kids']),
+  CHILDCARE: Object.freeze(['childcare', 'daycare', 'babysitter', 'care for children', 'need childcare']),
   LEGAL: Object.freeze(['legal', 'lawyer', 'attorney', 'court', 'case', 'charges', 'record', 'expungement']),
   MENTAL_HEALTH: Object.freeze(['mental health', 'depression', 'anxiety', 'ptsd', 'trauma', 'counseling', 'therapy', 'therapist']),
+  // Phase 1C: New categories to close vocabulary gap (76 failures)
+  EMERGENCY: Object.freeze(['emergency', 'crisis', 'fire', 'flood', 'disaster', 'emergency shelter', 'natural disaster', 'tornado', 'hurricane', 'earthquake', 'displaced', 'evacuation', 'red cross', 'fema', 'catastrophe']),
+  UTILITIES: Object.freeze(['utilities', 'electric', 'electricity', 'gas bill', 'water bill', 'power bill', 'heating', 'utility bill', 'shut off', 'disconnection', 'energy assistance', 'liheap', 'weatherization']),
+  FAMILY: Object.freeze(['family', 'children', 'kids', 'child', 'parenting', 'custody', 'family support', 'family services', 'reunification', 'foster', 'my kids', 'wedding', 'ceremony', 'celebration', 'marriage', 'funeral', 'family event']),
+  // Additional categories for remaining vocabulary gaps
+  FINANCIAL: Object.freeze(['financial', 'money', 'cash', 'financial assistance', 'financial help', 'financial support', 'debt', 'bills', 'budget', 'economic hardship']),
+  CLOTHING: Object.freeze(['clothes', 'clothing', 'apparel', 'dress', 'outfit', 'garments', 'wardrobe', 'clothing assistance']),
+  // Phase 5: GENERAL and OTHER are catch-all categories with NO keywords (selected only when nothing else matches)
+  GENERAL: Object.freeze([]),
+  OTHER: Object.freeze([]),
 })));
 
 /**
@@ -345,14 +377,24 @@ export const NEEDS_KEYWORDS: NeedsKeywords = {
   HOUSING: ['housing', 'shelter', 'homeless', 'eviction', 'evicted', 'rent', 'apartment', 'room', 'place to stay', 'living situation', 'housing insecurity', 'couch surfing', 'transitional', 'nowhere to live', 'facing eviction'],
   FOOD: ['food', 'hungry', 'meal', 'eat', 'nutrition', 'pantry', 'food bank', 'groceries', 'food stamps', 'snap', 'feeding'],
   EMPLOYMENT: ['job', 'work', 'employment', 'unemployed', 'income', 'paycheck', 'career', 'hire', 'hiring', 'looking for work', 'need a job', 'laid off', 'fired', 'lost my job', 'get back to work'],
-  JOBS: ['job', 'work', 'employment', 'unemployed', 'income', 'paycheck', 'career', 'hire', 'hiring', 'looking for work', 'need a job'],
+  // Phase 1B: JOBS removed — duplicate of EMPLOYMENT
   HEALTHCARE: ['medical', 'health', 'healthcare', 'doctor', 'hospital', 'medicine', 'medication', 'sick', 'illness', 'injury', 'treatment', 'clinic', 'dental', 'medications', 'prescription', 'prescriptions', 'ptsd', 'veteran', 'declining'],
   SAFETY: ['safe', 'safety', 'abuse', 'violence', 'domestic violence', 'assault', 'threatened', 'danger', 'protection'],
   EDUCATION: ['education', 'school', 'training', 'ged', 'diploma', 'college', 'university', 'learn', 'classes'],
   TRANSPORTATION: ['transportation', 'bus', 'car', 'vehicle', 'ride', 'transit', 'get around', 'commute'],
-  CHILDCARE: ['childcare', 'daycare', 'children', 'kids', 'child', 'babysitter', 'care for children', 'need childcare', 'my kids'],
+  CHILDCARE: ['childcare', 'daycare', 'babysitter', 'care for children', 'need childcare'],
   LEGAL: ['legal', 'lawyer', 'attorney', 'court', 'case', 'charges', 'record', 'expungement'],
   MENTAL_HEALTH: ['mental health', 'depression', 'anxiety', 'ptsd', 'trauma', 'counseling', 'therapy', 'therapist'],
+  // Phase 1C: New categories
+  EMERGENCY: ['emergency', 'crisis', 'fire', 'flood', 'disaster', 'emergency shelter', 'natural disaster', 'tornado', 'hurricane', 'earthquake', 'displaced', 'evacuation', 'red cross', 'fema', 'catastrophe'],
+  UTILITIES: ['utilities', 'electric', 'electricity', 'gas bill', 'water bill', 'power bill', 'heating', 'utility bill', 'shut off', 'disconnection', 'energy assistance', 'liheap', 'weatherization'],
+  FAMILY: ['family', 'children', 'kids', 'child', 'parenting', 'custody', 'family support', 'family services', 'reunification', 'foster', 'my kids', 'wedding', 'ceremony', 'celebration', 'marriage', 'funeral', 'family event'],
+  // Additional categories for vocabulary gaps
+  FINANCIAL: ['financial', 'money', 'cash', 'financial assistance', 'financial help', 'financial support', 'debt', 'bills', 'budget', 'economic hardship'],
+  CLOTHING: ['clothes', 'clothing', 'apparel', 'dress', 'outfit', 'garments', 'wardrobe', 'clothing assistance'],
+  // Phase 5: GENERAL and OTHER are catch-all categories with NO keywords (selected only when nothing else matches)
+  GENERAL: [],
+  OTHER: [],
 };
 
 export interface SkillsKeywords {
@@ -1223,17 +1265,140 @@ export function scoreKeywords(transcript: string, keywords: string[]): number {
  * Extract urgent needs from transcript using keyword scoring
  */
 export function extractNeeds(transcript: string, topN: number = 3): string[] {
+  const normalized = transcript.toLowerCase();
   const scores: Array<{ need: string; score: number }> = [];
   
+  // Phase 4C: Category priority tiers — life-threatening categories override keyword frequency
+  const PRIORITY_TIERS = {
+    CRITICAL: ['SAFETY'],           // Tier 1: Life-threatening (domestic violence, abuse)
+    HIGH: ['EMERGENCY'],            // Tier 2: Urgent crisis (fire, flood, disaster)
+    MEDIUM: ['HEALTHCARE', 'HOUSING', 'LEGAL'],  // Tier 3: Essential needs
+    LOW: ['EMPLOYMENT', 'EDUCATION', 'FAMILY', 'UTILITIES', 'TRANSPORTATION', 'CHILDCARE', 'MENTAL_HEALTH', 'FOOD'],
+    FALLBACK: ['FINANCIAL', 'CLOTHING', 'GENERAL']  // Tier 5: Catch-all categories
+  };
+  
+  // Phase 4C: Negation patterns — subtract score if category is explicitly negated
+  const negationPatterns = [
+    { category: 'HEALTHCARE', patterns: ['not medical', 'not health', "isn't medical", "isn't health", 'not a medical'] },
+    { category: 'HOUSING', patterns: ['not housing', "isn't housing", 'not about housing', 'not related to housing'] },
+    { category: 'EMPLOYMENT', patterns: ['not job', 'not employment', 'not work related'] },
+    { category: 'LEGAL', patterns: ['not legal', "isn't legal", 'not a legal'] },
+  ];
+  
+  // Phase 4C: Explicit category markers — strong boost when category is explicitly stated
+  const explicitMarkers = [
+    { category: 'EMERGENCY', patterns: ['this is an emergency', 'emergency situation', 'emergency!', 'crisis!'] },
+    { category: 'SAFETY', patterns: ['domestic violence', 'violent', 'abuse', 'threatened', 'danger', 'need to escape', 'need to get out'] },
+    { category: 'LEGAL', patterns: ['need legal', 'lawyer', 'attorney', 'court case', 'legal help'] },
+  ];
+  
+  // Phase 5: Employment context suppression — when job loss is mentioned but actual need is different
+  const employmentContextPatterns = [
+    'lost my job', 'got laid off', 'got fired', 'unemployed', 'need a job', 'looking for work'
+  ];
+  const primaryNeedIndicators = [
+    { category: 'HOUSING', patterns: ['rent', 'apartment', 'eviction', 'evicted', 'housing', 'place to stay'] },
+    { category: 'EDUCATION', patterns: ['tuition', 'school', 'training', 'certification', 'degree', 'program', 'classes'] },
+    { category: 'HEALTHCARE', patterns: ['medical', 'hospital', 'doctor', 'surgery', 'medication', 'treatment'] },
+  ];
+  
+  // Detect if employment is just context vs. primary need
+  let employmentIsContext = false;
+  for (const marker of primaryNeedIndicators) {
+    for (const pattern of marker.patterns) {
+      if (normalized.includes(pattern)) {
+        // Primary need indicator found, check if employment also mentioned
+        for (const empPattern of employmentContextPatterns) {
+          if (normalized.includes(empPattern)) {
+            employmentIsContext = true;
+            break;
+          }
+        }
+        break;
+      }
+    }
+    if (employmentIsContext) break;
+  }
+  
+  // Score each category by keyword frequency
   for (const [need, keywords] of Object.entries(NEEDS_KEYWORDS)) {
-    const score = scoreKeywords(transcript, keywords);
+    let score = scoreKeywords(transcript, keywords);
+    
+    // Phase 5: Suppress EMPLOYMENT when it's just context (e.g., "lost my job but need rent")
+    if (need === 'EMPLOYMENT' && employmentIsContext && score > 0) {
+      score = Math.max(score - 5, 0); // Heavy penalty but not elimination
+    }
+    
+    // Apply negation penalty (-100 effectively removes category from consideration)
+    for (const negation of negationPatterns) {
+      if (negation.category === need) {
+        for (const pattern of negation.patterns) {
+          if (normalized.includes(pattern)) {
+            score -= 100;
+            break; // One negation is enough
+          }
+        }
+      }
+    }
+    
+    // Apply explicit marker boost (+50 makes it highly competitive)
+    for (const marker of explicitMarkers) {
+      if (marker.category === need) {
+        for (const pattern of marker.patterns) {
+          if (normalized.includes(pattern)) {
+            score += 50;
+            break;
+          }
+        }
+      }
+    }
+    
     if (score > 0) {
       scores.push({ need, score });
     }
   }
   
+  // Phase 5: If no category scored (all zero), return OTHER as ultimate fallback
+  if (scores.length === 0 || scores.every(s => s.score <= 0)) {
+    return ['OTHER'];
+  }
+  
   // Sort by score descending
   scores.sort((a, b) => b.score - a.score);
+  
+  // Phase 4C: Priority tier enforcement — if a higher-tier category scores reasonably well, it wins
+  const tierOrder = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'FALLBACK'];
+  const categoryTier = (category: string): number => {
+    for (let i = 0; i < tierOrder.length; i++) {
+      if (PRIORITY_TIERS[tierOrder[i] as keyof typeof PRIORITY_TIERS].includes(category)) {
+        return i;
+      }
+    }
+    return tierOrder.length; // Unknown categories go last
+  };
+  
+  // Get top score for reference
+  const topScore = scores.length > 0 ? scores[0].score : 0;
+  
+  // Re-sort with priority tier logic: higher tier wins if score is within 30% of top score
+  scores.sort((a, b) => {
+    const aTier = categoryTier(a.need);
+    const bTier = categoryTier(b.need);
+    
+    // If both categories score reasonably well (within 30% of top)
+    const aCompetitive = a.score >= topScore * 0.7;
+    const bCompetitive = b.score >= topScore * 0.7;
+    
+    if (aCompetitive && bCompetitive) {
+      // Both competitive — higher priority tier wins
+      if (aTier !== bTier) {
+        return aTier - bTier; // Lower tier number = higher priority
+      }
+    }
+    
+    // Otherwise fall back to score-based sorting
+    return b.score - a.score;
+  });
   
   // Return top N needs
   return scores.slice(0, topN).map(s => s.need);

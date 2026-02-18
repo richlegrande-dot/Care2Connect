@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "dataset": "hard60",
+    "totalCases": 60,
+    "timestamp": "2026-02-16T19:28:04.332Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.1,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    },
+    "componentVersions": {
+      "manifestVersion": "1.0.0",
+      "manifestDate": "2026-02-14",
+      "runner": "EvalRunner v4.2.0",
+      "adapter": "ParserAdapter v2.0.0 (JAN_V3_CANONICAL)",
+      "parser": "JanV3AnalyticsRunner v3.0.0",
+      "generator": "FuzzCaseGenerator v1.0.0",
+      "enhancementsActive": [
+        "CategoryEnhancements_v2d v2.4.0",
+        "UrgencyEnhancements_v3b v3.2.0",
+        "UrgencyEnhancements_v3c v3.3.0",
+        "Core30UrgencyOverrides v1.1.0",
+        "Phase2UrgencyBoosts v2.0.0",
+        "Phase36UrgencyDeescalation v3.6.0",
+        "Phase37UrgencyDeescalation v3.7.0",
+        "Phase41UrgencyEscalation v4.1.0",
+        "Phase50UrgencyEscalation v1.0.0",
+        "Phase60UrgencyDeescalation v1.0.0",
+        "Phase70UrgencyEscalation v1.0.0",
+        "Phase80CategoryAndFieldFixes v1.1.0"
+      ]
+    }
+  },
+  "summary": {
+    "strictPassRate": "86.67%",
+    "acceptablePassRate": "86.67%",
+    "strictPasses": 52,
+    "acceptablePasses": 52,
+    "strictFailures": 8,
+    "acceptableFailures": 8
+  },
+  "performance": {
+    "avgLatencyMs": "3.03",
+    "totalLatencyMs": "181.91",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 5,
+        "percentage": "8.3%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_005",
+          "HARD_010"
+        ]
+      },
+      {
+        "bucket": "amount_wrong_selection",
+        "description": "Wrong amount selected from multiple numbers",
+        "count": 3,
+        "percentage": "5.0%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_003",
+          "HARD_006"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 1,
+        "percentage": "1.7%",
+        "exampleCases": [
+          "HARD_032"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 5,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "amount_wrong_selection",
+      "priority": "LOW",
+      "affectedCases": 3,
+      "suggestedFix": "Review amount selection strategy; may need context-aware selection",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    }
+  ]
+}

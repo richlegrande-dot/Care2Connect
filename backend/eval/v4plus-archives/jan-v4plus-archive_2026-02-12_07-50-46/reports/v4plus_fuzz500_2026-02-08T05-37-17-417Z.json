@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "dataset": "fuzz500",
+    "totalCases": 500,
+    "timestamp": "2026-02-08T05:37:17.412Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "80.20%",
+    "acceptablePassRate": "80.20%",
+    "strictPasses": 401,
+    "acceptablePasses": 401,
+    "strictFailures": 99,
+    "acceptableFailures": 99
+  },
+  "performance": {
+    "avgLatencyMs": "5.94",
+    "totalLatencyMs": "2970.52",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "category_wrong",
+        "description": "Incorrect category selected",
+        "count": 41,
+        "percentage": "8.2%",
+        "exampleCases": [
+          "FUZZ_034",
+          "FUZZ_035",
+          "FUZZ_040"
+        ]
+      },
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 28,
+        "percentage": "5.6%",
+        "exampleCases": [
+          "FUZZ_003",
+          "FUZZ_013",
+          "FUZZ_025"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 15,
+        "percentage": "3.0%",
+        "exampleCases": [
+          "FUZZ_094",
+          "FUZZ_137",
+          "FUZZ_161"
+        ]
+      },
+      {
+        "bucket": "amount_missing",
+        "description": "Amount not extracted when present",
+        "count": 12,
+        "percentage": "2.4%",
+        "exampleCases": [
+          "FUZZ_130",
+          "FUZZ_174",
+          "FUZZ_195"
+        ]
+      },
+      {
+        "bucket": "name_wrong",
+        "description": "Completely incorrect name extracted",
+        "count": 9,
+        "percentage": "1.8%",
+        "exampleCases": [
+          "FUZZ_006",
+          "FUZZ_037",
+          "FUZZ_074"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 4,
+        "percentage": "0.8%",
+        "exampleCases": [
+          "FUZZ_048",
+          "FUZZ_132",
+          "FUZZ_279"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "category_wrong",
+      "priority": "HIGH",
+      "affectedCases": 41,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "HIGH",
+      "affectedCases": 28,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "HIGH",
+      "affectedCases": 15,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "amount_missing",
+      "priority": "HIGH",
+      "affectedCases": 12,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "name_wrong",
+      "priority": "MEDIUM",
+      "affectedCases": 9,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 4,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    }
+  ]
+}

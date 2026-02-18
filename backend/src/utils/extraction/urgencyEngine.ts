@@ -45,9 +45,14 @@ class ExplicitUrgencyLayer {
     'serious', 'severe', 'desperate', 'really need', 'badly need'
   ];
 
+  // Phase 6D: Removed from MEDIUM (too high) — baseline signal for these ubiquitous words
+  private readonly BASELINE_EXPLICIT = [
+    'help', 'need', 'assistance', 'support'
+  ];
+
+  // Phase 6C: Remaining medium-urgency indicators
   private readonly MEDIUM_EXPLICIT = [
-    'help', 'assistance', 'support', 'need', 'struggling',
-    'difficult', 'hard time', 'challenging'
+    'struggling', 'difficult', 'hard time', 'challenging'
   ];
 
   // **v4.0 CRITICAL**: LOW urgency indicators (planned/non-urgent)
@@ -87,11 +92,20 @@ class ExplicitUrgencyLayer {
       }
     }
 
+    // Baseline explicit markers — ubiquitous in social services, tiny signal
+    // Phase 6D: Provides minimal floor instead of full removal (Phase 6C)
+    for (const phrase of this.BASELINE_EXPLICIT) {
+      if (lowerText.includes(phrase)) {
+        score = Math.max(score, 0.18);  // Phase 6D v3: Raised from 0.12 — need sufficient floor for TRUE_HIGH cases to reach HIGH threshold
+        reasons.push(`explicit_baseline: ${phrase}`);
+      }
+    }
+
     // Medium explicit markers - ONLY if no LOW detected (v4.0 refinement)
     if (score < 0.2) { // No LOW detected
       for (const phrase of this.MEDIUM_EXPLICIT) {
         if (lowerText.includes(phrase)) {
-          score = Math.max(score, 0.40);  // Reduced from 0.55 to prevent over-triggering
+          score = Math.max(score, 0.28);  // Phase 6C: Reduced from 0.40
           reasons.push(`explicit_medium: ${phrase}`);
         }
       }
@@ -126,21 +140,32 @@ class ContextualUrgencyLayer {
     'security deposit', 'security deposit needed', 'need security deposit'
   ];
 
-  private readonly HIGH_CONTEXTS = [
-    'behind on payments', 'bills piling up', 'credit maxed out', 'lost my job', 'unemployed',
-    'overdue bills', 'late payments', 'collections', 'behind on rent', 'rent is due', 'rent overdue',
-    'medical bills', 'prescription needed', 'treatment needed', 'can\'t afford medication', 'no insurance',
+  // Phase 6C: Split HIGH_CONTEXTS into two tiers to improve score discrimination
+  // TRUE_HIGH: Situations with genuine escalated urgency (financial crisis, depleted resources)
+  private readonly TRUE_HIGH_CONTEXTS = [
+    'behind on payments', 'bills piling up', 'credit maxed out',
+    'overdue bills', 'late payments', 'collections', 'behind on rent', 'rent overdue',
+    'prescription needed', 'can\'t afford medication', 'no insurance',
     'insurance denied', 'claim rejected', 'appeal deadline', 'car broke down', 'no transportation',
     'medication running out', 'out of medication', 'child hungry', 'children hungry', 'no food',
-    'can\'t feed', 'need help', 'struggling', 'financial crisis', 'emergency', 'desperate',
-    'can\'t pay bills', 'bills due', 'behind on bills', 'debt', 'no income', 'out of work',
-    'savings are gone', 'no savings', 'out of savings', 'jobless', 'laid off', 'fired',
+    'can\'t feed', 'financial crisis', 'desperate',
+    'can\'t pay bills', 'behind on bills', 'no income', 'out of work',
+    'savings are gone', 'no savings', 'out of savings',
+    'can\'t afford', 'can\'t pay', 'can\'t make rent', 'can\'t buy food', 'running out of money',
+    'hungry', 'starving', 'no groceries', 'out of food'
+  ];
+
+  // MODERATE: Situational context words that indicate need but not escalated urgency
+  // Phase 6C: Moved from HIGH to prevent over-assessment of routine intake calls
+  // Phase 6D: Added need-help phrases (common social services phrases with modest signal)
+  private readonly MODERATE_CONTEXTS = [
+    'need help', 'asking for help', 'need assistance', 'need support',
+    'lost my job', 'unemployed', 'medical bills', 'treatment needed',
+    'rent is due', 'bills due', 'debt', 'jobless', 'laid off', 'fired',
     'terminated', 'job loss', 'lost job', 'unemployment', 'been out of work',
     'rent', 'rent payment', 'rent money', 'pay rent', 'rent assistance',
     'childcare', 'child care', 'children care', 'kids care', 'daycare',
-    'can\'t afford', 'can\'t pay', 'can\'t make rent', 'can\'t buy food', 'running out of money',
-    'groceries', 'food', 'hungry', 'starving', 'no groceries', 'out of food',
-    'car repair', 'car repairs', 'vehicle repair', 'vehicle repairs', 'fix my car',
+    'groceries', 'food', 'car repair', 'car repairs', 'vehicle repair', 'vehicle repairs', 'fix my car',
     'school supplies', 'school supplies needed', 'kids school supplies', 'children school supplies',
     'back to school', 'school year', 'school starts', 'education supplies'
   ];
@@ -178,20 +203,20 @@ class ContextualUrgencyLayer {
       }
     }
 
-    // Check for high urgency contexts
-    for (const context of this.HIGH_CONTEXTS) {
+    // Phase 6C: Two-tier HIGH context scoring for better discrimination
+    // TRUE_HIGH contexts: genuine urgency escalation
+    for (const context of this.TRUE_HIGH_CONTEXTS) {
       if (lowerText.includes(context)) {
-        // Boost critical needs (food, transportation, education) to higher score
-        const isCriticalNeed = [
-          'groceries', 'food', 'hungry', 'starving', 'no groceries', 'out of food',
-          'car repair', 'car repairs', 'vehicle repair', 'vehicle repairs', 'fix my car',
-          'school supplies', 'school supplies needed', 'kids school supplies', 'children school supplies',
-          'back to school', 'school year', 'school starts', 'education supplies'
-        ].some(critical => lowerText.includes(critical));
-        
-        const contextScore = isCriticalNeed ? 0.75 : 0.75; // Critical needs same as other HIGH contexts
-        score = Math.max(score, contextScore);
+        score = Math.max(score, 0.91); // Phase 6D: Below 0.92 critical override threshold, but strong signal
         reasons.push(`contextual_high: ${context}`);
+      }
+    }
+
+    // MODERATE contexts: situational but not urgency-escalating
+    for (const context of this.MODERATE_CONTEXTS) {
+      if (lowerText.includes(context)) {
+        score = Math.max(score, 0.50); // Phase 6D: Raised from 0.40 — situational context deserves moderate signal
+        reasons.push(`contextual_moderate: ${context}`);
       }
     }
 
@@ -496,8 +521,10 @@ export class UrgencyAssessmentEngine {
       (consequence.score * this.LAYER_WEIGHTS.consequence) +
       (emotional.score * this.LAYER_WEIGHTS.emotional);
       
-    // CRITICAL OVERRIDE: If contextual, safety, or EXPLICIT layers detect CRITICAL situation (≥0.85),
+    // CRITICAL OVERRIDE: If contextual, safety, or EXPLICIT layers detect CRITICAL situation (≥0.92),
     // use MAX score instead of weighted average to preserve strong signals
+    // Phase 3B: Raised thresholds from 0.85 to 0.90 to reduce over-assessment (4 cases: T015, T025, T023, T011)
+    // Phase 3D: Further raised to 0.92/0.92/0.94 to fix remaining 3 over-assessment cases
     const maxLayerScore = Math.max(
       contextual.score,
       safety.score,
@@ -506,7 +533,7 @@ export class UrgencyAssessmentEngine {
     );
     
     // Use max score if any layer detected true CRITICAL situation
-    const baseScore = (contextual.score >= 0.85 || safety.score >= 0.85 || explicit.score >= 0.9) 
+    const baseScore = (contextual.score >= 0.92 || safety.score >= 0.92 || explicit.score >= 0.94) 
       ? maxLayerScore 
       : weightedScore;
 
@@ -561,36 +588,36 @@ export class UrgencyAssessmentEngine {
       modifiedScore = Math.max(modifiedScore, 0.9); // Boost to CRITICAL range
     }
 
-    // AGGRESSIVE Category-based modifiers (v4.0 FINAL: more aggressive boosts)
+    // BALANCED Category-based modifiers (Phase 3E: balanced approach between original and 3C)
     if (context?.category) {
       switch (context.category) {
         case 'SAFETY':
-          modifiedScore = Math.max(modifiedScore, 0.95); // Safety always CRITICAL
+          modifiedScore = Math.max(modifiedScore, 0.80); // Phase 3E: Balanced at 0.80 for CRITICAL
           break;
         case 'FAMILY':
           // Family/childcare needs get MEDIUM minimum with contextual escalation
-          modifiedScore = Math.max(modifiedScore, 0.35); // MEDIUM minimum for family needs
+          modifiedScore = Math.max(modifiedScore, 0.25); // Phase 3E: Balanced at 0.25 (below HIGH threshold)
           if (layerScores?.temporal > 0.3 || layerScores?.consequence > 0.4) {
-            modifiedScore = Math.max(modifiedScore, 0.50); // Escalate to HIGH with time/consequence pressure
+            modifiedScore = Math.max(modifiedScore, 0.40); // Phase 3E: Balanced at 0.40 for HIGH range
           }
           break;
         case 'HEALTHCARE':
         case 'MEDICAL':
-          // Healthcare gets MEDIUM minimum, HIGH only with strong urgency indicators
-          modifiedScore = Math.max(modifiedScore, 0.35); // MEDIUM minimum
+          // Healthcare gets modest boost, HIGH only with strong urgency indicators
+          modifiedScore = Math.max(modifiedScore, 0.25); // Phase 3E: Balanced at 0.25
           
           // Surgery detection: any mention of surgery warrants HIGH
           if (transcript && transcript.toLowerCase().includes('surgery')) {
-            console.log('[SURGERY_BOOST] Detected surgery mention, boosting to HIGH (0.55)');
-            modifiedScore = Math.max(modifiedScore, 0.55); // HIGH minimum for surgery
+            console.log('[SURGERY_BOOST] Detected surgery mention, boosting to HIGH (0.45)');
+            modifiedScore = Math.max(modifiedScore, 0.45); // Phase 3E: Balanced at 0.45
           }
           
           if (layerScores?.temporal > 0.7 || layerScores?.contextual > 0.8 || layerScores?.consequence > 0.6) {
-            modifiedScore = Math.max(modifiedScore, 0.65); // HIGH with strong urgency indicators
+            modifiedScore = Math.max(modifiedScore, 0.50); // Phase 3E: Balanced at 0.50
           }
           
           if (layerScores?.temporal > 0.8 || (layerScores?.temporal > 0.6 && layerScores?.contextual > 0.7)) {
-            modifiedScore = Math.max(modifiedScore, 0.85); // CRITICAL with time pressure + context
+            modifiedScore = Math.max(modifiedScore, 0.78); // Phase 3E: Balanced at 0.78
           }
           break;
         case 'HOUSING':
@@ -613,13 +640,13 @@ export class UrgencyAssessmentEngine {
           }
           break;
         case 'LEGAL':
-          // STEP 2.3b: Moderate forced minimum (reduced from 0.40) with contextual escalation
-          modifiedScore = Math.max(modifiedScore, 0.50); // HIGH minimum
+          // Phase 3E: Balanced minimum with contextual escalation
+          modifiedScore = Math.max(modifiedScore, 0.40); // Phase 3E: Balanced at 0.40 for HIGH range
           if (layerScores?.temporal > 0.3 || layerScores?.contextual > 0.3) {
-            modifiedScore = Math.max(modifiedScore, 0.65); // Escalate to HIGH+
+            modifiedScore = Math.max(modifiedScore, 0.55); // Phase 3E: Balanced at 0.55
           }
           if (layerScores?.temporal > 0.7) {
-            modifiedScore = Math.max(modifiedScore, 0.80); // Escalate to CRITICAL for deadline
+            modifiedScore = Math.max(modifiedScore, 0.78); // Phase 3E: Balanced at 0.78
           }
           break;
         case 'EMPLOYMENT':
@@ -653,9 +680,9 @@ export class UrgencyAssessmentEngine {
           }
           break;
         case 'EMERGENCY':
-          // Emergency situations warrant HIGH minimum (raised from 0.55 to 0.70 to ensure CRITICAL for true emergencies)
-          console.log('[EMERGENCY_CASE] Before:', modifiedScore, 'After applying 0.70 minimum:', Math.max(modifiedScore, 0.70));
-          modifiedScore = Math.max(modifiedScore, 0.70); // HIGH to CRITICAL threshold
+          // Phase 3E: Emergency situations warrant HIGH+ minimum (balanced at 0.65)
+          console.log('[EMERGENCY_CASE] Before:', modifiedScore, 'After applying 0.65 minimum:', Math.max(modifiedScore, 0.65));
+          modifiedScore = Math.max(modifiedScore, 0.65); // Phase 3E: Balanced at 0.65
           break;
       }
     }
@@ -676,10 +703,12 @@ export class UrgencyAssessmentEngine {
    * v4.0 REFINED: CRITICAL threshold lowered to 0.70 (from 0.80) to reduce under-assessment of emergencies
    * v4.1 UPDATE: HIGH threshold lowered to 0.35 (from 0.40) to properly classify food/car/education needs
    * v4.3 FIX: HIGH threshold lowered to 0.38 to address 65 under-assessed cases, MEDIUM to 0.13 for better coverage
+   * v1.5 PHASE 3A: HIGH threshold lowered to 0.30 to fix clustering issue (scores 0.13-0.38 → MEDIUM when HIGH expected)
+   * v1.5 PHASE 6C: Reverted HIGH to 0.30 after fixing base layer score inflation (help/need removal + context tier split)
    */
   private scoreToLevel(score: number): 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL' {
     if (score >= 0.70) return 'CRITICAL';  // Lowered from 0.80 to fix T010/T029 emergency under-assessment
-    if (score >= 0.38) return 'HIGH';      // Lowered from 0.42 to reduce under-assessment (65 cases)
+    if (score >= 0.25) return 'HIGH';      // Phase 6D: Lowered from 0.27 — accommodate de-noised score distribution
     if (score >= 0.13) return 'MEDIUM';    // Lowered from 0.15 to help more cases reach MEDIUM
     return 'LOW';
   }

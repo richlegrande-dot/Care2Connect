@@ -1,0 +1,959 @@
+{
+  "metadata": {
+    "engine_hash": "c01fd69e27e99d94f39c2f135bbe00e255305baac13c867f85e8d13bc429302f",
+    "dataset_manifest_hash": "d6ef01c5473d319f5ca48a9ff5e0cba33ad575dfef725fb2beeda47b7f48ee66",
+    "experiment_flags": [],
+    "experiment_details": [],
+    "run_time_ms": 82,
+    "timestamp": "2026-02-13T14:46:17.345Z",
+    "datasets_evaluated": [
+      "hard60"
+    ],
+    "total_cases": 60,
+    "config": {
+      "strict_threshold": 0.95,
+      "acceptable_threshold": 0.85,
+      "amount_tolerance": 0.1
+    },
+    "version": "feb_v1_5"
+  },
+  "summary": {
+    "structural_score": {
+      "pass_rate": 0.3,
+      "passes": 18,
+      "total": 60,
+      "mean_score": 0.6945
+    },
+    "urgency_score": {
+      "accuracy": 0.4167,
+      "correct": 25,
+      "total": 60
+    },
+    "strict_score": {
+      "pass_rate": 0.0833,
+      "passes": 5,
+      "total": 60,
+      "mean_score": 0.625
+    },
+    "acceptable_score": {
+      "pass_rate": 0.0833,
+      "passes": 5,
+      "total": 60
+    }
+  },
+  "field_metrics": {
+    "name": {
+      "accuracy": 0.7167,
+      "correct": 43,
+      "total": 60,
+      "failures": [
+        {
+          "caseId": "HARD_001",
+          "actual": null,
+          "expected": "Robert Chen"
+        },
+        {
+          "caseId": "HARD_004",
+          "actual": null,
+          "expected": "Jennifer Wu"
+        },
+        {
+          "caseId": "HARD_005",
+          "actual": "Thomas",
+          "expected": "Thomas Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "HARD_007",
+          "actual": "calling",
+          "expected": "Michael Brown"
+        },
+        {
+          "caseId": "HARD_021",
+          "actual": null,
+          "expected": "Brian Mitchell"
+        },
+        {
+          "caseId": "HARD_026",
+          "actual": null,
+          "expected": "Jessica Hill"
+        },
+        {
+          "caseId": "HARD_041",
+          "actual": "in legal trouble",
+          "expected": "Gary Martinez"
+        },
+        {
+          "caseId": "HARD_046",
+          "actual": null,
+          "expected": "Carlos Ramirez"
+        },
+        {
+          "caseId": "HARD_047",
+          "actual": "is",
+          "expected": "Mary Smith-Johnson"
+        },
+        {
+          "caseId": "HARD_050",
+          "actual": "like",
+          "expected": "Sarah Jane Williams"
+        },
+        {
+          "caseId": "HARD_051",
+          "actual": "James Patterson III",
+          "expected": "Robert James Patterson"
+        },
+        {
+          "caseId": "HARD_053",
+          "actual": "is",
+          "expected": "Thomas Allen"
+        },
+        {
+          "caseId": "HARD_055",
+          "actual": "nervous",
+          "expected": "David Lee Chen"
+        },
+        {
+          "caseId": "HARD_056",
+          "actual": "calling",
+          "expected": "Amanda Grace Martinez-Brown"
+        },
+        {
+          "caseId": "HARD_057",
+          "actual": "Christopher Michael Johnson",
+          "expected": "Christopher Michael Jones"
+        },
+        {
+          "caseId": "HARD_058",
+          "actual": null,
+          "expected": "Elizabeth Rose Thompson"
+        },
+        {
+          "caseId": "HARD_059",
+          "actual": "calling because",
+          "expected": "Andrew Patrick Williams"
+        }
+      ],
+      "partial_matches": [
+        {
+          "caseId": "HARD_005",
+          "actual": "Thomas",
+          "expected": "Thomas Anderson",
+          "type": "partial"
+        }
+      ]
+    },
+    "amount": {
+      "accuracy": 0.7333,
+      "correct": 44,
+      "total": 60,
+      "null_count": 9,
+      "mismatch_count": 16,
+      "mismatches": [
+        {
+          "caseId": "HARD_001",
+          "actual": null,
+          "expected": 900
+        },
+        {
+          "caseId": "HARD_003",
+          "actual": 150,
+          "expected": 2900
+        },
+        {
+          "caseId": "HARD_006",
+          "actual": 6600,
+          "expected": 7400
+        },
+        {
+          "caseId": "HARD_011",
+          "actual": 18000,
+          "expected": 3000
+        },
+        {
+          "caseId": "HARD_013",
+          "actual": 2400,
+          "expected": 1600
+        },
+        {
+          "caseId": "HARD_014",
+          "actual": 750,
+          "expected": 450
+        },
+        {
+          "caseId": "HARD_016",
+          "actual": 680,
+          "expected": 1000
+        },
+        {
+          "caseId": "HARD_022",
+          "actual": null,
+          "expected": 2000
+        },
+        {
+          "caseId": "HARD_024",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "HARD_027",
+          "actual": null,
+          "expected": 5000
+        },
+        {
+          "caseId": "HARD_032",
+          "actual": 1200,
+          "expected": 2000
+        },
+        {
+          "caseId": "HARD_048",
+          "actual": null,
+          "expected": 3500
+        },
+        {
+          "caseId": "HARD_056",
+          "actual": null,
+          "expected": 1300
+        },
+        {
+          "caseId": "HARD_057",
+          "actual": null,
+          "expected": 890
+        },
+        {
+          "caseId": "HARD_058",
+          "actual": null,
+          "expected": 1650
+        },
+        {
+          "caseId": "HARD_060",
+          "actual": null,
+          "expected": 1900
+        }
+      ]
+    },
+    "category": {
+      "accuracy": 0.6333,
+      "correct": 38,
+      "total": 60,
+      "confusion_matrix": {
+        "HOUSING -> HOUSING": {
+          "count": 11,
+          "cases": [
+            "HARD_001",
+            "HARD_012",
+            "HARD_018",
+            "HARD_021",
+            "HARD_022",
+            "HARD_035",
+            "HARD_047",
+            "HARD_051",
+            "HARD_052",
+            "HARD_056",
+            "HARD_060"
+          ]
+        },
+        "HEALTHCARE -> HEALTHCARE": {
+          "count": 11,
+          "cases": [
+            "HARD_002",
+            "HARD_005",
+            "HARD_014",
+            "HARD_019",
+            "HARD_023",
+            "HARD_029",
+            "HARD_032",
+            "HARD_045",
+            "HARD_048",
+            "HARD_054",
+            "HARD_059"
+          ]
+        },
+        "EMPLOYMENT -> EMPLOYMENT": {
+          "count": 2,
+          "cases": [
+            "HARD_003",
+            "HARD_037"
+          ]
+        },
+        "EMPLOYMENT -> TRANSPORTATION": {
+          "count": 1,
+          "cases": [
+            "HARD_004"
+          ]
+        },
+        "GENERAL -> HOUSING": {
+          "count": 2,
+          "cases": [
+            "HARD_006",
+            "HARD_027"
+          ]
+        },
+        "EMPLOYMENT -> HEALTHCARE": {
+          "count": 2,
+          "cases": [
+            "HARD_007",
+            "HARD_034"
+          ]
+        },
+        "FAMILY -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "HARD_008"
+          ]
+        },
+        "UTILITIES -> UTILITIES": {
+          "count": 4,
+          "cases": [
+            "HARD_009",
+            "HARD_017",
+            "HARD_049",
+            "HARD_058"
+          ]
+        },
+        "HOUSING -> FOOD": {
+          "count": 1,
+          "cases": [
+            "HARD_010"
+          ]
+        },
+        "GENERAL -> HEALTHCARE": {
+          "count": 2,
+          "cases": [
+            "HARD_011",
+            "HARD_028"
+          ]
+        },
+        "FAMILY -> FAMILY": {
+          "count": 1,
+          "cases": [
+            "HARD_013"
+          ]
+        },
+        "LEGAL -> LEGAL": {
+          "count": 2,
+          "cases": [
+            "HARD_015",
+            "HARD_038"
+          ]
+        },
+        "EDUCATION -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "HARD_016"
+          ]
+        },
+        "GENERAL -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "HARD_020"
+          ]
+        },
+        "EMERGENCY -> UTILITIES": {
+          "count": 1,
+          "cases": [
+            "HARD_024"
+          ]
+        },
+        "TRANSPORTATION -> TRANSPORTATION": {
+          "count": 2,
+          "cases": [
+            "HARD_025",
+            "HARD_043"
+          ]
+        },
+        "FOOD -> FOOD": {
+          "count": 3,
+          "cases": [
+            "HARD_026",
+            "HARD_050",
+            "HARD_057"
+          ]
+        },
+        "FAMILY -> FOOD": {
+          "count": 2,
+          "cases": [
+            "HARD_030",
+            "HARD_040"
+          ]
+        },
+        "EMPLOYMENT -> SAFETY": {
+          "count": 1,
+          "cases": [
+            "HARD_031"
+          ]
+        },
+        "HEALTHCARE -> SAFETY": {
+          "count": 2,
+          "cases": [
+            "HARD_033",
+            "HARD_042"
+          ]
+        },
+        "HOUSING -> HEALTHCARE": {
+          "count": 3,
+          "cases": [
+            "HARD_036",
+            "HARD_039",
+            "HARD_041"
+          ]
+        },
+        "EMPLOYMENT -> UTILITIES": {
+          "count": 1,
+          "cases": [
+            "HARD_044"
+          ]
+        },
+        "EMERGENCY -> EMERGENCY": {
+          "count": 1,
+          "cases": [
+            "HARD_046"
+          ]
+        },
+        "GENERAL -> OTHER": {
+          "count": 2,
+          "cases": [
+            "HARD_053",
+            "HARD_055"
+          ]
+        }
+      },
+      "failures": [
+        {
+          "caseId": "HARD_004",
+          "actual": "EMPLOYMENT",
+          "expected": "TRANSPORTATION"
+        },
+        {
+          "caseId": "HARD_006",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "HARD_007",
+          "actual": "EMPLOYMENT",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_008",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "HARD_010",
+          "actual": "HOUSING",
+          "expected": "FOOD"
+        },
+        {
+          "caseId": "HARD_011",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_020",
+          "actual": "GENERAL",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "HARD_024",
+          "actual": "EMERGENCY",
+          "expected": "UTILITIES"
+        },
+        {
+          "caseId": "HARD_027",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "HARD_028",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_030",
+          "actual": "FAMILY",
+          "expected": "FOOD"
+        },
+        {
+          "caseId": "HARD_031",
+          "actual": "EMPLOYMENT",
+          "expected": "SAFETY"
+        },
+        {
+          "caseId": "HARD_033",
+          "actual": "HEALTHCARE",
+          "expected": "SAFETY"
+        },
+        {
+          "caseId": "HARD_034",
+          "actual": "EMPLOYMENT",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_036",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_039",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_040",
+          "actual": "FAMILY",
+          "expected": "FOOD"
+        },
+        {
+          "caseId": "HARD_041",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "HARD_042",
+          "actual": "HEALTHCARE",
+          "expected": "SAFETY"
+        },
+        {
+          "caseId": "HARD_044",
+          "actual": "EMPLOYMENT",
+          "expected": "UTILITIES"
+        },
+        {
+          "caseId": "HARD_053",
+          "actual": "GENERAL",
+          "expected": "OTHER"
+        },
+        {
+          "caseId": "HARD_055",
+          "actual": "GENERAL",
+          "expected": "OTHER"
+        }
+      ]
+    },
+    "urgency_raw_score": {
+      "mean": 0,
+      "std_dev": 0,
+      "count": 0
+    },
+    "urgency_level": {
+      "accuracy": 0.4167,
+      "correct": 25,
+      "total": 60,
+      "under_count": 27,
+      "over_count": 8,
+      "failures": [
+        {
+          "caseId": "HARD_002",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_003",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_004",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_005",
+          "actual": "CRITICAL",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_006",
+          "actual": "MEDIUM",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "HARD_007",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_008",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_009",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "HARD_010",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_011",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_012",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "HARD_014",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_015",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_017",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_019",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_020",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_021",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_025",
+          "actual": "CRITICAL",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_029",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_031",
+          "actual": "MEDIUM",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "HARD_032",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_034",
+          "actual": "MEDIUM",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "HARD_035",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_038",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_041",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_043",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_044",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "HARD_048",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_051",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_052",
+          "actual": "MEDIUM",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "HARD_053",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_054",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_058",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_059",
+          "actual": "CRITICAL",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "HARD_060",
+          "actual": "MEDIUM",
+          "expected": "CRITICAL"
+        }
+      ]
+    }
+  },
+  "failure_buckets": {
+    "total_failures": 90,
+    "bucket_count": 14,
+    "buckets": {
+      "urgency_threshold_miss": {
+        "category": "urgency",
+        "description": "Aggregate score fell on wrong side of level threshold boundary",
+        "severity": "high",
+        "count": 27,
+        "cases": [
+          "HARD_003",
+          "HARD_006",
+          "HARD_007",
+          "HARD_008",
+          "HARD_009",
+          "HARD_011",
+          "HARD_012",
+          "HARD_014",
+          "HARD_015",
+          "HARD_017",
+          "HARD_019",
+          "HARD_020",
+          "HARD_031",
+          "HARD_032",
+          "HARD_034",
+          "HARD_035",
+          "HARD_038",
+          "HARD_041",
+          "HARD_043",
+          "HARD_044",
+          "HARD_048",
+          "HARD_051",
+          "HARD_052",
+          "HARD_053",
+          "HARD_054",
+          "HARD_058",
+          "HARD_060"
+        ]
+      },
+      "category_multi_signal_conflict": {
+        "category": "category",
+        "description": "Contextual signals for multiple categories are nearly equal",
+        "severity": "medium",
+        "count": 11,
+        "cases": [
+          "HARD_027",
+          "HARD_028",
+          "HARD_030",
+          "HARD_031",
+          "HARD_033",
+          "HARD_034",
+          "HARD_036",
+          "HARD_039",
+          "HARD_040",
+          "HARD_041",
+          "HARD_042"
+        ]
+      },
+      "amount_null_extraction": {
+        "category": "amount",
+        "description": "Amount extracted as null when transcript contains a stated amount",
+        "severity": "high",
+        "count": 9,
+        "cases": [
+          "HARD_001",
+          "HARD_022",
+          "HARD_024",
+          "HARD_027",
+          "HARD_048",
+          "HARD_056",
+          "HARD_057",
+          "HARD_058",
+          "HARD_060"
+        ]
+      },
+      "name_null_extraction": {
+        "category": "name",
+        "description": "Name not extracted at all when present in transcript",
+        "severity": "high",
+        "count": 8,
+        "cases": [
+          "HARD_041",
+          "HARD_047",
+          "HARD_050",
+          "HARD_051",
+          "HARD_053",
+          "HARD_055",
+          "HARD_057",
+          "HARD_058"
+        ]
+      },
+      "category_priority_conflict": {
+        "category": "category",
+        "description": "Multiple categories present, wrong one ranked higher by keyword count",
+        "severity": "medium",
+        "count": 7,
+        "cases": [
+          "HARD_004",
+          "HARD_006",
+          "HARD_007",
+          "HARD_008",
+          "HARD_010",
+          "HARD_011",
+          "HARD_020"
+        ]
+      },
+      "urgency_engine_conflict": {
+        "category": "urgency",
+        "description": "Critical override (single layer ≥0.85) fired incorrectly",
+        "severity": "medium",
+        "count": 7,
+        "cases": [
+          "HARD_002",
+          "HARD_004",
+          "HARD_005",
+          "HARD_021",
+          "HARD_025",
+          "HARD_029",
+          "HARD_059"
+        ]
+      },
+      "amount_spoken_number_failure": {
+        "category": "amount",
+        "description": "Spoken number form not in SPOKEN_NUMBERS map",
+        "severity": "high",
+        "count": 5,
+        "cases": [
+          "HARD_011",
+          "HARD_013",
+          "HARD_014",
+          "HARD_016",
+          "HARD_032"
+        ]
+      },
+      "name_intro_pattern_missing": {
+        "category": "name",
+        "description": "Common introduction pattern not matched by any regex",
+        "severity": "high",
+        "count": 5,
+        "cases": [
+          "HARD_001",
+          "HARD_004",
+          "HARD_021",
+          "HARD_026",
+          "HARD_046"
+        ]
+      },
+      "category_vocabulary_gap": {
+        "category": "category",
+        "description": "Expected category not in engine NEEDS_KEYWORDS list",
+        "severity": "high",
+        "count": 4,
+        "cases": [
+          "HARD_024",
+          "HARD_044",
+          "HARD_053",
+          "HARD_055"
+        ]
+      },
+      "name_reject_filter_failure": {
+        "category": "name",
+        "description": "Non-name phrase passed NAME_REJECT_PATTERNS (false positive)",
+        "severity": "high",
+        "count": 3,
+        "cases": [
+          "HARD_007",
+          "HARD_056",
+          "HARD_059"
+        ]
+      },
+      "amount_partial_match_override": {
+        "category": "amount",
+        "description": "Partial spoken number matched instead of full compound form",
+        "severity": "high",
+        "count": 1,
+        "cases": [
+          "HARD_003"
+        ]
+      },
+      "amount_tolerance_exceeded": {
+        "category": "amount",
+        "description": "Amount detected but outside tolerance threshold",
+        "severity": "medium",
+        "count": 1,
+        "cases": [
+          "HARD_006"
+        ]
+      },
+      "name_partial_capture": {
+        "category": "name",
+        "description": "First name captured but last name dropped, or vice versa",
+        "severity": "medium",
+        "count": 1,
+        "cases": [
+          "HARD_005"
+        ]
+      },
+      "urgency_multiplier_override": {
+        "category": "urgency",
+        "description": "Category bonus multiplier pushed score to wrong level",
+        "severity": "medium",
+        "count": 1,
+        "cases": [
+          "HARD_010"
+        ]
+      }
+    }
+  },
+  "dataset_breakdown": {
+    "hard60": {
+      "case_count": 60,
+      "structural_score": {
+        "pass_rate": 0.3,
+        "passes": 18,
+        "total": 60,
+        "mean_score": 0.6945
+      },
+      "urgency_score": {
+        "accuracy": 0.4167,
+        "correct": 25,
+        "total": 60
+      },
+      "strict_score": {
+        "pass_rate": 0.0833,
+        "passes": 5,
+        "total": 60,
+        "mean_score": 0.625
+      },
+      "acceptable_score": {
+        "pass_rate": 0.0833,
+        "passes": 5,
+        "total": 60
+      }
+    }
+  }
+}

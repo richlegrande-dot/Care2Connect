@@ -1,0 +1,10 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Test Amount V2 Experiment",
+			"type": "shell",
+			"command": "npx tsx eval/v1_5/runners/run_v1_5.js --dataset core30 --experiment amount_v2"
+		}
+	]
+}

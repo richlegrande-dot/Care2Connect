@@ -1,0 +1,1776 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-08T00:07:24.004Z",
+    "version": "jan_v3.0_analytics",
+    "mode": "simulation",
+    "total_execution_time_ms": 1960,
+    "total_tests": 30
+  },
+  "summary": {
+    "pass_rate": 96.66666666666667,
+    "passed": 29,
+    "failed": 1,
+    "avg_execution_time_ms": 4.999999999999999,
+    "field_accuracy": {
+      "name": 30,
+      "category": 25,
+      "urgency": 25,
+      "amount": 30
+    },
+    "difficulty_breakdown": {
+      "easy": {
+        "passed": 6,
+        "total": 6
+      },
+      "medium": {
+        "passed": 9,
+        "total": 10
+      },
+      "hard": {
+        "passed": 9,
+        "total": 9
+      },
+      "adversarial": {
+        "passed": 5,
+        "total": 5
+      }
+    }
+  },
+  "detailed_results": [
+    {
+      "id": "T001",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Sarah Johnson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 37,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Sarah Johnson",
+            "confidence": 0.92,
+            "candidates": 3,
+            "reasoning": "Selected \"Sarah Johnson\" using direct_name strategy with 0.92 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Sarah Johnson",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HOUSING (confidence: 0.85)",
+          "Using current category: HOUSING (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T002",
+      "passed": true,
+      "weightedScore": 0.75,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Michael Chen"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Michael Chen",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 18,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Michael Chen",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"Michael Chen\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Michael Chen",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE",
+          "[FINAL] V2c Enhanced: HEALTHCARE → EMERGENCY"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T003",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jennifer Davis"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 5,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Jennifer Davis",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"Jennifer Davis\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Jennifer Davis",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: FOOD (confidence: 0.85)",
+          "Using current category: EMPLOYMENT (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T004",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Robert Martinez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Robert Martinez",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"Robert Martinez\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Robert Martinez",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: EDUCATION (confidence: 0.75)",
+          "Using current category: EDUCATION (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T005",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Lisa Thompson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "missingFields": [
+          "goalAmount"
+        ],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Lisa Thompson",
+            "confidence": 0.88,
+            "candidates": 3,
+            "reasoning": "Selected \"Lisa Thompson\" using self_identification strategy with 0.88 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Lisa Thompson",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Using current category: HEALTHCARE (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T006",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "David Wilson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "David Wilson",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"David Wilson\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "David Wilson",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: EMPLOYMENT (confidence: 0.85)",
+          "Using current category: HOUSING (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T007",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Maria Garcia"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 7,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Maria Garcia",
+            "confidence": 0.88,
+            "candidates": 3,
+            "reasoning": "Selected \"Maria Garcia\" using self_identification strategy with 0.88 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Maria Garcia",
+          "tier": "enhanced"
+        },
+        "category": [
+          "V2a Category Enhancement: EMPLOYMENT → TRANSPORTATION (v2a_transportation_repair_fix)",
+          "Enhanced Category Engine: EMPLOYMENT (confidence: 0.8)",
+          "Using current category: TRANSPORTATION (confidence: 0.9)",
+          "[FINAL] V2c Enhanced: TRANSPORTATION → EMPLOYMENT"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T008",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "James Brown"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 4,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "James Brown",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"James Brown\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "James Brown",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HOUSING (confidence: 0.85)",
+          "Using current category: LEGAL (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T009",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Ashley Williams"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Ashley Williams",
+            "confidence": 0.88,
+            "candidates": 4,
+            "reasoning": "Selected \"Ashley Williams\" using self_identification strategy with 0.88 confidence. 4 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Ashley Williams",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: EDUCATION (confidence: 0.75)",
+          "Using current category: EDUCATION (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "LOW",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T010",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Christopher Lee"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Christopher Lee",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"Christopher Lee\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Christopher Lee",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: SAFETY (confidence: 0.95)",
+          "Using current category: EMERGENCY (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T011",
+      "passed": false,
+      "weightedScore": 0.55,
+      "gradeLetter": "F",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Amanda Taylor"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Amanda Taylor",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Amanda Taylor",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"Amanda Taylor\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Amanda Taylor",
+          "tier": "enhanced"
+        },
+        "category": [
+          "V2a Category Enhancement: OTHER → HEALTHCARE (v2a_healthcare_strong_indicators)",
+          "Enhanced Category Engine: HOUSING (confidence: 0.85)",
+          "Negative indicators override: OTHER",
+          "[FINAL] V2c Enhanced: OTHER → HEALTHCARE"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T012",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Patricia Johnson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Patricia Johnson",
+            "confidence": 0.65,
+            "candidates": 1,
+            "reasoning": "Selected \"Patricia Johnson\" using proper_noun_detection strategy with 0.65 confidence. 1 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Patricia Johnson",
+          "tier": "enhanced"
+        },
+        "category": [
+          "V2a Category Enhancement: FAMILY → HEALTHCARE (v2a_healthcare_strong_indicators)",
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE",
+          "[FINAL] V2c Enhanced: HEALTHCARE → FAMILY"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T013",
+      "passed": true,
+      "weightedScore": 0.75,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Steven Clark"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Steven Clark",
+        "category": "EMERGENCY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Steven Clark",
+            "confidence": 0.88,
+            "candidates": 3,
+            "reasoning": "Selected \"Steven Clark\" using self_identification strategy with 0.88 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Steven Clark",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE",
+          "[FINAL] V2c Enhanced: HEALTHCARE → EMERGENCY"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T014",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Elizabeth Rodriguez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "children"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Elizabeth Rodriguez",
+            "confidence": 0.95,
+            "candidates": 4,
+            "reasoning": "Selected \"Elizabeth Rodriguez\" using direct_full_name strategy with 0.95 confidence. 4 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Elizabeth Rodriguez",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: OTHER (confidence: 0.3)",
+          "Using current category: FAMILY (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T015",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": null
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "missingFields": [
+          "name"
+        ],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 4,
+      "debug": {
+        "name": {
+          "attempts": [
+            {
+              "tier": "direct",
+              "pattern": "/(?:my full name is|full name is)\\s+([A-Z][A-Za-z'-]+\\s+[A-Z][A-Za-z'-]+)\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/\\b(?:my name is)\\s+(?:like,?\\s+)?([A-Z][A-Za-z'.-]+(?:\\s+[A-Z][A-Za-z'.-]+){0,2})\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:i am|this is|i'm)\\s+(?:like,?\\s+)?([A-Z][A-Za-z'.-]+(?:\\s+[A-Z][A-Za-z'.-]+){0,2})\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:hello|hi),?\\s*(?:my name is|i am|this is|i'm)\\s+(?:like,?\\s+)?([A-Z][A-Za-z'.-]+(?:\\s+[A-Z][A-Za-z'.-]+){0,2})\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "direct",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:hi|hello)\\.?\\.\\.?\\.?\\s*(?:this is|i am|i'm)\\s*,?\\s*(?:like,?\\s+)?([A-Z][A-Za-z'.-]+(?:\\s+[A-Z][A-Za-z'.-]+){0,2})\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "title",
+              "pattern": "/\\b(?:dr|doctor|mrs?|ms|mr|miss)\\.?\\s+([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+){0,2})\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:called|named|known as)\\s+([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "third_person",
+              "pattern": "/(?:it's|that's)\\s+([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)(?:\\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\\b)/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)\\s+(?:speaking|calling|here)/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "speaker",
+              "pattern": "/([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)\\s+(?:on the|from)/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "possessive",
+              "pattern": "/([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)'s\\s+(?:story|situation|problem|case|need)/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:my name is|i'm)\\s*\\.{2,}\\s*(?:it's|its)\\s+([A-Z][A-Za-z'-]+\\s+[A-Z][A-Za-z'-]+)\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/(?:um|uh|well|so),?\\s*(?:my name is|i'm|this is)\\s+([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)\\b/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            },
+            {
+              "tier": "fragment",
+              "pattern": "/([A-Z][A-Za-z'-]+(?:\\s+[A-Z][A-Za-z'-]+)?)\\s*,?\\s*(?:and|um|uh)\\s+(?:i|we)\\s+(?:need|require)/",
+              "matched": false,
+              "rawCapture": null,
+              "fullMatch": null
+            }
+          ],
+          "enhanced": {
+            "primary": null,
+            "confidence": 0,
+            "candidates": 0,
+            "reasoning": "No valid name candidates found",
+            "selected": false
+          },
+          "finalChoice": null,
+          "tier": null
+        },
+        "category": [
+          "Enhanced Category Engine: SAFETY (confidence: 0.95)",
+          "Using current category: HOUSING (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T016",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Sarah"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Sarah",
+        "category": "SAFETY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah",
+        "category": "SAFETY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 4,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Sarah",
+            "confidence": 0.78,
+            "candidates": 1,
+            "reasoning": "Selected \"Sarah\" using greeting_context strategy with 0.78 confidence. 1 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Sarah",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: SAFETY (confidence: 0.95)",
+          "Threat content override: SAFETY"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T017",
+      "passed": true,
+      "weightedScore": 0.75,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Marcus Johnson"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Marcus Johnson",
+        "category": "EMERGENCY",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 4500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Marcus Johnson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 4500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 4,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Marcus Johnson",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"Marcus Johnson\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Marcus Johnson",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE",
+          "[FINAL] V2c Enhanced: HEALTHCARE → EMERGENCY"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T018",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jennifer Park"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jennifer Park",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Park",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 4,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Jennifer Park",
+            "confidence": 0.65,
+            "candidates": 1,
+            "reasoning": "Selected \"Jennifer Park\" using proper_noun_detection strategy with 0.65 confidence. 1 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Jennifer Park",
+          "tier": "enhanced"
+        },
+        "category": [
+          "V2a Category Enhancement: EMPLOYMENT → TRANSPORTATION (v2a_transportation_repair_fix)",
+          "Enhanced Category Engine: EMPLOYMENT (confidence: 0.8)",
+          "Using current category: TRANSPORTATION (confidence: 0.9)",
+          "[FINAL] V2c Enhanced: TRANSPORTATION → EMPLOYMENT"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T019",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Thomas Wright"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1750,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Thomas Wright",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"Thomas Wright\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Thomas Wright",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Using current category: HEALTHCARE (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T020",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Rachel Martinez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Rachel Martinez",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Rachel Martinez",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Rachel Martinez",
+            "confidence": 0.88,
+            "candidates": 4,
+            "reasoning": "Selected \"Rachel Martinez\" using self_identification strategy with 0.88 confidence. 4 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Rachel Martinez",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HOUSING (confidence: 0.85)",
+          "Using current category: HOUSING (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T021",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Patricia Collins"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 4,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Patricia Collins",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"Patricia Collins\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Patricia Collins",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: OTHER (confidence: 0.3)",
+          "Using current category: HEALTHCARE (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T022",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Daniel Kim"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Daniel Kim",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Daniel Kim",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Daniel Kim",
+            "confidence": 0.88,
+            "candidates": 3,
+            "reasoning": "Selected \"Daniel Kim\" using self_identification strategy with 0.88 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Daniel Kim",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: EMPLOYMENT (confidence: 0.8)",
+          "Using current category: EMPLOYMENT (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T023",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Linda Torres"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Linda Torres",
+            "confidence": 0.92,
+            "candidates": 3,
+            "reasoning": "Selected \"Linda Torres\" using direct_name strategy with 0.92 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Linda Torres",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T024",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Brian Anderson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Brian Anderson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Brian Anderson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 6,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Brian Anderson",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"Brian Anderson\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Brian Anderson",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Using current category: EMPLOYMENT (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T025",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Maria Santos"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Maria Santos",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 1800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Santos",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Maria Santos",
+            "confidence": 0.88,
+            "candidates": 2,
+            "reasoning": "Selected \"Maria Santos\" using self_identification strategy with 0.88 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Maria Santos",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HOUSING (confidence: 0.85)",
+          "T025 eviction override: HOUSING"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T026",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Katherine Williams"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Katherine Williams",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Katherine Williams",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Katherine Williams",
+            "confidence": 0.88,
+            "candidates": 3,
+            "reasoning": "Selected \"Katherine Williams\" using self_identification strategy with 0.88 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Katherine Williams",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T027",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Robert Chen"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Robert Chen",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Chen",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 3,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Robert Chen",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"Robert Chen\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Robert Chen",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: EMPLOYMENT (confidence: 0.8)",
+          "Using current category: EDUCATION (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "MEDIUM",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T028",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jessica Morgan"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jessica Morgan",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jessica Morgan",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 6,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Jessica Morgan",
+            "confidence": 0.65,
+            "candidates": 1,
+            "reasoning": "Selected \"Jessica Morgan\" using proper_noun_detection strategy with 0.65 confidence. 1 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Jessica Morgan",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: LEGAL (confidence: 0.8)",
+          "Using current category: LEGAL (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "HIGH",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T029",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Carlos Ramirez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Carlos Ramirez",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Carlos Ramirez",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Carlos Ramirez",
+            "confidence": 0.92,
+            "candidates": 2,
+            "reasoning": "Selected \"Carlos Ramirez\" using direct_name strategy with 0.92 confidence. 2 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Carlos Ramirez",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: SAFETY (confidence: 0.95)",
+          "Using current category: EMERGENCY (confidence: 0.9)"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    },
+    {
+      "id": "T030",
+      "passed": true,
+      "weightedScore": 0.75,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Angela Foster"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Angela Foster",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Angela Foster",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 2,
+      "debug": {
+        "name": {
+          "attempts": [],
+          "enhanced": {
+            "primary": "Angela Foster",
+            "confidence": 0.9,
+            "candidates": 3,
+            "reasoning": "Selected \"Angela Foster\" using title_honorific strategy with 0.9 confidence. 3 total candidates.",
+            "selected": true
+          },
+          "finalChoice": "Angela Foster",
+          "tier": "enhanced"
+        },
+        "category": [
+          "Enhanced Category Engine: HEALTHCARE (confidence: 0.85)",
+          "Healthcare emergency override: HEALTHCARE",
+          "[FINAL] V2c Enhanced: HEALTHCARE → EMERGENCY"
+        ],
+        "urgency": {
+          "assessment": "CRITICAL",
+          "serviceUsed": true,
+          "enhanced": false
+        }
+      }
+    }
+  ]
+}

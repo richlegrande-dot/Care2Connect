@@ -50,8 +50,13 @@ export function WizardResults({ results }: WizardResultsProps) {
   const tierClass = TIER_COLORS[score.priorityTier] || TIER_COLORS.LOWER;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8" role="main" aria-label="Assessment Results">
       <div className="max-w-2xl mx-auto px-4">
+        {/* Screen reader announcement */}
+        <div aria-live="polite" className="sr-only">
+          Assessment complete. Your stability level is {score.stabilityLevel}, priority tier is {score.priorityTier}.
+        </div>
+
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Assessment Results</h1>
@@ -106,7 +111,14 @@ export function WizardResults({ results }: WizardResultsProps) {
                     <span className="text-gray-600">{label}</span>
                     <span className="font-medium">{value}/25</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="w-full bg-gray-200 rounded-full h-2"
+                    role="progressbar"
+                    aria-valuenow={value}
+                    aria-valuemin={0}
+                    aria-valuemax={25}
+                    aria-label={`${label}: ${value} out of 25`}
+                  >
                     <div
                       className="bg-blue-600 h-2 rounded-full transition-all"
                       style={{ width: `${(value / 25) * 100}%` }}

@@ -10,18 +10,33 @@ interface WizardProgressProps {
 }
 
 export function WizardProgress({ modules, currentStep, completedModules, moduleLabels }: WizardProgressProps) {
+  const percentComplete = Math.round(((currentStep) / modules.length) * 100);
+
   return (
-    <div className="mb-8">
+    <div className="mb-8" role="region" aria-label="Intake progress">
+      {/* Screen reader live region for step changes */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        Step {currentStep + 1} of {modules.length}: {modules[currentStep] ? moduleLabels[modules[currentStep].id] : 'Complete'}.
+        {percentComplete}% complete.
+      </div>
+
       {/* Progress bar */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-medium text-gray-700">
           Step {currentStep + 1} of {modules.length}
         </span>
         <span className="text-sm text-gray-500">
-          {Math.round(((currentStep) / modules.length) * 100)}% complete
+          {percentComplete}% complete
         </span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div
+        className="w-full bg-gray-200 rounded-full h-2"
+        role="progressbar"
+        aria-valuenow={percentComplete}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`Intake progress: ${percentComplete}% complete`}
+      >
         <div
           className="bg-blue-600 h-2 rounded-full transition-all duration-300"
           style={{ width: `${(currentStep / modules.length) * 100}%` }}
@@ -29,11 +44,12 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
       </div>
 
       {/* Step indicators */}
-      <div className="flex justify-between mt-4 overflow-x-auto">
+      <nav className="flex justify-between mt-4 overflow-x-auto" aria-label="Intake steps">
         {modules.map((mod, index) => {
           const isCompleted = completedModules.includes(mod.id);
           const isCurrent = index === currentStep;
           const isPast = index < currentStep;
+          const stepLabel = `Step ${index + 1}: ${moduleLabels[mod.id]}${isCompleted ? ' (completed)' : isCurrent ? ' (current)' : ''}${!mod.required ? ' (optional)' : ''}`;
 
           return (
             <div
@@ -41,6 +57,7 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
               className={`flex flex-col items-center flex-shrink-0 ${
                 index < modules.length - 1 ? 'mr-2' : ''
               }`}
+              aria-current={isCurrent ? 'step' : undefined}
             >
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
@@ -52,6 +69,7 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
                     ? 'bg-blue-200 text-blue-800'
                     : 'bg-gray-200 text-gray-500'
                 }`}
+                aria-label={stepLabel}
               >
                 {isCompleted ? '✓' : index + 1}
               </div>

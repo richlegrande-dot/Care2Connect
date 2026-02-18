@@ -1,0 +1,344 @@
+{
+  "timestamp": "2026-02-03T20:37:48.228Z",
+  "count": 21,
+  "cases": [
+    {
+      "id": "HARD_006",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 169
+      }
+    },
+    {
+      "id": "HARD_007",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 176
+      }
+    },
+    {
+      "id": "HARD_009",
+      "expected": "CRITICAL",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 170
+      }
+    },
+    {
+      "id": "HARD_011",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 154
+      }
+    },
+    {
+      "id": "HARD_012",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 152
+      }
+    },
+    {
+      "id": "HARD_013",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 181
+      }
+    },
+    {
+      "id": "HARD_015",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 153
+      }
+    },
+    {
+      "id": "HARD_017",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 152
+      }
+    },
+    {
+      "id": "HARD_020",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 174
+      }
+    },
+    {
+      "id": "HARD_022",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "temporal_urgency_boost",
+        "explicit_urgency_keywords",
+        "boost_cap_applied"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 130
+      }
+    },
+    {
+      "id": "HARD_026",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 117
+      }
+    },
+    {
+      "id": "HARD_027",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "low_pattern_match",
+        "explicit_urgency_keywords"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 117
+      }
+    },
+    {
+      "id": "HARD_028",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "explicit_urgency_keywords",
+        "healthcare_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 137
+      }
+    },
+    {
+      "id": "HARD_031",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "safety_category_floor"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 175
+      }
+    },
+    {
+      "id": "HARD_034",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 125
+      }
+    },
+    {
+      "id": "HARD_036",
+      "expected": "CRITICAL",
+      "assessed": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 130
+      }
+    },
+    {
+      "id": "HARD_038",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 120
+      }
+    },
+    {
+      "id": "HARD_041",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 126
+      }
+    },
+    {
+      "id": "HARD_043",
+      "expected": "HIGH",
+      "assessed": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 131
+      }
+    },
+    {
+      "id": "HARD_052",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 114
+      }
+    },
+    {
+      "id": "HARD_060",
+      "expected": "CRITICAL",
+      "assessed": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 187
+      }
+    }
+  ]
+}

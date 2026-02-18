@@ -29,6 +29,8 @@ import { MODULE_ORDER, REQUIRED_MODULES, SCORING_ENGINE_VERSION, type ModuleId }
 import { DEFAULT_POLICY_PACK } from '../policy/policyPack';
 import { redactSensitiveModules, getPanicButtonConfig } from '../dvSafe';
 import { v2IntakeAuthMiddleware } from '../middleware/v2Auth';
+import { buildHMISExport, hmisToCSV, type SessionData } from '../exports/hmisExport';
+import { analyzeFairness, runFullFairnessAnalysis, type CompletedSessionSummary } from '../audit/fairnessMonitor';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -363,6 +365,153 @@ router.get('/session/:sessionId', async (req: Request, res: Response) => {
   } catch (err) {
     console.error('[V2 Intake] Failed to get session:', err);
     res.status(500).json({ error: 'Failed to retrieve session' });
+  }
+});
+
+// ── HMIS / CE Export ───────────────────────────────────────────
+
+/**
+ * GET /export/hmis/:sessionId — Export a single session as HMIS CSV 2024
+ */
+router.get('/export/hmis/:sessionId', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const session = await prisma.v2IntakeSession.findUnique({
+      where: { id: sessionId },
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+    if (session.status !== 'COMPLETED') {
+      return res.status(400).json({ error: 'Session must be completed for export' });
+    }
+
+    const sessionData: SessionData = {
+      id: session.id,
+      modules: session.modules as Record<string, Record<string, unknown>>,
+      dvSafeMode: session.dvSafeMode,
+      totalScore: session.totalScore,
+      priorityTier: session.priorityTier,
+      createdAt: session.createdAt,
+      completedAt: session.completedAt,
+    };
+
+    const format = req.query.format as string | undefined;
+
+    if (format === 'csv') {
+      const exportData = buildHMISExport([sessionData]);
+      const csv = hmisToCSV(exportData);
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="hmis-export-${sessionId}.csv"`);
+      return res.send(csv);
+    }
+
+    // Default: JSON
+    const exportData = buildHMISExport([sessionData]);
+    res.json(exportData);
+  } catch (err) {
+    console.error('[V2 Intake] HMIS export failed:', err);
+    res.status(500).json({ error: 'Failed to generate HMIS export' });
+  }
+});
+
+/**
+ * GET /export/hmis — Bulk export all completed sessions as HMIS CSV 2024
+ * Query params: ?since=ISO_DATE&format=csv|json
+ */
+router.get('/export/hmis', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const since = req.query.since as string | undefined;
+    const where: Record<string, unknown> = { status: 'COMPLETED' };
+
+    if (since) {
+      where.completedAt = { gte: new Date(since) };
+    }
+
+    const sessions = await prisma.v2IntakeSession.findMany({
+      where: where as any,
+      orderBy: { completedAt: 'desc' },
+      take: 1000,
+    });
+
+    const sessionData: SessionData[] = sessions.map(s => ({
+      id: s.id,
+      modules: s.modules as Record<string, Record<string, unknown>>,
+      dvSafeMode: s.dvSafeMode,
+      totalScore: s.totalScore,
+      priorityTier: s.priorityTier,
+      createdAt: s.createdAt,
+      completedAt: s.completedAt,
+    }));
+
+    const format = req.query.format as string | undefined;
+
+    if (format === 'csv') {
+      const exportData = buildHMISExport(sessionData);
+      const csv = hmisToCSV(exportData);
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="hmis-export-bulk.csv"');
+      return res.send(csv);
+    }
+
+    const exportData = buildHMISExport(sessionData);
+    res.json(exportData);
+  } catch (err) {
+    console.error('[V2 Intake] Bulk HMIS export failed:', err);
+    res.status(500).json({ error: 'Failed to generate bulk HMIS export' });
+  }
+});
+
+// ── Fairness & Audit Monitoring ────────────────────────────────
+
+/**
+ * GET /audit/fairness — Run aggregate fairness analysis across completed sessions
+ * Query params: ?dimension=race_ethnicity|gender|veteran_status&since=ISO_DATE
+ */
+router.get('/audit/fairness', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const since = req.query.since as string | undefined;
+    const where: Record<string, unknown> = { status: 'COMPLETED' };
+
+    if (since) {
+      where.completedAt = { gte: new Date(since) };
+    }
+
+    const sessions = await prisma.v2IntakeSession.findMany({
+      where: where as any,
+      select: {
+        modules: true,
+        totalScore: true,
+        priorityTier: true,
+      },
+    });
+
+    const summaries: CompletedSessionSummary[] = sessions
+      .filter(s => s.totalScore !== null && s.priorityTier !== null)
+      .map(s => ({
+        demographics: ((s.modules as Record<string, unknown>)?.demographics ?? {}) as Record<string, unknown>,
+        totalScore: s.totalScore as number,
+        priorityTier: s.priorityTier as string,
+      }));
+
+    const dimension = req.query.dimension as string | undefined;
+
+    if (dimension && ['race_ethnicity', 'gender', 'veteran_status'].includes(dimension)) {
+      const report = analyzeFairness(summaries, dimension as any);
+      return res.json(report);
+    }
+
+    // Default: run all dimensions
+    const reports = runFullFairnessAnalysis(summaries);
+    res.json({
+      totalSessions: summaries.length,
+      reports,
+      generatedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error('[V2 Intake] Fairness analysis failed:', err);
+    res.status(500).json({ error: 'Failed to run fairness analysis' });
   }
 });
 

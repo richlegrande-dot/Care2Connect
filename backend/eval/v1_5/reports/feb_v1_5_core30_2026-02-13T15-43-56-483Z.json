@@ -1,0 +1,527 @@
+{
+  "metadata": {
+    "engine_hash": "97d55a3d439ab96b4b2754275cb8703f447aa67ed93d8f6640c84229f5dc9b4c",
+    "dataset_manifest_hash": "d6ef01c5473d319f5ca48a9ff5e0cba33ad575dfef725fb2beeda47b7f48ee66",
+    "experiment_flags": [],
+    "experiment_details": [],
+    "run_time_ms": 338,
+    "timestamp": "2026-02-13T15:43:56.476Z",
+    "datasets_evaluated": [
+      "core30"
+    ],
+    "total_cases": 30,
+    "config": {
+      "strict_threshold": 0.95,
+      "acceptable_threshold": 0.85,
+      "amount_tolerance": 0.1
+    },
+    "version": "feb_v1_5"
+  },
+  "summary": {
+    "structural_score": {
+      "pass_rate": 0.4667,
+      "passes": 14,
+      "total": 30,
+      "mean_score": 0.8111
+    },
+    "urgency_score": {
+      "accuracy": 0.4333,
+      "correct": 13,
+      "total": 30
+    },
+    "strict_score": {
+      "pass_rate": 0.1667,
+      "passes": 5,
+      "total": 30,
+      "mean_score": 0.7167
+    },
+    "acceptable_score": {
+      "pass_rate": 0.1667,
+      "passes": 5,
+      "total": 30
+    }
+  },
+  "field_metrics": {
+    "name": {
+      "accuracy": 0.7333,
+      "correct": 22,
+      "total": 30,
+      "failures": [
+        {
+          "caseId": "T006",
+          "actual": null,
+          "expected": "David Wilson"
+        },
+        {
+          "caseId": "T007",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "T018",
+          "actual": null,
+          "expected": "Jennifer Park"
+        },
+        {
+          "caseId": "T020",
+          "actual": null,
+          "expected": "Rachel Martinez"
+        },
+        {
+          "caseId": "T021",
+          "actual": null,
+          "expected": "Patricia Collins"
+        },
+        {
+          "caseId": "T024",
+          "actual": "Brian",
+          "expected": "Brian Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "T028",
+          "actual": "is",
+          "expected": "Jessica Morgan"
+        },
+        {
+          "caseId": "T029",
+          "actual": null,
+          "expected": "Carlos Ramirez"
+        }
+      ],
+      "partial_matches": [
+        {
+          "caseId": "T024",
+          "actual": "Brian",
+          "expected": "Brian Anderson",
+          "type": "partial"
+        }
+      ]
+    },
+    "amount": {
+      "accuracy": 0.9,
+      "correct": 27,
+      "total": 30,
+      "null_count": 0,
+      "mismatch_count": 3,
+      "mismatches": [
+        {
+          "caseId": "T005",
+          "actual": 4000,
+          "expected": null
+        },
+        {
+          "caseId": "T015",
+          "actual": 500,
+          "expected": 2500
+        },
+        {
+          "caseId": "T017",
+          "actual": 4000,
+          "expected": 4500
+        }
+      ]
+    },
+    "category": {
+      "accuracy": 0.8,
+      "correct": 24,
+      "total": 30,
+      "confusion_matrix": {
+        "HOUSING -> HOUSING": {
+          "count": 4,
+          "cases": [
+            "T001",
+            "T015",
+            "T020",
+            "T025"
+          ]
+        },
+        "HEALTHCARE -> HEALTHCARE": {
+          "count": 8,
+          "cases": [
+            "T002",
+            "T005",
+            "T013",
+            "T017",
+            "T019",
+            "T021",
+            "T026",
+            "T030"
+          ]
+        },
+        "EMPLOYMENT -> EMPLOYMENT": {
+          "count": 5,
+          "cases": [
+            "T003",
+            "T007",
+            "T018",
+            "T022",
+            "T024"
+          ]
+        },
+        "GENERAL -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "T004"
+          ]
+        },
+        "EMPLOYMENT -> HOUSING": {
+          "count": 1,
+          "cases": [
+            "T006"
+          ]
+        },
+        "LEGAL -> LEGAL": {
+          "count": 2,
+          "cases": [
+            "T008",
+            "T028"
+          ]
+        },
+        "EDUCATION -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "T009"
+          ]
+        },
+        "EMERGENCY -> EMERGENCY": {
+          "count": 2,
+          "cases": [
+            "T010",
+            "T029"
+          ]
+        },
+        "HOUSING -> OTHER": {
+          "count": 1,
+          "cases": [
+            "T011"
+          ]
+        },
+        "HEALTHCARE -> FAMILY": {
+          "count": 1,
+          "cases": [
+            "T012"
+          ]
+        },
+        "FAMILY -> FAMILY": {
+          "count": 1,
+          "cases": [
+            "T014"
+          ]
+        },
+        "SAFETY -> SAFETY": {
+          "count": 1,
+          "cases": [
+            "T016"
+          ]
+        },
+        "GENERAL -> HEALTHCARE": {
+          "count": 1,
+          "cases": [
+            "T023"
+          ]
+        },
+        "EMPLOYMENT -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "T027"
+          ]
+        }
+      },
+      "failures": [
+        {
+          "caseId": "T004",
+          "actual": "GENERAL",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "T006",
+          "actual": "EMPLOYMENT",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "T011",
+          "actual": "HOUSING",
+          "expected": "OTHER"
+        },
+        {
+          "caseId": "T012",
+          "actual": "HEALTHCARE",
+          "expected": "FAMILY"
+        },
+        {
+          "caseId": "T023",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "T027",
+          "actual": "EMPLOYMENT",
+          "expected": "EDUCATION"
+        }
+      ]
+    },
+    "urgency_raw_score": {
+      "mean": 0,
+      "std_dev": 0,
+      "count": 0
+    },
+    "urgency_level": {
+      "accuracy": 0.4333,
+      "correct": 13,
+      "total": 30,
+      "under_count": 6,
+      "over_count": 11,
+      "failures": [
+        {
+          "caseId": "T002",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "T005",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T007",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T008",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "T009",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T011",
+          "actual": "HIGH",
+          "expected": "LOW"
+        },
+        {
+          "caseId": "T013",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T014",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T015",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "T019",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T021",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T023",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T024",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T025",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "T026",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T027",
+          "actual": "HIGH",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "T030",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        }
+      ]
+    }
+  },
+  "failure_buckets": {
+    "total_failures": 34,
+    "bucket_count": 12,
+    "buckets": {
+      "urgency_multiplier_override": {
+        "category": "urgency",
+        "description": "Category bonus multiplier pushed score to wrong level",
+        "severity": "medium",
+        "count": 8,
+        "cases": [
+          "T005",
+          "T007",
+          "T011",
+          "T013",
+          "T014",
+          "T021",
+          "T023",
+          "T024"
+        ]
+      },
+      "urgency_threshold_miss": {
+        "category": "urgency",
+        "description": "Aggregate score fell on wrong side of level threshold boundary",
+        "severity": "high",
+        "count": 6,
+        "cases": [
+          "T002",
+          "T008",
+          "T009",
+          "T019",
+          "T026",
+          "T030"
+        ]
+      },
+      "name_intro_pattern_missing": {
+        "category": "name",
+        "description": "Common introduction pattern not matched by any regex",
+        "severity": "high",
+        "count": 5,
+        "cases": [
+          "T006",
+          "T007",
+          "T020",
+          "T021",
+          "T029"
+        ]
+      },
+      "category_priority_conflict": {
+        "category": "category",
+        "description": "Multiple categories present, wrong one ranked higher by keyword count",
+        "severity": "medium",
+        "count": 4,
+        "cases": [
+          "T004",
+          "T006",
+          "T023",
+          "T027"
+        ]
+      },
+      "name_null_extraction": {
+        "category": "name",
+        "description": "Name not extracted at all when present in transcript",
+        "severity": "high",
+        "count": 2,
+        "cases": [
+          "T018",
+          "T028"
+        ]
+      },
+      "category_vocabulary_gap": {
+        "category": "category",
+        "description": "Expected category not in engine NEEDS_KEYWORDS list",
+        "severity": "high",
+        "count": 2,
+        "cases": [
+          "T011",
+          "T012"
+        ]
+      },
+      "urgency_engine_conflict": {
+        "category": "urgency",
+        "description": "Critical override (single layer ≥0.85) fired incorrectly",
+        "severity": "medium",
+        "count": 2,
+        "cases": [
+          "T015",
+          "T025"
+        ]
+      },
+      "amount_partial_match_override": {
+        "category": "amount",
+        "description": "Partial spoken number matched instead of full compound form",
+        "severity": "high",
+        "count": 1,
+        "cases": [
+          "T015"
+        ]
+      },
+      "amount_tolerance_exceeded": {
+        "category": "amount",
+        "description": "Amount detected but outside tolerance threshold",
+        "severity": "medium",
+        "count": 1,
+        "cases": [
+          "T017"
+        ]
+      },
+      "amount_false_positive": {
+        "category": "amount",
+        "description": "Amount extracted when none was expected (wage/age/date confusion)",
+        "severity": "medium",
+        "count": 1,
+        "cases": [
+          "T005"
+        ]
+      },
+      "name_partial_capture": {
+        "category": "name",
+        "description": "First name captured but last name dropped, or vice versa",
+        "severity": "medium",
+        "count": 1,
+        "cases": [
+          "T024"
+        ]
+      },
+      "urgency_signal_absent": {
+        "category": "urgency",
+        "description": "Urgency keywords present in transcript but no layer detected them",
+        "severity": "high",
+        "count": 1,
+        "cases": [
+          "T027"
+        ]
+      }
+    }
+  },
+  "dataset_breakdown": {
+    "core30": {
+      "case_count": 30,
+      "structural_score": {
+        "pass_rate": 0.4667,
+        "passes": 14,
+        "total": 30,
+        "mean_score": 0.8111
+      },
+      "urgency_score": {
+        "accuracy": 0.4333,
+        "correct": 13,
+        "total": 30
+      },
+      "strict_score": {
+        "pass_rate": 0.1667,
+        "passes": 5,
+        "total": 30,
+        "mean_score": 0.7167
+      },
+      "acceptable_score": {
+        "pass_rate": 0.1667,
+        "passes": 5,
+        "total": 30
+      }
+    }
+  }
+}

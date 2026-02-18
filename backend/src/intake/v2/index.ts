@@ -7,6 +7,8 @@
  *   - Stability Level placement (0–5)
  *   - Explainability cards
  *   - Action plan generation
+ *   - HMIS CSV 2024 export
+ *   - Aggregate fairness monitoring
  *
  * Feature flag: ENABLE_V2_INTAKE=true
  * Constraint:  ZERO_OPENAI_MODE — all scoring is deterministic, no AI calls.
@@ -21,3 +23,9 @@ export { generatePlan, type ActionPlanResult } from './action_plans/generatePlan
 export { POLICY_PACK_VERSION, SCORING_ENGINE_VERSION } from './constants';
 export { DEFAULT_POLICY_PACK, type PolicyPack } from './policy/policyPack';
 export { getPanicButtonUrl, getPanicButtonConfig, DV_SENSITIVE_SIGNALS } from './dvSafe';
+export { buildHMISExport, buildHMISRecord, hmisToCSV, type HMISExport, type HMISRecord } from './exports/hmisExport';
+export {
+  recordAuditEvent, getAuditEvents, clearAuditLog,
+  analyzeFairness, runFullFairnessAnalysis,
+  type AuditEvent, type FairnessReport,
+} from './audit/fairnessMonitor';

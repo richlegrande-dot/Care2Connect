@@ -79,10 +79,24 @@ export function WizardModule({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-sm rounded-lg p-6 mt-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-1">{label}</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white shadow-sm rounded-lg p-6 mt-6"
+      aria-label={`${label} form`}
+      noValidate
+    >
+      <h2 className="text-xl font-semibold text-gray-900 mb-1" id={`module-heading-${module.id}`}>
+        {label}
+      </h2>
       {!module.required && (
         <p className="text-sm text-gray-500 mb-4">This section is optional — you can skip it.</p>
+      )}
+
+      {/* Screen reader announcement for validation errors */}
+      {Object.keys(errors).length > 0 && (
+        <div role="alert" className="sr-only">
+          {Object.keys(errors).length} field(s) need attention. Please review the highlighted fields.
+        </div>
       )}
 
       <div className="space-y-4 mt-4">
@@ -104,13 +118,14 @@ export function WizardModule({
       </div>
 
       {/* Navigation buttons */}
-      <div className="flex justify-between mt-8 pt-4 border-t border-gray-200">
+      <div className="flex justify-between mt-8 pt-4 border-t border-gray-200" role="navigation" aria-label="Form navigation">
         <div>
           {!isFirst && (
             <button
               type="button"
               onClick={onBack}
               className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+              aria-label="Go back to previous section"
             >
               ← Back
             </button>
@@ -122,6 +137,7 @@ export function WizardModule({
               type="button"
               onClick={onSkip}
               className="px-4 py-2 text-gray-500 hover:text-gray-700 transition"
+              aria-label="Skip this optional section"
             >
               Skip
             </button>
@@ -129,6 +145,8 @@ export function WizardModule({
           <button
             type="submit"
             disabled={isSubmitting}
+            aria-busy={isSubmitting}
+            aria-label={isSubmitting ? 'Submitting your responses' : isLast ? 'Complete intake assessment' : 'Continue to next section'}
             className={`px-6 py-2 rounded-lg font-medium text-white transition ${
               isSubmitting
                 ? 'bg-blue-400 cursor-not-allowed'
@@ -157,6 +175,8 @@ interface FieldRendererProps {
 function FieldRenderer({ fieldName, schema, value, error, onChange, required }: FieldRendererProps) {
   const label = schema.title || fieldName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   const id = `field-${fieldName}`;
+  const errorId = `${id}-error`;
+  const descId = `${id}-desc`;
 
   // Boolean fields → checkbox
   if (schema.type === 'boolean') {
@@ -168,12 +188,15 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
           checked={!!value}
           onChange={(e) => onChange(e.target.checked)}
           className="mt-1 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+          aria-required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
         />
         <label htmlFor={id} className="text-sm text-gray-700">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
         </label>
-        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
       </div>
     );
   }
@@ -184,12 +207,15 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
       <div>
         <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
         </label>
         <select
           id={id}
           value={(value as string) || ''}
           onChange={(e) => onChange(e.target.value || undefined)}
+          aria-required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         >
           <option value="">Select...</option>
@@ -199,7 +225,7 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
             </option>
           ))}
         </select>
-        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
       </div>
     );
   }
@@ -208,10 +234,10 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
   if (schema.type === 'array' && schema.items?.enum) {
     const selected = (value as string[]) || [];
     return (
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div role="group" aria-labelledby={`${id}-legend`}>
+        <label id={`${id}-legend`} className="block text-sm font-medium text-gray-700 mb-2">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
           {schema.maxItems && <span className="text-gray-400 ml-2">(max {schema.maxItems})</span>}
         </label>
         <div className="grid grid-cols-2 gap-2">
@@ -229,12 +255,13 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
                   }
                 }}
                 className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                aria-label={opt.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
               />
               {opt.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
             </label>
           ))}
         </div>
-        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
       </div>
     );
   }
@@ -245,7 +272,7 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
       <div>
         <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
         </label>
         <input
           id={id}
@@ -257,9 +284,12 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
             const val = e.target.value;
             onChange(val === '' ? undefined : Number(val));
           }}
+          aria-required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
-        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
       </div>
     );
   }
@@ -270,16 +300,19 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
       <div>
         <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
         </label>
         <input
           id={id}
           type="date"
           value={(value as string) || ''}
           onChange={(e) => onChange(e.target.value || undefined)}
+          aria-required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
-        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
       </div>
     );
   }
@@ -290,7 +323,7 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
     <div>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
       </label>
       {isTextArea ? (
         <textarea
@@ -299,6 +332,9 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
           maxLength={schema.maxLength}
           rows={4}
           onChange={(e) => onChange(e.target.value || undefined)}
+          aria-required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
       ) : (
@@ -308,10 +344,13 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
           value={(value as string) || ''}
           maxLength={schema.maxLength}
           onChange={(e) => onChange(e.target.value || undefined)}
+          aria-required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
       )}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
     </div>
   );
 }

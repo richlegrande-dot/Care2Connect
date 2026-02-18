@@ -64,8 +64,23 @@ class ExplicitAmountPass {
     /(?:need|require)\s*(?:\$)?([\d,]+)\s+(?:for|to|towards)/gi
   ];
 
-  // Spoken number words to numeric (v4.0)
-  private readonly SPOKEN_NUMBERS: Record<string, number> = {
+  // Production baseline SPOKEN_NUMBERS (v1.5 default)
+  private readonly BASELINE_SPOKEN_NUMBERS: Record<string, number> = {
+    'five hundred': 500,
+    'eight hundred': 800,
+    'one thousand': 1000,
+    'fifteen hundred': 1500,
+    'two hundred': 200,
+    'three hundred': 300,
+    'four hundred': 400,
+    'seven hundred': 700,
+    'nine hundred': 900,
+    'one hundred': 100
+  };
+
+  // Feb v1.5 Experiment: Extended SPOKEN_NUMBERS with compound numbers
+  private readonly EXTENDED_SPOKEN_NUMBERS: Record<string, number> = {
+    // Existing entries
     'fifteen hundred': 1500,
     'eighteen hundred': 1800,
     'twenty-two hundred': 2200,
@@ -76,15 +91,71 @@ class ExplicitAmountPass {
     'twelve hundred': 1200,
     'four thousand': 4000,
     'five thousand': 5000,
-    'eight thousand': 8000
+    'eight thousand': 8000,
+    
+    // Feb v1.5: Missing core30 cases - compound forms FIRST (longer matches)
+    'three thousand five hundred': 3500,
+    'twenty-five hundred': 2500,
+    'twenty-eight hundred': 2800,
+    'two thousand two hundred fifty': 2250,
+    'nine hundred fifty': 950,
+    
+    // Feb v1.5: Missing basic thousands
+    'one thousand': 1000,
+    'two thousand': 2000,
+    'three thousand': 3000,
+    'six thousand': 6000,
+    'seven thousand': 7000,
+    'nine thousand': 9000,
+    'ten thousand': 10000,
+    
+    // Feb v1.5: Additional common forms
+    'eleven hundred': 1100,
+    'thirteen hundred': 1300,
+    'fourteen hundred': 1400,
+    'sixteen hundred': 1600,
+    'seventeen hundred': 1700,
+    'nineteen hundred': 1900,
+    'twenty-one hundred': 2100,
+    'twenty-three hundred': 2300,
+    'twenty-four hundred': 2400,
+    'twenty-six hundred': 2600,
+    'twenty-seven hundred': 2700,
+    'twenty-nine hundred': 2900,
+    'thirty-one hundred': 3100,
+    'thirty-three hundred': 3300,
+    'thirty-four hundred': 3400,
+    'thirty-five hundred': 3500,
+    'thirty-six hundred': 3600,
+    'thirty-seven hundred': 3700,
+    'thirty-eight hundred': 3800,
+    'thirty-nine hundred': 3900,
+    
+    // Feb v1.5: Basic hundreds  
+    'one hundred': 100,
+    'two hundred': 200,
+    'three hundred': 300,
+    'four hundred': 400,
+    'seven hundred': 700,
+    'nine hundred': 900
   };
+
+  // Phase 1A: EXTENDED_SPOKEN_NUMBERS promoted to production default
+  // Baseline preserved above for rollback reference only
+  private get SPOKEN_NUMBERS(): Record<string, number> {
+    return this.EXTENDED_SPOKEN_NUMBERS;
+  }
 
   detect(transcript: string): AmountCandidate[] {
     const candidates: AmountCandidate[] = [];
     const lowerText = transcript.toLowerCase();
 
-    // Check spoken number patterns FIRST (highest priority)
-    for (const [spoken, numericValue] of Object.entries(this.SPOKEN_NUMBERS)) {
+    // Check spoken number patterns FIRST (highest priority)  
+    // Feb v1.5: Fix partial match logic - sort by length desc to prefer longer matches
+    const spokenEntries = Object.entries(this.SPOKEN_NUMBERS)
+      .sort(([a], [b]) => b.length - a.length); // Longest first
+    
+    for (const [spoken, numericValue] of spokenEntries) {
       if (lowerText.includes(spoken)) {
         candidates.push({
           value: numericValue,
@@ -92,6 +163,9 @@ class ExplicitAmountPass {
           confidence: 0.9, // High confidence for spoken numbers
           context: `spoken_number: ${spoken}`
         });
+        // CRITICAL: Break after first match to prevent "five hundred" matching 
+        // when "three thousand five hundred" already matched
+        break;
       }
     }
 

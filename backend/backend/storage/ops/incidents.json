@@ -797,12 +797,12 @@
     "severity": "warn",
     "status": "open",
     "firstSeenAt": "2026-01-25T12:56:03.818Z",
-    "lastSeenAt": "2026-02-03T06:54:24.538Z",
+    "lastSeenAt": "2026-02-08T07:18:06.489Z",
     "summary": "Tunnel external check failed",
     "details": "API: 530",
     "lastCheckPayload": {
       "api": 530,
-      "latency": 117
+      "latency": 182
     },
     "recommendation": "Check DNS propagation and tunnel routing (may be normal during DNS changes)"
   },

@@ -1,0 +1,1762 @@
+{
+  "timestamp": "2026-02-03T18:53:02.402Z",
+  "totalFound": 155,
+  "cases": [
+    {
+      "id": "T002",
+      "dataset": "core30.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "T005",
+      "dataset": "core30.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0.1,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "low_pattern_match",
+        "vague_scenario_cap_fallback"
+      ]
+    },
+    {
+      "id": "T008",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "T017",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "T020",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "housing_eviction_floor_fallback"
+      ]
+    },
+    {
+      "id": "T021",
+      "dataset": "core30.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "T022",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "T024",
+      "dataset": "core30.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0.1,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "low_pattern_match",
+        "vague_scenario_cap_fallback"
+      ]
+    },
+    {
+      "id": "T025",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "explicit_urgency_keywords",
+        "housing_eviction_floor_fallback"
+      ]
+    },
+    {
+      "id": "T028",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "T030",
+      "dataset": "core30.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "HARD_006",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "HARD_007",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_009",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_011",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "HARD_012",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "HARD_013",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_015",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_017",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_020",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_022",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "temporal_urgency_boost",
+        "explicit_urgency_keywords",
+        "boost_cap_applied"
+      ]
+    },
+    {
+      "id": "HARD_026",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_027",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "low_pattern_match",
+        "explicit_urgency_keywords"
+      ]
+    },
+    {
+      "id": "HARD_028",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "explicit_urgency_keywords",
+        "healthcare_boost"
+      ]
+    },
+    {
+      "id": "HARD_031",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "safety_category_floor"
+      ]
+    },
+    {
+      "id": "HARD_034",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "HARD_036",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "HARD_038",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_041",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_043",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "HARD_052",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "HARD_060",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "0000REALISTIC_2",
+      "dataset": "realistic50.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.7,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "healthcare_emergency_floor_fallback"
+      ]
+    },
+    {
+      "id": "000REALISTIC_13",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "score": 0.12,
+      "confidence": 0.7,
+      "reasons": [
+        "housing_eviction_floor_fallback"
+      ]
+    },
+    {
+      "id": "000REALISTIC_15",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "score": 0.12,
+      "confidence": 0.7,
+      "reasons": [
+        "housing_eviction_floor_fallback"
+      ]
+    },
+    {
+      "id": "000REALISTIC_16",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "000REALISTIC_17",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "score": 0.12,
+      "confidence": 0.7,
+      "reasons": [
+        "housing_eviction_floor_fallback"
+      ]
+    },
+    {
+      "id": "000REALISTIC_29",
+      "dataset": "realistic50.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "000REALISTIC_31",
+      "dataset": "realistic50.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "000REALISTIC_41",
+      "dataset": "realistic50.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_001",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_004",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_006",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_008",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_010",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_011",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_012",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_013",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_016",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_018",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_020",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_022",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_023",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_024",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_025",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_028",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_030",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_032",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_034",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_035",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_036",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_037",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_040",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_042",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_044",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_046",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_047",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_048",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_049",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_052",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_054",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_056",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_058",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_059",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_060",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_061",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_064",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_066",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_068",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_070",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_071",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_072",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_073",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_076",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_078",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_080",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_082",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_083",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_084",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_085",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_088",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_090",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_092",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_094",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_095",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_096",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_097",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_100",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_102",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_104",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_106",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_107",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_108",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_109",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_112",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_114",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_116",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_118",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_119",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_121",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_124",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_126",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_128",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_130",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_131",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_132",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_133",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_136",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_138",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_140",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_142",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_143",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_144",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_145",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_148",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_150",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_152",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_154",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_155",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_156",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_157",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_160",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_162",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_164",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_166",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_167",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_168",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_169",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_172",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_174",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_176",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_178",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_179",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_180",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_181",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_184",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_186",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_188",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_190",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_191",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_192",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": []
+    },
+    {
+      "id": "FUZZ_193",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_196",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.[REDACTED_PII],
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ]
+    },
+    {
+      "id": "FUZZ_198",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ]
+    },
+    {
+      "id": "FUZZ_200",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "housing_boost"
+      ]
+    }
+  ]
+}

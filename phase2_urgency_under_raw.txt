@@ -1,0 +1,15 @@
+﻿
+    TOP 10 FAILURE BUCKETS
+  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+>   1. urgency_under_assessed (55 cases, 16.2%)
+       Urgency level too low (e.g., CRITICAL ΓåÆ HIGH)
+       Examples: HARD_006, HARD_007, HARD_009
+    RECOMMENDED WORKLIST (Priority Order)
+  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓ
+öüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+>   1. [HIGH] urgency_under_assessed (55 cases)
+       Fix: Manual investigation required
+       File: services/UrgencyAssessmentService.js (or jan-v3 TIER 3)
+
+

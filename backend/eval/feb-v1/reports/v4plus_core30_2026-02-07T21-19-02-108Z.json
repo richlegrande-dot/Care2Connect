@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "dataset": "core30",
+    "totalCases": 30,
+    "timestamp": "2026-02-07T21:19:02.100Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "100.00%",
+    "acceptablePassRate": "100.00%",
+    "strictPasses": 30,
+    "acceptablePasses": 30,
+    "strictFailures": 0,
+    "acceptableFailures": 0
+  },
+  "performance": {
+    "avgLatencyMs": "13.34",
+    "totalLatencyMs": "400.23",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": []
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": []
+}

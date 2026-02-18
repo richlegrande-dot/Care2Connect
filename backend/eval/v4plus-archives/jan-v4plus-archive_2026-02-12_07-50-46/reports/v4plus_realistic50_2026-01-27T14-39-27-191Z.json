@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "dataset": "realistic50",
+    "totalCases": 50,
+    "timestamp": "2026-01-27T14:39:27.189Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "88.00%",
+    "acceptablePassRate": "88.00%",
+    "strictPasses": 44,
+    "acceptablePasses": 44,
+    "strictFailures": 6,
+    "acceptableFailures": 6
+  },
+  "performance": {
+    "avgLatencyMs": "4.19",
+    "totalLatencyMs": "209.70",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "amount_missing",
+        "description": "Amount not extracted when present",
+        "count": 3,
+        "percentage": "6.0%",
+        "exampleCases": [
+          "0000REALISTIC_2",
+          "0000REALISTIC_4",
+          "0000REALISTIC_6"
+        ]
+      },
+      {
+        "bucket": "category_wrong",
+        "description": "Incorrect category selected",
+        "count": 2,
+        "percentage": "4.0%",
+        "exampleCases": [
+          "000REALISTIC_36",
+          "000REALISTIC_38"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 1,
+        "percentage": "2.0%",
+        "exampleCases": [
+          "000REALISTIC_34"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 1,
+        "percentage": "2.0%",
+        "exampleCases": [
+          "000REALISTIC_36"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "amount_missing",
+      "priority": "LOW",
+      "affectedCases": 3,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "category_wrong",
+      "priority": "LOW",
+      "affectedCases": 2,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    }
+  ]
+}

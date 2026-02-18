@@ -1,0 +1,1180 @@
+{
+  "timestamp": "2026-02-03T18:57:39.959Z",
+  "total": 60,
+  "results": [
+    {
+      "id": "CUSTOM_HARD_001",
+      "transcriptLength": 60,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.42,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match",
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 60
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_002",
+      "transcriptLength": 73,
+      "inputCategory": "HOUSING",
+      "inputAmount": 2500,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.72,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "temporal_urgency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 73
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_003",
+      "transcriptLength": 59,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.[REDACTED_PII],
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "healthcare_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 59
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_004",
+      "transcriptLength": 76,
+      "inputCategory": "EMPLOYMENT",
+      "inputAmount": 1200,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.6,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 76
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_005",
+      "transcriptLength": 38,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 38
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_006",
+      "transcriptLength": 60,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "medium_pattern_match",
+          "healthcare_boost",
+          "content_emergency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 60
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_007",
+      "transcriptLength": 38,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 38
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_008",
+      "transcriptLength": 61,
+      "inputCategory": "HOUSING",
+      "inputAmount": 450,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "temporal_urgency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 61
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_009",
+      "transcriptLength": 66,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": 3500,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "medium_pattern_match",
+          "temporal_urgency_boost",
+          "healthcare_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 66
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_010",
+      "transcriptLength": 50,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.[REDACTED_PII],
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "healthcare_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 50
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_011",
+      "transcriptLength": 74,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.85,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "medium_pattern_match",
+          "domestic_violence_critical_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 74
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_012",
+      "transcriptLength": 68,
+      "inputCategory": "LEGAL",
+      "inputAmount": 2500,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.72,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "temporal_urgency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 68
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_013",
+      "transcriptLength": 76,
+      "inputCategory": "FINANCIAL",
+      "inputAmount": 900,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.3,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 76
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_014",
+      "transcriptLength": 62,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": 4000,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.72,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "explicit_urgency_keywords",
+          "healthcare_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 62
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_015",
+      "transcriptLength": 31,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "content_emergency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 31
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_016",
+      "transcriptLength": 65,
+      "inputCategory": "HOUSING",
+      "inputAmount": 3000,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.[REDACTED_PII],
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "housing_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 65
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_017",
+      "transcriptLength": 82,
+      "inputCategory": "TRANSPORTATION",
+      "inputAmount": 200,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.3,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 82
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_018",
+      "transcriptLength": 51,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "healthcare_emergency_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 51
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_019",
+      "transcriptLength": 54,
+      "inputCategory": "BASIC_NEEDS",
+      "inputAmount": 100,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.3,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 54
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_020",
+      "transcriptLength": 49,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "life_threatening_medical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 49
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_021",
+      "transcriptLength": 61,
+      "inputCategory": "HOUSING",
+      "inputAmount": 3200,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.72,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "temporal_urgency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 61
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_022",
+      "transcriptLength": 53,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.8,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 53
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_023",
+      "transcriptLength": 78,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": 1800,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.3,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 78
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_024",
+      "transcriptLength": 77,
+      "inputCategory": "HOUSING",
+      "inputAmount": 2100,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "housing_eviction_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 77
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_025",
+      "transcriptLength": 49,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 49
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_026",
+      "transcriptLength": 57,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 57
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_027",
+      "transcriptLength": 60,
+      "inputCategory": "HOUSING",
+      "inputAmount": 1500,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.[REDACTED_PII],
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "housing_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 60
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_028",
+      "transcriptLength": 42,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "life_threatening_medical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 42
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_029",
+      "transcriptLength": 60,
+      "inputCategory": "LEGAL",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.6,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 60
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_030",
+      "transcriptLength": 49,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.42,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match",
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 49
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_031",
+      "transcriptLength": 65,
+      "inputCategory": "HOUSING",
+      "inputAmount": 500,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.72,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "explicit_urgency_keywords",
+          "fire_smoke_critical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 65
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_032",
+      "transcriptLength": 50,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 50
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_033",
+      "transcriptLength": 64,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 64
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_034",
+      "transcriptLength": 65,
+      "inputCategory": "HOUSING",
+      "inputAmount": 2200,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.[REDACTED_PII],
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "housing_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 65
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_035",
+      "transcriptLength": 61,
+      "inputCategory": "HOUSING",
+      "inputAmount": 1200,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 61
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_036",
+      "transcriptLength": 60,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.[REDACTED_PII],
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "healthcare_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 60
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_037",
+      "transcriptLength": 52,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "high_pattern_match",
+          "medium_pattern_match",
+          "explicit_urgency_keywords"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 52
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_038",
+      "transcriptLength": 78,
+      "inputCategory": "HOUSING",
+      "inputAmount": 450,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.42,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match",
+          "temporal_urgency_boost",
+          "housing_eviction_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 78
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_039",
+      "transcriptLength": 55,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 55
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_040",
+      "transcriptLength": 54,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 54
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_041",
+      "transcriptLength": 55,
+      "inputCategory": "LEGAL",
+      "inputAmount": 2500,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "medium_pattern_match",
+          "content_emergency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 55
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_042",
+      "transcriptLength": 41,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 41
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_043",
+      "transcriptLength": 49,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 49
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_044",
+      "transcriptLength": 58,
+      "inputCategory": "HOUSING",
+      "inputAmount": 2800,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.3,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 58
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_045",
+      "transcriptLength": 62,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 62
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_046",
+      "transcriptLength": 42,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.42,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match",
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 42
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_047",
+      "transcriptLength": 58,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": 950,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 58
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_048",
+      "transcriptLength": 55,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "healthcare_emergency_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 55
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_049",
+      "transcriptLength": 52,
+      "inputCategory": "BASIC_NEEDS",
+      "inputAmount": 50,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.6,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 52
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_050",
+      "transcriptLength": 57,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 57
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_051",
+      "transcriptLength": 51,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "life_threatening_medical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 51
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_052",
+      "transcriptLength": 44,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "life_threatening_medical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 44
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_053",
+      "transcriptLength": 58,
+      "inputCategory": "HOUSING",
+      "inputAmount": 1600,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0,
+        "confidence": 0.7,
+        "reasons": [],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 58
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_054",
+      "transcriptLength": 44,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 44
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_055",
+      "transcriptLength": 61,
+      "inputCategory": "HOUSING",
+      "inputAmount": 600,
+      "result": {
+        "urgencyLevel": "HIGH",
+        "score": 0.72,
+        "confidence": 0.7,
+        "reasons": [
+          "high_pattern_match",
+          "medium_pattern_match",
+          "explicit_urgency_keywords"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 61
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_056",
+      "transcriptLength": 55,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "life_threatening_medical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 55
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_057",
+      "transcriptLength": 53,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "LOW",
+        "score": 0.12,
+        "confidence": 0.7,
+        "reasons": [
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 53
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_058",
+      "transcriptLength": 55,
+      "inputCategory": "HOUSING",
+      "inputAmount": 800,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.42,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match",
+          "fire_smoke_critical_floor_fallback"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 55
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_059",
+      "transcriptLength": 61,
+      "inputCategory": "SAFETY",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "MEDIUM",
+        "score": 0.42,
+        "confidence": 0.7,
+        "reasons": [
+          "medium_pattern_match",
+          "safety_category_floor"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 61
+        }
+      }
+    },
+    {
+      "id": "CUSTOM_HARD_060",
+      "transcriptLength": 73,
+      "inputCategory": "HEALTHCARE",
+      "inputAmount": null,
+      "result": {
+        "urgencyLevel": "CRITICAL",
+        "score": 0.92,
+        "confidence": 0.7,
+        "reasons": [
+          "critical_pattern_match",
+          "medium_pattern_match",
+          "healthcare_boost",
+          "content_emergency_boost"
+        ],
+        "debug": {
+          "engineUsed": "UrgencyAssessmentEngine",
+          "contextProvided": true,
+          "transcriptLength": 73
+        }
+      }
+    }
+  ]
+}

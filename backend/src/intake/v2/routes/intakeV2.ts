@@ -564,34 +564,32 @@ router.get('/calibration', v2IntakeAuthMiddleware, async (req: Request, res: Res
     const sessions = await prisma.v2IntakeSession.findMany({
       where: where as any,
       select: {
-        modules: true,
         totalScore: true,
         stabilityLevel: true,
         priorityTier: true,
-        housingScore: true,
-        safetyScore: true,
-        vulnerabilityScore: true,
-        chronicityScore: true,
-        overridesApplied: true,
-        topContributors: true,
+        scoreResult: true,
       },
     });
 
     const calibrationSessions: CalibrationSession[] = sessions
       .filter(s => s.totalScore !== null && s.stabilityLevel !== null && s.priorityTier !== null)
-      .map(s => ({
-        totalScore: s.totalScore as number,
-        stabilityLevel: s.stabilityLevel as number,
-        priorityTier: s.priorityTier as string,
-        dimensionScores: {
-          housing: (s.housingScore as number) ?? 0,
-          safety: (s.safetyScore as number) ?? 0,
-          vulnerability: (s.vulnerabilityScore as number) ?? 0,
-          chronicity: (s.chronicityScore as number) ?? 0,
-        },
-        overridesApplied: (s.overridesApplied as string[]) ?? [],
-        topContributors: (s.topContributors as string[]) ?? [],
-      }));
+      .map(s => {
+        const sr = (s.scoreResult ?? {}) as Record<string, any>;
+        const dims = sr.dimensions ?? sr.dimensionScores ?? {};
+        return {
+          totalScore: s.totalScore as number,
+          stabilityLevel: s.stabilityLevel as number,
+          priorityTier: s.priorityTier as string,
+          dimensionScores: {
+            housing: dims.housing_stability?.score ?? dims.housing ?? 0,
+            safety: dims.safety_crisis?.score ?? dims.safety ?? 0,
+            vulnerability: dims.vulnerability?.score ?? dims.vulnerability ?? 0,
+            chronicity: dims.chronicity?.score ?? dims.chronicity ?? 0,
+          },
+          overridesApplied: sr.overridesApplied ?? [],
+          topContributors: sr.topContributors ?? [],
+        };
+      });
 
     const report = generateCalibrationReport(calibrationSessions);
 

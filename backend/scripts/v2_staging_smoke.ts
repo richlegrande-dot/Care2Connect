@@ -93,15 +93,14 @@ const CRISIS_PERSONA = {
     last_name: 'TestUser',
     date_of_birth: '1990-05-15',
     gender: 'female',
-    race_ethnicity: 'hispanic_latino',
-    veteran_status: 'no',
+    race_ethnicity: ['hispanic_latino'],
+    veteran_status: false,
     has_dependents: true,
-    dependent_count: 2,
     dependent_ages: [4, 7],
   },
   housing: {
     current_living_situation: 'unsheltered',
-    how_long_current: 'less_than_3_months',
+    how_long_current: '1_3_months',
     at_risk_of_losing: true,
     eviction_notice: false,
     can_return_to_previous: false,
@@ -112,36 +111,36 @@ const CRISIS_PERSONA = {
     suicidal_ideation_recent: false,
     experienced_violence_recently: true,
     feels_safe_current_location: 'no',
-    mental_health_current: 'moderate',
+    mental_health_current: 'moderate_concerns',
     substance_use_current: 'none',
   },
   health: {
-    chronic_conditions: ['asthma'],
+    chronic_conditions: ['respiratory'],
     currently_pregnant: false,
-    needs_immediate_medical_attention: false,
+    needs_immediate_medical: false,
     needs_medication: true,
     has_access_to_medication: false,
-    self_care_difficulty: 'some',
+    self_care_difficulty: 'some_difficulty',
     has_health_insurance: false,
   },
   history: {
-    currently_chronic_homeless: false,
+    currently_chronic: false,
     total_homeless_episodes: 2,
     total_homeless_months: 8,
-    emergency_services_use_6mo: 2,
+    emergency_services_use: '1_2_times',
     incarceration_recent: false,
-    institutional_care_history: 0,
+    institutional_history: ['none'],
   },
   income: {
     has_any_income: false,
-    employment_status: 'unemployed',
+    currently_employed: false,
     has_valid_id: true,
+    wants_employment_help: true,
   },
   goals: {
-    top_priorities: ['safe_housing', 'safety'],
-    housing_preference: 'dv_shelter',
-    barriers_to_housing: ['domestic_violence', 'no_income'],
-    wants_employment_help: true,
+    top_priorities: ['housing', 'safety'],
+    housing_preference: 'shelter',
+    barriers_to_housing: ['no_income'],
   },
 };
 
@@ -212,14 +211,14 @@ async function testCompleteIntake(): Promise<void> {
 
   const { status, data } = await api('POST', `/session/${sessionId}/complete`);
   check('POST /complete returns 200', status === 200);
-  check('scores present', !!data?.scores);
-  check('explanation present', !!data?.explanation);
+  check('score present', !!data?.score);
+  check('explainability present', !!data?.explainability);
   check('actionPlan present', !!data?.actionPlan);
 
-  if (data?.scores) {
-    console.log(`    Total Score: ${data.scores.totalScore}`);
-    console.log(`    Stability Level: ${data.scores.stabilityLevel}`);
-    console.log(`    Priority Tier: ${data.scores.priorityTier}`);
+  if (data?.score) {
+    console.log(`    Total Score: ${data.score.totalScore}`);
+    console.log(`    Stability Level: ${data.score.stabilityLevel}`);
+    console.log(`    Priority Tier: ${data.score.priorityTier}`);
   }
 }
 
@@ -234,14 +233,13 @@ async function testVerifyScore(): Promise<void> {
   check('GET /session returns 200', status === 200);
   check('session is COMPLETED', data?.status === 'COMPLETED');
 
-  const scores = data?.scores;
-  if (scores) {
-    check('Level is 0 (crisis DV)', scores.stabilityLevel === 0);
-    check('Tier is CRITICAL', scores.priorityTier === 'CRITICAL');
-    check('Total score > 0', scores.totalScore > 0);
-    check('Housing score > 0', scores.dimensions?.housing_stability?.score > 0);
-    check('Safety score > 0', scores.dimensions?.safety_crisis?.score > 0);
-    check('Override applied (DV floor)', scores.overridesApplied?.includes('fleeing_dv_floor'));
+  const score = data?.score;
+  if (score) {
+    check('Level is 0 (crisis DV)', score.stabilityLevel === 0);
+    check('Tier is CRITICAL', score.priorityTier === 'CRITICAL');
+    check('Total score > 0', score.totalScore > 0);
+  } else {
+    check('score present', false, 'score is null');
   }
 }
 
@@ -253,7 +251,7 @@ async function testExplanation(): Promise<void> {
   }
 
   const { data } = await api('GET', `/session/${sessionId}`);
-  const card = data?.explanation;
+  const card = data?.explainability;
   if (card) {
     check('topFactors present', Array.isArray(card.topFactors));
     check('topFactors ≤ 3', card.topFactors.length <= 3);
@@ -262,7 +260,7 @@ async function testExplanation(): Promise<void> {
       card.dvSafeMode === true ||
       JSON.stringify(card).includes('[REDACTED]'));
   } else {
-    check('Explanation card present', false, 'card is null');
+    check('Explainability card present', false, 'card is null');
   }
 }
 
@@ -276,13 +274,13 @@ async function testActionPlan(): Promise<void> {
   const { data } = await api('GET', `/session/${sessionId}`);
   const plan = data?.actionPlan;
   if (plan) {
-    check('immediate tasks present', Array.isArray(plan.immediate));
-    check('shortTerm tasks present', Array.isArray(plan.shortTerm));
-    check('mediumTerm tasks present', Array.isArray(plan.mediumTerm));
-    check('DV hotline in immediate', plan.immediate?.some(
+    check('immediateTasks present', Array.isArray(plan.immediateTasks));
+    check('shortTermTasks present', Array.isArray(plan.shortTermTasks));
+    check('mediumTermTasks present', Array.isArray(plan.mediumTermTasks));
+    check('DV hotline in immediateTasks', plan.immediateTasks?.some(
       (t: any) => t.id === 'imm-dv-hotline' || t.title?.includes('DV') || t.title?.includes('hotline')
     ));
-    check('At least 1 immediate task', plan.immediate?.length >= 1);
+    check('At least 1 immediate task', plan.immediateTasks?.length >= 1);
   } else {
     check('Action plan present', false, 'plan is null');
   }

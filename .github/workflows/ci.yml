@@ -144,6 +144,40 @@ jobs:
         working-directory: ./frontend
         run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,css,md}"
 
+  test-v2-intake:
+    name: V2 Intake Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      - name: Run V2 Intake tests
+        working-directory: ./backend
+        run: npx jest tests/intake_v2/ --verbose --bail
+        env:
+          NODE_ENV: test
+          ZERO_OPENAI_MODE: 'true'
+
+      - name: V2 gate summary
+        if: always()
+        run: echo "V2 Intake gate completed"
+
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -210,7 +244,7 @@ jobs:
   build-test:
     name: Build Test
     runs-on: ubuntu-latest
-    needs: [test-backend, test-frontend, lint-and-format, type-check]
+    needs: [test-backend, test-frontend, lint-and-format, type-check, test-v2-intake]
 
     steps:
       - name: Checkout code
@@ -344,7 +378,7 @@ jobs:
   notify-slack:
     name: Notify Slack
     runs-on: ubuntu-latest
-    needs: [test-backend, test-frontend, lint-and-format, security-scan, type-check, build-test]
+    needs: [test-backend, test-frontend, lint-and-format, security-scan, type-check, build-test, test-v2-intake]
     if: always() && github.ref == 'refs/heads/main'
 
     steps:

@@ -2,7 +2,7 @@
 
 > **Date**: 2026-02-18
 > **Branch**: `v2-intake-scaffold`
-> **Status**: Plan — not yet implemented
+> **Status**: ✅ Implemented — Phase 5
 
 ---
 
@@ -129,4 +129,4 @@ When ready to implement:
 ---
 
 *Plan authored: 2026-02-18*
-*Implementation deferred to Phase 5 or when branch protection rules are configured.*
+*Implemented: 2026-02-18 (Phase 5)*

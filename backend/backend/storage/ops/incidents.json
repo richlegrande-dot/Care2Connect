@@ -797,12 +797,12 @@
     "severity": "warn",
     "status": "open",
     "firstSeenAt": "2026-01-25T12:56:03.818Z",
-    "lastSeenAt": "2026-02-08T07:18:06.489Z",
+    "lastSeenAt": "2026-02-19T01:52:55.106Z",
     "summary": "Tunnel external check failed",
     "details": "API: 530",
     "lastCheckPayload": {
       "api": 530,
-      "latency": 182
+      "latency": 154
     },
     "recommendation": "Check DNS propagation and tunnel routing (may be normal during DNS changes)"
   },
@@ -860,13 +860,13 @@
     "severity": "warn",
     "status": "open",
     "firstSeenAt": "2026-01-25T22:31:50.159Z",
-    "lastSeenAt": "2026-02-03T05:34:25.132Z",
+    "lastSeenAt": "2026-02-19T00:35:22.359Z",
     "summary": "Tunnel external check: Connection failed",
     "details": "Cannot reach care2connects.org: fetch failed",
     "lastCheckPayload": {
       "error": "fetch failed",
       "domain": "care2connects.org",
-      "latency": 633,
+      "latency": 442,
       "errorType": "Connection failed"
     },
     "recommendation": "Check cloudflared tunnel status and DNS configuration"
@@ -1239,5 +1239,69 @@
     },
     "recommendation": "Check DATABASE_URL and database server status",
     "resolvedAt": "2026-02-03T05:39:25.047Z"
+  },
+  "inc_1771459848007_elyou5rpk": {
+    "id": "inc_1771459848007_elyou5rpk",
+    "service": "assemblyai",
+    "severity": "critical",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-19T00:10:48.007Z",
+    "lastSeenAt": "2026-02-19T00:35:22.134Z",
+    "summary": "AssemblyAI API network error",
+    "details": "Failed to connect to AssemblyAI API: fetch failed",
+    "lastCheckPayload": {
+      "error": "fetch failed",
+      "latency": 376
+    },
+    "recommendation": "Check network connectivity and AssemblyAI service status",
+    "resolvedAt": "2026-02-19T00:57:55.810Z"
+  },
+  "inc_1771459848023_lqi90f4zp": {
+    "id": "inc_1771459848023_lqi90f4zp",
+    "service": "stripe",
+    "severity": "critical",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-19T00:10:48.023Z",
+    "lastSeenAt": "2026-02-19T00:35:22.185Z",
+    "summary": "Stripe API network error",
+    "details": "Failed to connect to Stripe API: fetch failed",
+    "lastCheckPayload": {
+      "error": "fetch failed",
+      "latency": 288
+    },
+    "recommendation": "Check network connectivity and Stripe service status",
+    "resolvedAt": "2026-02-19T00:57:55.723Z"
+  },
+  "inc_1771459848030_1zfpes4p7": {
+    "id": "inc_1771459848030_1zfpes4p7",
+    "service": "cloudflare",
+    "severity": "warn",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-19T00:10:48.032Z",
+    "lastSeenAt": "2026-02-19T00:35:22.355Z",
+    "summary": "Cloudflare API network error",
+    "details": "Failed to connect to Cloudflare API: fetch failed",
+    "lastCheckPayload": {
+      "error": "fetch failed",
+      "latency": 452
+    },
+    "recommendation": "Check network connectivity (non-critical)",
+    "resolvedAt": "2026-02-19T00:57:56.420Z"
+  },
+  "inc_1771459848294_h9cdtln4f": {
+    "id": "inc_1771459848294_h9cdtln4f",
+    "service": "prisma",
+    "severity": "critical",
+    "status": "resolved",
+    "firstSeenAt": "2026-02-19T00:10:48.294Z",
+    "lastSeenAt": "2026-02-19T00:35:22.376Z",
+    "summary": "Database connection failed",
+    "details": "Failed to connect to PostgreSQL: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `db.prisma.io:5432`\n\nPlease make sure your database server is running at `db.prisma.io:5432`.",
+    "lastCheckPayload": {
+      "error": "\nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `db.prisma.io:5432`\n\nPlease make sure your database server is running at `db.prisma.io:5432`.",
+      "latency": 528
+    },
+    "recommendation": "Check DATABASE_URL and database server status",
+    "resolvedAt": "2026-02-19T00:57:56.349Z"
   }
 }

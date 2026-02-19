@@ -57,7 +57,13 @@
     "eval:v4plus:baseline-save": "node backend/eval/v4plus/utils/baseline_manager.js save --suite all10k --report backend/eval/v4plus/reports/latest.json",
     "eval:v4plus:baseline-compare": "node backend/eval/v4plus/utils/baseline_manager.js compare --suite all10k --current backend/eval/v4plus/reports/latest.json",
     "eval:v4plus:html-report": "node backend/eval/v4plus/utils/generate_html_report.js --input backend/eval/v4plus/reports/latest.json",
-    "eval:v4plus:analyze-failures": "node backend/eval/v4plus/utils/failure_analyzer.js --report backend/eval/v4plus/reports/latest.json"
+    "eval:v4plus:analyze-failures": "node backend/eval/v4plus/utils/failure_analyzer.js --report backend/eval/v4plus/reports/latest.json",
+    "ga:personas": "npx tsx scripts/ga/score_persona_cards.ts",
+    "ga:calibration": "npx tsx scripts/ga/run_calibration_snapshot.ts",
+    "ga:packets": "npx tsx scripts/ga/generate_outreach_packets.ts",
+    "ga:packets:dry": "npx tsx scripts/ga/generate_outreach_packets.ts --dry-run",
+    "ga:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/run_ga_gate.ps1",
+    "ga:verify:ci": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/run_ga_gate.ps1 -CIMode"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

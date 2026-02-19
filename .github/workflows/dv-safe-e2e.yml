@@ -1,0 +1,91 @@
+name: DV-Safe E2E Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Browser to test (chromium, firefox, webkit, or all)'
+        required: false
+        default: 'chromium'
+
+env:
+  NODE_VERSION: '24'
+
+jobs:
+  dv-safe-e2e:
+    name: DV-Safe Panic Button Tests (${{ github.event.inputs.browser || 'chromium' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: careconnect_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ github.event.inputs.browser || 'chromium' }}
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Start services
+        run: |
+          cd backend && npm run dev &
+          cd frontend && npm start &
+          sleep 10
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_test
+          NODE_ENV: test
+          ZERO_OPENAI_MODE: 'true'
+
+      - name: Run DV-Safe E2E tests
+        run: npx playwright test tests/e2e_dv_safe/ --project=${{ github.event.inputs.browser || 'chromium' }}
+        env:
+          E2E_BASE_URL: http://localhost:3000
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dv-safe-e2e-results-${{ github.event.inputs.browser || 'chromium' }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

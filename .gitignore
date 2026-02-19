@@ -48,3 +48,18 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Next.js cache
+frontend/.next/cache/**
+
+# Cloudflare tunnel binary
+frontend/cloudflared.exe
+cloudflared.exe
+
+# GA outreach generated files
+outreach/generated/
+
+# Playwright
+playwright-report/
+test-results/
+

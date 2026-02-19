@@ -211,5 +211,34 @@ be temporarily relaxed:
 
 ---
 
-*Branch Protection Configuration — V2 Intake Phase 5*
-*Authored: 2026-02-18*
+## 8. Automated Path (Phase 8B)
+
+Instead of manually configuring branch protection through the GitHub UI,
+use the automation script:
+
+```powershell
+# Apply protection to main (reads config/branch_protection/main.json)
+.\scripts\ga\gh_apply_branch_protection.ps1
+
+# Apply protection to develop
+.\scripts\ga\gh_apply_branch_protection.ps1 -Branch develop
+
+# Preview without applying
+.\scripts\ga\gh_apply_branch_protection.ps1 -DryRun
+```
+
+**Config files**: `config/branch_protection/main.json` and `develop.json`
+
+The script uses `gh api -X PUT` to apply protection rules via the GitHub REST API.
+It auto-detects the repository from `git remote get-url origin` and verifies
+the rules were applied by reading them back.
+
+Requirements:
+- GitHub CLI (`gh`) installed and authenticated
+- Admin permissions on the repository
+- Branch must exist on the remote
+
+---
+
+*Branch Protection Configuration — V2 Intake Phase 5 (updated Phase 8B)*
+*Authored: 2026-02-18, Updated: 2026-02-19*

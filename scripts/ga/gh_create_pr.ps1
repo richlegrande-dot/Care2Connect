@@ -69,7 +69,7 @@ function Find-ExistingPR {
 
 # ── Load PR Body Template ──────────────────────────────────────
 function Get-PRBody {
-    $templatePath = Join-Path $REPO_ROOT "docs" "templates" "PR_V2_INTAKE_GA.md"
+    $templatePath = Join-Path -Path $REPO_ROOT -ChildPath "docs\templates\PR_V2_INTAKE_GA.md"
     if (Test-Path $templatePath) {
         return Get-Content $templatePath -Raw
     }

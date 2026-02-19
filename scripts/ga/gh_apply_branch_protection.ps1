@@ -51,11 +51,11 @@ Write-Host "Repository: $owner/$repo" -ForegroundColor Cyan
 Write-Host "Branch:     $Branch" -ForegroundColor Cyan
 
 # ── Load Config ─────────────────────────────────────────────────
-$configPath = Join-Path $REPO_ROOT "config" "branch_protection" "$Branch.json"
+$configPath = Join-Path -Path (Join-Path -Path (Join-Path -Path $REPO_ROOT -ChildPath "config") -ChildPath "branch_protection") -ChildPath "$Branch.json"
 if (-not (Test-Path $configPath)) {
     Write-Error "Config not found: $configPath"
     Write-Host "Available configs:" -ForegroundColor Yellow
-    Get-ChildItem (Join-Path $REPO_ROOT "config" "branch_protection" "*.json") |
+    Get-ChildItem (Join-Path -Path (Join-Path -Path (Join-Path -Path $REPO_ROOT -ChildPath "config") -ChildPath "branch_protection") -ChildPath "*.json") |
         ForEach-Object { Write-Host "  - $($_.BaseName)" -ForegroundColor Yellow }
     exit 1
 }

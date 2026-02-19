@@ -71,7 +71,7 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
                 }`}
                 aria-label={stepLabel}
               >
-                {isCompleted ? '✓' : index + 1}
+                {isCompleted ? '\u2713' : index + 1}
               </div>
               <span
                 className={`text-xs mt-1 text-center max-w-[60px] leading-tight ${
@@ -86,7 +86,7 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
             </div>
           );
         })}
-      </div>
+      </nav>
     </div>
   );
 }

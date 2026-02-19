@@ -17,14 +17,13 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { WizardProgress } from './components/WizardProgress';
 import { WizardModule } from './components/WizardModule';
 import { WizardResults } from './components/WizardResults';
 import { QuickExitButton } from './components/QuickExitButton';
 import type { ModuleId, IntakeModule, WizardState, ExplainabilityCard } from './types';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const DRAFT_STORAGE_KEY = 'v2-intake-draft';
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1000;
@@ -39,6 +38,20 @@ const MODULE_LABELS: Record<ModuleId, string> = {
   income: 'Income & Benefits',
   goals: 'Goals & Preferences',
 };
+
+// ── SSR-safe storage helpers ────────────────────────────────────
+
+const canUseStorage = () => typeof window !== 'undefined' && !!window.localStorage;
+
+function safeGet(key: string): string | null {
+  try { return canUseStorage() ? localStorage.getItem(key) : null; } catch { return null; }
+}
+function safeSet(key: string, val: string): void {
+  try { if (canUseStorage()) localStorage.setItem(key, val); } catch { /* noop */ }
+}
+function safeRemove(key: string): void {
+  try { if (canUseStorage()) localStorage.removeItem(key); } catch { /* noop */ }
+}
 
 // ── Offline Draft Helpers ──────────────────────────────────────
 
@@ -61,7 +74,7 @@ function saveDraft(state: WizardState): void {
       dvSafeMode: state.dvSafeMode,
       savedAt: new Date().toISOString(),
     };
-    localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+    safeSet(DRAFT_STORAGE_KEY, JSON.stringify(draft));
   } catch {
     // localStorage may be unavailable
   }
@@ -69,14 +82,14 @@ function saveDraft(state: WizardState): void {
 
 function loadDraft(): DraftData | null {
   try {
-    const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+    const raw = safeGet(DRAFT_STORAGE_KEY);
     if (!raw) return null;
     const draft = JSON.parse(raw) as DraftData;
     // Expire drafts older than 24 hours
     const savedAt = new Date(draft.savedAt);
     const ageMs = Date.now() - savedAt.getTime();
     if (ageMs > 24 * 60 * 60 * 1000) {
-      localStorage.removeItem(DRAFT_STORAGE_KEY);
+      safeRemove(DRAFT_STORAGE_KEY);
       return null;
     }
     return draft;
@@ -86,11 +99,7 @@ function loadDraft(): DraftData | null {
 }
 
 function clearDraft(): void {
-  try {
-    localStorage.removeItem(DRAFT_STORAGE_KEY);
-  } catch {
-    // Ignore
-  }
+  safeRemove(DRAFT_STORAGE_KEY);
 }
 
 // ── Retry Helper ───────────────────────────────────────────────
@@ -209,7 +218,8 @@ function DraftRecoveryBanner({ onRestore, onDiscard }: { onRestore: () => void; 
 }
 
 export default function IntakeWizardPage() {
-  // Feature gate
+  // Feature gate — client-safe redirect via useRouter (not redirect())
+  const router = useRouter();
   const v2Enabled = process.env.NEXT_PUBLIC_ENABLE_V2_INTAKE === 'true';
 
   const [modules, setModules] = useState<IntakeModule[]>([]);
@@ -234,10 +244,13 @@ export default function IntakeWizardPage() {
 
   const saveToastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Redirect if feature is disabled
-  if (!v2Enabled) {
-    redirect('/');
-  }
+  // Redirect if feature is disabled (client-safe, inside useEffect)
+  useEffect(() => {
+    if (!v2Enabled) router.replace('/');
+  }, [v2Enabled, router]);
+
+  // If feature is disabled, render nothing (prevents the rest of the tree from running)
+  if (!v2Enabled) return null;
 
   // Check for saved draft on mount
   useEffect(() => {
@@ -258,7 +271,7 @@ export default function IntakeWizardPage() {
   useEffect(() => {
     async function fetchSchemas() {
       try {
-        const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/schema`, {});
+        const res = await fetchWithRetry('/api/v2/intake/schema', {});
         if (!res.ok) throw new Error('Failed to load intake schema');
         const data = await res.json();
         setModules(data.modules);
@@ -302,7 +315,7 @@ export default function IntakeWizardPage() {
   const startSession = useCallback(async () => {
     if (state.sessionId) return;
     try {
-      const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/session`, { method: 'POST' });
+      const res = await fetchWithRetry('/api/v2/intake/session', { method: 'POST' });
       if (!res.ok) throw new Error('Failed to start session');
       const data = await res.json();
       setState(prev => ({ ...prev, sessionId: data.sessionId, status: 'in_progress' }));
@@ -315,7 +328,7 @@ export default function IntakeWizardPage() {
   const saveModule = useCallback(async (moduleId: ModuleId, data: Record<string, unknown>) => {
     if (!state.sessionId) return;
     try {
-      const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/session/${state.sessionId}`, {
+      const res = await fetchWithRetry(`/api/v2/intake/session/${state.sessionId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ moduleId, data }),
@@ -346,7 +359,7 @@ export default function IntakeWizardPage() {
     if (!state.sessionId) return;
     setState(prev => ({ ...prev, status: 'submitting' }));
     try {
-      const res = await fetchWithRetry(`${API_BASE}/api/v2/intake/session/${state.sessionId}/complete`, {
+      const res = await fetchWithRetry(`/api/v2/intake/session/${state.sessionId}/complete`, {
         method: 'POST',
       });
       if (!res.ok) {

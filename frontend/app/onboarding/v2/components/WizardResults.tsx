@@ -199,7 +199,7 @@ export function WizardResults({ results }: WizardResultsProps) {
         </div>
 
         <p className="text-xs text-gray-400 mt-6 text-center">
-          Assessment generated at {explainability.generatedAt} | Policy Pack {explainability.policyPackVersion || 'v1.0.0'}
+          Assessment generated at {explainability?.generatedAt ?? 'N/A'} | Policy Pack {explainability?.policyPackVersion ?? 'v1.0.0'}
         </p>
       </div>
     </div>

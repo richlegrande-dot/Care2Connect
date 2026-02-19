@@ -76,18 +76,18 @@ function Add-Check {
 # ── Banner ──────────────────────────────────────────────────────
 
 Write-Host ""
-Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║            V2 Intake — GA Gate Runner                      ║" -ForegroundColor Cyan
-Write-Host "║            GO / NO-GO Readiness Assessment                 ║" -ForegroundColor Cyan
-Write-Host "╚══════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "+--------------------------------------------------------------+" -ForegroundColor Cyan
+Write-Host "|            V2 Intake - GA Gate Runner                      |" -ForegroundColor Cyan
+Write-Host "|            GO / NO-GO Readiness Assessment                 |" -ForegroundColor Cyan
+Write-Host "+--------------------------------------------------------------+" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Date:   $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "  Mode:   $(if ($CIMode) { 'CI (strict)' } else { 'Interactive' })"
 Write-Host "  Output: $OutputDir"
 Write-Host ""
-Write-Host ("─" * 60) -ForegroundColor DarkGray
+Write-Host ("-" * 60) -ForegroundColor DarkGray
 
-# ── Check 1: Git Status ────────────────────────────────────────
+# -- Check 1: Git Status --------------------------------------------
 
 Write-Host ""
 Write-Host "1. Git Status" -ForegroundColor Cyan
@@ -117,7 +117,9 @@ if ($SkipTests) {
     Add-Check "V2 intake tests (195)" "SKIP" "Skipped via -SkipTests flag"
 } else {
     try {
+        Push-Location backend
         $testOutput = & npx jest tests/intake_v2/ --verbose --bail 2>&1 | Out-String
+        Pop-Location
         if ($LASTEXITCODE -eq 0) {
             # Count test suites and tests from output
             if ($testOutput -match "Tests:\s+(\d+) passed") {
@@ -127,7 +129,7 @@ if ($SkipTests) {
                 Add-Check "V2 intake tests" "PASS" "Tests completed"
             }
         } else {
-            Add-Check "V2 intake tests" "FAIL" "Tests failed — see output above"
+            Add-Check "V2 intake tests" "FAIL" "Tests failed - see output above"
         }
     } catch {
         Add-Check "V2 intake tests" "FAIL" "Exception: $($_.Exception.Message)"
@@ -202,7 +204,7 @@ if (Test-Path $largeFileScript) {
         if ($LASTEXITCODE -eq 0) {
             Add-Check "No large files (>50MB)" "PASS" ""
         } else {
-            Add-Check "No large files (>50MB)" "WARN" "Large files detected — review output"
+            Add-Check "No large files (>50MB)" "WARN" "Large files detected - review output"
         }
     } catch {
         Add-Check "No large files (>50MB)" "WARN" "Script error: $($_.Exception.Message)"
@@ -286,13 +288,13 @@ Write-Host "  Elapsed: ${elapsed}s"
 Write-Host ""
 
 if ($overallPass) {
-    Write-Host "  ╔════════════════════════╗" -ForegroundColor Green
-    Write-Host "  ║      GO — READY        ║" -ForegroundColor Green
-    Write-Host "  ╚════════════════════════╝" -ForegroundColor Green
+    Write-Host "  +========================+" -ForegroundColor Green
+    Write-Host "  |      GO - READY        |" -ForegroundColor Green
+    Write-Host "  +========================+" -ForegroundColor Green
 } else {
-    Write-Host "  ╔════════════════════════╗" -ForegroundColor Red
-    Write-Host "  ║    NO-GO — BLOCKED     ║" -ForegroundColor Red
-    Write-Host "  ╚════════════════════════╝" -ForegroundColor Red
+    Write-Host "  +========================+" -ForegroundColor Red
+    Write-Host "  |    NO-GO - BLOCKED     |" -ForegroundColor Red
+    Write-Host "  +========================+" -ForegroundColor Red
 }
 
 # ── Generate Result Artifact ───────────────────────────────────
@@ -306,11 +308,11 @@ $resultPath = Join-Path $OutputDir "GA_GATE_RESULT.md"
 $resultContent = @"
 # V2 Intake — GA Gate Result
 
-**Date**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+**Date**: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
 **Branch**: $branch
 **Commit**: $commitHash
-**Mode**: $(if ($CIMode) { 'CI' } else { 'Interactive' })
-**Verdict**: $(if ($overallPass) { '**GO** — All critical checks passed' } else { '**NO-GO** — One or more checks failed' })
+**Mode**: $(if ($CIMode) { "CI" } else { "Interactive" })
+**Verdict**: $(if ($overallPass) { "**GO** - All critical checks passed" } else { "**NO-GO** - One or more checks failed" })
 **Elapsed**: ${elapsed}s
 
 ---

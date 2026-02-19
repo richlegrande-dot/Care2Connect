@@ -29,7 +29,7 @@ param(
 $ErrorActionPreference = "Stop"
 $REPO_ROOT = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
-# Required checks — the V2 Intake Gate is the critical one
+# Required checks - the V2 Intake Gate is the critical one
 $CRITICAL_CHECKS = @("V2 Intake Gate")
 $ALL_CHECKS = @(
     "V2 Intake Gate",
@@ -88,7 +88,7 @@ if ($PRNumber -eq 0) {
         exit 1
     }
     $PRNumber = $pr.number
-    Write-Host "Found PR #$PRNumber — $($pr.url)" -ForegroundColor Green
+    Write-Host "Found PR #$PRNumber - $($pr.url)" -ForegroundColor Green
 } else {
     Write-Host "Watching PR #$PRNumber" -ForegroundColor Green
 }

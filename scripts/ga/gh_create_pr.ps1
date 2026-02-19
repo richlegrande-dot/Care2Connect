@@ -74,7 +74,7 @@ function Get-PRBody {
         return Get-Content $templatePath -Raw
     }
     return @"
-## V2 Intake Scaffold — GA Merge
+## V2 Intake Scaffold - GA Merge
 
 Merges the V2 Intake system (scoring engine, policy pack, calibration, DV-safe module,
 fairness monitor, HMIS export, and all 195 unit tests) into the main branch.
@@ -103,14 +103,14 @@ $existingPR = Find-ExistingPR -Repo $repo
 if ($existingPR) {
     Write-Host ""
     Write-Host "PR already exists:" -ForegroundColor Green
-    Write-Host "  #$($existingPR.number) — $($existingPR.url)" -ForegroundColor Yellow
+    Write-Host "  #$($existingPR.number) - $($existingPR.url)" -ForegroundColor Yellow
     Write-Host "  State: $($existingPR.state)" -ForegroundColor Yellow
     exit 0
 }
 
 # Create new PR
 $body = Get-PRBody
-$title = "feat: V2 Intake Scaffold — GA Merge to $Base"
+$title = "feat: V2 Intake Scaffold - GA Merge to $Base"
 
 if ($DryRun) {
     Write-Host ""

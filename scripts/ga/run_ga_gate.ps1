@@ -197,7 +197,7 @@ try {
 Write-Host ""
 Write-Host "6. Large File Detection" -ForegroundColor Cyan
 
-$largeFileScript = Join-Path $REPO_ROOT "scripts" "ga" "preflight_large_files.ps1"
+$largeFileScript = Join-Path -Path $REPO_ROOT -ChildPath "scripts\ga\preflight_large_files.ps1"
 if (Test-Path $largeFileScript) {
     try {
         $largeOutput = & powershell -NoProfile -ExecutionPolicy Bypass -File $largeFileScript 2>&1 | Out-String

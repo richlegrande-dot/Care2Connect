@@ -305,17 +305,24 @@ const goalsSchema = {
 
 // ── Registry ───────────────────────────────────────────────────
 
-type ModuleSchema = typeof consentSchema;
+interface BaseModuleSchema {
+  $id: string;
+  type: 'object';
+  required: string[];
+  properties: Record<string, any>;
+}
+
+type ModuleSchema = BaseModuleSchema;
 
 const MODULE_SCHEMAS: Record<ModuleId, ModuleSchema> = {
   consent: consentSchema,
-  demographics: demographicsSchema as ModuleSchema,
-  housing: housingSchema as ModuleSchema,
-  safety: safetySchema as ModuleSchema,
-  health: healthSchema as ModuleSchema,
-  history: historySchema as ModuleSchema,
-  income: incomeSchema as ModuleSchema,
-  goals: goalsSchema as ModuleSchema,
+  demographics: demographicsSchema,
+  housing: housingSchema,
+  safety: safetySchema,
+  health: healthSchema,
+  history: historySchema,
+  income: incomeSchema,
+  goals: goalsSchema,
 };
 
 /**

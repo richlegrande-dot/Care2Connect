@@ -19,7 +19,7 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 import { INTAKE_MODULES, getModuleSchema, validateModuleData } from '../forms/default-intake-form';
 import { computeScores, type IntakeData } from '../scoring/computeScores';
@@ -195,7 +195,7 @@ router.put('/session/:sessionId', async (req: Request, res: Response) => {
     const updated = await prisma.v2IntakeSession.update({
       where: { id: sessionId },
       data: {
-        modules: updatedModules,
+        modules: updatedModules as unknown as Prisma.InputJsonValue,
         completedModules: updatedCompleted,
         dvSafeMode,
       },
@@ -287,10 +287,10 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
       data: {
         status: 'COMPLETED',
         completedAt: new Date(),
-        modules: storedModules,
-        scoreResult: scoreResult as unknown as Record<string, unknown>,
-        explainabilityCard: explainabilityCard as unknown as Record<string, unknown>,
-        actionPlan: actionPlan as unknown as Record<string, unknown>,
+        modules: storedModules as unknown as Prisma.InputJsonValue,
+        scoreResult: scoreResult as unknown as Prisma.InputJsonValue,
+        explainabilityCard: explainabilityCard as unknown as Prisma.InputJsonValue,
+        actionPlan: actionPlan as unknown as Prisma.InputJsonValue,
         totalScore: scoreResult.totalScore,
         stabilityLevel: scoreResult.stabilityLevel,
         priorityTier: scoreResult.priorityTier,

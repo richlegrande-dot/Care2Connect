@@ -44,7 +44,7 @@ foreach ($file in $trackedFiles) {
             File = $file
             SizeMB = $sizeMB
         }
-        Write-Host "  [!] $file — ${sizeMB}MB" -ForegroundColor Red
+        Write-Host "  [!] $file - ${sizeMB}MB" -ForegroundColor Red
     }
 }
 

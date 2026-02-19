@@ -63,7 +63,11 @@
     "ga:packets": "npx tsx scripts/ga/generate_outreach_packets.ts",
     "ga:packets:dry": "npx tsx scripts/ga/generate_outreach_packets.ts --dry-run",
     "ga:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/run_ga_gate.ps1",
-    "ga:verify:ci": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/run_ga_gate.ps1 -CIMode"
+    "ga:verify:ci": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/run_ga_gate.ps1 -CIMode",
+    "ga:preview:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/phase9_start_local_preview.ps1",
+    "ga:preview:deploy": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/phase9_deploy_preview.ps1",
+    "ga:preview:deploy:dry": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/phase9_deploy_preview.ps1 -DryRun",
+    "ga:evidence": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ga/phase9_create_evidence_folder.ps1"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

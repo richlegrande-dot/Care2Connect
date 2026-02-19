@@ -9,17 +9,22 @@
 .PARAMETER Branch
   Branch to protect (default: main). Must have a matching JSON config file.
 
+.PARAMETER Profile
+  Optional profile name to use (e.g. v2_only, full). If specified, loads
+  <branch>.<profile>.json instead of <branch>.json.
+
 .PARAMETER DryRun
   Show the API call that would be made without executing it.
 
 .EXAMPLE
   .\scripts\ga\gh_apply_branch_protection.ps1
-  .\scripts\ga\gh_apply_branch_protection.ps1 -Branch develop
-  .\scripts\ga\gh_apply_branch_protection.ps1 -Branch main -DryRun
+  .\scripts\ga\gh_apply_branch_protection.ps1 -Branch main -Profile v2_only
+  .\scripts\ga\gh_apply_branch_protection.ps1 -Branch main -Profile full -DryRun
 #>
 
 param(
     [string]$Branch = "main",
+    [string]$Profile = "",
     [switch]$DryRun
 )
 
@@ -49,9 +54,13 @@ try {
 $owner, $repo = $repoSlug -split '/', 2
 Write-Host "Repository: $owner/$repo" -ForegroundColor Cyan
 Write-Host "Branch:     $Branch" -ForegroundColor Cyan
+if ($Profile) {
+    Write-Host "Profile:    $Profile" -ForegroundColor Cyan
+}
 
 # ── Load Config ─────────────────────────────────────────────────
-$configPath = Join-Path -Path (Join-Path -Path (Join-Path -Path $REPO_ROOT -ChildPath "config") -ChildPath "branch_protection") -ChildPath "$Branch.json"
+$configFilename = if ($Profile) { "$Branch.$Profile.json" } else { "$Branch.json" }
+$configPath = Join-Path -Path (Join-Path -Path (Join-Path -Path $REPO_ROOT -ChildPath "config") -ChildPath "branch_protection") -ChildPath $configFilename
 if (-not (Test-Path $configPath)) {
     Write-Error "Config not found: $configPath"
     Write-Host "Available configs:" -ForegroundColor Yellow
@@ -61,8 +70,14 @@ if (-not (Test-Path $configPath)) {
 }
 
 $configJson = Get-Content $configPath -Raw
-Write-Host ""
-Write-Host "Config loaded from: $configPath" -ForegroundColor Green
+if ($Profile) {
+    Write-Host ""
+    Write-Host "Config loaded from: $configPath" -ForegroundColor Green
+    Write-Host "                    (Profile: $Profile)" -ForegroundColor Yellow
+} else {
+    Write-Host ""
+    Write-Host "Config loaded from: $configPath" -ForegroundColor Green
+}
 
 # Parse to show summary
 $config = $configJson | ConvertFrom-Json

@@ -208,7 +208,22 @@ export default function SessionProfilePage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback for environments without clipboard API
+      // Fallback: select text in a temporary input for manual copy
+      try {
+        const el = document.createElement('textarea');
+        el.value = sessionId;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // If all copy methods fail, do nothing silently
+      }
     }
   };
 
@@ -222,8 +237,8 @@ export default function SessionProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" />
+        <div className="text-center" role="status" aria-label="Loading profile">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" aria-hidden="true" />
           <p className="text-gray-600">Loading your profile…</p>
         </div>
       </div>
@@ -236,7 +251,7 @@ export default function SessionProfilePage() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
-          <div className="text-red-500 text-4xl mb-4">⚠️</div>
+          <div className="text-red-500 text-4xl mb-4" aria-hidden="true">⚠️</div>
           <h1 className="text-xl font-bold text-gray-900 mb-2">Profile Unavailable</h1>
           <p className="text-gray-600 mb-6">{error}</p>
           <Link
@@ -294,6 +309,7 @@ export default function SessionProfilePage() {
                 <code className="font-mono text-xs bg-amber-100 px-2 py-1 rounded break-all">{sessionId}</code>
                 <button
                   onClick={handleCopyId}
+                  aria-label={copied ? 'Session ID copied to clipboard' : 'Copy session ID to clipboard'}
                   className="text-xs px-2 py-1 bg-amber-200 hover:bg-amber-300 rounded transition-colors"
                 >
                   {copied ? '✓ Copied' : 'Copy'}
@@ -440,7 +456,7 @@ export default function SessionProfilePage() {
             <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full ml-1">Coming Soon</span>
           </button>
           {chatToastVisible && (
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg animate-bounce">
+            <div role="alert" aria-live="polite" className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg animate-bounce">
               Chat feature launching soon — stay tuned!
             </div>
           )}

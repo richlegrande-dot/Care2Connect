@@ -653,6 +653,11 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     });
 
     if (!session) {
+      // Privacy headers on 404 to prevent caching/indexing of error responses
+      res.set({
+        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        'X-Robots-Tag': 'noindex, nofollow',
+      });
       return res.status(404).json({ error: 'Session not found' });
     }
 
@@ -762,6 +767,11 @@ router.get('/session/:sessionId/audit', v2IntakeAuthMiddleware, async (req: Requ
     });
 
     if (!session) {
+      // Privacy headers on 404 to prevent caching/indexing of error responses
+      res.set({
+        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        'X-Robots-Tag': 'noindex, nofollow',
+      });
       return res.status(404).json({ error: 'Session not found' });
     }
 

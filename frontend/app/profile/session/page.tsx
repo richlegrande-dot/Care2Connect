@@ -52,13 +52,11 @@ export default function FindMyProfilePage() {
     setIsSubmitting(true);
     setError(null);
 
-    try {
-      // Navigate to the profile page
-      router.push(`/profile/session/${cleaned}`);
-    } catch (err) {
-      setError('Unable to navigate to profile. Please try again.');
-      setIsSubmitting(false);
-    }
+    // Navigate to the profile page — router.push() doesn't throw,
+    // so we set a timeout fallback to reset isSubmitting
+    router.push(`/profile/session/${cleaned}`);
+    // Reset after a reasonable navigation timeout
+    setTimeout(() => setIsSubmitting(false), 5000);
   };
 
   const handleClearInput = () => {
@@ -106,6 +104,8 @@ export default function FindMyProfilePage() {
                 value={sessionId}
                 onChange={handleInputChange}
                 placeholder="Enter your session ID..."
+                aria-describedby={error ? 'sessionId-error sessionId-helper' : 'sessionId-helper'}
+                aria-invalid={!!error}
                 className={`w-full px-4 py-3 border rounded-lg text-sm font-mono bg-white transition-colors ${
                   error 
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500' 
@@ -119,6 +119,7 @@ export default function FindMyProfilePage() {
                 <button
                   type="button"
                   onClick={handleClearInput}
+                  aria-label="Clear input"
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   disabled={isSubmitting}
                 >
@@ -129,14 +130,14 @@ export default function FindMyProfilePage() {
             
             {/* Error Message */}
             {error && (
-              <p className="text-red-600 text-xs mt-2 flex items-center gap-1">
-                <span>⚠️</span>
+              <p id="sessionId-error" className="text-red-600 text-xs mt-2 flex items-center gap-1" role="alert">
+                <span aria-hidden="true">⚠️</span>
                 {error}
               </p>
             )}
             
             {/* Helper Text */}
-            <p className="text-gray-500 text-xs mt-2">
+            <p id="sessionId-helper" className="text-gray-500 text-xs mt-2">
               Example: cmlsc9p9p0000z8zc9ol574mg
             </p>
           </div>

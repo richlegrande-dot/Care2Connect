@@ -49,8 +49,8 @@ build/
 .DS_Store
 Thumbs.db
 
-# Next.js cache
-frontend/.next/cache/**
+# Next.js build output
+frontend/.next/
 
 # Cloudflare tunnel binary
 frontend/cloudflared.exe

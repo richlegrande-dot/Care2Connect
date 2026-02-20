@@ -16,9 +16,8 @@
  * @module intake/v2/rank/rankService
  */
 
-import { PrismaClient, Prisma } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { Prisma } from '@prisma/client';
+import { prisma } from '../../../utils/database';
 
 // ── Types ──────────────────────────────────────────────────────
 

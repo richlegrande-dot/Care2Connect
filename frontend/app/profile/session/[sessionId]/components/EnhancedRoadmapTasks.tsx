@@ -143,13 +143,16 @@ function TaskItem({ task, taskId, sessionId, isAdvancement = false }: {
       <div className="flex items-start gap-3">
         <button
           onClick={handleToggleComplete}
+          role="checkbox"
+          aria-checked={completed}
+          aria-label={`Mark "${task.title}" as ${completed ? 'incomplete' : 'complete'}`}
           className={`mt-0.5 w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${
             completed 
               ? 'bg-green-500 border-green-500 text-white' 
               : 'border-gray-300 hover:border-blue-400'
           }`}
         >
-          {completed && <span className="text-xs">✓</span>}
+          {completed && <span className="text-xs" aria-hidden="true">✓</span>}
         </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1">
@@ -163,7 +166,10 @@ function TaskItem({ task, taskId, sessionId, isAdvancement = false }: {
                 </span>
               )}
               {task.priority && (
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityColor} bg-current bg-opacity-10`}>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityColor} bg-gray-100`}
+                  aria-label={`Priority: ${task.priority}`}
+                >
                   {task.priority}
                 </span>
               )}
@@ -204,7 +210,7 @@ export default function EnhancedRoadmapTasks({
       {advancementTasks.length > 0 && (
         <div>
           <h4 className="text-sm font-semibold text-indigo-700 mb-3 flex items-center gap-2">
-            ⭐ Key Tasks for Level {nextLevel} Advancement
+            <span aria-hidden="true">⭐</span> Key Tasks for Level {nextLevel} Advancement
             <span className="text-xs bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-full">
               {advancementTasks.length} prioritized
             </span>
@@ -232,7 +238,7 @@ export default function EnhancedRoadmapTasks({
       {sortedImmediate.length > 0 && (
         <div>
           <h4 className="text-sm font-semibold text-red-700 mb-2">
-            🔴 Immediate (0–24 hours) — {sortedImmediate.length} task(s)
+            <span aria-hidden="true">🔴</span> Immediate (0–24 hours) — {sortedImmediate.length} task(s)
           </h4>
           <div className="ml-4 space-y-2">
             {sortedImmediate.map((task, i) => (
@@ -251,7 +257,7 @@ export default function EnhancedRoadmapTasks({
       {sortedShortTerm.length > 0 && (
         <div>
           <h4 className="text-sm font-semibold text-orange-700 mb-2">
-            🟠 Short-Term (1–7 days) — {sortedShortTerm.length} task(s)
+            <span aria-hidden="true">🟠</span> Short-Term (1–7 days) — {sortedShortTerm.length} task(s)
           </h4>
           <div className="ml-4 space-y-2">
             {sortedShortTerm.map((task, i) => (
@@ -270,7 +276,7 @@ export default function EnhancedRoadmapTasks({
       {sortedMediumTerm.length > 0 && (
         <div>
           <h4 className="text-sm font-semibold text-blue-700 mb-2">
-            🔵 Medium-Term (30–90 days) — {sortedMediumTerm.length} task(s)
+            <span aria-hidden="true">🔵</span> Medium-Term (30–90 days) — {sortedMediumTerm.length} task(s)
           </h4>
           <div className="ml-4 space-y-2">
             {sortedMediumTerm.map((task, i) => (

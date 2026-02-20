@@ -26,7 +26,7 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
   const clampedLevel = Math.max(0, Math.min(5, currentLevel));
 
   return (
-    <div className="w-full">
+    <div className="w-full" role="region" aria-label="Stability Spectrum">
       <h3 className="font-semibold text-gray-900 mb-4 text-lg">Your Stability Spectrum</h3>
       <p className="text-sm text-gray-500 mb-6">
         The 6-step spectrum shows where you are on the path to housing stability.
@@ -37,10 +37,15 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
       <div className="hidden sm:block">
         <div className="relative flex items-center justify-between">
           {/* Connector line */}
-          <div className="absolute top-5 left-0 right-0 h-1 bg-gray-200 rounded-full" />
+          <div className="absolute top-5 left-0 right-0 h-1 bg-gray-200 rounded-full" aria-hidden="true" />
           <div
             className="absolute top-5 left-0 h-1 bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500 rounded-full transition-all duration-500"
             style={{ width: `${(clampedLevel / 5) * 100}%` }}
+            role="progressbar"
+            aria-valuenow={clampedLevel}
+            aria-valuemin={0}
+            aria-valuemax={5}
+            aria-label={`Progress: Level ${clampedLevel} of 5`}
           />
 
           {LEVELS.map(({ level, label, bgColor, ringColor }) => {
@@ -49,7 +54,11 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
             const isFuture = level > clampedLevel;
 
             return (
-              <div key={level} className="relative flex flex-col items-center z-10" style={{ width: '16.666%' }}>
+              <div
+                key={level}
+                className="relative flex flex-col items-center z-10"
+                style={{ width: '16.666%' }}
+              >
                 {/* Node */}
                 <div
                   className={`
@@ -62,8 +71,13 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
                         : 'bg-gray-200 text-gray-400'
                     }
                   `}
+                  aria-label={
+                    isCurrent ? `Level ${level}: ${label} — current level`
+                    : isPast ? `Level ${level}: ${label} — completed`
+                    : `Level ${level}: ${label} — future`
+                  }
                 >
-                  {isPast ? '✓' : level}
+                  {isPast ? <span aria-hidden="true">✓</span> : level}
                 </div>
                 {/* Label */}
                 <span className={`
@@ -73,7 +87,7 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
                   {label}
                 </span>
                 {isCurrent && (
-                  <span className="mt-1 text-[10px] font-semibold text-blue-600 uppercase tracking-wide">
+                  <span className="mt-1 text-[10px] font-semibold text-blue-600 uppercase tracking-wide" aria-hidden="true">
                     You are here
                   </span>
                 )}
@@ -84,7 +98,7 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
       </div>
 
       {/* Mobile / Vertical view */}
-      <div className="sm:hidden space-y-2">
+      <div className="sm:hidden space-y-2" role="list" aria-label="Stability levels">
         {LEVELS.map(({ level, label, color, bgColor, borderColor }) => {
           const isCurrent = level === clampedLevel;
           const isPast = level < clampedLevel;
@@ -102,6 +116,8 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
                     : 'border-gray-100 bg-gray-50 opacity-60'
                 }
               `}
+              role="listitem"
+              aria-current={isCurrent ? 'step' : undefined}
             >
               <div
                 className={`
@@ -113,15 +129,20 @@ export default function SpectrumStepper({ currentLevel }: SpectrumStepperProps) 
                       : 'bg-gray-200 text-gray-400'
                   }
                 `}
+                aria-label={
+                  isCurrent ? `Level ${level}: ${label} — current`
+                  : isPast ? `Level ${level}: ${label} — completed`
+                  : `Level ${level}: ${label} — future`
+                }
               >
-                {isPast ? '✓' : level}
+                {isPast ? <span aria-hidden="true">✓</span> : level}
               </div>
               <div className="flex-1 min-w-0">
                 <span className={`text-sm font-medium ${isCurrent ? color : isFuture ? 'text-gray-400' : 'text-gray-600'}`}>
                   Level {level}: {label}
                 </span>
                 {isCurrent && (
-                  <span className="ml-2 text-[10px] font-semibold text-blue-600 uppercase">← You are here</span>
+                  <span className="ml-2 text-[10px] font-semibold text-blue-600 uppercase" aria-hidden="true">← You are here</span>
                 )}
               </div>
             </div>

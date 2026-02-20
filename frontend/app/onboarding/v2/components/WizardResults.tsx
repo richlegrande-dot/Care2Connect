@@ -26,6 +26,8 @@ interface WizardResultsProps {
         mediumTermTasks: Array<{ title: string; description: string; priority: string; category: string }>;
       };
     };
+    sessionId?: string;
+    rank?: { position: number; of: number } | null;
   };
 }
 
@@ -63,6 +65,17 @@ export function WizardResults({ results }: WizardResultsProps) {
           <p className="text-gray-600">
             Based on your responses, here is your personalized assessment and recommended next steps.
           </p>
+          {/* Session ID & Rank */}
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-400">
+            {results.sessionId && (
+              <span>Session: <span className="font-mono">{results.sessionId}</span></span>
+            )}
+            {results.rank && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
+                Priority Rank: {results.rank.position} of {results.rank.of}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Stability Level Card */}

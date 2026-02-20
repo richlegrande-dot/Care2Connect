@@ -33,6 +33,13 @@ import { buildHMISExport, hmisToCSV, type SessionData } from '../exports/hmisExp
 import { analyzeFairness, runFullFairnessAnalysis, type CompletedSessionSummary } from '../audit/fairnessMonitor';
 import { generateCalibrationReport } from '../calibration/generateCalibrationReport';
 import type { CalibrationSession } from '../calibration/calibrationTypes';
+import {
+  writeAuditEvent,
+  generateRequestId,
+  getSessionAuditEvents,
+  countSessionAuditEvents,
+  type V2AuditEventType,
+} from '../audit/auditWriter';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -129,6 +136,11 @@ router.post('/session', async (req: Request, res: Response) => {
       },
     });
 
+    // Audit: session started
+    await writeAuditEvent(session.id, 'INTAKE_STARTED', {
+      policyPackVersion: DEFAULT_POLICY_PACK.version,
+    });
+
     res.status(201).json({
       sessionId: session.id,
       status: session.status,
@@ -201,6 +213,15 @@ router.put('/session/:sessionId', async (req: Request, res: Response) => {
       },
     });
 
+    // Audit: module saved (no raw data — only safe metadata)
+    await writeAuditEvent(sessionId, 'MODULE_SAVED', {
+      moduleId,
+      isRequired: REQUIRED_MODULES.includes(moduleId as any),
+      isComplete: true,
+      completedModuleCount: updatedCompleted.length,
+      totalModuleCount: MODULE_ORDER.length,
+    });
+
     // Determine next module
     const currentIndex = MODULE_ORDER.indexOf(moduleId);
     const nextModule =
@@ -224,10 +245,19 @@ router.put('/session/:sessionId', async (req: Request, res: Response) => {
 /**
  * POST /session/:sessionId/complete — Finalize intake, compute scores
  *
- * Uses a Prisma transaction to atomically store the session completion,
- * score results, explainability card, and action plan.
+ * Hardened for:
+ *   - Idempotency: re-completing returns stored results + audit event
+ *   - Atomicity: all results + audit committed together
+ *   - Durable logging: correlationId links all audit events for one request
+ *   - Stable error contract: machine-friendly error codes
  */
 router.post('/session/:sessionId/complete', async (req: Request, res: Response) => {
+  const requestId = generateRequestId();
+  const startTime = Date.now();
+
+  // Always return requestId in headers
+  res.setHeader('X-Request-Id', requestId);
+
   try {
     const { sessionId } = req.params;
     const session = await prisma.v2IntakeSession.findUnique({
@@ -235,26 +265,80 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
     });
 
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      return res.status(404).json({
+        error: 'SESSION_NOT_FOUND',
+        code: 'E_SESSION_NOT_FOUND',
+        requestId,
+      });
     }
+
+    // ── Idempotency: already completed → return stored results ──
     if (session.status === 'COMPLETED') {
-      return res.status(400).json({ error: 'Session already completed' });
+      await writeAuditEvent(sessionId, 'SESSION_COMPLETE_IDEMPOTENT_HIT', {
+        requestId,
+        correlationId: requestId,
+      });
+
+      return res.json({
+        sessionId,
+        status: 'COMPLETED',
+        idempotent: true,
+        requestId,
+        completedAt: session.completedAt?.toISOString(),
+        score: session.totalScore !== null
+          ? {
+              totalScore: session.totalScore,
+              stabilityLevel: session.stabilityLevel,
+              priorityTier: session.priorityTier,
+              dimensions: (() => {
+                const sr = session.scoreResult as Record<string, any> | null;
+                const dims = sr?.dimensions ?? {};
+                return {
+                  housing_stability: dims.housing_stability?.score ?? 0,
+                  safety_crisis: dims.safety_crisis?.score ?? 0,
+                  vulnerability_health: dims.vulnerability_health?.score ?? 0,
+                  chronicity_system: dims.chronicity_system?.score ?? 0,
+                };
+              })(),
+            }
+          : null,
+        explainability: session.explainabilityCard,
+        actionPlan: session.actionPlan,
+      });
     }
+
+    // ── Stage 1: INTAKE_SUBMITTED ──
+    await writeAuditEvent(sessionId, 'INTAKE_SUBMITTED', {
+      requestId,
+      correlationId: requestId,
+      completedModuleCount: (session.completedModules as string[]).length,
+      totalModuleCount: MODULE_ORDER.length,
+      dvSafeMode: session.dvSafeMode,
+    });
 
     const completedModules = session.completedModules as string[];
 
-    // Verify required modules
+    // ── Stage 2: Validate required modules ──
     const missingRequired = REQUIRED_MODULES.filter(
       m => !completedModules.includes(m)
     );
     if (missingRequired.length > 0) {
+      await writeAuditEvent(sessionId, 'SESSION_COMPLETE_FAILED', {
+        requestId,
+        correlationId: requestId,
+        errorCode: 'E_VALIDATE_REQUIRED_MODULES',
+        errorMessage: `Missing modules: ${missingRequired.join(', ')}`,
+      });
+
       return res.status(422).json({
-        error: 'Missing required modules',
+        error: 'COMPLETE_FAILED',
+        code: 'E_VALIDATE_REQUIRED_MODULES',
+        requestId,
         missingModules: missingRequired,
       });
     }
 
-    // Build IntakeData from session modules
+    // ── Stage 3: Build IntakeData ──
     const modules = session.modules as Record<string, Record<string, unknown>>;
     const intakeData: IntakeData = {
       consent: modules.consent,
@@ -267,42 +351,102 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
       goals: modules.goals,
     };
 
-    // Compute scores using policy pack
+    // ── Stage 4: Compute scores (no logic changes) ──
+    const scoreStartTime = Date.now();
     const scoreResult = computeScores(intakeData);
+    const scoreDurationMs = Date.now() - scoreStartTime;
 
-    // Build explainability card
+    // ── Stage 5: Build explainability card ──
     const explainabilityCard = buildExplanation(scoreResult, session.dvSafeMode);
 
-    // Generate action plan
+    // ── Stage 6: Generate action plan ──
     const actionPlan = generatePlan(intakeData);
 
-    // P0-3: If DV-safe mode, redact sensitive data before storage
+    // ── Stage 7: DV-safe redaction ──
     const storedModules = session.dvSafeMode
       ? redactSensitiveModules(modules).redacted
       : modules;
 
-    // Atomic update: store all results together
-    const completedSession = await prisma.v2IntakeSession.update({
-      where: { id: sessionId },
-      data: {
-        status: 'COMPLETED',
-        completedAt: new Date(),
-        modules: storedModules as unknown as Prisma.InputJsonValue,
-        scoreResult: scoreResult as unknown as Prisma.InputJsonValue,
-        explainabilityCard: explainabilityCard as unknown as Prisma.InputJsonValue,
-        actionPlan: actionPlan as unknown as Prisma.InputJsonValue,
-        totalScore: scoreResult.totalScore,
-        stabilityLevel: scoreResult.stabilityLevel,
-        priorityTier: scoreResult.priorityTier,
-        policyPackVersion: scoreResult.policyPackVersion,
-        sensitiveDataRedacted: session.dvSafeMode,
-      },
-    });
+    // ── Stage 8: Atomic persist (session + audit events in transaction) ──
+    const completedAt = new Date();
+
+    await prisma.$transaction([
+      prisma.v2IntakeSession.update({
+        where: { id: sessionId },
+        data: {
+          status: 'COMPLETED',
+          completedAt,
+          modules: storedModules as unknown as Prisma.InputJsonValue,
+          scoreResult: scoreResult as unknown as Prisma.InputJsonValue,
+          explainabilityCard: explainabilityCard as unknown as Prisma.InputJsonValue,
+          actionPlan: actionPlan as unknown as Prisma.InputJsonValue,
+          totalScore: scoreResult.totalScore,
+          stabilityLevel: scoreResult.stabilityLevel,
+          priorityTier: scoreResult.priorityTier,
+          policyPackVersion: scoreResult.policyPackVersion,
+          sensitiveDataRedacted: session.dvSafeMode,
+        },
+      }),
+      prisma.v2IntakeAuditEvent.create({
+        data: {
+          sessionId,
+          eventType: 'SCORE_COMPUTED',
+          requestId,
+          meta: {
+            totalScore: scoreResult.totalScore,
+            stabilityLevel: scoreResult.stabilityLevel,
+            priorityTier: scoreResult.priorityTier,
+            policyPackVersion: scoreResult.policyPackVersion,
+            scoringEngineVersion: SCORING_ENGINE_VERSION,
+            inputHashPrefix: scoreResult.inputHash?.slice(0, 8) ?? null,
+            housing_stability: scoreResult.dimensions.housing_stability.score,
+            safety_crisis: scoreResult.dimensions.safety_crisis.score,
+            vulnerability_health: scoreResult.dimensions.vulnerability_health.score,
+            chronicity_system: scoreResult.dimensions.chronicity_system.score,
+            durationMs: scoreDurationMs,
+            correlationId: requestId,
+          },
+        },
+      }),
+      prisma.v2IntakeAuditEvent.create({
+        data: {
+          sessionId,
+          eventType: 'PLAN_GENERATED',
+          requestId,
+          meta: {
+            immediateTaskCount: actionPlan.immediateTasks.length,
+            shortTermTaskCount: actionPlan.shortTermTasks.length,
+            mediumTermTaskCount: actionPlan.mediumTermTasks.length,
+            totalTaskCount:
+              actionPlan.immediateTasks.length +
+              actionPlan.shortTermTasks.length +
+              actionPlan.mediumTermTasks.length,
+            correlationId: requestId,
+          },
+        },
+      }),
+      prisma.v2IntakeAuditEvent.create({
+        data: {
+          sessionId,
+          eventType: 'SESSION_COMPLETED',
+          requestId,
+          meta: {
+            totalScore: scoreResult.totalScore,
+            stabilityLevel: scoreResult.stabilityLevel,
+            priorityTier: scoreResult.priorityTier,
+            durationMs: Date.now() - startTime,
+            sensitiveDataRedacted: session.dvSafeMode,
+            correlationId: requestId,
+          },
+        },
+      }),
+    ]);
 
     res.json({
       sessionId,
-      status: completedSession.status,
-      completedAt: completedSession.completedAt?.toISOString(),
+      status: 'COMPLETED',
+      requestId,
+      completedAt: completedAt.toISOString(),
       score: {
         totalScore: scoreResult.totalScore,
         stabilityLevel: scoreResult.stabilityLevel,
@@ -323,8 +467,25 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
       },
     });
   } catch (err) {
+    const { sessionId } = req.params;
     console.error('[V2 Intake] Failed to complete session:', err);
-    res.status(500).json({ error: 'Failed to complete intake session' });
+
+    // Best-effort audit of the failure
+    try {
+      await writeAuditEvent(sessionId, 'SESSION_COMPLETE_FAILED', {
+        requestId,
+        correlationId: requestId,
+        errorCode: 'E_INTERNAL',
+        errorMessage: err instanceof Error ? err.message.slice(0, 200) : 'Unknown error',
+        durationMs: Date.now() - startTime,
+      });
+    } catch { /* swallow — audit must not mask the real error */ }
+
+    res.status(500).json({
+      error: 'COMPLETE_FAILED',
+      code: 'E_INTERNAL',
+      requestId,
+    });
   }
 });
 
@@ -367,6 +528,153 @@ router.get('/session/:sessionId', async (req: Request, res: Response) => {
   } catch (err) {
     console.error('[V2 Intake] Failed to get session:', err);
     res.status(500).json({ error: 'Failed to retrieve session' });
+  }
+});
+
+// ── Session Profile + Rank ─────────────────────────────────────
+
+/**
+ * GET /session/:sessionId/profile — Return session profile with rank
+ *
+ * Ranking: among COMPLETED sessions, sorted by:
+ *   1. stabilityLevel ASC (0 = most urgent)
+ *   2. totalScore DESC
+ *   3. completedAt ASC (older first)
+ *   4. id ASC (final tie-break)
+ * Rank is 1-based index.
+ */
+router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const session = await prisma.v2IntakeSession.findUnique({
+      where: { id: sessionId },
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    // Audit stats
+    const auditStats = await countSessionAuditEvents(sessionId);
+
+    // Base profile fields
+    const profile: Record<string, unknown> = {
+      sessionId: session.id,
+      status: session.status,
+      createdAt: session.createdAt.toISOString(),
+    };
+
+    if (session.status !== 'COMPLETED') {
+      // Return partial profile — no rank for incomplete sessions
+      return res.json({
+        ...profile,
+        completedAt: null,
+        profile: {
+          totalScore: null,
+          stabilityLevel: null,
+          priorityTier: null,
+          policyPackVersion: session.policyPackVersion,
+        },
+        topFactors: [],
+        rank: null,
+        audit: auditStats,
+      });
+    }
+
+    // Completed session — get explainability top factors
+    const explainCard = session.explainabilityCard as Record<string, unknown> | null;
+    const topFactors = (explainCard?.topFactors as string[]) ?? [];
+
+    // Compute rank among all completed sessions
+    // Query only the fields needed for sorting
+    const allCompleted = await prisma.v2IntakeSession.findMany({
+      where: { status: 'COMPLETED' },
+      select: {
+        id: true,
+        stabilityLevel: true,
+        totalScore: true,
+        completedAt: true,
+      },
+      orderBy: [
+        { stabilityLevel: 'asc' },
+        { totalScore: 'desc' },
+        { completedAt: 'asc' },
+        { id: 'asc' },
+      ],
+    });
+
+    const rank = allCompleted.findIndex(s => s.id === sessionId) + 1; // 1-based
+    const totalCompleted = allCompleted.length;
+
+    // Build sort key for transparency
+    const sortKey = `L${session.stabilityLevel}|S${session.totalScore}|T${session.completedAt?.toISOString() ?? ''}|ID${session.id}`;
+
+    res.json({
+      sessionId: session.id,
+      status: session.status,
+      completedAt: session.completedAt?.toISOString(),
+      profile: {
+        totalScore: session.totalScore,
+        stabilityLevel: session.stabilityLevel,
+        priorityTier: session.priorityTier,
+        policyPackVersion: session.policyPackVersion,
+      },
+      topFactors,
+      rank: {
+        position: rank,
+        of: totalCompleted,
+        sortKey,
+      },
+      audit: auditStats,
+    });
+  } catch (err) {
+    console.error('[V2 Intake] Failed to get session profile:', err);
+    res.status(500).json({ error: 'Failed to retrieve session profile' });
+  }
+});
+
+// ── Session Audit Events ───────────────────────────────────────
+
+/**
+ * GET /session/:sessionId/audit — Return DB-backed audit events (newest-first)
+ *
+ * Query params:
+ *   ?limit=N — max events to return (default 50, max 200)
+ */
+router.get('/session/:sessionId/audit', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+
+    // Verify session exists
+    const session = await prisma.v2IntakeSession.findUnique({
+      where: { id: sessionId },
+      select: { id: true, status: true },
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    const limitParam = parseInt(req.query.limit as string, 10);
+    const limit = Number.isFinite(limitParam) ? Math.min(Math.max(limitParam, 1), 200) : 50;
+
+    const events = await getSessionAuditEvents(sessionId, limit);
+
+    res.json({
+      sessionId,
+      status: session.status,
+      eventCount: events.length,
+      events: events.map(e => ({
+        id: e.id,
+        eventType: e.eventType,
+        requestId: e.requestId,
+        meta: e.meta,
+        createdAt: e.createdAt.toISOString(),
+      })),
+    });
+  } catch (err) {
+    console.error('[V2 Intake] Failed to get audit events:', err);
+    res.status(500).json({ error: 'Failed to retrieve audit events' });
   }
 });
 

@@ -996,8 +996,27 @@ model V2IntakeSession {
   // DV-safe storage minimization flag
   sensitiveDataRedacted Boolean    @default(false)
 
+  // Relation to audit events
+  auditEvents V2IntakeAuditEvent[]
+
   @@index([userId])
   @@index([status])
   @@index([createdAt])
   @@map("v2_intake_sessions")
+}
+
+model V2IntakeAuditEvent {
+  id        String   @id @default(cuid())
+  sessionId String
+  eventType String
+  requestId String?
+  meta      Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  session   V2IntakeSession @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+  @@index([eventType])
+  @@index([createdAt])
+  @@map("v2_intake_audit_events")
 }

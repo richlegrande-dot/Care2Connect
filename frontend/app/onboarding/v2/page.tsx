@@ -228,9 +228,11 @@ export default function IntakeWizardPage() {
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [pendingDraft, setPendingDraft] = useState<DraftData | null>(null);
   const [results, setResults] = useState<{
-    score: { totalScore: number; stabilityLevel: number; priorityTier: string };
+    score: { totalScore: number; stabilityLevel: number; priorityTier: string; dimensions?: { housing_stability: number; safety_crisis: number; vulnerability_health: number; chronicity_system: number } };
     explainability: ExplainabilityCard;
-    actionPlan: { immediateTasks: number; shortTermTasks: number; mediumTermTasks: number };
+    actionPlan: { immediateTasks: number; shortTermTasks: number; mediumTermTasks: number; tasks?: any };
+    sessionId?: string;
+    rank?: { position: number; of: number } | null;
   } | null>(null);
 
   const [state, setState] = useState<WizardState>({
@@ -369,10 +371,23 @@ export default function IntakeWizardPage() {
       }
       const data = await res.json();
       setState(prev => ({ ...prev, status: 'completed' }));
+
+      // Best-effort fetch rank from profile endpoint
+      let rank: { position: number; of: number } | null = null;
+      try {
+        const profileRes = await fetchWithRetry(`/api/v2/intake/session/${state.sessionId}/profile`, {});
+        if (profileRes.ok) {
+          const profileData = await profileRes.json();
+          rank = profileData.rank ?? null;
+        }
+      } catch { /* non-blocking — rank is optional */ }
+
       setResults({
         score: data.score,
         explainability: data.explainability,
         actionPlan: data.actionPlan,
+        sessionId: state.sessionId ?? undefined,
+        rank,
       });
       // Clear the draft on successful completion
       clearDraft();

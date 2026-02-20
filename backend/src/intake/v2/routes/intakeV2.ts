@@ -40,6 +40,11 @@ import {
   countSessionAuditEvents,
   type V2AuditEventType,
 } from '../audit/auditWriter';
+import {
+  getRank,
+  computeAndStoreSnapshot,
+  invalidateCache as invalidateRankCache,
+} from '../rank/rankService';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -467,6 +472,27 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
       }),
     ]);
 
+    // ── Stage 9: Best-effort rank snapshot (non-blocking) ──
+    // Compute and store rank immediately after completion.
+    // Errors here MUST NOT block the completion response.
+    try {
+      await computeAndStoreSnapshot(sessionId, {
+        id: sessionId,
+        stabilityLevel: scoreResult.stabilityLevel,
+        totalScore: scoreResult.totalScore,
+        completedAt,
+        isTest: session.isTest,
+      });
+    } catch (rankErr) {
+      console.error('[V2 Intake] Best-effort rank snapshot failed:', rankErr);
+      try {
+        await writeAuditEvent(sessionId, 'RANK_COMPUTE_FAILED', {
+          requestId,
+          correlationId: requestId,
+        });
+      } catch { /* swallow */ }
+    }
+
     res.json({
       sessionId,
       status: 'COMPLETED',
@@ -654,42 +680,13 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     const explainCard = session.explainabilityCard as Record<string, unknown> | null;
     const topFactors = (explainCard?.topFactors as string[]) ?? [];
 
-    // Count-based rank — scalable to 100K+ sessions
-    // Rank = 1 + count(sessions that outrank this one)
-    // Outrank: lower stabilityLevel, OR same level + higher totalScore,
-    //          OR same level + same score + earlier completedAt,
-    //          OR same level + same score + same completedAt + smaller id
+    // Rank: snapshot-first with 15-min freshness, fallback to live compute
+    // Uses partitioned level ranking: global + level-local
     // By default, exclude isTest sessions from rank. Override with ?includeTest=true.
     const includeTest = req.query.includeTest === 'true';
-    const testFilter = includeTest ? {} : { isTest: false };
+    const forceRefresh = req.query.forceRefresh === 'true';
 
-    const L = session.stabilityLevel ?? 999;
-    const S = session.totalScore ?? 0;
-    const T = session.completedAt ?? new Date();
-    const ID = session.id;
-
-    const [outrankCount, totalCompleted] = await Promise.all([
-      prisma.v2IntakeSession.count({
-        where: {
-          status: 'COMPLETED',
-          ...testFilter,
-          OR: [
-            { stabilityLevel: { lt: L } },
-            { stabilityLevel: L, totalScore: { gt: S } },
-            { stabilityLevel: L, totalScore: S, completedAt: { lt: T } },
-            { stabilityLevel: L, totalScore: S, completedAt: T, id: { lt: ID } },
-          ],
-        },
-      }),
-      prisma.v2IntakeSession.count({
-        where: { status: 'COMPLETED', ...testFilter },
-      }),
-    ]);
-
-    const rank = outrankCount + 1;
-
-    // Build sort key for transparency
-    const sortKey = `L${session.stabilityLevel}|S${session.totalScore}|T${session.completedAt?.toISOString() ?? ''}|ID${session.id}`;
+    const rankResult = await getRank(session, { includeTest, forceRefresh });
 
     res.json({
       sessionId: session.id,
@@ -703,10 +700,13 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
       },
       topFactors,
       rank: {
-        position: rank,
-        of: totalCompleted,
-        sortKey,
-        excludesTestSessions: !includeTest,
+        position: rankResult.global.position,
+        of: rankResult.global.of,
+        global: rankResult.global,
+        level: rankResult.level,
+        sortKey: rankResult.sortKey,
+        excludesTestSessions: rankResult.excludesTestSessions,
+        fromSnapshot: rankResult.fromSnapshot,
       },
       audit: auditStats,
     });

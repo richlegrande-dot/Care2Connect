@@ -25,7 +25,8 @@ export type V2AuditEventType =
   | 'PLAN_GENERATED'
   | 'SESSION_COMPLETED'
   | 'SESSION_COMPLETE_IDEMPOTENT_HIT'
-  | 'SESSION_COMPLETE_FAILED';
+  | 'SESSION_COMPLETE_FAILED'
+  | 'RANK_COMPUTE_FAILED';
 
 // ── Meta Allowlist ─────────────────────────────────────────────
 
@@ -77,6 +78,10 @@ const META_ALLOWLIST = new Set<string>([
   // DV-safe flag (boolean only)
   'dvSafeMode',
   'sensitiveDataRedacted',
+
+  // Rank metadata
+  'rankPosition',
+  'rankOf',
 ]);
 
 /**

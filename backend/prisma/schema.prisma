@@ -999,6 +999,12 @@ model V2IntakeSession {
   // Test session tagging — verification scripts set this via X-C2C-Test-Run header
   isTest                Boolean    @default(false)
 
+  // Rank snapshot — populated at completion time, refreshed on profile reads
+  rankPosition          Int?
+  rankOf                Int?
+  rankComputedAt        DateTime?
+  rankSortKey           String?
+
   // Relation to audit events
   auditEvents V2IntakeAuditEvent[]
 
@@ -1006,7 +1012,10 @@ model V2IntakeSession {
   @@index([status])
   @@index([createdAt])
   @@index([isTest])
-  @@index([status, isTest, stabilityLevel, totalScore, completedAt, id], map: "v2_intake_sessions_rank_composite_idx")
+  // NOTE: The optimized rank index with DESC on totalScore is managed via raw SQL migration:
+  //   v2_intake_sessions_rank_desc_idx (status, isTest, stabilityLevel ASC, totalScore DESC, completedAt ASC, id ASC)
+  //   v2_intake_sessions_rank_completed_idx — partial index for completed non-test sessions
+  // See: migrations/20260220_rank_snapshot_optimized_index/migration.sql
   @@map("v2_intake_sessions")
 }
 

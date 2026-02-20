@@ -7,9 +7,10 @@ interface WizardProgressProps {
   currentStep: number;
   completedModules: ModuleId[];
   moduleLabels: Record<ModuleId, string>;
+  onStepClick?: (stepIndex: number) => void;
 }
 
-export function WizardProgress({ modules, currentStep, completedModules, moduleLabels }: WizardProgressProps) {
+export function WizardProgress({ modules, currentStep, completedModules, moduleLabels, onStepClick }: WizardProgressProps) {
   const percentComplete = Math.round(((currentStep) / modules.length) * 100);
 
   return (
@@ -49,7 +50,8 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
           const isCompleted = completedModules.includes(mod.id);
           const isCurrent = index === currentStep;
           const isPast = index < currentStep;
-          const stepLabel = `Step ${index + 1}: ${moduleLabels[mod.id]}${isCompleted ? ' (completed)' : isCurrent ? ' (current)' : ''}${!mod.required ? ' (optional)' : ''}`;
+          const isClickable = onStepClick && (isCompleted || isPast);
+          const stepLabel = `Step ${index + 1}: ${moduleLabels[mod.id]}${isCompleted ? ' (completed)' : isCurrent ? ' (current)' : ''}${!mod.required ? ' (optional)' : ''}${isClickable ? ' — click to edit' : ''}`;
 
           return (
             <div
@@ -59,8 +61,11 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
               }`}
               aria-current={isCurrent ? 'step' : undefined}
             >
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+              <button
+                type="button"
+                disabled={!isClickable}
+                onClick={() => isClickable && onStepClick(index)}
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                   isCompleted
                     ? 'bg-green-500 text-white'
                     : isCurrent
@@ -68,15 +73,16 @@ export function WizardProgress({ modules, currentStep, completedModules, moduleL
                     : isPast
                     ? 'bg-blue-200 text-blue-800'
                     : 'bg-gray-200 text-gray-500'
-                }`}
+                } ${isClickable ? 'cursor-pointer hover:ring-2 hover:ring-blue-400 hover:scale-110' : 'cursor-default'}`}
                 aria-label={stepLabel}
               >
                 {isCompleted ? '\u2713' : index + 1}
-              </div>
+              </button>
               <span
                 className={`text-xs mt-1 text-center max-w-[60px] leading-tight ${
-                  isCurrent ? 'font-semibold text-blue-600' : 'text-gray-500'
+                  isCurrent ? 'font-semibold text-blue-600' : isClickable ? 'text-blue-500 cursor-pointer' : 'text-gray-500'
                 }`}
+                onClick={() => isClickable && onStepClick(index)}
               >
                 {moduleLabels[mod.id]}
               </span>

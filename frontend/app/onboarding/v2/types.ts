@@ -49,7 +49,7 @@ export interface WizardState {
   completedModules: ModuleId[];
   moduleData: Partial<Record<ModuleId, Record<string, unknown>>>;
   dvSafeMode: boolean;
-  status: 'idle' | 'in_progress' | 'submitting' | 'completed' | 'error';
+  status: 'idle' | 'in_progress' | 'review' | 'submitting' | 'completed' | 'error';
   error: string | null;
 }
 

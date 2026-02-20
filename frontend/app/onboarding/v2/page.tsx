@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation';
 import { WizardProgress } from './components/WizardProgress';
 import { WizardModule } from './components/WizardModule';
 import { WizardResults } from './components/WizardResults';
+import { WizardReview } from './components/WizardReview';
 import { QuickExitButton } from './components/QuickExitButton';
 import type { ModuleId, IntakeModule, WizardState, ExplainabilityCard } from './types';
 
@@ -392,12 +393,12 @@ export default function IntakeWizardPage() {
 
     const nextStep = state.currentStep + 1;
     if (nextStep >= modules.length) {
-      // All modules done — complete
-      await completeIntake();
+      // All modules done — go to review screen instead of completing immediately
+      setState(prev => ({ ...prev, status: 'review' }));
     } else {
       setState(prev => ({ ...prev, currentStep: nextStep }));
     }
-  }, [state.sessionId, state.currentStep, modules.length, startSession, saveModule, completeIntake]);
+  }, [state.sessionId, state.currentStep, modules.length, startSession, saveModule]);
 
   // Handle back
   const handleBack = useCallback(() => {
@@ -412,11 +413,36 @@ export default function IntakeWizardPage() {
   const handleSkip = useCallback(() => {
     const nextStep = state.currentStep + 1;
     if (nextStep >= modules.length) {
-      completeIntake();
+      setState(prev => ({ ...prev, status: 'review' }));
     } else {
       setState(prev => ({ ...prev, currentStep: nextStep }));
     }
-  }, [state.currentStep, modules.length, completeIntake]);
+  }, [state.currentStep, modules.length]);
+
+  // Handle clicking a step indicator to jump to that step
+  const handleStepClick = useCallback((stepIndex: number) => {
+    setState(prev => ({
+      ...prev,
+      currentStep: stepIndex,
+      status: 'in_progress',
+      error: null,
+    }));
+  }, []);
+
+  // Handle edit from review screen — jump back to the selected step
+  const handleEditFromReview = useCallback((stepIndex: number) => {
+    setState(prev => ({
+      ...prev,
+      currentStep: stepIndex,
+      status: 'in_progress',
+      error: null,
+    }));
+  }, []);
+
+  // Handle submit from review screen
+  const handleReviewSubmit = useCallback(() => {
+    completeIntake();
+  }, [completeIntake]);
 
   if (loading) {
     return <SkeletonLoader />;
@@ -424,6 +450,19 @@ export default function IntakeWizardPage() {
 
   if (state.status === 'completed' && results) {
     return <WizardResults results={results} />;
+  }
+
+  if (state.status === 'review' || state.status === 'submitting') {
+    return (
+      <WizardReview
+        modules={modules}
+        moduleData={state.moduleData}
+        moduleLabels={MODULE_LABELS}
+        onEditStep={handleEditFromReview}
+        onSubmit={handleReviewSubmit}
+        isSubmitting={state.status === 'submitting'}
+      />
+    );
   }
 
   const currentModule = modules[state.currentStep];
@@ -455,6 +494,7 @@ export default function IntakeWizardPage() {
           currentStep={state.currentStep}
           completedModules={state.completedModules}
           moduleLabels={MODULE_LABELS}
+          onStepClick={handleStepClick}
         />
 
         {state.error && (
@@ -477,7 +517,7 @@ export default function IntakeWizardPage() {
             savedData={state.moduleData[currentModule.id]}
             isFirst={state.currentStep === 0}
             isLast={state.currentStep === modules.length - 1}
-            isSubmitting={state.status === 'submitting'}
+            isSubmitting={false}
             onNext={(data) => handleNext(currentModule.id, data)}
             onBack={handleBack}
             onSkip={!currentModule.required ? handleSkip : undefined}

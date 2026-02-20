@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import type { ExplainabilityCard } from '../types';
 
 interface WizardResultsProps {
@@ -199,6 +200,22 @@ export function WizardResults({ results }: WizardResultsProps) {
             <p className="text-sm text-gray-500">No specific action items generated based on your responses.</p>
           )}
         </div>
+
+        {/* View Your Profile CTA */}
+        {results.sessionId && (
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-6 mb-6 text-center">
+            <h3 className="font-semibold text-white mb-2">Your Profile is Ready</h3>
+            <p className="text-blue-100 text-sm mb-4">
+              View your stability spectrum, personalized roadmap, and rank — all in one place.
+            </p>
+            <Link
+              href={`/profile/session/${results.sessionId}`}
+              className="inline-block px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg hover:bg-blue-50 transition-colors shadow-sm"
+            >
+              View Your Profile →
+            </Link>
+          </div>
+        )}
 
         {/* What Happens Next */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">

@@ -709,6 +709,14 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
         fromSnapshot: rankResult.fromSnapshot,
       },
       audit: auditStats,
+      // Optional roadmap data — include stored actionPlan when requested
+      ...(req.query.include === 'roadmap' && session.actionPlan ? {
+        roadmap: {
+          currentLevel: session.stabilityLevel,
+          nextLevel: (session.stabilityLevel ?? 0) < 5 ? (session.stabilityLevel ?? 0) + 1 : null,
+          actionPlan: session.actionPlan,
+        },
+      } : {}),
     });
   } catch (err) {
     console.error('[V2 Intake] Failed to get session profile:', err);

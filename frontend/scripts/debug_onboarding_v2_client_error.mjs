@@ -8,7 +8,8 @@
 
 import { chromium } from 'playwright';
 
-const TARGET_URL = 'http://localhost:3000/onboarding/v2';
+const BASE_URL = process.env.C2C_BASE_URL || 'http://localhost:3000';
+const TARGET_URL = `${BASE_URL}/onboarding/v2`;
 const WAIT_MS = 5000;
 
 async function main() {

@@ -60,6 +60,27 @@ router.post('/session*', v2IntakeAuthMiddleware);
 router.put('/session*', v2IntakeAuthMiddleware);
 router.get('/session/:sessionId', v2IntakeAuthMiddleware);
 
+// ── RequestId Middleware — applied to all V2 intake routes ─────
+// Reads X-Request-Id from request header or generates a new UUID.
+// Attached to req.requestId and echoed in response X-Request-Id header.
+declare global {
+  namespace Express {
+    interface Request {
+      requestId?: string;
+    }
+  }
+}
+
+router.use((req: Request, res: Response, next) => {
+  const incoming = req.headers['x-request-id'];
+  const requestId = (typeof incoming === 'string' && incoming.length > 0)
+    ? incoming
+    : generateRequestId();
+  (req as any).requestId = requestId;
+  res.setHeader('X-Request-Id', requestId);
+  next();
+});
+
 // ── Routes ─────────────────────────────────────────────────────
 
 /**
@@ -125,6 +146,9 @@ router.get('/schema/:moduleId', (req: Request, res: Response) => {
  */
 router.post('/session', async (req: Request, res: Response) => {
   try {
+    // Check for test-run header
+    const isTest = req.headers['x-c2c-test-run'] === '1';
+
     const session = await prisma.v2IntakeSession.create({
       data: {
         userId: req.body?.userId ?? null,
@@ -133,19 +157,22 @@ router.post('/session', async (req: Request, res: Response) => {
         modules: {},
         completedModules: [],
         policyPackVersion: DEFAULT_POLICY_PACK.version,
+        isTest,
       },
     });
 
     // Audit: session started
     await writeAuditEvent(session.id, 'INTAKE_STARTED', {
       policyPackVersion: DEFAULT_POLICY_PACK.version,
-    });
+      requestId: (req as any).requestId,
+    }, (req as any).requestId);
 
     res.status(201).json({
       sessionId: session.id,
       status: session.status,
       nextModule: MODULE_ORDER[0],
       createdAt: session.createdAt.toISOString(),
+      isTest: session.isTest,
     });
   } catch (err) {
     console.error('[V2 Intake] Failed to create session:', err);
@@ -220,7 +247,8 @@ router.put('/session/:sessionId', async (req: Request, res: Response) => {
       isComplete: true,
       completedModuleCount: updatedCompleted.length,
       totalModuleCount: MODULE_ORDER.length,
-    });
+      requestId: (req as any).requestId,
+    }, (req as any).requestId);
 
     // Determine next module
     const currentIndex = MODULE_ORDER.indexOf(moduleId);
@@ -252,11 +280,8 @@ router.put('/session/:sessionId', async (req: Request, res: Response) => {
  *   - Stable error contract: machine-friendly error codes
  */
 router.post('/session/:sessionId/complete', async (req: Request, res: Response) => {
-  const requestId = generateRequestId();
+  const requestId = (req as any).requestId as string;
   const startTime = Date.now();
-
-  // Always return requestId in headers
-  res.setHeader('X-Request-Id', requestId);
 
   try {
     const { sessionId } = req.params;
@@ -327,7 +352,7 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
         requestId,
         correlationId: requestId,
         errorCode: 'E_VALIDATE_REQUIRED_MODULES',
-        errorMessage: `Missing modules: ${missingRequired.join(', ')}`,
+        errorMessage: 'Validation failed',
       });
 
       return res.status(422).json({
@@ -470,13 +495,15 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
     const { sessionId } = req.params;
     console.error('[V2 Intake] Failed to complete session:', err);
 
-    // Best-effort audit of the failure
+    // Best-effort audit of the failure (sanitized — no raw error strings)
     try {
+      const isValidation = err instanceof Error &&
+        (err.message.includes('Validation') || err.message.includes('Missing'));
       await writeAuditEvent(sessionId, 'SESSION_COMPLETE_FAILED', {
         requestId,
         correlationId: requestId,
         errorCode: 'E_INTERNAL',
-        errorMessage: err instanceof Error ? err.message.slice(0, 200) : 'Unknown error',
+        errorMessage: isValidation ? 'Validation failed' : 'Internal error',
         durationMs: Date.now() - startTime,
       });
     } catch { /* swallow — audit must not mask the real error */ }
@@ -486,6 +513,48 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
       code: 'E_INTERNAL',
       requestId,
     });
+  }
+});
+
+// ── Review-Entered Event ───────────────────────────────────────
+
+/**
+ * POST /session/:sessionId/review-entered — Log REVIEW_ENTERED audit event
+ *
+ * Called by the frontend (best-effort) when the user reaches the review screen.
+ * Body: (empty or ignored — no PII accepted)
+ */
+router.post('/session/:sessionId/review-entered', async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const requestId = (req as any).requestId as string;
+
+    const session = await prisma.v2IntakeSession.findUnique({
+      where: { id: sessionId },
+      select: { id: true, status: true, completedModules: true },
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found', requestId });
+    }
+
+    if (session.status === 'COMPLETED') {
+      return res.status(400).json({ error: 'Session already completed', requestId });
+    }
+
+    const completedModules = session.completedModules as string[];
+
+    await writeAuditEvent(sessionId, 'REVIEW_ENTERED', {
+      stage: 'review',
+      completedModuleCount: completedModules.length,
+      totalModuleCount: MODULE_ORDER.length,
+      requestId,
+    }, requestId);
+
+    res.json({ ok: true, requestId });
+  } catch (err) {
+    console.error('[V2 Intake] Failed to log review-entered:', err);
+    res.status(500).json({ error: 'Failed to log review event' });
   }
 });
 
@@ -585,26 +654,39 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     const explainCard = session.explainabilityCard as Record<string, unknown> | null;
     const topFactors = (explainCard?.topFactors as string[]) ?? [];
 
-    // Compute rank among all completed sessions
-    // Query only the fields needed for sorting
-    const allCompleted = await prisma.v2IntakeSession.findMany({
-      where: { status: 'COMPLETED' },
-      select: {
-        id: true,
-        stabilityLevel: true,
-        totalScore: true,
-        completedAt: true,
-      },
-      orderBy: [
-        { stabilityLevel: 'asc' },
-        { totalScore: 'desc' },
-        { completedAt: 'asc' },
-        { id: 'asc' },
-      ],
-    });
+    // Count-based rank — scalable to 100K+ sessions
+    // Rank = 1 + count(sessions that outrank this one)
+    // Outrank: lower stabilityLevel, OR same level + higher totalScore,
+    //          OR same level + same score + earlier completedAt,
+    //          OR same level + same score + same completedAt + smaller id
+    // By default, exclude isTest sessions from rank. Override with ?includeTest=true.
+    const includeTest = req.query.includeTest === 'true';
+    const testFilter = includeTest ? {} : { isTest: false };
 
-    const rank = allCompleted.findIndex(s => s.id === sessionId) + 1; // 1-based
-    const totalCompleted = allCompleted.length;
+    const L = session.stabilityLevel ?? 999;
+    const S = session.totalScore ?? 0;
+    const T = session.completedAt ?? new Date();
+    const ID = session.id;
+
+    const [outrankCount, totalCompleted] = await Promise.all([
+      prisma.v2IntakeSession.count({
+        where: {
+          status: 'COMPLETED',
+          ...testFilter,
+          OR: [
+            { stabilityLevel: { lt: L } },
+            { stabilityLevel: L, totalScore: { gt: S } },
+            { stabilityLevel: L, totalScore: S, completedAt: { lt: T } },
+            { stabilityLevel: L, totalScore: S, completedAt: T, id: { lt: ID } },
+          ],
+        },
+      }),
+      prisma.v2IntakeSession.count({
+        where: { status: 'COMPLETED', ...testFilter },
+      }),
+    ]);
+
+    const rank = outrankCount + 1;
 
     // Build sort key for transparency
     const sortKey = `L${session.stabilityLevel}|S${session.totalScore}|T${session.completedAt?.toISOString() ?? ''}|ID${session.id}`;
@@ -624,6 +706,7 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
         position: rank,
         of: totalCompleted,
         sortKey,
+        excludesTestSessions: !includeTest,
       },
       audit: auditStats,
     });

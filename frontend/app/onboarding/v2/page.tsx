@@ -270,6 +270,15 @@ export default function IntakeWizardPage() {
     }
   }, [state.moduleData, state.currentStep, state.status, state.dvSafeMode]);
 
+  // Best-effort: log REVIEW_ENTERED audit event when entering review
+  useEffect(() => {
+    if (state.status === 'review' && state.sessionId) {
+      fetch(`/api/v2/intake/session/${state.sessionId}/review-entered`, {
+        method: 'POST',
+      }).catch(() => { /* best-effort — ignore errors */ });
+    }
+  }, [state.status, state.sessionId]);
+
   // Fetch module schemas on mount
   useEffect(() => {
     async function fetchSchemas() {

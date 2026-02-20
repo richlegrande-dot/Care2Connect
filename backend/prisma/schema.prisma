@@ -996,12 +996,17 @@ model V2IntakeSession {
   // DV-safe storage minimization flag
   sensitiveDataRedacted Boolean    @default(false)
 
+  // Test session tagging — verification scripts set this via X-C2C-Test-Run header
+  isTest                Boolean    @default(false)
+
   // Relation to audit events
   auditEvents V2IntakeAuditEvent[]
 
   @@index([userId])
   @@index([status])
   @@index([createdAt])
+  @@index([isTest])
+  @@index([status, isTest, stabilityLevel, totalScore, completedAt, id], map: "v2_intake_sessions_rank_composite_idx")
   @@map("v2_intake_sessions")
 }
 

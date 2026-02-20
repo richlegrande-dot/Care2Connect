@@ -99,28 +99,36 @@ async function getCachedCounts(includeTest: boolean): Promise<{ byLevel: Map<num
 }
 
 /**
- * Query DB for counts grouped by stabilityLevel.
+ * Query DB for counts grouped by stabilityLevel using optimized SQL.
  */
 async function refreshCountsFromDB(includeTest: boolean): Promise<{ byLevel: Map<number, number>; total: number }> {
-  const testFilter = includeTest ? {} : { isTest: false };
-
-  const groups = await prisma.v2IntakeSession.groupBy({
-    by: ['stabilityLevel'],
-    where: {
-      status: 'COMPLETED',
-      ...testFilter,
-      stabilityLevel: { not: null },
-    },
-    _count: { _all: true },
-  });
+  // Use raw SQL for explicit index usage with the level_counts_idx
+  const results = includeTest
+    ? await prisma.$queryRaw<Array<{ stabilityLevel: number; count: bigint }>>`
+        SELECT "stabilityLevel", COUNT(*) as count
+        FROM "v2_intake_sessions"
+        WHERE "status" = 'COMPLETED'
+          AND "stabilityLevel" IS NOT NULL
+        GROUP BY "stabilityLevel"
+        ORDER BY "stabilityLevel" ASC
+      `
+    : await prisma.$queryRaw<Array<{ stabilityLevel: number; count: bigint }>>`
+        SELECT "stabilityLevel", COUNT(*) as count
+        FROM "v2_intake_sessions"
+        WHERE "status" = 'COMPLETED'
+          AND "isTest" = false
+          AND "stabilityLevel" IS NOT NULL
+        GROUP BY "stabilityLevel"
+        ORDER BY "stabilityLevel" ASC
+      `;
 
   const byLevel = new Map<number, number>();
   let total = 0;
-  for (const g of groups) {
-    if (g.stabilityLevel !== null) {
-      byLevel.set(g.stabilityLevel, g._count._all);
-      total += g._count._all;
-    }
+  
+  for (const row of results) {
+    const count = Number(row.count);
+    byLevel.set(row.stabilityLevel, count);
+    total += count;
   }
 
   return { byLevel, total };
@@ -166,18 +174,32 @@ export async function computeRank(
 
   // Count sessions that outrank this one WITHIN the same level
   // Outrank within level: higher totalScore, OR same score + earlier completedAt, OR same score + same time + smaller id
-  const levelOutrankCount = await prisma.v2IntakeSession.count({
-    where: {
-      status: 'COMPLETED',
-      ...testFilter,
-      stabilityLevel: L,
-      OR: [
-        { totalScore: { gt: S } },
-        { totalScore: S, completedAt: { lt: T } },
-        { totalScore: S, completedAt: T, id: { lt: ID } },
-      ],
-    },
-  });
+  // Use raw SQL for explicit index usage and better performance predictability
+  const levelOutrankResult = includeTest
+    ? await prisma.$queryRaw<[{ count: bigint }]>`
+        SELECT COUNT(*) as count
+        FROM "v2_intake_sessions"
+        WHERE "status" = 'COMPLETED'
+          AND "stabilityLevel" = ${L}
+          AND (
+            "totalScore" > ${S}
+            OR ("totalScore" = ${S} AND "completedAt" < ${T})
+            OR ("totalScore" = ${S} AND "completedAt" = ${T} AND "id" < ${ID})
+          )
+      `
+    : await prisma.$queryRaw<[{ count: bigint }]>`
+        SELECT COUNT(*) as count
+        FROM "v2_intake_sessions"
+        WHERE "status" = 'COMPLETED'
+          AND "isTest" = false
+          AND "stabilityLevel" = ${L}
+          AND (
+            "totalScore" > ${S}
+            OR ("totalScore" = ${S} AND "completedAt" < ${T})
+            OR ("totalScore" = ${S} AND "completedAt" = ${T} AND "id" < ${ID})
+          )
+      `;
+  const levelOutrankCount = Number(levelOutrankResult[0].count);
 
   // Level rank = 1-based position within this level
   const levelPosition = levelOutrankCount + 1;

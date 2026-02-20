@@ -16,6 +16,7 @@ const nextConfig = {
   },
   headers: async () => {
     return [
+      // All pages - standard security headers (applied first)
       {
         source: '/(.*)',
         headers: [
@@ -38,6 +39,24 @@ const nextConfig = {
           {
             key: 'X-Care2-Origin',
             value: 'frontend',
+          },
+        ],
+      },
+      // Profile pages - enhanced privacy headers (applied AFTER general, overrides where needed)
+      {
+        source: '/profile/:path*',
+        headers: [
+          {
+            key: 'Referrer-Policy',
+            value: 'no-referrer', // Stricter for profile pages to prevent sessionId leakage
+          },
+          {
+            key: 'Cache-Control',
+            value: 'private, no-store, no-cache, must-revalidate', // Prevent caching of sensitive profile data
+          },
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow', // Prevent search engine indexing
           },
         ],
       },

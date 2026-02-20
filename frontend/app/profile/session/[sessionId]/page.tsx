@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import SpectrumStepper from './components/SpectrumStepper';
+import EnhancedRoadmapTasks from './components/EnhancedRoadmapTasks';
 
 /* ─────────────────────────────────────────────────────────────
    Session Profile Page — /profile/session/[sessionId]
@@ -365,68 +366,46 @@ export default function SessionProfilePage() {
           <SpectrumStepper currentLevel={level} />
         </div>
 
-        {/* How to Advance — Roadmap Section */}
+        {/* How to Advance — Enhanced Roadmap Section */}
         <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-1 text-lg">How to Advance</h3>
-          <p className="text-sm text-gray-500 mb-4">{guidance.heading}</p>
-
-          {/* If we have stored actionPlan tasks from the assessment, show them */}
-          {hasActionPlan && roadmap?.actionPlan ? (
-            <div className="space-y-4">
-              {roadmap.actionPlan.immediateTasks.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-semibold text-red-700 mb-2">
-                    🔴 Immediate (0–24 hours) — {roadmap.actionPlan.immediateTasks.length} task(s)
-                  </h4>
-                  {roadmap.actionPlan.immediateTasks.map((task, i) => (
-                    <div key={i} className="ml-4 mb-2 p-3 bg-red-50 rounded-lg border border-red-100">
-                      <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                      <p className="text-xs text-gray-600 mt-1">{task.description}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {roadmap.actionPlan.shortTermTasks.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-semibold text-orange-700 mb-2">
-                    🟠 Short-Term (1–7 days) — {roadmap.actionPlan.shortTermTasks.length} task(s)
-                  </h4>
-                  {roadmap.actionPlan.shortTermTasks.map((task, i) => (
-                    <div key={i} className="ml-4 mb-2 p-3 bg-orange-50 rounded-lg border border-orange-100">
-                      <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                      <p className="text-xs text-gray-600 mt-1">{task.description}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {roadmap.actionPlan.mediumTermTasks.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-semibold text-blue-700 mb-2">
-                    🔵 Medium-Term (30–90 days) — {roadmap.actionPlan.mediumTermTasks.length} task(s)
-                  </h4>
-                  {roadmap.actionPlan.mediumTermTasks.map((task, i) => (
-                    <div key={i} className="ml-4 mb-2 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                      <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                      <p className="text-xs text-gray-600 mt-1">{task.description}</p>
-                    </div>
-                  ))}
-                </div>
+          <div className="mb-4">
+            <h3 className="font-semibold text-gray-900 mb-1 text-lg">Your Advancement Roadmap</h3>
+            <div className="text-sm text-gray-500 space-y-1">
+              <p><strong>Your current level:</strong> Level {level} — {LEVEL_LABELS[level] ?? 'Unknown'}</p>
+              {level < 5 && (
+                <p><strong>What typically helps you move toward the next level:</strong> Level {level + 1} — {LEVEL_LABELS[level + 1]}</p>
               )}
             </div>
+            <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+              <p className="text-xs text-amber-800">
+                <strong>Note:</strong> Levels can change as your situation changes. Retake the assessment or work with a provider for the most current guidance.
+              </p>
+            </div>
+          </div>
+
+          {/* Enhanced Roadmap Display */}
+          {hasActionPlan && roadmap?.actionPlan ? (
+            <EnhancedRoadmapTasks 
+              actionPlan={roadmap.actionPlan} 
+              currentLevel={level} 
+              nextLevel={level < 5 ? level + 1 : null}
+              sessionId={sessionId}
+            />
           ) : (
             /* Static fallback guidance */
-            <ul className="space-y-2">
-              {guidance.steps.map((step, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-gray-700">{step}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">General Guidance for Level {level}</h4>
+              <ul className="space-y-2">
+                {guidance.steps.map((step, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-gray-700">{step}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           {level < 5 && (

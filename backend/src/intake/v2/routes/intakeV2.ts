@@ -151,8 +151,15 @@ router.get('/schema/:moduleId', (req: Request, res: Response) => {
  */
 router.post('/session', async (req: Request, res: Response) => {
   try {
-    // Check for test-run header
-    const isTest = req.headers['x-c2c-test-run'] === '1';
+    // Check for test-run header with environment security
+    const testHeaderPresent = req.headers['x-c2c-test'] === '1' || req.headers['x-c2c-test-run'] === '1';
+    const allowTestSessions = process.env.ALLOW_TEST_SESSIONS === 'true';
+    const isTest = testHeaderPresent && allowTestSessions;
+    
+    // Log test session rejection for security monitoring
+    if (testHeaderPresent && !allowTestSessions) {
+      console.warn('[V2 Intake] Test session header present but ALLOW_TEST_SESSIONS=false, creating regular session');
+    }
 
     const session = await prisma.v2IntakeSession.create({
       data: {
@@ -660,6 +667,12 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     };
 
     if (session.status !== 'COMPLETED') {
+      // Add privacy headers for profile responses
+      res.set({
+        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        'X-Robots-Tag': 'noindex, nofollow',
+      });
+      
       // Return partial profile — no rank for incomplete sessions
       return res.json({
         ...profile,
@@ -687,6 +700,12 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     const forceRefresh = req.query.forceRefresh === 'true';
 
     const rankResult = await getRank(session, { includeTest, forceRefresh });
+
+    // Add privacy headers for profile responses
+    res.set({
+      'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+      'X-Robots-Tag': 'noindex, nofollow',
+    });
 
     res.json({
       sessionId: session.id,
@@ -750,6 +769,12 @@ router.get('/session/:sessionId/audit', v2IntakeAuthMiddleware, async (req: Requ
     const limit = Number.isFinite(limitParam) ? Math.min(Math.max(limitParam, 1), 200) : 50;
 
     const events = await getSessionAuditEvents(sessionId, limit);
+
+    // Add privacy headers for audit responses
+    res.set({
+      'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+      'X-Robots-Tag': 'noindex, nofollow',
+    });
 
     res.json({
       sessionId,
@@ -873,7 +898,13 @@ router.get('/export/hmis', v2IntakeAuthMiddleware, async (req: Request, res: Res
 router.get('/audit/fairness', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
   try {
     const since = req.query.since as string | undefined;
-    const where: Record<string, unknown> = { status: 'COMPLETED' };
+    const includeTest = req.query.includeTest === 'true';
+    
+    // Exclude test sessions from fairness analysis by default
+    const where: Record<string, unknown> = { 
+      status: 'COMPLETED',
+      ...(includeTest ? {} : { isTest: false })
+    };
 
     if (since) {
       where.completedAt = { gte: new Date(since) };

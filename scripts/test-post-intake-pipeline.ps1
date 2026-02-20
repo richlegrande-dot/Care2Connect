@@ -34,6 +34,7 @@ function Invoke-ThrottledRequest {
     [string]$Uri,
     [string]$Method = "GET",
     [object]$Body = $null,
+    [hashtable]$Headers = @{},
     [int]$MaxRetries = 3
   )
 
@@ -46,6 +47,7 @@ function Invoke-ThrottledRequest {
       ContentType      = "application/json"
       UseBasicParsing  = $true
       ErrorAction      = "Stop"
+      Headers          = $Headers
     }
     if ($Body) {
       $params["Body"] = ($Body | ConvertTo-Json -Depth 10 -Compress)
@@ -97,7 +99,8 @@ Write-Host ""
 # â”€â”€ Step 1: Create Session â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 Write-Host "Step 1: Create session..." -ForegroundColor White
-$sessionRes = Invoke-ThrottledRequest -Uri "$apiBase/session" -Method "POST"
+$testHeaders = @{ "X-C2C-Test" = "1" }
+$sessionRes = Invoke-ThrottledRequest -Uri "$apiBase/session" -Method "POST" -Headers $testHeaders
 $sessionId = $sessionRes.Content.sessionId
 Assert-True ($sessionRes.StatusCode -eq 201) "Session created (201)"
 Assert-True ($sessionId -ne $null -and $sessionId.Length -gt 10) "Session ID is a CUID: $sessionId"

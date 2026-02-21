@@ -7,6 +7,7 @@ interface HelpModalProps {
   context: string;
   onClose: () => void;
   clientId: string;
+  isOpen?: boolean;
 }
 
 const ISSUE_TYPES = [
@@ -30,6 +31,7 @@ export default function HelpModal({
   context,
   onClose,
   clientId,
+  isOpen = true,
 }: HelpModalProps) {
   const [formData, setFormData] = useState({
     issueType: context === "gofundme_wizard" ? "gofundme_blocked" : "other",
@@ -144,10 +146,14 @@ export default function HelpModal({
     return (
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="help-issue-type"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             What do you need help with? <span className="text-red-500">*</span>
           </label>
           <select
+            id="help-issue-type"
             value={formData.issueType}
             onChange={(e) => handleChange("issueType", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -162,10 +168,14 @@ export default function HelpModal({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Please describe your issue <span className="text-red-500">*</span>
+          <label
+            htmlFor="help-description"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Describe your problem <span className="text-red-500">*</span>
           </label>
           <textarea
+            id="help-description"
             value={formData.description}
             onChange={(e) => handleChange("description", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -179,10 +189,14 @@ export default function HelpModal({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="help-email"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Contact Email (Optional)
           </label>
           <input
+            id="help-email"
             type="email"
             value={formData.contactEmail}
             onChange={(e) => handleChange("contactEmail", e.target.value)}
@@ -195,10 +209,14 @@ export default function HelpModal({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="help-phone"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Contact Phone (Optional)
           </label>
           <input
+            id="help-phone"
             type="tel"
             value={formData.contactPhone}
             onChange={(e) => handleChange("contactPhone", e.target.value)}
@@ -238,7 +256,7 @@ export default function HelpModal({
             ) : (
               <>
                 <Send className="w-4 h-4 mr-2" />
-                Submit Request
+                Send Message
               </>
             )}
           </button>
@@ -246,6 +264,8 @@ export default function HelpModal({
       </form>
     );
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">

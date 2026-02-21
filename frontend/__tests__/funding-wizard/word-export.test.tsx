@@ -50,7 +50,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      blob: jest.fn().resolvedValue(mockBlob),
+      blob: jest.fn().mockResolvedValue(mockBlob),
     });
 
     render(
@@ -59,6 +59,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
         data={mockData}
         onComplete={mockOnComplete}
         onBack={jest.fn()}
+        onHelp={jest.fn()}
       />,
     );
 
@@ -97,6 +98,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
         data={mockData}
         onComplete={mockOnComplete}
         onBack={jest.fn()}
+        onHelp={jest.fn()}
       />,
     );
 
@@ -125,6 +127,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
         data={mockData}
         onComplete={mockOnComplete}
         onBack={jest.fn()}
+        onHelp={jest.fn()}
       />,
     );
 
@@ -162,6 +165,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
         data={mockData}
         onComplete={mockOnComplete}
         onBack={jest.fn()}
+        onHelp={jest.fn()}
       />,
     );
 
@@ -212,7 +216,7 @@ describe("Word Export - PrintKitStep", () => {
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      blob: jest.fn().resolvedValue(mockBlob),
+      blob: jest.fn().mockResolvedValue(mockBlob),
     });
 
     render(
@@ -221,6 +225,7 @@ describe("Word Export - PrintKitStep", () => {
         data={{ ...mockData, qrCodeUrl: "data:image/png;base64,mock" }}
         onComplete={mockOnComplete}
         onBack={jest.fn()}
+        onHelp={jest.fn()}
       />,
     );
 
@@ -249,7 +254,7 @@ describe("Word Export - PrintKitStep", () => {
 
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
-      blob: jest.fn().resolvedValue(mockBlob),
+      blob: jest.fn().mockResolvedValue(mockBlob),
     });
 
     render(
@@ -258,6 +263,7 @@ describe("Word Export - PrintKitStep", () => {
         data={{ ...mockData, qrCodeUrl: "data:image/png;base64,mock" }}
         onComplete={mockOnComplete}
         onBack={jest.fn()}
+        onHelp={jest.fn()}
       />,
     );
 

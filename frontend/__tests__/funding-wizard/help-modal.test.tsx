@@ -127,8 +127,8 @@ describe("HelpModal - Support Ticket Submission", () => {
     });
   });
 
-  describe("SMTP Not Configured (Mailto Fallback)", () => {
-    it("shows mailto fallback when SMTP not configured", async () => {
+  describe("SMTP Not Configured (Ticket Persistence)", () => {
+    it("shows success when ticket saved server-side without SMTP", async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => ({
@@ -137,12 +137,6 @@ describe("HelpModal - Support Ticket Submission", () => {
           ticket: {
             id: "TICKET-789",
             timestamp: "2024-01-01T00:00:00.000Z",
-          },
-          fallback: {
-            mailto:
-              "mailto:workflown8n@gmail.com?subject=Support%20Ticket%20TICKET-789&body=Issue%20details",
-            instructions:
-              "Click the link below to send via your default email client",
           },
         }),
       });
@@ -173,18 +167,10 @@ describe("HelpModal - Support Ticket Submission", () => {
         expect(global.fetch).toHaveBeenCalled();
       });
 
-      // Verify fallback UI displayed
+      // Verify success UI displayed (mailto fallback was removed)
       await waitFor(() => {
-        expect(screen.getByText(/email setup required/i)).toBeInTheDocument();
-        expect(screen.getByText(/saved locally/i)).toBeInTheDocument();
+        expect(screen.getByText(/message received/i)).toBeInTheDocument();
       });
-
-      // Verify mailto link exists
-      const mailtoLink = screen.getByRole("link", { name: /open.*email/i });
-      expect(mailtoLink).toHaveAttribute(
-        "href",
-        expect.stringContaining("mailto:workflown8n@gmail.com"),
-      );
     });
   });
 
@@ -402,8 +388,8 @@ describe("HelpModal - Support Ticket Submission", () => {
         />,
       );
 
-      // Modal should not be visible
-      expect(container.querySelector(".modal")).toBeNull();
+      // Modal should not be visible (component returns null when isOpen=false)
+      expect(container.innerHTML).toBe("");
     });
   });
 });

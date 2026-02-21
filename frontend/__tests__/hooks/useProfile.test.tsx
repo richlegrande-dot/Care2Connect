@@ -1,3 +1,6 @@
+// Unmock react-query so real hooks work (jest.setup.js mocks them globally)
+jest.unmock("@tanstack/react-query");
+
 import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {

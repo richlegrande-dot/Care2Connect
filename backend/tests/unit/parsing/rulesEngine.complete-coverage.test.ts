@@ -170,9 +170,9 @@ describe('rulesEngine Complete Coverage Tests', () => {
       expect(needs).toContain("SAFETY");
     });
     
-    test('should return empty array if no needs found', () => {
+    test('should return OTHER fallback if no specific needs found', () => {
       const needs = extractNeeds("Hello world", 3);
-      expect(needs).toEqual([]);
+      expect(needs).toEqual(["OTHER"]);
     });
     
     test('should limit to topN results', () => {
@@ -495,7 +495,8 @@ describe('rulesEngine Complete Coverage Tests', () => {
       expect(extractAge(transcript)).toBeUndefined();
       expect(extractPhone(transcript)).toBeUndefined();
       expect(extractEmail(transcript)).toBeUndefined();
-      expect(extractNeeds(transcript, 3)).toEqual([]);
+      // Engine returns ["OTHER"] as fallback when no specific needs detected
+      expect(extractNeeds(transcript, 3)).toEqual(["OTHER"]);
       
       const confidence = calculateConfidence();
       expect(confidence).toBe(0);

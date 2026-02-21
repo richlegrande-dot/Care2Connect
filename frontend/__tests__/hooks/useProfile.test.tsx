@@ -1,16 +1,12 @@
-// Unmock react-query so real hooks work (jest.setup.js mocks them globally)
-jest.unmock("@tanstack/react-query");
+// Override the global react-query mock from jest.setup.js with the real implementation
+// (jest.unmock doesn't work because setup file mocks run after test-level unmocks)
+jest.mock("@tanstack/react-query", () =>
+  jest.requireActual("@tanstack/react-query"),
+);
 
-import { renderHook, waitFor } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  useProfile,
-  useCreateProfile,
-  useUpdateProfile,
-} from "../hooks/useProfile";
-
-// Mock the API client
-jest.mock("../lib/api-client", () => ({
+// Mock the API client using @/ alias so the mock applies to the actual module
+// (not the shim at __tests__/lib/api-client.cjs)
+jest.mock("@/lib/api-client", () => ({
   api: {
     profile: {
       get: jest.fn(),
@@ -20,7 +16,15 @@ jest.mock("../lib/api-client", () => ({
   },
 }));
 
-import { api } from "../lib/api-client";
+import { renderHook, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  useProfile,
+  useCreateProfile,
+  useUpdateProfile,
+} from "@/hooks/useProfile";
+
+import { api } from "@/lib/api-client";
 
 const createWrapper = () => {
   const queryClient = new QueryClient({

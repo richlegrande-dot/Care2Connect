@@ -26,7 +26,9 @@ describe("HomePage", () => {
   it("renders the main heading with CareConnect", () => {
     render(<HomePage />);
 
-    expect(screen.getByText("CareConnect")).toBeInTheDocument();
+    // "CareConnect" appears in multiple places (heading + features section)
+    const careConnectElements = screen.getAllByText(/CareConnect/);
+    expect(careConnectElements.length).toBeGreaterThanOrEqual(1);
     expect(
       screen.getByText(
         /A Community-Supported Portal for People Experiencing Homelessness/,
@@ -37,7 +39,9 @@ describe("HomePage", () => {
   it("shows the story sharing section", () => {
     render(<HomePage />);
 
-    expect(screen.getByText(/Share Your Story/)).toBeInTheDocument();
+    // "Share Your Story" appears in multiple places (feature cards + CTA)
+    const storyElements = screen.getAllByText(/Share Your Story/);
+    expect(storyElements.length).toBeGreaterThanOrEqual(1);
     expect(
       screen.getByText(
         /Record your voice to help others understand your journey/,

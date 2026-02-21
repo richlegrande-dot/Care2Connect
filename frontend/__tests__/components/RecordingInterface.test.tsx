@@ -150,17 +150,14 @@ describe("RecordingInterface Component", () => {
     it("should stop recording and process audio", async () => {
       const user = userEvent.setup();
 
-      // Mock successful transcription response
-      mockFetch.mockResolvedValue({
-        ok: true,
-        json: () =>
-          Promise.resolve({
-            success: true,
-            transcript:
-              "Hello, this is my story about needing help with housing.",
-            processingMethod: "audio",
-          }),
-      } as Response);
+      // Use a deferred promise so we can assert on the processing state
+      // before the fetch resolves
+      let resolveFetch: (value: any) => void;
+      const fetchPromise = new Promise((resolve) => {
+        resolveFetch = resolve;
+      });
+
+      mockFetch.mockReturnValue(fetchPromise as Promise<Response>);
 
       render(<RecordingInterface />);
 
@@ -178,9 +175,22 @@ describe("RecordingInterface Component", () => {
       const stopButton = screen.getByRole("button", { name: /stop/i });
       await user.click(stopButton);
 
+      // While fetch is pending, the UI should show processing state
       await waitFor(() => {
         expect(screen.getByText(/processing/i)).toBeInTheDocument();
       });
+
+      // Now resolve the fetch to complete the flow
+      resolveFetch!({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            success: true,
+            transcript:
+              "Hello, this is my story about needing help with housing.",
+            processingMethod: "audio",
+          }),
+      } as Response);
     });
 
     it("should show transcription after processing", async () => {

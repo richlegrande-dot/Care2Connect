@@ -111,11 +111,7 @@ export interface RequestLogger {
     durationMs: number,
   ): void;
   draftReady(draftId: string, ticketId: string, qualityScore: number): void;
-  qrGenerated(
-    qrId: string,
-    ticketId: string,
-    stripeSessionId?: string,
-  ): void;
+  qrGenerated(qrId: string, ticketId: string, stripeSessionId?: string): void;
   adminLoginSuccess(sessionId: string): void;
   adminLoginFailed(reason: string): void;
   pipelineError(stage: string, ticketId: string, error: string): void;
@@ -276,9 +272,7 @@ export class StructuredLogger {
 export const logger = new StructuredLogger();
 
 // Helper to create logger with request context
-export function getRequestLogger(
-  req: Request,
-): RequestLogger {
+export function getRequestLogger(req: Request): RequestLogger {
   const requestId = getRequestId(req);
   const baseLogger = new StructuredLogger();
 

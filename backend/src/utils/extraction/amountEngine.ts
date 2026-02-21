@@ -40,6 +40,7 @@ class ExplicitAmountPass {
     // Direct goal statements with strong context
     /(?:goal (?:is|of)|target (?:is|of)|aim (?:is|for)|trying to raise)\s*(?:\$)?([\d,]+)/gi,
     /(?:need|require|asking for|looking for)\s*(?:\$)?([\d,]+)(?:\s*dollars?)?/gi,
+    /(?:need|want|have)\s+to\s+raise\s*(?:\$)?([\d,]+)/gi,
     /(?:fundraising|raising)\s*(?:\$)?([\d,]+)/gi,
     /(?:campaign (?:goal|target))\s*(?:is|of)?\s*(?:\$)?([\d,]+)/gi,
 
@@ -592,10 +593,9 @@ class AmbiguityRejectionPass {
 
     // Extremely low amounts are suspicious unless with strong context
     if (value < 100) {
-      const hasStrongContext =
-        /(?:goal|need|raise|asking for|campaign).*?\$?${value}/.test(
-          transcript,
-        );
+      const hasStrongContext = new RegExp(
+        `(?:goal|need|raise|asking for|campaign).*?\\$?${value}`,
+      ).test(transcript);
       return hasStrongContext;
     }
 

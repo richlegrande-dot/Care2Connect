@@ -232,7 +232,9 @@ describe("HelpModal - Support Ticket Submission", () => {
 
       // Should show error state
       await waitFor(() => {
-        expect(screen.getByText(/error|failed|problem/i)).toBeInTheDocument();
+        // Error text appears in multiple elements (heading + description)
+        const errorElements = screen.getAllByText(/error|failed|problem/i);
+        expect(errorElements.length).toBeGreaterThanOrEqual(1);
       });
     });
 
@@ -300,7 +302,9 @@ describe("HelpModal - Support Ticket Submission", () => {
 
       // Should show error state
       await waitFor(() => {
-        expect(screen.getByText(/error|problem|failed/i)).toBeInTheDocument();
+        // Error text appears in multiple elements (heading + description)
+        const errorElements = screen.getAllByText(/error|problem|failed/i);
+        expect(errorElements.length).toBeGreaterThanOrEqual(1);
       });
     });
 
@@ -372,8 +376,9 @@ describe("HelpModal - Support Ticket Submission", () => {
         />,
       );
 
-      const closeButton = screen.getByRole("button", { name: /×|close/i });
-      fireEvent.click(closeButton);
+      // The X close button uses an icon without text; find the Cancel button instead
+      const cancelButton = screen.getByRole("button", { name: /cancel/i });
+      fireEvent.click(cancelButton);
 
       expect(mockOnClose).toHaveBeenCalled();
     });

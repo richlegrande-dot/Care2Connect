@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Word Export Integration Tests
  * Tests GoFundMeDraftStep and PrintKitStep Word document download
  */
@@ -64,7 +64,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
     );
 
     const downloadButton = screen.getByRole("button", {
-      name: /download.*word/i,
+      name: /download.*\.docx/i,
     });
     fireEvent.click(downloadButton);
 
@@ -103,7 +103,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
     );
 
     const downloadButton = screen.getByRole("button", {
-      name: /download.*word/i,
+      name: /download.*\.docx/i,
     });
     fireEvent.click(downloadButton);
 
@@ -132,7 +132,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
     );
 
     const downloadButton = screen.getByRole("button", {
-      name: /download.*word/i,
+      name: /download.*\.docx/i,
     });
     fireEvent.click(downloadButton);
 
@@ -170,7 +170,7 @@ describe("Word Export - GoFundMeDraftStep", () => {
     );
 
     const downloadButton = screen.getByRole("button", {
-      name: /download.*word/i,
+      name: /download.*\.docx/i,
     });
 
     // Button should be enabled initially
@@ -230,7 +230,7 @@ describe("Word Export - PrintKitStep", () => {
     );
 
     const downloadButton = screen.getByRole("button", {
-      name: /download.*word/i,
+      name: /download.*\.docx/i,
     });
     fireEvent.click(downloadButton);
 
@@ -269,7 +269,7 @@ describe("Word Export - PrintKitStep", () => {
 
     // Find and click "Download All" button
     const downloadAllButton = screen.getByRole("button", {
-      name: /download all/i,
+      name: /download all files/i,
     });
     fireEvent.click(downloadAllButton);
 

@@ -23,6 +23,7 @@
 param(
     [string]$ApiBase = "https://api.care2connects.org",
     [string]$Token = $env:PROVIDER_DASHBOARD_TOKEN,
+    [string]$IntakeToken = $env:V2_INTAKE_TOKEN,
     [int]$ThrottleMs = 600,
     [switch]$SkipPreflight
 )
@@ -133,10 +134,12 @@ if (-not $SkipPreflight) {
     }
 
     # Check 4: Chat tables exist (verify by trying to create a thread on non-existent session)
+    $chatCheckHeaders = @{}
+    if ($IntakeToken) { $chatCheckHeaders["Authorization"] = "Bearer $IntakeToken" }
     try {
         Start-Sleep -Milliseconds $ThrottleMs
         $chatCheckResp = Invoke-WebRequest -Uri "$ApiBase/api/v2/intake/session/nonexistent/chat/thread" `
-            -Method POST -Body "{}" -ContentType "application/json" `
+            -Method POST -Body "{}" -ContentType "application/json" -Headers $chatCheckHeaders `
             -UseBasicParsing -TimeoutSec 15 -ErrorAction Stop
         # Unexpected success
         $preflightResults += @{ check = "Chat endpoint active"; status = "WARN"; detail = "Unexpected 200 on nonexistent session" }
@@ -198,7 +201,9 @@ $chatExitCode = 0
 
 if (Test-Path $chatScript) {
     try {
-        & $chatScript -ApiBase $ApiBase -ThrottleMs $ThrottleMs
+        $chatArgs = @{ ApiBase = $ApiBase; ThrottleMs = $ThrottleMs }
+        if ($IntakeToken) { $chatArgs.IntakeToken = $IntakeToken }
+        & $chatScript @chatArgs
         $chatExitCode = $LASTEXITCODE
     } catch {
         $chatExitCode = 1

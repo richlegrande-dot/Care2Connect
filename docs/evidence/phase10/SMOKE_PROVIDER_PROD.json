@@ -1,0 +1,182 @@
+﻿{
+    "summary":  {
+                    "total":  18,
+                    "verdict":  "PASS",
+                    "warnings":  0,
+                    "failed":  0,
+                    "passed":  18
+                },
+    "headerChecks":  [
+                         {
+                             "checks":  [
+                                            {
+                                                "pass":  true,
+                                                "header":  "Cache-Control",
+                                                "value":  "private, no-store, no-cache, must-revalidate"
+                                            },
+                                            {
+                                                "pass":  true,
+                                                "header":  "X-Robots-Tag",
+                                                "value":  "noindex, nofollow"
+                                            },
+                                            {
+                                                "pass":  true,
+                                                "header":  "Referrer-Policy",
+                                                "value":  "no-referrer"
+                                            }
+                                        ],
+                             "endpoint":  "sessions-list"
+                         },
+                         {
+                             "checks":  [
+                                            {
+                                                "pass":  true,
+                                                "header":  "Cache-Control",
+                                                "value":  "private, no-store, no-cache, must-revalidate"
+                                            },
+                                            {
+                                                "pass":  true,
+                                                "header":  "X-Robots-Tag",
+                                                "value":  "noindex, nofollow"
+                                            },
+                                            {
+                                                "pass":  true,
+                                                "header":  "Referrer-Policy",
+                                                "value":  "no-referrer"
+                                            }
+                                        ],
+                             "endpoint":  "session-detail"
+                         }
+                     ],
+    "testSuite":  "Phase10-ProviderDashboard",
+    "assertions":  [
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Unauthenticated GET /sessions -\u003e 401",
+                           "id":  "P1",
+                           "time":  "2026-02-21T15:19:10.5750629-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Provider login -\u003e 200, success:true",
+                           "id":  "P2",
+                           "time":  "2026-02-21T15:19:10.6853420-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Set-Cookie contains c2c_provider_auth",
+                           "id":  "P2a",
+                           "time":  "2026-02-21T15:19:10.6926497-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Cookie is httpOnly",
+                           "id":  "P2b",
+                           "time":  "2026-02-21T15:19:10.6926497-05:00"
+                       },
+                       {
+                           "detail":  "count=4",
+                           "status":  "PASS",
+                           "name":  "GET /sessions -\u003e 200, sessions returned",
+                           "id":  "P3",
+                           "time":  "2026-02-21T15:19:11.6021079-05:00"
+                       },
+                       {
+                           "detail":  "sessionId=cmlwrhw10002dz808lzhfgdj1",
+                           "status":  "PASS",
+                           "name":  "Session data available for detail test",
+                           "id":  "P3a",
+                           "time":  "2026-02-21T15:19:11.6067960-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Session list excludes raw modules",
+                           "id":  "P3b",
+                           "time":  "2026-02-21T15:19:11.6089805-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Privacy headers on sessions-list",
+                           "id":  "HDR-sessions-list",
+                           "time":  "2026-02-21T15:19:11.6224060-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "GET /session/:id -\u003e 200",
+                           "id":  "P4",
+                           "time":  "2026-02-21T15:19:12.5220405-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Detail includes profile",
+                           "id":  "P4a",
+                           "time":  "2026-02-21T15:19:12.5220405-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Detail includes topFactors",
+                           "id":  "P4b",
+                           "time":  "2026-02-21T15:19:12.5260320-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Detail includes audit data",
+                           "id":  "P4c",
+                           "time":  "2026-02-21T15:19:12.5297886-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Detail excludes raw modules",
+                           "id":  "P4d",
+                           "time":  "2026-02-21T15:19:12.5297886-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Privacy headers on session-detail",
+                           "id":  "HDR-session-detail",
+                           "time":  "2026-02-21T15:19:12.5401978-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "All privacy headers verified (Cache-Control, X-Robots-Tag, Referrer-Policy)",
+                           "id":  "P5",
+                           "time":  "2026-02-21T15:19:12.5517062-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Logout -\u003e 200, success:true",
+                           "id":  "P6",
+                           "time":  "2026-02-21T15:19:13.4166868-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Cookie cleared on logout",
+                           "id":  "P6a",
+                           "time":  "2026-02-21T15:19:13.4204718-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Post-logout GET /sessions -\u003e 401",
+                           "id":  "P7",
+                           "time":  "2026-02-21T15:19:14.2910749-05:00"
+                       }
+                   ],
+    "timestamp":  "2026-02-21T15:19:10.5322056-05:00",
+    "apiBase":  "https://api.care2connects.org"
+}

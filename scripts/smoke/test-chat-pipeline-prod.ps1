@@ -22,7 +22,8 @@
 param(
     [string]$ApiBase = "https://api.care2connects.org",
     [string]$SessionId = "",
-    [int]$ThrottleMs = 600
+    [int]$ThrottleMs = 600,
+    [string]$IntakeToken = $env:V2_INTAKE_TOKEN
 )
 
 $ErrorActionPreference = "Stop"
@@ -152,6 +153,10 @@ $baseHeaders = @{
     "Content-Type" = "application/json"
     "X-C2C-Test" = "1"
     "X-C2C-Test-Run" = "1"
+}
+if ($IntakeToken) {
+    $baseHeaders["Authorization"] = "Bearer $IntakeToken"
+    Write-Host "  [INFO] V2 Intake JWT auth header set" -ForegroundColor Cyan
 }
 
 Write-Host "`n========================================" -ForegroundColor Cyan

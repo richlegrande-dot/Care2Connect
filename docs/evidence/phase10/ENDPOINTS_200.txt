@@ -1,0 +1,25 @@
+﻿=== Production Endpoint Verification ===
+Date: 2026-02-21 14:54:56 -05:00
+HEAD SHA: 081c253
+
+200 OK  Frontend root
+  URL: https://care2connects.org/
+  Content-Length: 48458 chars
+  First 200 chars: <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/_next/static/css/app/layout.css?v=1771703
+
+200 OK  V2 intake page
+  URL: https://care2connects.org/onboarding/v2
+  Content-Length: 10179 chars
+  First 200 chars: <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/_next/static/css/app/layout.css?v=1771703
+
+200 OK  V2 intake health (via frontend rewrite)
+  URL: https://care2connects.org/api/v2/intake/health
+  Content-Length: 181 chars
+  First 200 chars: {"status":"healthy","featureFlag":true,"authEnabled":true,"database":"connected","policyPackVersion":"v1.0.0","scoringEngineVersion":"v1.0.0","timestamp":"2026-02-21T19:54:57.076Z"}
+
+200 OK  Backend health (direct)
+  URL: https://api.care2connects.org/health/live
+  Content-Length: 160 chars
+  First 200 chars: {"status":"alive","timestamp":"2026-02-21T19:54:57.115Z","uptime":288.2359959,"pid":28520,"port":"3001","message":"Server is running and accepting connections"}
+
+

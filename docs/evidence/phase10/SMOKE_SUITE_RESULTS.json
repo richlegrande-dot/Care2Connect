@@ -1,0 +1,57 @@
+﻿{
+    "sections":  [
+                     {
+                         "detail":  "",
+                         "status":  "PASS",
+                         "name":  "Preflight Checks",
+                         "time":  "2026-02-21T15:18:51.7708141-05:00",
+                         "subResults":  [
+                                            {
+                                                "detail":  "GET /api/v2/intake/health -\u003e 200",
+                                                "status":  "PASS",
+                                                "check":  "API reachable"
+                                            },
+                                            {
+                                                "detail":  "Intake health: healthy, db: connected",
+                                                "status":  "PASS",
+                                                "check":  "ENABLE_V2_INTAKE"
+                                            },
+                                            {
+                                                "detail":  "Set (value not printed)",
+                                                "status":  "PASS",
+                                                "check":  "PROVIDER_DASHBOARD_TOKEN"
+                                            },
+                                            {
+                                                "detail":  "Returns 404 for invalid session (endpoint wired)",
+                                                "status":  "PASS",
+                                                "check":  "Chat endpoint active"
+                                            },
+                                            {
+                                                "detail":  "Returns 401 for invalid token",
+                                                "status":  "PASS",
+                                                "check":  "Provider auth endpoint"
+                                            }
+                                        ]
+                     },
+                     {
+                         "detail":  "All chat assertions passed",
+                         "status":  "PASS",
+                         "name":  "Chat Pipeline",
+                         "time":  "2026-02-21T15:19:10.4902379-05:00",
+                         "subResults":  [
+
+                                        ]
+                     },
+                     {
+                         "detail":  "All provider assertions passed",
+                         "status":  "PASS",
+                         "name":  "Provider Dashboard",
+                         "time":  "2026-02-21T15:19:14.3136899-05:00",
+                         "subResults":  [
+
+                                        ]
+                     }
+                 ],
+    "timestamp":  "2026-02-21T15:18:48.8510290-05:00",
+    "apiBase":  "https://api.care2connects.org"
+}

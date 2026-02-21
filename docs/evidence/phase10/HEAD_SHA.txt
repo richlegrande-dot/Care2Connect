@@ -1,0 +1,4 @@
+﻿SHA: 081c253
+Date: 2026-02-21 14:45:53 -05:00
+Branch: main
+Merged PR: #4 (fix/legacy-ci-debt)

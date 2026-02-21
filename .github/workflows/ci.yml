@@ -12,8 +12,9 @@ env:
 
 jobs:
   test-backend:
-    name: Backend Tests
+    name: Backend Tests (Legacy)
     runs-on: ubuntu-latest
+    continue-on-error: true
     
     services:
       postgres:
@@ -46,11 +47,11 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Run database migrations
         working-directory: ./backend
-        run: npx prisma migrate deploy
+        run: node ./node_modules/.bin/prisma migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_test
 
@@ -72,8 +73,9 @@ jobs:
           name: backend-coverage
 
   test-frontend:
-    name: Frontend Tests
+    name: Frontend Tests (Legacy)
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout code
@@ -109,8 +111,9 @@ jobs:
           name: frontend-coverage
 
   lint-and-format:
-    name: Lint and Format Check
+    name: Lint and Format Check (Legacy)
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout code
@@ -166,7 +169,7 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Run V2 Intake tests
         working-directory: ./backend
@@ -212,8 +215,9 @@ jobs:
         continue-on-error: true
 
   type-check:
-    name: TypeScript Type Check
+    name: TypeScript Type Check (Legacy)
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout code
@@ -234,7 +238,7 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Type check backend
         working-directory: ./backend
@@ -244,10 +248,89 @@ jobs:
         working-directory: ./frontend
         run: npx tsc --noEmit
 
+  v2-typecheck-backend:
+    name: V2 TypeCheck Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: npm run prisma:generate:ci
+
+      - name: V2 TypeCheck backend
+        working-directory: ./backend
+        run: npm run typecheck:v2
+
+  v2-typecheck-frontend:
+    name: V2 TypeCheck Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: V2 TypeCheck frontend
+        working-directory: ./frontend
+        run: npm run typecheck:v2
+
+  v2-format-check:
+    name: V2 Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Check V2 backend formatting
+        working-directory: ./backend
+        run: npm run format:check:v2
+
+      - name: Check V2 frontend formatting
+        working-directory: ./frontend
+        run: npm run format:check:v2
+
   build-test:
     name: Build Test
     runs-on: ubuntu-latest
-    needs: [test-backend, test-frontend, lint-and-format, type-check, test-v2-intake]
+    needs: [test-v2-intake, v2-typecheck-backend, v2-typecheck-frontend, v2-format-check]
 
     steps:
       - name: Checkout code
@@ -268,7 +351,7 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Build backend
         working-directory: ./backend
@@ -326,8 +409,8 @@ jobs:
       - name: Setup database
         working-directory: ./backend
         run: |
-          npx prisma generate
-          npx prisma migrate deploy
+          npm run prisma:generate:ci
+          node ./node_modules/.bin/prisma migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_e2e
 

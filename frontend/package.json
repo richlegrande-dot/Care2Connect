@@ -12,6 +12,8 @@
     "test:regression:full": "powershell -ExecutionPolicy Bypass -File ../scripts/critical-path-regression-tests.ps1",
     "test:regression:demo": "powershell -ExecutionPolicy Bypass -File ../scripts/critical-path-regression-tests.ps1 -DemoMode",
     "lint": "next lint",
+    "typecheck:v2": "tsc --noEmit -p tsconfig.v2.json",
+    "format:check:v2": "npx prettier --check \"app/onboarding/v2/**/*.{ts,tsx}\" \"app/profile/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:shims": "node scripts/create-test-shims.js",

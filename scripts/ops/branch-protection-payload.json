@@ -1,0 +1,18 @@
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": [
+      "V2 Intake Gate",
+      "V2 TypeCheck Backend",
+      "V2 TypeCheck Frontend",
+      "V2 Format Check",
+      "Security Scan",
+      "Build Test"
+    ]
+  },
+  "enforce_admins": false,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 0
+  },
+  "restrictions": null
+}

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '24'
 
 jobs:
   deploy-frontend:
@@ -81,7 +81,7 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Build backend
         working-directory: ./backend
@@ -144,11 +144,11 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Run database migrations
         working-directory: ./backend
-        run: npx prisma migrate deploy
+        run: node ./node_modules/.bin/prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -156,7 +156,7 @@ jobs:
         working-directory: ./backend
         run: |
           if [ -f "prisma/seed.ts" ]; then
-            npx prisma db seed
+            node ./node_modules/.bin/prisma db seed
           fi
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

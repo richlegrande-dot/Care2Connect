@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 /**
  * Error boundary for all /profile/* routes.
@@ -16,12 +16,17 @@ export default function ProfileError({
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
-        <div className="text-red-500 text-4xl mb-4" aria-hidden="true">⚠️</div>
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Something went wrong</h1>
+        <div className="text-red-500 text-4xl mb-4" aria-hidden="true">
+          ⚠️
+        </div>
+        <h1 className="text-xl font-bold text-gray-900 mb-2">
+          Something went wrong
+        </h1>
         <p className="text-gray-600 mb-6">
-          We encountered an unexpected error loading your profile. Please try again.
+          We encountered an unexpected error loading your profile. Please try
+          again.
         </p>
-        {process.env.NODE_ENV === 'development' && error?.message && (
+        {process.env.NODE_ENV === "development" && error?.message && (
           <pre className="text-left text-xs bg-red-50 p-3 rounded mb-4 overflow-auto max-h-32 text-red-800">
             {error.message}
           </pre>

@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Download, Printer, FileText, Image as ImageIcon, CheckCircle } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Download,
+  Printer,
+  FileText,
+  Image as ImageIcon,
+  CheckCircle,
+} from "lucide-react";
 
 interface PrintKitStepProps {
   data: any;
@@ -9,13 +15,17 @@ interface PrintKitStepProps {
   clientId: string;
 }
 
-export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepProps) {
+export default function PrintKitStep({
+  data,
+  onBack,
+  clientId,
+}: PrintKitStepProps) {
   const [downloading, setDownloading] = useState<string | null>(null);
 
   const handleDownloadQR = () => {
     if (!data.qrCodeUrl) return;
 
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = data.qrCodeUrl;
     link.download = `donation-qr-${data.publicSlug || clientId}.png`;
     document.body.appendChild(link);
@@ -24,18 +34,18 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
   };
 
   const handleDownloadWord = async () => {
-    setDownloading('word');
+    setDownloading("word");
     try {
       const response = await fetch(`/api/export/word/${clientId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data.gofundmeDraft || {})
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data.gofundmeDraft || {}),
       });
 
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
         a.download = `gofundme-draft-${clientId}.docx`;
         document.body.appendChild(a);
@@ -44,7 +54,7 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
         document.body.removeChild(a);
       }
     } catch (error) {
-      console.error('[PrintKitStep] Error downloading Word doc:', error);
+      console.error("[PrintKitStep] Error downloading Word doc:", error);
     } finally {
       setDownloading(null);
     }
@@ -52,7 +62,7 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
 
   const handlePrintSummary = () => {
     // Generate print-friendly HTML summary
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     if (!printWindow) return;
 
     const draft = data.gofundmeDraft || {};
@@ -61,7 +71,7 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Fundraising Campaign Summary - ${data.fullName || 'CareConnect'}</title>
+          <title>Fundraising Campaign Summary - ${data.fullName || "CareConnect"}</title>
           <style>
             @page {
               margin: 1in;
@@ -161,46 +171,50 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
           <div class="section">
             <h2>Personal Information</h2>
             <div class="field-label">Full Name</div>
-            <div class="field-value">${data.fullName || 'Not provided'}</div>
+            <div class="field-value">${data.fullName || "Not provided"}</div>
             
             <div class="field-label">ZIP Code</div>
-            <div class="field-value">${data.zipCode || 'Not provided'}</div>
+            <div class="field-value">${data.zipCode || "Not provided"}</div>
             
             <div class="field-label">Email</div>
-            <div class="field-value">${data.email || 'Not provided'}</div>
+            <div class="field-value">${data.email || "Not provided"}</div>
           </div>
 
           <div class="section">
             <h2>Campaign Details</h2>
             <div class="field-label">Campaign Title</div>
-            <div class="field-value">${draft.title || 'Not provided'}</div>
+            <div class="field-value">${draft.title || "Not provided"}</div>
             
             <div class="field-label">Fundraising Goal</div>
-            <div class="field-value">$${draft.goal || '5000'}</div>
+            <div class="field-value">$${draft.goal || "5000"}</div>
             
             <div class="field-label">Category</div>
-            <div class="field-value">${draft.category || 'Not provided'}</div>
+            <div class="field-value">${draft.category || "Not provided"}</div>
             
             <div class="field-label">Location</div>
-            <div class="field-value">${draft.location || 'Not provided'}</div>
+            <div class="field-value">${draft.location || "Not provided"}</div>
             
             <div class="field-label">Beneficiary</div>
-            <div class="field-value">${draft.beneficiary || 'Not provided'}</div>
+            <div class="field-value">${draft.beneficiary || "Not provided"}</div>
           </div>
 
           <div class="section">
             <h2>Campaign Story</h2>
-            <div class="field-value" style="white-space: pre-wrap;">${draft.story || 'Not provided'}</div>
+            <div class="field-value" style="white-space: pre-wrap;">${draft.story || "Not provided"}</div>
           </div>
 
-          ${data.qrCodeUrl ? `
+          ${
+            data.qrCodeUrl
+              ? `
             <div class="qr-section">
               <h2>Donation QR Code</h2>
               <p>Scan this code to donate</p>
               <img src="${data.qrCodeUrl}" alt="Donation QR Code" />
-              <div class="url">${data.donationPageUrl || ''}</div>
+              <div class="url">${data.donationPageUrl || ""}</div>
             </div>
-          ` : ''}
+          `
+              : ""
+          }
 
           <div class="section">
             <h2>Next Steps Checklist</h2>
@@ -236,11 +250,11 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
   };
 
   const handleDownloadAll = async () => {
-    setDownloading('all');
+    setDownloading("all");
     // Download QR
     handleDownloadQR();
     // Download Word doc
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     await handleDownloadWord();
     setDownloading(null);
   };
@@ -248,9 +262,12 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Download Print Kit</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          Download Print Kit
+        </h2>
         <p className="text-gray-600">
-          Get all your fundraising materials in one place. Download, print, and share!
+          Get all your fundraising materials in one place. Download, print, and
+          share!
         </p>
       </div>
 
@@ -263,8 +280,9 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
               🎉 Congratulations! Your funding setup is complete.
             </h3>
             <p className="text-green-800">
-              You've successfully prepared all the materials needed to launch your fundraising campaign.
-              Download your print kit below and follow the GoFundMe wizard instructions to publish your campaign.
+              You've successfully prepared all the materials needed to launch
+              your fundraising campaign. Download your print kit below and
+              follow the GoFundMe wizard instructions to publish your campaign.
             </p>
           </div>
         </div>
@@ -277,8 +295,12 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
           <div className="flex items-center mb-4">
             <ImageIcon className="w-8 h-8 text-blue-600 mr-3" />
             <div>
-              <h3 className="text-sm font-semibold text-gray-900">QR Code (PNG)</h3>
-              <p className="text-xs text-gray-600">High-resolution donation QR code</p>
+              <h3 className="text-sm font-semibold text-gray-900">
+                QR Code (PNG)
+              </h3>
+              <p className="text-xs text-gray-600">
+                High-resolution donation QR code
+              </p>
             </div>
           </div>
           <button
@@ -296,16 +318,20 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
           <div className="flex items-center mb-4">
             <FileText className="w-8 h-8 text-green-600 mr-3" />
             <div>
-              <h3 className="text-sm font-semibold text-gray-900">Campaign Draft (.docx)</h3>
-              <p className="text-xs text-gray-600">Formatted GoFundMe document</p>
+              <h3 className="text-sm font-semibold text-gray-900">
+                Campaign Draft (.docx)
+              </h3>
+              <p className="text-xs text-gray-600">
+                Formatted GoFundMe document
+              </p>
             </div>
           </div>
           <button
             onClick={handleDownloadWord}
-            disabled={downloading === 'word'}
+            disabled={downloading === "word"}
             className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {downloading === 'word' ? (
+            {downloading === "word" ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 Downloading...
@@ -326,10 +352,13 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
           <div className="flex items-start flex-1">
             <Printer className="w-6 h-6 text-purple-600 mr-3 flex-shrink-0 mt-1" />
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-1">One-Page Print Summary</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">
+                One-Page Print Summary
+              </h3>
               <p className="text-sm text-gray-600">
-                Print-optimized page with all your campaign details, QR code, and next steps checklist.
-                Perfect for keeping on hand or sharing with support coordinators.
+                Print-optimized page with all your campaign details, QR code,
+                and next steps checklist. Perfect for keeping on hand or sharing
+                with support coordinators.
               </p>
             </div>
           </div>
@@ -346,16 +375,18 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
       {/* Download All Button */}
       <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
         <div className="text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Download Everything</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            Download Everything
+          </h3>
           <p className="text-sm text-gray-600 mb-4">
             Get all files at once (QR code PNG + Word document)
           </p>
           <button
             onClick={handleDownloadAll}
-            disabled={downloading === 'all'}
+            disabled={downloading === "all"}
             className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 font-medium text-lg flex items-center justify-center mx-auto disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {downloading === 'all' ? (
+            {downloading === "all" ? (
               <>
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                 Downloading...
@@ -372,34 +403,61 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
 
       {/* What's Included */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h3 className="text-sm font-semibold text-blue-900 mb-3">📦 What's Included in Your Print Kit</h3>
+        <h3 className="text-sm font-semibold text-blue-900 mb-3">
+          📦 What's Included in Your Print Kit
+        </h3>
         <div className="space-y-2 text-sm text-blue-800">
           <div className="flex items-start">
             <span className="mr-2">✓</span>
-            <span><strong>QR Code PNG:</strong> High-resolution image for printing on flyers, posters, or business cards</span>
+            <span>
+              <strong>QR Code PNG:</strong> High-resolution image for printing
+              on flyers, posters, or business cards
+            </span>
           </div>
           <div className="flex items-start">
             <span className="mr-2">✓</span>
-            <span><strong>Campaign Draft (Word):</strong> Formatted document with title, story, goal, and all details</span>
+            <span>
+              <strong>Campaign Draft (Word):</strong> Formatted document with
+              title, story, goal, and all details
+            </span>
           </div>
           <div className="flex items-start">
             <span className="mr-2">✓</span>
-            <span><strong>Donation Page URL:</strong> Direct link to your CareConnect donation page</span>
+            <span>
+              <strong>Donation Page URL:</strong> Direct link to your
+              CareConnect donation page
+            </span>
           </div>
           <div className="flex items-start">
             <span className="mr-2">✓</span>
-            <span><strong>Print Summary:</strong> One-page overview with QR code and checklist</span>
+            <span>
+              <strong>Print Summary:</strong> One-page overview with QR code and
+              checklist
+            </span>
           </div>
         </div>
       </div>
 
       {/* Next Steps */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-        <h3 className="text-sm font-semibold text-yellow-900 mb-3">🚀 Next Steps</h3>
+        <h3 className="text-sm font-semibold text-yellow-900 mb-3">
+          🚀 Next Steps
+        </h3>
         <ol className="space-y-2 text-sm text-yellow-800">
           <li className="flex items-start">
             <span className="mr-2 font-bold">1.</span>
-            <span>Visit <a href="https://www.gofundme.com/c/start" target="_blank" rel="noopener noreferrer" className="underline">gofundme.com/c/start</a> and create your campaign using the draft</span>
+            <span>
+              Visit{" "}
+              <a
+                href="https://www.gofundme.com/c/start"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                gofundme.com/c/start
+              </a>{" "}
+              and create your campaign using the draft
+            </span>
           </li>
           <li className="flex items-start">
             <span className="mr-2 font-bold">2.</span>
@@ -411,7 +469,9 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
           </li>
           <li className="flex items-start">
             <span className="mr-2 font-bold">4.</span>
-            <span>Share your CareConnect QR code and donation link everywhere!</span>
+            <span>
+              Share your CareConnect QR code and donation link everywhere!
+            </span>
           </li>
           <li className="flex items-start">
             <span className="mr-2 font-bold">5.</span>
@@ -430,7 +490,7 @@ export default function PrintKitStep({ data, onBack, clientId }: PrintKitStepPro
           Back
         </button>
         <button
-          onClick={() => window.location.href = '/dashboard'}
+          onClick={() => (window.location.href = "/dashboard")}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
         >
           Go to Dashboard

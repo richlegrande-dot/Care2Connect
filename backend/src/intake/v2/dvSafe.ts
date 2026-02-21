@@ -12,11 +12,11 @@
 // ── DV-sensitive signals ───────────────────────────────────────
 
 export const DV_SENSITIVE_SIGNALS = new Set([
-  'fleeing_dv',
-  'fleeing_trafficking',
-  'has_protective_order',
-  'experienced_violence_recently',
-  'feels_safe_current_location',
+  "fleeing_dv",
+  "fleeing_trafficking",
+  "has_protective_order",
+  "experienced_violence_recently",
+  "feels_safe_current_location",
 ]);
 
 // ── Storage minimization ───────────────────────────────────────
@@ -26,17 +26,21 @@ export const DV_SENSITIVE_SIGNALS = new Set([
  * Replaces sensitive values with '[REDACTED]' so scoring provenance
  * is preserved (the signal contributed) but raw answers are not stored.
  */
-export function redactSensitiveModules(
-  modules: Record<string, unknown>
-): { redacted: Record<string, unknown>; sensitiveDataRedacted: boolean } {
-  const redacted = JSON.parse(JSON.stringify(modules)) as Record<string, unknown>;
+export function redactSensitiveModules(modules: Record<string, unknown>): {
+  redacted: Record<string, unknown>;
+  sensitiveDataRedacted: boolean;
+} {
+  const redacted = JSON.parse(JSON.stringify(modules)) as Record<
+    string,
+    unknown
+  >;
   const safety = redacted.safety as Record<string, unknown> | undefined;
   let didRedact = false;
 
   if (safety) {
     for (const field of DV_SENSITIVE_SIGNALS) {
       if (field in safety && safety[field] !== undefined) {
-        safety[field] = '[REDACTED]';
+        safety[field] = "[REDACTED]";
         didRedact = true;
       }
     }
@@ -52,18 +56,21 @@ export function redactSensitiveModules(
  * Returns a new object safe for logging — no mutation.
  */
 export function sanitizeForLogging(
-  payload: Record<string, unknown>
+  payload: Record<string, unknown>,
 ): Record<string, unknown> {
-  const sanitized = JSON.parse(JSON.stringify(payload)) as Record<string, unknown>;
+  const sanitized = JSON.parse(JSON.stringify(payload)) as Record<
+    string,
+    unknown
+  >;
 
   // Walk top-level and nested module keys
   for (const key of Object.keys(sanitized)) {
     const val = sanitized[key];
-    if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+    if (typeof val === "object" && val !== null && !Array.isArray(val)) {
       const nested = val as Record<string, unknown>;
       for (const field of DV_SENSITIVE_SIGNALS) {
         if (field in nested) {
-          nested[field] = '[LOG_REDACTED]';
+          nested[field] = "[LOG_REDACTED]";
         }
       }
     }
@@ -72,7 +79,7 @@ export function sanitizeForLogging(
   // Also sanitize if the payload itself is a module object
   for (const field of DV_SENSITIVE_SIGNALS) {
     if (field in sanitized) {
-      sanitized[field] = '[LOG_REDACTED]';
+      sanitized[field] = "[LOG_REDACTED]";
     }
   }
 
@@ -86,7 +93,7 @@ export function sanitizeForLogging(
  * Operators can configure via DV_PANIC_BUTTON_URL env var.
  */
 export function getPanicButtonUrl(): string {
-  return process.env.DV_PANIC_BUTTON_URL || 'https://www.google.com';
+  return process.env.DV_PANIC_BUTTON_URL || "https://www.google.com";
 }
 
 /**

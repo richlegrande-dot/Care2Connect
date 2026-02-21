@@ -148,7 +148,7 @@ jobs:
 
       - name: Run database migrations
         working-directory: ./backend
-        run: node ./node_modules/.bin/prisma migrate deploy
+        run: npx --no-install prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -156,7 +156,7 @@ jobs:
         working-directory: ./backend
         run: |
           if [ -f "prisma/seed.ts" ]; then
-            node ./node_modules/.bin/prisma db seed
+            npx --no-install prisma db seed
           fi
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

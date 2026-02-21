@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { AlertCircle, CheckCircle, Info } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { AlertCircle, CheckCircle, Info } from "lucide-react";
 
 interface ConfirmDetailsStepProps {
   data: any;
@@ -10,14 +10,19 @@ interface ConfirmDetailsStepProps {
   onHelp: () => void;
 }
 
-export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }: ConfirmDetailsStepProps) {
+export default function ConfirmDetailsStep({
+  data,
+  onComplete,
+  onBack,
+  onHelp,
+}: ConfirmDetailsStepProps) {
   const [formData, setFormData] = useState({
-    fullName: data.fullName || data.extractedFields?.name?.value || '',
-    zipCode: data.zipCode || '',
-    dateOfBirth: data.dateOfBirth || '',
-    email: data.email || '',
-    phone: data.phone || '',
-    consent: data.consent || false
+    fullName: data.fullName || data.extractedFields?.name?.value || "",
+    zipCode: data.zipCode || "",
+    dateOfBirth: data.dateOfBirth || "",
+    email: data.email || "",
+    phone: data.phone || "",
+    consent: data.consent || false,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -32,42 +37,42 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
 
   const validateField = (field: string, value: any): string => {
     switch (field) {
-      case 'fullName':
+      case "fullName":
         if (!value || value.trim().length < 2) {
-          return 'Full name is required (at least 2 characters)';
+          return "Full name is required (at least 2 characters)";
         }
         break;
-      case 'zipCode':
+      case "zipCode":
         if (!value || !/^\d{5}$/.test(value)) {
-          return 'Valid 5-digit ZIP code is required';
+          return "Valid 5-digit ZIP code is required";
         }
         break;
-      case 'dateOfBirth':
+      case "dateOfBirth":
         if (!value) {
-          return 'Date of birth is required';
+          return "Date of birth is required";
         }
         const age = calculateAge(value);
         if (age < 18) {
-          return 'Must be at least 18 years old';
+          return "Must be at least 18 years old";
         }
         break;
-      case 'email':
+      case "email":
         if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return 'Invalid email format';
+          return "Invalid email format";
         }
         break;
-      case 'phone':
-        if (value && !/^\d{10}$/.test(value.replace(/\D/g, ''))) {
-          return 'Phone must be 10 digits';
+      case "phone":
+        if (value && !/^\d{10}$/.test(value.replace(/\D/g, ""))) {
+          return "Phone must be 10 digits";
         }
         break;
-      case 'consent':
+      case "consent":
         if (!value) {
-          return 'You must agree to proceed';
+          return "You must agree to proceed";
         }
         break;
     }
-    return '';
+    return "";
   };
 
   const calculateAge = (birthDate: string): number => {
@@ -75,18 +80,21 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
     const birth = new Date(birthDate);
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birth.getDate())
+    ) {
       age--;
     }
     return age;
   };
 
   const handleChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Clear error for this field
     if (errors[field]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[field];
         return newErrors;
@@ -95,18 +103,24 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
   };
 
   const handleBlur = (field: string) => {
-    const error = validateField(field, formData[field as keyof typeof formData]);
+    const error = validateField(
+      field,
+      formData[field as keyof typeof formData],
+    );
     if (error) {
-      setErrors(prev => ({ ...prev, [field]: error }));
+      setErrors((prev) => ({ ...prev, [field]: error }));
     }
   };
 
   const validateAll = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
+
     // Required fields
-    ['fullName', 'zipCode', 'dateOfBirth', 'consent'].forEach(field => {
-      const error = validateField(field, formData[field as keyof typeof formData]);
+    ["fullName", "zipCode", "dateOfBirth", "consent"].forEach((field) => {
+      const error = validateField(
+        field,
+        formData[field as keyof typeof formData],
+      );
       if (error) {
         newErrors[field] = error;
       }
@@ -114,11 +128,11 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
 
     // Optional fields (only validate if provided)
     if (formData.email) {
-      const emailError = validateField('email', formData.email);
+      const emailError = validateField("email", formData.email);
       if (emailError) newErrors.email = emailError;
     }
     if (formData.phone) {
-      const phoneError = validateField('phone', formData.phone);
+      const phoneError = validateField("phone", formData.phone);
       if (phoneError) newErrors.phone = phoneError;
     }
 
@@ -128,7 +142,7 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateAll()) {
       onComplete(formData);
     } else {
@@ -136,7 +150,7 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
       const firstError = Object.keys(errors)[0];
       const element = document.getElementById(`field-${firstError}`);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
   };
@@ -146,22 +160,24 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
     if (!extractedField) return null;
 
     const confidence = extractedField.confidence || 0;
-    let color = 'gray';
-    let label = 'Unknown';
+    let color = "gray";
+    let label = "Unknown";
 
     if (confidence >= 0.85) {
-      color = 'green';
-      label = 'High confidence';
+      color = "green";
+      label = "High confidence";
     } else if (confidence >= 0.6) {
-      color = 'yellow';
-      label = 'Medium confidence';
+      color = "yellow";
+      label = "Medium confidence";
     } else {
-      color = 'red';
-      label = 'Low confidence';
+      color = "red";
+      label = "Low confidence";
     }
 
     return (
-      <span className={`ml-2 px-2 py-1 text-xs rounded bg-${color}-100 text-${color}-700 border border-${color}-200`}>
+      <span
+        className={`ml-2 px-2 py-1 text-xs rounded bg-${color}-100 text-${color}-700 border border-${color}-200`}
+      >
         {label}
       </span>
     );
@@ -170,9 +186,12 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Confirm Your Details</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          Confirm Your Details
+        </h2>
         <p className="text-gray-600">
-          Review and complete the information we extracted from your recording. Required fields are marked with *.
+          Review and complete the information we extracted from your recording.
+          Required fields are marked with *.
         </p>
       </div>
 
@@ -186,7 +205,8 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
                 Missing Information Detected
               </h3>
               <p className="text-sm text-yellow-700 mb-3">
-                We couldn't extract all required information from your recording. Please provide the following:
+                We couldn't extract all required information from your
+                recording. Please provide the following:
               </p>
               <ul className="list-disc list-inside text-sm text-yellow-700 space-y-1">
                 {data.missingFields.map((field: string, index: number) => (
@@ -199,7 +219,7 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
                   onClick={() => setShowFollowUps(!showFollowUps)}
                   className="mt-3 text-sm text-yellow-800 underline hover:text-yellow-900"
                 >
-                  {showFollowUps ? 'Hide' : 'Show'} follow-up questions
+                  {showFollowUps ? "Hide" : "Show"} follow-up questions
                 </button>
               )}
             </div>
@@ -207,7 +227,10 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
           {showFollowUps && data.followUpQuestions && (
             <div className="mt-4 pl-8 space-y-2">
               {data.followUpQuestions.map((question: string, index: number) => (
-                <div key={index} className="flex items-start text-sm text-yellow-700">
+                <div
+                  key={index}
+                  className="flex items-start text-sm text-yellow-700"
+                >
                   <span className="mr-2">•</span>
                   <span>{question}</span>
                 </div>
@@ -223,16 +246,16 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
         <div id="field-fullName">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Full Name <span className="text-red-500">*</span>
-            {getConfidenceBadge('name')}
+            {getConfidenceBadge("name")}
           </label>
           <input
             type="text"
             value={formData.fullName}
-            onChange={(e) => handleChange('fullName', e.target.value)}
-            onBlur={() => handleBlur('fullName')}
+            onChange={(e) => handleChange("fullName", e.target.value)}
+            onBlur={() => handleBlur("fullName")}
             className={`
               w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
-              ${errors.fullName ? 'border-red-500' : 'border-gray-300'}
+              ${errors.fullName ? "border-red-500" : "border-gray-300"}
             `}
             placeholder="John Smith"
           />
@@ -248,16 +271,21 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
         <div id="field-zipCode">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             ZIP Code <span className="text-red-500">*</span>
-            {getConfidenceBadge('location')}
+            {getConfidenceBadge("location")}
           </label>
           <input
             type="text"
             value={formData.zipCode}
-            onChange={(e) => handleChange('zipCode', e.target.value.replace(/\D/g, '').slice(0, 5))}
-            onBlur={() => handleBlur('zipCode')}
+            onChange={(e) =>
+              handleChange(
+                "zipCode",
+                e.target.value.replace(/\D/g, "").slice(0, 5),
+              )
+            }
+            onBlur={() => handleBlur("zipCode")}
             className={`
               w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
-              ${errors.zipCode ? 'border-red-500' : 'border-gray-300'}
+              ${errors.zipCode ? "border-red-500" : "border-gray-300"}
             `}
             placeholder="90001"
             maxLength={5}
@@ -274,17 +302,17 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
         <div id="field-dateOfBirth">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Date of Birth <span className="text-red-500">*</span>
-            {getConfidenceBadge('age')}
+            {getConfidenceBadge("age")}
           </label>
           <input
             type="date"
             value={formData.dateOfBirth}
-            onChange={(e) => handleChange('dateOfBirth', e.target.value)}
-            onBlur={() => handleBlur('dateOfBirth')}
-            max={new Date().toISOString().split('T')[0]}
+            onChange={(e) => handleChange("dateOfBirth", e.target.value)}
+            onBlur={() => handleBlur("dateOfBirth")}
+            max={new Date().toISOString().split("T")[0]}
             className={`
               w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
-              ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}
+              ${errors.dateOfBirth ? "border-red-500" : "border-gray-300"}
             `}
           />
           {errors.dateOfBirth && (
@@ -309,11 +337,11 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
           <input
             type="email"
             value={formData.email}
-            onChange={(e) => handleChange('email', e.target.value)}
-            onBlur={() => handleBlur('email')}
+            onChange={(e) => handleChange("email", e.target.value)}
+            onBlur={() => handleBlur("email")}
             className={`
               w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
-              ${errors.email ? 'border-red-500' : 'border-gray-300'}
+              ${errors.email ? "border-red-500" : "border-gray-300"}
             `}
             placeholder="your.email@example.com"
           />
@@ -333,11 +361,11 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
           <input
             type="tel"
             value={formData.phone}
-            onChange={(e) => handleChange('phone', e.target.value)}
-            onBlur={() => handleBlur('phone')}
+            onChange={(e) => handleChange("phone", e.target.value)}
+            onBlur={() => handleBlur("phone")}
             className={`
               w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
-              ${errors.phone ? 'border-red-500' : 'border-gray-300'}
+              ${errors.phone ? "border-red-500" : "border-gray-300"}
             `}
             placeholder="(555) 123-4567"
           />
@@ -355,13 +383,15 @@ export default function ConfirmDetailsStep({ data, onComplete, onBack, onHelp }:
             <input
               type="checkbox"
               checked={formData.consent}
-              onChange={(e) => handleChange('consent', e.target.checked)}
+              onChange={(e) => handleChange("consent", e.target.checked)}
               className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
             <span className="ml-3 text-sm text-gray-700">
-              I confirm that the information provided is accurate and I consent to CareConnect using this information 
-              to help me create fundraising materials. I understand that CareConnect does not create or publish 
-              GoFundMe campaigns on my behalf. <span className="text-red-500">*</span>
+              I confirm that the information provided is accurate and I consent
+              to CareConnect using this information to help me create
+              fundraising materials. I understand that CareConnect does not
+              create or publish GoFundMe campaigns on my behalf.{" "}
+              <span className="text-red-500">*</span>
             </span>
           </label>
           {errors.consent && (

@@ -4,28 +4,34 @@
  * NO API KEYS REQUIRED
  */
 
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 interface NativeTranscriptionPanelProps {
-  onTranscriptChange: (transcript: string, isFinal: boolean, confidence?: number) => void;
+  onTranscriptChange: (
+    transcript: string,
+    isFinal: boolean,
+    confidence?: number,
+  ) => void;
   onError: (error: string) => void;
   language?: string;
   continuous?: boolean;
   interimResults?: boolean;
 }
 
-export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> = ({
+export const NativeTranscriptionPanel: React.FC<
+  NativeTranscriptionPanelProps
+> = ({
   onTranscriptChange,
   onError,
-  language = 'en-US',
+  language = "en-US",
   continuous = true,
-  interimResults = true
+  interimResults = true,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const [interimTranscript, setInterimTranscript] = useState('');
+  const [transcript, setTranscript] = useState("");
+  const [interimTranscript, setInterimTranscript] = useState("");
   const [isSupported, setIsSupported] = useState(true);
   const [confidence, setConfidence] = useState<number | undefined>();
 
@@ -33,11 +39,15 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
 
   useEffect(() => {
     // Check browser support
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
       setIsSupported(false);
-      onError('Your browser does not support speech recognition. Please use Chrome, Edge, or Safari, or switch to manual transcript input.');
+      onError(
+        "Your browser does not support speech recognition. Please use Chrome, Edge, or Safari, or switch to manual transcript input.",
+      );
       return;
     }
 
@@ -49,13 +59,13 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
     recognition.maxAlternatives = 1;
 
     recognition.onstart = () => {
-      console.log('[NVT] Speech recognition started');
+      console.log("[NVT] Speech recognition started");
       setIsRecording(true);
     };
 
     recognition.onresult = (event: any) => {
-      let interimText = '';
-      let finalText = '';
+      let interimText = "";
+      let finalText = "";
 
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
@@ -63,7 +73,7 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
         const conf = result[0].confidence;
 
         if (result.isFinal) {
-          finalText += text + ' ';
+          finalText += text + " ";
           setConfidence(conf);
         } else {
           interimText += text;
@@ -83,32 +93,35 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
     };
 
     recognition.onerror = (event: any) => {
-      console.error('[NVT] Speech recognition error:', event.error);
-      
-      let errorMessage = 'Speech recognition error';
+      console.error("[NVT] Speech recognition error:", event.error);
+
+      let errorMessage = "Speech recognition error";
       switch (event.error) {
-        case 'no-speech':
-          errorMessage = 'No speech detected. Please try again.';
+        case "no-speech":
+          errorMessage = "No speech detected. Please try again.";
           break;
-        case 'audio-capture':
-          errorMessage = 'No microphone detected. Please check your audio settings.';
+        case "audio-capture":
+          errorMessage =
+            "No microphone detected. Please check your audio settings.";
           break;
-        case 'not-allowed':
-          errorMessage = 'Microphone permission denied. Please allow microphone access.';
+        case "not-allowed":
+          errorMessage =
+            "Microphone permission denied. Please allow microphone access.";
           break;
-        case 'network':
-          errorMessage = 'Network error. Speech recognition requires internet connection.';
+        case "network":
+          errorMessage =
+            "Network error. Speech recognition requires internet connection.";
           break;
         default:
           errorMessage = `Speech recognition error: ${event.error}`;
       }
-      
+
       onError(errorMessage);
       setIsRecording(false);
     };
 
     recognition.onend = () => {
-      console.log('[NVT] Speech recognition ended');
+      console.log("[NVT] Speech recognition ended");
       setIsRecording(false);
     };
 
@@ -123,30 +136,30 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
 
   const startRecording = useCallback(() => {
     if (!recognitionRef.current) return;
-    
+
     try {
       recognitionRef.current.start();
     } catch (error: any) {
-      console.error('[NVT] Failed to start recording:', error);
+      console.error("[NVT] Failed to start recording:", error);
       onError(`Failed to start recording: ${error.message}`);
     }
   }, [onError]);
 
   const stopRecording = useCallback(() => {
     if (!recognitionRef.current) return;
-    
+
     try {
       recognitionRef.current.stop();
     } catch (error: any) {
-      console.error('[NVT] Failed to stop recording:', error);
+      console.error("[NVT] Failed to stop recording:", error);
     }
   }, []);
 
   const resetTranscript = useCallback(() => {
-    setTranscript('');
-    setInterimTranscript('');
+    setTranscript("");
+    setInterimTranscript("");
     setConfidence(undefined);
-    onTranscriptChange('', true);
+    onTranscriptChange("", true);
   }, [onTranscriptChange]);
 
   if (!isSupported) {
@@ -159,7 +172,8 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
               Browser Speech Recognition Not Supported
             </h3>
             <p className="text-sm text-yellow-800 mb-3">
-              Your browser doesn't support native voice transcription. This feature works best in:
+              Your browser doesn't support native voice transcription. This
+              feature works best in:
             </p>
             <ul className="text-sm text-yellow-800 list-disc list-inside space-y-1 mb-3">
               <li>Google Chrome (recommended)</li>
@@ -167,7 +181,8 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
               <li>Safari 14.1+</li>
             </ul>
             <p className="text-sm text-yellow-800">
-              You can still use <strong>manual transcript input</strong> or switch to <strong>EVTS mode</strong> (offline transcription).
+              You can still use <strong>manual transcript input</strong> or
+              switch to <strong>EVTS mode</strong> (offline transcription).
             </p>
           </div>
         </div>
@@ -200,8 +215,8 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
           disabled={isRecording}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             isRecording
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
           }`}
         >
           Start Recording
@@ -211,8 +226,8 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
           disabled={!isRecording}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             !isRecording
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-red-600 text-white hover:bg-red-700'
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-red-600 text-white hover:bg-red-700"
           }`}
         >
           Stop Recording
@@ -240,8 +255,14 @@ export const NativeTranscriptionPanel: React.FC<NativeTranscriptionPanelProps> =
       </div>
 
       <div className="text-xs text-gray-500">
-        <p>💡 <strong>Tip:</strong> Speak clearly and pause between sentences for best results.</p>
-        <p>🌐 <strong>Note:</strong> Native transcription requires internet connection in most browsers.</p>
+        <p>
+          💡 <strong>Tip:</strong> Speak clearly and pause between sentences for
+          best results.
+        </p>
+        <p>
+          🌐 <strong>Note:</strong> Native transcription requires internet
+          connection in most browsers.
+        </p>
       </div>
     </div>
   );

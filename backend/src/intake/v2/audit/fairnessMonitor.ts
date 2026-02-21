@@ -23,11 +23,11 @@
 // ── Audit Event Types ──────────────────────────────────────────
 
 export type AuditEventType =
-  | 'INTAKE_STARTED'
-  | 'MODULE_COMPLETED'
-  | 'SCORE_COMPUTED'
-  | 'PLAN_GENERATED'
-  | 'INTAKE_ABANDONED';
+  | "INTAKE_STARTED"
+  | "MODULE_COMPLETED"
+  | "SCORE_COMPUTED"
+  | "PLAN_GENERATED"
+  | "INTAKE_ABANDONED";
 
 export interface AuditEvent {
   eventType: AuditEventType;
@@ -50,7 +50,7 @@ const auditLog: AuditEvent[] = [];
 export function recordAuditEvent(
   eventType: AuditEventType,
   sessionId: string,
-  data: Record<string, unknown> = {}
+  data: Record<string, unknown> = {},
 ): AuditEvent {
   const event: AuditEvent = {
     eventType,
@@ -73,14 +73,14 @@ export function getAuditEvents(filter?: {
   let events = [...auditLog];
 
   if (filter?.eventType) {
-    events = events.filter(e => e.eventType === filter.eventType);
+    events = events.filter((e) => e.eventType === filter.eventType);
   }
   if (filter?.sessionId) {
-    events = events.filter(e => e.sessionId === filter.sessionId);
+    events = events.filter((e) => e.sessionId === filter.sessionId);
   }
   if (filter?.since) {
     const sinceDate = new Date(filter.since);
-    events = events.filter(e => new Date(e.timestamp) >= sinceDate);
+    events = events.filter((e) => new Date(e.timestamp) >= sinceDate);
   }
 
   return events;
@@ -95,7 +95,10 @@ export function clearAuditLog(): void {
 
 // ── Fairness Monitoring ────────────────────────────────────────
 
-export type DemographicDimension = 'race_ethnicity' | 'gender' | 'veteran_status';
+export type DemographicDimension =
+  | "race_ethnicity"
+  | "gender"
+  | "veteran_status";
 
 export interface GroupDistribution {
   groupValue: string;
@@ -152,14 +155,14 @@ function computeMedian(sorted: number[]): number {
  */
 export function analyzeFairness(
   sessions: CompletedSessionSummary[],
-  dimension: DemographicDimension
+  dimension: DemographicDimension,
 ): FairnessReport {
   // Group sessions by demographic value
   const groups = new Map<string, { scores: number[]; tiers: string[] }>();
 
   for (const session of sessions) {
     const value = session.demographics[dimension];
-    const groupKey = value != null ? String(value) : 'unknown';
+    const groupKey = value != null ? String(value) : "unknown";
 
     if (!groups.has(groupKey)) {
       groups.set(groupKey, { scores: [], tiers: [] });
@@ -170,10 +173,11 @@ export function analyzeFairness(
   }
 
   // Compute overall mean
-  const allScores = sessions.map(s => s.totalScore);
-  const overallMean = allScores.length > 0
-    ? allScores.reduce((sum, s) => sum + s, 0) / allScores.length
-    : 0;
+  const allScores = sessions.map((s) => s.totalScore);
+  const overallMean =
+    allScores.length > 0
+      ? allScores.reduce((sum, s) => sum + s, 0) / allScores.length
+      : 0;
 
   // Build group distributions
   const groupDistributions: GroupDistribution[] = [];
@@ -225,8 +229,12 @@ export function analyzeFairness(
  * @returns Array of fairness reports, one per dimension
  */
 export function runFullFairnessAnalysis(
-  sessions: CompletedSessionSummary[]
+  sessions: CompletedSessionSummary[],
 ): FairnessReport[] {
-  const dimensions: DemographicDimension[] = ['race_ethnicity', 'gender', 'veteran_status'];
-  return dimensions.map(dim => analyzeFairness(sessions, dim));
+  const dimensions: DemographicDimension[] = [
+    "race_ethnicity",
+    "gender",
+    "veteran_status",
+  ];
+  return dimensions.map((dim) => analyzeFairness(sessions, dim));
 }

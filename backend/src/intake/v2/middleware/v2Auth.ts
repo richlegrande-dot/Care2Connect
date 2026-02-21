@@ -15,8 +15,8 @@
  * @module intake/v2/middleware
  */
 
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
 // Extend Express Request to carry V2 user context
 declare global {
@@ -24,7 +24,7 @@ declare global {
     interface Request {
       v2User?: {
         userId: string;
-        type: 'system-admin' | 'intake-user';
+        type: "system-admin" | "intake-user";
       };
     }
   }
@@ -43,30 +43,28 @@ declare global {
 export function v2IntakeAuthMiddleware(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void {
   // Staged rollout: auth can be disabled independently of the feature
-  if (process.env.ENABLE_V2_INTAKE_AUTH !== 'true') {
+  if (process.env.ENABLE_V2_INTAKE_AUTH !== "true") {
     return next();
   }
 
-  const authHeader = req.get('Authorization');
-  const token = authHeader?.replace('Bearer ', '');
+  const authHeader = req.get("Authorization");
+  const token = authHeader?.replace("Bearer ", "");
 
   if (!token) {
-    res.status(401).json({ error: 'Authorization required' });
+    res.status(401).json({ error: "Authorization required" });
     return;
   }
 
   try {
     const secret =
-      process.env.ADMIN_SESSION_SECRET ||
-      process.env.JWT_SECRET ||
-      '';
+      process.env.ADMIN_SESSION_SECRET || process.env.JWT_SECRET || "";
 
     if (!secret) {
-      console.error('[V2 Auth] No JWT secret configured');
-      res.status(500).json({ error: 'Auth configuration error' });
+      console.error("[V2 Auth] No JWT secret configured");
+      res.status(500).json({ error: "Auth configuration error" });
       return;
     }
 
@@ -78,20 +76,20 @@ export function v2IntakeAuthMiddleware(
     };
 
     const tokenType = decoded.type;
-    if (tokenType !== 'system-admin' && tokenType !== 'intake-user') {
-      res.status(403).json({ error: 'Invalid token type for V2 intake' });
+    if (tokenType !== "system-admin" && tokenType !== "intake-user") {
+      res.status(403).json({ error: "Invalid token type for V2 intake" });
       return;
     }
 
     // Set user context on request
     req.v2User = {
-      userId: decoded.userId || decoded.sub || 'unknown',
-      type: tokenType as 'system-admin' | 'intake-user',
+      userId: decoded.userId || decoded.sub || "unknown",
+      type: tokenType as "system-admin" | "intake-user",
     };
 
     next();
   } catch {
-    res.status(403).json({ error: 'Forbidden — invalid or expired token' });
+    res.status(403).json({ error: "Forbidden — invalid or expired token" });
   }
 }
 
@@ -105,15 +103,15 @@ export function v2IntakeAuthMiddleware(
 export function v2SessionOwnershipGuard(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void {
   // If auth is disabled, skip ownership check
-  if (process.env.ENABLE_V2_INTAKE_AUTH !== 'true') {
+  if (process.env.ENABLE_V2_INTAKE_AUTH !== "true") {
     return next();
   }
 
   // Admins can access any session
-  if (req.v2User?.type === 'system-admin') {
+  if (req.v2User?.type === "system-admin") {
     return next();
   }
 

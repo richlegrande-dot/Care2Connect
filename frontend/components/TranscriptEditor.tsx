@@ -3,9 +3,9 @@
  * Manual transcript input with edit tracking for feedback loop
  */
 
-'use client';
+"use client";
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 
 interface TranscriptEditorProps {
   initialTranscript?: string;
@@ -17,28 +17,34 @@ interface TranscriptEditorProps {
 }
 
 export const TranscriptEditor: React.FC<TranscriptEditorProps> = ({
-  initialTranscript = '',
+  initialTranscript = "",
   onTranscriptChange,
   onSave,
-  placeholder = 'Type or paste your story here...',
+  placeholder = "Type or paste your story here...",
   minLength = 50,
-  maxLength = 5000
+  maxLength = 5000,
 }) => {
   const [transcript, setTranscript] = useState(initialTranscript);
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newTranscript = e.target.value;
-    setTranscript(newTranscript);
-    
-    // Update counts
-    const words = newTranscript.trim().split(/\s+/).filter(w => w.length > 0);
-    setWordCount(words.length);
-    setCharCount(newTranscript.length);
-    
-    onTranscriptChange(newTranscript);
-  }, [onTranscriptChange]);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newTranscript = e.target.value;
+      setTranscript(newTranscript);
+
+      // Update counts
+      const words = newTranscript
+        .trim()
+        .split(/\s+/)
+        .filter((w) => w.length > 0);
+      setWordCount(words.length);
+      setCharCount(newTranscript.length);
+
+      onTranscriptChange(newTranscript);
+    },
+    [onTranscriptChange],
+  );
 
   const handleSave = useCallback(() => {
     if (onSave && transcript.length >= minLength) {
@@ -47,13 +53,14 @@ export const TranscriptEditor: React.FC<TranscriptEditorProps> = ({
   }, [transcript, minLength, onSave]);
 
   const handleClear = useCallback(() => {
-    setTranscript('');
+    setTranscript("");
     setWordCount(0);
     setCharCount(0);
-    onTranscriptChange('');
+    onTranscriptChange("");
   }, [onTranscriptChange]);
 
-  const isValidLength = transcript.length >= minLength && transcript.length <= maxLength;
+  const isValidLength =
+    transcript.length >= minLength && transcript.length <= maxLength;
 
   return (
     <div className="space-y-4">
@@ -75,10 +82,16 @@ export const TranscriptEditor: React.FC<TranscriptEditorProps> = ({
       {!isValidLength && transcript.length > 0 && (
         <div className="text-sm text-amber-600">
           {transcript.length < minLength && (
-            <p>⚠️ Transcript is too short. Please add at least {minLength - transcript.length} more characters.</p>
+            <p>
+              ⚠️ Transcript is too short. Please add at least{" "}
+              {minLength - transcript.length} more characters.
+            </p>
           )}
           {transcript.length > maxLength && (
-            <p>⚠️ Transcript exceeds maximum length. Please reduce by {transcript.length - maxLength} characters.</p>
+            <p>
+              ⚠️ Transcript exceeds maximum length. Please reduce by{" "}
+              {transcript.length - maxLength} characters.
+            </p>
           )}
         </div>
       )}
@@ -90,8 +103,8 @@ export const TranscriptEditor: React.FC<TranscriptEditorProps> = ({
             disabled={!isValidLength}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               isValidLength
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ? "bg-blue-600 text-white hover:bg-blue-700"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
             Save & Continue

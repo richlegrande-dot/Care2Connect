@@ -19,7 +19,7 @@
  * @module intake/v2/calibration
  */
 
-import { POLICY_PACK_VERSION, SCORING_ENGINE_VERSION } from '../constants';
+import { POLICY_PACK_VERSION, SCORING_ENGINE_VERSION } from "../constants";
 import type {
   CalibrationSession,
   CalibrationReport,
@@ -27,7 +27,7 @@ import type {
   OverrideFrequency,
   ContributorFrequency,
   TierLevelCell,
-} from './calibrationTypes';
+} from "./calibrationTypes";
 
 // ── Helper Functions ───────────────────────────────────────────
 
@@ -59,7 +59,7 @@ export function computeMean(values: number[]): number {
  */
 export function computeStdDev(values: number[], mean: number): number {
   if (values.length === 0) return 0;
-  const squaredDiffs = values.map(v => (v - mean) ** 2);
+  const squaredDiffs = values.map((v) => (v - mean) ** 2);
   const variance = squaredDiffs.reduce((sum, v) => sum + v, 0) / values.length;
   return Math.sqrt(variance);
 }
@@ -75,7 +75,9 @@ export function computeStdDev(values: number[], mean: number): number {
  * @param sessions Array of completed session summaries
  * @returns CalibrationReport with aggregate statistics
  */
-export function generateCalibrationReport(sessions: CalibrationSession[]): CalibrationReport {
+export function generateCalibrationReport(
+  sessions: CalibrationSession[],
+): CalibrationReport {
   const n = sessions.length;
 
   if (n === 0) {
@@ -89,10 +91,24 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
       minTotalScore: 0,
       maxTotalScore: 0,
       dimensionAverages: [
-        { dimension: 'housing', mean: 0, median: 0, min: 0, max: 0, stdDev: 0 },
-        { dimension: 'safety', mean: 0, median: 0, min: 0, max: 0, stdDev: 0 },
-        { dimension: 'vulnerability', mean: 0, median: 0, min: 0, max: 0, stdDev: 0 },
-        { dimension: 'chronicity', mean: 0, median: 0, min: 0, max: 0, stdDev: 0 },
+        { dimension: "housing", mean: 0, median: 0, min: 0, max: 0, stdDev: 0 },
+        { dimension: "safety", mean: 0, median: 0, min: 0, max: 0, stdDev: 0 },
+        {
+          dimension: "vulnerability",
+          mean: 0,
+          median: 0,
+          min: 0,
+          max: 0,
+          stdDev: 0,
+        },
+        {
+          dimension: "chronicity",
+          mean: 0,
+          median: 0,
+          min: 0,
+          max: 0,
+          stdDev: 0,
+        },
       ],
       overrideFrequency: [],
       topContributorsByFrequency: [],
@@ -105,7 +121,7 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
 
   // ── Total Score Statistics ─────────────────────────────────
 
-  const totalScores = sessions.map(s => s.totalScore).sort((a, b) => a - b);
+  const totalScores = sessions.map((s) => s.totalScore).sort((a, b) => a - b);
   const meanTotal = computeMean(totalScores);
   const medianTotal = computeMedian(totalScores);
   const stdDevTotal = computeStdDev(totalScores, meanTotal);
@@ -114,7 +130,14 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
 
   // ── Level Distribution ─────────────────────────────────────
 
-  const levelDistribution: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  const levelDistribution: Record<number, number> = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  };
   for (const s of sessions) {
     const level = s.stabilityLevel;
     if (level >= 0 && level <= 5) {
@@ -124,7 +147,12 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
 
   // ── Tier Distribution ──────────────────────────────────────
 
-  const tierDistribution: Record<string, number> = { CRITICAL: 0, HIGH: 0, MODERATE: 0, LOWER: 0 };
+  const tierDistribution: Record<string, number> = {
+    CRITICAL: 0,
+    HIGH: 0,
+    MODERATE: 0,
+    LOWER: 0,
+  };
   for (const s of sessions) {
     const tier = s.priorityTier;
     if (tier in tierDistribution) {
@@ -134,9 +162,16 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
 
   // ── Dimension Averages ─────────────────────────────────────
 
-  const dimensions = ['housing', 'safety', 'vulnerability', 'chronicity'] as const;
-  const dimensionAverages: DimensionAverage[] = dimensions.map(dim => {
-    const values = sessions.map(s => s.dimensionScores[dim]).sort((a, b) => a - b);
+  const dimensions = [
+    "housing",
+    "safety",
+    "vulnerability",
+    "chronicity",
+  ] as const;
+  const dimensionAverages: DimensionAverage[] = dimensions.map((dim) => {
+    const values = sessions
+      .map((s) => s.dimensionScores[dim])
+      .sort((a, b) => a - b);
     const mean = computeMean(values);
     return {
       dimension: dim,
@@ -174,7 +209,9 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
     }
   }
 
-  const topContributorsByFrequency: ContributorFrequency[] = Object.entries(contributorCounts)
+  const topContributorsByFrequency: ContributorFrequency[] = Object.entries(
+    contributorCounts,
+  )
     .map(([contributor, count]) => ({
       contributor,
       count,
@@ -192,7 +229,7 @@ export function generateCalibrationReport(sessions: CalibrationSession[]): Calib
   }
 
   const tierVsLevelMatrix: TierLevelCell[] = [];
-  const tiers = ['CRITICAL', 'HIGH', 'MODERATE', 'LOWER'];
+  const tiers = ["CRITICAL", "HIGH", "MODERATE", "LOWER"];
   const levels = [0, 1, 2, 3, 4, 5];
 
   for (const tier of tiers) {

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface BackendHealth {
   ok: boolean;
@@ -37,13 +37,14 @@ export default function SystemStatus() {
   useEffect(() => {
     const fetchHealth = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+        const backendUrl =
+          process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
         const response = await fetch(`${backendUrl}/health/status`);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
-        
+
         const data = await response.json();
         setHealth(data);
         setError(null);
@@ -61,7 +62,7 @@ export default function SystemStatus() {
     return () => clearInterval(interval);
   }, []);
 
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.NODE_ENV !== "development") {
     return null; // Only show in dev mode
   }
 
@@ -90,7 +91,7 @@ export default function SystemStatus() {
   return (
     <div className="fixed bottom-4 right-4 bg-gray-800 text-white p-4 rounded-lg shadow-lg max-w-md text-sm">
       <h3 className="font-bold mb-3 flex items-center">
-        <span className="mr-2">{health.ok ? '✅' : '⚠️'}</span>
+        <span className="mr-2">{health.ok ? "✅" : "⚠️"}</span>
         System Status
       </h3>
 
@@ -98,15 +99,17 @@ export default function SystemStatus() {
         {/* Overall Status */}
         <div className="flex justify-between">
           <span className="text-gray-400">Status:</span>
-          <span className={health.ok ? 'text-green-400' : 'text-yellow-400'}>
-            {health.ok ? 'Healthy' : 'Degraded'}
+          <span className={health.ok ? "text-green-400" : "text-yellow-400"}>
+            {health.ok ? "Healthy" : "Degraded"}
           </span>
         </div>
 
         {/* Uptime */}
         <div className="flex justify-between">
           <span className="text-gray-400">Uptime:</span>
-          <span>{Math.floor(health.uptimeSec / 60)}m {health.uptimeSec % 60}s</span>
+          <span>
+            {Math.floor(health.uptimeSec / 60)}m {health.uptimeSec % 60}s
+          </span>
         </div>
 
         {/* Mode */}
@@ -129,19 +132,30 @@ export default function SystemStatus() {
           <p className="text-gray-400 mb-1">Services:</p>
           <div className="space-y-1 text-xs">
             <div className="flex items-center">
-              <span className="mr-2">{health.services.db.ok ? '✅' : '❌'}</span>
+              <span className="mr-2">
+                {health.services.db.ok ? "✅" : "❌"}
+              </span>
               <span>Database</span>
             </div>
             <div className="flex items-center">
-              <span className="mr-2">{health.services.storage.ok ? '✅' : '❌'}</span>
+              <span className="mr-2">
+                {health.services.storage.ok ? "✅" : "❌"}
+              </span>
               <span>Storage</span>
             </div>
             <div className="flex items-center">
-              <span className="mr-2">{health.services.speech.evtsAvailable ? '✅' : '⚠️'}</span>
-              <span>Speech (EVTS: {health.services.speech.evtsAvailable ? 'Yes' : 'No'})</span>
+              <span className="mr-2">
+                {health.services.speech.evtsAvailable ? "✅" : "⚠️"}
+              </span>
+              <span>
+                Speech (EVTS:{" "}
+                {health.services.speech.evtsAvailable ? "Yes" : "No"})
+              </span>
             </div>
             <div className="flex items-center">
-              <span className="mr-2">{health.services.stripe.configured ? '✅' : '⚠️'}</span>
+              <span className="mr-2">
+                {health.services.stripe.configured ? "✅" : "⚠️"}
+              </span>
               <span>Stripe</span>
             </div>
             {/* SMTP removed; support tickets are stored in the admin health logs */}
@@ -154,7 +168,7 @@ export default function SystemStatus() {
             <p className="text-yellow-400 mb-1">Degraded Mode:</p>
             <ul className="space-y-1 text-xs text-yellow-200">
               {health.degraded.reasons.map((reason, idx) => (
-                <li key={idx}>• {reason.replace(/_/g, ' ')}</li>
+                <li key={idx}>• {reason.replace(/_/g, " ")}</li>
               ))}
             </ul>
           </div>

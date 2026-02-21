@@ -13,7 +13,7 @@
  * @module intake/v2/policy
  */
 
-import type { StabilityLevel } from '../constants';
+import type { StabilityLevel } from "../constants";
 
 // ── Point Map Interfaces ───────────────────────────────────────
 
@@ -83,14 +83,14 @@ export interface ChronicityPointMap {
 // ── Waterfall Rule Types ───────────────────────────────────────
 
 export type DimensionKey =
-  | 'housing_stability'
-  | 'safety_crisis'
-  | 'vulnerability_health'
-  | 'chronicity_system';
+  | "housing_stability"
+  | "safety_crisis"
+  | "vulnerability_health"
+  | "chronicity_system";
 
 export interface WaterfallCondition {
   dimension: DimensionKey;
-  operator: '>=' | '<=' | '>' | '<';
+  operator: ">=" | "<=" | ">" | "<";
   threshold: number;
 }
 
@@ -130,7 +130,7 @@ export interface OverrideRule {
   /** All field checks must match (AND) */
   fieldChecks: FieldCheck[];
   /** Optional age-based check (requires demographics.date_of_birth) */
-  ageCheck?: { operator: '<' | '>=' | '<=' | '>'; age: number };
+  ageCheck?: { operator: "<" | ">=" | "<=" | ">"; age: number };
 }
 
 // ── Tier Thresholds ────────────────────────────────────────────
@@ -175,7 +175,7 @@ export interface PolicyPack {
 // ────────────────────────────────────────────────────────────────
 
 export const DEFAULT_POLICY_PACK: PolicyPack = {
-  version: 'v1.0.0',
+  version: "v1.0.0",
   maxDimensionScore: 25,
 
   pointMaps: {
@@ -191,16 +191,16 @@ export const DEFAULT_POLICY_PACK: PolicyPack = {
         permanent_housing: 0,
       },
       homelessSituations: [
-        'unsheltered',
-        'emergency_shelter',
-        'staying_with_others',
-        'hotel_motel',
-        'transitional_housing',
+        "unsheltered",
+        "emergency_shelter",
+        "staying_with_others",
+        "hotel_motel",
+        "transitional_housing",
       ],
       durationPoints: {
         over_1_year: 3,
-        '6_12_months': 2,
-        '3_6_months': 1,
+        "6_12_months": 2,
+        "3_6_months": 1,
       },
       atRiskOfLosing: 5,
       evictionNotice: 5,
@@ -249,8 +249,8 @@ export const DEFAULT_POLICY_PACK: PolicyPack = {
       episodes: { fourOrMore: 5, twoOrMore: 3 },
       months: { twentyFourOrMore: 4, twelveOrMore: 2 },
       emergencyServices: {
-        '6_plus_times': 4,
-        '3_5_times': 2,
+        "6_plus_times": 4,
+        "3_5_times": 2,
       },
       incarcerationRecent: 3,
       institutionalHistory: { twoOrMore: 3, one: 1 },
@@ -266,48 +266,58 @@ export const DEFAULT_POLICY_PACK: PolicyPack = {
     // Level 0 — Crisis / Street
     {
       level: 0,
-      conditions: [{ dimension: 'safety_crisis', operator: '>=', threshold: 20 }],
-      description: 'safety_crisis ≥ 20 → Level 0',
+      conditions: [
+        { dimension: "safety_crisis", operator: ">=", threshold: 20 },
+      ],
+      description: "safety_crisis ≥ 20 → Level 0",
     },
     {
       level: 0,
       conditions: [
-        { dimension: 'housing_stability', operator: '>=', threshold: 20 },
-        { dimension: 'chronicity_system', operator: '>=', threshold: 15 },
+        { dimension: "housing_stability", operator: ">=", threshold: 20 },
+        { dimension: "chronicity_system", operator: ">=", threshold: 15 },
       ],
-      description: 'housing_stability ≥ 20 AND chronicity_system ≥ 15 → Level 0',
+      description:
+        "housing_stability ≥ 20 AND chronicity_system ≥ 15 → Level 0",
     },
 
     // Level 1 — Emergency Shelter
     {
       level: 1,
-      conditions: [{ dimension: 'housing_stability', operator: '>=', threshold: 20 }],
-      description: 'housing_stability ≥ 20 → Level 1',
+      conditions: [
+        { dimension: "housing_stability", operator: ">=", threshold: 20 },
+      ],
+      description: "housing_stability ≥ 20 → Level 1",
     },
     {
       level: 1,
       conditions: [
-        { dimension: 'housing_stability', operator: '>=', threshold: 15 },
-        { dimension: 'vulnerability_health', operator: '>=', threshold: 15 },
+        { dimension: "housing_stability", operator: ">=", threshold: 15 },
+        { dimension: "vulnerability_health", operator: ">=", threshold: 15 },
       ],
-      description: 'housing_stability ≥ 15 AND vulnerability_health ≥ 15 → Level 1',
+      description:
+        "housing_stability ≥ 15 AND vulnerability_health ≥ 15 → Level 1",
     },
 
     // Level 2 — Transitional
     {
       level: 2,
-      conditions: [{ dimension: 'housing_stability', operator: '>=', threshold: 15 }],
-      description: 'housing_stability ≥ 15 → Level 2',
+      conditions: [
+        { dimension: "housing_stability", operator: ">=", threshold: 15 },
+      ],
+      description: "housing_stability ≥ 15 → Level 2",
     },
     {
       level: 2,
-      conditions: [{ dimension: 'housing_stability', operator: '>=', threshold: 10 }],
-      anyOf: [
-        { dimension: 'safety_crisis', operator: '>=', threshold: 15 },
-        { dimension: 'vulnerability_health', operator: '>=', threshold: 15 },
-        { dimension: 'chronicity_system', operator: '>=', threshold: 15 },
+      conditions: [
+        { dimension: "housing_stability", operator: ">=", threshold: 10 },
       ],
-      description: 'housing_stability ≥ 10 AND any_dimension ≥ 15 → Level 2',
+      anyOf: [
+        { dimension: "safety_crisis", operator: ">=", threshold: 15 },
+        { dimension: "vulnerability_health", operator: ">=", threshold: 15 },
+        { dimension: "chronicity_system", operator: ">=", threshold: 15 },
+      ],
+      description: "housing_stability ≥ 10 AND any_dimension ≥ 15 → Level 2",
     },
 
     // Level 3 — Stabilizing
@@ -316,18 +326,20 @@ export const DEFAULT_POLICY_PACK: PolicyPack = {
     // dimension warrants stabilization services.
     {
       level: 3,
-      conditions: [{ dimension: 'housing_stability', operator: '>=', threshold: 10 }],
-      description: 'housing_stability ≥ 10 → Level 3',
+      conditions: [
+        { dimension: "housing_stability", operator: ">=", threshold: 10 },
+      ],
+      description: "housing_stability ≥ 10 → Level 3",
     },
     {
       level: 3,
       conditions: [],
       anyOf: [
-        { dimension: 'safety_crisis', operator: '>=', threshold: 15 },
-        { dimension: 'vulnerability_health', operator: '>=', threshold: 15 },
-        { dimension: 'chronicity_system', operator: '>=', threshold: 15 },
+        { dimension: "safety_crisis", operator: ">=", threshold: 15 },
+        { dimension: "vulnerability_health", operator: ">=", threshold: 15 },
+        { dimension: "chronicity_system", operator: ">=", threshold: 15 },
       ],
-      description: 'any_dimension ≥ 15 → Level 3',
+      description: "any_dimension ≥ 15 → Level 3",
     },
 
     // Level 4 — Housed – Supported
@@ -336,18 +348,20 @@ export const DEFAULT_POLICY_PACK: PolicyPack = {
     // another dimension warrants supported housing.
     {
       level: 4,
-      conditions: [{ dimension: 'housing_stability', operator: '>=', threshold: 5 }],
-      description: 'housing_stability ≥ 5 → Level 4',
+      conditions: [
+        { dimension: "housing_stability", operator: ">=", threshold: 5 },
+      ],
+      description: "housing_stability ≥ 5 → Level 4",
     },
     {
       level: 4,
       conditions: [],
       anyOf: [
-        { dimension: 'safety_crisis', operator: '>=', threshold: 10 },
-        { dimension: 'vulnerability_health', operator: '>=', threshold: 10 },
-        { dimension: 'chronicity_system', operator: '>=', threshold: 10 },
+        { dimension: "safety_crisis", operator: ">=", threshold: 10 },
+        { dimension: "vulnerability_health", operator: ">=", threshold: 10 },
+        { dimension: "chronicity_system", operator: ">=", threshold: 10 },
       ],
-      description: 'any_dimension ≥ 10 → Level 4',
+      description: "any_dimension ≥ 10 → Level 4",
     },
   ],
 
@@ -356,38 +370,48 @@ export const DEFAULT_POLICY_PACK: PolicyPack = {
   // improve level, never worsen it).
   overrideRules: [
     {
-      id: 'fleeing_dv',
+      id: "fleeing_dv",
       floorLevel: 0,
-      description: 'fleeing_dv → floor Level 0',
-      fieldChecks: [{ module: 'safety', field: 'fleeing_dv', value: true }],
+      description: "fleeing_dv → floor Level 0",
+      fieldChecks: [{ module: "safety", field: "fleeing_dv", value: true }],
     },
     {
-      id: 'fleeing_trafficking',
+      id: "fleeing_trafficking",
       floorLevel: 0,
-      description: 'fleeing_trafficking → floor Level 0',
-      fieldChecks: [{ module: 'safety', field: 'fleeing_trafficking', value: true }],
-    },
-    {
-      id: 'veteran_unsheltered',
-      floorLevel: 1,
-      description: 'veteran AND unsheltered → floor Level 1',
+      description: "fleeing_trafficking → floor Level 0",
       fieldChecks: [
-        { module: 'demographics', field: 'veteran_status', value: true },
-        { module: 'housing', field: 'current_living_situation', value: 'unsheltered' },
+        { module: "safety", field: "fleeing_trafficking", value: true },
       ],
     },
     {
-      id: 'chronic_homeless',
+      id: "veteran_unsheltered",
       floorLevel: 1,
-      description: 'chronic_homeless → floor Level 1',
-      fieldChecks: [{ module: 'history', field: 'currently_chronic', value: true }],
+      description: "veteran AND unsheltered → floor Level 1",
+      fieldChecks: [
+        { module: "demographics", field: "veteran_status", value: true },
+        {
+          module: "housing",
+          field: "current_living_situation",
+          value: "unsheltered",
+        },
+      ],
     },
     {
-      id: 'unaccompanied_minor',
+      id: "chronic_homeless",
+      floorLevel: 1,
+      description: "chronic_homeless → floor Level 1",
+      fieldChecks: [
+        { module: "history", field: "currently_chronic", value: true },
+      ],
+    },
+    {
+      id: "unaccompanied_minor",
       floorLevel: 0,
-      description: 'unaccompanied_minor (age < 18) → floor Level 0',
-      fieldChecks: [{ module: 'demographics', field: 'household_size', value: 1 }],
-      ageCheck: { operator: '<', age: 18 },
+      description: "unaccompanied_minor (age < 18) → floor Level 0",
+      fieldChecks: [
+        { module: "demographics", field: "household_size", value: 1 },
+      ],
+      ageCheck: { operator: "<", age: 18 },
     },
   ],
 

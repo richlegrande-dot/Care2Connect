@@ -4,19 +4,19 @@
  * Matches the backend intake/v2 module types.
  */
 
-export type ModuleId = 
-  | 'consent'
-  | 'demographics'
-  | 'housing'
-  | 'safety'
-  | 'health'
-  | 'history'
-  | 'income'
-  | 'goals';
+export type ModuleId =
+  | "consent"
+  | "demographics"
+  | "housing"
+  | "safety"
+  | "health"
+  | "history"
+  | "income"
+  | "goals";
 
 export interface ModuleSchema {
   $id: string;
-  type: 'object';
+  type: "object";
   required?: string[];
   properties: Record<string, FieldSchema>;
 }
@@ -34,7 +34,7 @@ export interface FieldSchema {
   format?: string;
   items?: FieldSchema;
   maxItems?: number;
-  'x-show-if'?: Record<string, unknown>;
+  "x-show-if"?: Record<string, unknown>;
 }
 
 export interface IntakeModule {
@@ -49,7 +49,13 @@ export interface WizardState {
   completedModules: ModuleId[];
   moduleData: Partial<Record<ModuleId, Record<string, unknown>>>;
   dvSafeMode: boolean;
-  status: 'idle' | 'in_progress' | 'review' | 'submitting' | 'completed' | 'error';
+  status:
+    | "idle"
+    | "in_progress"
+    | "review"
+    | "submitting"
+    | "completed"
+    | "error";
   error: string | null;
 }
 
@@ -74,6 +80,7 @@ export interface ExplainabilityCard {
   placementRule: string;
   overridesApplied: string[];
   generatedAt: string;
+  policyPackVersion?: string;
 }
 
 export interface ActionPlanSummary {

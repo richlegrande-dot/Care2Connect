@@ -16,8 +16,8 @@
  * @module intake/v2/rank/rankService
  */
 
-import { Prisma } from '@prisma/client';
-import { prisma } from '../../../utils/database';
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../../utils/database";
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -76,7 +76,9 @@ export function invalidateCache(): void {
  * Get cached counts, refreshing from DB if stale.
  * Returns { byLevel, total }.
  */
-async function getCachedCounts(includeTest: boolean): Promise<{ byLevel: Map<number, number>; total: number }> {
+async function getCachedCounts(
+  includeTest: boolean,
+): Promise<{ byLevel: Map<number, number>; total: number }> {
   // If includeTest=true, we bypass cache (rare admin path)
   if (includeTest) {
     return refreshCountsFromDB(true);
@@ -100,7 +102,9 @@ async function getCachedCounts(includeTest: boolean): Promise<{ byLevel: Map<num
 /**
  * Query DB for counts grouped by stabilityLevel using optimized SQL.
  */
-async function refreshCountsFromDB(includeTest: boolean): Promise<{ byLevel: Map<number, number>; total: number }> {
+async function refreshCountsFromDB(
+  includeTest: boolean,
+): Promise<{ byLevel: Map<number, number>; total: number }> {
   // Use raw SQL for explicit index usage with the level_counts_idx
   const results = includeTest
     ? await prisma.$queryRaw<Array<{ stabilityLevel: number; count: bigint }>>`
@@ -123,7 +127,7 @@ async function refreshCountsFromDB(includeTest: boolean): Promise<{ byLevel: Map
 
   const byLevel = new Map<number, number>();
   let total = 0;
-  
+
   for (const row of results) {
     const count = Number(row.count);
     byLevel.set(row.stabilityLevel, count);
@@ -138,7 +142,7 @@ async function refreshCountsFromDB(includeTest: boolean): Promise<{ byLevel: Map
 export function buildSortKey(session: SessionRankInput): string {
   const L = session.stabilityLevel ?? 999;
   const S = session.totalScore ?? 0;
-  const T = session.completedAt?.toISOString() ?? '';
+  const T = session.completedAt?.toISOString() ?? "";
   return `L${L}|S${S}|T${T}|ID${session.id}`;
 }
 
@@ -158,7 +162,7 @@ export function buildSortKey(session: SessionRankInput): string {
  */
 export async function computeRank(
   session: SessionRankInput,
-  options: { includeTest?: boolean } = {}
+  options: { includeTest?: boolean } = {},
 ): Promise<RankResult> {
   const includeTest = options.includeTest ?? false;
   const testFilter = includeTest ? {} : { isTest: false };
@@ -232,10 +236,10 @@ const SNAPSHOT_FRESHNESS_MS = 15 * 60 * 1000;
  */
 export function isSnapshotFresh(
   rankComputedAt: Date | null,
-  freshnessMs: number = SNAPSHOT_FRESHNESS_MS
+  freshnessMs: number = SNAPSHOT_FRESHNESS_MS,
 ): boolean {
   if (!rankComputedAt) return false;
-  return (Date.now() - rankComputedAt.getTime()) < freshnessMs;
+  return Date.now() - rankComputedAt.getTime() < freshnessMs;
 }
 
 /**
@@ -266,7 +270,7 @@ export function rankFromSnapshot(session: {
       of: session.rankOf,
       level: session.stabilityLevel ?? 999,
     },
-    sortKey: session.rankSortKey ?? '',
+    sortKey: session.rankSortKey ?? "",
     excludesTestSessions: true, // snapshots always exclude test
     fromSnapshot: true,
   };
@@ -280,7 +284,7 @@ export function rankFromSnapshot(session: {
  */
 export async function computeAndStoreSnapshot(
   sessionId: string,
-  session: SessionRankInput
+  session: SessionRankInput,
 ): Promise<RankResult | null> {
   try {
     const rank = await computeRank(session, { includeTest: false });
@@ -300,7 +304,10 @@ export async function computeAndStoreSnapshot(
 
     return rank;
   } catch (err) {
-    console.error(`[RankService] Failed to compute/store snapshot for ${sessionId}:`, err);
+    console.error(
+      `[RankService] Failed to compute/store snapshot for ${sessionId}:`,
+      err,
+    );
     return null;
   }
 }
@@ -324,7 +331,7 @@ export async function getRank(
     rankComputedAt: Date | null;
     rankSortKey: string | null;
   },
-  options: { includeTest?: boolean; forceRefresh?: boolean } = {}
+  options: { includeTest?: boolean; forceRefresh?: boolean } = {},
 ): Promise<RankResult> {
   const includeTest = options.includeTest ?? false;
 
@@ -355,7 +362,10 @@ export async function getRank(
         },
       })
       .catch((err) => {
-        console.error(`[RankService] Failed to update snapshot for ${session.id}:`, err);
+        console.error(
+          `[RankService] Failed to update snapshot for ${session.id}:`,
+          err,
+        );
       });
   }
 
@@ -369,7 +379,7 @@ export async function getRank(
  * @returns Number of sessions processed
  */
 export async function bulkRecomputeRanks(
-  options: { dryRun?: boolean; batchSize?: number } = {}
+  options: { dryRun?: boolean; batchSize?: number } = {},
 ): Promise<{ processed: number; errors: number }> {
   const batchSize = options.batchSize ?? 100;
   const dryRun = options.dryRun ?? false;
@@ -379,12 +389,12 @@ export async function bulkRecomputeRanks(
 
   // Fetch all completed non-test sessions in rank order
   const sessions = await prisma.v2IntakeSession.findMany({
-    where: { status: 'COMPLETED', isTest: false },
+    where: { status: "COMPLETED", isTest: false },
     orderBy: [
-      { stabilityLevel: 'asc' },
-      { totalScore: 'desc' },
-      { completedAt: 'asc' },
-      { id: 'asc' },
+      { stabilityLevel: "asc" },
+      { totalScore: "desc" },
+      { completedAt: "asc" },
+      { id: "asc" },
     ],
     select: {
       id: true,
@@ -426,8 +436,8 @@ export async function bulkRecomputeRanks(
                 rankComputedAt: u.rankComputedAt,
                 rankSortKey: u.rankSortKey,
               },
-            })
-          )
+            }),
+          ),
         );
       } catch (err) {
         console.error(`[RankService] Batch error at offset ${i}:`, err);
@@ -439,7 +449,9 @@ export async function bulkRecomputeRanks(
     processed += batch.length;
 
     if (processed % 500 === 0 || processed === total) {
-      console.log(`[RankService] Bulk recompute: ${processed}/${total} ${dryRun ? '(dry-run)' : ''}`);
+      console.log(
+        `[RankService] Bulk recompute: ${processed}/${total} ${dryRun ? "(dry-run)" : ""}`,
+      );
     }
   }
 

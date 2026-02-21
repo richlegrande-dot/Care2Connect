@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface AdminPasswordGateProps {
   children: React.ReactNode;
@@ -14,13 +14,13 @@ interface AdminPasswordGateProps {
 export function AdminPasswordGate({ children }: AdminPasswordGateProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     // Check if already authenticated
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     if (token) {
       // Verify token is still valid by making a test request
       verifyToken(token);
@@ -31,9 +31,9 @@ export function AdminPasswordGate({ children }: AdminPasswordGateProps) {
 
   const verifyToken = async (token: string) => {
     try {
-      const response = await fetch('/api/admin/db/connection-info', {
+      const response = await fetch("/api/admin/db/connection-info", {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -41,7 +41,7 @@ export function AdminPasswordGate({ children }: AdminPasswordGateProps) {
         setIsAuthenticated(true);
       } else {
         // Token invalid, clear it
-        localStorage.removeItem('adminToken');
+        localStorage.removeItem("adminToken");
       }
     } catch (err) {
       // Network error or server down - assume token is valid
@@ -54,32 +54,32 @@ export function AdminPasswordGate({ children }: AdminPasswordGateProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     // Store token and verify by making a test request
     try {
-      const response = await fetch('/api/admin/db/connection-info', {
+      const response = await fetch("/api/admin/db/connection-info", {
         headers: {
-          'Authorization': `Bearer ${password}`,
+          Authorization: `Bearer ${password}`,
         },
       });
 
       if (response.ok) {
-        localStorage.setItem('adminToken', password);
+        localStorage.setItem("adminToken", password);
         setIsAuthenticated(true);
-        setPassword(''); // Clear password from memory
+        setPassword(""); // Clear password from memory
       } else {
-        setError('Invalid admin password');
+        setError("Invalid admin password");
       }
     } catch (err) {
-      setError('Authentication failed - server may be unavailable');
+      setError("Authentication failed - server may be unavailable");
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
+    localStorage.removeItem("adminToken");
     setIsAuthenticated(false);
-    setPassword('');
+    setPassword("");
   };
 
   if (isLoading) {

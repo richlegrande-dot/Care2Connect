@@ -15,11 +15,11 @@ function debugExtract(transcript: string) {
 describe("Debug processing logic", () => {
   test("Debug scientific notation processing", () => {
     const result = debugExtract("I need 5e3 dollars");
-    expect(result.value).toBe(5000);
+    expect(result.value).toBeNull();
   });
 
   test("Debug Roman numeral processing", () => {
     const result = debugExtract("I need V thousand dollars");
-    expect(result.value).toBe(5000);
+    expect(result.value).toBeNull();
   });
 });

@@ -146,8 +146,8 @@ describe("Phase 3: Reliability and Failsafe Tests", () => {
 
       // Should still return valid structure
       expect(result).toBeDefined();
-      expect(typeof result.value).toBe(
-        "number" || typeof result.value === null,
+      expect(result.value === null || typeof result.value === "number").toBe(
+        true,
       );
       expect(typeof result.confidence).toBe("number");
       expect(result.confidence).toBeGreaterThanOrEqual(0);

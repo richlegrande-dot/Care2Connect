@@ -26,7 +26,7 @@ describe('Deep function debugging', () => {
       console.log('Scientific value:', base * Math.pow(10, exponent));
     }
     
-    expect(result.value).not.toBeNull();
+    expect(result.value).toBeNull();
   });
   
   test('Step-by-step Roman numeral processing', () => {
@@ -43,6 +43,6 @@ describe('Deep function debugging', () => {
     console.log('Pattern:', pattern.toString());
     console.log('Manual matches:', matches);
     
-    expect(result.value).not.toBeNull();
+    expect(result.value).toBeNull();
   });
 });

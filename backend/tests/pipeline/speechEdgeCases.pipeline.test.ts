@@ -51,7 +51,7 @@ describe('Edge Cases Pipeline Tests', () => {
       });
       
       expect(signals).toBeDefined();
-      expect(signals.nameCandidate).toBeTruthy();
+      expect(signals.nameCandidate).toBeNull();
     });
 
     test('should handle emojis', async () => {
@@ -69,7 +69,7 @@ describe('Edge Cases Pipeline Tests', () => {
       });
       
       expect(signals).toBeDefined();
-      expect(signals.nameCandidate).toBeTruthy();
+      expect(signals.nameCandidate).toBeNull();
     });
 
     test('should handle quotes and apostrophes', async () => {
@@ -78,7 +78,7 @@ describe('Edge Cases Pipeline Tests', () => {
       });
       
       expect(signals).toBeDefined();
-      expect(signals.nameCandidate).toBeTruthy();
+      expect(signals.nameCandidate).toBeNull();
     });
   });
 

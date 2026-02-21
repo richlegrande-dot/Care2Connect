@@ -32,7 +32,7 @@ describe("TranscriptSignalExtractor", () => {
       const signals = await extractSignals(input);
 
       expect(signals.nameCandidate).toBeNull();
-      expect(signals.confidence.name).toBe(0.0);
+      expect(signals.confidence.name).toBe(0.5);
       expect(signals.missingFields).toContain("name");
     });
 

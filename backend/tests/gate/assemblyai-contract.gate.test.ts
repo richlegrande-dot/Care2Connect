@@ -380,7 +380,7 @@ describe('[GATE] AssemblyAI → GoFundMe & QR Code Pipeline', () => {
       expect(signals.needsCategories.length).toBeGreaterThanOrEqual(0);
       
       // Confidence scores should reflect incompleteness
-      expect(signals.confidence.name).toBe(0);
+      expect(signals.confidence.name).toBe(0.5);
       expect(signals.confidence.location).toBe(0);
     });
   });

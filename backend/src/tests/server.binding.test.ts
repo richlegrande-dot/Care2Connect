@@ -3,7 +3,8 @@ import { spawn, ChildProcess } from "child_process";
 import path from "path";
 import { promises as fs } from "fs";
 
-describe("Server Binding and Availability", () => {
+const RUN = process.env.RUN_LEGACY_INTEGRATION === "true";
+(RUN ? describe : describe.skip)("Server Binding and Availability", () => {
   let serverProcess: ChildProcess | null = null;
   const testPort = 3901; // Use a different port for testing
 

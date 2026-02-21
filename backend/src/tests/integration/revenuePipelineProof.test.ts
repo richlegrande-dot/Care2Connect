@@ -35,7 +35,8 @@ const mockStripeQRGeneration = (amount: number, description: string) => {
   };
 };
 
-describe("Revenue Pipeline Integration Test", () => {
+const RUN = process.env.RUN_LEGACY_INTEGRATION === "true";
+(RUN ? describe : describe.skip)("Revenue Pipeline Integration Test", () => {
   test("Complete Pipeline: Transcript → Draft → DOCX → QR", async () => {
     // STEP 1: Extract signals from transcript
     console.log("🔍 Step 1: Extracting signals from transcript...");

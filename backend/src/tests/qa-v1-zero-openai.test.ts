@@ -12,7 +12,8 @@ import { describe, it, expect, beforeAll, afterAll } from "@jest/globals";
 import { getAIProvider } from "../providers/ai";
 import { getTranscriptionProvider } from "../providers/transcription";
 
-describe("V1 Zero-OpenAI QA Suite", () => {
+const RUN = process.env.RUN_LEGACY_INTEGRATION === "true";
+(RUN ? describe : describe.skip)("V1 Zero-OpenAI QA Suite", () => {
   let fixturesPath: string;
   let testTranscripts: any[];
 

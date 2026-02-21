@@ -26,7 +26,12 @@ export type V2AuditEventType =
   | 'SESSION_COMPLETED'
   | 'SESSION_COMPLETE_IDEMPOTENT_HIT'
   | 'SESSION_COMPLETE_FAILED'
-  | 'RANK_COMPUTE_FAILED';
+  | 'RANK_COMPUTE_FAILED'
+  | 'PROFILE_READY'
+  | 'PROFILE_VIEWED'
+  | 'CHAT_THREAD_CREATED'
+  | 'CHAT_MESSAGE_USER'
+  | 'CHAT_MESSAGE_ASSISTANT';
 
 // ── Meta Allowlist ─────────────────────────────────────────────
 
@@ -79,9 +84,24 @@ const META_ALLOWLIST = new Set<string>([
   'dvSafeMode',
   'sensitiveDataRedacted',
 
+  // Chat metadata
+  'messageLength',
+  'redacted',
+  'templateId',
+  'responseLength',
+
   // Rank metadata
   'rankPosition',
   'rankOf',
+
+  // Profile readiness metadata
+  'level',
+  'tier',
+  'rankPending',
+
+  // Profile view metadata
+  'route',
+  'includeRoadmap',
 ]);
 
 /**

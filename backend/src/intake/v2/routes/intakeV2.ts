@@ -393,6 +393,44 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
     const scoreResult = computeScores(intakeData);
     const scoreDurationMs = Date.now() - scoreStartTime;
 
+    // ── Stage 4b: Score/rank invariant checks ──
+    // These invariants guard the profile pipeline. If violated, the session
+    // MUST NOT be marked COMPLETED — return 500 with a stable error contract.
+    const VALID_TIERS = ['CRITICAL', 'HIGH', 'MODERATE', 'LOWER'];
+    const invariantErrors: string[] = [];
+
+    if (typeof scoreResult.stabilityLevel !== 'number' ||
+        scoreResult.stabilityLevel < 0 || scoreResult.stabilityLevel > 5 ||
+        !Number.isInteger(scoreResult.stabilityLevel)) {
+      invariantErrors.push(`stabilityLevel out of bounds: ${scoreResult.stabilityLevel}`);
+    }
+    if (typeof scoreResult.totalScore !== 'number' ||
+        scoreResult.totalScore < 0 || scoreResult.totalScore > 100) {
+      invariantErrors.push(`totalScore out of bounds: ${scoreResult.totalScore}`);
+    }
+    if (!VALID_TIERS.includes(scoreResult.priorityTier)) {
+      invariantErrors.push(`priorityTier invalid: ${scoreResult.priorityTier}`);
+    }
+
+    if (invariantErrors.length > 0) {
+      console.error(`[V2 Intake] Score invariant violation for session ${sessionId}:`, invariantErrors);
+      try {
+        await writeAuditEvent(sessionId, 'SESSION_COMPLETE_FAILED', {
+          requestId,
+          correlationId: requestId,
+          errorCode: 'E_SCORE_INVARIANT',
+          errorMessage: 'Score invariant check failed',
+          durationMs: Date.now() - startTime,
+        });
+      } catch { /* swallow */ }
+      return res.status(500).json({
+        error: 'SCORE_INVARIANT_VIOLATION',
+        code: 'E_SCORE_INVARIANT',
+        requestId,
+        violations: invariantErrors,
+      });
+    }
+
     // ── Stage 5: Build explainability card ──
     const explainabilityCard = buildExplanation(scoreResult, session.dvSafeMode);
 
@@ -473,6 +511,21 @@ router.post('/session/:sessionId/complete', async (req: Request, res: Response) 
             priorityTier: scoreResult.priorityTier,
             durationMs: Date.now() - startTime,
             sensitiveDataRedacted: session.dvSafeMode,
+            correlationId: requestId,
+          },
+        },
+      }),
+      // PROFILE_READY: signals the profile+rank pipeline is ready for viewing
+      prisma.v2IntakeAuditEvent.create({
+        data: {
+          sessionId,
+          eventType: 'PROFILE_READY',
+          requestId,
+          meta: {
+            level: scoreResult.stabilityLevel,
+            tier: scoreResult.priorityTier,
+            totalScore: scoreResult.totalScore,
+            rankPending: true,         // rank snapshot runs after this transaction
             correlationId: requestId,
           },
         },
@@ -664,6 +717,10 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     // Audit stats
     const auditStats = await countSessionAuditEvents(sessionId);
 
+    // Track profile view (best-effort, never blocks response)
+    const profileViewStart = Date.now();
+    const includeRoadmap = req.query.include === 'roadmap';
+
     // Base profile fields
     const profile: Record<string, unknown> = {
       sessionId: session.id,
@@ -697,6 +754,18 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
     // Completed session — get explainability top factors
     const explainCard = session.explainabilityCard as Record<string, unknown> | null;
     const topFactors = (explainCard?.topFactors as string[]) ?? [];
+
+    // Profile-side invariant check: verify stored data consistency
+    const VALID_TIERS_PROFILE = ['CRITICAL', 'HIGH', 'MODERATE', 'LOWER'];
+    if (session.stabilityLevel != null && (session.stabilityLevel < 0 || session.stabilityLevel > 5)) {
+      console.error(`[V2 Intake] Profile invariant: stabilityLevel=${session.stabilityLevel} for session ${sessionId}`);
+    }
+    if (session.totalScore != null && (session.totalScore < 0 || session.totalScore > 100)) {
+      console.error(`[V2 Intake] Profile invariant: totalScore=${session.totalScore} for session ${sessionId}`);
+    }
+    if (session.priorityTier != null && !VALID_TIERS_PROFILE.includes(session.priorityTier)) {
+      console.error(`[V2 Intake] Profile invariant: priorityTier=${session.priorityTier} for session ${sessionId}`);
+    }
 
     // Rank: snapshot-first with 15-min freshness, fallback to live compute
     // Uses partitioned level ranking: global + level-local
@@ -742,6 +811,14 @@ router.get('/session/:sessionId/profile', v2IntakeAuthMiddleware, async (req: Re
         },
       } : {}),
     });
+
+    // Best-effort PROFILE_VIEWED audit (fire-and-forget, never blocks response)
+    // Meta: route, includeRoadmap, durationMs — NEVER sessionId/IP/userAgent
+    writeAuditEvent(sessionId, 'PROFILE_VIEWED', {
+      route: '/session/:sessionId/profile',
+      includeRoadmap,
+      durationMs: Date.now() - profileViewStart,
+    }).catch(() => { /* swallow — audit must not crash profile delivery */ });
   } catch (err) {
     console.error('[V2 Intake] Failed to get session profile:', err);
     res.status(500).json({ error: 'Failed to retrieve session profile' });
@@ -1075,5 +1152,381 @@ router.get('/calibration', v2IntakeAuthMiddleware, async (req: Request, res: Res
     res.status(500).json({ error: 'Failed to generate calibration report' });
   }
 });
+
+// ── Chat API Endpoints ─────────────────────────────────────────
+// /api/v2/intake/session/:sessionId/chat/*
+// Gated behind sessionId existence and completion status
+
+// Simple in-memory rate limiter for chat messages
+const chatRateLimiter = new Map<string, { count: number; resetTime: number }>();
+
+const cleanupRateLimit = () => {
+  const now = Date.now();
+  for (const [key, data] of chatRateLimiter.entries()) {
+    if (data.resetTime < now) {
+      chatRateLimiter.delete(key);
+    }
+  }
+};
+
+const checkRateLimit = (sessionId: string): { allowed: boolean; retryAfter?: number } => {
+  cleanupRateLimit();
+  const key = `chat:${sessionId}`;
+  const now = Date.now();
+  const hourMs = 60 * 60 * 1000;
+  const maxPerHour = 30;
+  
+  const current = chatRateLimiter.get(key);
+  if (!current) {
+    chatRateLimiter.set(key, { count: 1, resetTime: now + hourMs });
+    return { allowed: true };
+  }
+  
+  if (current.resetTime < now) {
+    chatRateLimiter.set(key, { count: 1, resetTime: now + hourMs });
+    return { allowed: true };
+  }
+  
+  if (current.count >= maxPerHour) {
+    return { 
+      allowed: false, 
+      retryAfter: Math.ceil((current.resetTime - now) / 1000) 
+    };
+  }
+  
+  current.count++;
+  return { allowed: true };
+};
+
+/**
+ * POST /session/:sessionId/chat/thread — Create or get chat thread (idempotent)
+ */
+router.post('/session/:sessionId/chat/thread', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  const { sessionId } = req.params;
+  const requestId = req.requestId;
+
+  try {
+    // Verify session exists and is completed
+    const session = await prisma.v2IntakeSession.findUnique({
+      where: { id: sessionId },
+      select: { id: true, status: true }
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    if (session.status !== 'COMPLETED') {
+      return res.status(400).json({ error: 'Session must be completed before starting chat' });
+    }
+
+    // Idempotent: find existing thread or create new one
+    let chatThread = await prisma.v2IntakeChatThread.findUnique({
+      where: { sessionId }
+    });
+
+    if (!chatThread) {
+      chatThread = await prisma.v2IntakeChatThread.create({
+        data: {
+          sessionId,
+          mode: 'DETERMINISTIC'
+        }
+      });
+
+      // Audit log
+      await writeAuditEvent(sessionId, 'CHAT_THREAD_CREATED', {}, requestId);
+    }
+
+    res.json({
+      threadId: chatThread.id,
+      sessionId: chatThread.sessionId,
+      mode: chatThread.mode
+    });
+
+  } catch (err) {
+    console.error('[Chat] Thread creation failed:', err);
+    res.status(500).json({ error: 'Failed to create chat thread' });
+  }
+});
+
+/**
+ * GET /session/:sessionId/chat/thread — Get chat messages
+ */
+router.get('/session/:sessionId/chat/thread', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  const { sessionId } = req.params;
+  const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 50, 1), 200);
+
+  try {
+    const chatThread = await prisma.v2IntakeChatThread.findUnique({
+      where: { sessionId },
+      include: {
+        messages: {
+          orderBy: { createdAt: 'asc' },
+          take: limit,
+          select: {
+            id: true,
+            role: true,
+            content: true,
+            redacted: true,
+            createdAt: true
+            // Deliberately exclude meta to prevent PII leakage
+          }
+        }
+      }
+    });
+
+    if (!chatThread) {
+      return res.status(404).json({ error: 'Chat thread not found' });
+    }
+
+    res.json({
+      threadId: chatThread.id,
+      messages: chatThread.messages
+    });
+
+  } catch (err) {
+    console.error('[Chat] Message retrieval failed:', err);
+    res.status(500).json({ error: 'Failed to retrieve messages' });
+  }
+});
+
+/**
+ * POST /session/:sessionId/chat/message — Send user message and get assistant response
+ */
+router.post('/session/:sessionId/chat/message', v2IntakeAuthMiddleware, async (req: Request, res: Response) => {
+  const { sessionId } = req.params;
+  const { message } = req.body;
+  const requestId = req.requestId;
+
+  if (!message || typeof message !== 'string' || message.trim().length === 0) {
+    return res.status(400).json({ error: 'Message is required' });
+  }
+
+  if (message.length > 2000) {
+    return res.status(400).json({ error: 'Message too long (max 2000 characters)' });
+  }
+
+  // Rate limiting
+  const rateLimitResult = checkRateLimit(sessionId);
+  if (!rateLimitResult.allowed) {
+    res.setHeader('Retry-After', rateLimitResult.retryAfter?.toString() || '3600');
+    return res.status(429).json({ 
+      error: 'Too many messages. Please try again later.',
+      retryAfter: rateLimitResult.retryAfter 
+    });
+  }
+
+  try {
+    // Get session data and chat thread
+    const session = await prisma.v2IntakeSession.findUnique({
+      where: { id: sessionId },
+      include: { chatThread: true }
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    if (session.status !== 'COMPLETED') {
+      return res.status(400).json({ error: 'Session must be completed before using chat' });
+    }
+
+    if (!session.chatThread) {
+      return res.status(400).json({ error: 'Chat thread not found. Create a thread first.' });
+    }
+
+    // Store user message (with DV-safe handling)
+    let userMessageId: string | null = null;
+    const userContent = message.trim();
+    
+    if (!session.dvSafeMode || !containsSensitiveContent(userContent)) {
+      const userMessage = await prisma.v2IntakeChatMessage.create({
+        data: {
+          threadId: session.chatThread.id,
+          role: 'user',
+          content: userContent,
+          redacted: false
+        }
+      });
+      userMessageId = userMessage.id;
+    } else {
+      // For DV-safe mode, store redacted placeholder
+      const userMessage = await prisma.v2IntakeChatMessage.create({
+        data: {
+          threadId: session.chatThread.id,
+          role: 'user',
+          content: '[User message - redacted for safety]',
+          redacted: true,
+          meta: { originalLength: userContent.length }
+        }
+      });
+      userMessageId = userMessage.id;
+    }
+
+    // Generate deterministic assistant response
+    const assistantResponse = await generateDeterministicResponse(session, userContent);
+
+    // Store assistant message
+    const assistantMessage = await prisma.v2IntakeChatMessage.create({
+      data: {
+        threadId: session.chatThread.id,
+        role: 'assistant',
+        content: assistantResponse.content,
+        meta: { 
+          templateId: assistantResponse.templateId,
+          responseLength: assistantResponse.content.length 
+        }
+      }
+    });
+
+    // Audit logging
+    await Promise.all([
+      writeAuditEvent(sessionId, 'CHAT_MESSAGE_USER', {
+        messageLength: userContent.length,
+        redacted: session.dvSafeMode && containsSensitiveContent(userContent)
+      }, requestId),
+      writeAuditEvent(sessionId, 'CHAT_MESSAGE_ASSISTANT', {
+        templateId: assistantResponse.templateId,
+        responseLength: assistantResponse.content.length
+      }, requestId)
+    ]);
+
+    res.json({
+      userMessageId,
+      assistantMessageId: assistantMessage.id,
+      assistant: {
+        content: assistantResponse.content
+      },
+      requestId
+    });
+
+  } catch (err) {
+    console.error('[Chat] Message processing failed:', err);
+    res.status(500).json({ error: 'Failed to process message' });
+  }
+});
+
+// ── Helper Functions ───────────────────────────────────────────
+
+/**
+ * Check if content contains DV-sensitive keywords
+ */
+function containsSensitiveContent(content: string): boolean {
+  const sensitive = [
+    'abuse', 'domestic violence', 'dv', 'hit', 'beat', 'hurt', 'threaten',
+    'trafficking', 'traffick', 'pimp', 'prostitut', 'exploit',
+    'suicide', 'suicidal', 'kill myself', 'end it all', 'hurt myself'
+  ];
+  
+  const lowerContent = content.toLowerCase();
+  return sensitive.some(word => lowerContent.includes(word));
+}
+
+/**
+ * Generate deterministic assistant response based on session data
+ */
+async function generateDeterministicResponse(
+  session: any, 
+  userMessage: string
+): Promise<{ content: string; templateId: string }> {
+  const level = session.stabilityLevel ?? 0;
+  const tier = session.priorityTier;
+  const hasActionPlan = !!session.actionPlan;
+  
+  // Determine response template based on user message
+  const lowerMessage = userMessage.toLowerCase();
+  let templateId = 'general';
+  
+  if (lowerMessage.includes('help') || lowerMessage.includes('what') || lowerMessage.includes('next')) {
+    templateId = 'guidance';
+  } else if (lowerMessage.includes('level') || lowerMessage.includes('score') || lowerMessage.includes('where')) {
+    templateId = 'status';
+  } else if (lowerMessage.includes('resources') || lowerMessage.includes('program')) {
+    templateId = 'resources';
+  }
+
+  let content = '';
+
+  // Status information
+  const levelLabels = ['Crisis', 'Severe Risk', 'High Risk', 'Moderate Risk', 'Low Risk', 'Stable'];
+  const currentLevel = levelLabels[level] || 'Unknown';
+  const nextLevel = level < 5 ? levelLabels[level + 1] : null;
+
+  if (templateId === 'status') {
+    content = `**Your Current Status**\n\n`;
+    content += `🎯 **Stability Level:** ${currentLevel} (Level ${level})\n`;
+    if (tier) content += `📋 **Priority Tier:** ${tier}\n`;
+    if (nextLevel) {
+      content += `⬆️ **Next Goal:** ${nextLevel} (Level ${level + 1})\n\n`;
+    }
+  }
+
+  if (templateId === 'guidance' || templateId === 'general') {
+    content += `**What You Can Do Next**\n\n`;
+    
+    if (hasActionPlan) {
+      try {
+        const actionPlan = session.actionPlan;
+        if (actionPlan?.tasks?.length > 0) {
+          const priorityTasks = actionPlan.tasks
+            .filter((task: any) => task.priority === 'critical' || task.priority === 'high')
+            .slice(0, 3);
+            
+          if (priorityTasks.length > 0) {
+            content += `**Top Priority Actions:**\n`;
+            priorityTasks.forEach((task: any, i: number) => {
+              content += `${i + 1}. ${task.title}\n`;
+            });
+            content += `\n`;
+          }
+        }
+      } catch (e) {
+        // Fallback if actionPlan parsing fails
+      }
+    }
+    
+    // Level-specific guidance
+    if (level === 0) {
+      content += `**Immediate Actions for Crisis Level:**\n`;
+      content += `• Contact emergency services if in immediate danger\n`;
+      content += `• Reach out to local crisis hotlines for support\n`;
+      content += `• Secure immediate shelter if needed\n`;
+      content += `• Connect with emergency assistance programs\n\n`;
+    } else if (level <= 2) {
+      content += `**Steps to Improve Stability:**\n`;
+      content += `• Focus on securing stable housing\n`;
+      content += `• Apply for available assistance programs\n`;
+      content += `• Build a support network\n`;
+      content += `• Address immediate health and safety needs\n\n`;
+    } else {
+      content += `**Building Long-term Stability:**\n`;
+      content += `• Focus on employment and income stability\n`;
+      content += `• Build savings and financial security\n`;
+      content += `• Strengthen community connections\n`;
+      content += `• Plan for future goals and milestones\n\n`;
+    }
+  }
+
+  if (templateId === 'resources') {
+    content += `**Finding Resources**\n\n`;
+    content += `Based on your assessment, you may be eligible for:\n`;
+    content += `• Housing assistance programs\n`;
+    content += `• Food and nutrition support\n`;
+    content += `• Healthcare and mental health services\n`;
+    content += `• Employment and job training programs\n`;
+    content += `• Financial assistance and benefits\n\n`;
+    content += `💡 Contact your local 211 service or visit care2connects.org for specific resources in your area.\n\n`;
+  }
+
+  // Safety note for DV-safe mode
+  if (session.dvSafeMode) {
+    content += `**Safety Note:** If you're in immediate danger, please contact emergency services. This guide provides general information and should not replace professional advice.\n\n`;
+  }
+
+  content += `**Need More Help?**\n`;
+  content += `This automated guide provides personalized suggestions based on your assessment. For specific questions about programs or services, please contact local service providers or use the resources referenced in your assessment results.`;
+
+  return { content: content.trim(), templateId };
+}
 
 export default router;

@@ -372,8 +372,9 @@ describe("Phase 5: Extreme Edge Cases - Absolute Hardest Scenarios", () => {
       const alternating = "My name is SaRaH jOhNsOn and I need $2,000";
 
       const name = extractNameWithConfidence(alternating);
-      expect(name.value.toLowerCase()).toContain("sarah");
-      expect(name.value.toLowerCase()).toContain("johnson");
+      expect(name.value).not.toBeNull();
+      expect(name.value!.toLowerCase()).toContain("sarah");
+      expect(name.value!.toLowerCase()).toContain("johnson");
     });
   });
 

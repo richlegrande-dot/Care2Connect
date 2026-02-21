@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
-import { X } from 'lucide-react';
+import { useState, FormEvent } from "react";
+import { X } from "lucide-react";
 
 interface SystemAuthModalProps {
   onAuthenticated: (token: string) => void;
   onCancel: () => void;
 }
 
-export default function SystemAuthModal({ onAuthenticated, onCancel }: SystemAuthModalProps) {
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+export default function SystemAuthModal({
+  onAuthenticated,
+  onCancel,
+}: SystemAuthModalProps) {
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [attempts, setAttempts] = useState(0);
   const [locked, setLocked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,45 +22,51 @@ export default function SystemAuthModal({ onAuthenticated, onCancel }: SystemAut
     e.preventDefault();
 
     if (locked) {
-      setError('Too many failed attempts. Please wait 5 minutes.');
+      setError("Too many failed attempts. Please wait 5 minutes.");
       return;
     }
 
     if (!password) {
-      setError('Password required');
+      setError("Password required");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Use API URL for consistent endpoint access
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
-      const baseUrl = apiUrl.replace(/\/api$/, ''); // Remove /api suffix if present
-      
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_URL ||
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        "http://localhost:3001";
+      const baseUrl = apiUrl.replace(/\/api$/, ""); // Remove /api suffix if present
+
       const res = await fetch(`${baseUrl}/admin/auth`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
 
       if (!res.ok) {
         if (res.status === 503) {
-          setError('API unavailable. Server may be starting up.');
+          setError("API unavailable. Server may be starting up.");
         } else if (res.status === 404) {
-          setError('API endpoint not found. Check server configuration.');
+          setError("API endpoint not found. Check server configuration.");
         } else {
           const newAttempts = attempts + 1;
           setAttempts(newAttempts);
-          
+
           if (newAttempts >= 5) {
             setLocked(true);
-            setError('Too many failed attempts. Locked for 5 minutes.');
-            setTimeout(() => {
-              setLocked(false);
-              setAttempts(0);
-            }, 5 * 60 * 1000);
+            setError("Too many failed attempts. Locked for 5 minutes.");
+            setTimeout(
+              () => {
+                setLocked(false);
+                setAttempts(0);
+              },
+              5 * 60 * 1000,
+            );
           } else {
             setError(`Invalid password (${newAttempts}/5 attempts)`);
           }
@@ -69,8 +78,11 @@ export default function SystemAuthModal({ onAuthenticated, onCancel }: SystemAut
 
       if (data.ok && data.token) {
         // Store token in sessionStorage
-        sessionStorage.setItem('system-admin-token', data.token);
-        sessionStorage.setItem('system-admin-expires', String(Date.now() + data.expiresIn * 1000));
+        sessionStorage.setItem("system-admin-token", data.token);
+        sessionStorage.setItem(
+          "system-admin-expires",
+          String(Date.now() + data.expiresIn * 1000),
+        );
         onAuthenticated(data.token);
       } else {
         const newAttempts = attempts + 1;
@@ -78,18 +90,23 @@ export default function SystemAuthModal({ onAuthenticated, onCancel }: SystemAut
 
         if (newAttempts >= 5) {
           setLocked(true);
-          setError('Too many failed attempts. Locked for 5 minutes.');
-          setTimeout(() => {
-            setLocked(false);
-            setAttempts(0);
-          }, 5 * 60 * 1000);
+          setError("Too many failed attempts. Locked for 5 minutes.");
+          setTimeout(
+            () => {
+              setLocked(false);
+              setAttempts(0);
+            },
+            5 * 60 * 1000,
+          );
         } else {
           setError(`Invalid password (${newAttempts}/5 attempts)`);
         }
       }
     } catch (err) {
-      console.error('Auth error:', err);
-      setError(`Connection failed: ${err instanceof Error ? err.message : 'Network error'}. Check server connection.`);
+      console.error("Auth error:", err);
+      setError(
+        `Connection failed: ${err instanceof Error ? err.message : "Network error"}. Check server connection.`,
+      );
     } finally {
       setLoading(false);
     }
@@ -110,12 +127,16 @@ export default function SystemAuthModal({ onAuthenticated, onCancel }: SystemAut
         </div>
 
         <p className="text-gray-600 mb-6">
-          This area is password-protected. Enter the system password to continue.
+          This area is password-protected. Enter the system password to
+          continue.
         </p>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Password
             </label>
             <input
@@ -142,7 +163,7 @@ export default function SystemAuthModal({ onAuthenticated, onCancel }: SystemAut
               disabled={locked || loading}
               className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
             >
-              {loading ? 'Authenticating...' : 'Access System'}
+              {loading ? "Authenticating..." : "Access System"}
             </button>
             <button
               type="button"

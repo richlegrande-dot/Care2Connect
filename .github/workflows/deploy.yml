@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '24'
 
 jobs:
   deploy-frontend:
@@ -48,7 +48,7 @@ jobs:
           vercel-args: '--prod'
 
       - name: Comment PR with deployment URL
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         if: github.event_name == 'pull_request'
         with:
           script: |
@@ -81,7 +81,7 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Build backend
         working-directory: ./backend
@@ -144,11 +144,11 @@ jobs:
 
       - name: Generate Prisma client
         working-directory: ./backend
-        run: npx prisma generate
+        run: npm run prisma:generate:ci
 
       - name: Run database migrations
         working-directory: ./backend
-        run: npx prisma migrate deploy
+        run: npx prisma@6.19.1 migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -156,7 +156,7 @@ jobs:
         working-directory: ./backend
         run: |
           if [ -f "prisma/seed.ts" ]; then
-            npx prisma db seed
+            npx prisma@6.19.1 db seed
           fi
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

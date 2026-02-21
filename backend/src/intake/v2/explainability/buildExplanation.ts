@@ -10,8 +10,12 @@
  * @module intake/v2/explainability
  */
 
-import { STABILITY_LEVELS, POLICY_PACK_VERSION, SCORING_ENGINE_VERSION } from '../constants';
-import type { ScoreResult, Contributor } from '../scoring/computeScores';
+import {
+  STABILITY_LEVELS,
+  POLICY_PACK_VERSION,
+  SCORING_ENGINE_VERSION,
+} from "../constants";
+import type { ScoreResult, Contributor } from "../scoring/computeScores";
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -55,7 +59,7 @@ interface DimensionExplanation {
  */
 export function buildExplanation(
   scoreResult: ScoreResult,
-  dvSafeMode: boolean = false
+  dvSafeMode: boolean = false,
 ): ExplainabilityCard {
   const levelInfo = STABILITY_LEVELS[scoreResult.stabilityLevel];
 
@@ -71,14 +75,26 @@ export function buildExplanation(
   allContributors.sort((a, b) => b.points - a.points);
 
   // Top 3 human-readable factors
-  const topFactors = allContributors.slice(0, 3).map(c => c.label);
+  const topFactors = allContributors.slice(0, 3).map((c) => c.label);
 
   // Build dimension explanations (optionally redacted)
   const dimensions = {
-    housing_stability: buildDimensionExplanation(scoreResult.dimensions.housing_stability, dvSafeMode),
-    safety_crisis: buildDimensionExplanation(scoreResult.dimensions.safety_crisis, dvSafeMode),
-    vulnerability_health: buildDimensionExplanation(scoreResult.dimensions.vulnerability_health, dvSafeMode),
-    chronicity_system: buildDimensionExplanation(scoreResult.dimensions.chronicity_system, dvSafeMode),
+    housing_stability: buildDimensionExplanation(
+      scoreResult.dimensions.housing_stability,
+      dvSafeMode,
+    ),
+    safety_crisis: buildDimensionExplanation(
+      scoreResult.dimensions.safety_crisis,
+      dvSafeMode,
+    ),
+    vulnerability_health: buildDimensionExplanation(
+      scoreResult.dimensions.vulnerability_health,
+      dvSafeMode,
+    ),
+    chronicity_system: buildDimensionExplanation(
+      scoreResult.dimensions.chronicity_system,
+      dvSafeMode,
+    ),
   };
 
   return {
@@ -100,20 +116,20 @@ export function buildExplanation(
 
 /** DV-safe signals that should have their *value* redacted (not the label) */
 const DV_SENSITIVE_SIGNALS = new Set([
-  'fleeing_dv',
-  'fleeing_trafficking',
-  'has_protective_order',
-  'experienced_violence_recently',
-  'feels_safe_current_location',
+  "fleeing_dv",
+  "fleeing_trafficking",
+  "has_protective_order",
+  "experienced_violence_recently",
+  "feels_safe_current_location",
 ]);
 
 function buildDimensionExplanation(
   dim: { score: number; maxScore: number; contributors: Contributor[] },
-  dvSafeMode: boolean
+  dvSafeMode: boolean,
 ): DimensionExplanation {
-  const contributors = dim.contributors.map(c => {
+  const contributors = dim.contributors.map((c) => {
     if (dvSafeMode && DV_SENSITIVE_SIGNALS.has(c.signal)) {
-      return { ...c, value: '[REDACTED]' };
+      return { ...c, value: "[REDACTED]" };
     }
     return { ...c };
   });

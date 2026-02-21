@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import type { ExplainabilityCard } from '../types';
+import Link from "next/link";
+import type { ExplainabilityCard } from "../types";
 
 interface WizardResultsProps {
   results: {
@@ -22,9 +22,24 @@ interface WizardResultsProps {
       shortTermTasks: number;
       mediumTermTasks: number;
       tasks?: {
-        immediateTasks: Array<{ title: string; description: string; priority: string; category: string }>;
-        shortTermTasks: Array<{ title: string; description: string; priority: string; category: string }>;
-        mediumTermTasks: Array<{ title: string; description: string; priority: string; category: string }>;
+        immediateTasks: Array<{
+          title: string;
+          description: string;
+          priority: string;
+          category: string;
+        }>;
+        shortTermTasks: Array<{
+          title: string;
+          description: string;
+          priority: string;
+          category: string;
+        }>;
+        mediumTermTasks: Array<{
+          title: string;
+          description: string;
+          priority: string;
+          category: string;
+        }>;
       };
     };
     sessionId?: string;
@@ -33,19 +48,19 @@ interface WizardResultsProps {
 }
 
 const TIER_COLORS: Record<string, string> = {
-  CRITICAL: 'bg-red-100 text-red-800 border-red-300',
-  HIGH: 'bg-orange-100 text-orange-800 border-orange-300',
-  MODERATE: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-  LOWER: 'bg-green-100 text-green-800 border-green-300',
+  CRITICAL: "bg-red-100 text-red-800 border-red-300",
+  HIGH: "bg-orange-100 text-orange-800 border-orange-300",
+  MODERATE: "bg-yellow-100 text-yellow-800 border-yellow-300",
+  LOWER: "bg-green-100 text-green-800 border-green-300",
 };
 
 const LEVEL_DESCRIPTIONS: Record<number, string> = {
-  0: 'Immediate crisis intervention needed. You will be connected with emergency services.',
-  1: 'Emergency shelter and stabilization services are the priority.',
-  2: 'Transitional support services will help build stability.',
-  3: 'You have some stability — services will focus on strengthening your situation.',
-  4: 'You are housed with support needs. Ongoing services will be coordinated.',
-  5: 'You are in a stable situation. Monitoring and light-touch support available.',
+  0: "Immediate crisis intervention needed. You will be connected with emergency services.",
+  1: "Emergency shelter and stabilization services are the priority.",
+  2: "Transitional support services will help build stability.",
+  3: "You have some stability — services will focus on strengthening your situation.",
+  4: "You are housed with support needs. Ongoing services will be coordinated.",
+  5: "You are in a stable situation. Monitoring and light-touch support available.",
 };
 
 export function WizardResults({ results }: WizardResultsProps) {
@@ -53,23 +68,33 @@ export function WizardResults({ results }: WizardResultsProps) {
   const tierClass = TIER_COLORS[score.priorityTier] || TIER_COLORS.LOWER;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8" role="main" aria-label="Assessment Results">
+    <div
+      className="min-h-screen bg-gray-50 py-8"
+      role="main"
+      aria-label="Assessment Results"
+    >
       <div className="max-w-2xl mx-auto px-4">
         {/* Screen reader announcement */}
         <div aria-live="polite" className="sr-only">
-          Assessment complete. Your stability level is {score.stabilityLevel}, priority tier is {score.priorityTier}.
+          Assessment complete. Your stability level is {score.stabilityLevel},
+          priority tier is {score.priorityTier}.
         </div>
 
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Assessment Results</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Your Assessment Results
+          </h1>
           <p className="text-gray-600">
-            Based on your responses, here is your personalized assessment and recommended next steps.
+            Based on your responses, here is your personalized assessment and
+            recommended next steps.
           </p>
           {/* Session ID & Rank */}
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-400">
             {results.sessionId && (
-              <span>Session: <span className="font-mono">{results.sessionId}</span></span>
+              <span>
+                Session: <span className="font-mono">{results.sessionId}</span>
+              </span>
             )}
             {results.rank && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
@@ -90,7 +115,7 @@ export function WizardResults({ results }: WizardResultsProps) {
             </span>
           </div>
           <p className="text-sm">
-            {LEVEL_DESCRIPTIONS[score.stabilityLevel] || 'Assessment complete.'}
+            {LEVEL_DESCRIPTIONS[score.stabilityLevel] || "Assessment complete."}
           </p>
         </div>
 
@@ -112,13 +137,27 @@ export function WizardResults({ results }: WizardResultsProps) {
         {/* Score Breakdown */}
         {score.dimensions && (
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Score Breakdown</h3>
+            <h3 className="font-semibold text-gray-900 mb-3">
+              Score Breakdown
+            </h3>
             <div className="space-y-3">
               {[
-                { label: 'Housing Stability', value: score.dimensions.housing_stability },
-                { label: 'Safety & Crisis Risk', value: score.dimensions.safety_crisis },
-                { label: 'Vulnerability & Health', value: score.dimensions.vulnerability_health },
-                { label: 'Chronicity & System Use', value: score.dimensions.chronicity_system },
+                {
+                  label: "Housing Stability",
+                  value: score.dimensions.housing_stability,
+                },
+                {
+                  label: "Safety & Crisis Risk",
+                  value: score.dimensions.safety_crisis,
+                },
+                {
+                  label: "Vulnerability & Health",
+                  value: score.dimensions.vulnerability_health,
+                },
+                {
+                  label: "Chronicity & System Use",
+                  value: score.dimensions.chronicity_system,
+                },
               ].map(({ label, value }) => (
                 <div key={label}>
                   <div className="flex justify-between text-sm mb-1">
@@ -142,8 +181,12 @@ export function WizardResults({ results }: WizardResultsProps) {
               ))}
               <div className="pt-2 border-t mt-3">
                 <div className="flex justify-between text-sm">
-                  <span className="font-semibold text-gray-900">Total Priority Score</span>
-                  <span className="font-bold text-lg">{score.totalScore}/100</span>
+                  <span className="font-semibold text-gray-900">
+                    Total Priority Score
+                  </span>
+                  <span className="font-bold text-lg">
+                    {score.totalScore}/100
+                  </span>
                 </div>
               </div>
             </div>
@@ -152,7 +195,9 @@ export function WizardResults({ results }: WizardResultsProps) {
 
         {/* Action Plan Summary */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-3">Recommended Next Steps</h3>
+          <h3 className="font-semibold text-gray-900 mb-3">
+            Recommended Next Steps
+          </h3>
 
           {actionPlan.immediateTasks > 0 && (
             <div className="mb-4">
@@ -160,9 +205,16 @@ export function WizardResults({ results }: WizardResultsProps) {
                 Immediate (0–24 hours) — {actionPlan.immediateTasks} task(s)
               </h4>
               {actionPlan.tasks?.immediateTasks.map((task, i) => (
-                <div key={i} className="ml-4 mb-2 p-3 bg-red-50 rounded border border-red-100">
-                  <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                  <p className="text-xs text-gray-600 mt-1">{task.description}</p>
+                <div
+                  key={i}
+                  className="ml-4 mb-2 p-3 bg-red-50 rounded border border-red-100"
+                >
+                  <p className="text-sm font-medium text-gray-900">
+                    {task.title}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {task.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -174,9 +226,16 @@ export function WizardResults({ results }: WizardResultsProps) {
                 Short-Term (1–7 days) — {actionPlan.shortTermTasks} task(s)
               </h4>
               {actionPlan.tasks?.shortTermTasks.map((task, i) => (
-                <div key={i} className="ml-4 mb-2 p-3 bg-orange-50 rounded border border-orange-100">
-                  <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                  <p className="text-xs text-gray-600 mt-1">{task.description}</p>
+                <div
+                  key={i}
+                  className="ml-4 mb-2 p-3 bg-orange-50 rounded border border-orange-100"
+                >
+                  <p className="text-sm font-medium text-gray-900">
+                    {task.title}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {task.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -188,25 +247,39 @@ export function WizardResults({ results }: WizardResultsProps) {
                 Medium-Term (30–90 days) — {actionPlan.mediumTermTasks} task(s)
               </h4>
               {actionPlan.tasks?.mediumTermTasks.map((task, i) => (
-                <div key={i} className="ml-4 mb-2 p-3 bg-blue-50 rounded border border-blue-100">
-                  <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                  <p className="text-xs text-gray-600 mt-1">{task.description}</p>
+                <div
+                  key={i}
+                  className="ml-4 mb-2 p-3 bg-blue-50 rounded border border-blue-100"
+                >
+                  <p className="text-sm font-medium text-gray-900">
+                    {task.title}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {task.description}
+                  </p>
                 </div>
               ))}
             </div>
           )}
 
-          {actionPlan.immediateTasks === 0 && actionPlan.shortTermTasks === 0 && actionPlan.mediumTermTasks === 0 && (
-            <p className="text-sm text-gray-500">No specific action items generated based on your responses.</p>
-          )}
+          {actionPlan.immediateTasks === 0 &&
+            actionPlan.shortTermTasks === 0 &&
+            actionPlan.mediumTermTasks === 0 && (
+              <p className="text-sm text-gray-500">
+                No specific action items generated based on your responses.
+              </p>
+            )}
         </div>
 
         {/* View Your Profile CTA */}
         {results.sessionId && (
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-6 mb-6 text-center">
-            <h3 className="font-semibold text-white mb-2">Your Profile is Ready</h3>
+            <h3 className="font-semibold text-white mb-2">
+              Your Profile is Ready
+            </h3>
             <p className="text-blue-100 text-sm mb-4">
-              View your stability spectrum, personalized roadmap, and rank — all in one place.
+              View your stability spectrum, personalized roadmap, and rank — all
+              in one place.
             </p>
             <Link
               href={`/profile/session/${results.sessionId}`}
@@ -219,7 +292,9 @@ export function WizardResults({ results }: WizardResultsProps) {
 
         {/* What Happens Next */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="font-semibold text-blue-900 mb-2">What Happens Next?</h3>
+          <h3 className="font-semibold text-blue-900 mb-2">
+            What Happens Next?
+          </h3>
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• A case coordinator will review your assessment</li>
             <li>• You may be contacted to schedule a follow-up conversation</li>
@@ -229,7 +304,8 @@ export function WizardResults({ results }: WizardResultsProps) {
         </div>
 
         <p className="text-xs text-gray-400 mt-6 text-center">
-          Assessment generated at {explainability?.generatedAt ?? 'N/A'} | Policy Pack {explainability?.policyPackVersion ?? 'v1.0.0'}
+          Assessment generated at {explainability?.generatedAt ?? "N/A"} |
+          Policy Pack {explainability?.policyPackVersion ?? "v1.0.0"}
         </p>
       </div>
     </div>

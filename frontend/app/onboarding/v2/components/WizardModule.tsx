@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import type { IntakeModule, FieldSchema } from '../types';
+import { useState, useEffect } from "react";
+import type { IntakeModule, FieldSchema } from "../types";
 
 interface WizardModuleProps {
   module: IntakeModule;
@@ -26,7 +26,9 @@ export function WizardModule({
   onBack,
   onSkip,
 }: WizardModuleProps) {
-  const [formData, setFormData] = useState<Record<string, unknown>>(savedData || {});
+  const [formData, setFormData] = useState<Record<string, unknown>>(
+    savedData || {},
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Reset form when module changes
@@ -36,10 +38,10 @@ export function WizardModule({
   }, [module.id, savedData]);
 
   const handleChange = (fieldName: string, value: unknown) => {
-    setFormData(prev => ({ ...prev, [fieldName]: value }));
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
     // Clear error for this field
     if (errors[fieldName]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const next = { ...prev };
         delete next[fieldName];
         return next;
@@ -55,8 +57,8 @@ export function WizardModule({
     if (module.schema.required) {
       for (const field of module.schema.required) {
         const val = formData[field];
-        if (val === undefined || val === null || val === '' || val === false) {
-          newErrors[field] = 'This field is required';
+        if (val === undefined || val === null || val === "" || val === false) {
+          newErrors[field] = "This field is required";
         }
       }
     }
@@ -70,7 +72,7 @@ export function WizardModule({
   };
 
   const shouldShow = (fieldSchema: FieldSchema): boolean => {
-    const showIf = fieldSchema['x-show-if'];
+    const showIf = fieldSchema["x-show-if"];
     if (!showIf) return true;
 
     return Object.entries(showIf).every(([key, expectedValue]) => {
@@ -85,40 +87,52 @@ export function WizardModule({
       aria-label={`${label} form`}
       noValidate
     >
-      <h2 className="text-xl font-semibold text-gray-900 mb-1" id={`module-heading-${module.id}`}>
+      <h2
+        className="text-xl font-semibold text-gray-900 mb-1"
+        id={`module-heading-${module.id}`}
+      >
         {label}
       </h2>
       {!module.required && (
-        <p className="text-sm text-gray-500 mb-4">This section is optional — you can skip it.</p>
+        <p className="text-sm text-gray-500 mb-4">
+          This section is optional — you can skip it.
+        </p>
       )}
 
       {/* Screen reader announcement for validation errors */}
       {Object.keys(errors).length > 0 && (
         <div role="alert" className="sr-only">
-          {Object.keys(errors).length} field(s) need attention. Please review the highlighted fields.
+          {Object.keys(errors).length} field(s) need attention. Please review
+          the highlighted fields.
         </div>
       )}
 
       <div className="space-y-4 mt-4">
-        {Object.entries(module.schema.properties).map(([fieldName, fieldSchema]) => {
-          if (!shouldShow(fieldSchema as FieldSchema)) return null;
+        {Object.entries(module.schema.properties).map(
+          ([fieldName, fieldSchema]) => {
+            if (!shouldShow(fieldSchema as FieldSchema)) return null;
 
-          return (
-            <FieldRenderer
-              key={fieldName}
-              fieldName={fieldName}
-              schema={fieldSchema as FieldSchema}
-              value={formData[fieldName]}
-              error={errors[fieldName]}
-              onChange={(value) => handleChange(fieldName, value)}
-              required={module.schema.required?.includes(fieldName) || false}
-            />
-          );
-        })}
+            return (
+              <FieldRenderer
+                key={fieldName}
+                fieldName={fieldName}
+                schema={fieldSchema as FieldSchema}
+                value={formData[fieldName]}
+                error={errors[fieldName]}
+                onChange={(value) => handleChange(fieldName, value)}
+                required={module.schema.required?.includes(fieldName) || false}
+              />
+            );
+          },
+        )}
       </div>
 
       {/* Navigation buttons */}
-      <div className="flex justify-between mt-8 pt-4 border-t border-gray-200" role="navigation" aria-label="Form navigation">
+      <div
+        className="flex justify-between mt-8 pt-4 border-t border-gray-200"
+        role="navigation"
+        aria-label="Form navigation"
+      >
         <div>
           {!isFirst && (
             <button
@@ -146,14 +160,24 @@ export function WizardModule({
             type="submit"
             disabled={isSubmitting}
             aria-busy={isSubmitting}
-            aria-label={isSubmitting ? 'Submitting your responses' : isLast ? 'Complete intake assessment' : 'Continue to next section'}
+            aria-label={
+              isSubmitting
+                ? "Submitting your responses"
+                : isLast
+                  ? "Complete intake assessment"
+                  : "Continue to next section"
+            }
             className={`px-6 py-2 rounded-lg font-medium text-white transition ${
               isSubmitting
-                ? 'bg-blue-400 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700'
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {isSubmitting ? 'Submitting...' : isLast ? 'Complete Intake' : 'Next →'}
+            {isSubmitting
+              ? "Submitting..."
+              : isLast
+                ? "Complete Intake"
+                : "Next →"}
           </button>
         </div>
       </div>
@@ -172,14 +196,23 @@ interface FieldRendererProps {
   required: boolean;
 }
 
-function FieldRenderer({ fieldName, schema, value, error, onChange, required }: FieldRendererProps) {
-  const label = schema.title || fieldName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+function FieldRenderer({
+  fieldName,
+  schema,
+  value,
+  error,
+  onChange,
+  required,
+}: FieldRendererProps) {
+  const label =
+    schema.title ||
+    fieldName.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const id = `field-${fieldName}`;
   const errorId = `${id}-error`;
   const descId = `${id}-desc`;
 
   // Boolean fields → checkbox
-  if (schema.type === 'boolean') {
+  if (schema.type === "boolean") {
     return (
       <div className="flex items-start gap-3">
         <input
@@ -194,9 +227,17 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
         />
         <label htmlFor={id} className="text-sm text-gray-700">
           {label}
-          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
+          {required && (
+            <span className="text-red-500 ml-1" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
-        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
+        {error && (
+          <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     );
   }
@@ -205,114 +246,166 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
   if (schema.enum) {
     return (
       <div>
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           {label}
-          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
+          {required && (
+            <span className="text-red-500 ml-1" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
         <select
           id={id}
-          value={(value as string) || ''}
+          value={(value as string) || ""}
           onChange={(e) => onChange(e.target.value || undefined)}
           aria-required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+          className={`w-full rounded-lg border ${error ? "border-red-500" : "border-gray-300"} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         >
           <option value="">Select...</option>
           {schema.enum.map((opt) => (
             <option key={opt} value={opt}>
-              {opt.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+              {opt.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
             </option>
           ))}
         </select>
-        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
+        {error && (
+          <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     );
   }
 
   // Array of enums → multi-select checkboxes
-  if (schema.type === 'array' && schema.items?.enum) {
+  if (schema.type === "array" && schema.items?.enum) {
     const selected = (value as string[]) || [];
     return (
       <div role="group" aria-labelledby={`${id}-legend`}>
-        <label id={`${id}-legend`} className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          id={`${id}-legend`}
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
           {label}
-          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
-          {schema.maxItems && <span className="text-gray-400 ml-2">(max {schema.maxItems})</span>}
+          {required && (
+            <span className="text-red-500 ml-1" aria-hidden="true">
+              *
+            </span>
+          )}
+          {schema.maxItems && (
+            <span className="text-gray-400 ml-2">(max {schema.maxItems})</span>
+          )}
         </label>
         <div className="grid grid-cols-2 gap-2">
           {schema.items.enum.map((opt) => (
-            <label key={opt} className="flex items-center gap-2 text-sm text-gray-700">
+            <label
+              key={opt}
+              className="flex items-center gap-2 text-sm text-gray-700"
+            >
               <input
                 type="checkbox"
                 checked={selected.includes(opt)}
                 onChange={(e) => {
                   if (e.target.checked) {
-                    if (schema.maxItems && selected.length >= schema.maxItems) return;
+                    if (schema.maxItems && selected.length >= schema.maxItems)
+                      return;
                     onChange([...selected, opt]);
                   } else {
-                    onChange(selected.filter(s => s !== opt));
+                    onChange(selected.filter((s) => s !== opt));
                   }
                 }}
                 className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                aria-label={opt.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                aria-label={opt
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (c) => c.toUpperCase())}
               />
-              {opt.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+              {opt.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
             </label>
           ))}
         </div>
-        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
+        {error && (
+          <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     );
   }
 
   // Integer fields → number input
-  if (schema.type === 'integer' || schema.type === 'number') {
+  if (schema.type === "integer" || schema.type === "number") {
     return (
       <div>
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           {label}
-          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
+          {required && (
+            <span className="text-red-500 ml-1" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
         <input
           id={id}
           type="number"
-          value={value !== undefined ? String(value) : ''}
+          value={value !== undefined ? String(value) : ""}
           min={schema.minimum}
           max={schema.maximum}
           onChange={(e) => {
             const val = e.target.value;
-            onChange(val === '' ? undefined : Number(val));
+            onChange(val === "" ? undefined : Number(val));
           }}
           aria-required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+          className={`w-full rounded-lg border ${error ? "border-red-500" : "border-gray-300"} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
-        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
+        {error && (
+          <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     );
   }
 
   // Date fields
-  if (schema.format === 'date') {
+  if (schema.format === "date") {
     return (
       <div>
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           {label}
-          {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
+          {required && (
+            <span className="text-red-500 ml-1" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
         <input
           id={id}
           type="date"
-          value={(value as string) || ''}
+          value={(value as string) || ""}
           onChange={(e) => onChange(e.target.value || undefined)}
           aria-required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+          className={`w-full rounded-lg border ${error ? "border-red-500" : "border-gray-300"} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
-        {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
+        {error && (
+          <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     );
   }
@@ -321,36 +414,47 @@ function FieldRenderer({ fieldName, schema, value, error, onChange, required }: 
   const isTextArea = (schema.maxLength ?? 0) > 500;
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-700 mb-1"
+      >
         {label}
-        {required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
+        {required && (
+          <span className="text-red-500 ml-1" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       {isTextArea ? (
         <textarea
           id={id}
-          value={(value as string) || ''}
+          value={(value as string) || ""}
           maxLength={schema.maxLength}
           rows={4}
           onChange={(e) => onChange(e.target.value || undefined)}
           aria-required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+          className={`w-full rounded-lg border ${error ? "border-red-500" : "border-gray-300"} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
       ) : (
         <input
           id={id}
-          type={schema.format === 'email' ? 'email' : 'text'}
-          value={(value as string) || ''}
+          type={schema.format === "email" ? "email" : "text"}
+          value={(value as string) || ""}
           maxLength={schema.maxLength}
           onChange={(e) => onChange(e.target.value || undefined)}
           aria-required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+          className={`w-full rounded-lg border ${error ? "border-red-500" : "border-gray-300"} px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
         />
       )}
-      {error && <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">{error}</p>}
+      {error && (
+        <p id={errorId} className="text-red-500 text-xs mt-1" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

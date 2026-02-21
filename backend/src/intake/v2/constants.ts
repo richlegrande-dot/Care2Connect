@@ -9,10 +9,10 @@
  */
 
 /** Current policy pack version — bump when scoring rules change */
-export const POLICY_PACK_VERSION = 'v1.0.0';
+export const POLICY_PACK_VERSION = "v1.0.0";
 
 /** Engine implementation version — bump when code logic changes */
-export const SCORING_ENGINE_VERSION = 'v1.0.0';
+export const SCORING_ENGINE_VERSION = "v1.0.0";
 
 /** Maximum score per dimension (authoritative value lives in PolicyPack) */
 export const MAX_DIMENSION_SCORE = 25;
@@ -22,12 +22,12 @@ export const MAX_TOTAL_SCORE = 100;
 
 /** Stability Levels — used by engine, explainability, and UI */
 export const STABILITY_LEVELS = {
-  0: { label: 'Crisis / Street', tier: 'CRITICAL' as const },
-  1: { label: 'Emergency Shelter', tier: 'CRITICAL' as const },
-  2: { label: 'Transitional', tier: 'HIGH' as const },
-  3: { label: 'Stabilizing', tier: 'MODERATE' as const },
-  4: { label: 'Housed – Supported', tier: 'LOWER' as const },
-  5: { label: 'Self-Sufficient', tier: 'LOWER' as const },
+  0: { label: "Crisis / Street", tier: "CRITICAL" as const },
+  1: { label: "Emergency Shelter", tier: "CRITICAL" as const },
+  2: { label: "Transitional", tier: "HIGH" as const },
+  3: { label: "Stabilizing", tier: "MODERATE" as const },
+  4: { label: "Housed – Supported", tier: "LOWER" as const },
+  5: { label: "Self-Sufficient", tier: "LOWER" as const },
 } as const;
 
 /**
@@ -44,24 +44,24 @@ export const PRIORITY_TIER_THRESHOLDS = {
 
 /** List of wizard module IDs in order */
 export const MODULE_ORDER = [
-  'consent',
-  'demographics',
-  'housing',
-  'safety',
-  'health',
-  'history',
-  'income',
-  'goals',
+  "consent",
+  "demographics",
+  "housing",
+  "safety",
+  "health",
+  "history",
+  "income",
+  "goals",
 ] as const;
 
 /** Modules that must be completed */
 export const REQUIRED_MODULES = [
-  'consent',
-  'demographics',
-  'housing',
-  'safety',
+  "consent",
+  "demographics",
+  "housing",
+  "safety",
 ] as const;
 
-export type ModuleId = typeof MODULE_ORDER[number];
-export type PriorityTier = 'CRITICAL' | 'HIGH' | 'MODERATE' | 'LOWER';
+export type ModuleId = (typeof MODULE_ORDER)[number];
+export type PriorityTier = "CRITICAL" | "HIGH" | "MODERATE" | "LOWER";
 export type StabilityLevel = 0 | 1 | 2 | 3 | 4 | 5;

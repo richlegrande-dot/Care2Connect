@@ -43,7 +43,7 @@ export interface HMISRecord {
 }
 
 export interface HMISExport {
-  format: 'HMIS_CSV_2024';
+  format: "HMIS_CSV_2024";
   generatedAt: string;
   dvSafeMode: boolean;
   recordCount: number;
@@ -57,7 +57,7 @@ export interface HMISExport {
 const GENDER_MAP: Record<string, number> = {
   female: 0,
   male: 1,
-  'a gender other than singularly female or male': 4,
+  "a gender other than singularly female or male": 4,
   transgender: 5,
   questioning: 6,
   non_binary: 4,
@@ -116,7 +116,11 @@ function mapDVStatus(fleeingDv: unknown): number | null {
 function mapDisablingCondition(conditions: unknown): number | null {
   if (Array.isArray(conditions) && conditions.length > 0) return 1;
   if (conditions === true) return 1;
-  if (conditions === false || (Array.isArray(conditions) && conditions.length === 0)) return 0;
+  if (
+    conditions === false ||
+    (Array.isArray(conditions) && conditions.length === 0)
+  )
+    return 0;
   return 99; // not collected
 }
 
@@ -139,32 +143,48 @@ export interface SessionData {
  * @returns HMIS-compliant record
  */
 export function buildHMISRecord(session: SessionData): HMISRecord {
-  const demographics = (session.modules?.demographics ?? {}) as Record<string, unknown>;
+  const demographics = (session.modules?.demographics ?? {}) as Record<
+    string,
+    unknown
+  >;
   const housing = (session.modules?.housing ?? {}) as Record<string, unknown>;
   const safety = (session.modules?.safety ?? {}) as Record<string, unknown>;
   const health = (session.modules?.health ?? {}) as Record<string, unknown>;
 
   const dateOfIntake = session.completedAt
-    ? new Date(session.completedAt).toISOString().split('T')[0]
-    : new Date(session.createdAt).toISOString().split('T')[0];
+    ? new Date(session.completedAt).toISOString().split("T")[0]
+    : new Date(session.createdAt).toISOString().split("T")[0];
 
   const record: HMISRecord = {
     PersonalID: session.id,
-    FirstName: typeof demographics.first_name === 'string' ? demographics.first_name : null,
-    LastName: typeof demographics.last_name === 'string' ? demographics.last_name : null,
-    DOB: typeof demographics.date_of_birth === 'string' ? demographics.date_of_birth : null,
-    Gender: typeof demographics.gender === 'string'
-      ? (GENDER_MAP[demographics.gender] ?? 99)
-      : null,
-    RaceEthnicity: typeof demographics.race_ethnicity === 'string'
-      ? (RACE_ETHNICITY_MAP[demographics.race_ethnicity] ?? 99)
-      : null,
-    VeteranStatus: demographics.veteran_status !== undefined
-      ? (VETERAN_MAP[String(demographics.veteran_status)] ?? 99)
-      : null,
-    LivingSituation: typeof housing.current_living_situation === 'string'
-      ? (LIVING_SITUATION_MAP[housing.current_living_situation] ?? 99)
-      : null,
+    FirstName:
+      typeof demographics.first_name === "string"
+        ? demographics.first_name
+        : null,
+    LastName:
+      typeof demographics.last_name === "string"
+        ? demographics.last_name
+        : null,
+    DOB:
+      typeof demographics.date_of_birth === "string"
+        ? demographics.date_of_birth
+        : null,
+    Gender:
+      typeof demographics.gender === "string"
+        ? (GENDER_MAP[demographics.gender] ?? 99)
+        : null,
+    RaceEthnicity:
+      typeof demographics.race_ethnicity === "string"
+        ? (RACE_ETHNICITY_MAP[demographics.race_ethnicity] ?? 99)
+        : null,
+    VeteranStatus:
+      demographics.veteran_status !== undefined
+        ? (VETERAN_MAP[String(demographics.veteran_status)] ?? 99)
+        : null,
+    LivingSituation:
+      typeof housing.current_living_situation === "string"
+        ? (LIVING_SITUATION_MAP[housing.current_living_situation] ?? 99)
+        : null,
     DomesticViolenceVictim: mapDVStatus(safety.fleeing_dv),
     DisablingCondition: mapDisablingCondition(health.chronic_conditions),
     DateOfIntake: dateOfIntake,
@@ -189,11 +209,11 @@ export function buildHMISRecord(session: SessionData): HMISRecord {
  * @returns HMIS export object
  */
 export function buildHMISExport(sessions: SessionData[]): HMISExport {
-  const anyDvSafe = sessions.some(s => s.dvSafeMode);
+  const anyDvSafe = sessions.some((s) => s.dvSafeMode);
   const records = sessions.map(buildHMISRecord);
 
   return {
-    format: 'HMIS_CSV_2024',
+    format: "HMIS_CSV_2024",
     generatedAt: new Date().toISOString(),
     dvSafeMode: anyDvSafe,
     recordCount: records.length,
@@ -209,33 +229,39 @@ export function buildHMISExport(sessions: SessionData[]): HMISExport {
  */
 export function hmisToCSV(exportData: HMISExport): string {
   const headers = [
-    'PersonalID',
-    'FirstName',
-    'LastName',
-    'DOB',
-    'Gender',
-    'RaceEthnicity',
-    'VeteranStatus',
-    'LivingSituation',
-    'DomesticViolenceVictim',
-    'DisablingCondition',
-    'DateOfIntake',
-    'CEAssessmentScore',
-    'PriorityTier',
+    "PersonalID",
+    "FirstName",
+    "LastName",
+    "DOB",
+    "Gender",
+    "RaceEthnicity",
+    "VeteranStatus",
+    "LivingSituation",
+    "DomesticViolenceVictim",
+    "DisablingCondition",
+    "DateOfIntake",
+    "CEAssessmentScore",
+    "PriorityTier",
   ];
 
-  const rows = exportData.records.map(record =>
-    headers.map(h => {
-      const val = record[h as keyof HMISRecord];
-      if (val === null || val === undefined) return '';
-      // Escape values with commas or quotes
-      const strVal = String(val);
-      if (strVal.includes(',') || strVal.includes('"') || strVal.includes('\n')) {
-        return `"${strVal.replace(/"/g, '""')}"`;
-      }
-      return strVal;
-    }).join(',')
+  const rows = exportData.records.map((record) =>
+    headers
+      .map((h) => {
+        const val = record[h as keyof HMISRecord];
+        if (val === null || val === undefined) return "";
+        // Escape values with commas or quotes
+        const strVal = String(val);
+        if (
+          strVal.includes(",") ||
+          strVal.includes('"') ||
+          strVal.includes("\n")
+        ) {
+          return `"${strVal.replace(/"/g, '""')}"`;
+        }
+        return strVal;
+      })
+      .join(","),
   );
 
-  return [headers.join(','), ...rows].join('\n');
+  return [headers.join(","), ...rows].join("\n");
 }

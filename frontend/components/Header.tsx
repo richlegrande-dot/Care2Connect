@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Server } from 'lucide-react';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Server } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
 
   // Don't show header on system page (it has its own)
-  if (pathname === '/system') {
+  if (pathname === "/system") {
     return null;
   }
 
@@ -18,7 +18,9 @@ export default function Header() {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="text-3xl font-black text-blue-900">CareConnect</div>
+              <div className="text-3xl font-black text-blue-900">
+                CareConnect
+              </div>
             </Link>
             <div className="hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4">
               Community-Supported Homeless Initiative

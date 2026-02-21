@@ -1,12 +1,12 @@
 /**
  * Manual Draft Editor Component
- * 
+ *
  * Fallback UI when automated pipeline fails
  * Route: /story/[recordingId]/manual-draft
  */
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface ManualDraftEditorProps {
   ticketId: string;
@@ -26,71 +26,71 @@ export default function ManualDraftEditor({
   ticketId,
   failureReason,
   userMessage,
-  partialData
+  partialData,
 }: ManualDraftEditorProps) {
-  
   const router = useRouter();
-  const [title, setTitle] = useState(partialData?.extractedFields?.title || '');
-  const [story, setStory] = useState(partialData?.extractedFields?.story || '');
-  const [goalAmount, setGoalAmount] = useState(partialData?.extractedFields?.goalAmount || 1500);
+  const [title, setTitle] = useState(partialData?.extractedFields?.title || "");
+  const [story, setStory] = useState(partialData?.extractedFields?.story || "");
+  const [goalAmount, setGoalAmount] = useState(
+    partialData?.extractedFields?.goalAmount || 1500,
+  );
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSave = async () => {
     // Reset states
-    setError('');
+    setError("");
     setSaving(true);
     setSaved(false);
 
     // Validate
     if (!title.trim()) {
-      setError('Campaign title is required');
+      setError("Campaign title is required");
       setSaving(false);
       return;
     }
 
     if (!story.trim()) {
-      setError('Campaign story is required');
+      setError("Campaign story is required");
       setSaving(false);
       return;
     }
 
     if (goalAmount <= 0) {
-      setError('Goal amount must be greater than zero');
+      setError("Goal amount must be greater than zero");
       setSaving(false);
       return;
     }
 
     try {
-      const response = await fetch('/api/donations/manual-draft', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/donations/manual-draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ticketId,
           title: title.trim(),
           story: story.trim(),
           goalAmount,
-          currency: 'USD'
-        })
+          currency: "USD",
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save draft');
+        throw new Error("Failed to save draft");
       }
 
       const data = await response.json();
-      
+
       if (!data.success) {
-        throw new Error(data.error || 'Failed to save draft');
+        throw new Error(data.error || "Failed to save draft");
       }
 
       setSaved(true);
-      console.log('Draft saved successfully:', data.draft);
-
+      console.log("Draft saved successfully:", data.draft);
     } catch (err: any) {
-      console.error('Save failed:', err);
-      setError(err.message || 'Failed to save draft');
+      console.error("Save failed:", err);
+      setError(err.message || "Failed to save draft");
     } finally {
       setSaving(false);
     }
@@ -111,7 +111,10 @@ export default function ManualDraftEditor({
         <div className="notice-icon">⚠️</div>
         <div className="notice-content">
           <h3>Continue Manually</h3>
-          <p>{userMessage || "We couldn't finish generating this automatically. You can continue manually below."}</p>
+          <p>
+            {userMessage ||
+              "We couldn't finish generating this automatically. You can continue manually below."}
+          </p>
           {failureReason && (
             <span className="debug-info">Reason: {failureReason}</span>
           )}
@@ -120,7 +123,7 @@ export default function ManualDraftEditor({
 
       <div className="editor-form">
         <h2>Your Fundraising Campaign</h2>
-        
+
         <div className="form-group">
           <label htmlFor="title">
             Campaign Title <span className="required">*</span>
@@ -177,16 +180,10 @@ export default function ManualDraftEditor({
           </div>
         )}
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
 
         {saved && (
-          <div className="success-message">
-            ✓ Draft saved successfully!
-          </div>
+          <div className="success-message">✓ Draft saved successfully!</div>
         )}
 
         <div className="button-group">
@@ -195,7 +192,7 @@ export default function ManualDraftEditor({
             disabled={saving}
             className="btn btn-primary"
           >
-            {saving ? 'Saving...' : saved ? 'Update Draft' : 'Save Draft'}
+            {saving ? "Saving..." : saved ? "Update Draft" : "Save Draft"}
           </button>
 
           <button

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * V2 Intake Wizard — Multi-Step Form Page
@@ -16,42 +16,60 @@
  * P2#13: Skeleton loaders, save confirmations, improved loading states
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { WizardProgress } from './components/WizardProgress';
-import { WizardModule } from './components/WizardModule';
-import { WizardResults } from './components/WizardResults';
-import { WizardReview } from './components/WizardReview';
-import { QuickExitButton } from './components/QuickExitButton';
-import type { ModuleId, IntakeModule, WizardState, ExplainabilityCard } from './types';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { WizardProgress } from "./components/WizardProgress";
+import { WizardModule } from "./components/WizardModule";
+import { WizardResults } from "./components/WizardResults";
+import { WizardReview } from "./components/WizardReview";
+import { QuickExitButton } from "./components/QuickExitButton";
+import type {
+  ModuleId,
+  IntakeModule,
+  WizardState,
+  ExplainabilityCard,
+} from "./types";
 
-const DRAFT_STORAGE_KEY = 'v2-intake-draft';
+const DRAFT_STORAGE_KEY = "v2-intake-draft";
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1000;
 
 const MODULE_LABELS: Record<ModuleId, string> = {
-  consent: 'Welcome & Consent',
-  demographics: 'About You',
-  housing: 'Housing Situation',
-  safety: 'Safety & Crisis',
-  health: 'Health & Wellbeing',
-  history: 'Homelessness History',
-  income: 'Income & Benefits',
-  goals: 'Goals & Preferences',
+  consent: "Welcome & Consent",
+  demographics: "About You",
+  housing: "Housing Situation",
+  safety: "Safety & Crisis",
+  health: "Health & Wellbeing",
+  history: "Homelessness History",
+  income: "Income & Benefits",
+  goals: "Goals & Preferences",
 };
 
 // ── SSR-safe storage helpers ────────────────────────────────────
 
-const canUseStorage = () => typeof window !== 'undefined' && !!window.localStorage;
+const canUseStorage = () =>
+  typeof window !== "undefined" && !!window.localStorage;
 
 function safeGet(key: string): string | null {
-  try { return canUseStorage() ? localStorage.getItem(key) : null; } catch { return null; }
+  try {
+    return canUseStorage() ? localStorage.getItem(key) : null;
+  } catch {
+    return null;
+  }
 }
 function safeSet(key: string, val: string): void {
-  try { if (canUseStorage()) localStorage.setItem(key, val); } catch { /* noop */ }
+  try {
+    if (canUseStorage()) localStorage.setItem(key, val);
+  } catch {
+    /* noop */
+  }
 }
 function safeRemove(key: string): void {
-  try { if (canUseStorage()) localStorage.removeItem(key); } catch { /* noop */ }
+  try {
+    if (canUseStorage()) localStorage.removeItem(key);
+  } catch {
+    /* noop */
+  }
 }
 
 // ── Offline Draft Helpers ──────────────────────────────────────
@@ -108,28 +126,32 @@ function clearDraft(): void {
 async function fetchWithRetry(
   url: string,
   options: RequestInit,
-  retries = MAX_RETRIES
+  retries = MAX_RETRIES,
 ): Promise<Response> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const res = await fetch(url, options);
       if (res.ok || res.status < 500) return res; // Don't retry client errors
       if (attempt < retries) {
-        await new Promise(r => setTimeout(r, RETRY_DELAY_MS * (attempt + 1)));
+        await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * (attempt + 1)));
       }
     } catch (err) {
       if (attempt === retries) throw err;
-      await new Promise(r => setTimeout(r, RETRY_DELAY_MS * (attempt + 1)));
+      await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * (attempt + 1)));
     }
   }
-  throw new Error('Request failed after retries');
+  throw new Error("Request failed after retries");
 }
 
 // ── Skeleton Loader Component ──────────────────────────────────
 
 function SkeletonLoader() {
   return (
-    <div className="min-h-screen bg-gray-50 py-8" aria-busy="true" aria-label="Loading intake form">
+    <div
+      className="min-h-screen bg-gray-50 py-8"
+      aria-busy="true"
+      aria-label="Loading intake form"
+    >
       <div className="max-w-2xl mx-auto px-4">
         {/* Header skeleton */}
         <div className="mb-8 animate-pulse">
@@ -181,8 +203,17 @@ function SaveToast({ show }: { show: boolean }) {
       role="status"
       aria-live="polite"
     >
-      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+      <svg
+        className="w-4 h-4"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        aria-hidden="true"
+      >
+        <path
+          fillRule="evenodd"
+          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+          clipRule="evenodd"
+        />
       </svg>
       Progress saved
     </div>
@@ -191,12 +222,25 @@ function SaveToast({ show }: { show: boolean }) {
 
 // ── Draft Recovery Banner ──────────────────────────────────────
 
-function DraftRecoveryBanner({ onRestore, onDiscard }: { onRestore: () => void; onDiscard: () => void }) {
+function DraftRecoveryBanner({
+  onRestore,
+  onDiscard,
+}: {
+  onRestore: () => void;
+  onDiscard: () => void;
+}) {
   return (
-    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 flex items-center justify-between" role="alert">
+    <div
+      className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 flex items-center justify-between"
+      role="alert"
+    >
       <div>
-        <p className="text-sm font-medium text-blue-800">You have an unfinished intake</p>
-        <p className="text-xs text-blue-600 mt-1">Would you like to continue where you left off?</p>
+        <p className="text-sm font-medium text-blue-800">
+          You have an unfinished intake
+        </p>
+        <p className="text-xs text-blue-600 mt-1">
+          Would you like to continue where you left off?
+        </p>
       </div>
       <div className="flex gap-2">
         <button
@@ -221,16 +265,31 @@ function DraftRecoveryBanner({ onRestore, onDiscard }: { onRestore: () => void; 
 export default function IntakeWizardPage() {
   // Feature gate — client-safe redirect via useRouter (not redirect())
   const router = useRouter();
-  const v2Enabled = process.env.NEXT_PUBLIC_ENABLE_V2_INTAKE === 'true';
+  const v2Enabled = process.env.NEXT_PUBLIC_ENABLE_V2_INTAKE === "true";
 
   const [modules, setModules] = useState<IntakeModule[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [pendingDraft, setPendingDraft] = useState<DraftData | null>(null);
   const [results, setResults] = useState<{
-    score: { totalScore: number; stabilityLevel: number; priorityTier: string; dimensions?: { housing_stability: number; safety_crisis: number; vulnerability_health: number; chronicity_system: number } };
+    score: {
+      totalScore: number;
+      stabilityLevel: number;
+      priorityTier: string;
+      dimensions?: {
+        housing_stability: number;
+        safety_crisis: number;
+        vulnerability_health: number;
+        chronicity_system: number;
+      };
+    };
     explainability: ExplainabilityCard;
-    actionPlan: { immediateTasks: number; shortTermTasks: number; mediumTermTasks: number; tasks?: any };
+    actionPlan: {
+      immediateTasks: number;
+      shortTermTasks: number;
+      mediumTermTasks: number;
+      tasks?: any;
+    };
     sessionId?: string;
     rank?: { position: number; of: number } | null;
   } | null>(null);
@@ -241,7 +300,7 @@ export default function IntakeWizardPage() {
     completedModules: [],
     moduleData: {},
     dvSafeMode: false,
-    status: 'idle',
+    status: "idle",
     error: null,
   });
 
@@ -249,7 +308,7 @@ export default function IntakeWizardPage() {
 
   // Redirect if feature is disabled (client-safe, inside useEffect)
   useEffect(() => {
-    if (!v2Enabled) router.replace('/');
+    if (!v2Enabled) router.replace("/");
   }, [v2Enabled, router]);
 
   // If feature is disabled, render nothing (prevents the rest of the tree from running)
@@ -265,17 +324,19 @@ export default function IntakeWizardPage() {
 
   // Auto-save draft when state changes (debounced)
   useEffect(() => {
-    if (state.status === 'in_progress' && state.currentStep > 0) {
+    if (state.status === "in_progress" && state.currentStep > 0) {
       saveDraft(state);
     }
   }, [state.moduleData, state.currentStep, state.status, state.dvSafeMode]);
 
   // Best-effort: log REVIEW_ENTERED audit event when entering review
   useEffect(() => {
-    if (state.status === 'review' && state.sessionId) {
+    if (state.status === "review" && state.sessionId) {
       fetch(`/api/v2/intake/session/${state.sessionId}/review-entered`, {
-        method: 'POST',
-      }).catch(() => { /* best-effort — ignore errors */ });
+        method: "POST",
+      }).catch(() => {
+        /* best-effort — ignore errors */
+      });
     }
   }, [state.status, state.sessionId]);
 
@@ -283,12 +344,16 @@ export default function IntakeWizardPage() {
   useEffect(() => {
     async function fetchSchemas() {
       try {
-        const res = await fetchWithRetry('/api/v2/intake/schema', {});
-        if (!res.ok) throw new Error('Failed to load intake schema');
+        const res = await fetchWithRetry("/api/v2/intake/schema", {});
+        if (!res.ok) throw new Error("Failed to load intake schema");
         const data = await res.json();
         setModules(data.modules);
       } catch (err) {
-        setState(prev => ({ ...prev, error: 'Failed to load intake form. Please try again.', status: 'error' }));
+        setState((prev) => ({
+          ...prev,
+          error: "Failed to load intake form. Please try again.",
+          status: "error",
+        }));
       } finally {
         setLoading(false);
       }
@@ -300,19 +365,22 @@ export default function IntakeWizardPage() {
   const flashSaveToast = useCallback(() => {
     setShowSaveToast(true);
     if (saveToastTimeoutRef.current) clearTimeout(saveToastTimeoutRef.current);
-    saveToastTimeoutRef.current = setTimeout(() => setShowSaveToast(false), 2000);
+    saveToastTimeoutRef.current = setTimeout(
+      () => setShowSaveToast(false),
+      2000,
+    );
   }, []);
 
   // Restore draft
   const handleRestoreDraft = useCallback(() => {
     if (!pendingDraft) return;
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       sessionId: pendingDraft.sessionId,
       currentStep: pendingDraft.currentStep,
       moduleData: pendingDraft.moduleData,
       dvSafeMode: pendingDraft.dvSafeMode,
-      status: pendingDraft.sessionId ? 'in_progress' : 'idle',
+      status: pendingDraft.sessionId ? "in_progress" : "idle",
     }));
     setPendingDraft(null);
   }, [pendingDraft]);
@@ -327,69 +395,94 @@ export default function IntakeWizardPage() {
   const startSession = useCallback(async () => {
     if (state.sessionId) return;
     try {
-      const res = await fetchWithRetry('/api/v2/intake/session', { method: 'POST' });
-      if (!res.ok) throw new Error('Failed to start session');
+      const res = await fetchWithRetry("/api/v2/intake/session", {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error("Failed to start session");
       const data = await res.json();
-      setState(prev => ({ ...prev, sessionId: data.sessionId, status: 'in_progress' }));
+      setState((prev) => ({
+        ...prev,
+        sessionId: data.sessionId,
+        status: "in_progress",
+      }));
     } catch (err) {
-      setState(prev => ({ ...prev, error: 'Failed to start intake session. Please check your connection and try again.', status: 'error' }));
+      setState((prev) => ({
+        ...prev,
+        error:
+          "Failed to start intake session. Please check your connection and try again.",
+        status: "error",
+      }));
     }
   }, [state.sessionId]);
 
   // Save module data to backend
-  const saveModule = useCallback(async (moduleId: ModuleId, data: Record<string, unknown>) => {
-    if (!state.sessionId) return;
-    try {
-      const res = await fetchWithRetry(`/api/v2/intake/session/${state.sessionId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ moduleId, data }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Failed to save');
+  const saveModule = useCallback(
+    async (moduleId: ModuleId, data: Record<string, unknown>) => {
+      if (!state.sessionId) return;
+      try {
+        const res = await fetchWithRetry(
+          `/api/v2/intake/session/${state.sessionId}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ moduleId, data }),
+          },
+        );
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to save");
+        }
+        const result = await res.json();
+
+        setState((prev) => ({
+          ...prev,
+          completedModules: result.completedModules,
+          moduleData: { ...prev.moduleData, [moduleId]: data },
+          dvSafeMode: result.dvSafeMode,
+        }));
+
+        flashSaveToast();
+        return result;
+      } catch (err: any) {
+        setState((prev) => ({ ...prev, error: err.message }));
+        return null;
       }
-      const result = await res.json();
-
-      setState(prev => ({
-        ...prev,
-        completedModules: result.completedModules,
-        moduleData: { ...prev.moduleData, [moduleId]: data },
-        dvSafeMode: result.dvSafeMode,
-      }));
-
-      flashSaveToast();
-      return result;
-    } catch (err: any) {
-      setState(prev => ({ ...prev, error: err.message }));
-      return null;
-    }
-  }, [state.sessionId, flashSaveToast]);
+    },
+    [state.sessionId, flashSaveToast],
+  );
 
   // Complete intake and compute scores
   const completeIntake = useCallback(async () => {
     if (!state.sessionId) return;
-    setState(prev => ({ ...prev, status: 'submitting' }));
+    setState((prev) => ({ ...prev, status: "submitting" }));
     try {
-      const res = await fetchWithRetry(`/api/v2/intake/session/${state.sessionId}/complete`, {
-        method: 'POST',
-      });
+      const res = await fetchWithRetry(
+        `/api/v2/intake/session/${state.sessionId}/complete`,
+        {
+          method: "POST",
+        },
+      );
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || 'Failed to complete intake');
+        throw new Error(err.error || "Failed to complete intake");
       }
       const data = await res.json();
-      setState(prev => ({ ...prev, status: 'completed' }));
+      setState((prev) => ({ ...prev, status: "completed" }));
 
       // Best-effort fetch rank from profile endpoint
       let rank: { position: number; of: number } | null = null;
       try {
-        const profileRes = await fetchWithRetry(`/api/v2/intake/session/${state.sessionId}/profile`, {});
+        const profileRes = await fetchWithRetry(
+          `/api/v2/intake/session/${state.sessionId}/profile`,
+          {},
+        );
         if (profileRes.ok) {
           const profileData = await profileRes.json();
           rank = profileData.rank ?? null;
         }
-      } catch { /* non-blocking — rank is optional */ }
+      } catch {
+        /* non-blocking — rank is optional */
+      }
 
       setResults({
         score: data.score,
@@ -401,32 +494,41 @@ export default function IntakeWizardPage() {
       // Clear the draft on successful completion
       clearDraft();
     } catch (err: any) {
-      setState(prev => ({ ...prev, error: err.message, status: 'error' }));
+      setState((prev) => ({ ...prev, error: err.message, status: "error" }));
     }
   }, [state.sessionId]);
 
   // Handle next step
-  const handleNext = useCallback(async (moduleId: ModuleId, data: Record<string, unknown>) => {
-    // Start session on first submit if needed
-    if (!state.sessionId) {
-      await startSession();
-    }
+  const handleNext = useCallback(
+    async (moduleId: ModuleId, data: Record<string, unknown>) => {
+      // Start session on first submit if needed
+      if (!state.sessionId) {
+        await startSession();
+      }
 
-    const result = await saveModule(moduleId, data);
-    if (!result) return;
+      const result = await saveModule(moduleId, data);
+      if (!result) return;
 
-    const nextStep = state.currentStep + 1;
-    if (nextStep >= modules.length) {
-      // All modules done — go to review screen instead of completing immediately
-      setState(prev => ({ ...prev, status: 'review' }));
-    } else {
-      setState(prev => ({ ...prev, currentStep: nextStep }));
-    }
-  }, [state.sessionId, state.currentStep, modules.length, startSession, saveModule]);
+      const nextStep = state.currentStep + 1;
+      if (nextStep >= modules.length) {
+        // All modules done — go to review screen instead of completing immediately
+        setState((prev) => ({ ...prev, status: "review" }));
+      } else {
+        setState((prev) => ({ ...prev, currentStep: nextStep }));
+      }
+    },
+    [
+      state.sessionId,
+      state.currentStep,
+      modules.length,
+      startSession,
+      saveModule,
+    ],
+  );
 
   // Handle back
   const handleBack = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       currentStep: Math.max(0, prev.currentStep - 1),
       error: null,
@@ -437,28 +539,28 @@ export default function IntakeWizardPage() {
   const handleSkip = useCallback(() => {
     const nextStep = state.currentStep + 1;
     if (nextStep >= modules.length) {
-      setState(prev => ({ ...prev, status: 'review' }));
+      setState((prev) => ({ ...prev, status: "review" }));
     } else {
-      setState(prev => ({ ...prev, currentStep: nextStep }));
+      setState((prev) => ({ ...prev, currentStep: nextStep }));
     }
   }, [state.currentStep, modules.length]);
 
   // Handle clicking a step indicator to jump to that step
   const handleStepClick = useCallback((stepIndex: number) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       currentStep: stepIndex,
-      status: 'in_progress',
+      status: "in_progress",
       error: null,
     }));
   }, []);
 
   // Handle edit from review screen — jump back to the selected step
   const handleEditFromReview = useCallback((stepIndex: number) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       currentStep: stepIndex,
-      status: 'in_progress',
+      status: "in_progress",
       error: null,
     }));
   }, []);
@@ -472,11 +574,11 @@ export default function IntakeWizardPage() {
     return <SkeletonLoader />;
   }
 
-  if (state.status === 'completed' && results) {
+  if (state.status === "completed" && results) {
     return <WizardResults results={results} />;
   }
 
-  if (state.status === 'review' || state.status === 'submitting') {
+  if (state.status === "review" || state.status === "submitting") {
     return (
       <WizardReview
         modules={modules}
@@ -484,7 +586,7 @@ export default function IntakeWizardPage() {
         moduleLabels={MODULE_LABELS}
         onEditStep={handleEditFromReview}
         onSubmit={handleReviewSubmit}
-        isSubmitting={state.status === 'submitting'}
+        isSubmitting={state.status === "submitting"}
       />
     );
   }
@@ -498,10 +600,12 @@ export default function IntakeWizardPage() {
 
       <div className="max-w-2xl mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Care2Connect Intake</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Care2Connect Intake
+          </h1>
           <p className="mt-2 text-gray-600">
-            This assessment helps us understand your situation and connect you with the right resources.
-            Your information is kept confidential.
+            This assessment helps us understand your situation and connect you
+            with the right resources. Your information is kept confidential.
           </p>
         </div>
 
@@ -522,10 +626,19 @@ export default function IntakeWizardPage() {
         />
 
         {state.error && (
-          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg" role="alert">
+          <div
+            className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg"
+            role="alert"
+          >
             <p className="text-red-800 text-sm">{state.error}</p>
             <button
-              onClick={() => setState(prev => ({ ...prev, error: null, status: prev.sessionId ? 'in_progress' : 'idle' }))}
+              onClick={() =>
+                setState((prev) => ({
+                  ...prev,
+                  error: null,
+                  status: prev.sessionId ? "in_progress" : "idle",
+                }))
+              }
               className="mt-2 text-sm text-red-600 underline hover:text-red-800"
               aria-label="Dismiss error and try again"
             >

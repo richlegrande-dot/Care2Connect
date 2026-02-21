@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "src/intake/v2/**/*.ts",
+    "src/utils/database.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

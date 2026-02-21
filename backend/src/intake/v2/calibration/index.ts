@@ -4,7 +4,12 @@
  * @module intake/v2/calibration
  */
 
-export { generateCalibrationReport, computeMedian, computeMean, computeStdDev } from './generateCalibrationReport';
+export {
+  generateCalibrationReport,
+  computeMedian,
+  computeMean,
+  computeStdDev,
+} from "./generateCalibrationReport";
 export type {
   CalibrationSession,
   CalibrationReport,
@@ -12,4 +17,4 @@ export type {
   OverrideFrequency,
   ContributorFrequency,
   TierLevelCell,
-} from './calibrationTypes';
+} from "./calibrationTypes";

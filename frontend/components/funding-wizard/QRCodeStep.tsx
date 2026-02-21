@@ -1,8 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Download, Copy, Printer, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
-import QRCode from 'qrcode';
+import React, { useState, useEffect } from "react";
+import {
+  Download,
+  Copy,
+  Printer,
+  CheckCircle,
+  AlertCircle,
+  ExternalLink,
+} from "lucide-react";
+import QRCode from "qrcode";
 
 interface QRCodeStepProps {
   data: any;
@@ -12,10 +19,16 @@ interface QRCodeStepProps {
   clientId: string;
 }
 
-export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId }: QRCodeStepProps) {
-  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
-  const [donationUrl, setDonationUrl] = useState<string>('');
-  const [publicSlug, setPublicSlug] = useState<string>('');
+export default function QRCodeStep({
+  data,
+  onComplete,
+  onBack,
+  onHelp,
+  clientId,
+}: QRCodeStepProps) {
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
+  const [donationUrl, setDonationUrl] = useState<string>("");
+  const [publicSlug, setPublicSlug] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -29,7 +42,8 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
     try {
       // Generate or retrieve public slug for this client
       const slug = data.publicSlug || `donate-${clientId.slice(0, 8)}`;
-      const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const baseUrl =
+        typeof window !== "undefined" ? window.location.origin : "";
       const url = `${baseUrl}/donate/${slug}`;
 
       setPublicSlug(slug);
@@ -40,14 +54,14 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
         width: 400,
         margin: 2,
         color: {
-          dark: '#000000',
-          light: '#FFFFFF'
-        }
+          dark: "#000000",
+          light: "#FFFFFF",
+        },
       });
 
       setQrCodeDataUrl(qrDataUrl);
     } catch (error) {
-      console.error('[QRCodeStep] Error generating QR code:', error);
+      console.error("[QRCodeStep] Error generating QR code:", error);
     } finally {
       setIsGenerating(false);
     }
@@ -56,7 +70,7 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
   const handleDownloadQR = () => {
     if (!qrCodeDataUrl) return;
 
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = qrCodeDataUrl;
     link.download = `donation-qr-${publicSlug}.png`;
     document.body.appendChild(link);
@@ -70,20 +84,20 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (error) {
-      console.error('[QRCodeStep] Error copying URL:', error);
+      console.error("[QRCodeStep] Error copying URL:", error);
     }
   };
 
   const handlePrint = () => {
     // Create print-friendly window
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     if (!printWindow) return;
 
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Donation QR Code - ${data.fullName || 'CareConnect'}</title>
+          <title>Donation QR Code - ${data.fullName || "CareConnect"}</title>
           <style>
             @page {
               margin: 1in;
@@ -117,7 +131,7 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
           </style>
         </head>
         <body>
-          <h1>Support ${data.fullName || 'This Campaign'}</h1>
+          <h1>Support ${data.fullName || "This Campaign"}</h1>
           <p>Scan this QR code to make a donation</p>
           <img src="${qrCodeDataUrl}" alt="Donation QR Code" />
           <p>Or visit:</p>
@@ -139,14 +153,16 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
     onComplete({
       publicSlug,
       qrCodeUrl: qrCodeDataUrl,
-      donationPageUrl: donationUrl
+      donationPageUrl: donationUrl,
     });
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Generate Donation QR Code</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          Generate Donation QR Code
+        </h2>
         <p className="text-gray-600">
           Create a scannable QR code that links to your secure donation page
         </p>
@@ -170,7 +186,9 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
                     className="w-64 h-64 mb-6 bg-white p-4 rounded-lg shadow-sm"
                   />
                   <div className="bg-white rounded-lg p-4 w-full max-w-md shadow-sm">
-                    <p className="text-sm text-gray-600 mb-2 text-center">Donation Page URL:</p>
+                    <p className="text-sm text-gray-600 mb-2 text-center">
+                      Donation Page URL:
+                    </p>
                     <div className="flex items-center space-x-2">
                       <input
                         type="text"
@@ -238,13 +256,15 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
               <h3 className="text-sm font-semibold text-blue-900">
                 How donations work
               </h3>
-              <span className="text-blue-600">{showInfo ? '−' : '+'}</span>
+              <span className="text-blue-600">{showInfo ? "−" : "+"}</span>
             </button>
             {showInfo && (
               <div className="mt-4 space-y-3 text-sm text-blue-800">
                 <div className="flex items-start">
                   <span className="mr-2">1.</span>
-                  <p>Donors scan your QR code or visit your donation page URL</p>
+                  <p>
+                    Donors scan your QR code or visit your donation page URL
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <span className="mr-2">2.</span>
@@ -252,20 +272,32 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
                 </div>
                 <div className="flex items-start">
                   <span className="mr-2">3.</span>
-                  <p>Donors enter their debit/credit card information via Stripe Checkout</p>
+                  <p>
+                    Donors enter their debit/credit card information via Stripe
+                    Checkout
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <span className="mr-2">4.</span>
-                  <p><strong>No card data is stored by CareConnect</strong> — all payment processing is handled securely by Stripe</p>
+                  <p>
+                    <strong>No card data is stored by CareConnect</strong> — all
+                    payment processing is handled securely by Stripe
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <span className="mr-2">5.</span>
-                  <p>You receive funds directly to your connected bank account</p>
+                  <p>
+                    You receive funds directly to your connected bank account
+                  </p>
                 </div>
                 <div className="mt-4 p-3 bg-blue-100 rounded border border-blue-300">
-                  <p className="font-medium">✓ PCI-DSS compliant payment processing</p>
+                  <p className="font-medium">
+                    ✓ PCI-DSS compliant payment processing
+                  </p>
                   <p className="font-medium">✓ Industry-standard encryption</p>
-                  <p className="font-medium">✓ No storage of sensitive card data</p>
+                  <p className="font-medium">
+                    ✓ No storage of sensitive card data
+                  </p>
                 </div>
               </div>
             )}
@@ -278,8 +310,10 @@ export default function QRCodeStep({ data, onComplete, onBack, onHelp, clientId 
               <div className="text-sm text-gray-700">
                 <p className="font-medium mb-1">Privacy & Security</p>
                 <p>
-                  This QR code links to your public donation page. Anyone with this code can view your campaign 
-                  and make donations. Do not share with anyone you don't want to have access to your fundraising page.
+                  This QR code links to your public donation page. Anyone with
+                  this code can view your campaign and make donations. Do not
+                  share with anyone you don't want to have access to your
+                  fundraising page.
                 </p>
               </div>
             </div>

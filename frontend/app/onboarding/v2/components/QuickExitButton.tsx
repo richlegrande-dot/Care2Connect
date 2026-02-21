@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Quick Exit Button — DV-Safe Mode
@@ -23,13 +23,13 @@ export function QuickExitButton() {
 
     // Replace current history entry so back button won't return here
     try {
-      window.history.replaceState(null, '', '/');
+      window.history.replaceState(null, "", "/");
     } catch {
       // Ignore
     }
 
     // Redirect to a neutral site
-    window.location.replace('https://weather.gov');
+    window.location.replace("https://weather.gov");
   };
 
   return (

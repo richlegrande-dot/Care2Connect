@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   UserCircleIcon,
   CalendarIcon,
@@ -12,29 +12,31 @@ import {
   ArrowLeftIcon,
   ExclamationTriangleIcon,
   CheckCircleIcon,
-} from '@heroicons/react/24/outline';
-import { api, RecordingTicket, DonationTotal, Donation } from '@/lib/api';
+} from "@heroicons/react/24/outline";
+import { api, RecordingTicket, DonationTotal, Donation } from "@/lib/api";
 
 export default function ProfilePage() {
   const params = useParams();
-  const ticketId = (params?.id as string) || '';
+  const ticketId = (params?.id as string) || "";
 
   const [ticket, setTicket] = useState<RecordingTicket | null>(null);
-  const [donationTotal, setDonationTotal] = useState<DonationTotal | null>(null);
+  const [donationTotal, setDonationTotal] = useState<DonationTotal | null>(
+    null,
+  );
   const [donations, setDonations] = useState<Donation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [dbHealthy, setDbHealthy] = useState(true);
 
   // Donation flow state
   const [showDonateForm, setShowDonateForm] = useState(false);
-  const [donationAmount, setDonationAmount] = useState('25');
-  const [donationCurrency, setDonationCurrency] = useState('USD');
-  const [donationDescription, setDonationDescription] = useState('');
+  const [donationAmount, setDonationAmount] = useState("25");
+  const [donationCurrency, setDonationCurrency] = useState("USD");
+  const [donationDescription, setDonationDescription] = useState("");
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [isGeneratingQR, setIsGeneratingQR] = useState(false);
-  const [qrError, setQrError] = useState('');
+  const [qrError, setQrError] = useState("");
 
   useEffect(() => {
     loadProfileData();
@@ -42,7 +44,7 @@ export default function ProfilePage() {
 
   const loadProfileData = async () => {
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Check DB health
@@ -50,7 +52,7 @@ export default function ProfilePage() {
       setDbHealthy(health.ready);
 
       if (!health.ready) {
-        setError('System offline due to database connectivity');
+        setError("System offline due to database connectivity");
         return;
       }
 
@@ -60,27 +62,31 @@ export default function ProfilePage() {
 
       // Load donation totals
       try {
-        const totals = await api.get<DonationTotal>(`/tickets/${ticketId}/donations/total`);
+        const totals = await api.get<DonationTotal>(
+          `/tickets/${ticketId}/donations/total`,
+        );
         setDonationTotal(totals);
       } catch (err) {
-        console.error('Failed to load donation totals:', err);
+        console.error("Failed to load donation totals:", err);
       }
 
       // Load donation ledger
       try {
-        const donationList = await api.get<Donation[]>(`/tickets/${ticketId}/donations`);
+        const donationList = await api.get<Donation[]>(
+          `/tickets/${ticketId}/donations`,
+        );
         setDonations(donationList);
       } catch (err) {
-        console.error('Failed to load donations:', err);
+        console.error("Failed to load donations:", err);
       }
     } catch (error: any) {
       if (error.status === 404) {
-        setError('Profile not found');
+        setError("Profile not found");
       } else if (error.status === 503) {
-        setError('System unavailable due to database connectivity');
+        setError("System unavailable due to database connectivity");
         setDbHealthy(false);
       } else {
-        setError(error.message || 'Failed to load profile');
+        setError(error.message || "Failed to load profile");
       }
     } finally {
       setLoading(false);
@@ -89,31 +95,33 @@ export default function ProfilePage() {
 
   const handleGenerateQR = async () => {
     setIsGeneratingQR(true);
-    setQrError('');
+    setQrError("");
     setQrCode(null);
     setCheckoutUrl(null);
 
     try {
       const amount = parseFloat(donationAmount);
       if (isNaN(amount) || amount <= 0) {
-        throw new Error('Please enter a valid donation amount');
+        throw new Error("Please enter a valid donation amount");
       }
 
       const payload = {
         amount,
         currency: donationCurrency,
-        description: donationDescription || `Support for ${ticket?.displayName || 'profile'}`,
+        description:
+          donationDescription ||
+          `Support for ${ticket?.displayName || "profile"}`,
       };
 
-      const response = await api.post<{ qrCodeBase64: string; checkoutUrl: string }>(
-        `/tickets/${ticketId}/create-payment`,
-        payload
-      );
+      const response = await api.post<{
+        qrCodeBase64: string;
+        checkoutUrl: string;
+      }>(`/tickets/${ticketId}/create-payment`, payload);
 
       setQrCode(response.qrCodeBase64);
       setCheckoutUrl(response.checkoutUrl);
     } catch (error: any) {
-      setQrError(error.message || 'Failed to generate donation QR code');
+      setQrError(error.message || "Failed to generate donation QR code");
     } finally {
       setIsGeneratingQR(false);
     }
@@ -121,48 +129,49 @@ export default function ProfilePage() {
 
   const handleLoadExistingQR = async () => {
     setIsGeneratingQR(true);
-    setQrError('');
+    setQrError("");
 
     try {
-      const response = await api.get<{ qrCodeBase64: string; checkoutUrl: string }>(
-        `/tickets/${ticketId}/qr-code`
-      );
+      const response = await api.get<{
+        qrCodeBase64: string;
+        checkoutUrl: string;
+      }>(`/tickets/${ticketId}/qr-code`);
       setQrCode(response.qrCodeBase64);
       setCheckoutUrl(response.checkoutUrl);
       setShowDonateForm(true);
     } catch (error: any) {
-      setQrError(error.message || 'No existing QR code found');
+      setQrError(error.message || "No existing QR code found");
     } finally {
       setIsGeneratingQR(false);
     }
   };
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency,
     }).format(amount);
   };
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      'PAID': 'bg-green-100 text-green-800 border-green-300',
-      'REFUNDED': 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      'DISPUTED': 'bg-red-100 text-red-800 border-red-300',
-      'EXPIRED': 'bg-gray-100 text-gray-800 border-gray-300',
+      PAID: "bg-green-100 text-green-800 border-green-300",
+      REFUNDED: "bg-yellow-100 text-yellow-800 border-yellow-300",
+      DISPUTED: "bg-red-100 text-red-800 border-red-300",
+      EXPIRED: "bg-gray-100 text-gray-800 border-gray-300",
     };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-300';
+    return colors[status] || "bg-gray-100 text-gray-800 border-gray-300";
   };
 
   if (loading) {
@@ -207,12 +216,12 @@ export default function ProfilePage() {
             <ArrowLeftIcon className="w-5 h-5" />
             Back to Search
           </Link>
-          
+
           <div className="flex items-center gap-4">
             <UserCircleIcon className="w-12 h-12 text-blue-600" />
             <div>
               <h1 className="text-3xl font-black text-gray-900">
-                {ticket?.displayName || 'Anonymous Profile'}
+                {ticket?.displayName || "Anonymous Profile"}
               </h1>
               <p className="text-gray-600">Profile Details & Donations</p>
             </div>
@@ -239,19 +248,27 @@ export default function ProfilePage() {
               animate={{ opacity: 1, x: 0 }}
               className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-100"
             >
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Profile Information</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Profile Information
+              </h2>
               <div className="space-y-3">
                 <div>
                   <p className="text-sm text-gray-500">Status</p>
-                  <p className="font-semibold text-gray-900">{ticket?.status}</p>
+                  <p className="font-semibold text-gray-900">
+                    {ticket?.status}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Created</p>
-                  <p className="font-semibold text-gray-900">{formatDate(ticket?.createdAt)}</p>
+                  <p className="font-semibold text-gray-900">
+                    {formatDate(ticket?.createdAt)}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Ticket ID</p>
-                  <p className="font-mono text-xs text-gray-700 break-all">{ticket?.id}</p>
+                  <p className="font-mono text-xs text-gray-700 break-all">
+                    {ticket?.id}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -272,21 +289,30 @@ export default function ProfilePage() {
                   <div>
                     <p className="text-sm text-gray-600">Total Received</p>
                     <p className="text-2xl font-bold text-green-600">
-                      {formatCurrency(donationTotal.totalPaid, donationTotal.currency)}
+                      {formatCurrency(
+                        donationTotal.totalPaid,
+                        donationTotal.currency,
+                      )}
                     </p>
                   </div>
                   {donationTotal.totalRefunded > 0 && (
                     <div>
                       <p className="text-sm text-gray-600">Refunded</p>
                       <p className="text-lg font-semibold text-yellow-600">
-                        {formatCurrency(donationTotal.totalRefunded, donationTotal.currency)}
+                        {formatCurrency(
+                          donationTotal.totalRefunded,
+                          donationTotal.currency,
+                        )}
                       </p>
                     </div>
                   )}
                   <div className="pt-3 border-t border-gray-300">
                     <p className="text-sm text-gray-600">Net Total</p>
                     <p className="text-2xl font-bold text-gray-900">
-                      {formatCurrency(donationTotal.netTotal, donationTotal.currency)}
+                      {formatCurrency(
+                        donationTotal.netTotal,
+                        donationTotal.currency,
+                      )}
                     </p>
                   </div>
                   {donationTotal.lastDonationAt && (
@@ -307,11 +333,14 @@ export default function ProfilePage() {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-100"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Support This Profile</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Support This Profile
+              </h2>
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
                 <p className="text-sm text-yellow-800">
-                  <strong>Please verify:</strong> Only donate if you have verified this profile with the recipient. 
-                  Care2Connect does not verify profile authenticity.
+                  <strong>Please verify:</strong> Only donate if you have
+                  verified this profile with the recipient. Care2Connect does
+                  not verify profile authenticity.
                 </p>
               </div>
 
@@ -343,11 +372,15 @@ export default function ProfilePage() {
                             Amount
                           </label>
                           <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">$</span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">
+                              $
+                            </span>
                             <input
                               type="number"
                               value={donationAmount}
-                              onChange={(e) => setDonationAmount(e.target.value)}
+                              onChange={(e) =>
+                                setDonationAmount(e.target.value)
+                              }
                               min="1"
                               step="0.01"
                               className="w-full pl-8 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors"
@@ -360,7 +393,9 @@ export default function ProfilePage() {
                           </label>
                           <select
                             value={donationCurrency}
-                            onChange={(e) => setDonationCurrency(e.target.value)}
+                            onChange={(e) =>
+                              setDonationCurrency(e.target.value)
+                            }
                             className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors"
                           >
                             <option value="USD">USD</option>
@@ -369,7 +404,7 @@ export default function ProfilePage() {
                           </select>
                         </div>
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-semibold text-gray-900 mb-2">
                           Message (Optional)
@@ -377,7 +412,9 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           value={donationDescription}
-                          onChange={(e) => setDonationDescription(e.target.value)}
+                          onChange={(e) =>
+                            setDonationDescription(e.target.value)
+                          }
                           placeholder="Add a personal message"
                           className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors"
                         />
@@ -395,13 +432,15 @@ export default function ProfilePage() {
                           disabled={isGeneratingQR}
                           className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg font-bold hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                         >
-                          {isGeneratingQR ? 'Generating...' : 'Generate QR Code'}
+                          {isGeneratingQR
+                            ? "Generating..."
+                            : "Generate QR Code"}
                         </button>
                         <button
                           onClick={() => {
                             setShowDonateForm(false);
                             setQrCode(null);
-                            setQrError('');
+                            setQrError("");
                           }}
                           className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
                         >
@@ -453,35 +492,54 @@ export default function ProfilePage() {
               transition={{ delay: 0.2 }}
               className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-100"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Donation History</h2>
-              
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Donation History
+              </h2>
+
               {donations.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No donations yet</p>
+                <p className="text-gray-500 text-center py-8">
+                  No donations yet
+                </p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b-2 border-gray-200">
-                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">Donor</th>
-                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">Amount</th>
-                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">Status</th>
-                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">Date</th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">
+                          Donor
+                        </th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">
+                          Amount
+                        </th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">
+                          Status
+                        </th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-600">
+                          Date
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {donations.map((donation) => (
-                        <tr key={donation.id} className="border-b border-gray-100 hover:bg-gray-50">
+                        <tr
+                          key={donation.id}
+                          className="border-b border-gray-100 hover:bg-gray-50"
+                        >
                           <td className="py-3 px-2 text-sm">
-                            {donation.donorLastName || 'Anonymous'}
+                            {donation.donorLastName || "Anonymous"}
                             {donation.donorCountry && (
-                              <span className="text-xs text-gray-500 ml-1">({donation.donorCountry})</span>
+                              <span className="text-xs text-gray-500 ml-1">
+                                ({donation.donorCountry})
+                              </span>
                             )}
                           </td>
                           <td className="py-3 px-2 text-sm font-semibold">
                             {formatCurrency(donation.amount, donation.currency)}
                           </td>
                           <td className="py-3 px-2">
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold border ${getStatusColor(donation.status)}`}>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-semibold border ${getStatusColor(donation.status)}`}
+                            >
                               {donation.status}
                             </span>
                           </td>

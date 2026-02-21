@@ -9,29 +9,29 @@
  * @module intake/v2/audit/auditWriter
  */
 
-import { PrismaClient, Prisma } from '@prisma/client';
-import { randomUUID } from 'crypto';
+import { PrismaClient, Prisma } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 const prisma = new PrismaClient();
 
 // ── Event Types ────────────────────────────────────────────────
 
 export type V2AuditEventType =
-  | 'INTAKE_STARTED'
-  | 'MODULE_SAVED'
-  | 'REVIEW_ENTERED'
-  | 'INTAKE_SUBMITTED'
-  | 'SCORE_COMPUTED'
-  | 'PLAN_GENERATED'
-  | 'SESSION_COMPLETED'
-  | 'SESSION_COMPLETE_IDEMPOTENT_HIT'
-  | 'SESSION_COMPLETE_FAILED'
-  | 'RANK_COMPUTE_FAILED'
-  | 'PROFILE_READY'
-  | 'PROFILE_VIEWED'
-  | 'CHAT_THREAD_CREATED'
-  | 'CHAT_MESSAGE_USER'
-  | 'CHAT_MESSAGE_ASSISTANT';
+  | "INTAKE_STARTED"
+  | "MODULE_SAVED"
+  | "REVIEW_ENTERED"
+  | "INTAKE_SUBMITTED"
+  | "SCORE_COMPUTED"
+  | "PLAN_GENERATED"
+  | "SESSION_COMPLETED"
+  | "SESSION_COMPLETE_IDEMPOTENT_HIT"
+  | "SESSION_COMPLETE_FAILED"
+  | "RANK_COMPUTE_FAILED"
+  | "PROFILE_READY"
+  | "PROFILE_VIEWED"
+  | "CHAT_THREAD_CREATED"
+  | "CHAT_MESSAGE_USER"
+  | "CHAT_MESSAGE_ASSISTANT";
 
 // ── Meta Allowlist ─────────────────────────────────────────────
 
@@ -42,66 +42,66 @@ export type V2AuditEventType =
  */
 const META_ALLOWLIST = new Set<string>([
   // Module metadata (never raw data)
-  'moduleId',
-  'isRequired',
-  'isComplete',
-  'completedModuleCount',
-  'totalModuleCount',
+  "moduleId",
+  "isRequired",
+  "isComplete",
+  "completedModuleCount",
+  "totalModuleCount",
 
   // Scoring metadata (aggregates only)
-  'totalScore',
-  'stabilityLevel',
-  'priorityTier',
-  'policyPackVersion',
-  'scoringEngineVersion',
-  'inputHashPrefix',
+  "totalScore",
+  "stabilityLevel",
+  "priorityTier",
+  "policyPackVersion",
+  "scoringEngineVersion",
+  "inputHashPrefix",
 
   // Dimension scores (aggregates)
-  'housing_stability',
-  'safety_crisis',
-  'vulnerability_health',
-  'chronicity_system',
+  "housing_stability",
+  "safety_crisis",
+  "vulnerability_health",
+  "chronicity_system",
 
   // Action plan metadata (counts only)
-  'immediateTaskCount',
-  'shortTermTaskCount',
-  'mediumTermTaskCount',
-  'totalTaskCount',
+  "immediateTaskCount",
+  "shortTermTaskCount",
+  "mediumTermTaskCount",
+  "totalTaskCount",
 
   // Timing / performance
-  'durationMs',
-  'stage',
+  "durationMs",
+  "stage",
 
   // Error metadata (safe codes only, no stack traces)
-  'errorCode',
-  'errorMessage',
+  "errorCode",
+  "errorMessage",
 
   // Request context
-  'requestId',
-  'correlationId',
+  "requestId",
+  "correlationId",
 
   // DV-safe flag (boolean only)
-  'dvSafeMode',
-  'sensitiveDataRedacted',
+  "dvSafeMode",
+  "sensitiveDataRedacted",
 
   // Chat metadata
-  'messageLength',
-  'redacted',
-  'templateId',
-  'responseLength',
+  "messageLength",
+  "redacted",
+  "templateId",
+  "responseLength",
 
   // Rank metadata
-  'rankPosition',
-  'rankOf',
+  "rankPosition",
+  "rankOf",
 
   // Profile readiness metadata
-  'level',
-  'tier',
-  'rankPending',
+  "level",
+  "tier",
+  "rankPending",
 
   // Profile view metadata
-  'route',
-  'includeRoadmap',
+  "route",
+  "includeRoadmap",
 ]);
 
 /**
@@ -119,11 +119,12 @@ function sanitizeMeta(raw: Record<string, unknown>): Record<string, unknown> {
   const clean: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(raw)) {
     if (!META_ALLOWLIST.has(key)) continue;
-    if (typeof value === 'string') {
-      clean[key] = value.length > MAX_META_STRING_LENGTH
-        ? value.slice(0, MAX_META_STRING_LENGTH) + '...'
-        : value;
-    } else if (typeof value === 'number' || typeof value === 'boolean') {
+    if (typeof value === "string") {
+      clean[key] =
+        value.length > MAX_META_STRING_LENGTH
+          ? value.slice(0, MAX_META_STRING_LENGTH) + "..."
+          : value;
+    } else if (typeof value === "number" || typeof value === "boolean") {
       clean[key] = value;
     } else if (value === null || value === undefined) {
       clean[key] = null;
@@ -156,7 +157,7 @@ export async function writeAuditEvent(
   sessionId: string,
   eventType: V2AuditEventType,
   meta: Record<string, unknown> = {},
-  requestId?: string
+  requestId?: string,
 ): Promise<void> {
   try {
     const safeMeta = sanitizeMeta(meta);
@@ -170,7 +171,10 @@ export async function writeAuditEvent(
     });
   } catch (err) {
     // Audit write must never crash the main flow — log and continue
-    console.error(`[AuditWriter] Failed to write ${eventType} for session ${sessionId}:`, err);
+    console.error(
+      `[AuditWriter] Failed to write ${eventType} for session ${sessionId}:`,
+      err,
+    );
   }
 }
 
@@ -184,23 +188,25 @@ export async function writeAuditEventsBatch(
     eventType: V2AuditEventType;
     meta?: Record<string, unknown>;
     requestId?: string;
-  }>
+  }>,
 ): Promise<void> {
   try {
     await prisma.$transaction(
-      events.map(e =>
+      events.map((e) =>
         prisma.v2IntakeAuditEvent.create({
           data: {
             sessionId: e.sessionId,
             eventType: e.eventType,
             requestId: e.requestId ?? null,
-            meta: sanitizeMeta(e.meta ?? {}) as unknown as Prisma.InputJsonValue,
+            meta: sanitizeMeta(
+              e.meta ?? {},
+            ) as unknown as Prisma.InputJsonValue,
           },
-        })
-      )
+        }),
+      ),
     );
   } catch (err) {
-    console.error('[AuditWriter] Failed to write batch audit events:', err);
+    console.error("[AuditWriter] Failed to write batch audit events:", err);
   }
 }
 
@@ -212,17 +218,19 @@ export async function writeAuditEventsBatch(
  */
 export async function getSessionAuditEvents(
   sessionId: string,
-  limit: number = 50
-): Promise<Array<{
-  id: string;
-  eventType: string;
-  requestId: string | null;
-  meta: unknown;
-  createdAt: Date;
-}>> {
+  limit: number = 50,
+): Promise<
+  Array<{
+    id: string;
+    eventType: string;
+    requestId: string | null;
+    meta: unknown;
+    createdAt: Date;
+  }>
+> {
   return prisma.v2IntakeAuditEvent.findMany({
     where: { sessionId },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: "desc" },
     take: limit,
     select: {
       id: true,
@@ -238,13 +246,13 @@ export async function getSessionAuditEvents(
  * Count audit events for a session (for profile endpoint).
  */
 export async function countSessionAuditEvents(
-  sessionId: string
+  sessionId: string,
 ): Promise<{ count: number; lastEventType: string | null }> {
   const [count, lastEvent] = await Promise.all([
     prisma.v2IntakeAuditEvent.count({ where: { sessionId } }),
     prisma.v2IntakeAuditEvent.findFirst({
       where: { sessionId },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       select: { eventType: true },
     }),
   ]);

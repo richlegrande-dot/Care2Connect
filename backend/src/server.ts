@@ -11,6 +11,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 
 // Boot configuration and banner
 import { getBootConfig, printBootBanner, validateBootConfig } from './utils/bootConfig';
@@ -170,6 +171,7 @@ import hardeningMetricsRoutes from './routes/hardening-metrics';
 
 // V2 Intake routes (gated by ENABLE_V2_INTAKE)
 import intakeV2Routes from './intake/v2/routes/intakeV2';
+import providerRoutes from './intake/v2/routes/providerRoutes';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
@@ -284,8 +286,10 @@ if (process.env.NODE_ENV !== 'test') {
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
+// Security middleware — use comprehensive helmetConfig with full CSP
+import { helmetConfig, additionalSecurity } from './config/helmet';
+app.use(helmetConfig);
+app.use(additionalSecurity);
 
 // Correlation ID middleware for distributed tracing
 app.use(correlationIdMiddleware);
@@ -327,6 +331,10 @@ app.use((req, res, next) => {
 // Metrics tracking middleware (before routes)
 app.use(metricsCollector.trackRequest());
 
+// Request performance tracking (per-route latency baseline)
+import { requestPerformanceMiddleware, performanceMetricsHandler } from './middleware/requestPerformance';
+app.use(requestPerformanceMiddleware());
+
 // Database watchdog will be managed by background services manager
 const dbReadyCheck = (req: any, res: any, next: any) => {
   const dbWatchdog = backgroundServices.getDbWatchdog();
@@ -351,6 +359,9 @@ app.use(limiter);
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Cookie parsing middleware (for provider authentication)
+app.use(cookieParser());
 
 // Critical health endpoint - ALWAYS responds, even if other services are down
 app.get('/health/live', (req, res) => {
@@ -478,6 +489,7 @@ console.log('[Server] Pipeline Incidents Admin routes mounted at /admin/incident
 
 app.use('/demo', demoRoutes);
 app.use('/metrics', metricsRoutes);
+app.get('/metrics/performance', performanceMetricsHandler);
 app.use('/errors', errorReportingRoutes); // Public error reporting
 
 // API routes
@@ -531,6 +543,14 @@ if (process.env.ENABLE_V2_INTAKE === 'true') {
   console.log(`[V2 INTAKE ENABLED] POLICY_PACK=${POLICY_PACK_VERSION} ENGINE=${SCORING_ENGINE_VERSION}`);
 } else {
   console.log('[V2 Intake] DISABLED — set ENABLE_V2_INTAKE=true to enable');
+}
+
+// V2 Provider Dashboard API (Staff Access)
+app.use('/api/v2/provider', providerRoutes);
+if (process.env.PROVIDER_DASHBOARD_TOKEN) {
+  console.log('[V2 Provider Dashboard] Token authentication enabled');
+} else {
+  console.log('[V2 Provider Dashboard] DISABLED — set PROVIDER_DASHBOARD_TOKEN to enable');
 }
 
 // Root route: serve proper welcome page for browsers

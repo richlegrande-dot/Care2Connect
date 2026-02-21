@@ -1008,6 +1008,9 @@ model V2IntakeSession {
   // Relation to audit events
   auditEvents V2IntakeAuditEvent[]
 
+  // Relation to chat thread (1:1 relationship)
+  chatThread  V2IntakeChatThread?
+
   @@index([userId])
   @@index([status])
   @@index([createdAt])
@@ -1033,4 +1036,44 @@ model V2IntakeAuditEvent {
   @@index([eventType])
   @@index([createdAt])
   @@map("v2_intake_audit_events")
+}
+
+enum V2ChatMode {
+  DETERMINISTIC
+  LLM
+}
+
+enum V2ChatRole {
+  user
+  assistant
+  system
+}
+
+model V2IntakeChatThread {
+  id        String     @id @default(cuid())
+  sessionId String     @unique  // Enforce 1 thread per session initially
+  mode      V2ChatMode @default(DETERMINISTIC)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  session  V2IntakeSession       @relation(fields: [sessionId], references: [id])
+  messages V2IntakeChatMessage[]
+
+  @@map("v2_intake_chat_threads")
+}
+
+model V2IntakeChatMessage {
+  id        String     @id @default(cuid())
+  threadId  String
+  role      V2ChatRole
+  content   String     @db.Text
+  redacted  Boolean    @default(false)
+  meta      Json       @default("{}")
+  createdAt DateTime   @default(now())
+
+  thread V2IntakeChatThread @relation(fields: [threadId], references: [id])
+
+  @@index([threadId])
+  @@index([createdAt])
+  @@map("v2_intake_chat_messages")
 }

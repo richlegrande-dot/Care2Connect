@@ -66,25 +66,9 @@ export const helmetConfig = helmet({
   // Prevent MIME type sniffing
   noSniff: true,
 
-  // Enable XSS protection
-  xssFilter: true,
-
   // Referrer Policy
   referrerPolicy: {
     policy: ['strict-origin-when-cross-origin']
-  },
-
-  // Permissions Policy (formerly Feature Policy)
-  permissionsPolicy: {
-    camera: ['self'],
-    microphone: ['self'],
-    geolocation: [],
-    payment: [],
-    usb: [],
-    bluetooth: [],
-    magnetometer: [],
-    gyroscope: [],
-    accelerometer: []
   },
 
   // Cross-Origin Embedder Policy
@@ -107,12 +91,6 @@ export const helmetConfig = helmet({
   dnsPrefetchControl: {
     allow: false
   },
-
-  // Expect-CT header
-  expectCt: {
-    maxAge: 86400, // 24 hours
-    enforce: true
-  }
 });
 
 // Additional security middleware
@@ -121,6 +99,9 @@ export const additionalSecurity = (req: Request, res: Response, next: NextFuncti
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  // Permissions Policy (not supported natively in Helmet v7)
+  res.setHeader('Permissions-Policy', 'camera=(self), microphone=(self), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()');
   
   // Remove server signature
   res.removeHeader('Server');

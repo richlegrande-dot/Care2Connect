@@ -1,0 +1,38 @@
+{
+  "report": "assess_extracted_debug_2026-02-03T20-26-53-639Z.json",
+  "totalCases": 155,
+  "reasonCounts": [
+    [
+      "medium_pattern_match",
+      118
+    ],
+    [
+      "high_pattern_match",
+      45
+    ],
+    [
+      "content_housing_boost",
+      39
+    ],
+    [
+      "explicit_urgency_keywords",
+      4
+    ],
+    [
+      "low_pattern_match",
+      3
+    ],
+    [
+      "vague_scenario_cap_fallback",
+      2
+    ],
+    [
+      "temporal_urgency_boost",
+      1
+    ],
+    [
+      "boost_cap_applied",
+      1
+    ]
+  ]
+}

@@ -1,0 +1,78 @@
+ERROR:
+
+
+┌──────────────────────────────────────────────────┐
+│       Feb v1.5 Evaluation Suite                   │
+└──────────────────────────────────────────────────┘
+
+🔒 Layer 1: Validating dataset integrity...
+   ✅ All 1 dataset(s) verified. Manifest: d6ef01c5473d...
+
+🔑 Engine hash: b09bc24f610b8024...
+📋 Manifest hash: d6ef01c5473d319f...
+
+━━━ Evaluating: core30 ━━━
+   📦 Loaded 30 cases
+[ParserAdapter] Loaded production rulesEngine via tsx
+   Progress: 10/30   Progress: 20/30   Progress: 30/30   ✅ 30 cases complete
+
+
+╔══════════════════════════════════════════════════╗
+║           Feb v1.5 — EVALUATION REPORT           ║
+╚══════════════════════════════════════════════════╝
+
+🔑 Engine: b09bc24f610b...
+📋 Manifest: d6ef01c5473d...
+⏱️  Runtime: 199ms | Cases: 30
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SCORING SUMMARY (All Modes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STRUCTURAL (name+cat+amt):  53.33% (16/30)
+  URGENCY ONLY:              50.00% (15/30)
+  FULL STRICT (all 4):       26.67% (8/30)
+  ACCEPTABLE (≥85%):         26.67% (8/30)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FIELD-LEVEL ACCURACY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Name:     73.3%  (22/30)  Partials: 1
+  Category: 90.0%  (27/30)
+  Urgency:  50.0%  (15/30)  Under: 9 Over: 6
+  Amount:   90.0%  (27/30)  Nulls: 0
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FAILURE BUCKETS (Top 10)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. urgency_threshold_miss (9) — Aggregate score fell on wrong side of level threshold boundary
+     Cases: T002, T003, T008, T009, T017...
+  2. name_intro_pattern_missing (5) — Common introduction pattern not matched by any regex
+     Cases: T006, T007, T020, T021, T029
+  3. urgency_multiplier_override (4) — Category bonus multiplier pushed score to wrong level
+     Cases: T004, T011, T021, T023
+  4. name_null_extraction (2) — Name not extracted at all when present in transcript
+     Cases: T018, T028
+  5. category_priority_conflict (2) — Multiple categories present, wrong one ranked higher by keyword count
+     Cases: T004, T023
+  6. urgency_engine_conflict (2) — Critical override (single layer ≥0.85) fired incorrectly
+     Cases: T015, T025
+  7. amount_partial_match_override (1) — Partial spoken number matched instead of full compound form
+     Cases: T015
+  8. amount_tolerance_exceeded (1) — Amount detected but outside tolerance threshold
+     Cases: T017
+  9. amount_false_positive (1) — Amount extracted when none was expected (wage/age/date confusion)
+     Cases: T005
+  10. name_partial_capture (1) — First name captured but last name dropped, or vice versa
+     Cases: T024
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PER-DATASET BREAKDOWN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  core30 (30 cases):
+    Structural: 53.3%  Urgency: 50.0%  Strict: 26.7%
+
+📄 Report saved: c:\Users\richl\Care2system\backend\eval\v1_5\reports\feb_v1_5_core30_2026-02-13T19-54-13-293Z.json
+
+[TELEMETRY] Flushed old metrics. Current buffer sizes: parsing=30, documents=0
+
+spawnSync C:\windows\system32\cmd.exe ETIMEDOUT

@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "dataset": "realistic50",
+    "totalCases": 50,
+    "timestamp": "2026-01-29T02:26:36.456Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "88.00%",
+    "acceptablePassRate": "88.00%",
+    "strictPasses": 44,
+    "acceptablePasses": 44,
+    "strictFailures": 6,
+    "acceptableFailures": 6
+  },
+  "performance": {
+    "avgLatencyMs": "3.81",
+    "totalLatencyMs": "190.29",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "category_wrong",
+        "description": "Incorrect category selected",
+        "count": 4,
+        "percentage": "8.0%",
+        "exampleCases": [
+          "000REALISTIC_28",
+          "000REALISTIC_36",
+          "000REALISTIC_44"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 2,
+        "percentage": "4.0%",
+        "exampleCases": [
+          "000REALISTIC_32",
+          "000REALISTIC_36"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 1,
+        "percentage": "2.0%",
+        "exampleCases": [
+          "000REALISTIC_34"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "category_wrong",
+      "priority": "LOW",
+      "affectedCases": 4,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "LOW",
+      "affectedCases": 2,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "LOW",
+      "affectedCases": 1,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "timestamp": "2026-01-16T12:04:10.355Z",
+  "system": "Jan v.2.5 CommonJS Enhanced Simulation",
+  "integration": {
+    "parsingServicesAvailable": false,
+    "reason": "TypeScript compilation needed",
+    "method": "enhanced_simulation"
+  },
+  "overview": {
+    "totalTests": 8,
+    "successCount": 1,
+    "successRate": 12.5,
+    "avgScore": 0.9,
+    "avgConfidence": 0.7
+  },
+  "performance": {
+    "avgExecutionTime": 1
+  },
+  "failures": {
+    "byCategory": {
+      "SYSTEM_ERROR": 6,
+      "CATEGORY_MISCLASSIFICATION": 1
+    },
+    "topCategories": [
+      [
+        "SYSTEM_ERROR",
+        6
+      ],
+      [
+        "CATEGORY_MISCLASSIFICATION",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "testId": "01-normal-complete",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 3
+    },
+    {
+      "testId": "01_housing_eviction",
+      "description": "Housing crisis with eviction notice and specific amount needed",
+      "success": true,
+      "score": 1,
+      "extractedData": {
+        "name": "Sarah Martinez and I really need help right now",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 1500
+      },
+      "expectedData": {
+        "needsCategories": [
+          "HOUSING"
+        ],
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "confidenceMin": 0.8,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0.85,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 3,
+      "differences": []
+    },
+    {
+      "testId": "02-short-incomplete",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 1
+    },
+    {
+      "testId": "02_medical_emergency",
+      "description": "Medical emergency requiring surgery funds",
+      "success": false,
+      "score": 0.8,
+      "extractedData": {
+        "name": "Michael Thompson and I was just diagnosed with a condition that requires emergency surgery",
+        "category": "MEDICAL",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000
+      },
+      "expectedData": {
+        "needsCategories": [
+          "HEALTHCARE"
+        ],
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "confidenceMin": 0.85,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0.85,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 0,
+      "differences": [
+        "category: expected \"HEALTHCARE\", got \"MEDICAL\""
+      ]
+    },
+    {
+      "testId": "03-no-name",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 1
+    },
+    {
+      "testId": "04-urgent-crisis",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 1
+    },
+    {
+      "testId": "05-medical-needs",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 1
+    },
+    {
+      "testId": "06-multiple-needs",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 1
+    }
+  ]
+}

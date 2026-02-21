@@ -1,0 +1,71 @@
+{
+  "name": "Multiple Needs Story",
+  "description": "Story with multiple overlapping need categories",
+  "transcript": "Hi, I'm called Robert Chen. I'm a veteran who recently returned from service. I'm having a really hard time adjusting to civilian life. I need help finding a job - I've sent out dozens of applications but haven't heard back. I also need housing because I'm currently staying at a veterans' shelter in San Diego. I need food assistance and I also need counseling for PTSD. I want to get my education too - I'd like to go to college. I need help with all of these things. Contact me at robert.chen.vet@email.com or call 619-555-4321. I just want to rebuild my life.",
+  "expectedExtraction": {
+    "nameCandidate": "Robert Chen",
+    "contactCandidates": {
+      "emails": ["robert.chen.vet@email.com"],
+      "phones": ["619-555-4321"]
+    },
+    "locationCandidates": ["San Diego"],
+    "needsCategories": ["EMPLOYMENT", "HOUSING", "FOOD", "HEALTHCARE", "EDUCATION"],
+    "urgencyScore": 0.65,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hi, I'm called Robert Chen.",
+      "start": 0,
+      "end": 2000
+    },
+    {
+      "text": "I'm a veteran who recently returned from service.",
+      "start": 2000,
+      "end": 5000
+    },
+    {
+      "text": "I'm having a really hard time adjusting to civilian life.",
+      "start": 5000,
+      "end": 8000
+    },
+    {
+      "text": "I need help finding a job - I've sent out dozens of applications but haven't heard back.",
+      "start": 8000,
+      "end": 12500
+    },
+    {
+      "text": "I also need housing because I'm currently staying at a veterans' shelter in San Diego.",
+      "start": 12500,
+      "end": 17000
+    },
+    {
+      "text": "I need food assistance and I also need counseling for PTSD.",
+      "start": 17000,
+      "end": 20500
+    },
+    {
+      "text": "I want to get my education too - I'd like to go to college.",
+      "start": 20500,
+      "end": 24000
+    },
+    {
+      "text": "I need help with all of these things.",
+      "start": 24000,
+      "end": 26500
+    },
+    {
+      "text": "Contact me at robert.chen.vet@email.com or call 619-555-4321.",
+      "start": 26500,
+      "end": 30000
+    },
+    {
+      "text": "I just want to rebuild my life.",
+      "start": 30000,
+      "end": 32000
+    }
+  ],
+  "wordCount": 135,
+  "duration": 32000,
+  "detectedLanguage": "en"
+}

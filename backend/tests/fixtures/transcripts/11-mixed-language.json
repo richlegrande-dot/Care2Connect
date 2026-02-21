@@ -1,0 +1,51 @@
+{
+  "name": "Minimal English Words",
+  "description": "Very few recognizable English words - language detection edge case",
+  "transcript": "Necesito ayuda. Help. No tengo casa. Need food. Chicago. Por favor.",
+  "expectedExtraction": {
+    "nameCandidate": null,
+    "contactCandidates": {
+      "emails": [],
+      "phones": []
+    },
+    "locationCandidates": ["Chicago"],
+    "needsCategories": ["HOUSING", "FOOD"],
+    "urgencyScore": 0.5,
+    "keyPointsCount": 2
+  },
+  "segments": [
+    {
+      "text": "Necesito ayuda.",
+      "start": 0,
+      "end": 1500
+    },
+    {
+      "text": "Help.",
+      "start": 1500,
+      "end": 2000
+    },
+    {
+      "text": "No tengo casa.",
+      "start": 2000,
+      "end": 3500
+    },
+    {
+      "text": "Need food.",
+      "start": 3500,
+      "end": 4500
+    },
+    {
+      "text": "Chicago.",
+      "start": 4500,
+      "end": 5500
+    },
+    {
+      "text": "Por favor.",
+      "start": 5500,
+      "end": 6500
+    }
+  ],
+  "wordCount": 10,
+  "duration": 6500,
+  "detectedLanguage": "unknown"
+}

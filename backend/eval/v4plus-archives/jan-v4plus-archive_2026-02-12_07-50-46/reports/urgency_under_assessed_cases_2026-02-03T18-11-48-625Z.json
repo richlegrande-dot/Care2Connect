@@ -1,0 +1,6 @@
+{
+  "timestamp": "2026-02-03T18:11:48.626Z",
+  "totalFound": 104,
+  "redacted": true,
+  "note": "This report was sanitized to remove PII. To regenerate full details, re-run tools/extract_urgency_under_all.js after ensuring dataset artifacts contain no PII."
+}

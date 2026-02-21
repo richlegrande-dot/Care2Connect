@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// UserProfile - stores user identity and contact information
+model UserProfile {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  recordings Recording[]
+
+  // Indexes for fast search
+  @@index([name])
+  @@index([email])
+  @@index([phone])
+  @@index([name, email])
+  @@index([name, phone])
+  @@map("user_profiles")
+}
+
+// Recording - stores audio recording metadata
+model Recording {
+  id          String   @id @default(uuid())
+  userId      String
+  audioUrl    String   // URL/path to audio file (not stored in DB)
+  transcript  String?  @db.Text
+  duration    Int?     // Duration in seconds
+  status      RecordingStatus @default(NEW)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Donation settings (V1.5 feature)
+  donationTitle   String?  // Campaign title for donation page
+  donationExcerpt String?  @db.Text // ~90-word excerpt for donation landing page
+  donationGoal    Int?     // Optional donation goal in cents
+  donationSlug    String?  // Optional short slug for future use
+
+  // Relations
+  user        UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventLogs   RecordingEventLog[]
+
+  // Indexes
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("recordings")
+}
+
+// RecordingEventLog - tracks all events for audit trail
+model RecordingEventLog {
+  id          String   @id @default(uuid())
+  recordingId String
+  userId      String   // Denormalized for easy querying
+  event       String   // Event name (e.g., "created", "profile_attached", "transcribed")
+  metadata    Json?    // Additional event data
+  createdAt   DateTime @default(now())
+
+  // Relations
+  recording   Recording @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@index([recordingId])
+  @@index([userId])
+  @@index([event])
+  @@index([createdAt])
+  @@map("recording_event_logs")
+}
+
+// RecordingIssueLog - device-level telemetry for recording errors (NO PII)
+model RecordingIssueLog {
+  id              String   @id @default(uuid())
+  kioskId         String   @default("unknown") // Kiosk identifier (future)
+  connectivity    String   // "online" | "offline"
+  errorName       String   // DOMException error name
+  permissionState String?  // granted/denied/prompt
+  hasAudioInput   Boolean?
+  userAgentSnippet String? // Truncated user agent (no full string)
+  metadata        Json?    // Additional diagnostic info
+  createdAt       DateTime @default(now())
+
+  // Indexes for admin dashboard queries
+  @@index([kioskId])
+  @@index([errorName])
+  @@index([connectivity])
+  @@index([createdAt])
+  @@map("recording_issue_logs")
+}
+
+// Enums
+enum RecordingStatus {
+  NEW
+  IN_REVIEW
+  COMPLETE
+  TRANSCRIBED
+}

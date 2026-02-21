@@ -1,0 +1,71 @@
+{
+  "name": "Elder Care Story",
+  "description": "Story about elderly person needing care",
+  "transcript": "Hi there, this is Patricia Miller. I'm 78 years old and I live alone in Portland, Oregon. My children live far away and can't help me much. I'm having trouble with my mobility and I need assistance with daily activities like grocery shopping and getting to doctor appointments. I also need help paying for my prescription medications - they're very expensive on my fixed income. I'm worried about falling and not being able to get help. I need home care services and maybe some medical alert equipment. You can reach me at patricia.miller.elder@email.com. I appreciate any help you can provide. Thank you.",
+  "expectedExtraction": {
+    "nameCandidate": "Patricia Miller",
+    "contactCandidates": {
+      "emails": ["patricia.miller.elder@email.com"],
+      "phones": []
+    },
+    "locationCandidates": ["Portland", "Oregon"],
+    "needsCategories": ["HEALTHCARE", "TRANSPORTATION"],
+    "urgencyScore": 0.6,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hi there, this is Patricia Miller.",
+      "start": 0,
+      "end": 2500
+    },
+    {
+      "text": "I'm 78 years old and I live alone in Portland, Oregon.",
+      "start": 2500,
+      "end": 6000
+    },
+    {
+      "text": "My children live far away and can't help me much.",
+      "start": 6000,
+      "end": 9000
+    },
+    {
+      "text": "I'm having trouble with my mobility and I need assistance with daily activities like grocery shopping and getting to doctor appointments.",
+      "start": 9000,
+      "end": 15000
+    },
+    {
+      "text": "I also need help paying for my prescription medications - they're very expensive on my fixed income.",
+      "start": 15000,
+      "end": 20000
+    },
+    {
+      "text": "I'm worried about falling and not being able to get help.",
+      "start": 20000,
+      "end": 23000
+    },
+    {
+      "text": "I need home care services and maybe some medical alert equipment.",
+      "start": 23000,
+      "end": 26500
+    },
+    {
+      "text": "You can reach me at patricia.miller.elder@email.com.",
+      "start": 26500,
+      "end": 29500
+    },
+    {
+      "text": "I appreciate any help you can provide.",
+      "start": 29500,
+      "end": 31500
+    },
+    {
+      "text": "Thank you.",
+      "start": 31500,
+      "end": 32500
+    }
+  ],
+  "wordCount": 130,
+  "duration": 32500,
+  "detectedLanguage": "en"
+}

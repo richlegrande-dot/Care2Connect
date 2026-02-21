@@ -1,0 +1,11 @@
+{
+  "id": "TICKET-1768065486223",
+  "issueType": "transcription_problem",
+  "description": "Transcription is not working correctly",
+  "contactEmail": "user@example.com",
+  "contactPhone": null,
+  "context": null,
+  "clientId": null,
+  "createdAt": "2026-01-10T17:18:06.223Z",
+  "status": "OPEN"
+}

@@ -1,0 +1,164 @@
+================================================================================
+ V2 INTAKE — PILOT DEPLOYMENT LOG
+ Phase 6 — Pilot Enablement
+ Date: 2026-02-18
+ Branch: v2-intake-scaffold @ 4b22871
+================================================================================
+
+[2026-02-18T00:00:00Z] === STEP 1: PRE-FLIGHT CHECKS ===
+
+$ git branch --show-current
+v2-intake-scaffold
+
+$ git log --oneline -1
+4b22871 Phase 5: V2 Intake Governance, CI Gate, Branch Protection, DV Plan, Calibration Brief
+
+$ git status -sb
+## v2-intake-scaffold
+(clean working tree)
+
+[2026-02-18T00:01:00Z] === STEP 2: CI GATE EQUIVALENT (LOCAL) ===
+
+$ npx jest tests/intake_v2/ --verbose --bail
+
+Test Suites: 9 passed, 9 of 9 total
+Tests:       195 passed, 195 of 195 total
+Snapshots:   0 total
+Time:        1.381 s
+
+Result: PASS ✅
+
+[2026-02-18T00:02:00Z] === STEP 3: DATABASE MIGRATION ===
+
+$ npx prisma migrate status
+
+Status shows pending migration: 20260218_v2_intake_tables
+
+$ npx prisma migrate deploy
+
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "postgres", schema "public" at "db.prisma.io:5432"
+
+10 migrations found in prisma/migrations
+
+Applying migration `20260218_v2_intake_tables`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260218_v2_intake_tables/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+
+Result: MIGRATION APPLIED ✅
+
+[2026-02-18T00:03:00Z] === STEP 4: FEATURE FLAG ENABLEMENT ===
+
+Changed in backend/.env:
+  ENABLE_V2_INTAKE=false → ENABLE_V2_INTAKE=true
+
+Unchanged (verified):
+  ENABLE_V2_INTAKE_AUTH=true
+  V1_STABLE=true
+  ZERO_OPENAI_MODE=true
+  AI_PROVIDER=rules
+  DB_MODE=remote
+  NODE_ENV=development
+
+Result: FLAG ENABLED ✅
+
+[2026-02-18T00:04:00Z] === STEP 5: SERVER STARTUP ===
+
+$ cd backend && npx tsx src/server.ts
+
+[INFO] Server listening on port 3001
+[V2 INTAKE ENABLED] POLICY_PACK=v1.0.0 ENGINE=v1.0.0
+[WARN] HealthCheckScheduler: pre-existing warnings (non-fatal, caddy/frontend not running)
+
+Result: SERVER STARTED ✅
+
+[2026-02-18T00:05:00Z] === STEP 6: SMOKE TESTS ===
+
+--- 6.1 Health Endpoints ---
+
+GET http://localhost:3001/health/live
+  → 200 {"status":"alive","uptime":...}  ✅
+
+GET http://localhost:3001/ops/health
+  → 200 {"status":"degraded","backend":"ok",...}  ✅ (expected — caddy/frontend offline)
+
+GET http://localhost:3001/api/v2/intake/health
+  → 200 {"status":"healthy","featureFlag":true,"authEnabled":true,"database":"connected","policyPackVersion":"v1.0.0"}  ✅
+
+--- 6.2 Public Endpoints ---
+
+GET http://localhost:3001/api/v2/intake/schema
+  → 200 (8 modules: consent, demographics, housing, safety, health, history, income, goals)  ✅
+
+GET http://localhost:3001/api/v2/intake/version
+  → 200 {"policyPack":"v1.0.0"}  ✅
+
+GET http://localhost:3001/api/v2/intake/panic-button
+  → 200  ✅
+
+--- 6.3 Auth Enforcement ---
+
+POST http://localhost:3001/api/v2/intake/session (no auth)
+  → 401  ✅
+
+POST http://localhost:3001/api/v2/intake/session (with JWT)
+  → 201 {"sessionId":"cmlsnvpbi0000z874k4q5qwi6","status":"IN_PROGRESS","nextModule":"consent"}  ✅
+
+--- 6.4 Full Session Lifecycle ---
+
+PUT /session/:id {moduleId:"consent",data:{...}}         → 200 completedModules=[consent]  ✅
+PUT /session/:id {moduleId:"demographics",data:{...}}    → 200 completedModules=[consent,demographics]  ✅
+PUT /session/:id {moduleId:"housing",data:{...}}         → 200 completedModules=[...housing]  ✅
+PUT /session/:id {moduleId:"safety",data:{...}}          → 200 completedModules=[...safety]  ✅
+PUT /session/:id {moduleId:"health",data:{...}}          → 200 completedModules=[...health]  ✅
+PUT /session/:id {moduleId:"history",data:{...}}         → 200 completedModules=[...history]  ✅
+PUT /session/:id {moduleId:"income",data:{...}}          → 200 completedModules=[...income]  ✅
+PUT /session/:id {moduleId:"goals",data:{...}}           → 200 completedModules=[...goals] (8/8)  ✅
+
+POST /session/:id/complete
+  → 200  ✅
+  Score: totalScore=13, stabilityLevel=3, priorityTier="MODERATE"
+  Dimensions: housing_stability=10, safety_crisis=0, vulnerability_health=0, chronicity_system=3
+  Explainability: 3 contributors, placementRule="housing_stability >= 10 → Level 3"
+  ActionPlan: 2 medium-term tasks (rapid re-housing, savings program)
+
+--- 6.5 Data Endpoints ---
+
+GET /session/:id           → 200 (full session data)  ✅
+GET /export/hmis/:id       → 200 (5 HMIS fields)  ✅
+GET /calibration           → 200 (totalSessions=6)  ✅
+GET /audit/fairness        → 200 (3 dimension reports)  ✅
+
+--- 6.6 V1 Non-Interference ---
+
+GET http://localhost:3001/health/live → 200 {"status":"alive"}  ✅
+
+Result: ALL 10+ ENDPOINTS VERIFIED ✅
+
+[2026-02-18T00:10:00Z] === STEP 7: SUMMARY ===
+
+Pilot deployment completed successfully.
+  - Migration applied: 20260218_v2_intake_tables
+  - Feature flag: ENABLE_V2_INTAKE=true
+  - All smoke tests: PASS
+  - Session lifecycle: COMPLETE (session cmlsnvpbi0000z874k4q5qwi6)
+  - Scoring: Deterministic, rules-based, v1.0.0
+  - V1: Unaffected
+  - Rollback: Set ENABLE_V2_INTAKE=false, restart server
+
+[2026-02-18T00:10:01Z] === BLOCKED ITEMS (require human action) ===
+
+  - No git remote configured — cannot push to GitHub or verify remote CI
+  - No gh CLI available — cannot apply branch protection via CLI
+  - Calibration session — requires scheduling with intake workers
+  - DV evaluation session — requires scheduling with DV advocate
+
+================================================================================
+ END OF PILOT DEPLOYMENT LOG
+================================================================================

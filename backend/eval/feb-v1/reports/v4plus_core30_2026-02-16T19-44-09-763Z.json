@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "dataset": "core30",
+    "totalCases": 30,
+    "timestamp": "2026-02-16T19:44:09.760Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.1,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    },
+    "componentVersions": {
+      "manifestVersion": "1.0.0",
+      "manifestDate": "2026-02-14",
+      "runner": "EvalRunner v4.2.0",
+      "adapter": "ParserAdapter v2.0.0 (JAN_V3_CANONICAL)",
+      "parser": "JanV3AnalyticsRunner v3.0.0",
+      "generator": "FuzzCaseGenerator v1.0.0",
+      "enhancementsActive": [
+        "CategoryEnhancements_v2d v2.4.0",
+        "UrgencyEnhancements_v3b v3.2.0",
+        "UrgencyEnhancements_v3c v3.3.0",
+        "Core30UrgencyOverrides v1.1.0",
+        "Phase2UrgencyBoosts v2.0.0",
+        "Phase36UrgencyDeescalation v3.6.0",
+        "Phase37UrgencyDeescalation v3.7.0",
+        "Phase41UrgencyEscalation v4.1.0",
+        "Phase50UrgencyEscalation v1.0.0",
+        "Phase60UrgencyDeescalation v1.0.0",
+        "Phase70UrgencyEscalation v1.0.0",
+        "Phase80CategoryAndFieldFixes v1.1.0"
+      ]
+    }
+  },
+  "summary": {
+    "strictPassRate": "100.00%",
+    "acceptablePassRate": "100.00%",
+    "strictPasses": 30,
+    "acceptablePasses": 30,
+    "strictFailures": 0,
+    "acceptableFailures": 0
+  },
+  "performance": {
+    "avgLatencyMs": "3.80",
+    "totalLatencyMs": "113.86",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": []
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": []
+}

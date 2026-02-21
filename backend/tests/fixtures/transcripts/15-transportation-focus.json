@@ -1,0 +1,91 @@
+{
+  "name": "Transportation Focus",
+  "description": "Story where transportation is the primary need",
+  "transcript": "Hello, I go by Thomas Jackson. I live in a rural area outside of Nashville, Tennessee. My biggest problem is transportation. My car broke down three months ago and I can't afford to fix it. Without a car, I can't get to my job, which is 25 miles away. I've been taking the bus when I can, but the service is very limited in my area and unreliable. I've already missed several days of work because I couldn't find a ride. I'm at risk of losing my job if this continues. I also can't get to medical appointments or the grocery store easily. I need help getting my car repaired or finding another transportation solution. This is really affecting every aspect of my life. Contact me at tj.transport@email.com or call 615-555-3344. I just need reliable transportation to keep working and living my life. Thank you.",
+  "expectedExtraction": {
+    "nameCandidate": "Thomas Jackson",
+    "contactCandidates": {
+      "emails": ["tj.transport@email.com"],
+      "phones": ["615-555-3344"]
+    },
+    "locationCandidates": ["Nashville", "Tennessee"],
+    "needsCategories": ["TRANSPORTATION", "EMPLOYMENT"],
+    "urgencyScore": 0.7,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hello, I go by Thomas Jackson.",
+      "start": 0,
+      "end": 2500
+    },
+    {
+      "text": "I live in a rural area outside of Nashville, Tennessee.",
+      "start": 2500,
+      "end": 5500
+    },
+    {
+      "text": "My biggest problem is transportation.",
+      "start": 5500,
+      "end": 7500
+    },
+    {
+      "text": "My car broke down three months ago and I can't afford to fix it.",
+      "start": 7500,
+      "end": 10500
+    },
+    {
+      "text": "Without a car, I can't get to my job, which is 25 miles away.",
+      "start": 10500,
+      "end": 13500
+    },
+    {
+      "text": "I've been taking the bus when I can, but the service is very limited in my area and unreliable.",
+      "start": 13500,
+      "end": 17500
+    },
+    {
+      "text": "I've already missed several days of work because I couldn't find a ride.",
+      "start": 17500,
+      "end": 20500
+    },
+    {
+      "text": "I'm at risk of losing my job if this continues.",
+      "start": 20500,
+      "end": 23000
+    },
+    {
+      "text": "I also can't get to medical appointments or the grocery store easily.",
+      "start": 23000,
+      "end": 26000
+    },
+    {
+      "text": "I need help getting my car repaired or finding another transportation solution.",
+      "start": 26000,
+      "end": 29500
+    },
+    {
+      "text": "This is really affecting every aspect of my life.",
+      "start": 29500,
+      "end": 32000
+    },
+    {
+      "text": "Contact me at tj.transport@email.com or call 615-555-3344.",
+      "start": 32000,
+      "end": 35500
+    },
+    {
+      "text": "I just need reliable transportation to keep working and living my life.",
+      "start": 35500,
+      "end": 38500
+    },
+    {
+      "text": "Thank you.",
+      "start": 38500,
+      "end": 39500
+    }
+  ],
+  "wordCount": 155,
+  "duration": 39500,
+  "detectedLanguage": "en"
+}

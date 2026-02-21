@@ -1,0 +1,281 @@
+{
+  "timestamp": "2026-01-16T12:00:36.590Z",
+  "system": "Jan v.2.5 Automated Parsing Training Loop - Integrated",
+  "integration": {
+    "realParsing": true,
+    "safeMode": true,
+    "fixtureSource": "backend/tests/fixtures/transcripts"
+  },
+  "overview": {
+    "totalTests": 15,
+    "successCount": 0,
+    "failureCount": 15,
+    "successRate": 0,
+    "avgScore": 0.25,
+    "avgConfidence": 0.7
+  },
+  "performance": {
+    "avgExecutionTime": 8,
+    "totalExecutionTime": 114,
+    "methodStats": {
+      "simulation": {
+        "count": 3,
+        "success": 0,
+        "totalTime": 13
+      }
+    }
+  },
+  "failures": {
+    "byCategory": {
+      "SYSTEM_ERROR": 12,
+      "NAME_FALSE_POSITIVE": 2,
+      "AMOUNT_MISSING": 3,
+      "EXTRACTION_INCOMPLETE": 2,
+      "CATEGORY_MISCLASSIFICATION": 2,
+      "URGENCY_MISCLASSIFICATION": 1
+    },
+    "topCategories": [
+      [
+        "SYSTEM_ERROR",
+        12
+      ],
+      [
+        "AMOUNT_MISSING",
+        3
+      ],
+      [
+        "NAME_FALSE_POSITIVE",
+        2
+      ],
+      [
+        "EXTRACTION_INCOMPLETE",
+        2
+      ],
+      [
+        "CATEGORY_MISCLASSIFICATION",
+        2
+      ]
+    ]
+  },
+  "results": [
+    {
+      "testId": "01-normal-complete",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 46,
+      "timestamp": "2026-01-16T12:00:36.504Z"
+    },
+    {
+      "testId": "01_housing_eviction",
+      "description": "Housing crisis with eviction notice and specific amount needed",
+      "success": false,
+      "score": 0.25,
+      "extractedData": {
+        "name": "Sarah Martinez and I really need help right now",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "needsCategories": [
+          "HOUSING"
+        ],
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "confidenceMin": 0.8,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "simulation",
+      "executionTime": 4,
+      "timestamp": "2026-01-16T12:00:36.509Z",
+      "differences": [
+        "name: expected null, got \"Sarah Martinez and I really need help right now\"",
+        "goalAmount: expected 1500, got null",
+        "missingFields: expected none, but missing: goalAmount"
+      ]
+    },
+    {
+      "testId": "02-short-incomplete",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 15,
+      "timestamp": "2026-01-16T12:00:36.524Z"
+    },
+    {
+      "testId": "02_medical_emergency",
+      "description": "Medical emergency requiring surgery funds",
+      "success": false,
+      "score": 0,
+      "extractedData": {
+        "name": "Michael Thompson and I was just diagnosed with a condition that requires emergency surgery",
+        "category": "MEDICAL",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "needsCategories": [
+          "HEALTHCARE"
+        ],
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "confidenceMin": 0.85,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "simulation",
+      "executionTime": 3,
+      "timestamp": "2026-01-16T12:00:36.531Z",
+      "differences": [
+        "name: expected null, got \"Michael Thompson and I was just diagnosed with a condition that requires emergency surgery\"",
+        "category: expected \"HEALTHCARE\", got \"MEDICAL\"",
+        "goalAmount: expected 5000, got null",
+        "missingFields: expected none, but missing: goalAmount"
+      ]
+    },
+    {
+      "testId": "03-no-name",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 9,
+      "timestamp": "2026-01-16T12:00:36.549Z"
+    },
+    {
+      "testId": "04-urgent-crisis",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 4,
+      "timestamp": "2026-01-16T12:00:36.553Z"
+    },
+    {
+      "testId": "05-medical-needs",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 3,
+      "timestamp": "2026-01-16T12:00:36.556Z"
+    },
+    {
+      "testId": "06-multiple-needs",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 3,
+      "timestamp": "2026-01-16T12:00:36.559Z"
+    },
+    {
+      "testId": "07-noisy-transcript",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 8,
+      "timestamp": "2026-01-16T12:00:36.567Z"
+    },
+    {
+      "testId": "08-family-children",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 2,
+      "timestamp": "2026-01-16T12:00:36.569Z"
+    },
+    {
+      "testId": "09-positive-hopeful",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 3,
+      "timestamp": "2026-01-16T12:00:36.573Z"
+    },
+    {
+      "testId": "10-no-contact",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 4,
+      "timestamp": "2026-01-16T12:00:36.577Z"
+    },
+    {
+      "testId": "10_dry_empty",
+      "description": "Minimal content transcript to test fallback mechanisms",
+      "success": false,
+      "score": 0.25,
+      "extractedData": {
+        "name": null,
+        "category": "OTHER",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "needsCategories": [
+          "GENERAL"
+        ],
+        "urgencyLevel": "LOW",
+        "goalAmount": 1500,
+        "missingFields": [
+          "name",
+          "amount",
+          "category",
+          "story"
+        ],
+        "confidenceMin": 0.1,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "simulation",
+      "executionTime": 6,
+      "timestamp": "2026-01-16T12:00:36.583Z",
+      "differences": [
+        "category: expected \"GENERAL\", got \"OTHER\"",
+        "urgencyLevel: expected \"LOW\", got \"MEDIUM\"",
+        "goalAmount: expected 1500, got null"
+      ]
+    },
+    {
+      "testId": "11-mixed-language",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 2,
+      "timestamp": "2026-01-16T12:00:36.585Z"
+    },
+    {
+      "testId": "12-elder-care",
+      "description": "Test failed with error",
+      "success": false,
+      "error": "Cannot read properties of undefined (reading 'toLowerCase')",
+      "executionTime": 2,
+      "timestamp": "2026-01-16T12:00:36.587Z"
+    }
+  ]
+}

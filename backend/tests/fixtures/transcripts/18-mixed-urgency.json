@@ -1,0 +1,28 @@
+{
+  "name": "Mixed Urgency Keywords",
+  "description": "Contains both high and medium urgency keywords",
+  "transcript": "Hi, I'm Lisa Martinez. I was evicted from my apartment two weeks ago and I'm currently staying in a temporary shelter. The situation is urgent because I have two young children and we can't stay at the shelter much longer. I need help with finding new housing and getting the money together for a deposit. I'm looking for about two thousand dollars. I'm in Phoenix, Arizona. Please help us.",
+  "expectedExtraction": {
+    "nameCandidate": "Lisa Martinez", 
+    "contactCandidates": {
+      "emails": [],
+      "phones": []
+    },
+    "locationCandidates": ["Phoenix", "Arizona"],
+    "needsCategories": ["HOUSING", "SAFETY"],
+    "urgencyScore": 0.9,
+    "keyPointsCount": 4
+  },
+  "segments": [
+    {
+      "text": "Hi, I'm Lisa Martinez.",
+      "start": 0,
+      "end": 2000
+    },
+    {
+      "text": "I was evicted from my apartment two weeks ago and I'm currently staying in a temporary shelter.",
+      "start": 2000,
+      "end": 8000
+    }
+  ]
+}

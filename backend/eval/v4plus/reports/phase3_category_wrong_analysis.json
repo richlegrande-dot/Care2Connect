@@ -1,0 +1,1066 @@
+{
+  "timestamp": "2026-02-07T22:13:47.639Z",
+  "total": 97,
+  "byPriority": {
+    "HIGH": 32,
+    "MEDIUM": 22,
+    "LOW": 43
+  },
+  "topCandidates": [
+    {
+      "id": "HARD_002",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Torres speaking. My medical bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatments. I earn $2,100 monthly and my daughter is 7.",
+      "transcriptShort": "This is Maria Torres speaking. My medical bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatme"
+    },
+    {
+      "id": "HARD_004",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "TRANSPORTATION",
+      "actual": "EMERGENCY",
+      "transcript": "My name is Jennifer Wu. I'm 32 years old, make $45,000 a year, have 2 kids aged 5 and 8, and need $1,200 for emergency car repairs so I can get to work.",
+      "transcriptShort": "My name is Jennifer Wu. I'm 32 years old, make $45,000 a year, have 2 kids aged 5 and 8, and need $1,200 for emergency c"
+    },
+    {
+      "id": "HARD_007",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMPLOYMENT",
+      "transcript": "I'm calling...my name is Michael Brown. I make $15 an hour, work 40 hours a week, that's $600 weekly or $2,400 monthly. But I need $800 for my daughter's medication this month.",
+      "transcriptShort": "I'm calling...my name is Michael Brown. I make $15 an hour, work 40 hours a week, that's $600 weekly or $2,400 monthly. "
+    },
+    {
+      "id": "HARD_009",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "My name is Carlos Rivera. I'm 28, have $12,000 in student loans, $3,500 in credit card debt, and need $600 to pay my electric bill before they shut off my power tomorrow.",
+      "transcriptShort": "My name is Carlos Rivera. I'm 28, have $12,000 in student loans, $3,500 in credit card debt, and need $600 to pay my ele"
+    },
+    {
+      "id": "HARD_010",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "FOOD",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Amanda Lee speaking. My rent is $950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance this month after losing hours at work.",
+      "transcriptShort": "This is Amanda Lee speaking. My rent is $950, car payment $275, insurance $120, phone $85, and I need $450 for food assi"
+    },
+    {
+      "id": "HARD_011",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, I'm James Wilson. Surgery costs $18,000 total, my deductible is $5,000, and I've saved $2,000. I need $3,000 more to meet the deductible by next week.",
+      "transcriptShort": "Hi, I'm James Wilson. Surgery costs $18,000 total, my deductible is $5,000, and I've saved $2,000. I need $3,000 more to"
+    },
+    {
+      "id": "HARD_017",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "My name is Andrew Davis. Gas bill is $420, electric is $385, water is $95. Total utilities are $900 but I only need $420 for gas to avoid disconnection.",
+      "transcriptShort": "My name is Andrew Davis. Gas bill is $420, electric is $385, water is $95. Total utilities are $900 but I only need $420"
+    },
+    {
+      "id": "HARD_021",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMERGENCY",
+      "transcript": "This is urgent but not an emergency. I'm Brian Mitchell and I need $1,500 for rent by next week.",
+      "transcriptShort": "This is urgent but not an emergency. I'm Brian Mitchell and I need $1,500 for rent by next week."
+    },
+    {
+      "id": "HARD_022",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, my name is Nicole Adams. This isn't urgent at all...but I got an eviction notice yesterday and have to pay $2,000 by tomorrow.",
+      "transcriptShort": "Hi, my name is Nicole Adams. This isn't urgent at all...but I got an eviction notice yesterday and have to pay $2,000 by"
+    },
+    {
+      "id": "HARD_024",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "EMERGENCY",
+      "transcript": "This is Laura Bennett speaking. It's not a crisis or anything, just my power gets shut off in 2 days if I don't pay $450.",
+      "transcriptShort": "This is Laura Bennett speaking. It's not a crisis or anything, just my power gets shut off in 2 days if I don't pay $450"
+    },
+    {
+      "id": "HARD_025",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "TRANSPORTATION",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, I'm Marcus Taylor. This is really urgent...well, maybe not urgent, just important. I need $1,200 for car insurance.",
+      "transcriptShort": "Hi, I'm Marcus Taylor. This is really urgent...well, maybe not urgent, just important. I need $1,200 for car insurance."
+    },
+    {
+      "id": "HARD_027",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMERGENCY",
+      "transcript": "This is Ryan Cooper. Not urgent, I can probably manage, but the foreclosure notice says I have 10 days to pay $5,000.",
+      "transcriptShort": "This is Ryan Cooper. Not urgent, I can probably manage, but the foreclosure notice says I have 10 days to pay $5,000."
+    },
+    {
+      "id": "HARD_028",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, I'm Samantha White. This is kind of urgent but I don't want to overstate it. My surgery is scheduled for next week and I need $3,500.",
+      "transcriptShort": "Hi, I'm Samantha White. This is kind of urgent but I don't want to overstate it. My surgery is scheduled for next week a"
+    },
+    {
+      "id": "HARD_029",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "My name is Anthony Scott. It's an emergency...well, maybe more of an urgent situation. I need $950 for medication by Friday.",
+      "transcriptShort": "My name is Anthony Scott. It's an emergency...well, maybe more of an urgent situation. I need $950 for medication by Fri"
+    },
+    {
+      "id": "HARD_031",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "SAFETY",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hi, my name is Jonathan Martinez and I'm calling because someone is threatening my family. I also lost my job last month and need $2,500 for rent and to move to a safer place.",
+      "transcriptShort": "Hi, my name is Jonathan Martinez and I'm calling because someone is threatening my family. I also lost my job last month"
+    },
+    {
+      "id": "HARD_034",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hi, this is Olivia Brooks. I need help with housing, lost my job, and my daughter needs surgery. I'm asking for $4,000 total.",
+      "transcriptShort": "Hi, this is Olivia Brooks. I need help with housing, lost my job, and my daughter needs surgery. I'm asking for $4,000 t"
+    },
+    {
+      "id": "HARD_035",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMPLOYMENT",
+      "transcript": "My name is Benjamin Clark. I'm facing eviction, can't find work, and my car broke down. Need $1,800 to fix everything.",
+      "transcriptShort": "My name is Benjamin Clark. I'm facing eviction, can't find work, and my car broke down. Need $1,800 to fix everything."
+    },
+    {
+      "id": "HARD_037",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "EMPLOYMENT",
+      "actual": "EDUCATION",
+      "transcript": "Hi, I'm Gregory Hall. I'm unemployed, behind on utilities, and my child needs school supplies. I need $950 total.",
+      "transcriptShort": "Hi, I'm Gregory Hall. I'm unemployed, behind on utilities, and my child needs school supplies. I need $950 total."
+    },
+    {
+      "id": "HARD_039",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Nathan Walker. I'm dealing with a mental health crisis, lost my job, and about to be evicted. I need $1,600 for rent.",
+      "transcriptShort": "This is Nathan Walker. I'm dealing with a mental health crisis, lost my job, and about to be evicted. I need $1,600 for "
+    },
+    {
+      "id": "HARD_040",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "FOOD",
+      "actual": "HOUSING",
+      "transcript": "Hi, my name is Kimberly Anderson. I need help with food, utilities, and my kids' education. Looking for $1,100 to cover all three.",
+      "transcriptShort": "Hi, my name is Kimberly Anderson. I need help with food, utilities, and my kids' education. Looking for $1,100 to cover "
+    }
+  ],
+  "allCases": [
+    {
+      "id": "HARD_002",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Torres speaking. My medical bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatments. I earn $2,100 monthly and my daughter is 7.",
+      "transcriptShort": "This is Maria Torres speaking. My medical bills total $47,000 but I'm asking for $5,000 to cover the most urgent treatme"
+    },
+    {
+      "id": "HARD_004",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "TRANSPORTATION",
+      "actual": "EMERGENCY",
+      "transcript": "My name is Jennifer Wu. I'm 32 years old, make $45,000 a year, have 2 kids aged 5 and 8, and need $1,200 for emergency car repairs so I can get to work.",
+      "transcriptShort": "My name is Jennifer Wu. I'm 32 years old, make $45,000 a year, have 2 kids aged 5 and 8, and need $1,200 for emergency c"
+    },
+    {
+      "id": "HARD_007",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMPLOYMENT",
+      "transcript": "I'm calling...my name is Michael Brown. I make $15 an hour, work 40 hours a week, that's $600 weekly or $2,400 monthly. But I need $800 for my daughter's medication this month.",
+      "transcriptShort": "I'm calling...my name is Michael Brown. I make $15 an hour, work 40 hours a week, that's $600 weekly or $2,400 monthly. "
+    },
+    {
+      "id": "HARD_009",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "My name is Carlos Rivera. I'm 28, have $12,000 in student loans, $3,500 in credit card debt, and need $600 to pay my electric bill before they shut off my power tomorrow.",
+      "transcriptShort": "My name is Carlos Rivera. I'm 28, have $12,000 in student loans, $3,500 in credit card debt, and need $600 to pay my ele"
+    },
+    {
+      "id": "HARD_010",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "FOOD",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Amanda Lee speaking. My rent is $950, car payment $275, insurance $120, phone $85, and I need $450 for food assistance this month after losing hours at work.",
+      "transcriptShort": "This is Amanda Lee speaking. My rent is $950, car payment $275, insurance $120, phone $85, and I need $450 for food assi"
+    },
+    {
+      "id": "HARD_011",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, I'm James Wilson. Surgery costs $18,000 total, my deductible is $5,000, and I've saved $2,000. I need $3,000 more to meet the deductible by next week.",
+      "transcriptShort": "Hi, I'm James Wilson. Surgery costs $18,000 total, my deductible is $5,000, and I've saved $2,000. I need $3,000 more to"
+    },
+    {
+      "id": "HARD_017",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "My name is Andrew Davis. Gas bill is $420, electric is $385, water is $95. Total utilities are $900 but I only need $420 for gas to avoid disconnection.",
+      "transcriptShort": "My name is Andrew Davis. Gas bill is $420, electric is $385, water is $95. Total utilities are $900 but I only need $420"
+    },
+    {
+      "id": "HARD_021",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMERGENCY",
+      "transcript": "This is urgent but not an emergency. I'm Brian Mitchell and I need $1,500 for rent by next week.",
+      "transcriptShort": "This is urgent but not an emergency. I'm Brian Mitchell and I need $1,500 for rent by next week."
+    },
+    {
+      "id": "HARD_022",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, my name is Nicole Adams. This isn't urgent at all...but I got an eviction notice yesterday and have to pay $2,000 by tomorrow.",
+      "transcriptShort": "Hi, my name is Nicole Adams. This isn't urgent at all...but I got an eviction notice yesterday and have to pay $2,000 by"
+    },
+    {
+      "id": "HARD_024",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "EMERGENCY",
+      "transcript": "This is Laura Bennett speaking. It's not a crisis or anything, just my power gets shut off in 2 days if I don't pay $450.",
+      "transcriptShort": "This is Laura Bennett speaking. It's not a crisis or anything, just my power gets shut off in 2 days if I don't pay $450"
+    },
+    {
+      "id": "HARD_025",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "TRANSPORTATION",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, I'm Marcus Taylor. This is really urgent...well, maybe not urgent, just important. I need $1,200 for car insurance.",
+      "transcriptShort": "Hi, I'm Marcus Taylor. This is really urgent...well, maybe not urgent, just important. I need $1,200 for car insurance."
+    },
+    {
+      "id": "HARD_027",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMERGENCY",
+      "transcript": "This is Ryan Cooper. Not urgent, I can probably manage, but the foreclosure notice says I have 10 days to pay $5,000.",
+      "transcriptShort": "This is Ryan Cooper. Not urgent, I can probably manage, but the foreclosure notice says I have 10 days to pay $5,000."
+    },
+    {
+      "id": "HARD_028",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, I'm Samantha White. This is kind of urgent but I don't want to overstate it. My surgery is scheduled for next week and I need $3,500.",
+      "transcriptShort": "Hi, I'm Samantha White. This is kind of urgent but I don't want to overstate it. My surgery is scheduled for next week a"
+    },
+    {
+      "id": "HARD_029",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "My name is Anthony Scott. It's an emergency...well, maybe more of an urgent situation. I need $950 for medication by Friday.",
+      "transcriptShort": "My name is Anthony Scott. It's an emergency...well, maybe more of an urgent situation. I need $950 for medication by Fri"
+    },
+    {
+      "id": "HARD_031",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "SAFETY",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hi, my name is Jonathan Martinez and I'm calling because someone is threatening my family. I also lost my job last month and need $2,500 for rent and to move to a safer place.",
+      "transcriptShort": "Hi, my name is Jonathan Martinez and I'm calling because someone is threatening my family. I also lost my job last month"
+    },
+    {
+      "id": "HARD_034",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hi, this is Olivia Brooks. I need help with housing, lost my job, and my daughter needs surgery. I'm asking for $4,000 total.",
+      "transcriptShort": "Hi, this is Olivia Brooks. I need help with housing, lost my job, and my daughter needs surgery. I'm asking for $4,000 t"
+    },
+    {
+      "id": "HARD_035",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HOUSING",
+      "actual": "EMPLOYMENT",
+      "transcript": "My name is Benjamin Clark. I'm facing eviction, can't find work, and my car broke down. Need $1,800 to fix everything.",
+      "transcriptShort": "My name is Benjamin Clark. I'm facing eviction, can't find work, and my car broke down. Need $1,800 to fix everything."
+    },
+    {
+      "id": "HARD_037",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "EMPLOYMENT",
+      "actual": "EDUCATION",
+      "transcript": "Hi, I'm Gregory Hall. I'm unemployed, behind on utilities, and my child needs school supplies. I need $950 total.",
+      "transcriptShort": "Hi, I'm Gregory Hall. I'm unemployed, behind on utilities, and my child needs school supplies. I need $950 total."
+    },
+    {
+      "id": "HARD_039",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Nathan Walker. I'm dealing with a mental health crisis, lost my job, and about to be evicted. I need $1,600 for rent.",
+      "transcriptShort": "This is Nathan Walker. I'm dealing with a mental health crisis, lost my job, and about to be evicted. I need $1,600 for "
+    },
+    {
+      "id": "HARD_040",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "FOOD",
+      "actual": "HOUSING",
+      "transcript": "Hi, my name is Kimberly Anderson. I need help with food, utilities, and my kids' education. Looking for $1,100 to cover all three.",
+      "transcriptShort": "Hi, my name is Kimberly Anderson. I need help with food, utilities, and my kids' education. Looking for $1,100 to cover "
+    },
+    {
+      "id": "HARD_041",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "HOUSING",
+      "transcript": "This is Gary Martinez. I'm in legal trouble, can't afford my medication, and my landlord is threatening eviction. Need $3,000.",
+      "transcriptShort": "This is Gary Martinez. I'm in legal trouble, can't afford my medication, and my landlord is threatening eviction. Need $"
+    },
+    {
+      "id": "HARD_043",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hi, this is Russell King. I need transportation to get to work, medical appointments, and court dates. Need $1,400 for car repairs.",
+      "transcriptShort": "Hi, this is Russell King. I need transportation to get to work, medical appointments, and court dates. Need $1,400 for c"
+    },
+    {
+      "id": "HARD_044",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "EMPLOYMENT",
+      "transcript": "My name is Carolyn Wright. I have education expenses, lost my job, and utilities are being shut off. Need $980.",
+      "transcriptShort": "My name is Carolyn Wright. I have education expenses, lost my job, and utilities are being shut off. Need $980."
+    },
+    {
+      "id": "HARD_045",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Timothy Lopez. Facing foreclosure, medical emergency, and family crisis. I need $6,500 to save my home and get treatment.",
+      "transcriptShort": "This is Timothy Lopez. Facing foreclosure, medical emergency, and family crisis. I need $6,500 to save my home and get t"
+    },
+    {
+      "id": "HARD_049",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "My name is Michael O'Brien and I need assistance with $850 for utilities.",
+      "transcriptShort": "My name is Michael O'Brien and I need assistance with $850 for utilities."
+    },
+    {
+      "id": "HARD_058",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Hi there—my name's—well—I go by—um—Elizabeth Rose Thompson but—uh—I need—like—$1,650 for—you know—utilities and stuff.",
+      "transcriptShort": "Hi there—my name's—well—I go by—um—Elizabeth Rose Thompson but—uh—I need—like—$1,650 for—you know—utilities and stuff."
+    },
+    {
+      "id": "HARD_059",
+      "dataset": "hard60",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "So...yeah...my name...it's...um...Andrew Patrick Williams and...uh...I'm calling because...well...I need $2,300 for...like...medical stuff...emergency...maybe.",
+      "transcriptShort": "So...yeah...my name...it's...um...Andrew Patrick Williams and...uh...I'm calling because...well...I need $2,300 for...li"
+    },
+    {
+      "id": "T002",
+      "dataset": "core30",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hello, this is Michael Chen. My daughter was in a car accident and we need help paying for her surgery. The hospital says we need about eight thousand dollars for the operation.",
+      "transcriptShort": "Hello, this is Michael Chen. My daughter was in a car accident and we need help paying for her surgery. The hospital say"
+    },
+    {
+      "id": "T011",
+      "dataset": "core30",
+      "priority": "HIGH",
+      "expected": "OTHER",
+      "actual": "HEALTHCARE",
+      "transcript": "Hello, I'm Amanda Taylor. I need help with something personal that's hard to explain. It's not medical or housing related, just a personal situation. I need about one thousand dollars to resolve this.",
+      "transcriptShort": "Hello, I'm Amanda Taylor. I need help with something personal that's hard to explain. It's not medical or housing relate"
+    },
+    {
+      "id": "T013",
+      "dataset": "core30",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, this is Steven Clark. The accident happened on January 15th, 2026. I'm twenty-nine years old and need help with medical bills. The total cost is about six thousand dollars.",
+      "transcriptShort": "Hi, this is Steven Clark. The accident happened on January 15th, 2026. I'm twenty-nine years old and need help with medi"
+    },
+    {
+      "id": "T017",
+      "dataset": "core30",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hello, my name is Marcus Johnson. I used to make six hundred dollars a week before I got injured at work. Now I can't work and I need help with my medical bills. The doctor says I need about four thousand five hundred dollars for the surgery.",
+      "transcriptShort": "Hello, my name is Marcus Johnson. I used to make six hundred dollars a week before I got injured at work. Now I can't wo"
+    },
+    {
+      "id": "T030",
+      "dataset": "core30",
+      "priority": "HIGH",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, this is Dr. Angela Foster but I'm not calling as a doctor. I'm calling as a mom. My twenty-two year old son was in an accident on Highway 95 last Tuesday, that was January 14th, and he needs surgery. The hospital bill is going to be around fifteen thousand dollars but insurance will only cover twelve thousand. We need help with the remaining three thousand.",
+      "transcriptShort": "Hi, this is Dr. Angela Foster but I'm not calling as a doctor. I'm calling as a mom. My twenty-two year old son was in a"
+    },
+    {
+      "id": "0000REALISTIC_2",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "My husband is in the hospital with a serious condition. They need surgery urgently and we need fifteen thousand dollars to cover what insurance doesn't pay. My name is Lisa Williams.",
+      "transcriptShort": "My husband is in the hospital with a serious condition. They need surgery urgently and we need fifteen thousand dollars "
+    },
+    {
+      "id": "0000REALISTIC_4",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "My wife was in a car accident two days ago and needs an operation as soon as possible. The hospital says we need fifteen thousand dollars that insurance won't cover. This is an emergency. My name is Raj Miller-Brown.",
+      "transcriptShort": "My wife was in a car accident two days ago and needs an operation as soon as possible. The hospital says we need fifteen"
+    },
+    {
+      "id": "0000REALISTIC_6",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Lisa Davis calling. {Emergency}! My child had an car accident and the doctor says he needs emergency surgery right away. We nabout fifteen thousand dollars for the medical bills.",
+      "transcriptShort": "This is Lisa Davis calling. {Emergency}! My child had an car accident and the doctor says he needs emergency surgery rig"
+    },
+    {
+      "id": "0000REALISTIC_8",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Carlos Williams calling. My mother was in a accident yesterday and needs surgery immediately. The hospital says we need $15,000 that insurance won't cover. This is life-threatening.",
+      "transcriptShort": "This is Carlos Williams calling. My mother was in a accident yesterday and needs surgery immediately. The hospital says "
+    },
+    {
+      "id": "000REALISTIC_20",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "EMPLOYMENT",
+      "actual": "EMERGENCY",
+      "transcript": "I got let go and my emergency fund are gone. I need help with $2,000 to cover bills while I'm job hunting. My name is Yuki O'Connor.",
+      "transcriptShort": "I got let go and my emergency fund are gone. I need help with $2,000 to cover bills while I'm job hunting. My name is Yu"
+    },
+    {
+      "id": "000REALISTIC_24",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "EMPLOYMENT",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, my name is Hiroshi O'Connor and I got laid off and my emergency fund are gone. I need help with $3,500 to cover rent while I'm looking for work.",
+      "transcriptShort": "Hi, my name is Hiroshi O'Connor and I got laid off and my emergency fund are gone. I need help with $3,500 to cover rent"
+    },
+    {
+      "id": "000REALISTIC_26",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "EMPLOYMENT",
+      "actual": "EMERGENCY",
+      "transcript": "Hi, my name is Kenji Miller and I was terminated and can't afford rent. My family needs $2,000 to get through this crisis while I find another job.",
+      "transcriptShort": "Hi, my name is Kenji Miller and I was terminated and can't afford rent. My family needs $2,000 to get through this crisi"
+    },
+    {
+      "id": "000REALISTIC_28",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Amara Brown calling. My car needs major fixing - about $800. I rely on it to get to work and I'm concerned about losing my job.",
+      "transcriptShort": "This is Amara Brown calling. My car needs major fixing - about $800. I rely on it to get to work and I'm concerned about"
+    },
+    {
+      "id": "000REALISTIC_29",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "FAMILY",
+      "transcript": "Hello, this is Sarah Davis. We're having trouble paying for my son's prescriptions. It's $4,000 year and we just can't keep up.",
+      "transcriptShort": "Hello, this is Sarah Davis. We're having trouble paying for my son's prescriptions. It's $4,000 year and we just can't k"
+    },
+    {
+      "id": "000REALISTIC_30",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hello, this is William D'Angelo. My vehicle broke down and I need it to get to work. The fix will cost $1,200 and I don't have it.",
+      "transcriptShort": "Hello, this is William D'Angelo. My vehicle broke down and I need it to get to work. The fix will cost $1,200 and I don'"
+    },
+    {
+      "id": "000REALISTIC_31",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "FAMILY",
+      "transcript": "Hello, this is Jose McD'onald. We're having trouble paying for my father's medicine. It's four thousand dollars month and we just can't keep up.",
+      "transcriptShort": "Hello, this is Jose McD'onald. We're having trouble paying for my father's medicine. It's four thousand dollars month an"
+    },
+    {
+      "id": "000REALISTIC_32",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Ana Johnson calling. My car broke down and I need it to get to work. The repair will cost $800 and I don't have it.",
+      "transcriptShort": "This is Ana Johnson calling. My car broke down and I need it to get to work. The repair will cost $800 and I don't have "
+    },
+    {
+      "id": "000REALISTIC_34",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "Um, hi, I'm Hiroshi Garcia-Lopez. My car needs major repairs - about twelve hundred dollars. I rely on it to get to do my job and I'm concerned about losing my job.",
+      "transcriptShort": "Um, hi, I'm Hiroshi Garcia-Lopez. My car needs major repairs - about twelve hundred dollars. I rely on it to get to do m"
+    },
+    {
+      "id": "000REALISTIC_36",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Kenji Williams calling. I need help fixing my truck. It needs work costing about $1,500 and I can't work without it.",
+      "transcriptShort": "This is Kenji Williams calling. I need help fixing my truck. It needs work costing about $1,500 and I can't work without"
+    },
+    {
+      "id": "000REALISTIC_38",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Michael Williams calling. My truck needs major fixing - about $1,200. I rely on it to get to do my job and I'm concerned about losing my job.",
+      "transcriptShort": "This is Michael Williams calling. My truck needs major fixing - about $1,200. I rely on it to get to do my job and I'm c"
+    },
+    {
+      "id": "000REALISTIC_40",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "This is Jose Smith-Johnson calling. My vehicle broke down and I need it to get to work. The repair will cost $1,200 and I don't have it.",
+      "transcriptShort": "This is Jose Smith-Johnson calling. My vehicle broke down and I need it to get to work. The repair will cost $1,200 and "
+    },
+    {
+      "id": "000REALISTIC_41",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "HEALTHCARE",
+      "actual": "FAMILY",
+      "transcript": "We're having trouble paying for my daughter's medicine. It's $4,000 month and we just can't keep up. My name is Robert Brown.",
+      "transcriptShort": "We're having trouble paying for my daughter's medicine. It's $4,000 month and we just can't keep up. My name is Robert B"
+    },
+    {
+      "id": "000REALISTIC_42",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "uh, Um, hi, I'm Maria Williams. My vehicle broke down and I e, I mean, it to get to work. The fix will cost $1,500 and I don't have it.",
+      "transcriptShort": "uh, Um, hi, I'm Maria Williams. My vehicle broke down and I e, I mean, it to get to work. The fix will cost $1,500 and I"
+    },
+    {
+      "id": "000REALISTIC_44",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "My vehicle needs major work - about $1,500. I rely on it to get to get to work and I'm concerned about losing my job. My name is Jennifer D'Angelo.",
+      "transcriptShort": "My vehicle needs major work - about $1,500. I rely on it to get to get to work and I'm concerned about losing my job. My"
+    },
+    {
+      "id": "000REALISTIC_46",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "TRANSPORTATION",
+      "actual": "EMPLOYMENT",
+      "transcript": "Hello, this is Fatima O'Brien. My truck needs major repairs - about $1,500. I rely on it to get to work and I'm concerned about losing my job.",
+      "transcriptShort": "Hello, this is Fatima O'Brien. My truck needs major repairs - about $1,500. I rely on it to get to work and I'm concerne"
+    },
+    {
+      "id": "000REALISTIC_48",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "FAMILY",
+      "actual": "EMERGENCY",
+      "transcript": "This is Miguel Jones calling. This is personal but I'm trying to raise funds for a family reunion. Not urgent, but hoping to get about $3,000 when possible.",
+      "transcriptShort": "This is Miguel Jones calling. This is personal but I'm trying to raise funds for a family reunion. Not urgent, but hopin"
+    },
+    {
+      "id": "000REALISTIC_50",
+      "dataset": "realistic50",
+      "priority": "MEDIUM",
+      "expected": "FAMILY",
+      "actual": "EMERGENCY",
+      "transcript": "This is hard to explain but I'm trying to raise funds for a daughter's wedding. Not urgent, but hoping to get about three thousand dollars when possible. My name is Priya O'Brien.",
+      "transcriptShort": "This is hard to explain but I'm trying to raise funds for a daughter's wedding. Not urgent, but hoping to get about thre"
+    },
+    {
+      "id": "FUZZ_002",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMPLOYMENT",
+      "transcript": "I earn $2800 monthly. This is Maria Garcia. I need 3500 for surgery tomorrow. Previously had work problems.",
+      "transcriptShort": "I earn $2800 monthly. This is Maria Garcia. I need 3500 for surgery tomorrow. Previously had work problems."
+    },
+    {
+      "id": "FUZZ_004",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling!!. Electric bill!! is well 450. shutoff notice came!!",
+      "transcriptShort": "Sarah Williams calling!!. Electric bill!! is well 450. shutoff notice came!!"
+    },
+    {
+      "id": "FUZZ_011",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "FAMILY",
+      "actual": "HOUSING",
+      "transcript": "I am Daniel Taylor. My children need 1100 you know for childcare. Had issues with utilities too.",
+      "transcriptShort": "I am Daniel Taylor. My children need 1100 you know for childcare. Had issues with utilities too."
+    },
+    {
+      "id": "FUZZ_014",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "I'm 32 years old. This is Maria Garcia. I need 3500 for surgery tomorrow;.",
+      "transcriptShort": "I'm 32 years old. This is Maria Garcia. I need 3500 for surgery tomorrow;."
+    },
+    {
+      "id": "FUZZ_016",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Electric bill is 450. I make $22 an hour. shutoff notice came,,. I make $18 an hour. I earn $2100 monthly,,. like, Sarah Williams calling.",
+      "transcriptShort": "Electric bill is 450. I make $22 an hour. shutoff notice came,,. I make $18 an hour. I earn $2100 monthly,,. like, Sarah"
+    },
+    {
+      "id": "FUZZ_026",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is!! Maria Garcia. I earn $2100 monthly. 2 weeks ago. my 12 year old??. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "This is!! Maria Garcia. I earn $2100 monthly. 2 weeks ago. my 12 year old??. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_028",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "I'm 28 years old,,. I'm 28 years old!!. Also dealing with housing. Sarah Williams calling. my 10 year old. Electric bill is 450. shutoff notice came.",
+      "transcriptShort": "I'm 28 years old,,. I'm 28 years old!!. Also dealing with housing. Sarah Williams calling. my 10 year old. Electric bill"
+    },
+    {
+      "id": "FUZZ_035",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "FAMILY",
+      "actual": "HEALTHCARE",
+      "transcript": "I'm 41 years old. Had issues with medical too. I am Daniel Taylor, uh. My children need 1100 for childcare.",
+      "transcriptShort": "I'm 41 years old. Had issues with medical too. I am Daniel Taylor, uh. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_038",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia. Had issues with rent too. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "This is Maria Garcia. Had issues with rent too. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_040",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. Previously had surgery problems. basically, Electric bill is 450. shutoff notice came, so.",
+      "transcriptShort": "Sarah Williams calling. Previously had surgery problems. basically, Electric bill is 450. shutoff notice came, so."
+    },
+    {
+      "id": "FUZZ_050",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "I earn $2800 monthly. Also dealing with eviction. This like is Maria Garcia. I need 3500 for surgery tomorrow, I mean. I earn $2100 monthly.",
+      "transcriptShort": "I earn $2800 monthly. Also dealing with eviction. This like is Maria Garcia. I need 3500 for surgery tomorrow, I mean. I"
+    },
+    {
+      "id": "FUZZ_052",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. so, Electric bill is 450. shutoff notice came.",
+      "transcriptShort": "Sarah Williams calling. so, Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_053",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "FOOD",
+      "actual": "EDUCATION",
+      "transcript": "Also dealing with tuition. My name is Robert Brown, basically. I need help with 350 for groceries.",
+      "transcriptShort": "Also dealing with tuition. My name is Robert Brown, basically. I need help with 350 for groceries."
+    },
+    {
+      "id": "FUZZ_062",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "This is Maria Garcia. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_064",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "I earn $2100 monthly. Sarah Williams calling. Electric bill is 450. I mean, shutoff notice came.",
+      "transcriptShort": "I earn $2100 monthly. Sarah Williams calling. Electric bill is 450. I mean, shutoff notice came."
+    },
+    {
+      "id": "FUZZ_069",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "HOUSING",
+      "transcript": "Had issues with rent too. My name is Christopher Wilson. Need 1800 for medication basically urgently.",
+      "transcriptShort": "Had issues with rent too. My name is Christopher Wilson. Need 1800 for medication basically urgently."
+    },
+    {
+      "id": "FUZZ_074",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "I earn $2100 monthly. This is actually Maria Garcia. my 7 year old. I'm 28 years old. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "I earn $2100 monthly. This is actually Maria Garcia. my 7 year old. I'm 28 years old. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_076",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "4 weeks ago??. Had issues with childcare too;. Sarah Williams calling, I mean. Electric bill is 450. shutoff notice came, you– know.",
+      "transcriptShort": "4 weeks ago??. Had issues with childcare too;. Sarah Williams calling, I mean. Electric bill is 450. shutoff notice came"
+    },
+    {
+      "id": "FUZZ_086",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is!! Maria Garcia. I need 3500 for surgery tomorrow. ${process.env.SECRET}.",
+      "transcriptShort": "This is!! Maria Garcia. I need 3500 for surgery tomorrow. ${process.env.SECRET}."
+    },
+    {
+      "id": "FUZZ_088",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. Electric bill is 450. shutoff notice came.",
+      "transcriptShort": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_089",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "FOOD",
+      "actual": "HEALTHCARE",
+      "transcript": "My name is Robert Brown. I need help with 350 for groceries. Previously had medication problems. I'm 32 years old.",
+      "transcriptShort": "My name is Robert Brown. I need help with 350 for groceries. Previously had medication problems. I'm 32 years old."
+    },
+    {
+      "id": "FUZZ_098",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia, I mean. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "This is Maria Garcia, I mean. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_100",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "6 weeks ago. Sarah Williams calling. Electric bill is 450, uh. shutoff notice came.",
+      "transcriptShort": "6 weeks ago. Sarah Williams calling. Electric bill is 450, uh. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_105",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMPLOYMENT",
+      "transcript": "I'm 35 years old. Also dealing with work. My name is Christopher Wilson. Need 1800 for medication urgently??",
+      "transcriptShort": "I'm 35 years old. Also dealing with work. My name is Christopher Wilson. Need 1800 for medication urgently??"
+    },
+    {
+      "id": "FUZZ_110",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia. I need 3500 for surgery?? tomorrow. I earn $2100 monthly. I'm 32 years old,,. Had issues with rent too–.",
+      "transcriptShort": "This is Maria Garcia. I need 3500 for surgery?? tomorrow. I earn $2100 monthly. I'm 32 years old,,. Had issues with rent"
+    },
+    {
+      "id": "FUZZ_112",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Shutoff notice came. Electric bill is 450. I mean, Sarah Williams calling.",
+      "transcriptShort": "Shutoff notice came. Electric bill is 450. I mean, Sarah Williams calling."
+    },
+    {
+      "id": "FUZZ_122",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "I need 3500 for surgery tomorrow. This is Maria Garcia. I'm 32 years old. I make $22 an hour.",
+      "transcriptShort": "I need 3500 for surgery tomorrow. This is Maria Garcia. I'm 32 years old. I make $22 an hour."
+    },
+    {
+      "id": "FUZZ_124",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. well, Electric bill is 450. shutoff notice came.",
+      "transcriptShort": "Sarah Williams calling. well, Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_133",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HOUSING",
+      "actual": "EMPLOYMENT",
+      "transcript": "Had issues with job too. My name is John Smith. I need 1200 for rent, actually.",
+      "transcriptShort": "Had issues with job too. My name is John Smith. I need 1200 for rent, actually."
+    },
+    {
+      "id": "FUZZ_134",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia.... I need 3500 for surgery tomorrow,,.",
+      "transcriptShort": "This is Maria Garcia.... I need 3500 for surgery tomorrow,,."
+    },
+    {
+      "id": "FUZZ_136",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "I make $18 an hour. shutoff notice came. Electric bill is 450, so. actually, Sarah Williams calling. I'm 41 years old.",
+      "transcriptShort": "I make $18 an hour. shutoff notice came. Electric bill is 450, so. actually, Sarah Williams calling. I'm 41 years old."
+    },
+    {
+      "id": "FUZZ_146",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "This is Maria Garcia. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_148",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. Electric bill is 450, well. shutoff notice uh came.",
+      "transcriptShort": "Sarah Williams calling. Electric bill is 450, well. shutoff notice uh came."
+    },
+    {
+      "id": "FUZZ_157",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HOUSING",
+      "actual": "EMPLOYMENT",
+      "transcript": "Also dealing with job. so, My name is John Smith. I need 1200 for rent.",
+      "transcriptShort": "Also dealing with job. so, My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_158",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "6 weeks ago. 3 weeks ago. I'm 28 years old. This is Maria Garcia. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "6 weeks ago. 3 weeks ago. I'm 28 years old. This is Maria Garcia. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_160",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. Electric bill is 450. shutoff notice came, um.",
+      "transcriptShort": "Sarah Williams calling. Electric bill is 450. shutoff notice came, um."
+    },
+    {
+      "id": "FUZZ_170",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia. Also dealing with work??. I need 3500 for surgery tomorrow, well.",
+      "transcriptShort": "This is Maria Garcia. Also dealing with work??. I need 3500 for surgery tomorrow, well."
+    },
+    {
+      "id": "FUZZ_172",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Previously had childcare problems. my 10 year old. 2 weeks ago. um, Sarah Williams calling. I earn $3200 monthly. Electric bill so is 450!!. um, shutoff notice came.",
+      "transcriptShort": "Previously had childcare problems. my 10 year old. 2 weeks ago. um, Sarah Williams calling. I earn $3200 monthly. Electr"
+    },
+    {
+      "id": "FUZZ_182",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "I make $18 an hour. This is Maria Garcia, um. I need 3500 for surgery tomorrow, um. my 10 year old.",
+      "transcriptShort": "I make $18 an hour. This is Maria Garcia, um. I need 3500 for surgery tomorrow, um. my 10 year old."
+    },
+    {
+      "id": "FUZZ_184",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "Sarah Williams calling. Electric bill is 450. shutoff notice came.",
+      "transcriptShort": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_191",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "FAMILY",
+      "actual": "HOUSING",
+      "transcript": "I am Daniel Taylor. Also dealing with utilities. I earn $3200 monthly. I earn $3200 monthly. My children need 1100 for childcare.",
+      "transcriptShort": "I am Daniel Taylor. Also dealing with utilities. I earn $3200 monthly. I earn $3200 monthly. My children need 1100 for c"
+    },
+    {
+      "id": "FUZZ_194",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "HEALTHCARE",
+      "actual": "EMERGENCY",
+      "transcript": "This is Maria Garcia. I need 3500 for surgery tomorrow.",
+      "transcriptShort": "This is Maria Garcia. I need 3500 for surgery tomorrow."
+    },
+    {
+      "id": "FUZZ_196",
+      "dataset": "fuzz200",
+      "priority": "LOW",
+      "expected": "UTILITIES",
+      "actual": "HOUSING",
+      "transcript": "I'm 41 years old. Also dealing with surgery. Sarah Williams calling. you know, Electric bill is 450. shutoff notice came. I earn $1900 monthly.",
+      "transcriptShort": "I'm 41 years old. Also dealing with surgery. Sarah Williams calling. you know, Electric bill is 450. shutoff notice came"
+    }
+  ]
+}

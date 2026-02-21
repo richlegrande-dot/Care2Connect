@@ -1,0 +1,1995 @@
+{
+  "timestamp": "2026-01-16T19:34:24.024Z",
+  "parserVersion": "v1.0.0:2026-01-16",
+  "datasetId": "transcripts_golden_v4_core30",
+  "datasetVersion": "v4_core30",
+  "evalMode": "real",
+  "scoringMode": "weighted",
+  "summary": {
+    "totalCases": 30,
+    "passedCases": 6,
+    "failedCases": 24,
+    "passRate": 0.2,
+    "fieldAccuracy": {
+      "name": 0.9333333333333333,
+      "category": 0.6333333333333333,
+      "urgencyLevel": 0.36666666666666664,
+      "goalAmount": 0.6333333333333333,
+      "missingFields": 0.8,
+      "beneficiaryRelationship": 0.9666666666666667
+    },
+    "averageConfidence": {
+      "name": 0.8496666666666663,
+      "category": 0.588888888888889,
+      "urgencyLevel": 0.4255555555555555,
+      "goalAmount": 0.8093333333333332
+    },
+    "fallbackUsage": {
+      "name": 0.16666666666666666,
+      "category": 1,
+      "urgencyLevel": 1,
+      "goalAmount": 1
+    },
+    "difficultyBreakdown": {
+      "HARD": {
+        "passed": 2,
+        "total": 9,
+        "rate": 0.2222222222222222
+      },
+      "MEDIUM": {
+        "passed": 1,
+        "total": 11,
+        "rate": 0.09090909090909091
+      },
+      "EASY": {
+        "passed": 1,
+        "total": 5,
+        "rate": 0.2
+      },
+      "ADVERSARIAL": {
+        "passed": 2,
+        "total": 5,
+        "rate": 0.4
+      }
+    },
+    "topFailureBuckets": [],
+    "weightedScore": 0.6712121212121211
+  },
+  "cases": [
+    {
+      "caseId": "v4_001_urgency_temporal_critical",
+      "passed": true,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Sarah Johnson",
+          "actual": "Sarah Johnson",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "HOUSING",
+          "actual": "HOUSING",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "CRITICAL",
+          "actual": "CRITICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 3600,
+          "actual": 3600,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.43333333333333335,
+        "goalAmount": 0.95
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:b9dbf41cecb4ea60ba97e75737fc71d9d13397aabe10861979f8bd8931414d3d",
+      "executionTime": 2
+    },
+    {
+      "caseId": "v4_002_amount_vague_medical",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "David Kim",
+          "actual": "David Kim",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "MEDICAL",
+          "actual": "SAFETY",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "MEDIUM",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 2500,
+          "actual": 3750,
+          "reason": "Outside tolerance: diff=1250",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SPOUSE",
+          "actual": "SPOUSE",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.7,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.9299999999999999
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:ca9914bbfd4bea3743e8477390c1946a749d60a0af778575e3052ca82b229794",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_003_coordination_safety_urgent",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Emily Chen",
+          "actual": "Emily Chen",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "SAFETY",
+          "actual": "SAFETY",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1800,
+          "actual": 1800,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.7666666666666666,
+        "goalAmount": 0.8300000000000001
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:bc8e16e0876814ba6e824f0685d21bc471b69ca910278df29093b38cb49b8990",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_004_fragment_incomplete_speech",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": false,
+          "expected": "Jennifer Williams",
+          "actual": null,
+          "reason": "One or both values are null/empty"
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EMPLOYMENT",
+          "actual": "EMPLOYMENT",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "MEDIUM",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1500,
+          "actual": 1500,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": false,
+          "expected": [],
+          "actual": [
+            "name"
+          ],
+          "reason": "Sets do not match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.5,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.95
+      },
+      "fallbackTier": {
+        "name": "fallback",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:9f31b659e595cc90da2e9f2a9a6b952bfb78e42670bc13846024265a1582e566",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_005_amount_contextual_calculation",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Michael Rodriguez",
+          "actual": "Michael Rodriguez",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EMPLOYMENT",
+          "actual": "EMPLOYMENT",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "MEDIUM",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 1200,
+          "actual": 800,
+          "reason": "Outside tolerance: diff=400",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.95
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:fd425c05f29e7e9cd3e79d0676c934337bf2be5f23bd8c4c3dc703762ee47b6e",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_006_emergency_medical_critical",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Robert Martinez",
+          "actual": "Robert Martinez",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "MEDICAL",
+          "actual": "MEDICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "CRITICAL",
+          "actual": "CRITICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 5000,
+          "actual": null,
+          "reason": "Expected value but got null"
+        },
+        {
+          "field": "missingFields",
+          "passed": false,
+          "expected": [],
+          "actual": [
+            "goalAmount"
+          ],
+          "reason": "Sets do not match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "CHILD",
+          "actual": "CHILD",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 1,
+        "urgencyLevel": 0.6,
+        "goalAmount": 0.5
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "fallback"
+      },
+      "transcriptHash": "sha256:baeaa5c5762a295c28955cf6d8768e7c8ec6364f8bf9e0f32d339cc6644c0569",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_007_housing_utilities_shutoff",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Amanda Thompson",
+          "actual": "Amanda Thompson",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "HOUSING",
+          "actual": "UTILITIES",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "LOW",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 450,
+          "actual": null,
+          "reason": "Expected value but got null"
+        },
+        {
+          "field": "missingFields",
+          "passed": false,
+          "expected": [],
+          "actual": [
+            "goalAmount"
+          ],
+          "reason": "Sets do not match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.7,
+        "category": 1,
+        "urgencyLevel": 0.1,
+        "goalAmount": 0.5
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "default",
+        "goalAmount": "fallback"
+      },
+      "transcriptHash": "sha256:33345a9421131e2b9105f77148bb0ddf241ec94c50db231386158e9a9cd4c134",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_008_legal_court_deadline",
+      "passed": true,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "James Patterson",
+          "actual": "James Patterson",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "LEGAL",
+          "actual": "LEGAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "HIGH",
+          "actual": "HIGH",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 2000,
+          "actual": 2000,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 1,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.8300000000000001
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:d1e862a7882daa83f08b02d4c65c638e75280a407640209849bc3df3ef9b13a5",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_009_vague_few_thousand",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Lisa Anderson",
+          "actual": "Lisa Anderson",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "FAMILY",
+          "actual": "MEDICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 4000,
+          "actual": 6000,
+          "reason": "Outside tolerance: diff=2000",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "PARENT",
+          "actual": "PARENT",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.7699999999999999
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:0e1ac56309cd6a65fb39ac493566b17bbe45a6cf5bf6bb0da51f25f772fec9c6",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_010_education_tuition_deadline",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Kevin Brown",
+          "actual": "Kevin Brown",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EDUCATION",
+          "actual": "EDUCATION",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "MEDIUM",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 3200,
+          "actual": 3200,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.8
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:78cfbb396fe7300f3657e23259fe11bcddcceb9dafdbcc1e3bdf9924ee24f0c2",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_011_multi_category_housing_medical",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Patricia Davis",
+          "actual": "Patricia Davis",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "MEDICAL",
+          "actual": "SAFETY",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 1800,
+          "actual": 1500,
+          "reason": "Outside tolerance: diff=300",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.93
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:00d347d4d9e5888a63f2cab5690b7337340deeb8fb96c9aaf600111406f0fe72",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_012_adversarial_wage_vs_goal",
+      "passed": true,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Marcus Johnson",
+          "actual": "Marcus Johnson",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EMPLOYMENT",
+          "actual": "EMPLOYMENT",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "MEDIUM",
+          "actual": "MEDIUM",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1200,
+          "actual": 1200,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.5,
+        "goalAmount": 0.8
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:a10772a1669a11d357fbe1defbde996544c93c4b4b78f16c7eeea2daee84f5f4",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_013_adversarial_age_vs_amount",
+      "passed": true,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Rachel Green",
+          "actual": "Rachel Green",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "MEDICAL",
+          "actual": "MEDICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "HIGH",
+          "actual": "HIGH",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 2400,
+          "actual": 2400,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "CHILD",
+          "actual": "CHILD",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.7,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.16666666666666666,
+        "goalAmount": 0.82
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:3a086a231b128eb710a368b0a472a64955f334a316a71348c13b24990399de93",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_014_no_name_missing_field",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": null,
+          "actual": null,
+          "reason": "One or both values are null/empty"
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "HOUSING",
+          "actual": "SAFETY",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 2200,
+          "actual": 2200,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [
+            "name"
+          ],
+          "actual": [
+            "name"
+          ],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.5,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.6,
+        "goalAmount": 0.93
+      },
+      "fallbackTier": {
+        "name": "fallback",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:37077356b8dee6b3059524df433952a3d37ad2e8733e3df80514fcfa62abec87",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_015_vague_several_hundred",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Daniel Wright",
+          "actual": "Daniel Wright",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "EMERGENCY",
+          "actual": "UTILITIES",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "MEDIUM",
+          "actual": "LOW",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 500,
+          "actual": 600,
+          "reason": "Outside tolerance: diff=100",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.5,
+        "goalAmount": 0.5399999999999999
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "default",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:212cec570b69a441b5d8d458cfcc8fa033754c19d2acd88e4ce97bd2fa338d29",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_016_nickname_name_extraction",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Daniel Martinez",
+          "actual": "Daniel Martinez",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "HOUSING",
+          "actual": "HOUSING",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "MEDIUM",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1800,
+          "actual": 1800,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.95
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:07f578776dc762c10d7fbfecd558888dfdfb96230a7d82b8c05aa5ed20d9135c",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_017_range_between_amounts",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Sophia Taylor",
+          "actual": "Sophia Taylor",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "EMPLOYMENT",
+          "actual": "MEDICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "MEDIUM",
+          "actual": "HIGH",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 1000,
+          "actual": 800,
+          "reason": "Outside tolerance: diff=200",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": false,
+          "expected": "SELF",
+          "actual": "CHILD",
+          "reason": "Values do not match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.16666666666666666,
+        "goalAmount": 0.8899999999999999
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:bed83f693ab80c2e2bfa19b5b6cdfd765ad801ed998ba2995bb765c2e47480cc",
+      "executionTime": 2
+    },
+    {
+      "caseId": "v4_018_emotional_desperation_urgency",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Angela Foster",
+          "actual": "Angela Foster",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "HOUSING",
+          "actual": "UTILITIES",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "LOW",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 380,
+          "actual": 380,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 1,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.8899999999999999
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "default",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:d781f0c4654de87b483a828007ed14cb89bdf8fd024247c535ba01d685a8b225",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_019_adversarial_date_confusion",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": null,
+          "actual": null,
+          "reason": "One or both values are null/empty"
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "HOUSING",
+          "actual": "HOUSING",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 950,
+          "actual": 950,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [
+            "name"
+          ],
+          "actual": [
+            "name"
+          ],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.5,
+        "category": 1,
+        "urgencyLevel": 0.6,
+        "goalAmount": 0.95
+      },
+      "fallbackTier": {
+        "name": "fallback",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:4486002cbd241903bc466146ea1f2f64efa1bbb113b7dd9060835cd89cba5ea7",
+      "executionTime": 0
+    },
+    {
+      "caseId": "v4_020_family_multiple_people",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Katherine Lee",
+          "actual": "Katherine Lee",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EDUCATION",
+          "actual": "EDUCATION",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "MEDIUM",
+          "actual": "MEDIUM",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 680,
+          "actual": null,
+          "reason": "Expected value but got null"
+        },
+        {
+          "field": "missingFields",
+          "passed": false,
+          "expected": [],
+          "actual": [
+            "goalAmount"
+          ],
+          "reason": "Sets do not match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "CHILD",
+          "actual": "CHILD",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 1,
+        "urgencyLevel": 0.6,
+        "goalAmount": 0.5
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "fallback"
+      },
+      "transcriptHash": "sha256:00c2d3bf5b2200b9ca7a0773b574d7e7eef49a09970526b3f28562bdd6092b98",
+      "executionTime": 2
+    },
+    {
+      "caseId": "v4_021_other_category_ambiguous",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Steven Clark",
+          "actual": "Steven Clark",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "OTHER",
+          "actual": "ADDICTION",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "LOW",
+          "actual": "LOW",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 400,
+          "actual": 400,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "OTHER",
+          "actual": "OTHER",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.9400000000000001,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.16666666666666666,
+        "goalAmount": 0.5399999999999999
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "default",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:0a0bcac31dc011fe93afafa9845c1da44ea4e31d908497f2487fba6a4520762a",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_022_safety_immediate_danger",
+      "passed": true,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Maria Santos",
+          "actual": "Maria Santos",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "SAFETY",
+          "actual": "SAFETY",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "CRITICAL",
+          "actual": "CRITICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1000,
+          "actual": 1000,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.7666666666666666,
+        "goalAmount": 0.8800000000000001
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:8fd8ba5ff6bc8f14a9e6cd91571c3fc92046deeab3f35e2aa52c242a9726ba46",
+      "executionTime": 2
+    },
+    {
+      "caseId": "v4_023_low_urgency_planned",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Thomas Wilson",
+          "actual": "Thomas Wilson",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EDUCATION",
+          "actual": "EDUCATION",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "LOW",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 2000,
+          "actual": 2000,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.8500000000000001
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:82b2bb53e3792ac9bf025bc02754d9f7d72d5f88632d92a2c10e55d26ff8a64d",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_024_fragment_rambling_repeated",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": null,
+          "actual": null,
+          "reason": "One or both values are null/empty"
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "MEDICAL",
+          "actual": "MEDICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "MEDIUM",
+          "actual": "CRITICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 1550,
+          "actual": 1500,
+          "reason": "Outside tolerance: diff=50",
+          "similarity": 0
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [
+            "name"
+          ],
+          "actual": [
+            "name"
+          ],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.5,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.5,
+        "goalAmount": 0.87
+      },
+      "fallbackTier": {
+        "name": "fallback",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:09eae6a8c8ddcfd5284a0c619d2852723e4aaa7d12de0c7d9a2b781b63d4afc4",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_025_title_honorific_name",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": false,
+          "expected": "Jennifer Park",
+          "actual": null,
+          "reason": "One or both values are null/empty"
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "HOUSING",
+          "actual": "EMPLOYMENT",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "HIGH",
+          "actual": "HIGH",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 4500,
+          "actual": 4500,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": false,
+          "expected": [],
+          "actual": [
+            "name"
+          ],
+          "reason": "Sets do not match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.5,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.6,
+        "goalAmount": 0.93
+      },
+      "fallbackTier": {
+        "name": "fallback",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:d1d8303d6128a6c5d23b5e6fd24f77fb854ba5a6156fd918212adcc1a4ed9f37",
+      "executionTime": 2
+    },
+    {
+      "caseId": "v4_026_adversarial_phone_number",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Brian Cooper",
+          "actual": "Brian Cooper",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "HOUSING",
+          "actual": "HOUSING",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "MEDIUM",
+          "actual": "HIGH",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 725,
+          "actual": 725,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.3333333333333333,
+        "goalAmount": 0.95
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:56a46d65ff7dddfe44eeeb1b7592d44f344f290082e5434f3c2add43c04bcb3d",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_027_multi_category_education_employment",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Christopher Adams",
+          "actual": "Christopher Adams",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "EMPLOYMENT",
+          "actual": "EMPLOYMENT",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "MEDIUM",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1200,
+          "actual": 1200,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 1,
+        "urgencyLevel": 0.5,
+        "goalAmount": 0.9
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:bd38d965e11e5e1ce1ada81dd0cb04f5bb5652cda03fef0124f8ba2c90e3c831",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_028_consequence_severity_urgency",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Nicole Turner",
+          "actual": "Nicole Turner",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": false,
+          "expected": "EMPLOYMENT",
+          "actual": "MEDICAL",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "CRITICAL",
+          "actual": "CRITICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 340,
+          "actual": 340,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.3333333333333333,
+        "urgencyLevel": 0.6,
+        "goalAmount": 0.77
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:e6a7d6bf24b02b08ed6cb92436840481183eb46325baa8348f87b55a4f73fc22",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_029_complex_multi_challenge",
+      "passed": false,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Alexandra White",
+          "actual": "Alexandra White",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "HOUSING",
+          "actual": "HOUSING",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": false,
+          "expected": "HIGH",
+          "actual": "MEDIUM",
+          "reason": "Values do not match exactly"
+        },
+        {
+          "field": "goalAmount",
+          "passed": false,
+          "expected": 500,
+          "actual": null,
+          "reason": "Expected value but got null"
+        },
+        {
+          "field": "missingFields",
+          "passed": false,
+          "expected": [],
+          "actual": [
+            "goalAmount"
+          ],
+          "reason": "Sets do not match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.16666666666666666,
+        "goalAmount": 0.5
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "fallback"
+      },
+      "transcriptHash": "sha256:a5b73b83a65fb466a41d6334cea608f2ac62dd054e6a74885762a9eb8322e6f4",
+      "executionTime": 1
+    },
+    {
+      "caseId": "v4_030_legal_emergency_combined",
+      "passed": true,
+      "fieldResults": [
+        {
+          "field": "name",
+          "passed": true,
+          "expected": "Victoria Hernandez",
+          "actual": "Victoria Hernandez",
+          "reason": "Exact match (case insensitive)",
+          "similarity": 1
+        },
+        {
+          "field": "category",
+          "passed": true,
+          "expected": "LEGAL",
+          "actual": "LEGAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "urgencyLevel",
+          "passed": true,
+          "expected": "CRITICAL",
+          "actual": "CRITICAL",
+          "reason": "Exact match"
+        },
+        {
+          "field": "goalAmount",
+          "passed": true,
+          "expected": 1500,
+          "actual": 1500,
+          "reason": "Within tolerance (±0)",
+          "similarity": 1
+        },
+        {
+          "field": "missingFields",
+          "passed": true,
+          "expected": [],
+          "actual": [],
+          "reason": "Set equality match"
+        },
+        {
+          "field": "beneficiaryRelationship",
+          "passed": true,
+          "expected": "SELF",
+          "actual": "SELF",
+          "reason": "Exact match"
+        }
+      ],
+      "confidence": {
+        "name": 0.95,
+        "category": 0.6666666666666666,
+        "urgencyLevel": 0.7666666666666666,
+        "goalAmount": 0.8800000000000001
+      },
+      "fallbackTier": {
+        "name": "direct",
+        "category": "keyword",
+        "urgencyLevel": "engine",
+        "goalAmount": "engine"
+      },
+      "transcriptHash": "sha256:1a8d7b2115c73b88e934b8e74e6420d17cc16d88999c446fd158c9a366bdb960",
+      "executionTime": 1
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "dataset": "hard60",
+    "totalCases": 59,
+    "timestamp": "2026-01-26T01:24:22.332Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "0.00%",
+    "acceptablePassRate": "0.00%",
+    "strictPasses": 0,
+    "acceptablePasses": 0,
+    "strictFailures": 59,
+    "acceptableFailures": 59
+  },
+  "performance": {
+    "avgLatencyMs": "0.13",
+    "totalLatencyMs": "7.96",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "name_wrong",
+        "description": "Completely incorrect name extracted",
+        "count": 59,
+        "percentage": "100.0%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_002",
+          "HARD_003"
+        ]
+      },
+      {
+        "bucket": "category_too_generic",
+        "description": "Defaulted to OTHER when specific category present",
+        "count": 57,
+        "percentage": "96.6%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_002",
+          "HARD_003"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 39,
+        "percentage": "66.1%",
+        "exampleCases": [
+          "HARD_021",
+          "HARD_022",
+          "HARD_023"
+        ]
+      },
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 35,
+        "percentage": "59.3%",
+        "exampleCases": [
+          "HARD_002",
+          "HARD_003",
+          "HARD_004"
+        ]
+      },
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 24,
+        "percentage": "40.7%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_005",
+          "HARD_008"
+        ]
+      },
+      {
+        "bucket": "amount_wrong_selection",
+        "description": "Wrong amount selected from multiple numbers",
+        "count": 20,
+        "percentage": "33.9%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_002",
+          "HARD_003"
+        ]
+      },
+      {
+        "bucket": "urgency_conflicting_signals",
+        "description": "Failed to resolve conflicting urgency signals",
+        "count": 10,
+        "percentage": "16.9%",
+        "exampleCases": [
+          "HARD_021",
+          "HARD_022",
+          "HARD_023"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "name_wrong",
+      "priority": "HIGH",
+      "affectedCases": 59,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "category_too_generic",
+      "priority": "HIGH",
+      "affectedCases": 57,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "HIGH",
+      "affectedCases": 39,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "HIGH",
+      "affectedCases": 35,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "HIGH",
+      "affectedCases": 24,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "amount_wrong_selection",
+      "priority": "HIGH",
+      "affectedCases": 20,
+      "suggestedFix": "Review amount selection strategy; may need context-aware selection",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "urgency_conflicting_signals",
+      "priority": "MEDIUM",
+      "affectedCases": 10,
+      "suggestedFix": "Refine urgency evaluation order (LOW → CRITICAL → HIGH → MEDIUM)",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+::ffff:127.0.0.1 - - [14/Dec/2025:16:58:40 +0000] "GET /admin/setup/stripe-webhook HTTP/1.1" 401 34 "-" "-"
+::ffff:127.0.0.1 - - [14/Dec/2025:16:58:40 +0000] "POST /admin/setup/stripe-webhook/preflight HTTP/1.1" 401 34 "-" "-"

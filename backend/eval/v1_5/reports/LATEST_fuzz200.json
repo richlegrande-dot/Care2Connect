@@ -1,0 +1,2583 @@
+{
+  "metadata": {
+    "engine_hash": "c01fd69e27e99d94f39c2f135bbe00e255305baac13c867f85e8d13bc429302f",
+    "dataset_manifest_hash": "d6ef01c5473d319f5ca48a9ff5e0cba33ad575dfef725fb2beeda47b7f48ee66",
+    "experiment_flags": [],
+    "experiment_details": [],
+    "run_time_ms": 118,
+    "timestamp": "2026-02-13T14:49:11.872Z",
+    "datasets_evaluated": [
+      "fuzz200"
+    ],
+    "total_cases": 200,
+    "config": {
+      "strict_threshold": 0.95,
+      "acceptable_threshold": 0.85,
+      "amount_tolerance": 0.1
+    },
+    "version": "feb_v1_5"
+  },
+  "summary": {
+    "structural_score": {
+      "pass_rate": 0.34,
+      "passes": 68,
+      "total": 200,
+      "mean_score": 0.6467
+    },
+    "urgency_score": {
+      "accuracy": 0.405,
+      "correct": 81,
+      "total": 200
+    },
+    "strict_score": {
+      "pass_rate": 0.05,
+      "passes": 10,
+      "total": 200,
+      "mean_score": 0.5863
+    },
+    "acceptable_score": {
+      "pass_rate": 0.05,
+      "passes": 10,
+      "total": 200
+    }
+  },
+  "field_metrics": {
+    "name": {
+      "accuracy": 0.52,
+      "correct": 104,
+      "total": 200,
+      "failures": [
+        {
+          "caseId": "FUZZ_003",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_004",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_005",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_006",
+          "actual": null,
+          "expected": "Jennifer Davis"
+        },
+        {
+          "caseId": "FUZZ_008",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_012",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_014",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_015",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_016",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_017",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_020",
+          "actual": null,
+          "expected": "Lisa Anderson"
+        },
+        {
+          "caseId": "FUZZ_024",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_026",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_028",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_029",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_031",
+          "actual": null,
+          "expected": "Michael Martinez"
+        },
+        {
+          "caseId": "FUZZ_032",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_035",
+          "actual": null,
+          "expected": "Daniel Taylor"
+        },
+        {
+          "caseId": "FUZZ_036",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_037",
+          "actual": "um John Smith",
+          "expected": "John Smith",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_039",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_040",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_044",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_046",
+          "actual": null,
+          "expected": "Patricia Moore"
+        },
+        {
+          "caseId": "FUZZ_048",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_050",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_051",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_052",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_055",
+          "actual": null,
+          "expected": "Michael Martinez"
+        },
+        {
+          "caseId": "FUZZ_056",
+          "actual": null,
+          "expected": "Lisa Anderson"
+        },
+        {
+          "caseId": "FUZZ_060",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_064",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_068",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_072",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_073",
+          "actual": null,
+          "expected": "John Smith"
+        },
+        {
+          "caseId": "FUZZ_074",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_075",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_076",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_078",
+          "actual": null,
+          "expected": "Jennifer Davis"
+        },
+        {
+          "caseId": "FUZZ_080",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_081",
+          "actual": null,
+          "expected": "Christopher Wilson"
+        },
+        {
+          "caseId": "FUZZ_084",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_086",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_088",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_092",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_094",
+          "actual": null,
+          "expected": "Patricia Moore"
+        },
+        {
+          "caseId": "FUZZ_095",
+          "actual": null,
+          "expected": "Daniel Taylor"
+        },
+        {
+          "caseId": "FUZZ_096",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_100",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_101",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_103",
+          "actual": null,
+          "expected": "Michael Martinez"
+        },
+        {
+          "caseId": "FUZZ_104",
+          "actual": null,
+          "expected": "Lisa Anderson"
+        },
+        {
+          "caseId": "FUZZ_105",
+          "actual": null,
+          "expected": "Christopher Wilson"
+        },
+        {
+          "caseId": "FUZZ_108",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_112",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_113",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_116",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_120",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_122",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_123",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_124",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_128",
+          "actual": "actually Lisa",
+          "expected": "Lisa Anderson"
+        },
+        {
+          "caseId": "FUZZ_130",
+          "actual": null,
+          "expected": "Patricia Moore"
+        },
+        {
+          "caseId": "FUZZ_132",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_135",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_136",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_137",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_140",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_144",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_147",
+          "actual": null,
+          "expected": "David Johnson"
+        },
+        {
+          "caseId": "FUZZ_148",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_152",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_156",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_158",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_160",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_161",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_164",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_165",
+          "actual": null,
+          "expected": "Christopher Wilson"
+        },
+        {
+          "caseId": "FUZZ_168",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_169",
+          "actual": null,
+          "expected": "John Smith"
+        },
+        {
+          "caseId": "FUZZ_172",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_173",
+          "actual": null,
+          "expected": "Robert Brown"
+        },
+        {
+          "caseId": "FUZZ_174",
+          "actual": null,
+          "expected": "Jennifer Davis"
+        },
+        {
+          "caseId": "FUZZ_175",
+          "actual": null,
+          "expected": "Michael Martinez"
+        },
+        {
+          "caseId": "FUZZ_176",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_178",
+          "actual": "Patricia Moore so",
+          "expected": "Patricia Moore",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_179",
+          "actual": null,
+          "expected": "Daniel Taylor"
+        },
+        {
+          "caseId": "FUZZ_180",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_182",
+          "actual": null,
+          "expected": "Maria Garcia"
+        },
+        {
+          "caseId": "FUZZ_184",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_187",
+          "actual": null,
+          "expected": "Michael Martinez"
+        },
+        {
+          "caseId": "FUZZ_188",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_190",
+          "actual": null,
+          "expected": "Patricia Moore"
+        },
+        {
+          "caseId": "FUZZ_192",
+          "actual": null,
+          "expected": "Amanda Thomas"
+        },
+        {
+          "caseId": "FUZZ_196",
+          "actual": null,
+          "expected": "Sarah Williams"
+        },
+        {
+          "caseId": "FUZZ_200",
+          "actual": null,
+          "expected": "Lisa Anderson"
+        }
+      ],
+      "partial_matches": [
+        {
+          "caseId": "FUZZ_008",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_032",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_037",
+          "actual": "um John Smith",
+          "expected": "John Smith",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_044",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_068",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_080",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_092",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_116",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_140",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_152",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_164",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_176",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_178",
+          "actual": "Patricia Moore so",
+          "expected": "Patricia Moore",
+          "type": "partial"
+        },
+        {
+          "caseId": "FUZZ_188",
+          "actual": "Lisa",
+          "expected": "Lisa Anderson",
+          "type": "partial"
+        }
+      ]
+    },
+    "amount": {
+      "accuracy": 0.73,
+      "correct": 146,
+      "total": 200,
+      "null_count": 54,
+      "mismatch_count": 54,
+      "mismatches": [
+        {
+          "caseId": "FUZZ_004",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_010",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_012",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_016",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_022",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_024",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_028",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_034",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_036",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_039",
+          "actual": null,
+          "expected": 800
+        },
+        {
+          "caseId": "FUZZ_040",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_046",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_048",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_052",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_058",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_060",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_064",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_070",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_072",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_076",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_080",
+          "actual": null,
+          "expected": 2200
+        },
+        {
+          "caseId": "FUZZ_082",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_084",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_088",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_094",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_096",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_100",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_106",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_108",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_112",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_118",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_120",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_124",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_130",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_132",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_136",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_142",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_144",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_148",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_154",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_156",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_160",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_166",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_168",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_172",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_173",
+          "actual": null,
+          "expected": 350
+        },
+        {
+          "caseId": "FUZZ_174",
+          "actual": null,
+          "expected": 950
+        },
+        {
+          "caseId": "FUZZ_178",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_180",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_184",
+          "actual": null,
+          "expected": 450
+        },
+        {
+          "caseId": "FUZZ_190",
+          "actual": null,
+          "expected": 2500
+        },
+        {
+          "caseId": "FUZZ_192",
+          "actual": null,
+          "expected": 1500
+        },
+        {
+          "caseId": "FUZZ_195",
+          "actual": null,
+          "expected": 800
+        },
+        {
+          "caseId": "FUZZ_196",
+          "actual": null,
+          "expected": 450
+        }
+      ]
+    },
+    "category": {
+      "accuracy": 0.69,
+      "correct": 138,
+      "total": 200,
+      "confusion_matrix": {
+        "HOUSING -> HOUSING": {
+          "count": 34,
+          "cases": [
+            "FUZZ_001",
+            "FUZZ_008",
+            "FUZZ_013",
+            "FUZZ_020",
+            "FUZZ_025",
+            "FUZZ_032",
+            "FUZZ_037",
+            "FUZZ_044",
+            "FUZZ_049",
+            "FUZZ_056",
+            "FUZZ_061",
+            "FUZZ_068",
+            "FUZZ_073",
+            "FUZZ_080",
+            "FUZZ_085",
+            "FUZZ_092",
+            "FUZZ_097",
+            "FUZZ_104",
+            "FUZZ_109",
+            "FUZZ_116",
+            "FUZZ_121",
+            "FUZZ_128",
+            "FUZZ_133",
+            "FUZZ_140",
+            "FUZZ_145",
+            "FUZZ_152",
+            "FUZZ_157",
+            "FUZZ_164",
+            "FUZZ_169",
+            "FUZZ_176",
+            "FUZZ_181",
+            "FUZZ_188",
+            "FUZZ_193",
+            "FUZZ_200"
+          ]
+        },
+        "EMPLOYMENT -> HEALTHCARE": {
+          "count": 3,
+          "cases": [
+            "FUZZ_002",
+            "FUZZ_105",
+            "FUZZ_170"
+          ]
+        },
+        "EMPLOYMENT -> EMPLOYMENT": {
+          "count": 17,
+          "cases": [
+            "FUZZ_003",
+            "FUZZ_015",
+            "FUZZ_027",
+            "FUZZ_039",
+            "FUZZ_051",
+            "FUZZ_063",
+            "FUZZ_075",
+            "FUZZ_087",
+            "FUZZ_099",
+            "FUZZ_111",
+            "FUZZ_123",
+            "FUZZ_135",
+            "FUZZ_147",
+            "FUZZ_159",
+            "FUZZ_171",
+            "FUZZ_183",
+            "FUZZ_195"
+          ]
+        },
+        "UTILITIES -> UTILITIES": {
+          "count": 14,
+          "cases": [
+            "FUZZ_004",
+            "FUZZ_016",
+            "FUZZ_040",
+            "FUZZ_052",
+            "FUZZ_064",
+            "FUZZ_088",
+            "FUZZ_100",
+            "FUZZ_112",
+            "FUZZ_124",
+            "FUZZ_136",
+            "FUZZ_148",
+            "FUZZ_160",
+            "FUZZ_184",
+            "FUZZ_196"
+          ]
+        },
+        "FOOD -> FOOD": {
+          "count": 17,
+          "cases": [
+            "FUZZ_005",
+            "FUZZ_017",
+            "FUZZ_029",
+            "FUZZ_041",
+            "FUZZ_053",
+            "FUZZ_065",
+            "FUZZ_077",
+            "FUZZ_089",
+            "FUZZ_101",
+            "FUZZ_113",
+            "FUZZ_125",
+            "FUZZ_137",
+            "FUZZ_149",
+            "FUZZ_161",
+            "FUZZ_173",
+            "FUZZ_185",
+            "FUZZ_197"
+          ]
+        },
+        "TRANSPORTATION -> TRANSPORTATION": {
+          "count": 14,
+          "cases": [
+            "FUZZ_006",
+            "FUZZ_018",
+            "FUZZ_042",
+            "FUZZ_066",
+            "FUZZ_078",
+            "FUZZ_090",
+            "FUZZ_114",
+            "FUZZ_126",
+            "FUZZ_138",
+            "FUZZ_150",
+            "FUZZ_162",
+            "FUZZ_174",
+            "FUZZ_186",
+            "FUZZ_198"
+          ]
+        },
+        "FAMILY -> EDUCATION": {
+          "count": 16,
+          "cases": [
+            "FUZZ_007",
+            "FUZZ_019",
+            "FUZZ_031",
+            "FUZZ_043",
+            "FUZZ_055",
+            "FUZZ_067",
+            "FUZZ_079",
+            "FUZZ_091",
+            "FUZZ_103",
+            "FUZZ_115",
+            "FUZZ_127",
+            "FUZZ_139",
+            "FUZZ_151",
+            "FUZZ_175",
+            "FUZZ_187",
+            "FUZZ_199"
+          ]
+        },
+        "HEALTHCARE -> HEALTHCARE": {
+          "count": 14,
+          "cases": [
+            "FUZZ_009",
+            "FUZZ_021",
+            "FUZZ_033",
+            "FUZZ_045",
+            "FUZZ_057",
+            "FUZZ_081",
+            "FUZZ_093",
+            "FUZZ_117",
+            "FUZZ_129",
+            "FUZZ_141",
+            "FUZZ_153",
+            "FUZZ_165",
+            "FUZZ_177",
+            "FUZZ_189"
+          ]
+        },
+        "LEGAL -> LEGAL": {
+          "count": 12,
+          "cases": [
+            "FUZZ_010",
+            "FUZZ_022",
+            "FUZZ_046",
+            "FUZZ_058",
+            "FUZZ_082",
+            "FUZZ_106",
+            "FUZZ_118",
+            "FUZZ_130",
+            "FUZZ_154",
+            "FUZZ_166",
+            "FUZZ_178",
+            "FUZZ_190"
+          ]
+        },
+        "FAMILY -> FAMILY": {
+          "count": 15,
+          "cases": [
+            "FUZZ_011",
+            "FUZZ_023",
+            "FUZZ_047",
+            "FUZZ_059",
+            "FUZZ_071",
+            "FUZZ_083",
+            "FUZZ_095",
+            "FUZZ_107",
+            "FUZZ_119",
+            "FUZZ_131",
+            "FUZZ_143",
+            "FUZZ_155",
+            "FUZZ_167",
+            "FUZZ_179",
+            "FUZZ_191"
+          ]
+        },
+        "GENERAL -> HOUSING": {
+          "count": 15,
+          "cases": [
+            "FUZZ_012",
+            "FUZZ_024",
+            "FUZZ_036",
+            "FUZZ_048",
+            "FUZZ_060",
+            "FUZZ_072",
+            "FUZZ_084",
+            "FUZZ_096",
+            "FUZZ_108",
+            "FUZZ_132",
+            "FUZZ_144",
+            "FUZZ_156",
+            "FUZZ_168",
+            "FUZZ_180",
+            "FUZZ_192"
+          ]
+        },
+        "GENERAL -> HEALTHCARE": {
+          "count": 12,
+          "cases": [
+            "FUZZ_014",
+            "FUZZ_026",
+            "FUZZ_062",
+            "FUZZ_074",
+            "FUZZ_086",
+            "FUZZ_098",
+            "FUZZ_122",
+            "FUZZ_134",
+            "FUZZ_146",
+            "FUZZ_158",
+            "FUZZ_182",
+            "FUZZ_194"
+          ]
+        },
+        "HOUSING -> UTILITIES": {
+          "count": 1,
+          "cases": [
+            "FUZZ_028"
+          ]
+        },
+        "FOOD -> TRANSPORTATION": {
+          "count": 1,
+          "cases": [
+            "FUZZ_030"
+          ]
+        },
+        "HEALTHCARE -> LEGAL": {
+          "count": 2,
+          "cases": [
+            "FUZZ_034",
+            "FUZZ_070"
+          ]
+        },
+        "HEALTHCARE -> FAMILY": {
+          "count": 1,
+          "cases": [
+            "FUZZ_035"
+          ]
+        },
+        "HOUSING -> HEALTHCARE": {
+          "count": 4,
+          "cases": [
+            "FUZZ_038",
+            "FUZZ_050",
+            "FUZZ_069",
+            "FUZZ_110"
+          ]
+        },
+        "HOUSING -> TRANSPORTATION": {
+          "count": 1,
+          "cases": [
+            "FUZZ_054"
+          ]
+        },
+        "FAMILY -> UTILITIES": {
+          "count": 2,
+          "cases": [
+            "FUZZ_076",
+            "FUZZ_172"
+          ]
+        },
+        "FOOD -> LEGAL": {
+          "count": 2,
+          "cases": [
+            "FUZZ_094",
+            "FUZZ_142"
+          ]
+        },
+        "EDUCATION -> TRANSPORTATION": {
+          "count": 1,
+          "cases": [
+            "FUZZ_102"
+          ]
+        },
+        "HEALTHCARE -> HOUSING": {
+          "count": 1,
+          "cases": [
+            "FUZZ_120"
+          ]
+        },
+        "EDUCATION -> EDUCATION": {
+          "count": 1,
+          "cases": [
+            "FUZZ_163"
+          ]
+        }
+      },
+      "failures": [
+        {
+          "caseId": "FUZZ_002",
+          "actual": "EMPLOYMENT",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_007",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_012",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_014",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_019",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_024",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_026",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_028",
+          "actual": "HOUSING",
+          "expected": "UTILITIES"
+        },
+        {
+          "caseId": "FUZZ_030",
+          "actual": "FOOD",
+          "expected": "TRANSPORTATION"
+        },
+        {
+          "caseId": "FUZZ_031",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_034",
+          "actual": "HEALTHCARE",
+          "expected": "LEGAL"
+        },
+        {
+          "caseId": "FUZZ_035",
+          "actual": "HEALTHCARE",
+          "expected": "FAMILY"
+        },
+        {
+          "caseId": "FUZZ_036",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_038",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_043",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_048",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_050",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_054",
+          "actual": "HOUSING",
+          "expected": "TRANSPORTATION"
+        },
+        {
+          "caseId": "FUZZ_055",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_060",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_062",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_067",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_069",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_070",
+          "actual": "HEALTHCARE",
+          "expected": "LEGAL"
+        },
+        {
+          "caseId": "FUZZ_072",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_074",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_076",
+          "actual": "FAMILY",
+          "expected": "UTILITIES"
+        },
+        {
+          "caseId": "FUZZ_079",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_084",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_086",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_091",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_094",
+          "actual": "FOOD",
+          "expected": "LEGAL"
+        },
+        {
+          "caseId": "FUZZ_096",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_098",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_102",
+          "actual": "EDUCATION",
+          "expected": "TRANSPORTATION"
+        },
+        {
+          "caseId": "FUZZ_103",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_105",
+          "actual": "EMPLOYMENT",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_108",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_110",
+          "actual": "HOUSING",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_115",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_120",
+          "actual": "HEALTHCARE",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_122",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_127",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_132",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_134",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_139",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_142",
+          "actual": "FOOD",
+          "expected": "LEGAL"
+        },
+        {
+          "caseId": "FUZZ_144",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_146",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_151",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_156",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_158",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_168",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_170",
+          "actual": "EMPLOYMENT",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_172",
+          "actual": "FAMILY",
+          "expected": "UTILITIES"
+        },
+        {
+          "caseId": "FUZZ_175",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_180",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_182",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_187",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        },
+        {
+          "caseId": "FUZZ_192",
+          "actual": "GENERAL",
+          "expected": "HOUSING"
+        },
+        {
+          "caseId": "FUZZ_194",
+          "actual": "GENERAL",
+          "expected": "HEALTHCARE"
+        },
+        {
+          "caseId": "FUZZ_199",
+          "actual": "FAMILY",
+          "expected": "EDUCATION"
+        }
+      ]
+    },
+    "urgency_raw_score": {
+      "mean": 0,
+      "std_dev": 0,
+      "count": 0
+    },
+    "urgency_level": {
+      "accuracy": 0.405,
+      "correct": 81,
+      "total": 200,
+      "under_count": 101,
+      "over_count": 18,
+      "failures": [
+        {
+          "caseId": "FUZZ_001",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_003",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_006",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_008",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_009",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_010",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_011",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_013",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_015",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_018",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_020",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_021",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_022",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_023",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_025",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_027",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_030",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_032",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_033",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_034",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_035",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_037",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_039",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_042",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_044",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_045",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_046",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_047",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_048",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "FUZZ_049",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_051",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_054",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_056",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_057",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_058",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_059",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_061",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_063",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_066",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_068",
+          "actual": "MEDIUM",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_069",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_070",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_071",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_073",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_075",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_078",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_080",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_081",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_082",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_083",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_085",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_087",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_090",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_092",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_093",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_094",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_095",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_097",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_099",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_102",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_104",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_105",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_106",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_107",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_109",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_110",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_111",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_114",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_116",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_117",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_118",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_119",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_121",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_123",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_126",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_128",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_129",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_130",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_131",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_132",
+          "actual": "LOW",
+          "expected": "MEDIUM"
+        },
+        {
+          "caseId": "FUZZ_133",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_135",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_138",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_140",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_141",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_142",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_143",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_145",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_147",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_150",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_152",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_153",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_154",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_155",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_157",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_159",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_162",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_164",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_165",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_166",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_167",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_169",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_171",
+          "actual": "LOW",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_174",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_176",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_177",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_178",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_179",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_181",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_183",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_186",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_188",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        },
+        {
+          "caseId": "FUZZ_189",
+          "actual": "CRITICAL",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_190",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_191",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_193",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_195",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_198",
+          "actual": "MEDIUM",
+          "expected": "HIGH"
+        },
+        {
+          "caseId": "FUZZ_200",
+          "actual": "HIGH",
+          "expected": "CRITICAL"
+        }
+      ]
+    }
+  },
+  "failure_buckets": {
+    "total_failures": 331,
+    "bucket_count": 8,
+    "buckets": {
+      "urgency_threshold_miss": {
+        "category": "urgency",
+        "description": "Aggregate score fell on wrong side of level threshold boundary",
+        "severity": "high",
+        "count": 101,
+        "cases": [
+          "FUZZ_001",
+          "FUZZ_003",
+          "FUZZ_006",
+          "FUZZ_008",
+          "FUZZ_010",
+          "FUZZ_011",
+          "FUZZ_013",
+          "FUZZ_015",
+          "FUZZ_018",
+          "FUZZ_020",
+          "FUZZ_022",
+          "FUZZ_023",
+          "FUZZ_025",
+          "FUZZ_027",
+          "FUZZ_030",
+          "FUZZ_032",
+          "FUZZ_035",
+          "FUZZ_037",
+          "FUZZ_039",
+          "FUZZ_042",
+          "FUZZ_044",
+          "FUZZ_046",
+          "FUZZ_047",
+          "FUZZ_048",
+          "FUZZ_049",
+          "FUZZ_051",
+          "FUZZ_054",
+          "FUZZ_056",
+          "FUZZ_058",
+          "FUZZ_059",
+          "FUZZ_061",
+          "FUZZ_063",
+          "FUZZ_066",
+          "FUZZ_068",
+          "FUZZ_071",
+          "FUZZ_073",
+          "FUZZ_075",
+          "FUZZ_078",
+          "FUZZ_080",
+          "FUZZ_082",
+          "FUZZ_083",
+          "FUZZ_085",
+          "FUZZ_087",
+          "FUZZ_090",
+          "FUZZ_092",
+          "FUZZ_094",
+          "FUZZ_095",
+          "FUZZ_097",
+          "FUZZ_099",
+          "FUZZ_102",
+          "FUZZ_104",
+          "FUZZ_106",
+          "FUZZ_107",
+          "FUZZ_109",
+          "FUZZ_110",
+          "FUZZ_111",
+          "FUZZ_114",
+          "FUZZ_116",
+          "FUZZ_118",
+          "FUZZ_119",
+          "FUZZ_121",
+          "FUZZ_123",
+          "FUZZ_126",
+          "FUZZ_128",
+          "FUZZ_130",
+          "FUZZ_131",
+          "FUZZ_132",
+          "FUZZ_133",
+          "FUZZ_135",
+          "FUZZ_138",
+          "FUZZ_140",
+          "FUZZ_142",
+          "FUZZ_143",
+          "FUZZ_145",
+          "FUZZ_147",
+          "FUZZ_150",
+          "FUZZ_152",
+          "FUZZ_154",
+          "FUZZ_155",
+          "FUZZ_157",
+          "FUZZ_159",
+          "FUZZ_162",
+          "FUZZ_164",
+          "FUZZ_166",
+          "FUZZ_167",
+          "FUZZ_169",
+          "FUZZ_171",
+          "FUZZ_174",
+          "FUZZ_176",
+          "FUZZ_178",
+          "FUZZ_179",
+          "FUZZ_181",
+          "FUZZ_183",
+          "FUZZ_186",
+          "FUZZ_188",
+          "FUZZ_190",
+          "FUZZ_191",
+          "FUZZ_193",
+          "FUZZ_195",
+          "FUZZ_198",
+          "FUZZ_200"
+        ]
+      },
+      "name_null_extraction": {
+        "category": "name",
+        "description": "Name not extracted at all when present in transcript",
+        "severity": "high",
+        "count": 67,
+        "cases": [
+          "FUZZ_003",
+          "FUZZ_004",
+          "FUZZ_005",
+          "FUZZ_012",
+          "FUZZ_015",
+          "FUZZ_016",
+          "FUZZ_017",
+          "FUZZ_024",
+          "FUZZ_026",
+          "FUZZ_028",
+          "FUZZ_029",
+          "FUZZ_031",
+          "FUZZ_035",
+          "FUZZ_036",
+          "FUZZ_037",
+          "FUZZ_039",
+          "FUZZ_040",
+          "FUZZ_046",
+          "FUZZ_048",
+          "FUZZ_050",
+          "FUZZ_051",
+          "FUZZ_052",
+          "FUZZ_055",
+          "FUZZ_060",
+          "FUZZ_064",
+          "FUZZ_072",
+          "FUZZ_073",
+          "FUZZ_075",
+          "FUZZ_076",
+          "FUZZ_078",
+          "FUZZ_084",
+          "FUZZ_086",
+          "FUZZ_088",
+          "FUZZ_094",
+          "FUZZ_095",
+          "FUZZ_096",
+          "FUZZ_100",
+          "FUZZ_103",
+          "FUZZ_104",
+          "FUZZ_108",
+          "FUZZ_112",
+          "FUZZ_120",
+          "FUZZ_123",
+          "FUZZ_124",
+          "FUZZ_128",
+          "FUZZ_130",
+          "FUZZ_132",
+          "FUZZ_135",
+          "FUZZ_136",
+          "FUZZ_144",
+          "FUZZ_147",
+          "FUZZ_148",
+          "FUZZ_156",
+          "FUZZ_160",
+          "FUZZ_165",
+          "FUZZ_168",
+          "FUZZ_172",
+          "FUZZ_175",
+          "FUZZ_178",
+          "FUZZ_179",
+          "FUZZ_180",
+          "FUZZ_184",
+          "FUZZ_187",
+          "FUZZ_190",
+          "FUZZ_192",
+          "FUZZ_196",
+          "FUZZ_200"
+        ]
+      },
+      "category_priority_conflict": {
+        "category": "category",
+        "description": "Multiple categories present, wrong one ranked higher by keyword count",
+        "severity": "medium",
+        "count": 58,
+        "cases": [
+          "FUZZ_002",
+          "FUZZ_007",
+          "FUZZ_012",
+          "FUZZ_014",
+          "FUZZ_019",
+          "FUZZ_024",
+          "FUZZ_026",
+          "FUZZ_030",
+          "FUZZ_031",
+          "FUZZ_034",
+          "FUZZ_036",
+          "FUZZ_038",
+          "FUZZ_043",
+          "FUZZ_048",
+          "FUZZ_050",
+          "FUZZ_054",
+          "FUZZ_055",
+          "FUZZ_060",
+          "FUZZ_062",
+          "FUZZ_067",
+          "FUZZ_069",
+          "FUZZ_070",
+          "FUZZ_072",
+          "FUZZ_074",
+          "FUZZ_079",
+          "FUZZ_084",
+          "FUZZ_086",
+          "FUZZ_091",
+          "FUZZ_094",
+          "FUZZ_096",
+          "FUZZ_098",
+          "FUZZ_102",
+          "FUZZ_103",
+          "FUZZ_105",
+          "FUZZ_108",
+          "FUZZ_110",
+          "FUZZ_115",
+          "FUZZ_120",
+          "FUZZ_122",
+          "FUZZ_127",
+          "FUZZ_132",
+          "FUZZ_134",
+          "FUZZ_139",
+          "FUZZ_142",
+          "FUZZ_144",
+          "FUZZ_146",
+          "FUZZ_151",
+          "FUZZ_156",
+          "FUZZ_158",
+          "FUZZ_168",
+          "FUZZ_170",
+          "FUZZ_175",
+          "FUZZ_180",
+          "FUZZ_182",
+          "FUZZ_187",
+          "FUZZ_192",
+          "FUZZ_194",
+          "FUZZ_199"
+        ]
+      },
+      "amount_null_extraction": {
+        "category": "amount",
+        "description": "Amount extracted as null when transcript contains a stated amount",
+        "severity": "high",
+        "count": 54,
+        "cases": [
+          "FUZZ_004",
+          "FUZZ_010",
+          "FUZZ_012",
+          "FUZZ_016",
+          "FUZZ_022",
+          "FUZZ_024",
+          "FUZZ_028",
+          "FUZZ_034",
+          "FUZZ_036",
+          "FUZZ_039",
+          "FUZZ_040",
+          "FUZZ_046",
+          "FUZZ_048",
+          "FUZZ_052",
+          "FUZZ_058",
+          "FUZZ_060",
+          "FUZZ_064",
+          "FUZZ_070",
+          "FUZZ_072",
+          "FUZZ_076",
+          "FUZZ_080",
+          "FUZZ_082",
+          "FUZZ_084",
+          "FUZZ_088",
+          "FUZZ_094",
+          "FUZZ_096",
+          "FUZZ_100",
+          "FUZZ_106",
+          "FUZZ_108",
+          "FUZZ_112",
+          "FUZZ_118",
+          "FUZZ_120",
+          "FUZZ_124",
+          "FUZZ_130",
+          "FUZZ_132",
+          "FUZZ_136",
+          "FUZZ_142",
+          "FUZZ_144",
+          "FUZZ_148",
+          "FUZZ_154",
+          "FUZZ_156",
+          "FUZZ_160",
+          "FUZZ_166",
+          "FUZZ_168",
+          "FUZZ_172",
+          "FUZZ_173",
+          "FUZZ_174",
+          "FUZZ_178",
+          "FUZZ_180",
+          "FUZZ_184",
+          "FUZZ_190",
+          "FUZZ_192",
+          "FUZZ_195",
+          "FUZZ_196"
+        ]
+      },
+      "urgency_engine_conflict": {
+        "category": "urgency",
+        "description": "Critical override (single layer ≥0.85) fired incorrectly",
+        "severity": "medium",
+        "count": 18,
+        "cases": [
+          "FUZZ_009",
+          "FUZZ_021",
+          "FUZZ_033",
+          "FUZZ_034",
+          "FUZZ_045",
+          "FUZZ_057",
+          "FUZZ_069",
+          "FUZZ_070",
+          "FUZZ_081",
+          "FUZZ_093",
+          "FUZZ_105",
+          "FUZZ_117",
+          "FUZZ_129",
+          "FUZZ_141",
+          "FUZZ_153",
+          "FUZZ_165",
+          "FUZZ_177",
+          "FUZZ_189"
+        ]
+      },
+      "name_intro_pattern_missing": {
+        "category": "name",
+        "description": "Common introduction pattern not matched by any regex",
+        "severity": "high",
+        "count": 17,
+        "cases": [
+          "FUZZ_006",
+          "FUZZ_014",
+          "FUZZ_020",
+          "FUZZ_056",
+          "FUZZ_074",
+          "FUZZ_081",
+          "FUZZ_101",
+          "FUZZ_105",
+          "FUZZ_113",
+          "FUZZ_122",
+          "FUZZ_137",
+          "FUZZ_158",
+          "FUZZ_161",
+          "FUZZ_169",
+          "FUZZ_173",
+          "FUZZ_174",
+          "FUZZ_182"
+        ]
+      },
+      "name_partial_capture": {
+        "category": "name",
+        "description": "First name captured but last name dropped, or vice versa",
+        "severity": "medium",
+        "count": 12,
+        "cases": [
+          "FUZZ_008",
+          "FUZZ_032",
+          "FUZZ_044",
+          "FUZZ_068",
+          "FUZZ_080",
+          "FUZZ_092",
+          "FUZZ_116",
+          "FUZZ_140",
+          "FUZZ_152",
+          "FUZZ_164",
+          "FUZZ_176",
+          "FUZZ_188"
+        ]
+      },
+      "category_vocabulary_gap": {
+        "category": "category",
+        "description": "Expected category not in engine NEEDS_KEYWORDS list",
+        "severity": "high",
+        "count": 4,
+        "cases": [
+          "FUZZ_028",
+          "FUZZ_035",
+          "FUZZ_076",
+          "FUZZ_172"
+        ]
+      }
+    }
+  },
+  "dataset_breakdown": {
+    "fuzz200": {
+      "case_count": 200,
+      "structural_score": {
+        "pass_rate": 0.34,
+        "passes": 68,
+        "total": 200,
+        "mean_score": 0.6467
+      },
+      "urgency_score": {
+        "accuracy": 0.405,
+        "correct": 81,
+        "total": 200
+      },
+      "strict_score": {
+        "pass_rate": 0.05,
+        "passes": 10,
+        "total": 200,
+        "mean_score": 0.5863
+      },
+      "acceptable_score": {
+        "pass_rate": 0.05,
+        "passes": 10,
+        "total": 200
+      }
+    }
+  }
+}

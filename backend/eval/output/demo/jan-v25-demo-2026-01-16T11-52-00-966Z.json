@@ -1,0 +1,401 @@
+{
+  "timestamp": "2026-01-16T11:52:00.967Z",
+  "system": "Jan v.2.5 Automated Parsing Training Loop",
+  "mode": "demo",
+  "overview": {
+    "totalTests": 15,
+    "successCount": 0,
+    "failureCount": 15,
+    "successRate": 0
+  },
+  "performance": {
+    "avgExecutionTime": 0,
+    "totalExecutionTime": 1
+  },
+  "results": [
+    {
+      "testId": "T001",
+      "description": "Housing eviction with clear goal amount",
+      "success": false,
+      "extractedData": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.960Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T002",
+      "description": "Medical emergency with urgent need",
+      "success": false,
+      "extractedData": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "beneficiaryRelationship": "daughter"
+      },
+      "expectedData": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.961Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T003",
+      "description": "Employment loss with family support needed",
+      "success": false,
+      "extractedData": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "family"
+      },
+      "expectedData": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.962Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T004",
+      "description": "Educational need with partial amount mentioned",
+      "success": false,
+      "extractedData": {
+        "name": "Robert Martinez",
+        "category": "WRONG_CATEGORY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.962Z",
+      "differences": [
+        "category: expected \"EDUCATION\", got \"WRONG_CATEGORY\"",
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T005",
+      "description": "Vague amount with family emergency",
+      "success": false,
+      "extractedData": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1000,
+        "beneficiaryRelationship": "mother"
+      },
+      "expectedData": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "missingFields": [
+          "goalAmount"
+        ],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.962Z",
+      "differences": [
+        "goalAmount: expected \"null\", got \"1000\"",
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T006",
+      "description": "False positive - wage mentioned instead of goal",
+      "success": false,
+      "extractedData": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.962Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T007",
+      "description": "Age mentioned - should not be confused with amount",
+      "success": false,
+      "extractedData": {
+        "name": "Maria Garcia",
+        "category": "WRONG_CATEGORY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.962Z",
+      "differences": [
+        "category: expected \"EMPLOYMENT\", got \"WRONG_CATEGORY\"",
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T008",
+      "description": "Legal issue with exact amount needed",
+      "success": false,
+      "extractedData": {
+        "name": "James Brown",
+        "category": "WRONG_CATEGORY",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.963Z",
+      "differences": [
+        "category: expected \"LEGAL\", got \"WRONG_CATEGORY\"",
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T009",
+      "description": "Multiple people mentioned - name extraction challenge",
+      "success": false,
+      "extractedData": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "son"
+      },
+      "expectedData": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.963Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T010",
+      "description": "Emergency with time pressure",
+      "success": false,
+      "extractedData": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "family"
+      },
+      "expectedData": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.963Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T011",
+      "description": "No clear category - should default to OTHER",
+      "success": false,
+      "extractedData": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.963Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T012",
+      "description": "Name with title/honorific",
+      "success": false,
+      "extractedData": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "daughter"
+      },
+      "expectedData": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.963Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T013",
+      "description": "Mixed numbers - date components present",
+      "success": false,
+      "extractedData": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expectedData": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.963Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T014",
+      "description": "Fuzzy name scenario - nickname used",
+      "success": false,
+      "extractedData": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "children"
+      },
+      "expectedData": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "children"
+      },
+      "executionTime": 1,
+      "timestamp": "2026-01-16T11:52:00.964Z",
+      "differences": [
+        "Missing field: missingFields"
+      ]
+    },
+    {
+      "testId": "T015",
+      "description": "No name provided - missing field test",
+      "success": false,
+      "extractedData": {
+        "name": "Test User",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "family"
+      },
+      "expectedData": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "missingFields": [
+          "name"
+        ],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0,
+      "timestamp": "2026-01-16T11:52:00.964Z",
+      "differences": [
+        "name: expected \"null\", got \"Test User\"",
+        "Missing field: missingFields"
+      ]
+    }
+  ]
+}

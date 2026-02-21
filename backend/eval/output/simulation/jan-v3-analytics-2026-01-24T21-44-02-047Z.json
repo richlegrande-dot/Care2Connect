@@ -1,0 +1,251 @@
+{
+  "metadata": {
+    "timestamp": "2026-01-24T21:44:02.055Z",
+    "version": "jan_v3.0_analytics",
+    "mode": "simulation",
+    "total_execution_time_ms": 54,
+    "total_tests": 30
+  },
+  "summary": {
+    "pass_rate": 0,
+    "passed": 0,
+    "failed": 30,
+    "avg_execution_time_ms": 0,
+    "field_accuracy": {
+      "name": 0,
+      "category": 0,
+      "urgency": 0,
+      "amount": 0
+    },
+    "difficulty_breakdown": {
+      "easy": {
+        "passed": 0,
+        "total": 6
+      },
+      "medium": {
+        "passed": 0,
+        "total": 10
+      },
+      "hard": {
+        "passed": 0,
+        "total": 9
+      },
+      "adversarial": {
+        "passed": 0,
+        "total": 5
+      }
+    }
+  },
+  "detailed_results": [
+    {
+      "id": "T001",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T002",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T003",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T004",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T005",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T006",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T007",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T008",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T009",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T010",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T011",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T012",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T013",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T014",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T015",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T016",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T017",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T018",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T019",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T020",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T021",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T022",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T023",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T024",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T025",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T026",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T027",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T028",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T029",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    },
+    {
+      "id": "T030",
+      "passed": false,
+      "weightedScore": 0,
+      "gradeLetter": "F",
+      "error": "urgencyDebug is not defined"
+    }
+  ]
+}

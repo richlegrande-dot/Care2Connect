@@ -1,0 +1,11 @@
+{
+  "id": "TICKET-1768065309229",
+  "issueType": "qr_problem",
+  "description": "QR code is not scanning",
+  "contactEmail": "user@example.com",
+  "contactPhone": null,
+  "context": null,
+  "clientId": null,
+  "createdAt": "2026-01-10T17:15:09.229Z",
+  "status": "OPEN"
+}

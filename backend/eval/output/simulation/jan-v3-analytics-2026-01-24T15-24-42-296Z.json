@@ -1,0 +1,975 @@
+{
+  "metadata": {
+    "timestamp": "2026-01-24T15:24:42.297Z",
+    "version": "jan_v3.0_analytics",
+    "mode": "simulation",
+    "total_execution_time_ms": 1771,
+    "total_tests": 30
+  },
+  "summary": {
+    "pass_rate": 100,
+    "passed": 30,
+    "failed": 0,
+    "avg_execution_time_ms": 0.43333333333333335,
+    "field_accuracy": {
+      "name": 25,
+      "category": 29,
+      "urgency": 26,
+      "amount": 30
+    },
+    "difficulty_breakdown": {
+      "easy": {
+        "passed": 6,
+        "total": 6
+      },
+      "medium": {
+        "passed": 10,
+        "total": 10
+      },
+      "hard": {
+        "passed": 9,
+        "total": 9
+      },
+      "adversarial": {
+        "passed": 5,
+        "total": 5
+      }
+    }
+  },
+  "detailed_results": [
+    {
+      "id": "T001",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Sarah Johnson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 3
+    },
+    {
+      "id": "T002",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Michael Chen"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Michael Chen",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 8000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 2
+    },
+    {
+      "id": "T003",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jennifer Davis"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Davis",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T004",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Robert Martinez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Martinez",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T005",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Lisa Thompson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": null,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Lisa Thompson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null,
+        "missingFields": [
+          "goalAmount"
+        ],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T006",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "David Wilson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "David Wilson",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T007",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Maria Garcia"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Garcia",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T008",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "James Brown"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "James Brown",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2250,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T009",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Ashley Williams"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Ashley Williams",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T010",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Christopher Lee"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Christopher Lee",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T011",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Amanda Taylor"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Amanda Taylor",
+        "category": "OTHER",
+        "urgencyLevel": "LOW",
+        "goalAmount": 1000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T012",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "Dr"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Dr",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Johnson",
+        "category": "FAMILY",
+        "urgencyLevel": "LOW",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T013",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Steven Clark"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 6000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Steven Clark",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 6000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T014",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Elizabeth"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Elizabeth",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Elizabeth Rodriguez",
+        "category": "FAMILY",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "beneficiaryRelationship": "children"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T015",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "facing eviction"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "facing eviction",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": null,
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2500,
+        "missingFields": [
+          "name"
+        ],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T016",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Sarah"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Sarah",
+        "category": "SAFETY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Sarah",
+        "category": "SAFETY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T017",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Marcus Johnson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Marcus Johnson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Marcus Johnson",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 4500,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T018",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Jennifer Park"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Jennifer Park",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2200,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jennifer Park",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2200,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T019",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Thomas Wright"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Thomas Wright",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 1750,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T020",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Rachel Martinez"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Rachel Martinez",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Rachel Martinez",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 950,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T021",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Patricia Collins"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Patricia Collins",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T022",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Daniel Kim"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Daniel Kim",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Daniel Kim",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T023",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Linda Torres"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": false,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "LOW",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Linda Torres",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T024",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Brian Anderson"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Brian Anderson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Brian Anderson",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T025",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Maria Santos"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Maria Santos",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Maria Santos",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 1800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T026",
+      "passed": true,
+      "weightedScore": 0.9999999999999999,
+      "gradeLetter": "A+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Katherine Williams"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Katherine Williams",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 5000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Katherine Williams",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "beneficiaryRelationship": "mother"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T027",
+      "passed": true,
+      "weightedScore": 0.75,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": true,
+          "cleanedActual": "Robert Chen"
+        },
+        "categoryMatch": false,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Robert Chen",
+        "category": "EMPLOYMENT",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2800,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Robert Chen",
+        "category": "EDUCATION",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": 2800,
+        "missingFields": [],
+        "beneficiaryRelationship": "myself"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T028",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": null
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": null,
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3500,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Jessica Morgan",
+        "category": "LEGAL",
+        "urgencyLevel": "HIGH",
+        "goalAmount": 3500,
+        "missingFields": [],
+        "beneficiaryRelationship": "daughter"
+      },
+      "executionTime": 0
+    },
+    {
+      "id": "T029",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "This is"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "This is",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Carlos Ramirez",
+        "category": "EMERGENCY",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 4000,
+        "missingFields": [],
+        "beneficiaryRelationship": "family"
+      },
+      "executionTime": 1
+    },
+    {
+      "id": "T030",
+      "passed": true,
+      "weightedScore": 0.7999999999999999,
+      "gradeLetter": "C+",
+      "fieldMatches": {
+        "nameMatch": {
+          "matches": false,
+          "cleanedActual": "Dr"
+        },
+        "categoryMatch": true,
+        "urgencyMatch": true,
+        "amountMatch": true
+      },
+      "results": {
+        "name": "Dr",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "beneficiaryRelationship": "myself"
+      },
+      "expected": {
+        "name": "Angela Foster",
+        "category": "HEALTHCARE",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 3000,
+        "missingFields": [],
+        "beneficiaryRelationship": "son"
+      },
+      "executionTime": 0
+    }
+  ]
+}

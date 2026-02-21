@@ -1,0 +1,6 @@
+{
+  "frontend": 3000,
+  "backend": 3001,
+  "proxy": 8080,
+  "_comment": "Canonical port configuration - DO NOT hardcode ports in scripts"
+}

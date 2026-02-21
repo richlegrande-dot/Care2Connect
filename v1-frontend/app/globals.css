@@ -1,0 +1,720 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   CareConnect Design System v2.0
+   Enterprise Government Portal Theme
+   ======================================== */
+
+:root {
+  /* Color Palette */
+  --cc-color-primary: #1B3A5D;
+  --cc-color-primary-dark: #0F2438;
+  --cc-color-primary-light: #2B5A8D;
+  --cc-color-secondary: #4A5C6D;
+  --cc-color-accent: #C1121F;
+  --cc-color-accent-dark: #8B0000;
+  --cc-color-accent-light: #E84A5F;
+  
+  /* Surface Colors */
+  --cc-color-bg: #F9FAFB;
+  --cc-color-bg-gradient-start: #F9FAFB;
+  --cc-color-bg-gradient-end: #EBF4FF;
+  --cc-color-surface: #FFFFFF;
+  --cc-color-surface-secondary: #F3F4F6;
+  --cc-color-border: #D1D5DB;
+  --cc-color-border-light: #E5E7EB;
+  
+  /* Text Colors */
+  --cc-color-text-primary: #111827;
+  --cc-color-text-secondary: #6B7280;
+  --cc-color-text-tertiary: #9CA3AF;
+  --cc-color-text-inverse: #FFFFFF;
+  
+  /* Status Colors */
+  --cc-color-success: #059669;
+  --cc-color-success-light: #D1FAE5;
+  --cc-color-warning: #D97706;
+  --cc-color-warning-light: #FEF3C7;
+  --cc-color-error: #DC2626;
+  --cc-color-error-light: #FEE2E2;
+  --cc-color-info: #2563EB;
+  --cc-color-info-light: #DBEAFE;
+  
+  /* Spacing Scale (4px base) */
+  --cc-space-xs: 0.25rem;    /* 4px */
+  --cc-space-sm: 0.5rem;     /* 8px */
+  --cc-space-md: 0.75rem;    /* 12px */
+  --cc-space-lg: 1rem;       /* 16px */
+  --cc-space-xl: 1.5rem;     /* 24px */
+  --cc-space-2xl: 2rem;      /* 32px */
+  --cc-space-3xl: 3rem;      /* 48px */
+  --cc-space-4xl: 4rem;      /* 64px */
+  
+  /* Border Radius */
+  --cc-radius-sm: 0.375rem;  /* 6px */
+  --cc-radius-md: 0.5rem;    /* 8px */
+  --cc-radius-lg: 0.75rem;   /* 12px */
+  --cc-radius-xl: 1rem;      /* 16px */
+  --cc-radius-full: 9999px;
+  
+  /* Shadows */
+  --cc-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --cc-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --cc-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --cc-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --cc-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  
+  /* Typography Scale */
+  --cc-font-size-xs: 0.75rem;      /* 12px */
+  --cc-font-size-sm: 0.875rem;     /* 14px */
+  --cc-font-size-base: 1rem;       /* 16px */
+  --cc-font-size-lg: 1.125rem;     /* 18px */
+  --cc-font-size-xl: 1.25rem;      /* 20px */
+  --cc-font-size-2xl: 1.5rem;      /* 24px */
+  --cc-font-size-3xl: 1.875rem;    /* 30px */
+  --cc-font-size-4xl: 2.25rem;     /* 36px */
+  --cc-font-size-5xl: 3rem;        /* 48px */
+  
+  /* Line Heights */
+  --cc-line-height-tight: 1.25;
+  --cc-line-height-normal: 1.5;
+  --cc-line-height-relaxed: 1.75;
+  
+  /* Transitions */
+  --cc-transition-fast: 150ms ease-in-out;
+  --cc-transition-normal: 250ms ease-in-out;
+  --cc-transition-slow: 350ms ease-in-out;
+  
+  /* Z-Index Scale */
+  --cc-z-dropdown: 1000;
+  --cc-z-sticky: 1020;
+  --cc-z-modal-backdrop: 1040;
+  --cc-z-modal: 1050;
+  --cc-z-toast: 1060;
+}
+
+/* Base Styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--cc-color-text-primary);
+  background: linear-gradient(135deg, var(--cc-color-bg-gradient-start) 0%, var(--cc-color-bg-gradient-end) 100%);
+  min-height: 100vh;
+}
+
+/* Typography Classes */
+.cc-heading-xl {
+  font-size: var(--cc-font-size-5xl);
+  font-weight: 800;
+  line-height: var(--cc-line-height-tight);
+  letter-spacing: -0.02em;
+  color: var(--cc-color-primary);
+}
+
+.cc-heading-lg {
+  font-size: var(--cc-font-size-4xl);
+  font-weight: 700;
+  line-height: var(--cc-line-height-tight);
+  letter-spacing: -0.01em;
+  color: var(--cc-color-primary);
+}
+
+.cc-heading-md {
+  font-size: var(--cc-font-size-3xl);
+  font-weight: 700;
+  line-height: var(--cc-line-height-normal);
+  color: var(--cc-color-primary);
+}
+
+.cc-heading-sm {
+  font-size: var(--cc-font-size-2xl);
+  font-weight: 600;
+  line-height: var(--cc-line-height-normal);
+  color: var(--cc-color-text-primary);
+}
+
+.cc-body {
+  font-size: var(--cc-font-size-base);
+  line-height: var(--cc-line-height-relaxed);
+  color: var(--cc-color-text-secondary);
+}
+
+.cc-body-lg {
+  font-size: var(--cc-font-size-lg);
+  line-height: var(--cc-line-height-relaxed);
+  color: var(--cc-color-text-secondary);
+}
+
+.cc-caption {
+  font-size: var(--cc-font-size-sm);
+  line-height: var(--cc-line-height-normal);
+  color: var(--cc-color-text-tertiary);
+}
+
+/* ========================================
+   Button Components
+   ======================================== */
+
+/* Primary Action Button */
+.btn-primary {
+  background: var(--cc-color-primary);
+  color: var(--cc-color-text-inverse);
+  font-weight: 600;
+  padding: var(--cc-space-lg) var(--cc-space-2xl);
+  border-radius: var(--cc-radius-lg);
+  box-shadow: var(--cc-shadow-md);
+  transition: all var(--cc-transition-normal);
+  border: none;
+  cursor: pointer;
+  @apply focus:outline-none focus:ring-4 focus:ring-opacity-20;
+}
+
+.btn-primary:hover {
+  background: var(--cc-color-primary-dark);
+  box-shadow: var(--cc-shadow-lg);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--cc-shadow-md);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: var(--cc-color-surface-secondary);
+  color: var(--cc-color-text-primary);
+  font-weight: 600;
+  padding: var(--cc-space-lg) var(--cc-space-2xl);
+  border-radius: var(--cc-radius-lg);
+  box-shadow: var(--cc-shadow-sm);
+  transition: all var(--cc-transition-normal);
+  border: 2px solid var(--cc-color-border);
+  cursor: pointer;
+  @apply focus:outline-none focus:ring-4 focus:ring-gray-300;
+}
+
+.btn-secondary:hover {
+  background: var(--cc-color-border-light);
+  box-shadow: var(--cc-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Red Recording Button with Pulse Animation */
+.btn-record {
+  background: var(--cc-color-accent);
+  color: var(--cc-color-text-inverse);
+  font-weight: 700;
+  border-radius: var(--cc-radius-full);
+  box-shadow: var(--cc-shadow-2xl);
+  transition: all var(--cc-transition-normal);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  @apply focus:outline-none focus:ring-4 focus:ring-red-300;
+}
+
+.btn-record:hover {
+  background: var(--cc-color-accent-dark);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 30px 60px -15px rgba(193, 18, 31, 0.4);
+}
+
+.btn-record:active {
+  transform: translateY(0) scale(1);
+}
+
+/* Disabled Button States */
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-record:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary:disabled:hover,
+.btn-secondary:disabled:hover,
+.btn-record:disabled:hover {
+  transform: none;
+  box-shadow: var(--cc-shadow-sm);
+}
+
+/* Breathing animation for record button */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.btn-record-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Recording pulse ring */
+@keyframes recording-pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+.recording-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: var(--cc-radius-full);
+  border: 3px solid var(--cc-color-accent);
+  animation: recording-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ========================================
+   Form Components
+   ======================================== */
+
+.form-input {
+  width: 100%;
+  padding: var(--cc-space-lg) var(--cc-space-lg);
+  border: 2px solid var(--cc-color-border);
+  border-radius: var(--cc-radius-lg);
+  font-size: var(--cc-font-size-base);
+  transition: all var(--cc-transition-fast);
+  background: var(--cc-color-surface);
+  color: var(--cc-color-text-primary);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--cc-color-primary);
+  box-shadow: 0 0 0 4px rgba(27, 58, 93, 0.1);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--cc-font-size-sm);
+  font-weight: 600;
+  color: var(--cc-color-text-primary);
+  margin-bottom: var(--cc-space-sm);
+  letter-spacing: 0.01em;
+}
+
+/* ========================================
+   Card Components
+   ======================================== */
+
+.card {
+  background: var(--cc-color-surface);
+  border-radius: var(--cc-radius-xl);
+  box-shadow: var(--cc-shadow-lg);
+  border: 1px solid var(--cc-color-border-light);
+  padding: var(--cc-space-2xl);
+  transition: all var(--cc-transition-normal);
+}
+
+.card-hover:hover {
+  box-shadow: var(--cc-shadow-xl);
+  transform: translateY(-2px);
+}
+
+.card-compact {
+  padding: var(--cc-space-xl);
+}
+
+/* ========================================
+   Step Progress Components
+   ======================================== */
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--cc-radius-full);
+  font-weight: 700;
+  font-size: var(--cc-font-size-sm);
+  transition: all var(--cc-transition-normal);
+  position: relative;
+}
+
+.step-indicator.active {
+  background: var(--cc-color-primary);
+  color: var(--cc-color-text-inverse);
+  box-shadow: 0 0 0 4px rgba(27, 58, 93, 0.15);
+  transform: scale(1.1);
+}
+
+.step-indicator.completed {
+  background: var(--cc-color-success);
+  color: var(--cc-color-text-inverse);
+}
+
+.step-indicator.upcoming {
+  background: var(--cc-color-surface-secondary);
+  color: var(--cc-color-text-tertiary);
+  border: 2px solid var(--cc-color-border);
+}
+
+/* ========================================
+   Status Badges
+   ======================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--cc-radius-full);
+  font-size: var(--cc-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.badge-success {
+  background: var(--cc-color-success-light);
+  color: var(--cc-color-success);
+}
+
+.badge-warning {
+  background: var(--cc-color-warning-light);
+  color: var(--cc-color-warning);
+}
+
+.badge-error {
+  background: var(--cc-color-error-light);
+  color: var(--cc-color-error);
+}
+
+.badge-info {
+  background: var(--cc-color-info-light);
+  color: var(--cc-color-info);
+}
+
+/* ========================================
+   Animations & Keyframes
+   ======================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--cc-transition-slow) ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--cc-transition-slow) ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown var(--cc-transition-slow) ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--cc-transition-normal) ease-out;
+}
+
+/* ========================================
+   Reduced Motion Support
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .btn-record-breathe,
+  .recording-ring,
+  .skeleton,
+  .animate-pulse,
+  .animate-spin,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-scale-in {
+    animation: none !important;
+  }
+  
+  /* Maintain hover states but remove transforms */
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-record:hover,
+  .card-hover:hover {
+    transform: none !important;
+  }
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.blur-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.text-balance {
+  /* Progressive enhancement - Chrome 114+, Safari 17+ */
+  text-wrap: balance;
+}
+
+.surface-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(27, 58, 93, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(193, 18, 31, 0.02) 0%, transparent 50%);
+}
+
+/* Admin Table Enhancements */
+.admin-table thead tr {
+  background: linear-gradient(135deg, var(--cc-color-surface-light) 0%, var(--cc-color-surface-base) 100%);
+  border-bottom: 3px solid var(--cc-color-border-medium);
+}
+
+.admin-table thead th {
+  padding: var(--cc-space-md) var(--cc-space-lg);
+  font-weight: 700;
+  font-size: var(--cc-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cc-color-text-primary);
+}
+
+.admin-table tbody tr {
+  transition: all var(--cc-transition-fast);
+  border-bottom: 1px solid var(--cc-color-border-light);
+}
+
+.admin-table tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 0 var(--cc-color-primary);
+}
+
+.admin-table tbody tr:hover td {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-table tbody tr:active {
+  transform: translateX(2px);
+  transition-duration: 0.05s;
+}
+
+.admin-table td {
+  padding: var(--cc-space-md) var(--cc-space-lg);
+}
+
+/* Empty State Styling */
+.empty-state {
+  text-align: center;
+  padding: var(--cc-space-4xl);
+  color: var(--cc-color-text-secondary);
+}
+
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--cc-space-lg);
+  background: linear-gradient(135deg, var(--cc-color-surface-light), var(--cc-color-surface-base));
+  border-radius: var(--cc-radius-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: var(--cc-font-size-lg);
+  font-weight: 700;
+  color: var(--cc-color-text-primary);
+  margin-bottom: var(--cc-space-sm);
+}
+
+.empty-state-description {
+  font-size: var(--cc-font-size-base);
+  color: var(--cc-color-text-secondary);
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Empty State Variations */
+.empty-state.info {
+  background: linear-gradient(135deg, var(--cc-color-info-light), rgba(37, 99, 235, 0.05));
+}
+
+.empty-state.success {
+  background: linear-gradient(135deg, var(--cc-color-success-light), rgba(5, 150, 105, 0.05));
+}
+
+.empty-state.warning {
+  background: linear-gradient(135deg, var(--cc-color-warning-light), rgba(217, 119, 6, 0.05));
+}
+
+.empty-state.error {
+  background: linear-gradient(135deg, var(--cc-color-error-light), rgba(220, 38, 38, 0.05));
+}
+
+/* Loading Skeletons */
+@keyframes skeleton-pulse {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--cc-color-surface-secondary) 0%,
+    var(--cc-color-border-light) 50%,
+    var(--cc-color-surface-secondary) 100%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: var(--cc-radius-md);
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: var(--cc-space-sm);
+  border-radius: var(--cc-radius-sm);
+}
+
+.skeleton-text.large {
+  height: 1.5rem;
+}
+
+.skeleton-text.small {
+  height: 0.75rem;
+}
+
+.skeleton-card {
+  padding: var(--cc-space-xl);
+  background: var(--cc-color-surface);
+  border-radius: var(--cc-radius-xl);
+  box-shadow: var(--cc-shadow-md);
+}
+
+.skeleton-table-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--cc-space-lg);
+  padding: var(--cc-space-md);
+  border-bottom: 1px solid var(--cc-color-border-light);
+}
+
+/* Banner Components */
+.banner {
+  padding: var(--cc-space-lg) var(--cc-space-xl);
+  border-radius: var(--cc-radius-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-md);
+  font-weight: 600;
+  box-shadow: var(--cc-shadow-sm);
+  margin-bottom: var(--cc-space-lg);
+  border-left: 4px solid;
+}
+
+.banner-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.banner-content {
+  flex: 1;
+}
+
+.banner-title {
+  font-weight: 700;
+  margin-bottom: var(--cc-space-xs);
+  font-size: var(--cc-font-size-base);
+}
+
+.banner-message {
+  font-weight: 400;
+  font-size: var(--cc-font-size-sm);
+  opacity: 0.9;
+}
+
+.banner.success {
+  background: var(--cc-color-success-light);
+  color: var(--cc-color-success);
+  border-left-color: var(--cc-color-success);
+}
+
+.banner.error {
+  background: var(--cc-color-error-light);
+  color: var(--cc-color-error);
+  border-left-color: var(--cc-color-error);
+}
+
+.banner.warning {
+  background: var(--cc-color-warning-light);
+  color: var(--cc-color-warning);
+  border-left-color: var(--cc-color-warning);
+}
+
+.banner.info {
+  background: var(--cc-color-info-light);
+  color: var(--cc-color-info);
+  border-left-color: var(--cc-color-info);
+}

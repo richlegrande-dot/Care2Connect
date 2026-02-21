@@ -1,0 +1,89 @@
+{
+  "gofundme": {
+    "title": {
+      "keywords": ["help", "support", "need", "save", "raise", "fund", "fundraiser", "campaign"],
+      "patterns": [
+        "help {name} {action}",
+        "support {name}",
+        "{name} needs help",
+        "fundraiser for {name}"
+      ],
+      "maxLength": 100
+    },
+    "beneficiary": {
+      "keywords": ["myself", "my family", "my son", "my daughter", "my mother", "my father", "my wife", "my husband", "for me", "for us"],
+      "patterns": [
+        "for {relationship}",
+        "helping {name}",
+        "{pronoun} need",
+        "raising money for {beneficiary}"
+      ]
+    },
+    "category": {
+      "medical": ["medical", "hospital", "surgery", "treatment", "cancer", "illness", "disease", "health", "doctor", "medication", "therapy"],
+      "housing": ["housing", "rent", "apartment", "homeless", "eviction", "shelter", "home", "place to live", "first month", "deposit"],
+      "emergency": ["emergency", "urgent", "crisis", "disaster", "fire", "flood", "accident", "sudden"],
+      "education": ["education", "tuition", "school", "college", "university", "student", "scholarship", "books"],
+      "memorial": ["memorial", "funeral", "burial", "passed away", "died", "death", "loved one", "loss"],
+      "community": ["community", "neighborhood", "local", "organization", "nonprofit", "charity", "group"],
+      "family": ["family", "children", "kids", "child", "baby", "parent", "relatives"],
+      "business": ["business", "startup", "small business", "company", "shop", "store"],
+      "other": []
+    },
+    "location": {
+      "patterns": [
+        "in {city}, {state}",
+        "from {city}",
+        "living in {location}",
+        "located in {location}",
+        "{city}, {state}",
+        "{state}"
+      ],
+      "keywords": ["city", "town", "state", "located", "living", "residing", "from"]
+    },
+    "goalAmount": {
+      "patterns": [
+        "${amount}",
+        "{amount} dollars",
+        "raise {amount}",
+        "need {amount}",
+        "goal of {amount}",
+        "target {amount}"
+      ],
+      "keywords": ["dollars", "goal", "raise", "need", "target", "amount", "$"]
+    },
+    "story": {
+      "sections": {
+        "introduction": ["my name is", "I am", "I'm", "we are"],
+        "situation": ["currently", "right now", "facing", "experiencing", "going through", "dealing with"],
+        "need": ["need", "require", "looking for", "trying to", "hoping to", "want to"],
+        "background": ["years", "experience", "worked", "been", "have", "had"],
+        "impact": ["help", "allow", "enable", "support", "make it possible", "give me", "provide"],
+        "gratitude": ["thank you", "grateful", "appreciate", "thankful", "bless"]
+      }
+    }
+  },
+  "donationPage": {
+    "displayName": {
+      "keywords": ["name", "call me", "I'm", "I am"],
+      "patterns": ["{firstName} {lastName}", "{name}"]
+    },
+    "slug": {
+      "patterns": ["help-{name}", "{name}-fundraiser", "{name}-{category}"],
+      "rules": ["lowercase", "hyphenated", "no-special-chars"]
+    }
+  },
+  "confidence": {
+    "high": 0.85,
+    "medium": 0.6,
+    "low": 0.4
+  },
+  "followUpQuestions": {
+    "missingName": "What is your full name?",
+    "missingGoal": "How much money are you trying to raise?",
+    "missingLocation": "What city and state are you in?",
+    "missingCategory": "What is the primary reason for your fundraiser? (medical, housing, emergency, etc.)",
+    "missingBeneficiary": "Who is this fundraiser for? (yourself, a family member, etc.)",
+    "shortStory": "Can you tell us more about your situation? The more details you provide, the more compelling your campaign will be."
+  }
+}

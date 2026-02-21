@@ -1,0 +1,26 @@
+﻿# Domain Guard - Simplified Test Version
+$CorrectDomain = "care2connects.org"
+$IncorrectDomain = "care2connect.org"
+$WorkspaceRoot = "C:\Users\richl\Care2system"
+
+Write-Host "Scanning for domain typos..." -ForegroundColor Cyan
+
+$violations = 0
+$files = Get-ChildItem -Path $WorkspaceRoot -Include "*.ts","*.tsx","*.js","*.ps1","*.yml","*.yaml","Caddyfile*" -Recurse -File -ErrorAction SilentlyContinue | 
+    Where-Object { $_.FullName -notlike "*\node_modules\*" -and $_.FullName -notlike "*\.next\*" -and $_.FullName -notlike "*\.git\*" }
+
+foreach ($file in $files) {
+    $content = Get-Content $file.FullName -Raw -ErrorAction SilentlyContinue
+    if ($content -match $IncorrectDomain) {
+        Write-Host "Found typo in: $($file.FullName)" -ForegroundColor Red
+        $violations++
+    }
+}
+
+if ($violations -eq 0) {
+    Write-Host "OK: No domain typos found" -ForegroundColor Green
+    exit 0
+} else {
+    Write-Host "FAIL: Found $violations files with domain typos" -ForegroundColor Red
+    exit 1
+}

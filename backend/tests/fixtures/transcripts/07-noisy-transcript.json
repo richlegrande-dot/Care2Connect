@@ -1,0 +1,66 @@
+{
+  "name": "Noisy Transcript",
+  "description": "Transcript with background noise markers and filler words",
+  "transcript": "Um, hi, [background noise] my name is, uh, Jennifer Brown. [coughing] Sorry about that. So, like, I really need help, you know? [unclear] I've been, um, struggling with, uh, keeping my apartment. [background voices] The rent is just too much and, like, I can't afford it anymore. I'm in, uh, Atlanta, Georgia. [noise] I also need, um, help with groceries and, you know, maybe some, uh, job training? [unclear audio] You can, uh, email me at jenbrown.help@email.com. [background noise] Thanks for, um, listening.",
+  "expectedExtraction": {
+    "nameCandidate": "Jennifer Brown",
+    "contactCandidates": {
+      "emails": ["jenbrown.help@email.com"],
+      "phones": []
+    },
+    "locationCandidates": ["Atlanta", "Georgia"],
+    "needsCategories": ["HOUSING", "FOOD", "EMPLOYMENT"],
+    "urgencyScore": 0.6,
+    "keyPointsCount": 4
+  },
+  "segments": [
+    {
+      "text": "Um, hi, [background noise] my name is, uh, Jennifer Brown.",
+      "start": 0,
+      "end": 4000
+    },
+    {
+      "text": "[coughing] Sorry about that.",
+      "start": 4000,
+      "end": 6000
+    },
+    {
+      "text": "So, like, I really need help, you know?",
+      "start": 6000,
+      "end": 8500
+    },
+    {
+      "text": "[unclear] I've been, um, struggling with, uh, keeping my apartment.",
+      "start": 8500,
+      "end": 12000
+    },
+    {
+      "text": "[background voices] The rent is just too much and, like, I can't afford it anymore.",
+      "start": 12000,
+      "end": 16000
+    },
+    {
+      "text": "I'm in, uh, Atlanta, Georgia.",
+      "start": 16000,
+      "end": 18000
+    },
+    {
+      "text": "[noise] I also need, um, help with groceries and, you know, maybe some, uh, job training?",
+      "start": 18000,
+      "end": 22500
+    },
+    {
+      "text": "[unclear audio] You can, uh, email me at jenbrown.help@email.com.",
+      "start": 22500,
+      "end": 26000
+    },
+    {
+      "text": "[background noise] Thanks for, um, listening.",
+      "start": 26000,
+      "end": 28500
+    }
+  ],
+  "wordCount": 95,
+  "duration": 28500,
+  "detectedLanguage": "en"
+}

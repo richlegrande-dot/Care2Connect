@@ -1,0 +1,1388 @@
+﻿
+> careconnect-backend@1.0.0 test
+> jest adversarial-phase4.test.ts
+
+  console.log
+    Extreme stress test: 10,000 extractions in 69ms (144928 ops/sec)
+
+      at Object.<anonymous> (src/tests/unit/parsing/adversarial-phase4.test.ts:558:13)
+
+node.exe : FAIL src/tests/uni
+t/parsing/adversarial-phase4.
+test.ts
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (FAIL sr  
+  c/tests/...-phase4.test.   
+ ts:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+  Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser
+    Adversarial Name 
+Extraction - Intentionally 
+Deceptive
+      ├ù should handle names 
+that look like common words 
+(5 ms)
+      ├ù should reject names 
+that are actually urgency 
+descriptors (1 ms)
+      ΓêÜ should handle 
+complex hyphenated and 
+multicultural names (2 ms)
+      ├ù should handle names 
+with titles and honorifics 
+correctly (1 ms)
+      ├ù should handle 
+multiple name mentions with 
+contradictions (1 ms)
+      ├ù should reject names 
+that are actually addresses 
+or locations (1 ms)
+      ├ù should handle names 
+with unusual capitalization 
+patterns (1 ms)
+    Adversarial Amount 
+Extraction - Deceptive 
+Monetary Contexts
+      ├ù should reject 
+amounts buried in unrelated 
+contexts (2 ms)
+      ├ù should handle 
+multiple conflicting amounts 
+correctly (1 ms)
+      ├ù should handle 
+ambiguous range expressions 
+(1 ms)
+      ├ù should reject 
+amounts in comparison or 
+contrast contexts (4 ms)
+      ├ù should handle 
+written numbers in complex 
+expressions
+      ├ù should handle 
+percentage and fractional 
+expressions (1 ms)
+      ΓêÜ should handle 
+amounts with modifiers and 
+uncertainty (1 ms)
+      ΓêÜ should reject debt 
+amounts vs. fundraising goals
+      ├ù should handle 
+international currency 
+formats
+    Adversarial Relationship 
+Extraction - Complex 
+Beneficiary Scenarios
+      ├ù should handle 
+ambiguous pronouns correctly 
+(2 ms)
+      ├ù should handle 
+third-party fundraising 
+correctly
+      ΓêÜ should handle 
+mixed beneficiary contexts
+      ├ù should handle 
+pet/animal fundraising
+    Adversarial Urgency 
+Detection - Manipulation vs. 
+Real Emergency
+      ΓêÜ should detect 
+SPAM/manipulation attempts 
+(1 ms)
+      ├ù should detect 
+genuine vs manufactured 
+urgency
+      ├ù should handle 
+temporal urgency correctly 
+(1 ms)
+    Real-World Messy 
+Transcripts - Speech 
+Disfluencies
+      ├ù should handle heavy 
+filler words and false starts
+      ├ù should handle 
+speech corrections and 
+self-contradictions (1 ms)
+      ├ù should handle 
+run-on sentences without 
+punctuation (1 ms)
+      ├ù should handle 
+background noise descriptors 
+and interruptions (1 ms)
+    Edge Case Scenarios - 
+Boundary Testing
+      ΓêÜ should handle 
+extremely long names 
+correctly
+      ├ù should handle 
+extremely large amounts
+      ΓêÜ should handle 
+extremely small amounts (1 
+ms)
+      ΓêÜ should handle 
+transcripts with only numbers
+      ΓêÜ should handle 
+transcripts with mixed 
+languages
+      ΓêÜ should handle 
+emoji and special unicode 
+characters (1 ms)
+    Contextual Ambiguity - 
+Multiple Valid 
+Interpretations
+      ΓêÜ should handle 
+names that are also job 
+titles (1 ms)
+      ΓêÜ should handle 
+amounts in hypothetical vs 
+actual contexts
+      ΓêÜ should handle past 
+vs future vs present tense 
+contexts
+    Performance Under Stress 
+- Complex Scenarios
+      ΓêÜ should handle 
+deeply nested information (1 
+ms)
+      ├ù should handle 
+contradictory information 
+with confidence adjustment
+      ΓêÜ should maintain 
+performance with very long, 
+complex transcripts (1 ms)
+    Security and Injection 
+Testing
+      ΓêÜ should handle 
+potential ReDoS (Regular 
+Expression Denial of 
+Service) patterns (293 ms)
+      ΓêÜ should handle SQL 
+injection-like patterns (1 
+ms)
+      ΓêÜ should handle 
+script injection attempts
+    Statistical Confidence 
+Validation
+      ΓêÜ should provide 
+appropriate confidence 
+scores for ambiguous cases 
+(1 ms)
+      ΓêÜ should never 
+provide confidence scores 
+outside valid range (2 ms)
+  Phase 4: Extreme 
+Performance Stress Test
+    ΓêÜ should handle 10,000 
+rapid extractions without 
+degradation (97 ms)
+    ΓêÜ should handle 
+concurrent processing 
+simulation (24 ms)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Name Extraction - 
+Intentionally Deceptive ΓÇ║ 
+should handle names that 
+look like common words
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: "Hope"
+    Received: "Hope and"
+
+    [0m [90m 32 |[39m     
+  [90m// Names that are 
+also common words[39m
+     [90m 33 |[39m       
+[36mconst[39m result1 
+[33m=[39m extractNameWithCo
+nfidence([32m"My name is 
+Hope and I need 
+help"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 34 
+|[39m       expect(result1[
+33m.[39mvalue)[33m.[39mtoB
+e([32m"Hope"[39m)[33m;[39
+m
+     [90m    |[39m         
+                    
+[31m[1m^[22m[39m
+     [90m 35 |[39m       ex
+pect(result1[33m.[39mconfid
+ence)[33m.[39mtoBeGreaterTh
+an([35m0.5[39m)[33m;[39m
+     [90m 36 |[39m       
+     [90m 37 |[39m       
+[36mconst[39m result2 
+[33m=[39m extractNameWithCo
+nfidence([32m"I'm Faith 
+Johnson seeking assistance"[
+39m)[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:34:29)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Name Extraction - 
+Intentionally Deceptive ΓÇ║ 
+should reject names that are 
+actually urgency descriptors
+
+    expect(received).toBeUnde
+fined()
+
+    Received: "Critical and 
+this is urgent"
+
+    [0m [90m 45 |[39m     
+test([32m'should reject 
+names that are actually 
+urgency 
+descriptors'[39m[33m,[39m 
+() [33m=>[39m {
+     [90m 46 |[39m       
+[90m// These should be 
+rejected even though they 
+follow name patterns[39m
+    
+[31m[1m>[22m[39m[90m 47 
+|[39m       
+expect(extractName([32m"My 
+name is Critical and this is 
+urgent"[39m))[33m.[39mtoBe
+Undefined()[33m;[39m
+     [90m    |[39m         
+                             
+                             
+  [31m[1m^[22m[39m
+     [90m 48 |[39m       
+expect(extractName([32m"I'm 
+Emergency response team"[39m
+))[33m.[39mtoBeUndefined()
+[33m;[39m
+     [90m 49 |[39m       ex
+pect(extractName([32m"They 
+call me Desperate Dave"[39m)
+)[33m.[39mtoBeUndefined()[
+33m;[39m
+     [90m 50 |[39m     
+})[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:47:69)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Name Extraction - 
+Intentionally Deceptive ΓÇ║ 
+should handle names with 
+titles and honorifics 
+correctly
+
+    expect(received).toContai
+n(expected) // indexOf
+
+    Expected substring: 
+"Sarah Thompson"
+    Received string:    "Dr"
+
+    [0m [90m 67 |[39m     
+test([32m'should handle 
+names with titles and 
+honorifics 
+correctly'[39m[33m,[39m 
+() [33m=>[39m {
+     [90m 68 |[39m       
+[36mconst[39m result1 
+[33m=[39m extractNameWithCo
+nfidence([32m"My name is 
+Dr. Sarah Thompson 
+MD"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 69 
+|[39m       expect(result1[
+33m.[39mvalue)[33m.[39mtoC
+ontain([32m"Sarah 
+Thompson"[39m)[33m;[39m
+     [90m    |[39m         
+                    
+[31m[1m^[22m[39m
+     [90m 70 |[39m       
+     [90m 71 |[39m       
+[36mconst[39m result2 
+[33m=[39m extractNameWithCo
+nfidence([32m"I'm Rev. 
+Michael Johnson 
+Jr."[39m)[33m;[39m
+     [90m 72 |[39m       ex
+pect(result2[33m.[39mvalue)
+[33m.[39mtoContain([32m"Mi
+chael 
+Johnson"[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:69:29)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Name Extraction - 
+Intentionally Deceptive ΓÇ║ 
+should handle multiple name 
+mentions with contradictions
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: "Sarah Johnson"
+    Received: "Sarah Johnson 
+but everyone calls me 
+Jennifer and my nickname is 
+Jen but legally"
+
+    [0m [90m 80 |[39m     
+  [36mconst[39m transcript 
+[33m=[39m [32m"My name is 
+Sarah Johnson but everyone 
+calls me Jennifer and my 
+nickname is Jen but legally 
+I'm Sarah Elizabeth Johnson S
+mith-Williams"[39m[33m;[39
+m
+     [90m 81 |[39m       
+[36mconst[39m result 
+[33m=[39m extractNameWithCo
+nfidence(transcript)[33m;[3
+9m
+    
+[31m[1m>[22m[39m[90m 82 
+|[39m       expect(result[3
+3m.[39mvalue)[33m.[39mtoBe
+([32m"Sarah 
+Johnson"[39m)[33m;[39m
+     [90m    |[39m         
+                   
+[31m[1m^[22m[39m
+     [90m 83 |[39m       ex
+pect(result[33m.[39mconfide
+nce)[33m.[39mtoBeGreaterTha
+n([35m0.7[39m)[33m;[39m
+     [90m 84 |[39m     
+})[33m;[39m
+     [90m 85 |[39m     [0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:82:28)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Name Extraction - 
+Intentionally Deceptive ΓÇ║ 
+should reject names that are 
+actually addresses or 
+locations
+
+    expect(received).toBeUnde
+fined()
+
+    Received: "Portland 
+Oregon resident"
+
+    [0m [90m 85 |[39m     
+     [90m 86 |[39m     
+test([32m'should reject 
+names that are actually 
+addresses or 
+locations'[39m[33m,[39m 
+() [33m=>[39m {
+    
+[31m[1m>[22m[39m[90m 87 
+|[39m       
+expect(extractName([32m"I'm 
+Portland Oregon resident"[39
+m))[33m.[39mtoBeUndefined()
+[33m;[39m
+     [90m    |[39m         
+                             
+                     
+[31m[1m^[22m[39m
+     [90m 88 |[39m       
+expect(extractName([32m"My 
+name is Dallas Texas technica
+lly"[39m))[33m.[39mtoBeUnd
+efined()[33m;[39m
+     [90m 89 |[39m       ex
+pect(extractName([32m"They 
+call me Houston Avenue"[39m)
+)[33m.[39mtoBeUndefined()[
+33m;[39m
+     [90m 90 |[39m     
+})[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:87:59)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Name Extraction - 
+Intentionally Deceptive ΓÇ║ 
+should handle names with 
+unusual capitalization 
+patterns
+
+    
+expect(received).toBeTruthy()
+
+    Received: null
+
+    [0m [90m  95 |[39m    
+   
+     [90m  96 |[39m       
+[36mconst[39m result2 
+[33m=[39m extractNameWithCo
+nfidence([32m"I'm O'Brien 
+McKenzie"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m  
+97 |[39m       expect(result
+2[33m.[39mvalue)[33m.[39m
+toBeTruthy()[33m;[39m
+     [90m     |[39m        
+                     
+[31m[1m^[22m[39m
+     [90m  98 |[39m       
+     [90m  99 |[39m       
+[36mconst[39m result3 
+[33m=[39m extractNameWithCo
+nfidence([32m"My name is 
+van der 
+Berg"[39m)[33m;[39m
+     [90m 100 |[39m       e
+xpect(result3[33m.[39mvalue
+)[33m.[39mtoBeTruthy()[33m
+;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:97:29)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should reject amounts 
+buried in unrelated contexts
+
+    
+expect(received).toBeNull()
+
+    Received: 500
+
+    [0m [90m 106 |[39m    
+   [90m// Phone numbers 
+that look like dollar 
+amounts[39m
+     [90m 107 |[39m       e
+xpect(extractGoalAmount([32m
+"Call me at 555-1234 for help
+"[39m))[33m.[39mtoBeNull()
+[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+108 |[39m       expect(extra
+ctGoalAmount([32m"My number 
+is $500-5000 extension 123"[
+39m))[33m.[39mtoBeNull()[3
+3m;[39m
+     [90m     |[39m        
+                             
+                             
+       [31m[1m^[22m[39m
+     [90m 109 |[39m       
+     [90m 110 |[39m       
+[90m// Dates and times that 
+look like amounts[39m
+     [90m 111 |[39m       e
+xpect(extractGoalAmount([32m
+"I need help by 2025 or $12-3
+1"[39m))[33m.[39mtoBeNull(
+)[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:108:73)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should handle multiple 
+conflicting amounts correctly
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: 2500
+    Received: null
+
+    [0m [90m 118 |[39m    
+   [36mconst[39m result 
+[33m=[39m extractGoalAmount
+WithConfidence(transcript)[3
+3m;[39m
+     [90m 119 |[39m       
+    
+[31m[1m>[22m[39m[90m 
+120 |[39m       expect(resul
+t[33m.[39mvalue)[33m.[39m
+toBe([35m2500[39m)[33m;[3
+9m [90m// "need to raise" 
+has strongest context[39m
+     [90m     |[39m        
+                    
+[31m[1m^[22m[39m
+     [90m 121 |[39m       e
+xpect(result[33m.[39mconfid
+ence)[33m.[39mtoBeGreaterTh
+an([35m0.7[39m)[33m;[39m
+     [90m 122 |[39m     
+})[33m;[39m
+     [90m 123 |[39m     
+[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:120:28)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should handle ambiguous 
+range expressions
+
+    expect(received).toContai
+n(expected) // indexOf
+
+    Expected value: null
+    Received array: [1500, 
+3000]
+
+    [0m [90m 127 |[39m    
+   
+     [90m 128 |[39m       
+[36mconst[39m result2 
+[33m=[39m extractGoalAmount
+WithConfidence([32m"Between 
+fifteen hundred and three 
+thousand dollars would 
+help"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+129 |[39m       expect([[35
+m1500[39m[33m,[39m [35m30
+00[39m])[33m.[39mtoContain
+(result2[33m.[39mvalue)[33
+m;[39m
+     [90m     |[39m        
+                    
+[31m[1m^[22m[39m
+     [90m 130 |[39m     
+})[33m;[39m
+     [90m 131 |[39m     
+     [90m 132 |[39m     
+test([32m'should reject 
+amounts in comparison or 
+contrast 
+contexts'[39m[33m,[39m () 
+[33m=>[39m {[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:129:28)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should reject amounts in 
+comparison or contrast 
+contexts
+
+    
+expect(received).toBeNull()
+
+    Received: 5000
+
+    [0m [90m 132 |[39m    
+ test([32m'should reject 
+amounts in comparison or 
+contrast 
+contexts'[39m[33m,[39m () 
+[33m=>[39m {
+     [90m 133 |[39m       
+[90m// "Unlike" and "not" 
+contexts should be rejected 
+or given very low 
+confidence[39m
+    
+[31m[1m>[22m[39m[90m 
+134 |[39m       expect(extra
+ctGoalAmount([32m"Unlike 
+other people asking for 
+$5000, I only need a small am
+ount"[39m))[33m.[39mtoBeNu
+ll()[33m;[39m
+     [90m     |[39m        
+                             
+                             
+                             
+      [31m[1m^[22m[39m
+     [90m 135 |[39m       e
+xpect(extractGoalAmount([32m
+"I'm not asking for $10,000 
+or anything crazy"[39m))[33
+m.[39mtoBeNull()[33m;[39m
+     [90m 136 |[39m       
+     [90m 137 |[39m       
+[36mconst[39m result 
+[33m=[39m extractGoalAmount
+WithConfidence([32m"Some 
+people need $50,000 but I 
+just need 
+$800"[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:134:101)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should handle written 
+numbers in complex 
+expressions
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: 7532
+    Received: 7530
+
+    [0m [90m 140 |[39m    
+ 
+     [90m 141 |[39m     
+test([32m'should handle 
+written numbers in complex 
+expressions'[39m[33m,[39m 
+() [33m=>[39m {
+    
+[31m[1m>[22m[39m[90m 
+142 |[39m       expect(extra
+ctGoalAmount([32m"I need 
+seven thousand five hundred 
+thirty-two dollars"[39m))[3
+3m.[39mtoBe([35m7532[39m)
+[33m;[39m
+     [90m     |[39m        
+                             
+                             
+                        
+[31m[1m^[22m[39m
+     [90m 143 |[39m       e
+xpect(extractGoalAmount([32m
+"My goal is twenty-one 
+thousand and change"[39m))[
+33m.[39mtoBeGreaterThan([35
+m20000[39m)[33m;[39m
+     [90m 144 |[39m       e
+xpect(extractGoalAmount([32m
+"Looking for three and a 
+half thousand"[39m))[33m.[
+39mtoBeGreaterThan([35m3000
+[39m)[33m;[39m
+     [90m 145 |[39m       e
+xpect(extractGoalAmount([32m
+"About a thousand and fifty b
+ucks"[39m))[33m.[39mtoBeGr
+eaterThan([35m1000[39m)[33
+m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:142:90)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should handle percentage 
+and fractional expressions
+
+    expect(received).toBeGrea
+terThan(expected)
+
+    Expected: > 4000
+    Received:   50
+
+    [0m [90m 149 |[39m    
+   [90m// "50% of $10,000" 
+should extract ~$5,000[39m
+     [90m 150 |[39m       
+[36mconst[39m result1 
+[33m=[39m extractGoalAmount
+WithConfidence([32m"I need 
+50% of $10,000 for the down 
+payment"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+151 |[39m       expect(resul
+t1[33m.[39mvalue)[33m.[39
+mtoBeGreaterThan([35m4000[3
+9m)[33m;[39m
+     [90m     |[39m        
+                     
+[31m[1m^[22m[39m
+     [90m 152 |[39m       e
+xpect(result1[33m.[39mvalue
+)[33m.[39mtoBeLessThan([35
+m10000[39m)[33m;[39m
+     [90m 153 |[39m       
+     [90m 154 |[39m       
+[90m// "Half of five 
+thousand"[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:151:29)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Amount Extraction - 
+Deceptive Monetary Contexts 
+ΓÇ║ should handle 
+international currency 
+formats
+
+    expect(received).toBeGrea
+terThan(expected)
+
+    Matcher error: received 
+value must be a number or 
+bigint
+
+    Received has value: null
+
+    [0m [90m 182 |[39m    
+   [36mconst[39m result1 
+[33m=[39m extractGoalAmount
+WithConfidence([32m"I need 
+5.000,50 euros converted to 
+dollars"[39m)[33m;[39m
+     [90m 183 |[39m       
+[90m// Should extract some 
+amount even if format is 
+unusual[39m
+    
+[31m[1m>[22m[39m[90m 
+184 |[39m       expect(resul
+t1[33m.[39mvalue)[33m.[39
+mtoBeGreaterThan([35m0[39m)
+[33m;[39m
+     [90m     |[39m        
+                     
+[31m[1m^[22m[39m
+     [90m 185 |[39m       
+     [90m 186 |[39m       
+[90m// British pounds[39m
+     [90m 187 |[39m       
+[36mconst[39m result2 
+[33m=[39m extractGoalAmount
+WithConfidence([32m"I need 
+┬ú2,500 for 
+help"[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:184:29)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Relationship Extraction - 
+Complex Beneficiary 
+Scenarios ΓÇ║ should handle 
+ambiguous pronouns correctly
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: "family_member"
+    Received: "myself"
+
+    [0m [90m 198 |[39m    
+   [90m// Clear family 
+context[39m
+     [90m 199 |[39m       
+[36mconst[39m result2 
+[33m=[39m extractBeneficiar
+yRelationship([32m"My wife 
+and I need 
+help"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+200 |[39m       expect(resul
+t2)[33m.[39mtoBe([32m'fami
+ly_member'[39m)[33m;[39m
+     [90m     |[39m        
+               
+[31m[1m^[22m[39m
+     [90m 201 |[39m     
+})[33m;[39m
+     [90m 202 |[39m     
+     [90m 203 |[39m     
+test([32m'should handle 
+third-party fundraising 
+correctly'[39m[33m,[39m 
+() [33m=>[39m {[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:200:23)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Relationship Extraction - 
+Complex Beneficiary 
+Scenarios ΓÇ║ should handle 
+third-party fundraising 
+correctly
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: "other"
+    Received: "myself"
+
+    [0m [90m 203 |[39m    
+ test([32m'should handle 
+third-party fundraising 
+correctly'[39m[33m,[39m 
+() [33m=>[39m {
+     [90m 204 |[39m       
+[90m// Fundraising for 
+someone else[39m
+    
+[31m[1m>[22m[39m[90m 
+205 |[39m       expect(extra
+ctBeneficiaryRelationship([3
+2m"I'm raising money for my 
+friend John"[39m))[33m.[39
+mtoBe([32m'other'[39m)[33m
+;[39m
+     [90m     |[39m        
+                             
+                             
+                    
+[31m[1m^[22m[39m
+     [90m 206 |[39m       e
+xpect(extractBeneficiaryRelat
+ionship([32m"This campaign 
+is for my neighbor's family"
+[39m))[33m.[39mtoBe([32m'o
+ther'[39m)[33m;[39m
+     [90m 207 |[39m       e
+xpect(extractBeneficiaryRelat
+ionship([32m"Helping out my 
+community member"[39m))[33m
+.[39mtoBe([32m'other'[39m)
+[33m;[39m
+     [90m 208 |[39m     
+})[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:205:86)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Relationship Extraction - 
+Complex Beneficiary 
+Scenarios ΓÇ║ should handle 
+pet/animal fundraising
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: "other"
+    Received: "myself"
+
+    [0m [90m 216 |[39m    
+ test([32m'should handle 
+pet/animal 
+fundraising'[39m[33m,[39m 
+() [33m=>[39m {
+     [90m 217 |[39m       
+[36mconst[39m result 
+[33m=[39m extractBeneficiar
+yRelationship([32m"My dog 
+needs surgery and I can't 
+afford it"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+218 |[39m       expect(resul
+t)[33m.[39mtoBe([32m'other
+'[39m)[33m;[39m [90m// 
+Pet is not family_member in 
+this context[39m
+     [90m     |[39m        
+              
+[31m[1m^[22m[39m
+     [90m 219 |[39m     
+})[33m;[39m
+     [90m 220 |[39m   
+})[33m;[39m
+     [90m 221 |[39m   [0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:218:22)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Urgency Detection - 
+Manipulation vs. Real 
+Emergency ΓÇ║ should detect 
+genuine vs manufactured 
+urgency
+
+    expect(received).toContai
+n(expected) // indexOf
+
+    Expected value: "LOW"
+    Received array: ["HIGH", 
+"CRITICAL"]
+
+    [0m [90m 237 |[39m    
+   [90m// Genuine urgency 
+with details[39m
+     [90m 238 |[39m       
+[36mconst[39m genuine 
+[33m=[39m [32m"I have 
+until Friday to pay rent or 
+we'll be evicted and have 
+nowhere to 
+go"[39m[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+239 |[39m       expect([[32
+m'HIGH'[39m[33m,[39m [32m
+'CRITICAL'[39m])[33m.[39mt
+oContain(extractUrgency(genui
+ne))[33m;[39m
+     [90m     |[39m        
+                            
+[31m[1m^[22m[39m
+     [90m 240 |[39m       
+     [90m 241 |[39m       
+[90m// Manufactured urgency 
+without context[39m
+     [90m 242 |[39m       
+[36mconst[39m manufactured 
+[33m=[39m [32m"This is 
+super urgent and critical 
+please help 
+now"[39m[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:239:36)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Adversarial 
+Urgency Detection - 
+Manipulation vs. Real 
+Emergency ΓÇ║ should handle 
+temporal urgency correctly
+
+    expect(received).toBe(exp
+ected) // Object.is equality
+
+    Expected: "CRITICAL"
+    Received: "LOW"
+
+    [0m [90m 247 |[39m    
+ 
+     [90m 248 |[39m     
+test([32m'should handle 
+temporal urgency 
+correctly'[39m[33m,[39m 
+() [33m=>[39m {
+    
+[31m[1m>[22m[39m[90m 
+249 |[39m       expect(extra
+ctUrgency([32m"I need help 
+by tomorrow morning"[39m))[
+33m.[39mtoBe([32m'CRITICAL'
+[39m)[33m;[39m
+     [90m     |[39m        
+                             
+                            
+[31m[1m^[22m[39m
+     [90m 250 |[39m       e
+xpect(extractUrgency([32m"I 
+have until next month"[39m))
+[33m.[39mtoBe([32m'MEDIUM'
+[39m)[33m;[39m
+     [90m 251 |[39m       e
+xpect(extractUrgency([32m"So
+meday soon would be nice"[39
+m))[33m.[39mtoBe([32m'LOW'
+[39m)[33m;[39m
+     [90m 252 |[39m       e
+xpect(extractUrgency([32m"No
+ rush but eventually I'll 
+need help"[39m))[33m.[39mt
+oBe([32m'LOW'[39m)[33m;[3
+9m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:249:65)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Real-World 
+Messy Transcripts - Speech 
+Disfluencies ΓÇ║ should 
+handle heavy filler words 
+and false starts
+
+    expect(received).toContai
+n(expected) // indexOf
+
+    Expected substring: 
+"Sarah"
+    Received string:    "not 
+totally sure but"
+
+    [0m [90m 259 |[39m    
+   
+     [90m 260 |[39m       
+[36mconst[39m name 
+[33m=[39m extractNameWithCo
+nfidence(messy)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+261 |[39m       expect(name
+[33m.[39mvalue)[33m.[39mto
+Contain([32m"Sarah"[39m)[3
+3m;[39m
+     [90m     |[39m        
+                  
+[31m[1m^[22m[39m
+     [90m 262 |[39m       e
+xpect(name[33m.[39mvalue)[
+33m.[39mtoContain([32m"John
+son"[39m)[33m;[39m
+     [90m 263 |[39m       
+     [90m 264 |[39m       
+[36mconst[39m amount 
+[33m=[39m extractGoalAmount
+WithConfidence(messy)[33m;[
+39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:261:26)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Real-World 
+Messy Transcripts - Speech 
+Disfluencies ΓÇ║ should 
+handle speech corrections 
+and self-contradictions
+
+    expect(received).toBeGrea
+terThan(expected)
+
+    Expected: > 2000
+    Received:   2000
+
+    [0m [90m 275 |[39m    
+   
+     [90m 276 |[39m       
+[36mconst[39m amount 
+[33m=[39m extractGoalAmount
+WithConfidence(corrections)[
+33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+277 |[39m       expect(amoun
+t[33m.[39mvalue)[33m.[39m
+toBeGreaterThan([35m2000[39
+m)[33m;[39m
+     [90m     |[39m        
+                    
+[31m[1m^[22m[39m
+     [90m 278 |[39m       e
+xpect(amount[33m.[39mvalue)
+[33m.[39mtoBeLessThan([35m
+3000[39m)[33m;[39m
+     [90m 279 |[39m     
+})[33m;[39m
+     [90m 280 |[39m     
+[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:277:28)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Real-World 
+Messy Transcripts - Speech 
+Disfluencies ΓÇ║ should 
+handle run-on sentences 
+without punctuation
+
+    expect(received).toBeGrea
+terThan(expected)
+
+    Matcher error: received 
+value must be a number or 
+bigint
+
+    Received has value: null
+
+    [0m [90m 284 |[39m    
+   [36mconst[39m results 
+[33m=[39m extractAllWithTel
+emetry(runon)[33m;[39m
+     [90m 285 |[39m       e
+xpect(results[33m.[39mresul
+ts[33m.[39mname[33m.[39mv
+alue)[33m.[39mtoContain([3
+2m"maria"[39m)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+286 |[39m       expect(resul
+ts[33m.[39mresults[33m.[3
+9mamount[33m.[39mvalue)[33
+m.[39mtoBeGreaterThan([35m4
+000[39m)[33m;[39m
+     [90m     |[39m        
+                             
+       [31m[1m^[22m[39m
+     [90m 287 |[39m       e
+xpect(results[33m.[39mresul
+ts[33m.[39mamount[33m.[39
+mvalue)[33m.[39mtoBeLessTha
+n([35m6000[39m)[33m;[39m
+     [90m 288 |[39m     
+})[33m;[39m
+     [90m 289 |[39m     
+[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:286:44)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Real-World 
+Messy Transcripts - Speech 
+Disfluencies ΓÇ║ should 
+handle background noise 
+descriptors and interruptions
+
+    expect(received).toContai
+n(expected) // indexOf
+
+    Matcher error: received 
+value must not be null nor 
+undefined
+
+    Received has value: null
+
+    [0m [90m 292 |[39m    
+   
+     [90m 293 |[39m       
+[36mconst[39m name 
+[33m=[39m extractNameWithCo
+nfidence(noisy)[33m;[39m
+    
+[31m[1m>[22m[39m[90m 
+294 |[39m       expect(name
+[33m.[39mvalue)[33m.[39mto
+Contain([32m"Sarah"[39m)[3
+3m;[39m
+     [90m     |[39m        
+                  
+[31m[1m^[22m[39m
+     [90m 295 |[39m       
+     [90m 296 |[39m       
+[36mconst[39m amount 
+[33m=[39m extractGoalAmount
+WithConfidence(noisy)[33m;[
+39m
+     [90m 297 |[39m       e
+xpect(amount[33m.[39mvalue)
+[33m.[39mtoBe([35m3000[39
+m)[33m;[39m[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:294:26)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Edge Case 
+Scenarios - Boundary Testing 
+ΓÇ║ should handle extremely 
+large amounts
+
+    expect(received).toBeLess
+ThanOrEqual(expected)
+
+    Matcher error: received 
+value must be a number or 
+bigint
+
+    Received has value: null
+
+    [0m [90m 312 |[39m    
+   [36mconst[39m result 
+[33m=[39m extractGoalAmount
+WithConfidence(huge)[33m;[3
+9m
+     [90m 313 |[39m       
+    
+[31m[1m>[22m[39m[90m 
+314 |[39m       expect(resul
+t[33m.[39mvalue)[33m.[39m
+toBeLessThanOrEqual([35m1000
+00[39m)[33m;[39m [90m// 
+Should cap at reasonable 
+max[39m
+     [90m     |[39m        
+                    
+[31m[1m^[22m[39m
+     [90m 315 |[39m     
+})[33m;[39m
+     [90m 316 |[39m     
+     [90m 317 |[39m     
+test([32m'should handle 
+extremely small 
+amounts'[39m[33m,[39m () 
+[33m=>[39m {[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:314:28)
+
+  ΓùÅ Phase 4: Adversarial 
+Stress Testing - Breaking 
+the Parser ΓÇ║ Performance 
+Under Stress - Complex 
+Scenarios ΓÇ║ should handle 
+contradictory information 
+with confidence adjustment
+
+    expect(received).toBeLess
+Than(expected)
+
+    Expected: < 0.9
+    Received:   0.95
+
+    [0m [90m 401 |[39m    
+   expect(result[33m.[39mva
+lue)[33m.[39mtoBeTruthy()[
+33m;[39m
+     [90m 402 |[39m       
+[90m// Confidence should be 
+lower due to 
+contradictions[39m
+    
+[31m[1m>[22m[39m[90m 
+403 |[39m       expect(resul
+t[33m.[39mconfidence)[33m.
+[39mtoBeLessThan([35m0.9[3
+9m)[33m;[39m
+     [90m     |[39m        
+                         
+[31m[1m^[22m[39m
+     [90m 404 |[39m     
+})[33m;[39m
+     [90m 405 |[39m     
+     [90m 406 |[39m     
+test([32m'should maintain 
+performance with very long, 
+complex 
+transcripts'[39m[33m,[39m 
+() [33m=>[39m {[0m
+
+      at Object.<anonymous> (
+src/tests/unit/parsing/advers
+arial-phase4.test.ts:403:33)
+
+Test Suites: 1 failed, 1 
+total
+Tests:       24 failed, 22 
+passed, 46 total
+Snapshots:   0 total
+Time:        1.748 s, 
+estimated 2 s
+Ran all test suites matching 
+/adversarial-phase4.test.ts/i
+.
+Jest did not exit one second 
+after the test run has 
+completed.
+
+'This usually means that 
+there are asynchronous 
+operations that weren't 
+stopped in your tests. 
+Consider running Jest with 
+`--detectOpenHandles` to 
+troubleshoot this issue.

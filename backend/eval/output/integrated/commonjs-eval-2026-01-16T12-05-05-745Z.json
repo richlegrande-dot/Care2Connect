@@ -1,0 +1,360 @@
+{
+  "timestamp": "2026-01-16T12:05:05.746Z",
+  "system": "Jan v.2.5 CommonJS Enhanced Simulation",
+  "integration": {
+    "parsingServicesAvailable": false,
+    "reason": "TypeScript compilation needed",
+    "method": "enhanced_simulation"
+  },
+  "overview": {
+    "totalTests": 8,
+    "successCount": 4,
+    "successRate": 50,
+    "avgScore": 0.875,
+    "avgConfidence": 0.7
+  },
+  "performance": {
+    "avgExecutionTime": 1
+  },
+  "failures": {
+    "byCategory": {
+      "CATEGORY_MISCLASSIFICATION": 4,
+      "NAME_INCORRECT": 1
+    },
+    "topCategories": [
+      [
+        "CATEGORY_MISCLASSIFICATION",
+        4
+      ],
+      [
+        "NAME_INCORRECT",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "testId": "01-normal-complete",
+      "description": "Complete story with all fields present",
+      "success": true,
+      "score": 1,
+      "extractedData": {
+        "name": "Sarah Johnson",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "nameCandidate": "Sarah Johnson",
+        "contactCandidates": {
+          "emails": [
+            "sarah.johnson@email.com"
+          ],
+          "phones": [
+            "303-555-1234"
+          ]
+        },
+        "locationCandidates": [
+          "Denver",
+          "Colorado"
+        ],
+        "needsCategories": [
+          "HOUSING",
+          "FOOD",
+          "EMPLOYMENT"
+        ],
+        "urgencyScore": 0.7,
+        "keyPointsCount": 5
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 2,
+      "differences": []
+    },
+    {
+      "testId": "01_housing_eviction",
+      "description": "Housing crisis with eviction notice and specific amount needed",
+      "success": true,
+      "score": 1,
+      "extractedData": {
+        "name": "Sarah Martinez and I really need help right now",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 1500
+      },
+      "expectedData": {
+        "needsCategories": [
+          "HOUSING"
+        ],
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 1500,
+        "missingFields": [],
+        "confidenceMin": 0.8,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0.85,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 1,
+      "differences": []
+    },
+    {
+      "testId": "02-short-incomplete",
+      "description": "Very short transcript with missing critical information",
+      "success": true,
+      "score": 1,
+      "extractedData": {
+        "name": null,
+        "category": "OTHER",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "nameCandidate": null,
+        "contactCandidates": {
+          "emails": [],
+          "phones": []
+        },
+        "locationCandidates": [],
+        "needsCategories": [],
+        "urgencyScore": 0.5,
+        "keyPointsCount": 2
+      },
+      "confidence": {
+        "name": 0,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 1,
+      "differences": []
+    },
+    {
+      "testId": "02_medical_emergency",
+      "description": "Medical emergency requiring surgery funds",
+      "success": false,
+      "score": 0.8,
+      "extractedData": {
+        "name": "Michael Thompson and I was just diagnosed with a condition that requires emergency surgery",
+        "category": "MEDICAL",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000
+      },
+      "expectedData": {
+        "needsCategories": [
+          "HEALTHCARE"
+        ],
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": 5000,
+        "missingFields": [],
+        "confidenceMin": 0.85,
+        "shouldNotContain": {
+          "piiInTelemetry": true
+        }
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0.85,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 1,
+      "differences": [
+        "category: expected \"HEALTHCARE\", got \"MEDICAL\""
+      ]
+    },
+    {
+      "testId": "03-no-name",
+      "description": "Complete story but speaker doesn't introduce themselves",
+      "success": true,
+      "score": 1,
+      "extractedData": {
+        "name": "calling because I desperately need assistance",
+        "category": "HOUSING",
+        "urgencyLevel": "HIGH",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "nameCandidate": null,
+        "contactCandidates": {
+          "emails": [],
+          "phones": [
+            "213-555-9876"
+          ]
+        },
+        "locationCandidates": [
+          "Los Angeles"
+        ],
+        "needsCategories": [
+          "HOUSING",
+          "HEALTHCARE"
+        ],
+        "urgencyScore": 0.8,
+        "keyPointsCount": 5
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 0,
+      "differences": []
+    },
+    {
+      "testId": "04-urgent-crisis",
+      "description": "Story with high urgency markers and safety concerns",
+      "success": false,
+      "score": 0.8,
+      "extractedData": {
+        "name": "Maria Rodriguez",
+        "category": "HOUSING",
+        "urgencyLevel": "CRITICAL",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "nameCandidate": "Maria Rodriguez",
+        "contactCandidates": {
+          "emails": [
+            "maria.emergency@gmail.com"
+          ],
+          "phones": []
+        },
+        "locationCandidates": [
+          "Phoenix",
+          "Arizona"
+        ],
+        "needsCategories": [
+          "SAFETY",
+          "HOUSING",
+          "FOOD"
+        ],
+        "urgencyScore": 1,
+        "keyPointsCount": 5
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 0,
+      "differences": [
+        "category: expected \"SAFETY\", got \"HOUSING\""
+      ]
+    },
+    {
+      "testId": "05-medical-needs",
+      "description": "Story focused on healthcare and medical assistance",
+      "success": false,
+      "score": 0.8,
+      "extractedData": {
+        "name": "James Wilson",
+        "category": "MEDICAL",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "nameCandidate": "James Wilson",
+        "contactCandidates": {
+          "emails": [
+            "jwilson52@healthcare.com"
+          ],
+          "phones": []
+        },
+        "locationCandidates": [
+          "Seattle",
+          "Washington"
+        ],
+        "needsCategories": [
+          "HEALTHCARE",
+          "TRANSPORTATION",
+          "EMPLOYMENT"
+        ],
+        "urgencyScore": 0.75,
+        "keyPointsCount": 5
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 1,
+      "differences": [
+        "category: expected \"HEALTHCARE\", got \"MEDICAL\""
+      ]
+    },
+    {
+      "testId": "06-multiple-needs",
+      "description": "Story with multiple overlapping need categories",
+      "success": false,
+      "score": 0.6,
+      "extractedData": {
+        "name": "called Robert Chen",
+        "category": "HOUSING",
+        "urgencyLevel": "MEDIUM",
+        "goalAmount": null
+      },
+      "expectedData": {
+        "nameCandidate": "Robert Chen",
+        "contactCandidates": {
+          "emails": [
+            "robert.chen.vet@email.com"
+          ],
+          "phones": [
+            "619-555-4321"
+          ]
+        },
+        "locationCandidates": [
+          "San Diego"
+        ],
+        "needsCategories": [
+          "EMPLOYMENT",
+          "HOUSING",
+          "FOOD",
+          "HEALTHCARE",
+          "EDUCATION"
+        ],
+        "urgencyScore": 0.65,
+        "keyPointsCount": 5
+      },
+      "confidence": {
+        "name": 0.8,
+        "category": 0.7,
+        "urgency": 0.6,
+        "goalAmount": 0,
+        "overall": 0.7
+      },
+      "extractionMethod": "enhanced_simulation",
+      "executionTime": 1,
+      "differences": [
+        "name: expected \"Robert Chen\", got \"called Robert Chen\"",
+        "category: expected \"EMPLOYMENT\", got \"HOUSING\""
+      ]
+    }
+  ]
+}

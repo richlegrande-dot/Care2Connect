@@ -1,0 +1,141 @@
+{
+  "name": "Long Detailed Story",
+  "description": "Comprehensive story with lots of details and context",
+  "transcript": "Good afternoon, my name is David Anderson and I want to share my story with you. I'm 35 years old and I've been going through an incredibly difficult period in my life. About eight months ago, I was working as a software engineer at a tech company in Austin, Texas. I had a good salary, a nice apartment, and everything seemed to be going well. Then suddenly, the company went through massive layoffs and I lost my job along with hundreds of others. At first, I thought I'd find another position quickly given my experience and skills. I sent out over 200 job applications. I went to dozens of interviews. But the tech market has been really tough lately. Months passed and my savings started running out. I had to give up my apartment because I couldn't afford the rent anymore. I'm currently staying with a friend, but I can't impose on their hospitality much longer. I need help with several things. First, I desperately need to find employment - whether that's in my field or something different, I just need income. Second, I need housing assistance because I'll need my own place soon. Third, I need help with food because I'm trying to stretch every dollar. I also need some professional help with my resume and interview skills - maybe I'm doing something wrong. I feel embarrassed asking for help because I used to be successful and independent. But right now, I'm struggling and I need support. I'm hardworking, I have skills, and I know I can get back on track with the right assistance. Please contact me at david.anderson.dev@email.com or you can call me at 512-555-7788. I'm available anytime and I'm ready to do whatever it takes to rebuild my life and career. Thank you so much for taking the time to listen to my situation. I really appreciate any help or guidance you can provide.",
+  "expectedExtraction": {
+    "nameCandidate": "David Anderson",
+    "contactCandidates": {
+      "emails": ["david.anderson.dev@email.com"],
+      "phones": ["512-555-7788"]
+    },
+    "locationCandidates": ["Austin", "Texas"],
+    "needsCategories": ["EMPLOYMENT", "HOUSING", "FOOD"],
+    "urgencyScore": 0.65,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Good afternoon, my name is David Anderson and I want to share my story with you.",
+      "start": 0,
+      "end": 4500
+    },
+    {
+      "text": "I'm 35 years old and I've been going through an incredibly difficult period in my life.",
+      "start": 4500,
+      "end": 8500
+    },
+    {
+      "text": "About eight months ago, I was working as a software engineer at a tech company in Austin, Texas.",
+      "start": 8500,
+      "end": 13000
+    },
+    {
+      "text": "I had a good salary, a nice apartment, and everything seemed to be going well.",
+      "start": 13000,
+      "end": 17000
+    },
+    {
+      "text": "Then suddenly, the company went through massive layoffs and I lost my job along with hundreds of others.",
+      "start": 17000,
+      "end": 21500
+    },
+    {
+      "text": "At first, I thought I'd find another position quickly given my experience and skills.",
+      "start": 21500,
+      "end": 25000
+    },
+    {
+      "text": "I sent out over 200 job applications.",
+      "start": 25000,
+      "end": 27500
+    },
+    {
+      "text": "I went to dozens of interviews.",
+      "start": 27500,
+      "end": 29500
+    },
+    {
+      "text": "But the tech market has been really tough lately.",
+      "start": 29500,
+      "end": 32000
+    },
+    {
+      "text": "Months passed and my savings started running out.",
+      "start": 32000,
+      "end": 34500
+    },
+    {
+      "text": "I had to give up my apartment because I couldn't afford the rent anymore.",
+      "start": 34500,
+      "end": 38000
+    },
+    {
+      "text": "I'm currently staying with a friend, but I can't impose on their hospitality much longer.",
+      "start": 38000,
+      "end": 42000
+    },
+    {
+      "text": "I need help with several things.",
+      "start": 42000,
+      "end": 44000
+    },
+    {
+      "text": "First, I desperately need to find employment - whether that's in my field or something different, I just need income.",
+      "start": 44000,
+      "end": 48500
+    },
+    {
+      "text": "Second, I need housing assistance because I'll need my own place soon.",
+      "start": 48500,
+      "end": 51500
+    },
+    {
+      "text": "Third, I need help with food because I'm trying to stretch every dollar.",
+      "start": 51500,
+      "end": 54500
+    },
+    {
+      "text": "I also need some professional help with my resume and interview skills - maybe I'm doing something wrong.",
+      "start": 54500,
+      "end": 58500
+    },
+    {
+      "text": "I feel embarrassed asking for help because I used to be successful and independent.",
+      "start": 58500,
+      "end": 62000
+    },
+    {
+      "text": "But right now, I'm struggling and I need support.",
+      "start": 62000,
+      "end": 64500
+    },
+    {
+      "text": "I'm hardworking, I have skills, and I know I can get back on track with the right assistance.",
+      "start": 64500,
+      "end": 68000
+    },
+    {
+      "text": "Please contact me at david.anderson.dev@email.com or you can call me at 512-555-7788.",
+      "start": 68000,
+      "end": 72000
+    },
+    {
+      "text": "I'm available anytime and I'm ready to do whatever it takes to rebuild my life and career.",
+      "start": 72000,
+      "end": 76000
+    },
+    {
+      "text": "Thank you so much for taking the time to listen to my situation.",
+      "start": 76000,
+      "end": 79000
+    },
+    {
+      "text": "I really appreciate any help or guidance you can provide.",
+      "start": 79000,
+      "end": 82000
+    }
+  ],
+  "wordCount": 325,
+  "duration": 82000,
+  "detectedLanguage": "en"
+}

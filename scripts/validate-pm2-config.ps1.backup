@@ -1,0 +1,323 @@
+# PM2 Configuration Validator and Auto-Fixer
+# Detects common PM2 issues on Windows and applies fixes
+
+param(
+    [switch]$AutoFix = $false,
+    [switch]$Verbose = $false
+)
+
+$ErrorActionPreference = 'Continue'
+$workspaceRoot = Split-Path $PSScriptRoot -Parent
+$ecosystemConfig = Join-Path $workspaceRoot "ecosystem.config.js"
+
+function Write-Status {
+    param($Message, $Type = "INFO")
+    $color = switch ($Type) {
+        "SUCCESS" { "Green" }
+        "ERROR" { "Red" }
+        "WARNING" { "Yellow" }
+        default { "White" }
+    }
+    Write-Host "[$Type] $Message" -ForegroundColor $color
+}
+
+function Test-PM2Installation {
+    Write-Status "Checking PM2 installation..." "INFO"
+    try {
+        $pm2Version = pm2 --version 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Status "PM2 installed: $pm2Version" "SUCCESS"
+            return $true
+        }
+    } catch {
+        Write-Status "PM2 not found or not working" "ERROR"
+        return $false
+    }
+}
+
+function Test-PM2ProcessHealth {
+    Write-Status "Checking PM2 daemon health..." "INFO"
+    try {
+        $processes = pm2 jlist 2>&1 | ConvertFrom-Json
+        if ($processes) {
+            $onlineCount = ($processes | Where-Object { $_.pm2_env.status -eq 'online' }).Count
+            $totalCount = $processes.Count
+            Write-Status "PM2 processes: $onlineCount online / $totalCount total" "INFO"
+            return @{
+                healthy = $true
+                online = $onlineCount
+                total = $totalCount
+                processes = $processes
+            }
+        }
+    } catch {
+        Write-Status "PM2 daemon may not be running" "WARNING"
+        return @{healthy = $false; error = $_.Exception.Message}
+    }
+}
+
+function Test-EcosystemConfig {
+    Write-Status "Validating ecosystem.config.js..." "INFO"
+    
+    if (-not (Test-Path $ecosystemConfig)) {
+        Write-Status "ecosystem.config.js not found!" "ERROR"
+        return @{valid = $false; error = "File not found"}
+    }
+
+    $content = Get-Content $ecosystemConfig -Raw
+    $issues = @()
+
+    # Check for common Windows incompatibilities
+    if ($content -match 'script:\s*[''"]npm[''"]') {
+        $issues += "Uses 'npm' script (incompatible with Node.js v25 on Windows)"
+    }
+    if ($content -match 'script:\s*[''"]npm.cmd[''"]' -and $content -notmatch 'interpreter') {
+        $issues += "Uses 'npm.cmd' without proper interpreter"
+    }
+    if ($content -match 'interpreter:\s*[''"]cmd[''"]') {
+        $issues += "Uses cmd interpreter (may cause issues)"
+    }
+
+    # Check for proper configuration
+    $hasBackend = $content -match 'careconnect-backend'
+    $hasFrontend = $content -match 'careconnect-frontend'
+    
+    if (-not $hasBackend) { $issues += "Missing backend configuration" }
+    if (-not $hasFrontend) { $issues += "Missing frontend configuration" }
+
+    # Check if backend dist exists
+    $backendDist = Join-Path $workspaceRoot "backend\dist\server.js"
+    if (-not (Test-Path $backendDist)) {
+        $issues += "Backend not built (backend/dist/server.js missing)"
+    }
+
+    # Check if frontend .next exists
+    $frontendBuild = Join-Path $workspaceRoot "frontend\.next\BUILD_ID"
+    if (-not (Test-Path $frontendBuild)) {
+        $issues += "Frontend not built (frontend/.next/BUILD_ID missing)"
+    }
+
+    if ($issues.Count -gt 0) {
+        Write-Status "Configuration issues found:" "WARNING"
+        $issues | ForEach-Object { Write-Status "  - $_" "WARNING" }
+        return @{valid = $false; issues = $issues; content = $content}
+    }
+
+    Write-Status "Ecosystem configuration looks good" "SUCCESS"
+    return @{valid = $true}
+}
+
+function Repair-EcosystemConfig {
+    param($Issues, $Content)
+    
+    Write-Status "Attempting to repair ecosystem.config.js..." "INFO"
+    
+    $changesMade = @()
+
+    # Fix npm script issues for Windows
+    if ($Content -match 'script:\s*[''"]npm[''"]') {
+        $changesMade += "Updated npm to full path npm.cmd"
+    }
+
+    # Ensure backend uses direct node execution
+    if ($Content -notmatch 'careconnect-backend.*script:\s*.*dist/server.js') {
+        $changesMade += "Updated backend to use direct Node.js execution"
+    }
+
+    # Ensure frontend uses Next.js binary directly
+    if ($Content -notmatch 'node_modules/next/dist/bin/next') {
+        $changesMade += "Updated frontend to use Next.js binary directly"
+    }
+
+    if ($changesMade.Count -gt 0) {
+        # Create optimal Windows-compatible config
+        $optimalConfig = @'
+module.exports = {
+  apps: [
+    {
+      name: 'careconnect-backend',
+      cwd: './backend',
+      script: './dist/server.js',
+      interpreter: 'node',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3001
+      },
+      error_file: './logs/backend-error.log',
+      out_file: './logs/backend-out.log',
+      time: true,
+      autorestart: true,
+      max_restarts: 10,
+      min_uptime: '10s',
+      restart_delay: 4000
+    },
+    {
+      name: 'careconnect-frontend',
+      cwd: './frontend',
+      script: 'node_modules/next/dist/bin/next',
+      args: 'start',
+      interpreter: 'node',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3000
+      },
+      error_file: './logs/frontend-error.log',
+      out_file: './logs/frontend-out.log',
+      time: true,
+      autorestart: true,
+      max_restarts: 10,
+      min_uptime: '10s',
+      restart_delay: 4000
+    }
+  ]
+};
+'@
+        
+        # Backup original
+        $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+        $backupPath = "$ecosystemConfig.backup-$timestamp"
+        Copy-Item $ecosystemConfig $backupPath
+        Write-Status "Backed up original to: $backupPath" "INFO"
+        
+        # Write fixed config
+        Set-Content -Path $ecosystemConfig -Value $optimalConfig -Encoding UTF8
+        Write-Status "Applied optimal Windows-compatible PM2 configuration" "SUCCESS"
+        
+        $changesMade | ForEach-Object { Write-Status "  ✓ $_" "SUCCESS" }
+        return $true
+    }
+
+    return $false
+}
+
+function Test-BuildArtifacts {
+    Write-Status "Checking build artifacts..." "INFO"
+    
+    $backendDist = Join-Path $workspaceRoot "backend\dist\server.js"
+    $frontendBuild = Join-Path $workspaceRoot "frontend\.next\BUILD_ID"
+    
+    $results = @{
+        backend = Test-Path $backendDist
+        frontend = Test-Path $frontendBuild
+    }
+    
+    if ($results.backend) {
+        Write-Status "Backend build found ✓" "SUCCESS"
+    } else {
+        Write-Status "Backend not built - run: cd backend; npm run build" "WARNING"
+    }
+    
+    if ($results.frontend) {
+        Write-Status "Frontend build found ✓" "SUCCESS"
+    } else {
+        Write-Status "Frontend not built - run: cd frontend; npm run build" "WARNING"
+    }
+    
+    return $results
+}
+
+function Start-BuildIfNeeded {
+    Write-Status "Building missing artifacts..." "INFO"
+    
+    $backendDist = Join-Path $workspaceRoot "backend\dist\server.js"
+    $frontendBuild = Join-Path $workspaceRoot "frontend\.next\BUILD_ID"
+    
+    if (-not (Test-Path $backendDist)) {
+        Write-Status "Building backend..." "INFO"
+        Push-Location (Join-Path $workspaceRoot "backend")
+        npm run build 2>&1 | Out-Null
+        Pop-Location
+        if (Test-Path $backendDist) {
+            Write-Status "Backend built successfully" "SUCCESS"
+        } else {
+            Write-Status "Backend build failed" "ERROR"
+            return $false
+        }
+    }
+    
+    if (-not (Test-Path $frontendBuild)) {
+        Write-Status "Building frontend..." "INFO"
+        Push-Location (Join-Path $workspaceRoot "frontend")
+        npm run build 2>&1 | Out-Null
+        Pop-Location
+        if (Test-Path $frontendBuild) {
+            Write-Status "Frontend built successfully" "SUCCESS"
+        } else {
+            Write-Status "Frontend build failed" "ERROR"
+            return $false
+        }
+    }
+    
+    return $true
+}
+
+# Main validation flow
+Write-Host "`n========================================" -ForegroundColor Cyan
+Write-Host "PM2 CONFIGURATION VALIDATOR `& AUTO-FIXER" -ForegroundColor Cyan
+Write-Host "========================================`n" -ForegroundColor Cyan
+
+$allHealthy = $true
+
+# 1. Check PM2 Installation
+if (-not (Test-PM2Installation)) {
+    Write-Status "Install PM2 with: npm install -g pm2" "ERROR"
+    exit 1
+}
+
+# 2. Check Build Artifacts
+$buildStatus = Test-BuildArtifacts
+if (-not ($buildStatus.backend -and $buildStatus.frontend)) {
+    if ($AutoFix) {
+        if (-not (Start-BuildIfNeeded)) {
+            $allHealthy = $false
+        }
+    } else {
+        Write-Status "Run with -AutoFix to build automatically" "INFO"
+        $allHealthy = $false
+    }
+}
+
+# 3. Validate Ecosystem Config
+$configStatus = Test-EcosystemConfig
+if (-not $configStatus.valid) {
+    if ($AutoFix) {
+        if (Repair-EcosystemConfig -Issues $configStatus.issues -Content $configStatus.content) {
+            Write-Status "Configuration repaired - restart PM2 processes" "SUCCESS"
+            
+            # Restart PM2 with new config
+            Write-Status "Restarting PM2 processes..." "INFO"
+            pm2 delete all 2>&1 | Out-Null
+            pm2 start $ecosystemConfig
+        }
+    } else {
+        Write-Status "Run with -AutoFix to repair automatically" "INFO"
+        $allHealthy = $false
+    }
+}
+
+# 4. Check PM2 Process Health
+$pm2Status = Test-PM2ProcessHealth
+if ($pm2Status.healthy) {
+    if ($pm2Status.online -lt $pm2Status.total) {
+        Write-Status "Some processes are not online" "WARNING"
+        if ($AutoFix) {
+            Write-Status "Restarting failed processes..." "INFO"
+            pm2 restart all
+        }
+    }
+} else {
+    if ($AutoFix) {
+        Write-Status "Starting PM2 processes..." "INFO"
+        pm2 start $ecosystemConfig
+    }
+}
+
+# Summary
+Write-Host "`n========================================" -ForegroundColor Cyan
+if ($allHealthy -and $configStatus.valid) {
+    Write-Status "✓ All PM2 configuration checks passed" "SUCCESS"
+    exit 0
+} else {
+    Write-Status "✗ Issues detected. Run with -AutoFix to repair" "WARNING"
+    exit 1
+}

@@ -1,0 +1,15 @@
+{
+  "id": "14_range_amount",
+  "description": "Amount specified as a range, tests midpoint calculation",
+  "transcriptText": "Hi there, I'm Jennifer Chen and I'm reaching out because I need financial assistance for my small business. We had a break-in last month and they stole a lot of our equipment. I need somewhere between three thousand and seven thousand dollars to replace everything and get back up and running. The exact amount depends on whether I can find some used equipment or if I have to buy everything new. This is really important because I have three employees depending on this business and we're the main income for all our families. I've been running this bakery for five years and we serve the whole neighborhood. We just need help getting back on our feet.",
+  "expected": {
+    "needsCategories": ["BUSINESS"],
+    "urgencyLevel": "HIGH",
+    "goalAmount": 5000,
+    "missingFields": [],
+    "confidenceMin": 0.7,
+    "shouldNotContain": {
+      "piiInTelemetry": true
+    }
+  }
+}

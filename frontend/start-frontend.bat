@@ -1,0 +1,3 @@
+@echo off
+echo Starting frontend...
+"C:\Program Files\nodejs\npx.cmd" next dev

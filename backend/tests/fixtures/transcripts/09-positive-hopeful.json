@@ -1,0 +1,81 @@
+{
+  "name": "Positive Hopeful Tone",
+  "description": "Story with positive language and hopeful outlook",
+  "transcript": "Good morning! I'm Michael Torres and I'm reaching out with hope and gratitude. I recently started a new job after being unemployed for six months, which is wonderful. However, I'm still catching up on bills and I need some temporary help with rent while I get back on my feet. I live in Miami, Florida. I'm so grateful for this opportunity to work again. I'm confident that with a little support, I'll be completely stable in a few months. I'm optimistic about the future. I have a great support network of friends and I'm working hard every day. Please contact me at m.torres.positive@email.com. Thank you for considering my request. I'm excited about what's ahead!",
+  "expectedExtraction": {
+    "nameCandidate": "Michael Torres",
+    "contactCandidates": {
+      "emails": ["m.torres.positive@email.com"],
+      "phones": []
+    },
+    "locationCandidates": ["Miami", "Florida"],
+    "needsCategories": ["HOUSING"],
+    "urgencyScore": 0.3,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Good morning!",
+      "start": 0,
+      "end": 1000
+    },
+    {
+      "text": "I'm Michael Torres and I'm reaching out with hope and gratitude.",
+      "start": 1000,
+      "end": 4500
+    },
+    {
+      "text": "I recently started a new job after being unemployed for six months, which is wonderful.",
+      "start": 4500,
+      "end": 8500
+    },
+    {
+      "text": "However, I'm still catching up on bills and I need some temporary help with rent while I get back on my feet.",
+      "start": 8500,
+      "end": 13000
+    },
+    {
+      "text": "I live in Miami, Florida.",
+      "start": 13000,
+      "end": 15000
+    },
+    {
+      "text": "I'm so grateful for this opportunity to work again.",
+      "start": 15000,
+      "end": 18000
+    },
+    {
+      "text": "I'm confident that with a little support, I'll be completely stable in a few months.",
+      "start": 18000,
+      "end": 22000
+    },
+    {
+      "text": "I'm optimistic about the future.",
+      "start": 22000,
+      "end": 24000
+    },
+    {
+      "text": "I have a great support network of friends and I'm working hard every day.",
+      "start": 24000,
+      "end": 27500
+    },
+    {
+      "text": "Please contact me at m.torres.positive@email.com.",
+      "start": 27500,
+      "end": 30000
+    },
+    {
+      "text": "Thank you for considering my request.",
+      "start": 30000,
+      "end": 32000
+    },
+    {
+      "text": "I'm excited about what's ahead!",
+      "start": 32000,
+      "end": 34000
+    }
+  ],
+  "wordCount": 140,
+  "duration": 34000,
+  "detectedLanguage": "en"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "TICKET-1768065008741",
+  "issueType": "gofundme_blocked",
+  "description": "I cannot access my GoFundMe account",
+  "contactEmail": "user@example.com",
+  "contactPhone": "555-123-4567",
+  "context": "gofundme_wizard",
+  "clientId": "test-client-123",
+  "createdAt": "2026-01-10T17:10:08.741Z",
+  "status": "OPEN"
+}

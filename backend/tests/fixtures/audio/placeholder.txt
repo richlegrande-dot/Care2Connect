@@ -1,0 +1,10 @@
+# Placeholder audio files - replace with actual WAV files for full functionality
+
+# To create real test audio files:
+# 1. Record short (1-2 second) audio clips saying:
+#    - English: "hello world test"  
+#    - Spanish: "hola mundo prueba"
+# 2. Convert to WAV format, mono, 16kHz sample rate
+# 3. Save as en_short.wav and es_short.wav in this directory
+
+# For now, the health checker will detect these as missing and report appropriately

@@ -1,0 +1,24 @@
+{
+  "id": "02_medical_emergency",
+  "description": "Medical emergency requiring surgery funds",
+  "transcriptText": "Hello, I'm calling because I'm in a really desperate situation. My name is Michael Thompson and I was just diagnosed with a condition that requires emergency surgery. The insurance will only cover part of it and I need to come up with five thousand dollars by next week or they can't schedule the procedure. I work in construction but I've been out of work for two months because of this health issue. The doctors say this is critical and can't wait any longer. I've already sold everything I can think of. I'm really scared about what happens if I can't get this surgery done. Please, any help would save my life.",
+  "segments": [
+    { "startMs": 0, "endMs": 4000, "text": "Hello, I'm calling because I'm in a really desperate situation." },
+    { "startMs": 4000, "endMs": 8500, "text": "My name is Michael Thompson and I was just diagnosed with a condition that requires emergency surgery." },
+    { "startMs": 8500, "endMs": 14000, "text": "The insurance will only cover part of it and I need to come up with five thousand dollars by next week or they can't schedule the procedure." },
+    { "startMs": 14000, "endMs": 18000, "text": "I work in construction but I've been out of work for two months because of this health issue." },
+    { "startMs": 18000, "endMs": 22000, "text": "The doctors say this is critical and can't wait any longer." },
+    { "startMs": 22000, "endMs": 25000, "text": "I've already sold everything I can think of." },
+    { "startMs": 25000, "endMs": 29000, "text": "I'm really scared about what happens if I can't get this surgery done. Please, any help would save my life." }
+  ],
+  "expected": {
+    "needsCategories": ["HEALTHCARE"],
+    "urgencyLevel": "CRITICAL",
+    "goalAmount": 5000,
+    "missingFields": [],
+    "confidenceMin": 0.85,
+    "shouldNotContain": {
+      "piiInTelemetry": true
+    }
+  }
+}

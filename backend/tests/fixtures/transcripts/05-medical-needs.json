@@ -1,0 +1,76 @@
+{
+  "name": "Medical Needs Focus",
+  "description": "Story focused on healthcare and medical assistance",
+  "transcript": "Hello, my name is James Wilson. I'm 52 years old and I've been diagnosed with cancer. I lost my health insurance when I was laid off from my job. I need help paying for my chemotherapy treatments and medication. The medical bills are overwhelming. I live in Seattle, Washington. I also need help with transportation to my medical appointments. I'm unable to work right now because of my treatments. I'm scared and I need support. My email is jwilson52@healthcare.com. Any help would be greatly appreciated.",
+  "expectedExtraction": {
+    "nameCandidate": "James Wilson",
+    "contactCandidates": {
+      "emails": ["jwilson52@healthcare.com"],
+      "phones": []
+    },
+    "locationCandidates": ["Seattle", "Washington"],
+    "needsCategories": ["HEALTHCARE", "TRANSPORTATION", "EMPLOYMENT"],
+    "urgencyScore": 0.75,
+    "keyPointsCount": 5
+  },
+  "segments": [
+    {
+      "text": "Hello, my name is James Wilson.",
+      "start": 0,
+      "end": 2500
+    },
+    {
+      "text": "I'm 52 years old and I've been diagnosed with cancer.",
+      "start": 2500,
+      "end": 5500
+    },
+    {
+      "text": "I lost my health insurance when I was laid off from my job.",
+      "start": 5500,
+      "end": 9000
+    },
+    {
+      "text": "I need help paying for my chemotherapy treatments and medication.",
+      "start": 9000,
+      "end": 12500
+    },
+    {
+      "text": "The medical bills are overwhelming.",
+      "start": 12500,
+      "end": 15000
+    },
+    {
+      "text": "I live in Seattle, Washington.",
+      "start": 15000,
+      "end": 17000
+    },
+    {
+      "text": "I also need help with transportation to my medical appointments.",
+      "start": 17000,
+      "end": 20500
+    },
+    {
+      "text": "I'm unable to work right now because of my treatments.",
+      "start": 20500,
+      "end": 23500
+    },
+    {
+      "text": "I'm scared and I need support.",
+      "start": 23500,
+      "end": 25500
+    },
+    {
+      "text": "My email is jwilson52@healthcare.com.",
+      "start": 25500,
+      "end": 28000
+    },
+    {
+      "text": "Any help would be greatly appreciated.",
+      "start": 28000,
+      "end": 30500
+    }
+  ],
+  "wordCount": 110,
+  "duration": 30500,
+  "detectedLanguage": "en"
+}

@@ -1,0 +1,544 @@
+/**
+ * L4 Revenue Output Integration Tests - DOCX Generation
+ * 
+ * End-to-end tests for DOCX document generation from extracted stories
+ */
+
+import { describe, test, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
+import { configureTestEnvironment, resetTestEnvironment } from '../../helpers/testEnv';
+import { loadFixture, makeTranscript } from '../../helpers/makeTranscript';
+import { extractDocxText, validateDocxContent, assertDocxContains } from '../../helpers/docxExtractText';
+import { createMockTelemetryCollector, assertTelemetryRecorded } from '../../helpers/mockTelemetry';
+import { assertNoPII } from '../../helpers/assertNoPII';
+import { StoryExtractionService } from '../../../src/services/storyExtractionService';
+import { DocxGenerationService } from '../../../src/services/docxGenerationService';
+import { TelemetryCollector } from '../../../src/services/telemetryCollector';
+
+describe('L4 Revenue Output Integration Tests - DOCX Generation', () => {
+  let storyService: StoryExtractionService;
+  let docxService: DocxGenerationService;
+  let mockTelemetry: TelemetryCollector;
+  
+  beforeAll(() => {
+    configureTestEnvironment();
+  });
+  
+  afterAll(() => {
+    resetTestEnvironment();
+  });
+  
+  beforeEach(() => {
+    mockTelemetry = createMockTelemetryCollector();
+    storyService = new StoryExtractionService({
+      telemetryCollector: mockTelemetry,
+      enableRulesEngine: true,
+      enableOpenAI: false
+    });
+    docxService = new DocxGenerationService({
+      telemetryCollector: mockTelemetry,
+      templatePath: './templates/story_template.docx',
+      enableValidation: true
+    });
+  });
+
+  describe('Complete Story-to-DOCX Pipeline', () => {
+    
+    test('should generate valid DOCX from housing eviction story', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      // Extract story first
+      const story = await storyService.extractStory(transcript);
+      
+      // Generate DOCX
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      expect(docxBuffer).toBeInstanceOf(Buffer);
+      expect(docxBuffer.length).toBeGreaterThan(1000); // Should be substantial file
+      
+      // Extract and validate DOCX content
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      expect(docxContent.isValid).toBe(true);
+      expect(docxContent.wordCount).toBeGreaterThan(50);
+      expect(docxContent.paragraphCount).toBeGreaterThan(5);
+      
+      // Should contain story details
+      assertDocxContains(docxContent, story.personalInfo.name);
+      assertDocxContains(docxContent, story.requestDetails.amount);
+      assertDocxContains(docxContent, 'housing');
+      assertDocxContains(docxContent, 'eviction');
+      
+      // Should not contain PII beyond what's intentionally included
+      assertNoPII(docxContent.rawText, 'DOCX content', ['name', 'address']);
+    });
+    
+    test('should generate valid DOCX from medical emergency story', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      expect(docxContent.isValid).toBe(true);
+      
+      // Medical emergency should include specific content
+      assertDocxContains(docxContent, story.personalInfo.name);
+      assertDocxContains(docxContent, story.requestDetails.amount);
+      assertDocxContains(docxContent, 'medical');
+      assertDocxContains(docxContent, 'emergency');
+      assertDocxContains(docxContent, 'CRITICAL');
+      
+      // Should include medical-specific sections
+      assertDocxContains(docxContent, 'Medical Situation');
+      assertDocxContains(docxContent, 'Treatment Required');
+    });
+    
+    test('should handle incomplete stories gracefully', async () => {
+      const fixture = loadFixture('10_dry_empty');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      expect(docxContent.isValid).toBe(true);
+      
+      // Should handle missing information appropriately
+      assertDocxContains(docxContent, '[Name not provided]');
+      assertDocxContains(docxContent, '[Amount not specified]');
+      assertDocxContains(docxContent, 'Information Needed');
+    });
+    
+  });
+
+  describe('Template Integration and Formatting', () => {
+    
+    test('should apply proper document formatting', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Should have proper document structure
+      expect(docxContent.hasHeaders).toBe(true);
+      expect(docxContent.headerCount).toBeGreaterThan(3);
+      expect(docxContent.hasTableOfContents).toBe(true);
+      
+      // Should include standard sections
+      assertDocxContains(docxContent, 'Personal Information');
+      assertDocxContains(docxContent, 'Request Details');
+      assertDocxContains(docxContent, 'Situation Summary');
+      assertDocxContains(docxContent, 'Supporting Documentation');
+    });
+    
+    test('should populate template variables correctly', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Template variables should be replaced
+      expect(docxContent.rawText).not.toContain('{{NAME}}');
+      expect(docxContent.rawText).not.toContain('{{AMOUNT}}');
+      expect(docxContent.rawText).not.toContain('{{URGENCY}}');
+      expect(docxContent.rawText).not.toContain('{{NEEDS}}');
+      
+      // Should contain actual values
+      assertDocxContains(docxContent, fixture.expectedResults.name);
+      assertDocxContains(docxContent, fixture.expectedResults.amount);
+      assertDocxContains(docxContent, 'CRITICAL');
+    });
+    
+    test('should include quality assessment information', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Should include quality metrics
+      assertDocxContains(docxContent, 'Quality Assessment');
+      assertDocxContains(docxContent, 'Overall Score');
+      assertDocxContains(docxContent, 'Completeness');
+      assertDocxContains(docxContent, 'Confidence Level');
+      
+      // Should show actual quality scores
+      const qualityScore = Math.round(story.qualityAssessment.overallScore * 100);
+      assertDocxContains(docxContent, `${qualityScore}%`);
+    });
+    
+    test('should adapt formatting based on story content', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        const story = await storyService.extractStory(transcript);
+        const docxBuffer = await docxService.generateDocument(story);
+        
+        const docxContent = await extractDocxText(docxBuffer);
+        
+        if (story.requestDetails.needs.includes('MEDICAL')) {
+          assertDocxContains(docxContent, 'Medical Information');
+        }
+        
+        if (story.requestDetails.needs.includes('HOUSING')) {
+          assertDocxContains(docxContent, 'Housing Situation');
+        }
+        
+        if (story.requestDetails.urgency === 'CRITICAL') {
+          assertDocxContains(docxContent, 'URGENT REQUEST');
+        }
+      }
+    });
+    
+  });
+
+  describe('Revenue Pipeline Validation', () => {
+    
+    test('should generate revenue-compliant documents', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Should include revenue-required sections
+      assertDocxContains(docxContent, 'Verification Status');
+      assertDocxContains(docxContent, 'Documentation Review');
+      assertDocxContains(docxContent, 'Approval Checklist');
+      assertDocxContains(docxContent, 'Processing Notes');
+      
+      // Should include compliance metadata
+      assertDocxContains(docxContent, 'Generated by Care2system');
+      assertDocxContains(docxContent, new Date().getFullYear().toString());
+      
+      assertTelemetryRecorded(mockTelemetry, 'revenue_document_generated', {
+        documentType: 'story_summary',
+        storyId: story.id,
+        wordCount: docxContent.wordCount,
+        qualityScore: story.qualityAssessment.overallScore
+      });
+    });
+    
+    test('should include required legal disclaimers', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Legal disclaimers should be present
+      assertDocxContains(docxContent, 'Legal Disclaimer');
+      assertDocxContains(docxContent, 'This document contains information');
+      assertDocxContains(docxContent, 'automated processing');
+      assertDocxContains(docxContent, 'human verification');
+      
+      // Privacy notices
+      assertDocxContains(docxContent, 'Privacy Notice');
+      assertDocxContains(docxContent, 'confidential information');
+    });
+    
+    test('should validate document accessibility', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      
+      const validation = await validateDocxContent(docxBuffer);
+      
+      expect(validation.isAccessible).toBe(true);
+      expect(validation.hasAltText).toBe(true);
+      expect(validation.hasProperHeadings).toBe(true);
+      expect(validation.hasTableHeaders).toBe(true);
+      expect(validation.accessibilityScore).toBeGreaterThan(0.8);
+      
+      assertTelemetryRecorded(mockTelemetry, 'document_accessibility_validated', {
+        accessibilityScore: validation.accessibilityScore,
+        accessibilityIssues: validation.issues
+      });
+    });
+    
+    test('should support document versioning', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Generate multiple versions
+      const version1 = await docxService.generateDocument(story, { version: '1.0' });
+      const version2 = await docxService.generateDocument(story, { version: '1.1' });
+      
+      const content1 = await extractDocxText(version1);
+      const content2 = await extractDocxText(version2);
+      
+      assertDocxContains(content1, 'Version 1.0');
+      assertDocxContains(content2, 'Version 1.1');
+      
+      // Both should have same core content but different version info
+      assertDocxContains(content1, story.personalInfo.name);
+      assertDocxContains(content2, story.personalInfo.name);
+    });
+    
+  });
+
+  describe('Performance and Scalability', () => {
+    
+    test('should generate documents within acceptable time', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      const startTime = Date.now();
+      const docxBuffer = await docxService.generateDocument(story);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(5000); // Should complete within 5 seconds
+      expect(docxBuffer.length).toBeGreaterThan(0);
+      
+      assertTelemetryRecorded(mockTelemetry, 'document_generation_performance', {
+        generationTimeMs: endTime - startTime,
+        documentSize: docxBuffer.length,
+        storyComplexity: story.qualityAssessment.overallScore
+      });
+    });
+    
+    test('should handle batch document generation', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '03_range_amount'];
+      const stories = [];
+      
+      // Extract all stories first
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        const story = await storyService.extractStory(transcript);
+        stories.push(story);
+      }
+      
+      // Generate documents in parallel
+      const startTime = Date.now();
+      const docxPromises = stories.map(story => docxService.generateDocument(story));
+      const docxBuffers = await Promise.all(docxPromises);
+      const endTime = Date.now();
+      
+      expect(docxBuffers).toHaveLength(3);
+      docxBuffers.forEach(buffer => {
+        expect(buffer.length).toBeGreaterThan(1000);
+      });
+      
+      // Batch processing should be efficient
+      expect(endTime - startTime).toBeLessThan(15000);
+      
+      assertTelemetryRecorded(mockTelemetry, 'batch_document_generation', {
+        batchSize: 3,
+        totalTimeMs: endTime - startTime,
+        averageTimeMs: (endTime - startTime) / 3
+      });
+    });
+    
+    test('should optimize memory usage for large documents', async () => {
+      // Create a story with lots of content
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      const story = await storyService.extractStory(transcript);
+      
+      // Add extra content to story
+      story.enrichment.situationAnalysis.details = 'Additional details. '.repeat(10000);
+      
+      const initialMemory = process.memoryUsage().heapUsed;
+      const docxBuffer = await docxService.generateDocument(story);
+      const finalMemory = process.memoryUsage().heapUsed;
+      
+      expect(docxBuffer.length).toBeGreaterThan(10000);
+      
+      // Memory increase should be reasonable
+      const memoryIncrease = finalMemory - initialMemory;
+      expect(memoryIncrease).toBeLessThan(50 * 1024 * 1024); // Less than 50MB
+    });
+    
+  });
+
+  describe('Error Handling and Recovery', () => {
+    
+    test('should handle template errors gracefully', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      const story = await storyService.extractStory(transcript);
+      
+      // Create service with invalid template path
+      const faultyService = new DocxGenerationService({
+        telemetryCollector: mockTelemetry,
+        templatePath: './templates/nonexistent.docx',
+        enableValidation: true
+      });
+      
+      expect(async () => {
+        await faultyService.generateDocument(story);
+      }).not.toThrow();
+      
+      const docxBuffer = await faultyService.generateDocument(story);
+      
+      // Should fallback to basic template
+      expect(docxBuffer).toBeInstanceOf(Buffer);
+      expect(docxBuffer.length).toBeGreaterThan(500);
+      
+      assertTelemetryRecorded(mockTelemetry, 'template_error_recovery', {
+        originalTemplate: './templates/nonexistent.docx',
+        fallbackUsed: true
+      });
+    });
+    
+    test('should validate generated documents', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      const story = await storyService.extractStory(transcript);
+      
+      const docxBuffer = await docxService.generateDocument(story);
+      const validation = await validateDocxContent(docxBuffer);
+      
+      expect(validation.isValid).toBe(true);
+      expect(validation.errors).toEqual([]);
+      expect(validation.structureValid).toBe(true);
+      expect(validation.contentComplete).toBe(true);
+      
+      if (validation.warnings.length > 0) {
+        assertTelemetryRecorded(mockTelemetry, 'document_validation_warnings', {
+          warningCount: validation.warnings.length,
+          warnings: validation.warnings
+        });
+      }
+    });
+    
+    test('should recover from document corruption', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      const story = await storyService.extractStory(transcript);
+      
+      // Simulate template corruption by providing invalid data
+      story.personalInfo.name = null;
+      story.requestDetails = null;
+      
+      const docxBuffer = await docxService.generateDocument(story);
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      expect(docxContent.isValid).toBe(true);
+      
+      // Should handle missing data gracefully
+      assertDocxContains(docxContent, '[Information not available]');
+      assertDocxContains(docxContent, 'Data Recovery Notice');
+      
+      assertTelemetryRecorded(mockTelemetry, 'document_corruption_recovery', {
+        corruptionType: 'missing_data',
+        recoveryMethod: 'placeholder_substitution'
+      });
+    });
+    
+  });
+
+  describe('Integration Quality Assurance', () => {
+    
+    test('should maintain content fidelity through pipeline', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Original transcript content should be preserved in document
+      assertDocxContains(docxContent, fixture.expectedResults.name);
+      assertDocxContains(docxContent, fixture.expectedResults.amount);
+      
+      // Story quality should be reflected in document
+      if (story.qualityAssessment.overallScore > 0.8) {
+        assertDocxContains(docxContent, 'High Quality Story');
+      }
+      
+      // Document should include extraction metadata
+      assertDocxContains(docxContent, 'Extraction Method');
+      assertDocxContains(docxContent, story.metadata.extractionMethod);
+    });
+    
+    test('should validate end-to-end processing consistency', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        const story = await storyService.extractStory(transcript);
+        const docxBuffer = await docxService.generateDocument(story);
+        const docxContent = await extractDocxText(docxBuffer);
+        
+        // Consistency checks
+        expect(story.id).toMatch(/^story_\d+_[a-f0-9]{8}$/);
+        expect(docxContent.wordCount).toBeGreaterThan(50);
+        
+        // Story data should match fixture expectations
+        if (fixture.expectedResults.name) {
+          expect(story.personalInfo.name).toBe(fixture.expectedResults.name);
+          assertDocxContains(docxContent, fixture.expectedResults.name);
+        }
+        
+        if (fixture.expectedResults.amount) {
+          expect(story.requestDetails.amount).toBe(fixture.expectedResults.amount);
+          assertDocxContains(docxContent, fixture.expectedResults.amount);
+        }
+      }
+    });
+    
+    test('should ensure document completeness for revenue requirements', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const docxBuffer = await docxService.generateDocument(story);
+      const docxContent = await extractDocxText(docxBuffer);
+      
+      // Revenue-required sections must be present
+      const requiredSections = [
+        'Personal Information',
+        'Request Details', 
+        'Verification Status',
+        'Quality Assessment',
+        'Processing Notes',
+        'Legal Disclaimer'
+      ];
+      
+      requiredSections.forEach(section => {
+        assertDocxContains(docxContent, section);
+      });
+      
+      // Document must be properly structured
+      expect(docxContent.hasHeaders).toBe(true);
+      expect(docxContent.headerCount).toBeGreaterThanOrEqual(requiredSections.length);
+      
+      assertTelemetryRecorded(mockTelemetry, 'revenue_compliance_validated', {
+        allSectionsPresent: true,
+        requiredSectionCount: requiredSections.length,
+        documentStructureValid: true
+      });
+    });
+    
+  });
+
+});

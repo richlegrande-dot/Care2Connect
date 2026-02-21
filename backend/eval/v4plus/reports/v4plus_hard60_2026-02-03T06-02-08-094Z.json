@@ -1,0 +1,219 @@
+{
+  "metadata": {
+    "dataset": "hard60",
+    "totalCases": 60,
+    "timestamp": "2026-02-03T06:02:08.093Z",
+    "config": {
+      "STRICT_PASS_THRESHOLD": 0.95,
+      "ACCEPTABLE_PASS_THRESHOLD": 0.85,
+      "DEFAULT_AMOUNT_TOLERANCE": 0.05,
+      "PERFORMANCE_BUDGET_MS": 3000,
+      "MAX_MEMORY_MB": 512,
+      "ZERO_OPENAI_MODE": true,
+      "ENFORCE_NO_NETWORK": true,
+      "ENFORCE_PII_SCAN": true
+    }
+  },
+  "summary": {
+    "strictPassRate": "20.00%",
+    "acceptablePassRate": "20.00%",
+    "strictPasses": 12,
+    "acceptablePasses": 12,
+    "strictFailures": 48,
+    "acceptableFailures": 48
+  },
+  "performance": {
+    "avgLatencyMs": "3.54",
+    "totalLatencyMs": "212.11",
+    "withinBudget": true,
+    "budgetMs": 3000
+  },
+  "failureBuckets": {
+    "top10Strict": [
+      {
+        "bucket": "urgency_over_assessed",
+        "description": "Urgency level too high (e.g., MEDIUM → CRITICAL)",
+        "count": 16,
+        "percentage": "26.7%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_002",
+          "HARD_004"
+        ]
+      },
+      {
+        "bucket": "urgency_under_assessed",
+        "description": "Urgency level too low (e.g., CRITICAL → HIGH)",
+        "count": 13,
+        "percentage": "21.7%",
+        "exampleCases": [
+          "HARD_003",
+          "HARD_006",
+          "HARD_007"
+        ]
+      },
+      {
+        "bucket": "category_priority_violated",
+        "description": "Multi-category priority rule violated",
+        "count": 10,
+        "percentage": "16.7%",
+        "exampleCases": [
+          "HARD_032",
+          "HARD_034",
+          "HARD_035"
+        ]
+      },
+      {
+        "bucket": "amount_wrong_selection",
+        "description": "Wrong amount selected from multiple numbers",
+        "count": 9,
+        "percentage": "15.0%",
+        "exampleCases": [
+          "HARD_001",
+          "HARD_003",
+          "HARD_006"
+        ]
+      },
+      {
+        "bucket": "category_wrong",
+        "description": "Incorrect category selected",
+        "count": 9,
+        "percentage": "15.0%",
+        "exampleCases": [
+          "HARD_004",
+          "HARD_009",
+          "HARD_010"
+        ]
+      },
+      {
+        "bucket": "name_wrong",
+        "description": "Completely incorrect name extracted",
+        "count": 9,
+        "percentage": "15.0%",
+        "exampleCases": [
+          "HARD_029",
+          "HARD_047",
+          "HARD_048"
+        ]
+      },
+      {
+        "bucket": "urgency_conflicting_signals",
+        "description": "Failed to resolve conflicting urgency signals",
+        "count": 4,
+        "percentage": "6.7%",
+        "exampleCases": [
+          "HARD_021",
+          "HARD_025",
+          "HARD_026"
+        ]
+      },
+      {
+        "bucket": "name_fragment",
+        "description": "Name includes sentence fragments or artifacts",
+        "count": 3,
+        "percentage": "5.0%",
+        "exampleCases": [
+          "HARD_044",
+          "HARD_045",
+          "HARD_054"
+        ]
+      },
+      {
+        "bucket": "amount_outside_tolerance",
+        "description": "Amount within range but outside tolerance",
+        "count": 2,
+        "percentage": "3.3%",
+        "exampleCases": [
+          "HARD_024",
+          "HARD_032"
+        ]
+      },
+      {
+        "bucket": "name_suffix_included",
+        "description": "Suffix (Jr/III) not cleaned from name",
+        "count": 2,
+        "percentage": "3.3%",
+        "exampleCases": [
+          "HARD_051",
+          "HARD_053"
+        ]
+      }
+    ]
+  },
+  "regressions": {
+    "count": 0,
+    "cases": []
+  },
+  "worklist": [
+    {
+      "bucket": "urgency_over_assessed",
+      "priority": "HIGH",
+      "affectedCases": 16,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "urgency_under_assessed",
+      "priority": "HIGH",
+      "affectedCases": 13,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "category_priority_violated",
+      "priority": "MEDIUM",
+      "affectedCases": 10,
+      "suggestedFix": "Review category priority rules in multi-category scenarios",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "amount_wrong_selection",
+      "priority": "MEDIUM",
+      "affectedCases": 9,
+      "suggestedFix": "Review amount selection strategy; may need context-aware selection",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "category_wrong",
+      "priority": "MEDIUM",
+      "affectedCases": 9,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/CategoryClassificationService.js (or jan-v3 TIER 2)"
+    },
+    {
+      "bucket": "name_wrong",
+      "priority": "MEDIUM",
+      "affectedCases": 9,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "urgency_conflicting_signals",
+      "priority": "LOW",
+      "affectedCases": 4,
+      "suggestedFix": "Refine urgency evaluation order (LOW → CRITICAL → HIGH → MEDIUM)",
+      "targetFile": "services/UrgencyAssessmentService.js (or jan-v3 TIER 3)"
+    },
+    {
+      "bucket": "name_fragment",
+      "priority": "LOW",
+      "affectedCases": 3,
+      "suggestedFix": "Add more aggressive name cleaning; check blacklist for sentence fragments",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    },
+    {
+      "bucket": "amount_outside_tolerance",
+      "priority": "LOW",
+      "affectedCases": 2,
+      "suggestedFix": "Manual investigation required",
+      "targetFile": "services/AmountDetectionService.js (or jan-v3 TIER 4)"
+    },
+    {
+      "bucket": "name_suffix_included",
+      "priority": "LOW",
+      "affectedCases": 2,
+      "suggestedFix": "Add suffix cleaning (Jr, III, Sr) to name extraction",
+      "targetFile": "services/NameExtractionService.js (or jan-v3 TIER 1)"
+    }
+  ]
+}

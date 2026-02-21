@@ -1,0 +1,2521 @@
+{
+  "timestamp": "2026-02-03T18:49:23.477Z",
+  "total": 155,
+  "results": [
+    {
+      "id": "T002",
+      "dataset": "core30.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 177
+      }
+    },
+    {
+      "id": "T005",
+      "dataset": "core30.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0.1,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "low_pattern_match",
+        "vague_scenario_cap_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 175
+      }
+    },
+    {
+      "id": "T008",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 155
+      }
+    },
+    {
+      "id": "T017",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 242
+      }
+    },
+    {
+      "id": "T020",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 184
+      }
+    },
+    {
+      "id": "T021",
+      "dataset": "core30.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 186
+      }
+    },
+    {
+      "id": "T022",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 188
+      }
+    },
+    {
+      "id": "T024",
+      "dataset": "core30.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0.1,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "low_pattern_match",
+        "vague_scenario_cap_fallback"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 184
+      }
+    },
+    {
+      "id": "T025",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.42,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match",
+        "explicit_urgency_keywords",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 181
+      }
+    },
+    {
+      "id": "T028",
+      "dataset": "core30.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 255
+      }
+    },
+    {
+      "id": "T030",
+      "dataset": "core30.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 363
+      }
+    },
+    {
+      "id": "HARD_006",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 169
+      }
+    },
+    {
+      "id": "HARD_007",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 176
+      }
+    },
+    {
+      "id": "HARD_009",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 170
+      }
+    },
+    {
+      "id": "HARD_011",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 154
+      }
+    },
+    {
+      "id": "HARD_012",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 152
+      }
+    },
+    {
+      "id": "HARD_013",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 181
+      }
+    },
+    {
+      "id": "HARD_015",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 153
+      }
+    },
+    {
+      "id": "HARD_017",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 152
+      }
+    },
+    {
+      "id": "HARD_020",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 174
+      }
+    },
+    {
+      "id": "HARD_022",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "temporal_urgency_boost",
+        "explicit_urgency_keywords",
+        "boost_cap_applied"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 130
+      }
+    },
+    {
+      "id": "HARD_026",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 117
+      }
+    },
+    {
+      "id": "HARD_027",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "low_pattern_match",
+        "explicit_urgency_keywords"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 117
+      }
+    },
+    {
+      "id": "HARD_028",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.72,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "explicit_urgency_keywords"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 137
+      }
+    },
+    {
+      "id": "HARD_031",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.6,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 175
+      }
+    },
+    {
+      "id": "HARD_034",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.6,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 125
+      }
+    },
+    {
+      "id": "HARD_036",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 130
+      }
+    },
+    {
+      "id": "HARD_038",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 120
+      }
+    },
+    {
+      "id": "HARD_041",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 126
+      }
+    },
+    {
+      "id": "HARD_043",
+      "dataset": "hard60.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 131
+      }
+    },
+    {
+      "id": "HARD_052",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 114
+      }
+    },
+    {
+      "id": "HARD_060",
+      "dataset": "hard60.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 187
+      }
+    },
+    {
+      "id": "0000REALISTIC_2",
+      "dataset": "realistic50.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.6,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 182
+      }
+    },
+    {
+      "id": "000REALISTIC_13",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 174
+      }
+    },
+    {
+      "id": "000REALISTIC_15",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 165
+      }
+    },
+    {
+      "id": "000REALISTIC_16",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 134
+      }
+    },
+    {
+      "id": "000REALISTIC_17",
+      "dataset": "realistic50.jsonl",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 173
+      }
+    },
+    {
+      "id": "000REALISTIC_29",
+      "dataset": "realistic50.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 127
+      }
+    },
+    {
+      "id": "000REALISTIC_31",
+      "dataset": "realistic50.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 144
+      }
+    },
+    {
+      "id": "000REALISTIC_41",
+      "dataset": "realistic50.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 125
+      }
+    },
+    {
+      "id": "FUZZ_001",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 44
+      }
+    },
+    {
+      "id": "FUZZ_004",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 76
+      }
+    },
+    {
+      "id": "FUZZ_006",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 129
+      }
+    },
+    {
+      "id": "FUZZ_008",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 64
+      }
+    },
+    {
+      "id": "FUZZ_010",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 68
+      }
+    },
+    {
+      "id": "FUZZ_011",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 96
+      }
+    },
+    {
+      "id": "FUZZ_012",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_013",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 107
+      }
+    },
+    {
+      "id": "FUZZ_016",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 138
+      }
+    },
+    {
+      "id": "FUZZ_018",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 69
+      }
+    },
+    {
+      "id": "FUZZ_020",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 76
+      }
+    },
+    {
+      "id": "FUZZ_022",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_023",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 66
+      }
+    },
+    {
+      "id": "FUZZ_024",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 58
+      }
+    },
+    {
+      "id": "FUZZ_025",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 62
+      }
+    },
+    {
+      "id": "FUZZ_028",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 149
+      }
+    },
+    {
+      "id": "FUZZ_030",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 111
+      }
+    },
+    {
+      "id": "FUZZ_032",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_034",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 98
+      }
+    },
+    {
+      "id": "FUZZ_035",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 107
+      }
+    },
+    {
+      "id": "FUZZ_036",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 63
+      }
+    },
+    {
+      "id": "FUZZ_037",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 57
+      }
+    },
+    {
+      "id": "FUZZ_040",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 114
+      }
+    },
+    {
+      "id": "FUZZ_042",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 65
+      }
+    },
+    {
+      "id": "FUZZ_044",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_046",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 118
+      }
+    },
+    {
+      "id": "FUZZ_047",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 56
+      }
+    },
+    {
+      "id": "FUZZ_048",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 85
+      }
+    },
+    {
+      "id": "FUZZ_049",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 44
+      }
+    },
+    {
+      "id": "FUZZ_052",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 70
+      }
+    },
+    {
+      "id": "FUZZ_054",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 136
+      }
+    },
+    {
+      "id": "FUZZ_056",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 110
+      }
+    },
+    {
+      "id": "FUZZ_058",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 67
+      }
+    },
+    {
+      "id": "FUZZ_059",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 78
+      }
+    },
+    {
+      "id": "FUZZ_060",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_061",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 72
+      }
+    },
+    {
+      "id": "FUZZ_064",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 96
+      }
+    },
+    {
+      "id": "FUZZ_066",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 69
+      }
+    },
+    {
+      "id": "FUZZ_068",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 62
+      }
+    },
+    {
+      "id": "FUZZ_070",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 97
+      }
+    },
+    {
+      "id": "FUZZ_071",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 83
+      }
+    },
+    {
+      "id": "FUZZ_072",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 100
+      }
+    },
+    {
+      "id": "FUZZ_073",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 77
+      }
+    },
+    {
+      "id": "FUZZ_076",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 132
+      }
+    },
+    {
+      "id": "FUZZ_078",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 71
+      }
+    },
+    {
+      "id": "FUZZ_080",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 67
+      }
+    },
+    {
+      "id": "FUZZ_082",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 75
+      }
+    },
+    {
+      "id": "FUZZ_083",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 56
+      }
+    },
+    {
+      "id": "FUZZ_084",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 58
+      }
+    },
+    {
+      "id": "FUZZ_085",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 44
+      }
+    },
+    {
+      "id": "FUZZ_088",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 66
+      }
+    },
+    {
+      "id": "FUZZ_090",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 75
+      }
+    },
+    {
+      "id": "FUZZ_092",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_094",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 148
+      }
+    },
+    {
+      "id": "FUZZ_095",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 112
+      }
+    },
+    {
+      "id": "FUZZ_096",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_097",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 83
+      }
+    },
+    {
+      "id": "FUZZ_100",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 83
+      }
+    },
+    {
+      "id": "FUZZ_102",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 99
+      }
+    },
+    {
+      "id": "FUZZ_104",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 109
+      }
+    },
+    {
+      "id": "FUZZ_106",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_107",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 85
+      }
+    },
+    {
+      "id": "FUZZ_108",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_109",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 45
+      }
+    },
+    {
+      "id": "FUZZ_112",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 74
+      }
+    },
+    {
+      "id": "FUZZ_114",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 65
+      }
+    },
+    {
+      "id": "FUZZ_116",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 84
+      }
+    },
+    {
+      "id": "FUZZ_118",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 66
+      }
+    },
+    {
+      "id": "FUZZ_119",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 56
+      }
+    },
+    {
+      "id": "FUZZ_121",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 44
+      }
+    },
+    {
+      "id": "FUZZ_124",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 72
+      }
+    },
+    {
+      "id": "FUZZ_126",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 65
+      }
+    },
+    {
+      "id": "FUZZ_128",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 88
+      }
+    },
+    {
+      "id": "FUZZ_130",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 138
+      }
+    },
+    {
+      "id": "FUZZ_131",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 56
+      }
+    },
+    {
+      "id": "FUZZ_132",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 61
+      }
+    },
+    {
+      "id": "FUZZ_133",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 79
+      }
+    },
+    {
+      "id": "FUZZ_136",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 118
+      }
+    },
+    {
+      "id": "FUZZ_138",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 76
+      }
+    },
+    {
+      "id": "FUZZ_140",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_142",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 95
+      }
+    },
+    {
+      "id": "FUZZ_143",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 56
+      }
+    },
+    {
+      "id": "FUZZ_144",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 77
+      }
+    },
+    {
+      "id": "FUZZ_145",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 69
+      }
+    },
+    {
+      "id": "FUZZ_148",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 75
+      }
+    },
+    {
+      "id": "FUZZ_150",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 75
+      }
+    },
+    {
+      "id": "FUZZ_152",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 78
+      }
+    },
+    {
+      "id": "FUZZ_154",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 66
+      }
+    },
+    {
+      "id": "FUZZ_155",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 64
+      }
+    },
+    {
+      "id": "FUZZ_156",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 63
+      }
+    },
+    {
+      "id": "FUZZ_157",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 71
+      }
+    },
+    {
+      "id": "FUZZ_160",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 70
+      }
+    },
+    {
+      "id": "FUZZ_162",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 65
+      }
+    },
+    {
+      "id": "FUZZ_164",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_166",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 60
+      }
+    },
+    {
+      "id": "FUZZ_167",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 56
+      }
+    },
+    {
+      "id": "FUZZ_168",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_169",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 59
+      }
+    },
+    {
+      "id": "FUZZ_172",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 165
+      }
+    },
+    {
+      "id": "FUZZ_174",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 76
+      }
+    },
+    {
+      "id": "FUZZ_176",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 61
+      }
+    },
+    {
+      "id": "FUZZ_178",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 63
+      }
+    },
+    {
+      "id": "FUZZ_179",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 89
+      }
+    },
+    {
+      "id": "FUZZ_180",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_181",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 77
+      }
+    },
+    {
+      "id": "FUZZ_184",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 66
+      }
+    },
+    {
+      "id": "FUZZ_186",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 86
+      }
+    },
+    {
+      "id": "FUZZ_188",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 65
+      }
+    },
+    {
+      "id": "FUZZ_190",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 114
+      }
+    },
+    {
+      "id": "FUZZ_191",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 129
+      }
+    },
+    {
+      "id": "FUZZ_192",
+      "dataset": "fuzz200.jsonl",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "score": 0,
+      "confidence": 0.7,
+      "reasons": [],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 55
+      }
+    },
+    {
+      "id": "FUZZ_193",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 76
+      }
+    },
+    {
+      "id": "FUZZ_196",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 143
+      }
+    },
+    {
+      "id": "FUZZ_198",
+      "dataset": "fuzz200.jsonl",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "score": 0.3,
+      "confidence": 0.7,
+      "reasons": [
+        "medium_pattern_match"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 75
+      }
+    },
+    {
+      "id": "FUZZ_200",
+      "dataset": "fuzz200.jsonl",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "score": 0.65,
+      "confidence": 0.7,
+      "reasons": [
+        "high_pattern_match",
+        "medium_pattern_match",
+        "content_housing_boost"
+      ],
+      "debug": {
+        "engineUsed": "UrgencyAssessmentEngine",
+        "contextProvided": true,
+        "transcriptLength": 77
+      }
+    }
+  ]
+}

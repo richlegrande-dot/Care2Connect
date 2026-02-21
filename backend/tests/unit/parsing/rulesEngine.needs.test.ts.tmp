@@ -1,0 +1,483 @@
+/**
+ * L1 Unit Tests - Rules Engine Needs Extraction
+ * 
+ * Pure unit tests for extracting specific needs/categories with validation
+ */
+
+import { describe, test, expect, beforeAll, afterAll } from '@jest/globals';
+import { configureTestEnvironment, resetTestEnvironment } from '../../helpers/testEnv';
+import { loadFixture } from '../../helpers/makeTranscript';
+import { 
+  extractNeeds
+} from '../../../src/utils/extraction/rulesEngine';
+
+// Need categories based on the actual NEEDS_KEYWORDS from rulesEngine
+const NeedCategory = {
+  HOUSING: 'housing',
+  MEDICAL: 'medical',
+  UTILITIES: 'utilities',
+  FOOD: 'food',
+  TRANSPORTATION: 'transportation',
+  EDUCATION: 'education',
+  CHILDCARE: 'childcare',
+  LEGAL: 'legal'
+} as const;
+
+describe('L1 Unit Tests - Needs Extraction', () => {
+  
+  beforeAll(() => {
+    configureTestEnvironment();
+  });
+  
+  afterAll(() => {
+    resetTestEnvironment();
+  });
+
+  describe('Housing Needs Detection', () => {
+    
+    test('should detect rent assistance needs', () => {
+      const rentCases = [
+        'Cannot pay my rent this month',
+        'Behind on rent and facing eviction',
+        'Need help with rental payment',
+        'Landlord threatening eviction for unpaid rent',
+        'Rent is due and I have no money'
+      ];
+      
+      rentCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result).toContain(NeedCategory.HOUSING);
+      });
+    });
+    
+    test('should detect mortgage assistance needs', () => {
+      const mortgageCases = [
+        'Cannot make mortgage payment',
+        'Bank threatening foreclosure',
+        'Behind on house payments',
+        'Need help with home loan',
+        'Mortgage due and facing foreclosure'
+      ];
+      
+      mortgageCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.HOUSING);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+    test('should detect utilities needs', () => {
+      const utilitiesCases = [
+        'Electric bill is overdue',
+        'Power being shut off',
+        'Cannot pay gas bill',
+        'Water service disconnected',
+        'Need help with utility bills'
+      ];
+      
+      utilitiesCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.UTILITIES);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+    test('should detect homelessness prevention', () => {
+      const homelessnessCases = [
+        'About to be homeless',
+        'Have nowhere to stay',
+        'Living in my car',
+        'Need temporary shelter',
+        'Couch surfing with friends'
+      ];
+      
+      homelessnessCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.HOUSING);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+  });
+
+  describe('Medical Needs Detection', () => {
+    
+    test('should detect medical bills needs', () => {
+      const medicalBillCases = [
+        'Cannot afford medical bills',
+        'Hospital bills overwhelming',
+        'Need help paying for surgery',
+        'Medical debt is crushing',
+        'Doctor bills are too expensive'
+      ];
+      
+      medicalBillCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.MEDICAL);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+    test('should detect medication needs', () => {
+      const medicationCases = [
+        'Cannot afford prescription medications',
+        'Need help buying insulin',
+        'Medicine is too expensive',
+        'Ran out of pills and cannot refill',
+        'Prescription costs too much'
+      ];
+      
+      medicationCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.MEDICAL);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+    test('should detect medical equipment needs', () => {
+      const equipmentCases = [
+        'Need wheelchair but cannot afford',
+        'Medical equipment is expensive',
+        'Need oxygen tank',
+        'Cannot afford hearing aids',
+        'Need medical supplies'
+      ];
+      
+      equipmentCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.MEDICAL);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+    test('should detect dental care needs', () => {
+      const dentalCases = [
+        'Need dental work but cannot afford',
+        'Tooth infection and no money for dentist',
+        'Dental bills are overwhelming',
+        'Need emergency dental care'
+      ];
+      
+      dentalCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.MEDICAL);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+  });
+
+  describe('Food Needs Detection', () => {
+    
+    test('should detect food insecurity', () => {
+      const foodCases = [
+        'Cannot afford groceries',
+        'Running out of food',
+        'Kids are going hungry',
+        'Need help buying food',
+        'Food stamps ran out'
+      ];
+      
+      foodCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.FOOD);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+    test('should detect baby formula needs', () => {
+      const formulaCases = [
+        'Cannot afford baby formula',
+        'Baby needs formula but I have no money',
+        'Infant formula is too expensive',
+        'Need help buying baby food'
+      ];
+      
+      formulaCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.FOOD);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+  });
+
+  describe('Transportation Needs Detection', () => {
+    
+    test('should detect car repair needs', () => {
+      const carRepairCases = [
+        'Car broke down and cannot afford repair',
+        'Need money to fix my vehicle',
+        'Car needs new tires but I have no money',
+        'Cannot get to work without car repair',
+        'Vehicle needs engine work'
+      ];
+      
+      carRepairCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.TRANSPORTATION);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+    test('should detect gas money needs', () => {
+      const gasCases = [
+        'Cannot afford gas for work',
+        'Need gas money to get to hospital',
+        'Fuel is too expensive',
+        'Cannot put gas in car'
+      ];
+      
+      gasCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.TRANSPORTATION);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+    test('should detect public transit needs', () => {
+      const transitCases = [
+        'Cannot afford bus fare',
+        'Need money for train tickets',
+        'Bus pass expired and cannot renew',
+        'Need transportation to medical appointments'
+      ];
+      
+      transitCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.TRANSPORTATION);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+  });
+
+  describe('Education Needs Detection', () => {
+    
+    test('should detect school supply needs', () => {
+      const schoolCases = [
+        'Cannot afford school supplies for kids',
+        'Children need backpacks and supplies',
+        'School fees are overwhelming',
+        'Need help with educational expenses'
+      ];
+      
+      schoolCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.EDUCATION);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+    test('should detect tuition assistance needs', () => {
+      const tuitionCases = [
+        'Cannot afford college tuition',
+        'Need help with school fees',
+        'Educational loans overwhelming',
+        'Cannot pay for certification program'
+      ];
+      
+      tuitionCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.EDUCATION);
+        expect(result.confidence).toBeGreaterThan(0.5);
+      });
+    });
+    
+  });
+
+  describe('Emergency Fund Needs Detection', () => {
+    
+    test('should detect emergency fund needs', () => {
+      const emergencyCases = [
+        'Unexpected expense came up',
+        'Need emergency funds',
+        'Crisis situation with no savings',
+        'Emergency repair needed',
+        'Sudden financial emergency'
+      ];
+      
+      emergencyCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.EMERGENCY_FUND);
+        expect(result.confidence).toBeGreaterThan(0.4);
+      });
+    });
+    
+    test('should detect funeral expenses', () => {
+      const funeralCases = [
+        'Cannot afford funeral costs',
+        'Family member died and need burial money',
+        'Funeral expenses overwhelming',
+        'Need help with memorial service costs'
+      ];
+      
+      funeralCases.forEach(text => {
+        const result = extractNeeds(text);
+        expect(result.value).toContain(NeedCategory.EMERGENCY_FUND);
+        expect(result.confidence).toBeGreaterThan(0.6);
+      });
+    });
+    
+  });
+
+  describe('Multiple Needs Detection', () => {
+    
+    test('should detect multiple need categories', () => {
+      const multipleNeedsText = 'Cannot pay rent or buy groceries, and my car broke down so I cannot get to work';
+      const result = extractNeeds(multipleNeedsText);
+      
+      expect(result.value).toContain(NeedCategory.HOUSING);
+      expect(result.value).toContain(NeedCategory.FOOD);
+      expect(result.value).toContain(NeedCategory.TRANSPORTATION);
+      expect(result.confidence).toBeGreaterThan(0.6);
+    });
+    
+    test('should prioritize clear need categories', () => {
+      const medicalAndHousingText = 'Need help with medical bills and cannot pay rent';
+      const result = extractNeeds(medicalAndHousingText);
+      
+      expect(result.value).toContain(NeedCategory.MEDICAL);
+      expect(result.value).toContain(NeedCategory.HOUSING);
+      expect(result.value.length).toBe(2);
+    });
+    
+  });
+
+  describe('False Positive Prevention', () => {
+    
+    test('should not detect needs from past experiences', () => {
+      const pastExperience = 'Last year I had trouble paying rent but now I am fine';
+      const result = extractNeeds(pastExperience);
+      
+      // Should have low confidence for past tense
+      if (result.value.length > 0) {
+        expect(result.confidence).toBeLessThan(0.4);
+      }
+    });
+    
+    test('should not detect hypothetical needs', () => {
+      const hypotheticalCases = [
+        'If I needed help with rent, who would I call?',
+        'What if someone could not pay medical bills?',
+        'In case I need food assistance someday'
+      ];
+      
+      hypotheticalCases.forEach(text => {
+        const result = extractNeeds(text);
+        if (result.value.length > 0) {
+          expect(result.confidence).toBeLessThan(0.4);
+        }
+      });
+    });
+    
+    test('should not detect others\' needs as own', () => {
+      const othersCases = [
+        'My neighbor cannot pay rent',
+        'I heard someone needs medical help',
+        'There are people who need food assistance'
+      ];
+      
+      othersCases.forEach(text => {
+        const result = extractNeeds(text);
+        if (result.value.length > 0) {
+          expect(result.confidence).toBeLessThan(0.5);
+        }
+      });
+    });
+    
+  });
+
+  describe('Needs Extraction with Fixture Data', () => {
+    
+    test('should extract housing needs from eviction fixture', () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const result = extractNeeds(fixture.transcriptText);
+      
+      expect(result).toContain(NeedCategory.HOUSING);
+    });
+    
+    test('should extract medical needs from medical emergency fixture', () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const result = extractNeeds(fixture.transcriptText);
+      
+      expect(result).toContain(NeedCategory.MEDICAL);
+    });
+    
+    test('should return empty array for empty fixture', () => {
+      const fixture = loadFixture('10_dry_empty');
+      const result = extractNeeds(fixture.transcriptText);
+      
+      expect(result).toEqual([]);
+    });
+    
+    test('should validate fixture expected results match extraction', () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const extracted = extractNeeds(fixture.transcriptText);
+      
+      // Fixture should have expected results defined
+      expect(fixture.expectedResults).toBeDefined();
+      if (fixture.expectedResults.needs) {
+        expect(extracted).toEqual(expect.arrayContaining(fixture.expectedResults.needs));
+      }
+    });
+    
+  });
+
+  describe('Edge Cases and Robustness', () => {
+    
+    test('should handle empty or malformed input gracefully', () => {
+      const badInputs = ['', null, undefined, '   ', 'I need'];
+      
+      badInputs.forEach(input => {
+        expect(() => extractNeeds(input as any)).not.toThrow();
+        const result = extractNeeds(input as any);
+        expect(Array.isArray(result)).toBe(true);
+      });
+    });
+    
+    test('should maintain confidence score bounds', () => {
+      const needsCase = extractNeeds('Cannot pay rent or buy food');
+      expect(needsCase.confidence).toBeGreaterThanOrEqual(0);
+      expect(needsCase.confidence).toBeLessThanOrEqual(1);
+    });
+    
+    test('should handle very long transcripts efficiently', () => {
+      const longTranscript = 'I have many problems. '.repeat(1000) + ' Cannot pay rent.';
+      
+      const startTime = Date.now();
+      const result = extractNeeds(longTranscript);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(1000); // Should complete within 1 second
+      expect(result.value).toContain(NeedCategory.HOUSING);
+    });
+    
+    test('should avoid duplicate needs', () => {
+      const duplicateText = 'Cannot pay rent, behind on rent, landlord wants rent money';
+      const result = extractNeeds(duplicateText);
+      
+      const housingCount = result.value.filter(need => need === NeedCategory.HOUSING).length;
+      expect(housingCount).toBe(1); // Should deduplicate
+    });
+    
+    test('should handle mixed positive and negative signals', () => {
+      const mixedText = 'I do not need help with rent, but I cannot afford food';
+      const result = extractNeeds(mixedText);
+      
+      expect(result.value).toContain(NeedCategory.FOOD);
+      expect(result.value).not.toContain(NeedCategory.HOUSING);
+    });
+    
+    test('should maintain reasonable maximum number of needs', () => {
+      const manyNeedsText = 'Cannot pay rent, buy food, fix car, pay medical bills, afford utilities, pay school fees, get emergency funds, buy medicine, pay mortgage, afford gas';
+      const result = extractNeeds(manyNeedsText);
+      
+      // Should detect multiple needs but not be overwhelming
+      expect(result.value.length).toBeLessThanOrEqual(8);
+      expect(result.value.length).toBeGreaterThanOrEqual(3);
+    });
+    
+  });
+
+});

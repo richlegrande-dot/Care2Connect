@@ -1,0 +1,37 @@
+# Domain Guard Allowlist
+# Files that are ALLOWED to contain "care2connect.org" (without 's')
+# These are historical references or documentation about the typo itself
+
+# Historical incident reports and handoff documents
+TUNNEL_INCIDENT_HISTORY_REPORT.md
+AGENT_HANDOFF_*.md
+*_COMPLETE.md
+*_REPORT.md
+*_STATUS.md
+*_FIX.md
+*_SANITY.md
+*_VERIFICATION*.md
+*_VALIDATION*.md
+OPERATIONS_*.md
+PRODUCTION_*.md
+PHASE_*.md
+DEPLOYMENT_*.md
+SYSTEM_*.md
+HARDENING_*.md
+docs/**/*.md
+docs/*.md
+
+# Scripts documenting the typo or checking for it
+scripts/domain-guard.ps1
+scripts/domain-guard.allowlist.txt
+scripts/fix-cloudflare-tunnel.ps1
+scripts/monitor-production-tunnel.ps1
+scripts/tunnel-start.ps1
+scripts/validate-config-consistency.ps1
+scripts/verify-domain.ps1
+
+# Test files referencing the typo
+backend/tests/**/*.test.ts
+
+# Compiled/generated files (regenerated on build)
+backend/dist/**

@@ -1,0 +1,41 @@
+{
+  "_comment": "Replace with real stakeholder contacts. DO NOT commit real emails to Git.",
+  "stakeholders": [
+    {
+      "name": "Clinical Director",
+      "email": "clinical-director@example.org",
+      "role": "clinical-lead",
+      "calendarPreference": "google"
+    },
+    {
+      "name": "Engineering Lead",
+      "email": "eng-lead@example.org",
+      "role": "engineering-lead",
+      "calendarPreference": "outlook"
+    },
+    {
+      "name": "Program Manager",
+      "email": "pm@example.org",
+      "role": "program-manager",
+      "calendarPreference": "google"
+    },
+    {
+      "name": "DV Advocate Lead",
+      "email": "dv-advocate@example.org",
+      "role": "dv-safety-reviewer",
+      "calendarPreference": "google"
+    }
+  ],
+  "organization": {
+    "name": "CareConnect",
+    "replyTo": "careconnect-engineering@example.org",
+    "projectUrl": "https://github.com/richlegrande-dot/Care2Connect"
+  },
+  "meeting": {
+    "title": "CareConnect V2 Intake — GA Readiness Review",
+    "durationMinutes": 60,
+    "location": "Virtual — link to be provided",
+    "defaultDate": "2026-03-01T14:00:00",
+    "timezone": "America/New_York"
+  }
+}

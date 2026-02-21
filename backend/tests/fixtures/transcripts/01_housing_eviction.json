@@ -1,0 +1,24 @@
+{
+  "id": "01_housing_eviction",
+  "description": "Housing crisis with eviction notice and specific amount needed",
+  "transcriptText": "Hi, my name is Sarah Martinez and I really need help right now. I'm facing eviction in just five days because I can't make rent. I lost my job at the restaurant three weeks ago when they had to cut staff. I need fifteen hundred dollars to catch up on rent and avoid being homeless with my two kids. This is really urgent because the landlord already gave us the notice and we have nowhere else to go. I live in Phoenix Arizona and I've been applying for jobs but nothing has come through yet. My children are 8 and 12 and they go to school here, I don't want to uproot them. Any help would be incredibly appreciated.",
+  "segments": [
+    { "startMs": 0, "endMs": 3500, "text": "Hi, my name is Sarah Martinez and I really need help right now." },
+    { "startMs": 3500, "endMs": 8000, "text": "I'm facing eviction in just five days because I can't make rent." },
+    { "startMs": 8000, "endMs": 12000, "text": "I lost my job at the restaurant three weeks ago when they had to cut staff." },
+    { "startMs": 12000, "endMs": 16500, "text": "I need fifteen hundred dollars to catch up on rent and avoid being homeless with my two kids." },
+    { "startMs": 16500, "endMs": 21000, "text": "This is really urgent because the landlord already gave us the notice and we have nowhere else to go." },
+    { "startMs": 21000, "endMs": 26000, "text": "I live in Phoenix Arizona and I've been applying for jobs but nothing has come through yet." },
+    { "startMs": 26000, "endMs": 32000, "text": "My children are 8 and 12 and they go to school here, I don't want to uproot them. Any help would be incredibly appreciated." }
+  ],
+  "expected": {
+    "needsCategories": ["HOUSING"],
+    "urgencyLevel": "CRITICAL",
+    "goalAmount": 1500,
+    "missingFields": [],
+    "confidenceMin": 0.8,
+    "shouldNotContain": {
+      "piiInTelemetry": true
+    }
+  }
+}

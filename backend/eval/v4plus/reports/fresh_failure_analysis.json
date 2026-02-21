@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-02-07T22:19:48.554Z",
+  "summary": {
+    "totalCategoryWrong": 0,
+    "totalUrgencyOver": 0,
+    "totalUrgencyUnder": 0
+  },
+  "categoryWrong": {
+    "total": 0,
+    "byPriority": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "topCases": []
+  },
+  "urgencyOver": {
+    "total": 0,
+    "byPriority": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "byGap": {
+      "gap1": 0,
+      "gap2": 0,
+      "gap3": 0
+    },
+    "categoryMismatchCount": 0,
+    "topCases": []
+  },
+  "urgencyUnder": {
+    "total": 0,
+    "byPriority": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "topCases": []
+  }
+}

@@ -1,0 +1,542 @@
+/**
+ * L4 Revenue Output Integration Tests - QR Generation
+ * 
+ * End-to-end tests for QR code generation from extracted stories
+ */
+
+import { describe, test, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
+import { configureTestEnvironment, resetTestEnvironment } from '../../helpers/testEnv';
+import { loadFixture, makeTranscript } from '../../helpers/makeTranscript';
+import { createMockStripeSession, generateMockQR, MockStripeClient } from '../../helpers/mockStripe';
+import { createMockTelemetryCollector, assertTelemetryRecorded } from '../../helpers/mockTelemetry';
+import { assertNoPII } from '../../helpers/assertNoPII';
+import { StoryExtractionService } from '../../../src/services/storyExtractionService';
+import { QrGenerationService } from '../../../src/services/qrGenerationService';
+import { TelemetryCollector } from '../../../src/services/telemetryCollector';
+
+describe('L4 Revenue Output Integration Tests - QR Generation', () => {
+  let storyService: StoryExtractionService;
+  let qrService: QrGenerationService;
+  let mockTelemetry: TelemetryCollector;
+  let mockStripe: MockStripeClient;
+  
+  beforeAll(() => {
+    configureTestEnvironment();
+  });
+  
+  afterAll(() => {
+    resetTestEnvironment();
+  });
+  
+  beforeEach(() => {
+    mockTelemetry = createMockTelemetryCollector();
+    mockStripe = new MockStripeClient();
+    
+    storyService = new StoryExtractionService({
+      telemetryCollector: mockTelemetry,
+      enableRulesEngine: true,
+      enableOpenAI: false
+    });
+    
+    qrService = new QrGenerationService({
+      telemetryCollector: mockTelemetry,
+      stripeClient: mockStripe,
+      baseUrl: 'https://care2system.com',
+      enableValidation: true
+    });
+  });
+
+  describe('Complete Story-to-QR Pipeline', () => {
+    
+    test('should generate valid QR from housing eviction story', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      // Extract story first
+      const story = await storyService.extractStory(transcript);
+      
+      // Generate QR
+      const qrResult = await qrService.generateQR(story);
+      
+      expect(qrResult).toBeDefined();
+      expect(qrResult.qrCodeUrl).toMatch(/^https:\/\/care2system\.com\/donate\/[a-zA-Z0-9]+$/);
+      expect(qrResult.qrCodePng).toMatch(/^data:image\/png;base64,/);
+      expect(qrResult.donationUrl).toMatch(/^https:\/\/checkout\.stripe\.com/);
+      expect(qrResult.sessionId).toMatch(/^cs_test_/);
+      
+      // QR should encode the donation URL
+      expect(qrResult.qrCodeData).toBe(qrResult.donationUrl);
+      
+      // Should include story metadata
+      expect(qrResult.metadata.storyId).toBe(story.id);
+      expect(qrResult.metadata.amount).toBe(story.requestDetails.amount);
+      expect(qrResult.metadata.urgency).toBe(story.requestDetails.urgency);
+      expect(qrResult.metadata.generatedAt).toBeDefined();
+    });
+    
+    test('should generate valid QR from medical emergency story', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      expect(qrResult.qrCodePng).toBeDefined();
+      expect(qrResult.donationUrl).toBeDefined();
+      
+      // Medical emergency should have higher amount limits
+      expect(qrResult.metadata.maxAmount).toBeGreaterThanOrEqual(5000);
+      expect(qrResult.metadata.urgencyLevel).toBe('CRITICAL');
+      
+      // Should include medical-specific metadata
+      expect(qrResult.metadata.categories).toContain('medical');
+      expect(qrResult.metadata.description).toContain('medical emergency');
+    });
+    
+    test('should handle incomplete stories with defaults', async () => {
+      const fixture = loadFixture('10_dry_empty');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      expect(qrResult.qrCodePng).toBeDefined();
+      expect(qrResult.donationUrl).toBeDefined();
+      
+      // Should use default values for missing information
+      expect(qrResult.metadata.amount).toBe('$100'); // Default amount
+      expect(qrResult.metadata.urgency).toBe('LOW');
+      expect(qrResult.metadata.description).toContain('general assistance');
+      expect(qrResult.metadata.hasIncompleteInfo).toBe(true);
+    });
+    
+  });
+
+  describe('Stripe Integration and Payment Processing', () => {
+    
+    test('should create valid Stripe checkout session', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      // Should create mock Stripe session
+      expect(qrResult.sessionId).toBeDefined();
+      expect(qrResult.donationUrl).toContain('checkout.stripe.com');
+      
+      // Verify Stripe session details
+      const sessionDetails = mockStripe.getSessionDetails(qrResult.sessionId);
+      expect(sessionDetails.amount_total).toBe(120000); // $1,200 in cents
+      expect(sessionDetails.metadata.story_id).toBe(story.id);
+      expect(sessionDetails.metadata.urgency).toBe('HIGH');
+      
+      assertTelemetryRecorded(mockTelemetry, 'stripe_session_created', {
+        sessionId: qrResult.sessionId,
+        amount: 120000,
+        storyId: story.id
+      });
+    });
+    
+    test('should handle amount parsing for Stripe', async () => {
+      const fixture = loadFixture('03_range_amount');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      // Range amounts should use reasonable default
+      const sessionDetails = mockStripe.getSessionDetails(qrResult.sessionId);
+      expect(sessionDetails.amount_total).toBeGreaterThan(0);
+      expect(sessionDetails.amount_total).toBeLessThan(1000000); // Less than $10,000
+      
+      // Should record amount parsing decision
+      assertTelemetryRecorded(mockTelemetry, 'amount_parsing_for_stripe', {
+        originalAmount: story.requestDetails.amount,
+        stripeAmount: sessionDetails.amount_total,
+        parsingMethod: expect.any(String)
+      });
+    });
+    
+    test('should include proper metadata for tracking', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      const sessionDetails = mockStripe.getSessionDetails(qrResult.sessionId);
+      
+      // Metadata should not contain PII
+      assertNoPII(JSON.stringify(sessionDetails.metadata), 'Stripe metadata');
+      
+      // Should include tracking information
+      expect(sessionDetails.metadata).toHaveProperty('story_id');
+      expect(sessionDetails.metadata).toHaveProperty('urgency');
+      expect(sessionDetails.metadata).toHaveProperty('category');
+      expect(sessionDetails.metadata).toHaveProperty('generated_at');
+      expect(sessionDetails.metadata).toHaveProperty('quality_score');
+      
+      // Should not include sensitive story details
+      expect(sessionDetails.metadata).not.toHaveProperty('name');
+      expect(sessionDetails.metadata).not.toHaveProperty('personal_details');
+    });
+    
+    test('should handle Stripe API errors gracefully', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Simulate Stripe failure
+      mockStripe.simulateFailure('session_creation_failed');
+      
+      expect(async () => {
+        await qrService.generateQR(story);
+      }).not.toThrow();
+      
+      const qrResult = await qrService.generateQR(story);
+      
+      // Should fallback gracefully
+      expect(qrResult.error).toBeDefined();
+      expect(qrResult.fallbackUrl).toBeDefined();
+      expect(qrResult.qrCodePng).toBeDefined(); // Still generates QR for fallback
+      
+      assertTelemetryRecorded(mockTelemetry, 'stripe_error_fallback', {
+        errorType: 'session_creation_failed',
+        fallbackMethod: 'direct_donation_url'
+      });
+    });
+    
+  });
+
+  describe('QR Code Generation and Validation', () => {
+    
+    test('should generate valid PNG QR codes', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      expect(qrResult.qrCodePng).toMatch(/^data:image\/png;base64,/);
+      
+      // Should be valid base64 PNG data
+      const base64Data = qrResult.qrCodePng.split(',')[1];
+      const imageBuffer = Buffer.from(base64Data, 'base64');
+      
+      expect(imageBuffer.length).toBeGreaterThan(1000); // Should be substantial image
+      expect(imageBuffer.slice(1, 4).toString()).toBe('PNG'); // PNG header
+      
+      // QR should encode donation URL
+      expect(qrResult.qrCodeData).toBe(qrResult.donationUrl);
+    });
+    
+    test('should generate appropriate QR code sizes', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Test different sizes
+      const sizes = [200, 400, 600];
+      
+      for (const size of sizes) {
+        const qrResult = await qrService.generateQR(story, { size });
+        
+        const base64Data = qrResult.qrCodePng.split(',')[1];
+        const imageBuffer = Buffer.from(base64Data, 'base64');
+        
+        expect(qrResult.metadata.qrSize).toBe(size);
+        expect(imageBuffer.length).toBeGreaterThan(size); // Larger size = larger file
+        
+        assertTelemetryRecorded(mockTelemetry, 'qr_size_generated', {
+          requestedSize: size,
+          actualImageSize: imageBuffer.length
+        });
+      }
+    });
+    
+    test('should handle QR generation errors', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // Simulate QR generation failure by providing invalid URL
+      story.id = 'invalid/url/characters';
+      
+      const qrResult = await qrService.generateQR(story);
+      
+      // Should handle error gracefully
+      expect(qrResult.error).toBeDefined();
+      expect(qrResult.fallbackQr).toBeDefined();
+      
+      assertTelemetryRecorded(mockTelemetry, 'qr_generation_error', {
+        errorType: expect.any(String),
+        fallbackUsed: true
+      });
+    });
+    
+    test('should optimize QR codes for mobile scanning', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story, { optimizeForMobile: true });
+      
+      expect(qrResult.metadata.mobileOptimized).toBe(true);
+      expect(qrResult.metadata.errorCorrection).toBe('M'); // Medium error correction
+      expect(qrResult.metadata.quietZone).toBeGreaterThanOrEqual(4);
+      
+      // Mobile-optimized QRs should have appropriate size
+      expect(qrResult.metadata.qrSize).toBeGreaterThanOrEqual(300);
+    });
+    
+  });
+
+  describe('Revenue Pipeline Integration', () => {
+    
+    test('should track QR generation for revenue analytics', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      assertTelemetryRecorded(mockTelemetry, 'qr_revenue_generated', {
+        storyId: story.id,
+        qrUrl: qrResult.qrCodeUrl,
+        stripeSessionId: qrResult.sessionId,
+        targetAmount: expect.any(Number),
+        urgencyLevel: story.requestDetails.urgency,
+        categories: story.requestDetails.needs
+      });
+      
+      assertTelemetryRecorded(mockTelemetry, 'revenue_opportunity_created', {
+        opportunityType: 'qr_donation',
+        potentialValue: expect.any(Number),
+        qualityScore: story.qualityAssessment.overallScore
+      });
+    });
+    
+    test('should validate revenue compliance', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      // Should include compliance metadata
+      expect(qrResult.compliance).toBeDefined();
+      expect(qrResult.compliance.termsOfServiceUrl).toBeDefined();
+      expect(qrResult.compliance.privacyPolicyUrl).toBeDefined();
+      expect(qrResult.compliance.refundPolicyUrl).toBeDefined();
+      
+      // Should track compliance validation
+      assertTelemetryRecorded(mockTelemetry, 'revenue_compliance_check', {
+        complianceLevel: 'full',
+        requiredDocuments: expect.any(Array),
+        validationPassed: true
+      });
+    });
+    
+    test('should support A/B testing of QR designs', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      const designVariants = ['standard', 'branded', 'high_contrast'];
+      
+      for (const variant of designVariants) {
+        const qrResult = await qrService.generateQR(story, { design: variant });
+        
+        expect(qrResult.metadata.designVariant).toBe(variant);
+        expect(qrResult.qrCodePng).toBeDefined();
+        
+        assertTelemetryRecorded(mockTelemetry, 'qr_ab_test_variant', {
+          storyId: story.id,
+          variant: variant,
+          imageSize: expect.any(Number)
+        });
+      }
+    });
+    
+    test('should generate multiple QR formats for different use cases', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story, { 
+        formats: ['png', 'svg', 'pdf'] 
+      });
+      
+      expect(qrResult.formats).toBeDefined();
+      expect(qrResult.formats.png).toBeDefined();
+      expect(qrResult.formats.svg).toBeDefined();
+      expect(qrResult.formats.pdf).toBeDefined();
+      
+      // Each format should be properly encoded
+      expect(qrResult.formats.png).toMatch(/^data:image\/png;base64,/);
+      expect(qrResult.formats.svg).toMatch(/^data:image\/svg\+xml;base64,/);
+      expect(qrResult.formats.pdf).toMatch(/^data:application\/pdf;base64,/);
+    });
+    
+  });
+
+  describe('Performance and Scalability', () => {
+    
+    test('should generate QR codes within acceptable time', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      const startTime = Date.now();
+      const qrResult = await qrService.generateQR(story);
+      const endTime = Date.now();
+      
+      expect(endTime - startTime).toBeLessThan(3000); // Should complete within 3 seconds
+      expect(qrResult.qrCodePng).toBeDefined();
+      
+      assertTelemetryRecorded(mockTelemetry, 'qr_generation_performance', {
+        generationTimeMs: endTime - startTime,
+        imageSize: expect.any(Number),
+        storyComplexity: story.qualityAssessment.overallScore
+      });
+    });
+    
+    test('should handle batch QR generation', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '03_range_amount'];
+      const stories = [];
+      
+      // Extract all stories first
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        const story = await storyService.extractStory(transcript);
+        stories.push(story);
+      }
+      
+      // Generate QRs in parallel
+      const startTime = Date.now();
+      const qrPromises = stories.map(story => qrService.generateQR(story));
+      const qrResults = await Promise.all(qrPromises);
+      const endTime = Date.now();
+      
+      expect(qrResults).toHaveLength(3);
+      qrResults.forEach(result => {
+        expect(result.qrCodePng).toBeDefined();
+        expect(result.donationUrl).toBeDefined();
+      });
+      
+      // Batch processing should be efficient
+      expect(endTime - startTime).toBeLessThan(8000);
+      
+      assertTelemetryRecorded(mockTelemetry, 'batch_qr_generation', {
+        batchSize: 3,
+        totalTimeMs: endTime - startTime,
+        averageTimeMs: (endTime - startTime) / 3
+      });
+    });
+    
+    test('should cache QR generation results', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      
+      // First generation
+      const startTime1 = Date.now();
+      const qrResult1 = await qrService.generateQR(story);
+      const endTime1 = Date.now();
+      
+      // Second generation (should be cached)
+      const startTime2 = Date.now();
+      const qrResult2 = await qrService.generateQR(story);
+      const endTime2 = Date.now();
+      
+      expect(qrResult1.qrCodePng).toBe(qrResult2.qrCodePng);
+      expect(qrResult1.sessionId).toBe(qrResult2.sessionId);
+      
+      // Second call should be faster due to caching
+      expect(endTime2 - startTime2).toBeLessThan(endTime1 - startTime1);
+      
+      assertTelemetryRecorded(mockTelemetry, 'qr_cache_hit', {
+        storyId: story.id,
+        cacheHit: true
+      });
+    });
+    
+  });
+
+  describe('Integration Quality Assurance', () => {
+    
+    test('should maintain data consistency through QR pipeline', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story);
+      
+      // QR metadata should match story data
+      expect(qrResult.metadata.storyId).toBe(story.id);
+      expect(qrResult.metadata.urgency).toBe(story.requestDetails.urgency);
+      expect(qrResult.metadata.amount).toBe(story.requestDetails.amount);
+      
+      // Stripe session should reflect story details
+      const sessionDetails = mockStripe.getSessionDetails(qrResult.sessionId);
+      expect(sessionDetails.metadata.story_id).toBe(story.id);
+      expect(sessionDetails.metadata.urgency).toBe(story.requestDetails.urgency);
+    });
+    
+    test('should validate end-to-end QR functionality', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        const story = await storyService.extractStory(transcript);
+        const qrResult = await qrService.generateQR(story);
+        
+        // All QR results should be well-formed
+        expect(qrResult.qrCodeUrl).toMatch(/^https:\/\//);
+        expect(qrResult.qrCodePng).toMatch(/^data:image\/png;base64,/);
+        expect(qrResult.donationUrl).toMatch(/^https:\/\/checkout\.stripe\.com/);
+        expect(qrResult.sessionId).toMatch(/^cs_/);
+        
+        // Metadata should be complete
+        expect(qrResult.metadata.storyId).toBeDefined();
+        expect(qrResult.metadata.generatedAt).toBeDefined();
+        expect(qrResult.metadata.amount).toBeDefined();
+        expect(qrResult.metadata.urgency).toBeDefined();
+      }
+    });
+    
+    test('should ensure QR codes work with mobile devices', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const story = await storyService.extractStory(transcript);
+      const qrResult = await qrService.generateQR(story, { 
+        optimizeForMobile: true,
+        testMode: true 
+      });
+      
+      // Should generate mobile-friendly QR
+      expect(qrResult.metadata.mobileOptimized).toBe(true);
+      expect(qrResult.metadata.qrSize).toBeGreaterThanOrEqual(300);
+      
+      // Should include mobile testing metadata
+      assertTelemetryRecorded(mockTelemetry, 'mobile_qr_validation', {
+        qrSize: qrResult.metadata.qrSize,
+        errorCorrection: qrResult.metadata.errorCorrection,
+        mobileCompatible: true
+      });
+    });
+    
+  });
+
+});

@@ -1,0 +1,242 @@
+# Care2system Docker Production Configuration
+# PRODUCTION HARDENING: Containerized deployment option
+
+version: '3.8'
+
+networks:
+  care2system-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres-data:
+    driver: local
+  logs:
+    driver: local
+  tunnel-config:
+    driver: local
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: care2system-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: care2system_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-care2system_secure_password}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - care2system-network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d care2system_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  # Backend API Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+      args:
+        NODE_ENV: production
+    container_name: care2system-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-care2system_secure_password}@postgres:5432/care2system_db
+      PORT: 3001
+      FRONTEND_URL: http://frontend:3000
+      # Security
+      JWT_SECRET: ${JWT_SECRET:-generate_secure_jwt_secret_in_production}
+      SESSION_SECRET: ${SESSION_SECRET:-generate_secure_session_secret}
+      # API Keys (set in environment)
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ASSEMBLYAI_API_KEY: ${ASSEMBLYAI_API_KEY:-}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+    networks:
+      - care2system-network
+    ports:
+      - "3001:3001"
+    volumes:
+      - logs:/app/logs
+      - ./uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Frontend Next.js Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        NODE_ENV: production
+    container_name: care2system-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://backend:3001
+      PORT: 3000
+    networks:
+      - care2system-network
+    ports:
+      - "3000:3000"
+    volumes:
+      - logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Cloudflare Tunnel (Optional - can run externally)
+  cloudflare-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: care2system-tunnel
+    restart: unless-stopped
+    depends_on:
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    command: tunnel --config /etc/cloudflared/config.yml run
+    volumes:
+      - tunnel-config:/etc/cloudflared:ro
+      - logs:/var/log/cloudflared
+    networks:
+      - care2system-network
+    environment:
+      TUNNEL_METRICS: 0.0.0.0:8080
+    # No port exposure needed - tunnel handles external access
+    healthcheck:
+      test: ["CMD", "cloudflared", "tunnel", "info", "careconnect-backend"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+
+  # Monitoring and Health Dashboard (Optional)
+  monitoring:
+    image: prom/prometheus:latest
+    container_name: care2system-monitoring
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/rules:/etc/prometheus/rules:ro
+    networks:
+      - care2system-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    profiles:
+      - monitoring
+
+  # Log Aggregation (Optional)
+  log-aggregator:
+    image: grafana/loki:latest
+    container_name: care2system-logs
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - logs:/var/log/care2system
+    networks:
+      - care2system-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
+    profiles:
+      - monitoring
+
+  # Redis Cache (Optional - for session storage and caching)
+  redis:
+    image: redis:7-alpine
+    container_name: care2system-redis
+    restart: unless-stopped
+    networks:
+      - care2system-network
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf:ro
+    command: redis-server /etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    profiles:
+      - full
+
+# Production deployment profiles
+# docker-compose --profile production up -d
+# docker-compose --profile monitoring up -d  (includes monitoring)
+# docker-compose --profile full up -d       (includes everything)

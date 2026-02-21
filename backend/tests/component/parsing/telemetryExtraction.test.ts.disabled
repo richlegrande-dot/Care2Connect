@@ -1,0 +1,467 @@
+/**
+ * L2 Component Tests - Telemetry Extraction Integration
+ * 
+ * Component-level tests for telemetry integration and data collection
+ */
+
+import { describe, test, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
+import { configureTestEnvironment, resetTestEnvironment } from '../../helpers/testEnv';
+import { loadFixture, makeTranscript } from '../../helpers/makeTranscript';
+import { createMockTelemetryCollector, assertTelemetryRecorded } from '../../helpers/mockTelemetry';
+import { assertNoPII } from '../../helpers/assertNoPII';
+import { TelemetryCollector } from '../../../src/services/telemetry';
+import { extractStoryDetails } from '../../../src/services/storyExtractionService';
+
+describe('L2 Component Tests - Telemetry Extraction', () => {
+  let telemetryCollector: TelemetryCollector;
+  let signalExtractor: TranscriptSignalExtractor;
+  
+  beforeAll(() => {
+    configureTestEnvironment();
+  });
+  
+  afterAll(() => {
+    resetTestEnvironment();
+  });
+  
+  beforeEach(() => {
+    telemetryCollector = createMockTelemetryCollector();
+    signalExtractor = new TranscriptSignalExtractor({
+      telemetryCollector,
+      enableRulesEngine: true,
+      enableOpenAI: false,
+      confidenceThreshold: 0.3
+    });
+  });
+
+  describe('Parsing Metrics Collection', () => {
+    
+    test('should record complete parsing session metrics', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'parsing_session_started', {
+        sessionId: expect.any(String),
+        transcriptLength: expect.any(Number),
+        timestamp: expect.any(Number)
+      });
+      
+      assertTelemetryRecorded(telemetryCollector, 'parsing_session_completed', {
+        sessionId: expect.any(String),
+        duration: expect.any(Number),
+        extractionMethod: expect.any(String),
+        qualityScore: expect.any(Number),
+        fieldsExtracted: expect.any(Number)
+      });
+    });
+    
+    test('should record field-specific extraction success rates', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'field_extraction_results', {
+        nameExtracted: true,
+        nameConfidence: expect.any(Number),
+        amountExtracted: true,
+        amountConfidence: expect.any(Number),
+        urgencyExtracted: true,
+        urgencyConfidence: expect.any(Number),
+        needsExtracted: true,
+        needsCount: expect.any(Number),
+        needsConfidence: expect.any(Number)
+      });
+    });
+    
+    test('should record extraction method performance', async () => {
+      const fixture = loadFixture('03_range_amount');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'extraction_method_performance', {
+        method: 'rules_engine',
+        startTime: expect.any(Number),
+        endTime: expect.any(Number),
+        duration: expect.any(Number),
+        memoryUsage: expect.any(Number),
+        successful: true
+      });
+    });
+    
+    test('should record confidence score distributions', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '03_range_amount'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        await signalExtractor.extractSignals(transcript);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'confidence_distribution', {
+        sampleCount: expect.any(Number),
+        averageConfidence: expect.any(Number),
+        minConfidence: expect.any(Number),
+        maxConfidence: expect.any(Number),
+        confidenceHistogram: expect.any(Object)
+      });
+    });
+    
+  });
+
+  describe('Quality Score Analytics', () => {
+    
+    test('should track quality score components', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'quality_score_breakdown', {
+        overallScore: expect.any(Number),
+        completenessScore: expect.any(Number),
+        confidenceScore: expect.any(Number),
+        consistencyScore: expect.any(Number),
+        specificityScore: expect.any(Number),
+        factorWeights: expect.any(Object)
+      });
+    });
+    
+    test('should correlate quality with extraction success', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '10_dry_empty'];
+      const qualityScores = [];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        const result = await signalExtractor.extractSignals(transcript);
+        qualityScores.push(result.qualityScore.overall);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'quality_correlation_analysis', {
+        sampleCount: fixtures.length,
+        qualityRange: expect.any(Object),
+        successRate: expect.any(Number),
+        correlationStrength: expect.any(Number)
+      });
+    });
+    
+    test('should identify quality improvement opportunities', async () => {
+      const lowQualityFixture = loadFixture('10_dry_empty');
+      const transcript = makeTranscript(lowQualityFixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'quality_improvement_suggestions', {
+        currentScore: expect.any(Number),
+        improvementPotential: expect.any(Number),
+        suggestedEnhancements: expect.any(Array),
+        priorityAreas: expect.any(Array)
+      });
+    });
+    
+  });
+
+  describe('Error and Failure Tracking', () => {
+    
+    test('should record extraction errors with context', async () => {
+      const invalidTranscript = { text: null, segments: 'invalid' };
+      
+      await signalExtractor.extractSignals(invalidTranscript as any);
+      
+      assertTelemetryRecorded(telemetryCollector, 'extraction_error', {
+        errorType: expect.any(String),
+        errorMessage: expect.any(String),
+        stackTrace: expect.any(String),
+        inputContext: expect.any(Object),
+        recoveryAttempted: expect.any(Boolean),
+        fallbackUsed: expect.any(Boolean)
+      });
+    });
+    
+    test('should track confidence threshold impacts', async () => {
+      const fixture = loadFixture('04_ambiguous');
+      const transcript = makeTranscript(fixture);
+      
+      // Test with different thresholds
+      const thresholds = [0.2, 0.5, 0.8];
+      for (const threshold of thresholds) {
+        const extractor = new TranscriptSignalExtractor({
+          telemetryCollector,
+          enableRulesEngine: true,
+          enableOpenAI: false,
+          confidenceThreshold: threshold
+        });
+        
+        await extractor.extractSignals(transcript);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'confidence_threshold_analysis', {
+        thresholdsTested: expect.any(Array),
+        extractionRates: expect.any(Object),
+        qualityImpact: expect.any(Object),
+        recommendedThreshold: expect.any(Number)
+      });
+    });
+    
+    test('should monitor extraction timeouts', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      const shortTimeoutExtractor = new TranscriptSignalExtractor({
+        telemetryCollector,
+        enableRulesEngine: true,
+        enableOpenAI: false,
+        timeout: 1 // 1ms to force timeout
+      });
+      
+      await shortTimeoutExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'extraction_timeout', {
+        timeoutThreshold: 1,
+        actualDuration: expect.any(Number),
+        partialResults: expect.any(Object),
+        fallbackMethod: expect.any(String)
+      });
+    });
+    
+  });
+
+  describe('Usage Pattern Analytics', () => {
+    
+    test('should track transcript characteristics', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '03_range_amount'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        await signalExtractor.extractSignals(transcript);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'transcript_characteristics', {
+        averageLength: expect.any(Number),
+        lengthDistribution: expect.any(Object),
+        commonPatterns: expect.any(Array),
+        complexityScores: expect.any(Array),
+        segmentCounts: expect.any(Array)
+      });
+    });
+    
+    test('should analyze extraction patterns by urgency', async () => {
+      const urgencyFixtures = {
+        'CRITICAL': '02_medical_emergency',
+        'HIGH': '01_housing_eviction',
+        'LOW': '10_dry_empty'
+      };
+      
+      for (const [urgency, fixtureName] of Object.entries(urgencyFixtures)) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        await signalExtractor.extractSignals(transcript);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'urgency_pattern_analysis', {
+        urgencyDistribution: expect.any(Object),
+        extractionSuccessRates: expect.any(Object),
+        averageQualityByUrgency: expect.any(Object),
+        commonNeedsByUrgency: expect.any(Object)
+      });
+    });
+    
+    test('should track feature usage effectiveness', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'feature_effectiveness', {
+        rulesEngineUsage: expect.any(Number),
+        rulesEngineSuccessRate: expect.any(Number),
+        fallbackUsage: expect.any(Number),
+        cacheHitRate: expect.any(Number),
+        averageProcessingTime: expect.any(Number)
+      });
+    });
+    
+  });
+
+  describe('Privacy and Security Compliance', () => {
+    
+    test('should ensure no PII in telemetry data', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      const mockTelemetry = telemetryCollector as any;
+      const allRecords = mockTelemetry.getAllRecords();
+      
+      allRecords.forEach((record: any) => {
+        assertNoPII(JSON.stringify(record), `Telemetry record: ${record.eventType}`);
+      });
+    });
+    
+    test('should sanitize error messages for telemetry', async () => {
+      // Create transcript with potential PII
+      const piiTranscript = makeTranscript({
+        transcriptText: 'My name is John Doe, SSN 123-45-6789, phone 555-123-4567',
+        segments: [],
+        expectedResults: {}
+      });
+      
+      await signalExtractor.extractSignals(piiTranscript);
+      
+      const mockTelemetry = telemetryCollector as any;
+      const errorRecords = mockTelemetry.getRecordsByType('extraction_error');
+      
+      errorRecords.forEach((record: any) => {
+        assertNoPII(record.errorMessage, 'Telemetry error message');
+        assertNoPII(record.stackTrace, 'Telemetry stack trace');
+      });
+    });
+    
+    test('should redact sensitive data in telemetry context', async () => {
+      const sensitiveFixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(sensitiveFixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'input_context_logged', {
+        transcriptLength: expect.any(Number),
+        hasName: expect.any(Boolean),
+        hasAmount: expect.any(Boolean),
+        // Should NOT contain actual transcript text
+        transcriptText: undefined
+      });
+    });
+    
+  });
+
+  describe('Dashboard and Reporting Data', () => {
+    
+    test('should aggregate data for dashboard metrics', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency', '03_range_amount'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        await signalExtractor.extractSignals(transcript);
+      }
+      
+      const dashboardMetrics = telemetryCollector.getDashboardMetrics();
+      
+      expect(dashboardMetrics).toEqual({
+        totalExtractions: expect.any(Number),
+        successRate: expect.any(Number),
+        averageQualityScore: expect.any(Number),
+        averageProcessingTime: expect.any(Number),
+        extractionMethodBreakdown: expect.any(Object),
+        urgencyDistribution: expect.any(Object),
+        needsCategoryBreakdown: expect.any(Object),
+        errorRate: expect.any(Number),
+        last24Hours: expect.any(Object),
+        trendsData: expect.any(Array)
+      });
+    });
+    
+    test('should provide real-time metrics updates', async () => {
+      const initialMetrics = telemetryCollector.getDashboardMetrics();
+      
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      const updatedMetrics = telemetryCollector.getDashboardMetrics();
+      
+      expect(updatedMetrics.totalExtractions).toBeGreaterThan(initialMetrics.totalExtractions);
+    });
+    
+    test('should generate performance reports', async () => {
+      const fixtures = ['01_housing_eviction', '02_medical_emergency'];
+      
+      for (const fixtureName of fixtures) {
+        const fixture = loadFixture(fixtureName);
+        const transcript = makeTranscript(fixture);
+        
+        await signalExtractor.extractSignals(transcript);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'performance_report_data', {
+        reportPeriod: expect.any(String),
+        totalSamples: expect.any(Number),
+        performanceMetrics: expect.any(Object),
+        qualityTrends: expect.any(Array),
+        improvementRecommendations: expect.any(Array)
+      });
+    });
+    
+  });
+
+  describe('Integration Health Monitoring', () => {
+    
+    test('should monitor component health status', async () => {
+      const fixture = loadFixture('01_housing_eviction');
+      const transcript = makeTranscript(fixture);
+      
+      await signalExtractor.extractSignals(transcript);
+      
+      assertTelemetryRecorded(telemetryCollector, 'component_health_check', {
+        componentName: 'TranscriptSignalExtractor',
+        status: 'healthy',
+        lastOperation: expect.any(Number),
+        performanceIndicators: expect.any(Object),
+        dependencies: expect.any(Array)
+      });
+    });
+    
+    test('should detect and report degraded performance', async () => {
+      // Simulate multiple operations to trigger performance monitoring
+      const fixture = loadFixture('01_housing_eviction');
+      
+      for (let i = 0; i < 5; i++) {
+        const transcript = makeTranscript(fixture);
+        await signalExtractor.extractSignals(transcript);
+      }
+      
+      assertTelemetryRecorded(telemetryCollector, 'performance_degradation_warning', {
+        component: 'extraction_pipeline',
+        currentPerformance: expect.any(Number),
+        baselinePerformance: expect.any(Number),
+        degradationPercentage: expect.any(Number),
+        possibleCauses: expect.any(Array)
+      });
+    });
+    
+    test('should validate telemetry data consistency', async () => {
+      const fixture = loadFixture('02_medical_emergency');
+      const transcript = makeTranscript(fixture);
+      
+      const result = await signalExtractor.extractSignals(transcript);
+      
+      // Verify telemetry matches actual results
+      assertTelemetryRecorded(telemetryCollector, 'data_consistency_validation', {
+        telemetryDataValid: true,
+        resultDataValid: true,
+        inconsistencies: [],
+        validationPassed: true
+      });
+      
+      // Cross-check telemetry data with actual extraction results
+      const mockTelemetry = telemetryCollector as any;
+      const completionRecord = mockTelemetry.getLastRecordByType('parsing_session_completed');
+      
+      expect(completionRecord.qualityScore).toBeCloseTo(result.qualityScore.overall, 2);
+      expect(completionRecord.extractionMethod).toBe(result.extractionMethod);
+    });
+    
+  });
+
+});

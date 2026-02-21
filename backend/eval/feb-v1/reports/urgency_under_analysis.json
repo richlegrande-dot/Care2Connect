@@ -1,0 +1,2196 @@
+{
+  "underCases": [
+    {
+      "id": "T003",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "core30",
+      "snippet": "My name is Jennifer Davis and I lost my job last month. I have three kids and we're struggling to buy food. I think we need around two thousand dollar"
+    },
+    {
+      "id": "HARD_003",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "Hello, I'm David Martinez. I lost my job 3 weeks ago, I'm behind $2,400 on rent, utilities are $350 past due, and I need $150 for groceries. Looking f"
+    },
+    {
+      "id": "HARD_013",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "This is Kevin Zhang. I have 2 kids in daycare at $800 each, so $1,600 monthly. I'm 6 weeks behind, that's $2,400, but I need $1,600 to cover just this"
+    },
+    {
+      "id": "HARD_030",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "This is Catherine Young. I'm really stressed but it's not life or death. My kids have been asking for food and I need $400."
+    },
+    {
+      "id": "HARD_032",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "This is Rebecca Turner. My mother is very sick and needs medication costing $800. I also got laid off 2 weeks ago and need $1,200 for rent."
+    },
+    {
+      "id": "HARD_036",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "This is Melissa Rivera. My husband is in the hospital, I lost my housing, and I need $3,200 for medical bills and a new apartment."
+    },
+    {
+      "id": "HARD_044",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "My name is Carolyn Wright. I have education expenses, lost my job, and utilities are being shut off. Need $980."
+    },
+    {
+      "id": "HARD_051",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "This is...uh...Mr. Robert James Patterson III speaking. Need $2,100 for housing."
+    },
+    {
+      "id": "HARD_058",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "diff": 1,
+      "dataset": "hard60",
+      "snippet": "Hi there—my name's—well—I go by—um—Elizabeth Rose Thompson but—uh—I need—like—$1,650 for—you know—utilities and stuff."
+    },
+    {
+      "id": "FUZZ_001",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_004",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling!!. Electric bill!! is well 450. shutoff notice came!!"
+    },
+    {
+      "id": "FUZZ_016",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Electric bill is 450. I make $22 an hour. shutoff notice came,,. I make $18 an hour. I earn $2100 monthly,,. like, Sarah Williams calling."
+    },
+    {
+      "id": "FUZZ_025",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent. I'm 41 years old."
+    },
+    {
+      "id": "FUZZ_027",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Well, Hello, I am David Johnson. Lost my job. uh, need 800."
+    },
+    {
+      "id": "FUZZ_028",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "I'm 28 years old,,. I'm 28 years old!!. Also dealing with housing. Sarah Williams calling. my 10 year old. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_037",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is um John Smith. I basically need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_039",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. my 7 year old. Lost my job. need so 800."
+    },
+    {
+      "id": "FUZZ_048",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I'm 25... years old. Amanda Thomas calling. about 1500 for security you know deposit."
+    },
+    {
+      "id": "FUZZ_049",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I need 1200 for rent. My name is John Smith."
+    },
+    {
+      "id": "FUZZ_051",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "4 weeks ago. well, Hello, I am David Johnson;. Lost my job. my 10 year old. need 800. Previously had utilities problems??. 6 weeks ago."
+    },
+    {
+      "id": "FUZZ_052",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. so, Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_054",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. 4 weeks ago. Car broke down. Previously had rent problems. need 950 for repairs. my 5 year old. 3 weeks ago."
+    },
+    {
+      "id": "FUZZ_058",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Court costs 2500, need I mean help. Hello, Patricia Moore speaking."
+    },
+    {
+      "id": "FUZZ_059",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Basically, I am Daniel Taylor. My children need 1100 for actually childcare,,."
+    },
+    {
+      "id": "FUZZ_061",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. Had issues with school too. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_063",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson, so. Lost my job, um. need 800, I mean!!"
+    },
+    {
+      "id": "FUZZ_064",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "I earn $2100 monthly. Sarah Williams calling. Electric bill is 450. I mean, shutoff notice came."
+    },
+    {
+      "id": "FUZZ_066",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. uh, Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_071",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare, I mean. DROP TABLE users;."
+    },
+    {
+      "id": "FUZZ_073",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name actually is John Smith. I need 1200 for rent, well. I'm 41 years old."
+    },
+    {
+      "id": "FUZZ_075",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "../../../etc/passwd. 4 weeks ago. my 12 year old. my 10 year old. Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_076",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "4 weeks ago??. Had issues with childcare too;. Sarah Williams calling, I mean. Electric bill is 450. shutoff notice came, you– know."
+    },
+    {
+      "id": "FUZZ_078",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is?? Jennifer Davis. uh, Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_083",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_085",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_087",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Need 800. Lost my job. Also dealing with utilities. Hello, I am David Johnson."
+    },
+    {
+      "id": "FUZZ_088",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_090",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis, uh. Car broke down. like, need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_095",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I'm 41 years old. I am Daniel Taylor. My children need 1100 for childcare. I earn $2800 monthly. my 12 year old."
+    },
+    {
+      "id": "FUZZ_097",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Had issues with medical too. My name is John Smith. I need 1200 for rent, actually."
+    },
+    {
+      "id": "FUZZ_099",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_100",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "6 weeks ago. Sarah Williams calling. Electric bill is 450, uh. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_102",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Need 950 for repairs. Previously had school problems–. Hi, this is Jennifer Davis. Car broke down??"
+    },
+    {
+      "id": "FUZZ_107",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "DROP TABLE users;. I am Daniel Taylor. My children need 1100 for childcare, you know."
+    },
+    {
+      "id": "FUZZ_109",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent??"
+    },
+    {
+      "id": "FUZZ_111",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost I mean my job. need 800."
+    },
+    {
+      "id": "FUZZ_112",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Shutoff notice came. Electric bill is 450. I mean, Sarah Williams calling."
+    },
+    {
+      "id": "FUZZ_114",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_119",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_121",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_123",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "4 weeks ago. Hello, I am um David Johnson–. I earn $1900 monthly,,. Lost my job. need 800, you know."
+    },
+    {
+      "id": "FUZZ_124",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. well, Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_126",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_128",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "This is actually Lisa Anderson. Eviction you know notice. need 2200 by basically Friday."
+    },
+    {
+      "id": "FUZZ_131",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_132",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "About 1500 for security uh deposit. Amanda Thomas uh calling."
+    },
+    {
+      "id": "FUZZ_133",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Had issues with job too. My name is John Smith. I need 1200 for rent, actually."
+    },
+    {
+      "id": "FUZZ_135",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I um am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_136",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "I make $18 an hour. shutoff notice came. Electric bill is 450, so. actually, Sarah Williams calling. I'm 41 years old."
+    },
+    {
+      "id": "FUZZ_138",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car uh broke... down. need 950 for like repairs."
+    },
+    {
+      "id": "FUZZ_143",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My children need 1100 for childcare. I am Daniel Taylor."
+    },
+    {
+      "id": "FUZZ_145",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. Had issues with car too. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_147",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My 5 year old. I make $18 an hour. Hello, I I mean am David Johnson. Lost my job. need 800. I earn $1900 monthly."
+    },
+    {
+      "id": "FUZZ_148",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450, well. shutoff notice uh came."
+    },
+    {
+      "id": "FUZZ_150",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs, you know."
+    },
+    {
+      "id": "FUZZ_155",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor, uh. My children need 1100 for childcare, uh."
+    },
+    {
+      "id": "FUZZ_157",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Also dealing with job. so, My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_159",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_160",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came, um."
+    },
+    {
+      "id": "FUZZ_162",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_167",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_169",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent. my 7 year old."
+    },
+    {
+      "id": "FUZZ_171",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my!! job. need 800;."
+    },
+    {
+      "id": "FUZZ_172",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Previously had childcare problems. my 10 year old. 2 weeks ago. um, Sarah Williams calling. I earn $3200 monthly. Electric bill so is 450!!. um, shuto"
+    },
+    {
+      "id": "FUZZ_174",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis—. Car broke down. need basically 950 for repairs."
+    },
+    {
+      "id": "FUZZ_176",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "This is Lisa Anderson. Eviction notice. need 2200 by– Friday."
+    },
+    {
+      "id": "FUZZ_179",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "6 weeks ago. I make $18 an hour. I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_181",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Previously had medical problems. My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_184",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_186",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Like, Hi, this is Jennifer Davis. like, Car broke down,,. need 950 I mean for repairs."
+    },
+    {
+      "id": "FUZZ_188",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "This is Lisa Anderson.... Eviction notice. need 2200 by!! Friday."
+    },
+    {
+      "id": "FUZZ_191",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. Also dealing with utilities. I earn $3200 monthly. I earn $3200 monthly. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_193",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Um, My name is John Smith. Had issues with school too. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_195",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Had issues with utilities too. Hello, I am David Johnson. Lost my job. need so 800."
+    },
+    {
+      "id": "FUZZ_196",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I'm 41 years old. Also dealing with surgery. Sarah Williams calling. you know, Electric bill is 450. shutoff notice came. I earn $1900 monthly."
+    },
+    {
+      "id": "FUZZ_198",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis, you know. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_203",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My children need 1100 for childcare. 4 weeks ago. I am Daniel Taylor. 3 weeks ago."
+    },
+    {
+      "id": "FUZZ_205",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I earn $1900 monthly. you know, I– need 1200 for rent. 3 weeks ago."
+    },
+    {
+      "id": "FUZZ_207",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_208",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling, so. Electric well bill is 450. actually, shutoff notice came."
+    },
+    {
+      "id": "FUZZ_210",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis!!. Car broke– down. need 950 for repairs,,."
+    },
+    {
+      "id": "FUZZ_215",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am!! Daniel Taylor. My children need 1100 for childcare–."
+    },
+    {
+      "id": "FUZZ_217",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. basically, I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_219",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_220",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling—. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_222",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need basically 950 for repairs."
+    },
+    {
+      "id": "FUZZ_227",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_229",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Had issues with medical too. My name is John Smith, um. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_231",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. need 800. Lost my job. Also dealing with education."
+    },
+    {
+      "id": "FUZZ_232",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. my 10 year old. actually, Electric bill is 450. shutoff notice came. Previously had court problems. I'm 25 years old. I make $"
+    },
+    {
+      "id": "FUZZ_234",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I make $15 an hour. Hi, this is Jennifer Davis. I'm 35 years old. Car broke down. um, need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_239",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_241",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My basically name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_243",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Basically, Hello, I am David Johnson. Lost my job, like. Previously had education problems. need uh 800."
+    },
+    {
+      "id": "FUZZ_244",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams well calling. Electric bill you know is 450. you know, shutoff notice came."
+    },
+    {
+      "id": "FUZZ_246",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I earn $3200 monthly. Hi, this is!! Jennifer Davis. Car broke down. need 950 for!! like repairs."
+    },
+    {
+      "id": "FUZZ_251",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_253",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I'm 41 years old. my 7 year old. I make $18 an hour. My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_255",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job, you know. need 800."
+    },
+    {
+      "id": "FUZZ_256",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is I mean 450.... shutoff notice came, uh??"
+    },
+    {
+      "id": "FUZZ_258",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down,,. 3 weeks ago.... need 950 for repairs. I earn $3200 monthly."
+    },
+    {
+      "id": "FUZZ_263",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor, well. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_265",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "{ \"injection\": true }. I need 1200 for rent. My name is,, John Smith."
+    },
+    {
+      "id": "FUZZ_267",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_268",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_270",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this I mean is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_275",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I I mean am Daniel Taylor. My children need 1100 for childcare, um."
+    },
+    {
+      "id": "FUZZ_277",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I'm 32 years old!!. My name is John Smith, uh.... I earn $3200!! monthly. I need 1200 for rent??"
+    },
+    {
+      "id": "FUZZ_280",
+      "expected": "CRITICAL",
+      "actual": "LOW",
+      "diff": 3,
+      "dataset": "fuzz500",
+      "snippet": "Well, Sarah Williams calling. I make $22 an hour. Electric bill is... 450. shutoff like notice came.... 6 weeks ago!!"
+    },
+    {
+      "id": "FUZZ_282",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Basically, Hi, this is Jennifer Davis. like, Car broke down. Also dealing with groceries. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_287",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I make $22 an hour. I make $25 an hour. My children need 1100 for childcare. you know, I am Daniel Taylor."
+    },
+    {
+      "id": "FUZZ_289",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_291",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job–. 6 weeks ago. need 800."
+    },
+    {
+      "id": "FUZZ_292",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling.... Electric bill is 450;. shutoff notice came,,."
+    },
+    {
+      "id": "FUZZ_294",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Well, Hi, this is Jennifer Davis. Also dealing with groceries. Car broke down. 3 weeks ago. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_299",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Also dealing with court. I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_301",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith, actually. I need 1200 for like rent."
+    },
+    {
+      "id": "FUZZ_303",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am like David Johnson. I earn $1900 monthly. I make $15 an hour. Lost my job. my 10 year old. need 800."
+    },
+    {
+      "id": "FUZZ_304",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling,,. Previously had court problems. my 10 year old. Electric I mean bill is 450. 3 weeks ago. shutoff notice well came??. 2 weeks"
+    },
+    {
+      "id": "FUZZ_306",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Need 950 for repairs. Car broke down, so. Hi, this is Jennifer Davis."
+    },
+    {
+      "id": "FUZZ_311",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare, you know."
+    },
+    {
+      "id": "FUZZ_313",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_315",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson, like. Lost my job. need basically 800."
+    },
+    {
+      "id": "FUZZ_316",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "<iframe src=\"evil.com\">. I'm 28 years old. Electric bill is 450. I'm 41 years old. Sarah Williams calling. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_318",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. well, need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_319",
+      "expected": "MEDIUM",
+      "actual": "LOW",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Michael Martinez here,,. Need 600 for my kids school?? supplies, basically."
+    },
+    {
+      "id": "FUZZ_323",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. Also dealing with eviction. My children need 1100 uh for childcare."
+    },
+    {
+      "id": "FUZZ_325",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_327",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson, um;. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_328",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. I earn $2800 monthly. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_330",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. I earn $1900 monthly—. I'm 32 years old!!. I earn $2800 monthly,,. Car broke down, so. need 950 for repairs, well??"
+    },
+    {
+      "id": "FUZZ_335",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare. I earn $2100 monthly."
+    },
+    {
+      "id": "FUZZ_337",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "3 weeks ago. My name is John Smith. Had issues with car too. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_339",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, well I am David Johnson. Previously had utilities problems. Lost my; job. need 800."
+    },
+    {
+      "id": "FUZZ_340",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_342",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_344",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "This is Lisa Anderson. Eviction notice. Had issues with medical too. need 2200 by Friday."
+    },
+    {
+      "id": "FUZZ_347",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare..."
+    },
+    {
+      "id": "FUZZ_349",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need you know 1200 for rent."
+    },
+    {
+      "id": "FUZZ_351",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am I mean David Johnson. Lost my job,,. need 800, you know."
+    },
+    {
+      "id": "FUZZ_352",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_354",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "You know, Hi, this is Jennifer Davis. Car broke down, um. need 950 for repairs. ../../../etc/passwd."
+    },
+    {
+      "id": "FUZZ_359",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My children need 1100 for childcare. I am Daniel Taylor."
+    },
+    {
+      "id": "FUZZ_361",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I make $22 an hour. My name like is John Smith. I need 1200 for rent. 3 weeks ago."
+    },
+    {
+      "id": "FUZZ_363",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Previously had utilities problems. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_366",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Need 950 for repairs. um, Hi, this is Jennifer Davis. Car broke down. I'm 25 years old. Previously had rent problems. my 7 year old."
+    },
+    {
+      "id": "FUZZ_371",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My you know children need 1100 for childcare. I am Daniel Taylor."
+    },
+    {
+      "id": "FUZZ_373",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_375",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I mean, Hello,,, I am David Johnson. my 12 year— old. uh, Lost my job—. I make $25 an hour. need basically 800."
+    },
+    {
+      "id": "FUZZ_376",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling,!! actually. I'm 32 years old. <iframe src=\"evil.com\">. Electric bill is 450.... shutoff notice came. I make $25 an hour."
+    },
+    {
+      "id": "FUZZ_378",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My 12 year old. Hi, this is Jennifer Davis. Car actually broke down. 2 weeks ago. Previously had rent problems. need 950 for repairs. I earn $3200 mon"
+    },
+    {
+      "id": "FUZZ_383",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "{ \"injection\": true }. I earn $2800 monthly,,. my 7 year old–. I actually am Daniel Taylor. I earn $2800 monthly. My children need basically 1100 for "
+    },
+    {
+      "id": "FUZZ_385",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Had issues with medical too. My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_387",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost I mean my job. need 800."
+    },
+    {
+      "id": "FUZZ_388",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "<script>alert(\"test\")</script>. Sarah Williams calling–. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_390",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. Previously had medical bills problems. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_395",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I make $22 an hour. I am Daniel Taylor. I earn $2800 monthly. My children need 1100 for childcare. I make $15 an hour."
+    },
+    {
+      "id": "FUZZ_397",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My basically name is John Smith. I earn $3200 monthly. I make $18 an hour. I need 1200 for rent, so."
+    },
+    {
+      "id": "FUZZ_399",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job, basically. need 800."
+    },
+    {
+      "id": "FUZZ_400",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Um, Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_402",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. I earn $2800 monthly. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_407",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_409",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Well, My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_411",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_412",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. I'm 32 years old. shutoff notice came, um. Had issues with court too."
+    },
+    {
+      "id": "FUZZ_414",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "6 weeks ago. I make $18 an hour. I'm 25 years old. Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_419",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare, actually."
+    },
+    {
+      "id": "FUZZ_421",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. like, I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_423",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I; am David Johnson. uh, Lost my job,,. need 800, um. I earn $2800 monthly!!. my 5 year old."
+    },
+    {
+      "id": "FUZZ_424",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came. I'm 28 years old. I earn $2800 monthly."
+    },
+    {
+      "id": "FUZZ_426",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Also dealing with groceries.... my 12,, year old. Car broke down, well. I earn $1900 monthly. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_431",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_433",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent. I'm 28 years old."
+    },
+    {
+      "id": "FUZZ_435",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. Previously had utilities problems. need 800."
+    },
+    {
+      "id": "FUZZ_436",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. so, Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_438",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. 2 weeks ago. Car broke down. I earn $1900 monthly. I'm 25 years old. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_443",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. My children need 1100 for childcare, like."
+    },
+    {
+      "id": "FUZZ_445",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "{ \"injection\": true }. My name is John Smith. I mean, I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_447",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_448",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_450",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_455",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "2 weeks ago. I am Daniel Taylor. 6 weeks ago. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_457",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "My name is John Smith. I need 1200 for rent, um."
+    },
+    {
+      "id": "FUZZ_459",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job!!. need 800."
+    },
+    {
+      "id": "FUZZ_460",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling, so;. Electric bill is 450. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_462",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I earn,, $3200 monthly. 2 weeks ago.... my 5 year old–. Hi, this basically is Jennifer Davis. Car broke down. need um 950 for repairs."
+    },
+    {
+      "id": "FUZZ_467",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Previously had medical problems,,. I am Daniel Taylor. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_469",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I'm 32 years old. I need 1200 for rent. My name is John Smith. Also dealing with medical. my 12 year old."
+    },
+    {
+      "id": "FUZZ_471",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_472",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams calling. Electric bill is 450. actually, shutoff notice came??"
+    },
+    {
+      "id": "FUZZ_474",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. Car broke down. need 950 for repairs."
+    },
+    {
+      "id": "FUZZ_476",
+      "expected": "CRITICAL",
+      "actual": "HIGH",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I earn $1900 monthly. This is Lisa Anderson!!. uh, Eviction notice. I earn $3200 monthly. need 2200 by Friday."
+    },
+    {
+      "id": "FUZZ_479",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am Daniel Taylor. { \"injection\": true }. My children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_481",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Also dealing with job. My name is John Smith. I need 1200 for rent."
+    },
+    {
+      "id": "FUZZ_483",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I am like David Johnson. I earn $1900 monthly. Lost my job. actually, need 800. I earn $2100 monthly."
+    },
+    {
+      "id": "FUZZ_484",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Shutoff notice came. Sarah Williams calling. Electric bill is 450."
+    },
+    {
+      "id": "FUZZ_486",
+      "expected": "HIGH",
+      "actual": "LOW",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Hi, this is Jennifer Davis. I earn $3200 monthly;. Car broke!! down. I earn $2100 monthly. need 950 for repairs, I mean."
+    },
+    {
+      "id": "FUZZ_491",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "I am!! Daniel Taylor. Had issues with utilities too;. my 7 year old. my 12 year old. My well— children need 1100 for childcare."
+    },
+    {
+      "id": "FUZZ_493",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Had issues with car too—. My name is John Smith. I need 1200 for rent, like. <iframe src=\"evil.com\">."
+    },
+    {
+      "id": "FUZZ_495",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Hello, I uh am David Johnson. Lost my job. need 800."
+    },
+    {
+      "id": "FUZZ_496",
+      "expected": "CRITICAL",
+      "actual": "MEDIUM",
+      "diff": 2,
+      "dataset": "fuzz500",
+      "snippet": "Sarah Williams I mean calling. 3 weeks ago. Electric bill is 450. I make $25 an hour. shutoff notice came."
+    },
+    {
+      "id": "FUZZ_498",
+      "expected": "HIGH",
+      "actual": "MEDIUM",
+      "diff": 1,
+      "dataset": "fuzz500",
+      "snippet": "Need 950 for repairs. Car broke down. Hi, this is Jennifer Davis."
+    }
+  ],
+  "overCases": [
+    {
+      "id": "T004",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "T021",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "T023",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "HARD_005",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "FUZZ_009",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_021",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_033",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_045",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_057",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_069",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_081",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_091",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "FUZZ_093",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_105",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_117",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_129",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_141",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_153",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_165",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_177",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_189",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_197",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "FUZZ_201",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_211",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "FUZZ_213",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_225",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_237",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_249",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_259",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "FUZZ_261",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_273",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_285",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_297",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_309",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_321",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_333",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_341",
+      "expected": "MEDIUM",
+      "actual": "HIGH"
+    },
+    {
+      "id": "FUZZ_345",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_357",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_369",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_381",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_393",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_405",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_417",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_429",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_441",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_453",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_465",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_477",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    },
+    {
+      "id": "FUZZ_489",
+      "expected": "HIGH",
+      "actual": "CRITICAL"
+    }
+  ],
+  "groups": {
+    "HIGH -> MEDIUM": {
+      "count": 158,
+      "ids": [
+        "T003",
+        "HARD_003",
+        "HARD_013",
+        "HARD_030",
+        "HARD_032",
+        "HARD_044",
+        "FUZZ_001",
+        "FUZZ_025",
+        "FUZZ_027",
+        "FUZZ_037",
+        "FUZZ_039",
+        "FUZZ_049",
+        "FUZZ_051",
+        "FUZZ_054",
+        "FUZZ_058",
+        "FUZZ_059",
+        "FUZZ_061",
+        "FUZZ_063",
+        "FUZZ_066",
+        "FUZZ_071",
+        "FUZZ_073",
+        "FUZZ_075",
+        "FUZZ_078",
+        "FUZZ_083",
+        "FUZZ_085",
+        "FUZZ_087",
+        "FUZZ_090",
+        "FUZZ_095",
+        "FUZZ_097",
+        "FUZZ_099",
+        "FUZZ_102",
+        "FUZZ_107",
+        "FUZZ_109",
+        "FUZZ_111",
+        "FUZZ_114",
+        "FUZZ_119",
+        "FUZZ_121",
+        "FUZZ_123",
+        "FUZZ_126",
+        "FUZZ_131",
+        "FUZZ_133",
+        "FUZZ_135",
+        "FUZZ_143",
+        "FUZZ_145",
+        "FUZZ_147",
+        "FUZZ_150",
+        "FUZZ_155",
+        "FUZZ_157",
+        "FUZZ_159",
+        "FUZZ_162",
+        "FUZZ_167",
+        "FUZZ_169",
+        "FUZZ_171",
+        "FUZZ_174",
+        "FUZZ_179",
+        "FUZZ_181",
+        "FUZZ_186",
+        "FUZZ_191",
+        "FUZZ_193",
+        "FUZZ_195",
+        "FUZZ_198",
+        "FUZZ_203",
+        "FUZZ_205",
+        "FUZZ_207",
+        "FUZZ_215",
+        "FUZZ_217",
+        "FUZZ_219",
+        "FUZZ_222",
+        "FUZZ_227",
+        "FUZZ_229",
+        "FUZZ_231",
+        "FUZZ_234",
+        "FUZZ_239",
+        "FUZZ_241",
+        "FUZZ_243",
+        "FUZZ_246",
+        "FUZZ_251",
+        "FUZZ_253",
+        "FUZZ_255",
+        "FUZZ_258",
+        "FUZZ_263",
+        "FUZZ_265",
+        "FUZZ_267",
+        "FUZZ_270",
+        "FUZZ_275",
+        "FUZZ_277",
+        "FUZZ_282",
+        "FUZZ_287",
+        "FUZZ_289",
+        "FUZZ_291",
+        "FUZZ_294",
+        "FUZZ_299",
+        "FUZZ_301",
+        "FUZZ_303",
+        "FUZZ_306",
+        "FUZZ_311",
+        "FUZZ_313",
+        "FUZZ_315",
+        "FUZZ_318",
+        "FUZZ_323",
+        "FUZZ_325",
+        "FUZZ_327",
+        "FUZZ_330",
+        "FUZZ_335",
+        "FUZZ_337",
+        "FUZZ_339",
+        "FUZZ_342",
+        "FUZZ_347",
+        "FUZZ_349",
+        "FUZZ_351",
+        "FUZZ_354",
+        "FUZZ_359",
+        "FUZZ_361",
+        "FUZZ_363",
+        "FUZZ_366",
+        "FUZZ_371",
+        "FUZZ_373",
+        "FUZZ_375",
+        "FUZZ_378",
+        "FUZZ_383",
+        "FUZZ_385",
+        "FUZZ_387",
+        "FUZZ_390",
+        "FUZZ_395",
+        "FUZZ_397",
+        "FUZZ_399",
+        "FUZZ_402",
+        "FUZZ_407",
+        "FUZZ_409",
+        "FUZZ_411",
+        "FUZZ_414",
+        "FUZZ_419",
+        "FUZZ_421",
+        "FUZZ_423",
+        "FUZZ_426",
+        "FUZZ_431",
+        "FUZZ_433",
+        "FUZZ_435",
+        "FUZZ_438",
+        "FUZZ_443",
+        "FUZZ_445",
+        "FUZZ_447",
+        "FUZZ_450",
+        "FUZZ_455",
+        "FUZZ_457",
+        "FUZZ_459",
+        "FUZZ_462",
+        "FUZZ_467",
+        "FUZZ_469",
+        "FUZZ_471",
+        "FUZZ_474",
+        "FUZZ_479",
+        "FUZZ_481",
+        "FUZZ_483",
+        "FUZZ_491",
+        "FUZZ_493",
+        "FUZZ_495",
+        "FUZZ_498"
+      ]
+    },
+    "CRITICAL -> HIGH": {
+      "count": 11,
+      "ids": [
+        "HARD_036",
+        "FUZZ_076",
+        "FUZZ_128",
+        "FUZZ_176",
+        "FUZZ_188",
+        "FUZZ_196",
+        "FUZZ_232",
+        "FUZZ_304",
+        "FUZZ_344",
+        "FUZZ_412",
+        "FUZZ_476"
+      ]
+    },
+    "MEDIUM -> LOW": {
+      "count": 5,
+      "ids": [
+        "HARD_051",
+        "HARD_058",
+        "FUZZ_048",
+        "FUZZ_132",
+        "FUZZ_319"
+      ]
+    },
+    "CRITICAL -> MEDIUM": {
+      "count": 34,
+      "ids": [
+        "FUZZ_004",
+        "FUZZ_016",
+        "FUZZ_028",
+        "FUZZ_052",
+        "FUZZ_064",
+        "FUZZ_088",
+        "FUZZ_100",
+        "FUZZ_112",
+        "FUZZ_124",
+        "FUZZ_136",
+        "FUZZ_148",
+        "FUZZ_160",
+        "FUZZ_172",
+        "FUZZ_184",
+        "FUZZ_208",
+        "FUZZ_220",
+        "FUZZ_244",
+        "FUZZ_256",
+        "FUZZ_268",
+        "FUZZ_292",
+        "FUZZ_316",
+        "FUZZ_328",
+        "FUZZ_340",
+        "FUZZ_352",
+        "FUZZ_376",
+        "FUZZ_388",
+        "FUZZ_400",
+        "FUZZ_424",
+        "FUZZ_436",
+        "FUZZ_448",
+        "FUZZ_460",
+        "FUZZ_472",
+        "FUZZ_484",
+        "FUZZ_496"
+      ]
+    },
+    "HIGH -> LOW": {
+      "count": 3,
+      "ids": [
+        "FUZZ_138",
+        "FUZZ_210",
+        "FUZZ_486"
+      ]
+    },
+    "CRITICAL -> LOW": {
+      "count": 1,
+      "ids": [
+        "FUZZ_280"
+      ]
+    }
+  }
+}

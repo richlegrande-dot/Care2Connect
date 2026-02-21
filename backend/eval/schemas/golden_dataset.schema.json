@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Golden Dataset Schema",
+  "description": "Schema for golden dataset transcript test cases",
+  "type": "object",
+  "required": ["id", "description", "transcriptText", "segments", "expected"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique test case identifier",
+      "pattern": "^T\\d{3,}$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of test case"
+    },
+    "transcriptText": {
+      "type": "string",
+      "description": "Full transcript text (allowed in dataset only)"
+    },
+    "segments": {
+      "type": "array",
+      "description": "Transcript segments with timing",
+      "items": {
+        "type": "object",
+        "required": ["startMs", "endMs", "text"],
+        "properties": {
+          "startMs": { "type": "number" },
+          "endMs": { "type": "number" },
+          "text": { "type": "string" }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "description": "Expected parsing outputs",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { 
+          "type": "string",
+          "enum": ["HOUSING", "EMPLOYMENT", "HEALTHCARE", "EDUCATION", "FAMILY", "LEGAL", "EMERGENCY", "OTHER"]
+        },
+        "urgencyLevel": {
+          "type": "string", 
+          "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+        },
+        "goalAmount": { "type": "number" },
+        "missingFields": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "beneficiaryRelationship": { "type": "string" }
+      }
+    },
+    "expectations": {
+      "type": "object",
+      "description": "Evaluation rules for this case",
+      "properties": {
+        "allowFuzzyName": { "type": "boolean", "default": false },
+        "amountTolerance": { "type": "number", "default": 0 },
+        "keyPointsMin": { "type": "number", "default": 1 }
+      }
+    }
+  }
+}

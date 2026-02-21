@@ -1,0 +1,41 @@
+{
+    "timestamp":  "2026-01-30T11:55:19",
+    "results":  {
+                    "realistic50":  {
+                                        "totalCases":  null,
+                                        "passRate":  null,
+                                        "failed":  null,
+                                        "passed":  null
+                                    },
+                    "hard60":  {
+                                   "totalCases":  null,
+                                   "passRate":  null,
+                                   "failed":  null,
+                                   "passed":  null
+                               },
+                    "core30":  {
+                                   "totalCases":  null,
+                                   "passRate":  null,
+                                   "failed":  null,
+                                   "passed":  null
+                               },
+                    "fuzz200":  {
+                                    "totalCases":  null,
+                                    "passRate":  null,
+                                    "failed":  null,
+                                    "passed":  null
+                                },
+                    "overall":  {
+                                    "category_wrong":  0,
+                                    "name_wrong":  0,
+                                    "passed":  null,
+                                    "amount_missing":  0,
+                                    "totalCases":  null,
+                                    "urgency_total":  0,
+                                    "urgency_over_assessed":  0,
+                                    "failed":  null,
+                                    "urgency_under_assessed":  0,
+                                    "passRate":  null
+                                }
+                }
+}

@@ -9,8 +9,8 @@ import {
   TranscriptionConfig,
   TranscriptionResult,
   TranscriptionCapabilities,
-  TranscriptionError
-} from '../TranscriptionProvider';
+  TranscriptionError,
+} from "../TranscriptionProvider";
 
 export class WebSpeechAdapter implements TranscriptionProvider {
   private config?: TranscriptionConfig;
@@ -23,9 +23,9 @@ export class WebSpeechAdapter implements TranscriptionProvider {
 
   async transcribe(audioData: Buffer | Blob): Promise<TranscriptionResult> {
     throw new TranscriptionError(
-      'Web Speech API transcription must be initiated from the client browser',
-      'WEB_SPEECH_CLIENT_ONLY',
-      true
+      "Web Speech API transcription must be initiated from the client browser",
+      "WEB_SPEECH_CLIENT_ONLY",
+      true,
     );
   }
 
@@ -40,14 +40,21 @@ export class WebSpeechAdapter implements TranscriptionProvider {
       supportsInterimResults: true,
       requiresNetwork: true, // Some browsers require network for speech recognition
       requiresAPIKey: false,
-      supportedLanguages: ['en-US', 'es-ES', 'fr-FR', 'de-DE', 'zh-CN', 'ja-JP']
+      supportedLanguages: [
+        "en-US",
+        "es-ES",
+        "fr-FR",
+        "de-DE",
+        "zh-CN",
+        "ja-JP",
+      ],
     };
   }
 
   /**
    * Client-side implementation note:
    * Use this pattern in frontend:
-   * 
+   *
    * const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
    * if (!SpeechRecognition) {
    *   // Fall back to manual transcript
@@ -56,7 +63,7 @@ export class WebSpeechAdapter implements TranscriptionProvider {
    * recognition.continuous = true;
    * recognition.interimResults = true;
    * recognition.lang = 'en-US';
-   * 
+   *
    * recognition.onresult = (event) => {
    *   const result = event.results[event.results.length - 1];
    *   const transcript = result[0].transcript;
@@ -64,7 +71,7 @@ export class WebSpeechAdapter implements TranscriptionProvider {
    *   const isFinal = result.isFinal;
    *   // Send to parent component
    * };
-   * 
+   *
    * recognition.start();
    */
 }

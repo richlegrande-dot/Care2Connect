@@ -1,0 +1,74 @@
+name: Legacy Integration Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_all:
+        description: "Run all legacy integration tests (requires secrets)"
+        required: false
+        default: "true"
+        type: boolean
+  # Uncomment for nightly schedule:
+  # schedule:
+  #   - cron: '0 4 * * 1'  # Every Monday at 4 AM UTC
+
+env:
+  NODE_VERSION: "24"
+
+jobs:
+  legacy-integration:
+    name: Legacy Integration Tests (DB + API)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: care2connect_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: npm run prisma:generate:ci
+
+      - name: Run database migrations
+        working-directory: ./backend
+        run: npx prisma@6.19.1 migrate deploy
+        env:
+          DATABASE_URL: postgresql://test:test@localhost:5432/care2connect_test
+
+      - name: Run legacy integration tests
+        working-directory: ./backend
+        run: npx jest --no-coverage --forceExit --verbose
+        env:
+          NODE_ENV: test
+          RUN_LEGACY_INTEGRATION: "true"
+          DATABASE_URL: postgresql://test:test@localhost:5432/care2connect_test
+          JWT_SECRET: test-jwt-secret
+          ENCRYPTION_KEY: test-encryption-key-12345678901234567890
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TEST_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_TEST_KEY }}
+          ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_TEST_KEY }}

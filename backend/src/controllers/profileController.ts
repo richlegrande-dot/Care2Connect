@@ -1,8 +1,11 @@
-import { Request, Response } from 'express';
-import { prisma } from '../utils/database';
-import { TranscriptionService, ExtractedProfileData } from '../services/transcriptionService';
-import { DonationService } from '../services/donationService';
-import { v4 as uuidv4 } from 'uuid';
+import { Request, Response } from "express";
+import { prisma } from "../utils/database";
+import {
+  TranscriptionService,
+  ExtractedProfileData,
+} from "../services/transcriptionService";
+import { DonationService } from "../services/donationService";
+import { v4 as uuidv4 } from "uuid";
 
 const transcriptionService = new TranscriptionService();
 const donationService = new DonationService();
@@ -33,8 +36,8 @@ export class ProfileController {
         user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
           return res.status(404).json({
-            error: 'User not found',
-            message: 'The specified user does not exist',
+            error: "User not found",
+            message: "The specified user does not exist",
           });
         }
       } else {
@@ -49,7 +52,8 @@ export class ProfileController {
       }
 
       // Generate enhanced donation pitch
-      const enhancedDonationPitch = await transcriptionService.generateDonationPitch(profileData);
+      const enhancedDonationPitch =
+        await transcriptionService.generateDonationPitch(profileData);
 
       // Create profile
       const profile = await prisma.profile.create({
@@ -90,10 +94,11 @@ export class ProfileController {
         },
       });
     } catch (error) {
-      console.error('Profile creation error:', error);
+      console.error("Profile creation error:", error);
       res.status(500).json({
-        error: 'Failed to create profile',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to create profile",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -121,15 +126,15 @@ export class ProfileController {
 
       if (!profile) {
         return res.status(404).json({
-          error: 'Profile not found',
-          message: 'The requested profile does not exist',
+          error: "Profile not found",
+          message: "The requested profile does not exist",
         });
       }
 
       if (!profile.user.isProfilePublic) {
         return res.status(403).json({
-          error: 'Profile not public',
-          message: 'This profile is not available for public viewing',
+          error: "Profile not public",
+          message: "This profile is not available for public viewing",
         });
       }
 
@@ -167,10 +172,11 @@ export class ProfileController {
         },
       });
     } catch (error) {
-      console.error('Profile retrieval error:', error);
+      console.error("Profile retrieval error:", error);
       res.status(500).json({
-        error: 'Failed to retrieve profile',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to retrieve profile",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -198,7 +204,7 @@ export class ProfileController {
 
       if (!profile) {
         return res.status(404).json({
-          error: 'Profile not found',
+          error: "Profile not found",
         });
       }
 
@@ -223,7 +229,7 @@ export class ProfileController {
       });
 
       // Update user settings
-      if (typeof isProfilePublic === 'boolean') {
+      if (typeof isProfilePublic === "boolean") {
         await prisma.user.update({
           where: { id: profile.userId },
           data: { isProfilePublic },
@@ -237,10 +243,11 @@ export class ProfileController {
         },
       });
     } catch (error) {
-      console.error('Profile update error:', error);
+      console.error("Profile update error:", error);
       res.status(500).json({
-        error: 'Failed to update profile',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to update profile",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -255,8 +262,8 @@ export class ProfileController {
 
       if (!confirmDelete) {
         return res.status(400).json({
-          error: 'Confirmation required',
-          message: 'Please confirm deletion by setting confirmDelete to true',
+          error: "Confirmation required",
+          message: "Please confirm deletion by setting confirmDelete to true",
         });
       }
 
@@ -267,7 +274,7 @@ export class ProfileController {
 
       if (!profile) {
         return res.status(404).json({
-          error: 'Profile not found',
+          error: "Profile not found",
         });
       }
 
@@ -278,13 +285,14 @@ export class ProfileController {
 
       res.status(200).json({
         success: true,
-        message: 'Profile deleted successfully',
+        message: "Profile deleted successfully",
       });
     } catch (error) {
-      console.error('Profile deletion error:', error);
+      console.error("Profile deletion error:", error);
       res.status(500).json({
-        error: 'Failed to delete profile',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to delete profile",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -294,14 +302,7 @@ export class ProfileController {
    */
   static async searchProfiles(req: Request, res: Response) {
     try {
-      const {
-        query,
-        tags,
-        location,
-        skills,
-        page = 1,
-        limit = 10,
-      } = req.query;
+      const { query, tags, location, skills, page = 1, limit = 10 } = req.query;
 
       const skip = (Number(page) - 1) * Number(limit);
 
@@ -314,24 +315,27 @@ export class ProfileController {
       // Add search filters
       if (query) {
         where.OR = [
-          { bio: { contains: query as string, mode: 'insensitive' } },
-          { storySummary: { contains: query as string, mode: 'insensitive' } },
-          { name: { contains: query as string, mode: 'insensitive' } },
+          { bio: { contains: query as string, mode: "insensitive" } },
+          { storySummary: { contains: query as string, mode: "insensitive" } },
+          { name: { contains: query as string, mode: "insensitive" } },
         ];
       }
 
       if (tags) {
-        const tagArray = (tags as string).split(',');
+        const tagArray = (tags as string).split(",");
         where.tags = { hasSome: tagArray };
       }
 
       if (skills) {
-        const skillArray = (skills as string).split(',');
+        const skillArray = (skills as string).split(",");
         where.skills = { hasSome: skillArray };
       }
 
       if (location) {
-        where.user.location = { contains: location as string, mode: 'insensitive' };
+        where.user.location = {
+          contains: location as string,
+          mode: "insensitive",
+        };
       }
 
       const [profiles, total] = await Promise.all([
@@ -354,7 +358,7 @@ export class ProfileController {
           skip,
           take: Number(limit),
           orderBy: {
-            createdAt: 'desc',
+            createdAt: "desc",
           },
         }),
         prisma.profile.count({ where }),
@@ -373,10 +377,11 @@ export class ProfileController {
         },
       });
     } catch (error) {
-      console.error('Profile search error:', error);
+      console.error("Profile search error:", error);
       res.status(500).json({
-        error: 'Failed to search profiles',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to search profiles",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }

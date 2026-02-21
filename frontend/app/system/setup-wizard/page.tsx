@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 export default function SetupWizardPage() {
   const [preflight, setPreflight] = useState<any>(null);
@@ -10,7 +10,7 @@ export default function SetupWizardPage() {
   useEffect(() => {
     async function load() {
       try {
-        const p = await fetch('/admin/setup/preflight');
+        const p = await fetch("/admin/setup/preflight");
         if (p.status === 401) {
           setAuthRequired(true);
         } else if (p.ok) {
@@ -21,7 +21,7 @@ export default function SetupWizardPage() {
       }
 
       try {
-        const s = await fetch('/admin/setup/stripe');
+        const s = await fetch("/admin/setup/stripe");
         if (s.status === 401) {
           setAuthRequired(true);
         } else if (s.ok) {
@@ -54,16 +54,16 @@ SMTP_PASSWORD=your-smtp-password
   const copyTemplate = async () => {
     try {
       await navigator.clipboard.writeText(envTemplate);
-      alert('Template copied to clipboard');
+      alert("Template copied to clipboard");
     } catch (e) {
       // fallback
-      const ta = document.createElement('textarea');
+      const ta = document.createElement("textarea");
       ta.value = envTemplate;
       document.body.appendChild(ta);
       ta.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       document.body.removeChild(ta);
-      alert('Template copied to clipboard');
+      alert("Template copied to clipboard");
     }
   };
 
@@ -72,25 +72,32 @@ SMTP_PASSWORD=your-smtp-password
       <h1>Credential Setup Wizard (No Secrets Stored)</h1>
 
       {authRequired && (
-        <div style={{ marginBottom: 16, color: '#a00' }}>
-          This page can show live checks only when you are authenticated as a system admin.
-          Use the system admin panel to generate a short-lived token.
+        <div style={{ marginBottom: 16, color: "#a00" }}>
+          This page can show live checks only when you are authenticated as a
+          system admin. Use the system admin panel to generate a short-lived
+          token.
         </div>
       )}
 
       <section style={{ marginBottom: 20 }}>
         <h2>Preflight</h2>
         {preflight ? (
-          <pre style={{ background: '#f7f7f7', padding: 12 }}>{JSON.stringify(preflight, null, 2)}</pre>
+          <pre style={{ background: "#f7f7f7", padding: 12 }}>
+            {JSON.stringify(preflight, null, 2)}
+          </pre>
         ) : (
-          <div>Preflight info unavailable (requires admin auth or server offline)</div>
+          <div>
+            Preflight info unavailable (requires admin auth or server offline)
+          </div>
         )}
       </section>
 
       <section style={{ marginBottom: 20 }}>
         <h2>Stripe Check</h2>
         {stripeInfo ? (
-          <pre style={{ background: '#f7f7f7', padding: 12 }}>{JSON.stringify(stripeInfo, null, 2)}</pre>
+          <pre style={{ background: "#f7f7f7", padding: 12 }}>
+            {JSON.stringify(stripeInfo, null, 2)}
+          </pre>
         ) : (
           <div>Stripe presence info unavailable (requires admin auth)</div>
         )}
@@ -98,8 +105,17 @@ SMTP_PASSWORD=your-smtp-password
 
       <section>
         <h2>Copyable `.env` Template</h2>
-        <p>This generator never reads or returns secrets — it only provides a fill-in template you can copy into your local `.env`.</p>
-        <textarea readOnly value={envTemplate} cols={80} rows={12} style={{ display: 'block', marginBottom: 8 }} />
+        <p>
+          This generator never reads or returns secrets — it only provides a
+          fill-in template you can copy into your local `.env`.
+        </p>
+        <textarea
+          readOnly
+          value={envTemplate}
+          cols={80}
+          rows={12}
+          style={{ display: "block", marginBottom: 8 }}
+        />
         <button onClick={copyTemplate}>Copy Template</button>
       </section>
     </div>

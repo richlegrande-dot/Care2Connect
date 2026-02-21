@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { DatabaseWatchdog } from '../utils/dbStartupGate';
+import { Request, Response, NextFunction } from "express";
+import { DatabaseWatchdog } from "../utils/dbStartupGate";
 
 /**
  * Middleware to check database availability before processing requests
@@ -8,17 +8,21 @@ import { DatabaseWatchdog } from '../utils/dbStartupGate';
 export function createDbReadyMiddleware(watchdog: DatabaseWatchdog) {
   return (req: Request, res: Response, next: NextFunction) => {
     // Always allow health checks
-    if (req.path === '/health' || req.path === '/health/db' || req.path === '/health/ping') {
+    if (
+      req.path === "/health" ||
+      req.path === "/health/db" ||
+      req.path === "/health/ping"
+    ) {
       return next();
     }
 
     // Check database status
     if (!watchdog.isReady()) {
       const status = watchdog.getStatus();
-      
+
       return res.status(503).json({
-        error: 'Service Unavailable',
-        message: 'Database connection is currently unavailable',
+        error: "Service Unavailable",
+        message: "Database connection is currently unavailable",
         details: {
           ready: false,
           lastPingAt: status.lastPingAt,

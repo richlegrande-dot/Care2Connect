@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { AdminPasswordGate } from '@/components/AdminPasswordGate';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { AdminPasswordGate } from "@/components/AdminPasswordGate";
 
 interface PipelineIncident {
   id: string;
@@ -41,16 +41,16 @@ interface IncidentStats {
 }
 
 const SEVERITY_COLORS = {
-  INFO: 'bg-blue-100 text-blue-800',
-  WARN: 'bg-yellow-100 text-yellow-800',
-  ERROR: 'bg-red-100 text-red-800',
-  CRITICAL: 'bg-purple-100 text-purple-800',
+  INFO: "bg-blue-100 text-blue-800",
+  WARN: "bg-yellow-100 text-yellow-800",
+  ERROR: "bg-red-100 text-red-800",
+  CRITICAL: "bg-purple-100 text-purple-800",
 };
 
 const STATUS_COLORS = {
-  OPEN: 'bg-orange-100 text-orange-800',
-  RESOLVED: 'bg-green-100 text-green-800',
-  AUTO_RESOLVED: 'bg-teal-100 text-teal-800',
+  OPEN: "bg-orange-100 text-orange-800",
+  RESOLVED: "bg-green-100 text-green-800",
+  AUTO_RESOLVED: "bg-teal-100 text-teal-800",
 };
 
 export default function IncidentsPage() {
@@ -67,24 +67,30 @@ export default function IncidentsPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Filters
-  const [statusFilter, setStatusFilter] = useState<string>('');
-  const [stageFilter, setStageFilter] = useState<string>('');
-  const [severityFilter, setSeverityFilter] = useState<string>('');
-  const [ticketIdFilter, setTicketIdFilter] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [stageFilter, setStageFilter] = useState<string>("");
+  const [severityFilter, setSeverityFilter] = useState<string>("");
+  const [ticketIdFilter, setTicketIdFilter] = useState<string>("");
 
   useEffect(() => {
     fetchIncidents();
     fetchStats();
-  }, [pagination.page, statusFilter, stageFilter, severityFilter, ticketIdFilter]);
+  }, [
+    pagination.page,
+    statusFilter,
+    stageFilter,
+    severityFilter,
+    ticketIdFilter,
+  ]);
 
   const fetchIncidents = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       if (!token) {
-        throw new Error('No admin token found');
+        throw new Error("No admin token found");
       }
 
       const params = new URLSearchParams({
@@ -92,16 +98,19 @@ export default function IncidentsPage() {
         limit: pagination.limit.toString(),
       });
 
-      if (statusFilter) params.append('status', statusFilter);
-      if (stageFilter) params.append('stage', stageFilter);
-      if (severityFilter) params.append('severity', severityFilter);
-      if (ticketIdFilter) params.append('ticketId', ticketIdFilter);
+      if (statusFilter) params.append("status", statusFilter);
+      if (stageFilter) params.append("stage", stageFilter);
+      if (severityFilter) params.append("severity", severityFilter);
+      if (ticketIdFilter) params.append("ticketId", ticketIdFilter);
 
-      const response = await fetch(`http://localhost:3005/admin/incidents?${params}`, {
-        headers: {
-          'x-admin-password': token,
+      const response = await fetch(
+        `http://localhost:3005/admin/incidents?${params}`,
+        {
+          headers: {
+            "x-admin-password": token,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to fetch incidents: ${response.statusText}`);
@@ -111,8 +120,8 @@ export default function IncidentsPage() {
       setIncidents(data.incidents);
       setPagination(data.pagination);
     } catch (err) {
-      console.error('Error fetching incidents:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      console.error("Error fetching incidents:", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -120,24 +129,27 @@ export default function IncidentsPage() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       if (!token) return;
 
       const params = new URLSearchParams();
-      if (ticketIdFilter) params.append('ticketId', ticketIdFilter);
+      if (ticketIdFilter) params.append("ticketId", ticketIdFilter);
 
-      const response = await fetch(`http://localhost:3005/admin/incidents/stats?${params}`, {
-        headers: {
-          'x-admin-password': token,
+      const response = await fetch(
+        `http://localhost:3005/admin/incidents/stats?${params}`,
+        {
+          headers: {
+            "x-admin-password": token,
+          },
         },
-      });
+      );
 
       if (response.ok) {
         const data = await response.json();
         setStats(data);
       }
     } catch (err) {
-      console.error('Error fetching stats:', err);
+      console.error("Error fetching stats:", err);
     }
   };
 
@@ -146,10 +158,10 @@ export default function IncidentsPage() {
   };
 
   const clearFilters = () => {
-    setStatusFilter('');
-    setStageFilter('');
-    setSeverityFilter('');
-    setTicketIdFilter('');
+    setStatusFilter("");
+    setStageFilter("");
+    setSeverityFilter("");
+    setTicketIdFilter("");
     setPagination({ ...pagination, page: 1 });
   };
 
@@ -159,9 +171,12 @@ export default function IncidentsPage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Pipeline Incidents</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Pipeline Incidents
+            </h1>
             <p className="text-gray-600">
-              Monitor pipeline failures and quality issues with Knowledge Vault recommendations
+              Monitor pipeline failures and quality issues with Knowledge Vault
+              recommendations
             </p>
           </div>
 
@@ -169,26 +184,36 @@ export default function IncidentsPage() {
           {stats && (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-sm font-medium text-gray-500 mb-1">Total Incidents</div>
-                <div className="text-3xl font-bold text-gray-900">{stats.total}</div>
+                <div className="text-sm font-medium text-gray-500 mb-1">
+                  Total Incidents
+                </div>
+                <div className="text-3xl font-bold text-gray-900">
+                  {stats.total}
+                </div>
               </div>
-              
+
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-sm font-medium text-gray-500 mb-1">Open</div>
+                <div className="text-sm font-medium text-gray-500 mb-1">
+                  Open
+                </div>
                 <div className="text-3xl font-bold text-orange-600">
                   {stats.byStatus.OPEN || 0}
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-sm font-medium text-gray-500 mb-1">Resolved</div>
+                <div className="text-sm font-medium text-gray-500 mb-1">
+                  Resolved
+                </div>
                 <div className="text-3xl font-bold text-green-600">
                   {stats.byStatus.RESOLVED || 0}
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-sm font-medium text-gray-500 mb-1">Auto-Resolved</div>
+                <div className="text-sm font-medium text-gray-500 mb-1">
+                  Auto-Resolved
+                </div>
                 <div className="text-3xl font-bold text-teal-600">
                   {stats.byStatus.AUTO_RESOLVED || 0}
                 </div>
@@ -200,7 +225,10 @@ export default function IncidentsPage() {
           <div className="bg-white rounded-lg shadow p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
-              {(statusFilter || stageFilter || severityFilter || ticketIdFilter) && (
+              {(statusFilter ||
+                stageFilter ||
+                severityFilter ||
+                ticketIdFilter) && (
                 <button
                   onClick={clearFilters}
                   className="text-sm text-blue-600 hover:text-blue-800"
@@ -209,7 +237,7 @@ export default function IncidentsPage() {
                 </button>
               )}
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -286,9 +314,7 @@ export default function IncidentsPage() {
                 Loading incidents...
               </div>
             ) : error ? (
-              <div className="p-8 text-center text-red-600">
-                Error: {error}
-              </div>
+              <div className="p-8 text-center text-red-600">Error: {error}</div>
             ) : incidents.length === 0 ? (
               <div className="p-8 text-center text-gray-500">
                 No incidents found. Try adjusting your filters.
@@ -336,7 +362,9 @@ export default function IncidentsPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2 py-1 text-xs font-medium rounded ${
-                              SEVERITY_COLORS[incident.severity as keyof typeof SEVERITY_COLORS] || 'bg-gray-100 text-gray-800'
+                              SEVERITY_COLORS[
+                                incident.severity as keyof typeof SEVERITY_COLORS
+                              ] || "bg-gray-100 text-gray-800"
                             }`}
                           >
                             {incident.severity}
@@ -346,7 +374,7 @@ export default function IncidentsPage() {
                           {incident.ticket ? (
                             <div>
                               <div className="font-medium text-gray-900">
-                                {incident.ticket.displayName || 'Unnamed'}
+                                {incident.ticket.displayName || "Unnamed"}
                               </div>
                               <div className="text-gray-500 text-xs">
                                 {incident.ticketId?.substring(0, 8)}...
@@ -359,7 +387,9 @@ export default function IncidentsPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2 py-1 text-xs font-medium rounded ${
-                              STATUS_COLORS[incident.status as keyof typeof STATUS_COLORS] || 'bg-gray-100 text-gray-800'
+                              STATUS_COLORS[
+                                incident.status as keyof typeof STATUS_COLORS
+                              ] || "bg-gray-100 text-gray-800"
                             }`}
                           >
                             {incident.status}
@@ -368,7 +398,10 @@ export default function IncidentsPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {incident.knowledgeBindings.length > 0 ? (
                             <span className="text-blue-600">
-                              {incident.knowledgeBindings.length} match{incident.knowledgeBindings.length !== 1 ? 'es' : ''}
+                              {incident.knowledgeBindings.length} match
+                              {incident.knowledgeBindings.length !== 1
+                                ? "es"
+                                : ""}
                             </span>
                           ) : (
                             <span className="text-gray-400">None</span>
@@ -383,18 +416,29 @@ export default function IncidentsPage() {
                 {pagination.totalPages > 1 && (
                   <div className="px-6 py-4 flex items-center justify-between border-t border-gray-200">
                     <div className="text-sm text-gray-700">
-                      Showing page {pagination.page} of {pagination.totalPages} ({pagination.total} total)
+                      Showing page {pagination.page} of {pagination.totalPages}{" "}
+                      ({pagination.total} total)
                     </div>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
+                        onClick={() =>
+                          setPagination({
+                            ...pagination,
+                            page: pagination.page - 1,
+                          })
+                        }
                         disabled={pagination.page === 1}
                         className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Previous
                       </button>
                       <button
-                        onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
+                        onClick={() =>
+                          setPagination({
+                            ...pagination,
+                            page: pagination.page + 1,
+                          })
+                        }
                         disabled={pagination.page >= pagination.totalPages}
                         className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >

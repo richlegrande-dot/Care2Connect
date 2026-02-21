@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 /**
  * Database Startup Gate
@@ -23,21 +23,22 @@ export function validateDbMode(): StartupCheckResult {
   if (!dbMode) {
     return {
       success: false,
-      error: 'DB_MODE environment variable is not set',
+      error: "DB_MODE environment variable is not set",
       details: {
-        action: 'Set DB_MODE=local or DB_MODE=remote in backend/.env file',
-        recommendation: 'Use DB_MODE=local for development with Docker PostgreSQL',
+        action: "Set DB_MODE=local or DB_MODE=remote in backend/.env file",
+        recommendation:
+          "Use DB_MODE=local for development with Docker PostgreSQL",
       },
     };
   }
 
   // Validate DB_MODE value
-  if (dbMode !== 'local' && dbMode !== 'remote') {
+  if (dbMode !== "local" && dbMode !== "remote") {
     return {
       success: false,
       error: `Invalid DB_MODE value: "${dbMode}"`,
       details: {
-        allowed: ['local', 'remote'],
+        allowed: ["local", "remote"],
         found: dbMode,
       },
     };
@@ -47,53 +48,61 @@ export function validateDbMode(): StartupCheckResult {
   if (!dbUrl) {
     return {
       success: false,
-      error: 'DATABASE_URL environment variable is not set',
+      error: "DATABASE_URL environment variable is not set",
       details: {
-        action: 'Set DATABASE_URL in backend/.env file',
-        format: 'postgresql://user:password@host:port/database',
+        action: "Set DATABASE_URL in backend/.env file",
+        format: "postgresql://user:password@host:port/database",
       },
     };
   }
 
   // Enforce local mode constraints
-  if (dbMode === 'local') {
-    const isLocalhost = dbUrl.includes('localhost') || dbUrl.includes('127.0.0.1');
+  if (dbMode === "local") {
+    const isLocalhost =
+      dbUrl.includes("localhost") || dbUrl.includes("127.0.0.1");
     if (!isLocalhost) {
       return {
         success: false,
-        error: 'DB_MODE=local requires DATABASE_URL to point to localhost',
+        error: "DB_MODE=local requires DATABASE_URL to point to localhost",
         details: {
-          dbMode: 'local',
-          databaseUrl: dbUrl.substring(0, 40) + '...',
-          action: 'Either change DB_MODE=remote or update DATABASE_URL to localhost',
+          dbMode: "local",
+          databaseUrl: dbUrl.substring(0, 40) + "...",
+          action:
+            "Either change DB_MODE=remote or update DATABASE_URL to localhost",
         },
       };
     }
   }
 
   // Warn about remote mode
-  if (dbMode === 'remote') {
-    const isLocalhost = dbUrl.includes('localhost') || dbUrl.includes('127.0.0.1');
+  if (dbMode === "remote") {
+    const isLocalhost =
+      dbUrl.includes("localhost") || dbUrl.includes("127.0.0.1");
     if (isLocalhost) {
       return {
         success: false,
-        error: 'DB_MODE=remote but DATABASE_URL points to localhost',
+        error: "DB_MODE=remote but DATABASE_URL points to localhost",
         details: {
-          dbMode: 'remote',
-          databaseUrl: 'localhost',
-          action: 'Either change DB_MODE=local or update DATABASE_URL to remote host',
+          dbMode: "remote",
+          databaseUrl: "localhost",
+          action:
+            "Either change DB_MODE=local or update DATABASE_URL to remote host",
         },
       };
     }
 
     // Emit loud warning for remote mode
-    console.warn('\n' + '='.repeat(80));
-    console.warn('⚠️  DATABASE MODE: REMOTE');
-    console.warn('='.repeat(80));
-    console.warn('Using remote database:', extractDbHost(dbUrl));
-    console.warn('This is acceptable for cloud deployments but NOT recommended for local dev');
-    console.warn('Recommendation: Use DB_MODE=local with Docker PostgreSQL for development');
-    console.warn('='.repeat(80) + '\n');
+    console.warn("\n" + "=".repeat(80));
+    console.warn("⚠️  DATABASE MODE: REMOTE");
+    console.warn("=".repeat(80));
+    console.warn("Using remote database:", extractDbHost(dbUrl));
+    console.warn(
+      "This is acceptable for cloud deployments but NOT recommended for local dev",
+    );
+    console.warn(
+      "Recommendation: Use DB_MODE=local with Docker PostgreSQL for development",
+    );
+    console.warn("=".repeat(80) + "\n");
   }
 
   return { success: true };
@@ -105,9 +114,9 @@ export function validateDbMode(): StartupCheckResult {
 function extractDbHost(dbUrl: string): string {
   try {
     const match = dbUrl.match(/@([^:\/]+)/);
-    return match ? match[1] : 'unknown';
+    return match ? match[1] : "unknown";
   } catch {
-    return 'unknown';
+    return "unknown";
   }
 }
 
@@ -120,21 +129,21 @@ export function validateDatabaseUrl(): StartupCheckResult {
   if (!dbUrl) {
     return {
       success: false,
-      error: 'DATABASE_URL environment variable is not set',
+      error: "DATABASE_URL environment variable is not set",
       details: {
-        action: 'Set DATABASE_URL in backend/.env file',
-        format: 'postgresql://user:password@host:port/database',
+        action: "Set DATABASE_URL in backend/.env file",
+        format: "postgresql://user:password@host:port/database",
       },
     };
   }
 
   // Validate format
-  if (!dbUrl.startsWith('postgresql://') && !dbUrl.startsWith('postgres://')) {
+  if (!dbUrl.startsWith("postgresql://") && !dbUrl.startsWith("postgres://")) {
     return {
       success: false,
-      error: 'DATABASE_URL must start with postgresql:// or postgres://',
+      error: "DATABASE_URL must start with postgresql:// or postgres://",
       details: {
-        found: dbUrl.substring(0, 20) + '...',
+        found: dbUrl.substring(0, 20) + "...",
       },
     };
   }
@@ -148,34 +157,38 @@ export function validateDatabaseUrl(): StartupCheckResult {
 export async function testDatabaseConnection(
   prisma: PrismaClient,
   maxRetries: number = 3,
-  retryDelayMs: number = 2000
+  retryDelayMs: number = 2000,
 ): Promise<StartupCheckResult> {
   let lastError: any;
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`[DB Startup] Attempting connection (attempt ${attempt}/${maxRetries})...`);
+      console.log(
+        `[DB Startup] Attempting connection (attempt ${attempt}/${maxRetries})...`,
+      );
 
       // Simple ping query
       await prisma.$queryRaw`SELECT 1`;
 
       console.log(`[DB Startup] ✅ Connection successful`);
       return { success: true };
-
     } catch (error: any) {
       lastError = error;
-      console.error(`[DB Startup] ❌ Connection attempt ${attempt} failed:`, error.message);
+      console.error(
+        `[DB Startup] ❌ Connection attempt ${attempt} failed:`,
+        error.message,
+      );
 
       if (attempt < maxRetries) {
         console.log(`[DB Startup] Retrying in ${retryDelayMs}ms...`);
-        await new Promise(resolve => setTimeout(resolve, retryDelayMs));
+        await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
       }
     }
   }
 
   return {
     success: false,
-    error: 'Failed to connect to database after multiple attempts',
+    error: "Failed to connect to database after multiple attempts",
     details: {
       attempts: maxRetries,
       lastError: lastError?.message || String(lastError),
@@ -187,9 +200,11 @@ export async function testDatabaseConnection(
 /**
  * Test schema integrity - verify critical tables exist
  */
-export async function testSchemaIntegrity(prisma: PrismaClient): Promise<StartupCheckResult> {
+export async function testSchemaIntegrity(
+  prisma: PrismaClient,
+): Promise<StartupCheckResult> {
   try {
-    console.log('[DB Startup] Verifying schema integrity...');
+    console.log("[DB Startup] Verifying schema integrity...");
 
     // Test critical tables exist
     await prisma.$queryRaw`SELECT 1 FROM "health_check_runs" LIMIT 1`;
@@ -197,27 +212,32 @@ export async function testSchemaIntegrity(prisma: PrismaClient): Promise<Startup
     await prisma.$queryRaw`SELECT 1 FROM "stripe_attributions" LIMIT 1`;
     await prisma.$queryRaw`SELECT 1 FROM "recording_tickets" LIMIT 1`;
 
-    console.log('[DB Startup] ✅ Schema integrity verified');
+    console.log("[DB Startup] ✅ Schema integrity verified");
     return { success: true };
-
   } catch (error: any) {
-    console.error('[DB Startup] ❌ Schema integrity check failed:', error.message);
+    console.error(
+      "[DB Startup] ❌ Schema integrity check failed:",
+      error.message,
+    );
 
-    if (error.message?.includes('relation') && error.message?.includes('does not exist')) {
+    if (
+      error.message?.includes("relation") &&
+      error.message?.includes("does not exist")
+    ) {
       return {
         success: false,
-        error: 'Database schema is out of sync',
+        error: "Database schema is out of sync",
         details: {
           message: error.message,
-          action: 'Run: cd backend && npx prisma migrate deploy',
-          note: 'This usually means migrations have not been applied',
+          action: "Run: cd backend && npx prisma migrate deploy",
+          note: "This usually means migrations have not been applied",
         },
       };
     }
 
     return {
       success: false,
-      error: 'Schema integrity check failed',
+      error: "Schema integrity check failed",
       details: {
         message: error.message,
         code: error.code,
@@ -230,65 +250,75 @@ export async function testSchemaIntegrity(prisma: PrismaClient): Promise<Startup
  * Complete startup gate - run all checks
  */
 export async function runStartupGate(prisma: PrismaClient): Promise<void> {
-  console.log('\n' + '='.repeat(60));
-  console.log('🔒 DATABASE STARTUP GATE');
-  console.log('='.repeat(60) + '\n');
+  console.log("\n" + "=".repeat(60));
+  console.log("🔒 DATABASE STARTUP GATE");
+  console.log("=".repeat(60) + "\n");
 
   // Step 1: Validate DB_MODE configuration
   const dbModeValidation = validateDbMode();
   if (!dbModeValidation.success) {
-    console.error('[DB Startup] ❌ DB_MODE validation failed');
-    console.error('Error:', dbModeValidation.error);
+    console.error("[DB Startup] ❌ DB_MODE validation failed");
+    console.error("Error:", dbModeValidation.error);
     if (dbModeValidation.details) {
-      console.error('Details:', JSON.stringify(dbModeValidation.details, null, 2));
+      console.error(
+        "Details:",
+        JSON.stringify(dbModeValidation.details, null, 2),
+      );
     }
-    console.error('\n🚨 SERVER CANNOT START WITHOUT VALID DB_MODE CONFIGURATION');
+    console.error(
+      "\n🚨 SERVER CANNOT START WITHOUT VALID DB_MODE CONFIGURATION",
+    );
     process.exit(1);
   }
 
-  console.log(`[DB Startup] ✅ DB_MODE=${process.env.DB_MODE} configuration valid`);
+  console.log(
+    `[DB Startup] ✅ DB_MODE=${process.env.DB_MODE} configuration valid`,
+  );
 
   // Step 2: Validate DATABASE_URL
   const urlValidation = validateDatabaseUrl();
   if (!urlValidation.success) {
-    console.error('[DB Startup] ❌ DATABASE_URL validation failed');
-    console.error('Error:', urlValidation.error);
+    console.error("[DB Startup] ❌ DATABASE_URL validation failed");
+    console.error("Error:", urlValidation.error);
     if (urlValidation.details) {
-      console.error('Details:', JSON.stringify(urlValidation.details, null, 2));
+      console.error("Details:", JSON.stringify(urlValidation.details, null, 2));
     }
-    console.error('\n🚨 SERVER CANNOT START WITHOUT VALID DATABASE CONNECTION');
+    console.error("\n🚨 SERVER CANNOT START WITHOUT VALID DATABASE CONNECTION");
     process.exit(1);
   }
 
-  console.log('[DB Startup] ✅ DATABASE_URL format valid');
+  console.log("[DB Startup] ✅ DATABASE_URL format valid");
 
   // Step 2: Test connection
   const connectionTest = await testDatabaseConnection(prisma);
   if (!connectionTest.success) {
-    console.error('[DB Startup] ❌ Database connection failed');
-    console.error('Error:', connectionTest.error);
+    console.error("[DB Startup] ❌ Database connection failed");
+    console.error("Error:", connectionTest.error);
     if (connectionTest.details) {
-      console.error('Details:', JSON.stringify(connectionTest.details, null, 2));
+      console.error(
+        "Details:",
+        JSON.stringify(connectionTest.details, null, 2),
+      );
     }
-    console.error('\n🚨 SERVER CANNOT START WITHOUT DATABASE CONNECTION');
+    console.error("\n🚨 SERVER CANNOT START WITHOUT DATABASE CONNECTION");
     process.exit(1);
   }
 
   // Step 3: Test schema integrity
   const schemaTest = await testSchemaIntegrity(prisma);
   if (!schemaTest.success) {
-    console.error('[DB Startup] ❌ Schema integrity check failed');
-    console.error('Error:', schemaTest.error);
+    console.error("[DB Startup] ❌ Schema integrity check failed");
+    console.error("Error:", schemaTest.error);
     if (schemaTest.details) {
-      console.error('Details:', JSON.stringify(schemaTest.details, null, 2));
+      console.error("Details:", JSON.stringify(schemaTest.details, null, 2));
     }
-    console.error('\n🚨 SERVER CANNOT START WITH INVALID SCHEMA');
+    console.error("\n🚨 SERVER CANNOT START WITH INVALID SCHEMA");
     process.exit(1);
   }
 
-  console.log('\n' + '='.repeat(60));
-  console.log('✅ DATABASE STARTUP GATE: PASSED');
-  console.log('='.repeat(60) + '\n');
+  console.log("\n" + "=".repeat(60));
+  console.log("✅ DATABASE STARTUP GATE: PASSED");
+  console.log("=".repeat(60) + "\n");
 }
 
 /**
@@ -319,24 +349,28 @@ export class DatabaseWatchdog {
   private async ping(): Promise<void> {
     try {
       await this.prisma.$queryRaw`SELECT 1`;
-      
+
       if (!this.dbReady) {
-        console.log('[DB Watchdog] ✅ Database connection restored');
+        console.log("[DB Watchdog] ✅ Database connection restored");
       }
 
       this.dbReady = true;
       this.lastPingAt = new Date();
       this.lastError = null;
       this.failureCount = 0;
-
     } catch (error: any) {
       this.failureCount++;
       this.lastError = error.message;
-      
-      console.error(`[DB Watchdog] ❌ Ping failed (${this.failureCount}/${this.maxFailures}):`, error.message);
+
+      console.error(
+        `[DB Watchdog] ❌ Ping failed (${this.failureCount}/${this.maxFailures}):`,
+        error.message,
+      );
 
       if (this.failureCount >= this.maxFailures) {
-        console.error('[DB Watchdog] 🚨 Maximum failures reached - marking database as unavailable');
+        console.error(
+          "[DB Watchdog] 🚨 Maximum failures reached - marking database as unavailable",
+        );
         this.dbReady = false;
 
         // Attempt reconnect
@@ -350,41 +384,51 @@ export class DatabaseWatchdog {
     const retryDelayMs = 5000;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      console.log(`[DB Watchdog] Attempting reconnect (${attempt}/${maxRetries})...`);
+      console.log(
+        `[DB Watchdog] Attempting reconnect (${attempt}/${maxRetries})...`,
+      );
 
       try {
         await this.prisma.$disconnect();
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         await this.prisma.$connect();
         await this.prisma.$queryRaw`SELECT 1`;
 
-        console.log('[DB Watchdog] ✅ Reconnect successful');
+        console.log("[DB Watchdog] ✅ Reconnect successful");
         this.dbReady = true;
         this.failureCount = 0;
         this.lastError = null;
         return;
-
       } catch (error: any) {
-        console.error(`[DB Watchdog] Reconnect attempt ${attempt} failed:`, error.message);
+        console.error(
+          `[DB Watchdog] Reconnect attempt ${attempt} failed:`,
+          error.message,
+        );
 
         if (attempt < maxRetries) {
-          await new Promise(resolve => setTimeout(resolve, retryDelayMs));
+          await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
         }
       }
     }
 
     // All reconnect attempts failed
-    console.error('[DB Watchdog] 🚨 CRITICAL: Database reconnection failed after all attempts');
-    console.error('[DB Watchdog] Server will shut down to allow supervisor restart');
-    
+    console.error(
+      "[DB Watchdog] 🚨 CRITICAL: Database reconnection failed after all attempts",
+    );
+    console.error(
+      "[DB Watchdog] Server will shut down to allow supervisor restart",
+    );
+
     // Log incident
-    console.error(JSON.stringify({
-      event: 'DATABASE_FAILURE',
-      timestamp: new Date().toISOString(),
-      failureCount: this.failureCount,
-      lastError: this.lastError,
-      action: 'SERVER_SHUTDOWN',
-    }));
+    console.error(
+      JSON.stringify({
+        event: "DATABASE_FAILURE",
+        timestamp: new Date().toISOString(),
+        failureCount: this.failureCount,
+        lastError: this.lastError,
+        action: "SERVER_SHUTDOWN",
+      }),
+    );
 
     // Graceful shutdown
     process.exit(1);
@@ -406,7 +450,7 @@ export class DatabaseWatchdog {
   public stop() {
     if (this.pingInterval) {
       clearInterval(this.pingInterval);
-      console.log('[DB Watchdog] Stopped');
+      console.log("[DB Watchdog] Stopped");
     }
   }
 }

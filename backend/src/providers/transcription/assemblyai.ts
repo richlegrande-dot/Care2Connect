@@ -1,27 +1,27 @@
 /**
  * AssemblyAI Transcription Provider
- * 
+ *
  * Wraps AssemblyAI client for consistent interface
  */
 
-import { AssemblyAI } from 'assemblyai';
+import { AssemblyAI } from "assemblyai";
 import {
   TranscriptionProvider,
   TranscriptionResult,
   TranscriptionOptions,
-} from './types';
-import { getValidEnvKey } from '../../utils/keys';
-import fs from 'fs';
+} from "./types";
+import { getValidEnvKey } from "../../utils/keys";
+import fs from "fs";
 
 export class AssemblyAIProvider implements TranscriptionProvider {
-  readonly name = 'AssemblyAI';
-  readonly type = 'assemblyai' as const;
-  
+  readonly name = "AssemblyAI";
+  readonly type = "assemblyai" as const;
+
   private client: AssemblyAI | null = null;
   private apiKey: string | null = null;
 
   constructor() {
-    const key = getValidEnvKey('ASSEMBLYAI_API_KEY');
+    const key = getValidEnvKey("ASSEMBLYAI_API_KEY");
     this.apiKey = key ?? null;
     if (this.apiKey) {
       this.client = new AssemblyAI({ apiKey: this.apiKey });
@@ -34,10 +34,10 @@ export class AssemblyAIProvider implements TranscriptionProvider {
 
   async transcribe(
     audioFilePath: string,
-    options?: TranscriptionOptions
+    options?: TranscriptionOptions,
   ): Promise<TranscriptionResult> {
     if (!this.client) {
-      throw new Error('AssemblyAI API key not configured');
+      throw new Error("AssemblyAI API key not configured");
     }
 
     // Validate file exists
@@ -47,7 +47,7 @@ export class AssemblyAIProvider implements TranscriptionProvider {
 
     const stats = fs.statSync(audioFilePath);
     if (stats.size === 0) {
-      throw new Error('Audio file is empty');
+      throw new Error("Audio file is empty");
     }
 
     console.log(`[AssemblyAI] Transcribing file: ${audioFilePath}`);
@@ -71,7 +71,7 @@ export class AssemblyAIProvider implements TranscriptionProvider {
 
       const transcript = await this.client.transcripts.transcribe(params);
 
-      if (transcript.status === 'error') {
+      if (transcript.status === "error") {
         throw new Error(`AssemblyAI transcription failed: ${transcript.error}`);
       }
 
@@ -83,16 +83,16 @@ export class AssemblyAIProvider implements TranscriptionProvider {
       console.log(`[AssemblyAI] Confidence: ${transcript.confidence || 0}`);
 
       return {
-        transcript: transcript.text || '',
+        transcript: transcript.text || "",
         confidence: transcript.confidence || 0,
-        source: 'assemblyai',
+        source: "assemblyai",
         warnings: [],
         detectedLanguage: transcript.language_code,
         wordCount,
         duration,
       };
     } catch (error) {
-      console.error('[AssemblyAI] Transcription error:', error);
+      console.error("[AssemblyAI] Transcription error:", error);
       throw error;
     }
   }

@@ -1,4 +1,170 @@
-(()=>{var e={};e.id=422,e.ids=[422],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},95578:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>a.a,__next_app__:()=>u,originalPathname:()=>m,pages:()=>c,routeModule:()=>p,tree:()=>d});var r=s(36577),n=s(55533),i=s(40443),a=s.n(i),o=s(53320),l={};for(let e in o)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(l[e]=()=>o[e]);s.d(t,l);let d=["",{children:["system",{children:["setup-wizard",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,48451)),"C:\\Users\\richl\\Care2system\\frontend\\app\\system\\setup-wizard\\page.tsx"]}]},{}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],c=["C:\\Users\\richl\\Care2system\\frontend\\app\\system\\setup-wizard\\page.tsx"],m="/system/setup-wizard/page",u={require:s,loadChunk:()=>Promise.resolve()},p=new r.AppPageRouteModule({definition:{kind:n.x.APP_PAGE,page:"/system/setup-wizard/page",pathname:"/system/setup-wizard",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:d}})},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},83157:(e,t,s)=>{Promise.resolve().then(s.bind(s,52387))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>o});var r=s(73658),n=s(58758),i=s(60459),a=s(55459);function o({children:e}){let[t]=(0,a.useState)(()=>new n.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(i.aH,{client:t,children:e})}},52387:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>i});var r=s(73658),n=s(55459);function i(){let[e,t]=(0,n.useState)(null),[s,i]=(0,n.useState)(null),[a,o]=(0,n.useState)(!1);(0,n.useEffect)(()=>{(async function(){try{let e=await fetch("/admin/setup/preflight");401===e.status?o(!0):e.ok&&t(await e.json())}catch(e){}try{let e=await fetch("/admin/setup/stripe");401===e.status?o(!0):e.ok&&i(await e.json())}catch(e){}})()},[]);let l=`# Care2system environment template (fill values locally)
+(() => {
+  var e = {};
+  ((e.id = 422),
+    (e.ids = [422]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      95578: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => a.a,
+            __next_app__: () => u,
+            originalPathname: () => m,
+            pages: () => c,
+            routeModule: () => p,
+            tree: () => d,
+          }));
+        var r = s(36577),
+          n = s(55533),
+          i = s(40443),
+          a = s.n(i),
+          o = s(53320),
+          l = {};
+        for (let e in o)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (l[e] = () => o[e]);
+        s.d(t, l);
+        let d = [
+            "",
+            {
+              children: [
+                "system",
+                {
+                  children: [
+                    "setup-wizard",
+                    {
+                      children: [
+                        "__PAGE__",
+                        {},
+                        {
+                          page: [
+                            () => Promise.resolve().then(s.bind(s, 48451)),
+                            "C:\\Users\\richl\\Care2system\\frontend\\app\\system\\setup-wizard\\page.tsx",
+                          ],
+                        },
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          c = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\system\\setup-wizard\\page.tsx",
+          ],
+          m = "/system/setup-wizard/page",
+          u = { require: s, loadChunk: () => Promise.resolve() },
+          p = new r.AppPageRouteModule({
+            definition: {
+              kind: n.x.APP_PAGE,
+              page: "/system/setup-wizard/page",
+              pathname: "/system/setup-wizard",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: d },
+          });
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      83157: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 52387));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => o }));
+        var r = s(73658),
+          n = s(58758),
+          i = s(60459),
+          a = s(55459);
+        function o({ children: e }) {
+          let [t] = (0, a.useState)(
+            () =>
+              new n.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(i.aH, { client: t, children: e });
+        }
+      },
+      52387: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => i }));
+        var r = s(73658),
+          n = s(55459);
+        function i() {
+          let [e, t] = (0, n.useState)(null),
+            [s, i] = (0, n.useState)(null),
+            [a, o] = (0, n.useState)(!1);
+          (0, n.useEffect)(() => {
+            (async function () {
+              try {
+                let e = await fetch("/admin/setup/preflight");
+                401 === e.status ? o(!0) : e.ok && t(await e.json());
+              } catch (e) {}
+              try {
+                let e = await fetch("/admin/setup/stripe");
+                401 === e.status ? o(!0) : e.ok && i(await e.json());
+              } catch (e) {}
+            })();
+          }, []);
+          let l = `# Care2system environment template (fill values locally)
 STRIPE_SECRET_KEY=REPLACE_WITH_SK_xxx
 STRIPE_PUBLISHABLE_KEY=REPLACE_WITH_PK_xxx
 STRIPE_WEBHOOK_SECRET=REPLACE_WITH_WHSEC_xxx
@@ -12,4 +178,250 @@ SMTP_HOST=smtp.example.com
 SMTP_PORT=587
 SMTP_USER=you@example.com
 SMTP_PASSWORD=your-smtp-password
-`,d=async()=>{try{await navigator.clipboard.writeText(l),alert("Template copied to clipboard")}catch(t){let e=document.createElement("textarea");e.value=l,document.body.appendChild(e),e.select(),document.execCommand("copy"),document.body.removeChild(e),alert("Template copied to clipboard")}};return(0,r.jsxs)("div",{style:{padding:24},children:[r.jsx("h1",{children:"Credential Setup Wizard (No Secrets Stored)"}),a&&r.jsx("div",{style:{marginBottom:16,color:"#a00"},children:"This page can show live checks only when you are authenticated as a system admin. Use the system admin panel to generate a short-lived token."}),(0,r.jsxs)("section",{style:{marginBottom:20},children:[r.jsx("h2",{children:"Preflight"}),e?r.jsx("pre",{style:{background:"#f7f7f7",padding:12},children:JSON.stringify(e,null,2)}):r.jsx("div",{children:"Preflight info unavailable (requires admin auth or server offline)"})]}),(0,r.jsxs)("section",{style:{marginBottom:20},children:[r.jsx("h2",{children:"Stripe Check"}),s?r.jsx("pre",{style:{background:"#f7f7f7",padding:12},children:JSON.stringify(s,null,2)}):r.jsx("div",{children:"Stripe presence info unavailable (requires admin auth)"})]}),(0,r.jsxs)("section",{children:[r.jsx("h2",{children:"Copyable `.env` Template"}),r.jsx("p",{children:"This generator never reads or returns secrets — it only provides a fill-in template you can copy into your local `.env`."}),r.jsx("textarea",{readOnly:!0,value:l,cols:80,rows:12,style:{display:"block",marginBottom:8}}),r.jsx("button",{onClick:d,children:"Copy Template"})]})]})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>l});var r=s(73658),n=s(84874),i=s.n(n),a=s(32241),o=s(17872);function l(){let e=(0,a.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(i(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(i(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(i(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(i(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(i(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(i(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(o.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>f,metadata:()=>y});var r=s(31487),n=s(72972),i=s.n(n);s(40642);var a=s(19894);let o=(0,a.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:l,$$typeof:d}=o;o.default;let c=(0,a.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var m=s(15762);let u=(0,a.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:p,$$typeof:x}=u,h=u.default,y={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function f({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:i().className,children:(0,r.jsxs)(c,{children:[r.jsx(h,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(m.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},48451:(e,t,s)=>{"use strict";s.r(t),s.d(t,{$$typeof:()=>a,__esModule:()=>i,default:()=>l});var r=s(19894);let n=(0,r.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\system\setup-wizard\page.tsx`),{__esModule:i,$$typeof:a}=n,o=n.default,l=o},40642:()=>{}};var t=require("../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(95578));module.exports=r})();
+`,
+            d = async () => {
+              try {
+                (await navigator.clipboard.writeText(l),
+                  alert("Template copied to clipboard"));
+              } catch (t) {
+                let e = document.createElement("textarea");
+                ((e.value = l),
+                  document.body.appendChild(e),
+                  e.select(),
+                  document.execCommand("copy"),
+                  document.body.removeChild(e),
+                  alert("Template copied to clipboard"));
+              }
+            };
+          return (0, r.jsxs)("div", {
+            style: { padding: 24 },
+            children: [
+              r.jsx("h1", {
+                children: "Credential Setup Wizard (No Secrets Stored)",
+              }),
+              a &&
+                r.jsx("div", {
+                  style: { marginBottom: 16, color: "#a00" },
+                  children:
+                    "This page can show live checks only when you are authenticated as a system admin. Use the system admin panel to generate a short-lived token.",
+                }),
+              (0, r.jsxs)("section", {
+                style: { marginBottom: 20 },
+                children: [
+                  r.jsx("h2", { children: "Preflight" }),
+                  e
+                    ? r.jsx("pre", {
+                        style: { background: "#f7f7f7", padding: 12 },
+                        children: JSON.stringify(e, null, 2),
+                      })
+                    : r.jsx("div", {
+                        children:
+                          "Preflight info unavailable (requires admin auth or server offline)",
+                      }),
+                ],
+              }),
+              (0, r.jsxs)("section", {
+                style: { marginBottom: 20 },
+                children: [
+                  r.jsx("h2", { children: "Stripe Check" }),
+                  s
+                    ? r.jsx("pre", {
+                        style: { background: "#f7f7f7", padding: 12 },
+                        children: JSON.stringify(s, null, 2),
+                      })
+                    : r.jsx("div", {
+                        children:
+                          "Stripe presence info unavailable (requires admin auth)",
+                      }),
+                ],
+              }),
+              (0, r.jsxs)("section", {
+                children: [
+                  r.jsx("h2", { children: "Copyable `.env` Template" }),
+                  r.jsx("p", {
+                    children:
+                      "This generator never reads or returns secrets — it only provides a fill-in template you can copy into your local `.env`.",
+                  }),
+                  r.jsx("textarea", {
+                    readOnly: !0,
+                    value: l,
+                    cols: 80,
+                    rows: 12,
+                    style: { display: "block", marginBottom: 8 },
+                  }),
+                  r.jsx("button", { onClick: d, children: "Copy Template" }),
+                ],
+              }),
+            ],
+          });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => l }));
+        var r = s(73658),
+          n = s(84874),
+          i = s.n(n),
+          a = s(32241),
+          o = s(17872);
+        function l() {
+          let e = (0, a.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(i(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(i(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(i(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(i(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(i(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(i(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(o.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => f, metadata: () => y }));
+        var r = s(31487),
+          n = s(72972),
+          i = s.n(n);
+        s(40642);
+        var a = s(19894);
+        let o = (0, a.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: l, $$typeof: d } = o;
+        o.default;
+        let c = (0, a.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var m = s(15762);
+        let u = (0, a.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: p, $$typeof: x } = u,
+          h = u.default,
+          y = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function f({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: i().className,
+              children: (0, r.jsxs)(c, {
+                children: [
+                  r.jsx(h, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(m.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      48451: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, { $$typeof: () => a, __esModule: () => i, default: () => l }));
+        var r = s(19894);
+        let n = (0, r.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\system\setup-wizard\page.tsx`,
+          ),
+          { __esModule: i, $$typeof: a } = n,
+          o = n.default,
+          l = o;
+      },
+      40642: () => {},
+    }));
+  var t = require("../../../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(95578));
+  module.exports = r;
+})();

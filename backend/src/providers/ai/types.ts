@@ -1,6 +1,6 @@
 /**
  * AI Provider Abstraction - Type Definitions
- * 
+ *
  * Centralizes all AI operations to enable zero-OpenAI mode for V1 testing
  */
 
@@ -20,7 +20,7 @@ export interface ExtractedProfileData {
   donationPitch?: string;
   tags?: string[];
   contactPreferences?: string[];
-  extractionMethod?: 'openai' | 'rules' | 'template' | 'manual';
+  extractionMethod?: "openai" | "rules" | "template" | "manual";
   confidence?: number;
 }
 
@@ -33,10 +33,10 @@ export interface GoFundMeDraft {
   location?: string;
   summary?: string;
   tags?: string[];
-  urgency?: 'low' | 'medium' | 'high';
+  urgency?: "low" | "medium" | "high";
   timeline?: string;
   bullets?: string[]; // "How funds will be used" bullet points
-  generationMethod?: 'openai' | 'template' | 'form' | 'manual';
+  generationMethod?: "openai" | "template" | "form" | "manual";
   confidence?: GoFundMeFieldConfidence; // Per-field confidence tracking
 }
 
@@ -63,14 +63,14 @@ export interface GoFundMeFieldConfidence {
  */
 export interface FieldConfidence {
   score: number; // 0.0 to 1.0
-  method: 'extracted' | 'inferred' | 'default'; // How value was derived
+  method: "extracted" | "inferred" | "default"; // How value was derived
   evidence?: string; // Text snippet supporting the value
 }
 
 export interface DonationPitch {
   pitch: string;
   length: number;
-  method: 'openai' | 'template' | 'fallback';
+  method: "openai" | "template" | "fallback";
 }
 
 export interface ResourceClassification {
@@ -81,7 +81,7 @@ export interface ResourceClassification {
   eligibilityCriteria?: string;
   confidenceScore: number;
   alternativeCategories?: Array<{ category: string; score: number }>;
-  method: 'openai' | 'keywords' | 'rules' | 'manual';
+  method: "openai" | "keywords" | "rules" | "manual";
 }
 
 /**
@@ -90,28 +90,37 @@ export interface ResourceClassification {
  */
 export interface AIProvider {
   readonly name: string;
-  readonly type: 'none' | 'rules' | 'template' | 'openai' | 'other';
-  
+  readonly type: "none" | "rules" | "template" | "openai" | "other";
+
   /**
    * Extract structured profile data from transcript
    */
   extractProfileData(transcript: string): Promise<ExtractedProfileData>;
-  
+
   /**
    * Generate donation pitch from profile data
    */
-  generateDonationPitch(profileData: Partial<ExtractedProfileData>): Promise<DonationPitch>;
-  
+  generateDonationPitch(
+    profileData: Partial<ExtractedProfileData>,
+  ): Promise<DonationPitch>;
+
   /**
    * Generate GoFundMe campaign draft
    */
-  generateGoFundMeDraft(input: { transcript?: string; formData?: any }): Promise<GoFundMeDraft>;
-  
+  generateGoFundMeDraft(input: {
+    transcript?: string;
+    formData?: any;
+  }): Promise<GoFundMeDraft>;
+
   /**
    * Classify resource into categories
    */
-  classifyResource(resource: { name: string; description: string; address?: string }): Promise<ResourceClassification>;
-  
+  classifyResource(resource: {
+    name: string;
+    description: string;
+    address?: string;
+  }): Promise<ResourceClassification>;
+
   /**
    * Check if provider is available and configured
    */
@@ -122,15 +131,15 @@ export interface AIProvider {
  * Provider configuration from environment
  */
 export interface ProviderConfig {
-  aiProvider: 'none' | 'rules' | 'template' | 'openai';
-  storyAnalysisMode: 'none' | 'rules' | 'template' | 'openai';
+  aiProvider: "none" | "rules" | "template" | "openai";
+  storyAnalysisMode: "none" | "rules" | "template" | "openai";
   enableStressTestMode: boolean;
 }
 
 export function getProviderConfig(): ProviderConfig {
   return {
-    aiProvider: (process.env.AI_PROVIDER || 'rules') as any,
-    storyAnalysisMode: (process.env.STORY_ANALYSIS_MODE || 'rules') as any,
-    enableStressTestMode: process.env.ENABLE_STRESS_TEST_MODE === 'true',
+    aiProvider: (process.env.AI_PROVIDER || "rules") as any,
+    storyAnalysisMode: (process.env.STORY_ANALYSIS_MODE || "rules") as any,
+    enableStressTestMode: process.env.ENABLE_STRESS_TEST_MODE === "true",
   };
 }

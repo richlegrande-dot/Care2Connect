@@ -1,1 +1,285 @@
-(()=>{var e={};e.id=165,e.ids=[165],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},57577:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>o.a,__next_app__:()=>u,originalPathname:()=>m,pages:()=>c,routeModule:()=>x,tree:()=>d});var r=s(36577),n=s(55533),i=s(40443),o=s.n(i),a=s(53320),l={};for(let e in a)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(l[e]=()=>a[e]);s.d(t,l);let d=["",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],c=[],m="/_not-found",u={require:s,loadChunk:()=>Promise.resolve()},x=new r.AppPageRouteModule({definition:{kind:n.x.APP_PAGE,page:"/_not-found",pathname:"/_not-found",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:d}})},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>a});var r=s(73658),n=s(58758),i=s(60459),o=s(55459);function a({children:e}){let[t]=(0,o.useState)(()=>new n.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(i.aH,{client:t,children:e})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>l});var r=s(73658),n=s(84874),i=s.n(n),o=s(32241),a=s(17872);function l(){let e=(0,o.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(i(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(i(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(i(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(i(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(i(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(i(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(a.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>g,metadata:()=>f});var r=s(31487),n=s(72972),i=s.n(n);s(40642);var o=s(19894);let a=(0,o.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:l,$$typeof:d}=a;a.default;let c=(0,o.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var m=s(15762);let u=(0,o.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:x,$$typeof:p}=u,h=u.default,f={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function g({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:i().className,children:(0,r.jsxs)(c,{children:[r.jsx(h,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(m.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},40642:()=>{}};var t=require("../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(57577));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 165),
+    (e.ids = [165]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      57577: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => o.a,
+            __next_app__: () => u,
+            originalPathname: () => m,
+            pages: () => c,
+            routeModule: () => x,
+            tree: () => d,
+          }));
+        var r = s(36577),
+          n = s(55533),
+          i = s(40443),
+          o = s.n(i),
+          a = s(53320),
+          l = {};
+        for (let e in a)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (l[e] = () => a[e]);
+        s.d(t, l);
+        let d = [
+            "",
+            {
+              children: [
+                "__PAGE__",
+                {},
+                {
+                  page: [
+                    () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                    "next/dist/client/components/not-found-error",
+                  ],
+                },
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          c = [],
+          m = "/_not-found",
+          u = { require: s, loadChunk: () => Promise.resolve() },
+          x = new r.AppPageRouteModule({
+            definition: {
+              kind: n.x.APP_PAGE,
+              page: "/_not-found",
+              pathname: "/_not-found",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: d },
+          });
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => a }));
+        var r = s(73658),
+          n = s(58758),
+          i = s(60459),
+          o = s(55459);
+        function a({ children: e }) {
+          let [t] = (0, o.useState)(
+            () =>
+              new n.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(i.aH, { client: t, children: e });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => l }));
+        var r = s(73658),
+          n = s(84874),
+          i = s.n(n),
+          o = s(32241),
+          a = s(17872);
+        function l() {
+          let e = (0, o.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(i(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(i(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(i(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(i(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(i(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(i(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(a.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => g, metadata: () => f }));
+        var r = s(31487),
+          n = s(72972),
+          i = s.n(n);
+        s(40642);
+        var o = s(19894);
+        let a = (0, o.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: l, $$typeof: d } = a;
+        a.default;
+        let c = (0, o.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var m = s(15762);
+        let u = (0, o.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: x, $$typeof: p } = u,
+          h = u.default,
+          f = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function g({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: i().className,
+              children: (0, r.jsxs)(c, {
+                children: [
+                  r.jsx(h, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(m.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      40642: () => {},
+    }));
+  var t = require("../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(57577));
+  module.exports = r;
+})();

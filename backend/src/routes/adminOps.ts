@@ -3,46 +3,48 @@
  * Protected endpoints for system monitoring and incident management
  */
 
-import express from 'express';
-import { incidentStore } from '../ops/incidentStore';
-import { healthCheckRunner } from '../ops/healthCheckRunner';
+import express from "express";
+import { incidentStore } from "../ops/incidentStore";
+import { healthCheckRunner } from "../ops/healthCheckRunner";
 
 const router = express.Router();
 
 // GET /admin/ops/status - Get current system status
-router.get('/status', async (req, res) => {
+router.get("/status", async (req, res) => {
   try {
     const healthResults = healthCheckRunner.getSanitizedResults();
     const openIncidents = await incidentStore.getOpenIncidents();
 
     const status = {
-      overall: Object.values(healthResults).every((result: any) => result.healthy),
+      overall: Object.values(healthResults).every(
+        (result: any) => result.healthy,
+      ),
       services: healthResults,
       openIncidents: openIncidents.length,
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
     };
 
     res.json({
       ok: true,
-      status
+      status,
     });
   } catch (error) {
-    console.error('Error fetching ops status:', error);
+    console.error("Error fetching ops status:", error);
     res.status(500).json({
       ok: false,
-      error: 'Failed to fetch system status'
+      error: "Failed to fetch system status",
     });
   }
 });
 
 // GET /admin/ops/incidents - Get incidents with optional status filter
-router.get('/incidents', async (req, res) => {
+router.get("/incidents", async (req, res) => {
   try {
     const { status } = req.query;
     const incidents = await incidentStore.getIncidents(status as any);
 
     // Sanitize incidents for frontend (remove potentially sensitive details)
-    const sanitized = incidents.map(incident => ({
+    const sanitized = incidents.map((incident) => ({
       id: incident.id,
       service: incident.service,
       severity: incident.severity,
@@ -54,24 +56,24 @@ router.get('/incidents', async (req, res) => {
       details: incident.details,
       recommendation: incident.recommendation,
       // Don't send raw lastCheckPayload to frontend
-      hasCheckData: !!incident.lastCheckPayload
+      hasCheckData: !!incident.lastCheckPayload,
     }));
 
     res.json({
       ok: true,
-      incidents: sanitized
+      incidents: sanitized,
     });
   } catch (error) {
-    console.error('Error fetching incidents:', error);
+    console.error("Error fetching incidents:", error);
     res.status(500).json({
       ok: false,
-      error: 'Failed to fetch incidents'
+      error: "Failed to fetch incidents",
     });
   }
 });
 
 // POST /admin/ops/incidents/:id/resolve - Resolve an incident
-router.post('/incidents/:id/resolve', async (req, res) => {
+router.post("/incidents/:id/resolve", async (req, res) => {
   try {
     const { id } = req.params;
     const resolvedIncident = await incidentStore.resolveIncident(id);
@@ -79,7 +81,7 @@ router.post('/incidents/:id/resolve', async (req, res) => {
     if (!resolvedIncident) {
       return res.status(404).json({
         ok: false,
-        error: 'Incident not found'
+        error: "Incident not found",
       });
     }
 
@@ -88,41 +90,41 @@ router.post('/incidents/:id/resolve', async (req, res) => {
       incident: {
         id: resolvedIncident.id,
         status: resolvedIncident.status,
-        resolvedAt: resolvedIncident.resolvedAt
-      }
+        resolvedAt: resolvedIncident.resolvedAt,
+      },
     });
   } catch (error) {
-    console.error('Error resolving incident:', error);
+    console.error("Error resolving incident:", error);
     res.status(500).json({
       ok: false,
-      error: 'Failed to resolve incident'
+      error: "Failed to resolve incident",
     });
   }
 });
 
 // POST /admin/ops/run-checks - Manually trigger health checks
-router.post('/run-checks', async (req, res) => {
+router.post("/run-checks", async (req, res) => {
   try {
     const results = await healthCheckRunner.runAllChecks();
     const sanitized = healthCheckRunner.getSanitizedResults();
 
     res.json({
       ok: true,
-      message: 'Health checks completed',
+      message: "Health checks completed",
       results: sanitized,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Error running health checks:', error);
+    console.error("Error running health checks:", error);
     res.status(500).json({
       ok: false,
-      error: 'Failed to run health checks'
+      error: "Failed to run health checks",
     });
   }
 });
 
 // GET /admin/ops/health-history - Get recent health check history
-router.get('/health-history', async (req, res) => {
+router.get("/health-history", async (req, res) => {
   try {
     const results = healthCheckRunner.getResults();
     const history: Record<string, any> = {};
@@ -133,20 +135,20 @@ router.get('/health-history', async (req, res) => {
         healthy: result.healthy,
         lastChecked: result.lastChecked,
         latency: result.latency,
-        error: result.error
+        error: result.error,
       };
     });
 
     res.json({
       ok: true,
       history,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Error fetching health history:', error);
+    console.error("Error fetching health history:", error);
     res.status(500).json({
       ok: false,
-      error: 'Failed to fetch health history'
+      error: "Failed to fetch health history",
     });
   }
 });

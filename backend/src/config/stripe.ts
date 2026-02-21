@@ -5,19 +5,23 @@ const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
 // Log configuration status at startup
 if (!STRIPE_SECRET_KEY) {
-  console.warn("⚠️  Stripe secret key is not configured. Stripe features are disabled.");
+  console.warn(
+    "⚠️  Stripe secret key is not configured. Stripe features are disabled.",
+  );
 } else {
   console.log("✅ Stripe secret key configured");
 }
 
 if (!STRIPE_WEBHOOK_SECRET) {
-  console.warn("⚠️  Stripe webhook secret not configured. Incoming webhook events will be ignored.");
+  console.warn(
+    "⚠️  Stripe webhook secret not configured. Incoming webhook events will be ignored.",
+  );
 } else {
   console.log("✅ Stripe webhook secret configured");
 }
 
 // Create Stripe client only if key exists
-export const stripe = STRIPE_SECRET_KEY 
+export const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, {
       apiVersion: "2023-10-16",
     })
@@ -43,7 +47,9 @@ export const isWebhookConfigured = (): boolean => {
  */
 export const getStripeClient = (): Stripe => {
   if (!stripe) {
-    throw new Error("Stripe is not configured. Please contact the administrator.");
+    throw new Error(
+      "Stripe is not configured. Please contact the administrator.",
+    );
   }
   return stripe;
 };

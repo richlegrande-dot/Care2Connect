@@ -1,1 +1,459 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[126],{19672:function(e,t,r){Promise.resolve().then(r.bind(r,31237))},31237:function(e,t,r){"use strict";r.r(t),r.d(t,{default:function(){return x}});var i=r(37821),a=r(58078),n=r(96871),l=r.n(n),s=r(6384),o=r(56921);let c=a.forwardRef(function({title:e,titleId:t,...r},i){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:i,"aria-labelledby":t},r),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"}))});var d=r(60639);let m=a.forwardRef(function({title:e,titleId:t,...r},i){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:i,"aria-labelledby":t},r),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"}))});var u=r(88297);let h=a.forwardRef(function({title:e,titleId:t,...r},i){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:i,"aria-labelledby":t},r),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"}))});function x(){return(0,i.jsxs)("div",{className:"min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50",children:[(0,i.jsx)("div",{className:"bg-white shadow-sm border-b",children:(0,i.jsx)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",children:(0,i.jsxs)(s.E.div,{initial:{opacity:0,y:-20},animate:{opacity:1,y:0},className:"text-center",children:[(0,i.jsx)(o.Z,{className:"w-16 h-16 text-blue-600 mx-auto mb-4"}),(0,i.jsx)("h1",{className:"text-4xl font-black text-gray-900 mb-2",children:"Resource Discovery"}),(0,i.jsx)("p",{className:"text-xl text-gray-600",children:"Connecting you with essential services and opportunities"})]})})}),(0,i.jsxs)("div",{className:"max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16",children:[(0,i.jsxs)(s.E.div,{initial:{opacity:0,scale:.95},animate:{opacity:1,scale:1},transition:{delay:.2},className:"bg-gradient-to-r from-purple-100 to-blue-100 border-2 border-purple-300 rounded-xl p-8 mb-12 text-center",children:[(0,i.jsx)("div",{className:"inline-block mb-4",children:(0,i.jsx)("span",{className:"px-4 py-2 bg-purple-600 text-white rounded-full text-sm font-bold",children:"V2 FEATURE"})}),(0,i.jsx)("h2",{className:"text-3xl font-bold text-gray-900 mb-4",children:"In Development for V2 Release"}),(0,i.jsx)("p",{className:"text-lg text-gray-700 max-w-2xl mx-auto mb-6",children:"We're building a comprehensive resource discovery system that will help you find and access essential services in real-time. This feature will be part of our V2 platform with AI-powered assistance."}),(0,i.jsx)(l(),{href:"/about",className:"inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors",children:"Learn About V2 Roadmap"})]}),(0,i.jsxs)(s.E.div,{initial:{opacity:0},animate:{opacity:1},transition:{delay:.4},className:"mb-12",children:[(0,i.jsx)("h2",{className:"text-2xl font-bold text-gray-900 mb-6 text-center",children:"What's Coming in V2"}),(0,i.jsx)("div",{className:"grid md:grid-cols-2 lg:grid-cols-3 gap-6",children:[{icon:c,title:"Shelter Availability",description:"Real-time bed availability at nearby shelters with direct contact information",color:"blue"},{icon:d.Z,title:"Food Programs",description:"Locations and schedules for food banks, soup kitchens, and meal programs",color:"red"},{icon:m,title:"Support Services",description:"Healthcare, mental health, addiction recovery, and counseling services",color:"green"},{icon:u.Z,title:"Employment Help",description:"Job listings, training programs, and career development resources",color:"orange"},{icon:h,title:"Location-Based Search",description:"Find resources near you with maps and directions",color:"purple"},{icon:o.Z,title:"AI-Guided Navigation",description:"Personalized assistance to help you access the right resources",color:"indigo"}].map((e,t)=>(0,i.jsxs)(s.E.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{delay:.5+.1*t},className:"bg-white rounded-lg p-6 shadow-md border-2 border-dashed border-gray-200",children:[(0,i.jsx)(e.icon,{className:"w-12 h-12 text-".concat(e.color,"-600 mb-4")}),(0,i.jsx)("h3",{className:"text-lg font-bold text-gray-900 mb-2",children:e.title}),(0,i.jsx)("p",{className:"text-gray-600 text-sm",children:e.description})]},t))})]}),(0,i.jsxs)(s.E.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{delay:.8},className:"bg-white rounded-xl p-8 shadow-lg border-2 border-blue-200",children:[(0,i.jsx)("h2",{className:"text-2xl font-bold text-gray-900 mb-4 text-center",children:"What You Can Do Right Now"}),(0,i.jsx)("p",{className:"text-gray-600 text-center mb-6",children:"While we build V2, you can use these features today:"}),(0,i.jsxs)("div",{className:"grid md:grid-cols-2 gap-4",children:[(0,i.jsxs)(l(),{href:"/tell-story",className:"flex flex-col items-center p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border-2 border-blue-200",children:[(0,i.jsx)("div",{className:"w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-3",children:(0,i.jsx)("svg",{className:"w-6 h-6 text-white",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:(0,i.jsx)("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"})})}),(0,i.jsx)("h3",{className:"font-bold text-gray-900 mb-1",children:"Tell Your Story"}),(0,i.jsx)("p",{className:"text-sm text-gray-600 text-center",children:"Create your fundraising profile"})]}),(0,i.jsxs)(l(),{href:"/support",className:"flex flex-col items-center p-6 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors border-2 border-purple-200",children:[(0,i.jsx)("div",{className:"w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-3",children:(0,i.jsx)("svg",{className:"w-6 h-6 text-white",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:(0,i.jsx)("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"})})}),(0,i.jsx)("h3",{className:"font-bold text-gray-900 mb-1",children:"Get Support"}),(0,i.jsx)("p",{className:"text-sm text-gray-600 text-center",children:"Submit a support ticket"})]})]})]}),(0,i.jsx)(s.E.div,{initial:{opacity:0},animate:{opacity:1},transition:{delay:1},className:"mt-12 text-center text-gray-500 text-sm",children:(0,i.jsxs)("p",{children:["Have feedback or suggestions for the resources you'd like to see?"," ",(0,i.jsx)(l(),{href:"/support",className:"text-blue-600 hover:underline font-semibold",children:"Let us know"})]})})]})]})}},88297:function(e,t,r){"use strict";var i=r(58078);let a=i.forwardRef(function({title:e,titleId:t,...r},a){return i.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},r),e?i.createElement("title",{id:t},e):null,i.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z"}))});t.Z=a},60639:function(e,t,r){"use strict";var i=r(58078);let a=i.forwardRef(function({title:e,titleId:t,...r},a){return i.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},r),e?i.createElement("title",{id:t},e):null,i.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"}))});t.Z=a},56921:function(e,t,r){"use strict";var i=r(58078);let a=i.forwardRef(function({title:e,titleId:t,...r},a){return i.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},r),e?i.createElement("title",{id:t},e):null,i.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"}))});t.Z=a}},function(e){e.O(0,[54,590,115,835,744],function(){return e(e.s=19672)}),_N_E=e.O()}]);
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [126],
+  {
+    19672: function (e, t, r) {
+      Promise.resolve().then(r.bind(r, 31237));
+    },
+    31237: function (e, t, r) {
+      "use strict";
+      (r.r(t),
+        r.d(t, {
+          default: function () {
+            return x;
+          },
+        }));
+      var i = r(37821),
+        a = r(58078),
+        n = r(96871),
+        l = r.n(n),
+        s = r(6384),
+        o = r(56921);
+      let c = a.forwardRef(function ({ title: e, titleId: t, ...r }, i) {
+        return a.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: i,
+              "aria-labelledby": t,
+            },
+            r,
+          ),
+          e ? a.createElement("title", { id: t }, e) : null,
+          a.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819",
+          }),
+        );
+      });
+      var d = r(60639);
+      let m = a.forwardRef(function ({ title: e, titleId: t, ...r }, i) {
+        return a.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: i,
+              "aria-labelledby": t,
+            },
+            r,
+          ),
+          e ? a.createElement("title", { id: t }, e) : null,
+          a.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z",
+          }),
+        );
+      });
+      var u = r(88297);
+      let h = a.forwardRef(function ({ title: e, titleId: t, ...r }, i) {
+        return a.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: i,
+              "aria-labelledby": t,
+            },
+            r,
+          ),
+          e ? a.createElement("title", { id: t }, e) : null,
+          a.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z",
+          }),
+        );
+      });
+      function x() {
+        return (0, i.jsxs)("div", {
+          className:
+            "min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50",
+          children: [
+            (0, i.jsx)("div", {
+              className: "bg-white shadow-sm border-b",
+              children: (0, i.jsx)("div", {
+                className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+                children: (0, i.jsxs)(s.E.div, {
+                  initial: { opacity: 0, y: -20 },
+                  animate: { opacity: 1, y: 0 },
+                  className: "text-center",
+                  children: [
+                    (0, i.jsx)(o.Z, {
+                      className: "w-16 h-16 text-blue-600 mx-auto mb-4",
+                    }),
+                    (0, i.jsx)("h1", {
+                      className: "text-4xl font-black text-gray-900 mb-2",
+                      children: "Resource Discovery",
+                    }),
+                    (0, i.jsx)("p", {
+                      className: "text-xl text-gray-600",
+                      children:
+                        "Connecting you with essential services and opportunities",
+                    }),
+                  ],
+                }),
+              }),
+            }),
+            (0, i.jsxs)("div", {
+              className: "max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16",
+              children: [
+                (0, i.jsxs)(s.E.div, {
+                  initial: { opacity: 0, scale: 0.95 },
+                  animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 0.2 },
+                  className:
+                    "bg-gradient-to-r from-purple-100 to-blue-100 border-2 border-purple-300 rounded-xl p-8 mb-12 text-center",
+                  children: [
+                    (0, i.jsx)("div", {
+                      className: "inline-block mb-4",
+                      children: (0, i.jsx)("span", {
+                        className:
+                          "px-4 py-2 bg-purple-600 text-white rounded-full text-sm font-bold",
+                        children: "V2 FEATURE",
+                      }),
+                    }),
+                    (0, i.jsx)("h2", {
+                      className: "text-3xl font-bold text-gray-900 mb-4",
+                      children: "In Development for V2 Release",
+                    }),
+                    (0, i.jsx)("p", {
+                      className: "text-lg text-gray-700 max-w-2xl mx-auto mb-6",
+                      children:
+                        "We're building a comprehensive resource discovery system that will help you find and access essential services in real-time. This feature will be part of our V2 platform with AI-powered assistance.",
+                    }),
+                    (0, i.jsx)(l(), {
+                      href: "/about",
+                      className:
+                        "inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors",
+                      children: "Learn About V2 Roadmap",
+                    }),
+                  ],
+                }),
+                (0, i.jsxs)(s.E.div, {
+                  initial: { opacity: 0 },
+                  animate: { opacity: 1 },
+                  transition: { delay: 0.4 },
+                  className: "mb-12",
+                  children: [
+                    (0, i.jsx)("h2", {
+                      className:
+                        "text-2xl font-bold text-gray-900 mb-6 text-center",
+                      children: "What's Coming in V2",
+                    }),
+                    (0, i.jsx)("div", {
+                      className: "grid md:grid-cols-2 lg:grid-cols-3 gap-6",
+                      children: [
+                        {
+                          icon: c,
+                          title: "Shelter Availability",
+                          description:
+                            "Real-time bed availability at nearby shelters with direct contact information",
+                          color: "blue",
+                        },
+                        {
+                          icon: d.Z,
+                          title: "Food Programs",
+                          description:
+                            "Locations and schedules for food banks, soup kitchens, and meal programs",
+                          color: "red",
+                        },
+                        {
+                          icon: m,
+                          title: "Support Services",
+                          description:
+                            "Healthcare, mental health, addiction recovery, and counseling services",
+                          color: "green",
+                        },
+                        {
+                          icon: u.Z,
+                          title: "Employment Help",
+                          description:
+                            "Job listings, training programs, and career development resources",
+                          color: "orange",
+                        },
+                        {
+                          icon: h,
+                          title: "Location-Based Search",
+                          description:
+                            "Find resources near you with maps and directions",
+                          color: "purple",
+                        },
+                        {
+                          icon: o.Z,
+                          title: "AI-Guided Navigation",
+                          description:
+                            "Personalized assistance to help you access the right resources",
+                          color: "indigo",
+                        },
+                      ].map((e, t) =>
+                        (0, i.jsxs)(
+                          s.E.div,
+                          {
+                            initial: { opacity: 0, y: 20 },
+                            animate: { opacity: 1, y: 0 },
+                            transition: { delay: 0.5 + 0.1 * t },
+                            className:
+                              "bg-white rounded-lg p-6 shadow-md border-2 border-dashed border-gray-200",
+                            children: [
+                              (0, i.jsx)(e.icon, {
+                                className: "w-12 h-12 text-".concat(
+                                  e.color,
+                                  "-600 mb-4",
+                                ),
+                              }),
+                              (0, i.jsx)("h3", {
+                                className:
+                                  "text-lg font-bold text-gray-900 mb-2",
+                                children: e.title,
+                              }),
+                              (0, i.jsx)("p", {
+                                className: "text-gray-600 text-sm",
+                                children: e.description,
+                              }),
+                            ],
+                          },
+                          t,
+                        ),
+                      ),
+                    }),
+                  ],
+                }),
+                (0, i.jsxs)(s.E.div, {
+                  initial: { opacity: 0, y: 20 },
+                  animate: { opacity: 1, y: 0 },
+                  transition: { delay: 0.8 },
+                  className:
+                    "bg-white rounded-xl p-8 shadow-lg border-2 border-blue-200",
+                  children: [
+                    (0, i.jsx)("h2", {
+                      className:
+                        "text-2xl font-bold text-gray-900 mb-4 text-center",
+                      children: "What You Can Do Right Now",
+                    }),
+                    (0, i.jsx)("p", {
+                      className: "text-gray-600 text-center mb-6",
+                      children:
+                        "While we build V2, you can use these features today:",
+                    }),
+                    (0, i.jsxs)("div", {
+                      className: "grid md:grid-cols-2 gap-4",
+                      children: [
+                        (0, i.jsxs)(l(), {
+                          href: "/tell-story",
+                          className:
+                            "flex flex-col items-center p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border-2 border-blue-200",
+                          children: [
+                            (0, i.jsx)("div", {
+                              className:
+                                "w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-3",
+                              children: (0, i.jsx)("svg", {
+                                className: "w-6 h-6 text-white",
+                                fill: "none",
+                                viewBox: "0 0 24 24",
+                                stroke: "currentColor",
+                                children: (0, i.jsx)("path", {
+                                  strokeLinecap: "round",
+                                  strokeLinejoin: "round",
+                                  strokeWidth: 2,
+                                  d: "M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z",
+                                }),
+                              }),
+                            }),
+                            (0, i.jsx)("h3", {
+                              className: "font-bold text-gray-900 mb-1",
+                              children: "Tell Your Story",
+                            }),
+                            (0, i.jsx)("p", {
+                              className: "text-sm text-gray-600 text-center",
+                              children: "Create your fundraising profile",
+                            }),
+                          ],
+                        }),
+                        (0, i.jsxs)(l(), {
+                          href: "/support",
+                          className:
+                            "flex flex-col items-center p-6 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors border-2 border-purple-200",
+                          children: [
+                            (0, i.jsx)("div", {
+                              className:
+                                "w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-3",
+                              children: (0, i.jsx)("svg", {
+                                className: "w-6 h-6 text-white",
+                                fill: "none",
+                                viewBox: "0 0 24 24",
+                                stroke: "currentColor",
+                                children: (0, i.jsx)("path", {
+                                  strokeLinecap: "round",
+                                  strokeLinejoin: "round",
+                                  strokeWidth: 2,
+                                  d: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z",
+                                }),
+                              }),
+                            }),
+                            (0, i.jsx)("h3", {
+                              className: "font-bold text-gray-900 mb-1",
+                              children: "Get Support",
+                            }),
+                            (0, i.jsx)("p", {
+                              className: "text-sm text-gray-600 text-center",
+                              children: "Submit a support ticket",
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                (0, i.jsx)(s.E.div, {
+                  initial: { opacity: 0 },
+                  animate: { opacity: 1 },
+                  transition: { delay: 1 },
+                  className: "mt-12 text-center text-gray-500 text-sm",
+                  children: (0, i.jsxs)("p", {
+                    children: [
+                      "Have feedback or suggestions for the resources you'd like to see?",
+                      " ",
+                      (0, i.jsx)(l(), {
+                        href: "/support",
+                        className:
+                          "text-blue-600 hover:underline font-semibold",
+                        children: "Let us know",
+                      }),
+                    ],
+                  }),
+                }),
+              ],
+            }),
+          ],
+        });
+      }
+    },
+    88297: function (e, t, r) {
+      "use strict";
+      var i = r(58078);
+      let a = i.forwardRef(function ({ title: e, titleId: t, ...r }, a) {
+        return i.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: a,
+              "aria-labelledby": t,
+            },
+            r,
+          ),
+          e ? i.createElement("title", { id: t }, e) : null,
+          i.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z",
+          }),
+        );
+      });
+      t.Z = a;
+    },
+    60639: function (e, t, r) {
+      "use strict";
+      var i = r(58078);
+      let a = i.forwardRef(function ({ title: e, titleId: t, ...r }, a) {
+        return i.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: a,
+              "aria-labelledby": t,
+            },
+            r,
+          ),
+          e ? i.createElement("title", { id: t }, e) : null,
+          i.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z",
+          }),
+        );
+      });
+      t.Z = a;
+    },
+    56921: function (e, t, r) {
+      "use strict";
+      var i = r(58078);
+      let a = i.forwardRef(function ({ title: e, titleId: t, ...r }, a) {
+        return i.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: a,
+              "aria-labelledby": t,
+            },
+            r,
+          ),
+          e ? i.createElement("title", { id: t }, e) : null,
+          i.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
+          }),
+        );
+      });
+      t.Z = a;
+    },
+  },
+  function (e) {
+    (e.O(0, [54, 590, 115, 835, 744], function () {
+      return e((e.s = 19672));
+    }),
+      (_N_E = e.O()));
+  },
+]);

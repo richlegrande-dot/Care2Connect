@@ -1,13 +1,20 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
-import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
-import path from 'path';
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+} from "docx";
+import { PrismaClient } from "@prisma/client";
+import fs from "fs";
+import path from "path";
 
 const prisma = new PrismaClient();
 
 /**
  * Phase 6: Document Generation Service
- * 
+ *
  * Creates Word documents for donation campaigns
  * - GoFundMe-style drafts
  * - Receipts
@@ -16,7 +23,7 @@ const prisma = new PrismaClient();
 
 export interface GenerateDocumentOptions {
   ticketId: string;
-  docType: 'GOFUNDME_DRAFT' | 'RECEIPT' | 'OTHER';
+  docType: "GOFUNDME_DRAFT" | "RECEIPT" | "OTHER";
   outputPath?: string; // If not provided, uses default storage location
 }
 
@@ -30,9 +37,13 @@ export interface GenerateDocumentResult {
 /**
  * Generate a Word document for a RecordingTicket
  */
-export async function generateDocument(options: GenerateDocumentOptions): Promise<GenerateDocumentResult> {
+export async function generateDocument(
+  options: GenerateDocumentOptions,
+): Promise<GenerateDocumentResult> {
   try {
-    console.log(`[DocGen] Generating ${options.docType} for ticket ${options.ticketId}`);
+    console.log(
+      `[DocGen] Generating ${options.docType} for ticket ${options.ticketId}`,
+    );
 
     // Retrieve ticket with draft
     const ticket = await prisma.recordingTicket.findUnique({
@@ -41,7 +52,7 @@ export async function generateDocument(options: GenerateDocumentOptions): Promis
         donationDraft: true,
         transcriptionSessions: {
           take: 1,
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: "desc" },
         },
       },
     });
@@ -50,7 +61,7 @@ export async function generateDocument(options: GenerateDocumentOptions): Promis
       throw new Error(`Ticket ${options.ticketId} not found`);
     }
 
-    if (!ticket.donationDraft && options.docType === 'GOFUNDME_DRAFT') {
+    if (!ticket.donationDraft && options.docType === "GOFUNDME_DRAFT") {
       throw new Error(`No donation draft found for ticket ${options.ticketId}`);
     }
 
@@ -59,25 +70,25 @@ export async function generateDocument(options: GenerateDocumentOptions): Promis
     let filename: string;
 
     switch (options.docType) {
-      case 'GOFUNDME_DRAFT':
+      case "GOFUNDME_DRAFT":
         doc = await generateGoFundMeDraft(ticket, ticket.donationDraft!);
         filename = `gofundme-draft-${ticket.id}.docx`;
         break;
-      
-      case 'RECEIPT':
+
+      case "RECEIPT":
         doc = await generateReceipt(ticket);
         filename = `receipt-${ticket.id}.docx`;
         break;
-      
+
       default:
         throw new Error(`Unsupported document type: ${options.docType}`);
     }
 
     // Determine output path
-    const outputDir = options.outputPath 
+    const outputDir = options.outputPath
       ? path.dirname(options.outputPath)
-      : path.join(process.cwd(), 'storage', 'documents');
-    
+      : path.join(process.cwd(), "storage", "documents");
+
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
@@ -104,9 +115,8 @@ export async function generateDocument(options: GenerateDocumentOptions): Promis
       documentId: generatedDoc.id,
       filePath,
     };
-
   } catch (error: any) {
-    console.error('[DocGen] Error generating document:', error);
+    console.error("[DocGen] Error generating document:", error);
     return {
       success: false,
       error: error.message,
@@ -117,17 +127,20 @@ export async function generateDocument(options: GenerateDocumentOptions): Promis
 /**
  * Generate a GoFundMe-style draft document
  */
-async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document> {
+async function generateGoFundMeDraft(
+  ticket: any,
+  draft: any,
+): Promise<Document> {
   const sections = [];
 
   // Title
   sections.push(
     new Paragraph({
-      text: draft.title || 'Campaign Title',
+      text: draft.title || "Campaign Title",
       heading: HeadingLevel.HEADING_1,
       alignment: AlignmentType.CENTER,
       spacing: { after: 400 },
-    })
+    }),
   );
 
   // Goal Amount
@@ -136,13 +149,13 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
       new Paragraph({
         children: [
           new TextRun({
-            text: `Goal: ${draft.currency || 'USD'} $${draft.goalAmount.toLocaleString()}`,
+            text: `Goal: ${draft.currency || "USD"} $${draft.goalAmount.toLocaleString()}`,
             bold: true,
             size: 28,
           }),
         ],
         spacing: { before: 200, after: 400 },
-      })
+      }),
     );
   }
 
@@ -152,7 +165,7 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
       new Paragraph({
         children: [
           new TextRun({
-            text: 'Beneficiary: ',
+            text: "Beneficiary: ",
             bold: true,
           }),
           new TextRun({
@@ -160,7 +173,7 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
           }),
         ],
         spacing: { after: 200 },
-      })
+      }),
     );
   }
 
@@ -170,7 +183,7 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
       new Paragraph({
         children: [
           new TextRun({
-            text: 'Location: ',
+            text: "Location: ",
             bold: true,
           }),
           new TextRun({
@@ -178,38 +191,44 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
           }),
         ],
         spacing: { after: 400 },
-      })
+      }),
     );
   }
 
   // Story Header
   sections.push(
     new Paragraph({
-      text: 'Campaign Story',
+      text: "Campaign Story",
       heading: HeadingLevel.HEADING_2,
       spacing: { before: 400, after: 200 },
-    })
+    }),
   );
 
   // Story Text (split into paragraphs)
-  const storyParagraphs = draft.story.split('\n').filter((p: string) => p.trim().length > 0);
+  const storyParagraphs = draft.story
+    .split("\n")
+    .filter((p: string) => p.trim().length > 0);
   for (const paragraph of storyParagraphs) {
     sections.push(
       new Paragraph({
         text: paragraph.trim(),
         spacing: { after: 200 },
-      })
+      }),
     );
   }
 
   // Breakdown (if available)
-  if (draft.editableJson && draft.editableJson.breakdown && draft.editableJson.breakdown.length > 0) {
+  if (
+    draft.editableJson &&
+    draft.editableJson.breakdown &&
+    draft.editableJson.breakdown.length > 0
+  ) {
     sections.push(
       new Paragraph({
-        text: 'Key Points',
+        text: "Key Points",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 },
-      })
+      }),
     );
 
     for (const point of draft.editableJson.breakdown) {
@@ -217,7 +236,7 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
         new Paragraph({
           text: `• ${point}`,
           spacing: { after: 100 },
-        })
+        }),
       );
     }
   }
@@ -229,7 +248,7 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
       italics: true,
       alignment: AlignmentType.CENTER,
       spacing: { before: 600 },
-    })
+    }),
   );
 
   sections.push(
@@ -238,14 +257,16 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
       italics: true,
       alignment: AlignmentType.CENTER,
       spacing: { before: 100 },
-    })
+    }),
   );
 
   return new Document({
-    sections: [{
-      properties: {},
-      children: sections,
-    }],
+    sections: [
+      {
+        properties: {},
+        children: sections,
+      },
+    ],
   });
 }
 
@@ -254,23 +275,25 @@ async function generateGoFundMeDraft(ticket: any, draft: any): Promise<Document>
  */
 async function generateReceipt(ticket: any): Promise<Document> {
   return new Document({
-    sections: [{
-      properties: {},
-      children: [
-        new Paragraph({
-          text: 'Receipt',
-          heading: HeadingLevel.HEADING_1,
-          alignment: AlignmentType.CENTER,
-        }),
-        new Paragraph({
-          text: `Ticket ID: ${ticket.id}`,
-          spacing: { before: 400 },
-        }),
-        new Paragraph({
-          text: `Date: ${new Date().toLocaleDateString()}`,
-        }),
-      ],
-    }],
+    sections: [
+      {
+        properties: {},
+        children: [
+          new Paragraph({
+            text: "Receipt",
+            heading: HeadingLevel.HEADING_1,
+            alignment: AlignmentType.CENTER,
+          }),
+          new Paragraph({
+            text: `Ticket ID: ${ticket.id}`,
+            spacing: { before: 400 },
+          }),
+          new Paragraph({
+            text: `Date: ${new Date().toLocaleDateString()}`,
+          }),
+        ],
+      },
+    ],
   });
 }
 
@@ -280,7 +303,7 @@ async function generateReceipt(ticket: any): Promise<Document> {
 export async function getTicketDocuments(ticketId: string) {
   return await prisma.generatedDocument.findMany({
     where: { ticketId },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: "desc" },
   });
 }
 

@@ -26,25 +26,98 @@ interface NameExtractionResult {
 
 export class EnhancedNameExtractor {
   private readonly nicknameMap: Record<string, string> = {
-    'liz': 'Elizabeth', 'beth': 'Elizabeth', 'mike': 'Michael', 'mickey': 'Michael',
-    'dave': 'David', 'sue': 'Susan', 'pat': 'Patricia', 'patty': 'Patricia',
-    'bob': 'Robert', 'bobby': 'Robert', 'dick': 'Richard', 'rick': 'Richard',
-    'bill': 'William', 'billy': 'William', 'jim': 'James', 'jimmy': 'James',
-    'tom': 'Thomas', 'tommy': 'Thomas', 'chris': 'Christopher', 'matt': 'Matthew',
-    'jane': 'Jane', 'mary': 'Mary', 'john': 'John', 'paul': 'Paul',
-    'george': 'George', 'ringo': 'Ringo', 'pete': 'Peter', 'steve': 'Steven'
+    liz: "Elizabeth",
+    beth: "Elizabeth",
+    mike: "Michael",
+    mickey: "Michael",
+    dave: "David",
+    sue: "Susan",
+    pat: "Patricia",
+    patty: "Patricia",
+    bob: "Robert",
+    bobby: "Robert",
+    dick: "Richard",
+    rick: "Richard",
+    bill: "William",
+    billy: "William",
+    jim: "James",
+    jimmy: "James",
+    tom: "Thomas",
+    tommy: "Thomas",
+    chris: "Christopher",
+    matt: "Matthew",
+    jane: "Jane",
+    mary: "Mary",
+    john: "John",
+    paul: "Paul",
+    george: "George",
+    ringo: "Ringo",
+    pete: "Peter",
+    steve: "Steven",
   };
 
   private readonly nameBlacklist: Set<string> = new Set([
-    'help', 'need', 'want', 'have', 'call', 'this', 'that', 'here', 'there',
-    'assistance', 'support', 'problem', 'situation', 'calling', 'speaking',
-    'dr', 'doctor', 'mr', 'mrs', 'ms', 'miss', 'professor', 'officer',
-    'urgent', 'emergency', 'crisis', 'an emergency', 'very urgent',
-    'really hard', 'very hard', 'so hard', 'difficult', 'tough',
-    'personal', 'private', 'important', 'serious', 'the situation', 'the problem',
-    'my case', 'this case', 'facing eviction', 'facing', 'this is an', 'prefer not',
-    'um', 'uh', 'er', 'ah', 'well', 'so', 'very', 'really', 'so', 'quite',
-    'like', 'you know', 'sort of', 'kind of', 'i mean', 'you see'
+    "help",
+    "need",
+    "want",
+    "have",
+    "call",
+    "this",
+    "that",
+    "here",
+    "there",
+    "assistance",
+    "support",
+    "problem",
+    "situation",
+    "calling",
+    "speaking",
+    "dr",
+    "doctor",
+    "mr",
+    "mrs",
+    "ms",
+    "miss",
+    "professor",
+    "officer",
+    "urgent",
+    "emergency",
+    "crisis",
+    "an emergency",
+    "very urgent",
+    "really hard",
+    "very hard",
+    "so hard",
+    "difficult",
+    "tough",
+    "personal",
+    "private",
+    "important",
+    "serious",
+    "the situation",
+    "the problem",
+    "my case",
+    "this case",
+    "facing eviction",
+    "facing",
+    "this is an",
+    "prefer not",
+    "um",
+    "uh",
+    "er",
+    "ah",
+    "well",
+    "so",
+    "very",
+    "really",
+    "so",
+    "quite",
+    "like",
+    "you know",
+    "sort of",
+    "kind of",
+    "i mean",
+    "you see",
   ]);
 
   /**
@@ -66,14 +139,16 @@ export class EnhancedNameExtractor {
     const rankedCandidates = this.rankCandidates(candidates, transcript);
 
     // Select primary candidate
-    const primary = rankedCandidates.length > 0 ? rankedCandidates[0].name : null;
-    const confidence = rankedCandidates.length > 0 ? rankedCandidates[0].confidence : 0;
+    const primary =
+      rankedCandidates.length > 0 ? rankedCandidates[0].name : null;
+    const confidence =
+      rankedCandidates.length > 0 ? rankedCandidates[0].confidence : 0;
 
     return {
       primary,
       candidates: rankedCandidates.slice(0, 5), // Top 5 candidates
       confidence,
-      reasoning: this.generateReasoning(rankedCandidates)
+      reasoning: this.generateReasoning(rankedCandidates),
     };
   }
 
@@ -85,50 +160,58 @@ export class EnhancedNameExtractor {
     const patterns = [
       // Direct introductions (highest confidence)
       {
-        regex: /(?:my full name is|full name is)\s+([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/gi,
+        regex:
+          /(?:my full name is|full name is)\s+([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/gi,
         confidence: 0.95,
-        strategy: 'direct_full_name'
+        strategy: "direct_full_name",
       },
       {
-        regex: /\b(?:my name is)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
+        regex:
+          /\b(?:my name is)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
         confidence: 0.92,
-        strategy: 'direct_name'
+        strategy: "direct_name",
       },
       {
-        regex: /(?:i am|this is|i'm)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
+        regex:
+          /(?:i am|this is|i'm)\s+(?:like,?\s+)?([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
         confidence: 0.88,
-        strategy: 'self_identification'
+        strategy: "self_identification",
       },
       // Titles and honorifics
       {
-        regex: /\b(?:dr|doctor|mrs?|ms|mr|miss)\.?\s+([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)+)\b/gi,
-        confidence: 0.90,
-        strategy: 'title_honorific'
+        regex:
+          /\b(?:dr|doctor|mrs?|ms|mr|miss)\.?\s+([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)+)\b/gi,
+        confidence: 0.9,
+        strategy: "title_honorific",
       },
       // Third person references
       {
-        regex: /(?:called|named|known as)\s+([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)(?:\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\b)/gi,
+        regex:
+          /(?:called|named|known as)\s+([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)(?:\s+(?:and|but|who|because|calling|speaking|here)|[,.!]|\b)/gi,
         confidence: 0.85,
-        strategy: 'third_person'
+        strategy: "third_person",
       },
       // Speaker identification
       {
-        regex: /([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\s+(?:speaking|calling|here)/gi,
-        confidence: 0.80,
-        strategy: 'speaker_id'
+        regex:
+          /([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\s+(?:speaking|calling|here)/gi,
+        confidence: 0.8,
+        strategy: "speaker_id",
       },
       // Possessive forms
       {
-        regex: /([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)'s\s+(?:story|situation|problem|case|need)/gi,
+        regex:
+          /([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)'s\s+(?:story|situation|problem|case|need)/gi,
         confidence: 0.75,
-        strategy: 'possessive'
+        strategy: "possessive",
       },
       // Fragment reconstruction
       {
-        regex: /(?:my name is|i'm)\s*\.{2,}\s*(?:it's|its)\s+([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/gi,
-        confidence: 0.70,
-        strategy: 'fragment_reconstruction'
-      }
+        regex:
+          /(?:my name is|i'm)\s*\.{2,}\s*(?:it's|its)\s+([A-Z][A-Za-z'-]+\s+[A-Z][A-Za-z'-]+)\b/gi,
+        confidence: 0.7,
+        strategy: "fragment_reconstruction",
+      },
     ];
 
     for (const pattern of patterns) {
@@ -143,7 +226,7 @@ export class EnhancedNameExtractor {
             confidence: pattern.confidence,
             strategy: pattern.strategy,
             context: match[0],
-            position: match.index
+            position: match.index,
           });
         }
       }
@@ -170,9 +253,9 @@ export class EnhancedNameExtractor {
         candidates.push({
           name: candidate,
           confidence: 0.65, // Lower confidence than pattern-based
-          strategy: 'proper_noun_detection',
+          strategy: "proper_noun_detection",
           context: this.getContextSnippet(transcript, match.index, 50),
-          position: match.index
+          position: match.index,
         });
       }
     }
@@ -189,20 +272,23 @@ export class EnhancedNameExtractor {
     // Look for names in specific contexts
     const contextPatterns = [
       {
-        regex: /(?:hello|hi),?\s*(?:this is|i am|i'm)\s*,?\s*([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
+        regex:
+          /(?:hello|hi),?\s*(?:this is|i am|i'm)\s*,?\s*([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\b/gi,
         confidence: 0.78,
-        strategy: 'greeting_context'
+        strategy: "greeting_context",
       },
       {
-        regex: /([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\s*,?\s*(?:and|um|uh)\s+(?:i|we)\s+(?:need|require)/gi,
+        regex:
+          /([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\s*,?\s*(?:and|um|uh)\s+(?:i|we)\s+(?:need|require)/gi,
         confidence: 0.72,
-        strategy: 'hesitant_context'
+        strategy: "hesitant_context",
       },
       {
-        regex: /(?:um|uh|well|so),?\s*([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\s+(?:here|calling|speaking)/gi,
-        confidence: 0.70,
-        strategy: 'filler_context'
-      }
+        regex:
+          /(?:um|uh|well|so),?\s*([A-Z][A-Za-z'-]+(?:\s+[A-Z][A-Za-z'-]+)?)\s+(?:here|calling|speaking)/gi,
+        confidence: 0.7,
+        strategy: "filler_context",
+      },
     ];
 
     for (const pattern of contextPatterns) {
@@ -217,7 +303,7 @@ export class EnhancedNameExtractor {
             confidence: pattern.confidence,
             strategy: pattern.strategy,
             context: match[0],
-            position: match.index
+            position: match.index,
           });
         }
       }
@@ -229,9 +315,12 @@ export class EnhancedNameExtractor {
   /**
    * Rank candidates by confidence, position, and validation
    */
-  private rankCandidates(candidates: NameCandidate[], transcript: string): NameCandidate[] {
+  private rankCandidates(
+    candidates: NameCandidate[],
+    transcript: string,
+  ): NameCandidate[] {
     return candidates
-      .filter(candidate => this.validateName(candidate.name))
+      .filter((candidate) => this.validateName(candidate.name))
       .sort((a, b) => {
         // Primary sort: confidence (higher better)
         if (Math.abs(a.confidence - b.confidence) > 0.01) {
@@ -245,22 +334,24 @@ export class EnhancedNameExtractor {
 
         // Tertiary sort: strategy priority
         const strategyPriority = {
-          'direct_full_name': 10,
-          'direct_name': 9,
-          'title_honorific': 8,
-          'self_identification': 7,
-          'third_person': 6,
-          'speaker_id': 5,
-          'greeting_context': 4,
-          'possessive': 3,
-          'fragment_reconstruction': 2,
-          'proper_noun_detection': 1,
-          'hesitant_context': 1,
-          'filler_context': 1
+          direct_full_name: 10,
+          direct_name: 9,
+          title_honorific: 8,
+          self_identification: 7,
+          third_person: 6,
+          speaker_id: 5,
+          greeting_context: 4,
+          possessive: 3,
+          fragment_reconstruction: 2,
+          proper_noun_detection: 1,
+          hesitant_context: 1,
+          filler_context: 1,
         };
 
-        return (strategyPriority[b.strategy as keyof typeof strategyPriority] || 0) -
-               (strategyPriority[a.strategy as keyof typeof strategyPriority] || 0);
+        return (
+          (strategyPriority[b.strategy as keyof typeof strategyPriority] || 0) -
+          (strategyPriority[a.strategy as keyof typeof strategyPriority] || 0)
+        );
       })
       .slice(0, 10); // Keep top 10
   }
@@ -270,10 +361,16 @@ export class EnhancedNameExtractor {
    */
   private cleanName(name: string): string {
     return name
-      .replace(/^(called|named|known as|this is|i am|i'm|doctor|dr\.?|mrs?\.?|ms\.?|mr\.?|miss\.?)\s+/i, '')
-      .replace(/\s+(and|but|who|because|calling|speaking|here|there|from|on)$/i, '')
-      .replace(/[,.!?;:]$/g, '')
-      .replace(/\s+/g, ' ')
+      .replace(
+        /^(called|named|known as|this is|i am|i'm|doctor|dr\.?|mrs?\.?|ms\.?|mr\.?|miss\.?)\s+/i,
+        "",
+      )
+      .replace(
+        /\s+(and|but|who|because|calling|speaking|here|there|from|on)$/i,
+        "",
+      )
+      .replace(/[,.!?;:]$/g, "")
+      .replace(/\s+/g, " ")
       .trim();
   }
 
@@ -284,10 +381,13 @@ export class EnhancedNameExtractor {
     if (!name || name.length < 2 || name.length > 50) return false;
     if (!/^[A-Za-z\s'-]+$/.test(name)) return false;
     if (this.nameBlacklist.has(name.toLowerCase())) return false;
-    if (/^(um|uh|er|ah|well|so|very|really|so|quite|like|you know)$/i.test(name)) return false;
+    if (
+      /^(um|uh|er|ah|well|so|very|really|so|quite|like|you know)$/i.test(name)
+    )
+      return false;
 
     // Check for too many consecutive consonants (unlikely in names)
-    if (/[^aeiou]{4,}/i.test(name.replace(/\s/g, ''))) return false;
+    if (/[^aeiou]{4,}/i.test(name.replace(/\s/g, ""))) return false;
 
     return true;
   }
@@ -300,14 +400,28 @@ export class EnhancedNameExtractor {
     if (words.length < 1 || words.length > 4) return false;
 
     // All words should start with capital letters
-    if (!words.every(word => /^[A-Z]/.test(word))) return false;
+    if (!words.every((word) => /^[A-Z]/.test(word))) return false;
 
     // Should not contain common non-name words
-    const commonWords = ['the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'];
-    if (words.some(word => commonWords.includes(word.toLowerCase()))) return false;
+    const commonWords = [
+      "the",
+      "and",
+      "or",
+      "but",
+      "in",
+      "on",
+      "at",
+      "to",
+      "for",
+      "of",
+      "with",
+      "by",
+    ];
+    if (words.some((word) => commonWords.includes(word.toLowerCase())))
+      return false;
 
     // Should not be all the same word repeated
-    if (new Set(words.map(w => w.toLowerCase())).size === 1) return false;
+    if (new Set(words.map((w) => w.toLowerCase())).size === 1) return false;
 
     return true;
   }
@@ -315,7 +429,11 @@ export class EnhancedNameExtractor {
   /**
    * Get context snippet around a position
    */
-  private getContextSnippet(text: string, position: number, radius: number): string {
+  private getContextSnippet(
+    text: string,
+    position: number,
+    radius: number,
+  ): string {
     const start = Math.max(0, position - radius);
     const end = Math.min(text.length, position + radius);
     return text.substring(start, end);
@@ -326,7 +444,7 @@ export class EnhancedNameExtractor {
    */
   private generateReasoning(candidates: NameCandidate[]): string {
     if (candidates.length === 0) {
-      return 'No valid name candidates found';
+      return "No valid name candidates found";
     }
 
     const primary = candidates[0];

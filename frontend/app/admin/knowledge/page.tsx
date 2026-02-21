@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { AdminPasswordGate } from '@/components/AdminPasswordGate';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { AdminPasswordGate } from "@/components/AdminPasswordGate";
 
 interface KnowledgeSource {
   id: string;
@@ -21,8 +21,8 @@ export default function KnowledgeVaultPage() {
   const router = useRouter();
   const [sources, setSources] = useState<KnowledgeSource[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [typeFilter, setTypeFilter] = useState('');
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [dbOverview, setDbOverview] = useState<any>(null);
@@ -36,17 +36,17 @@ export default function KnowledgeVaultPage() {
   const fetchSources = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '20',
+        limit: "20",
         ...(typeFilter && { type: typeFilter }),
         ...(search && { search }),
       });
 
       const response = await fetch(`/api/admin/knowledge/sources?${params}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -56,7 +56,7 @@ export default function KnowledgeVaultPage() {
         setTotalPages(data.pagination.pages);
       }
     } catch (error) {
-      console.error('Error fetching sources:', error);
+      console.error("Error fetching sources:", error);
     } finally {
       setLoading(false);
     }
@@ -64,10 +64,10 @@ export default function KnowledgeVaultPage() {
 
   const fetchDbOverview = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('/api/admin/knowledge/database/overview', {
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch("/api/admin/knowledge/database/overview", {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -76,22 +76,26 @@ export default function KnowledgeVaultPage() {
         setDbOverview(data);
       }
     } catch (error) {
-      console.error('Error fetching DB overview:', error);
+      console.error("Error fetching DB overview:", error);
     }
   };
 
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"? This will soft-delete the source and keep it in the database.`)) {
+    if (
+      !confirm(
+        `Delete "${title}"? This will soft-delete the source and keep it in the database.`,
+      )
+    ) {
       return;
     }
 
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const response = await fetch(`/api/admin/knowledge/sources/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           reason: `Deleted from Knowledge Vault admin interface`,
@@ -101,10 +105,10 @@ export default function KnowledgeVaultPage() {
       if (response.ok) {
         fetchSources();
       } else {
-        alert('Failed to delete source');
+        alert("Failed to delete source");
       }
     } catch (error) {
-      alert('Error deleting source');
+      alert("Error deleting source");
     }
   };
 
@@ -125,13 +129,13 @@ export default function KnowledgeVaultPage() {
               </div>
               <div className="flex space-x-3">
                 <button
-                  onClick={() => router.push('/admin/knowledge/incidents')}
+                  onClick={() => router.push("/admin/knowledge/incidents")}
                   className="px-4 py-2 border border-purple-300 bg-purple-50 rounded-md text-sm font-medium text-purple-700 hover:bg-purple-100"
                 >
                   🔍 Incidents
                 </button>
                 <button
-                  onClick={() => router.push('/admin/knowledge/audit')}
+                  onClick={() => router.push("/admin/knowledge/audit")}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                   View Audit Logs
@@ -239,13 +243,19 @@ export default function KnowledgeVaultPage() {
                     {sources.map((source) => (
                       <tr
                         key={source.id}
-                        className={source.isDeleted ? 'opacity-50 bg-red-50' : 'hover:bg-gray-50'}
+                        className={
+                          source.isDeleted
+                            ? "opacity-50 bg-red-50"
+                            : "hover:bg-gray-50"
+                        }
                       >
                         <td className="px-6 py-4">
                           <div className="text-sm font-medium text-gray-900">
                             {source.title}
                             {source.isDeleted && (
-                              <span className="ml-2 text-xs text-red-600">(Deleted)</span>
+                              <span className="ml-2 text-xs text-red-600">
+                                (Deleted)
+                              </span>
                             )}
                           </div>
                           {source.url && (
@@ -267,14 +277,18 @@ export default function KnowledgeVaultPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <button
-                            onClick={() => router.push(`/admin/knowledge/${source.id}`)}
+                            onClick={() =>
+                              router.push(`/admin/knowledge/${source.id}`)
+                            }
                             className="text-blue-600 hover:text-blue-900 mr-4"
                           >
                             Edit
                           </button>
                           {!source.isDeleted && (
                             <button
-                              onClick={() => handleDelete(source.id, source.title)}
+                              onClick={() =>
+                                handleDelete(source.id, source.title)
+                              }
                               className="text-red-600 hover:text-red-900"
                             >
                               Delete
@@ -320,7 +334,8 @@ export default function KnowledgeVaultPage() {
           <div className="bg-white rounded-lg max-w-md w-full p-6">
             <h3 className="text-lg font-semibold mb-4">Create New Source</h3>
             <p className="text-gray-600 mb-4">
-              Feature coming soon: Full source creation form with title, type, URL, and license fields.
+              Feature coming soon: Full source creation form with title, type,
+              URL, and license fields.
             </p>
             <button
               onClick={() => setShowNewSourceModal(false)}

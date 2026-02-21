@@ -1,11 +1,11 @@
 /**
  * Admin Authentication Middleware
  * Reuses the same password mechanism as the health page
- * 
+ *
  * Security: Password stored in environment variable ADMIN_PASSWORD
  */
 
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
 export interface AdminAuthRequest extends Request {
   adminUser?: string;
@@ -18,7 +18,7 @@ export interface AdminAuthRequest extends Request {
 export function requireAdminAuth(
   req: AdminAuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   // Check for admin token in multiple locations:
   // 1. Cookie: admin_session (if cookie-parser is loaded)
@@ -26,9 +26,9 @@ export function requireAdminAuth(
   // 3. Query param: token (for development only, avoid in production)
 
   const cookieToken = (req as any).cookies?.admin_session;
-  const headerPassword = req.headers['x-admin-password'] as string | undefined;
+  const headerPassword = req.headers["x-admin-password"] as string | undefined;
   const authHeader = req.headers.authorization;
-  const bearerToken = authHeader?.startsWith('Bearer ')
+  const bearerToken = authHeader?.startsWith("Bearer ")
     ? authHeader.substring(7)
     : undefined;
   const queryToken = req.query.token as string | undefined;
@@ -37,16 +37,16 @@ export function requireAdminAuth(
     cookieToken || headerPassword || bearerToken || queryToken;
 
   // Get valid token from environment (same as health page)
-  const validToken = process.env.ADMIN_PASSWORD || 'changeme';
+  const validToken = process.env.ADMIN_PASSWORD || "changeme";
 
   if (providedToken === validToken) {
-    req.adminUser = 'admin';
+    req.adminUser = "admin";
     next();
   } else {
     res.status(401).json({
-      error: 'Authorization required',
-      message: 'Admin password required to access this endpoint',
-      code: 'ADMIN_AUTH_REQUIRED',
+      error: "Authorization required",
+      message: "Admin password required to access this endpoint",
+      code: "ADMIN_AUTH_REQUIRED",
     });
   }
 }
@@ -58,12 +58,12 @@ export function requireAdminAuth(
 export function optionalAdminAuth(
   req: AdminAuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const cookieToken = (req as any).cookies?.admin_session;
-  const headerPassword = req.headers['x-admin-password'] as string | undefined;
+  const headerPassword = req.headers["x-admin-password"] as string | undefined;
   const authHeader = req.headers.authorization;
-  const bearerToken = authHeader?.startsWith('Bearer ')
+  const bearerToken = authHeader?.startsWith("Bearer ")
     ? authHeader.substring(7)
     : undefined;
   const queryToken = req.query.token as string | undefined;
@@ -71,10 +71,10 @@ export function optionalAdminAuth(
   const providedToken =
     cookieToken || headerPassword || bearerToken || queryToken;
 
-  const validToken = process.env.ADMIN_PASSWORD || 'changeme';
+  const validToken = process.env.ADMIN_PASSWORD || "changeme";
 
   if (providedToken === validToken) {
-    req.adminUser = 'admin';
+    req.adminUser = "admin";
   }
 
   next();

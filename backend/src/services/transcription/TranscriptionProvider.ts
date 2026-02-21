@@ -4,14 +4,14 @@
  */
 
 export enum TranscriptionMode {
-  LEGACY = 'legacy',     // Existing OpenAI Whisper API (requires key)
-  NVT = 'nvt',          // Native Voice Transcription (Web Speech API)
-  EVTS = 'evts'         // Extended Voice Transcription Service (offline)
+  LEGACY = "legacy", // Existing OpenAI Whisper API (requires key)
+  NVT = "nvt", // Native Voice Transcription (Web Speech API)
+  EVTS = "evts", // Extended Voice Transcription Service (offline)
 }
 
 export enum EVTSEngine {
-  WHISPER_CPP = 'whispercpp',
-  VOSK = 'vosk'
+  WHISPER_CPP = "whispercpp",
+  VOSK = "vosk",
 }
 
 export interface TranscriptionConfig {
@@ -37,7 +37,9 @@ export interface TranscriptionResult {
 export interface TranscriptionProvider {
   initialize(config: TranscriptionConfig): Promise<void>;
   transcribe(audioData: Buffer | Blob): Promise<TranscriptionResult>;
-  startStreaming?(onPartial: (result: TranscriptionResult) => void): Promise<void>;
+  startStreaming?(
+    onPartial: (result: TranscriptionResult) => void,
+  ): Promise<void>;
   stopStreaming?(): Promise<void>;
   isAvailable(): Promise<boolean>;
   getCapabilities(): TranscriptionCapabilities;
@@ -55,9 +57,9 @@ export class TranscriptionError extends Error {
   constructor(
     message: string,
     public code: string,
-    public recoverable: boolean = false
+    public recoverable: boolean = false,
   ) {
     super(message);
-    this.name = 'TranscriptionError';
+    this.name = "TranscriptionError";
   }
 }

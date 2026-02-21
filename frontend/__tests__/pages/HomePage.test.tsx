@@ -1,180 +1,112 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import HomePage from '../app/page'
+import { render, screen } from "@testing-library/react";
+import HomePage from "../app/page";
 
-// Mock the useRouter hook
-const mockPush = jest.fn()
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: mockPush,
-  }),
-}))
+// Mock next/link since HomePage is a server component
+jest.mock("next/link", () => {
+  return ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode;
+    href: string;
+    [key: string]: any;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  );
+});
 
-// Mock the API hooks
-jest.mock('../hooks/useProfile', () => ({
-  useCreateProfile: () => ({
-    mutate: jest.fn(),
-    isLoading: false,
-    isError: false,
-    error: null,
-  }),
-}))
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  })
-
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
-}
-
-describe('HomePage', () => {
+describe("HomePage", () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
-  it('renders the main heading and description', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+  it("renders the main heading with CareConnect", () => {
+    render(<HomePage />);
 
-    expect(screen.getByText('CareConnect')).toBeInTheDocument()
-    expect(screen.getByText(/Share your story, find support, discover opportunities/)).toBeInTheDocument()
-  })
+    // "CareConnect" appears in multiple places (heading + features section)
+    const careConnectElements = screen.getAllByText(/CareConnect/);
+    expect(careConnectElements.length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByText(
+        /A Community-Supported Portal for People Experiencing Homelessness/,
+      ),
+    ).toBeInTheDocument();
+  });
 
-  it('shows the audio recording section', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+  it("shows the story sharing section", () => {
+    render(<HomePage />);
 
-    expect(screen.getByText(/Record Your Story/)).toBeInTheDocument()
-    expect(screen.getByText(/Tell us about yourself/)).toBeInTheDocument()
-  })
+    // "Share Your Story" appears in multiple places (feature cards + CTA)
+    const storyElements = screen.getAllByText(/Share Your Story/);
+    expect(storyElements.length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByText(
+        /Record your voice to help others understand your journey/,
+      ),
+    ).toBeInTheDocument();
+  });
 
-  it('displays feature cards', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+  it("displays feature cards", () => {
+    render(<HomePage />);
 
-    expect(screen.getByText('Job Search')).toBeInTheDocument()
-    expect(screen.getByText('Resource Finder')).toBeInTheDocument()
-    expect(screen.getByText('AI Assistant')).toBeInTheDocument()
-    expect(screen.getByText('Support Platform')).toBeInTheDocument()
-  })
+    expect(screen.getByText("Find Work")).toBeInTheDocument();
+    expect(screen.getByText("Access Resources")).toBeInTheDocument();
+  });
 
-  it('shows browse profiles section', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+  it("shows how CareConnect helps section", () => {
+    render(<HomePage />);
 
-    expect(screen.getByText(/Browse Profiles/)).toBeInTheDocument()
-    const browseButton = screen.getByText('View All Profiles')
-    expect(browseButton).toBeInTheDocument()
-  })
+    expect(screen.getByText(/How CareConnect Helps/)).toBeInTheDocument();
+  });
 
-  it('navigates to profiles page when browse button is clicked', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+  it("shows the tell your story CTA", () => {
+    render(<HomePage />);
 
-    const browseButton = screen.getByText('View All Profiles')
-    fireEvent.click(browseButton)
+    expect(screen.getByText(/TELL YOUR/)).toBeInTheDocument();
+    expect(screen.getByText(/STORY/)).toBeInTheDocument();
+  });
 
-    expect(mockPush).toHaveBeenCalledWith('/profiles')
-  })
+  it("shows community support tools section", () => {
+    render(<HomePage />);
 
-  it('shows getting started section', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+    expect(screen.getByText(/Additional Support Tools/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Everything you need to connect with your community/),
+    ).toBeInTheDocument();
+  });
 
-    expect(screen.getByText(/How It Works/)).toBeInTheDocument()
-    expect(screen.getByText(/Record your story/)).toBeInTheDocument()
-    expect(screen.getByText(/AI creates your profile/)).toBeInTheDocument()
-    expect(screen.getByText(/Connect with opportunities/)).toBeInTheDocument()
-  })
+  it("shows privacy and control messaging", () => {
+    render(<HomePage />);
 
-  it('displays anonymous mode information', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+    expect(screen.getByText(/in control/)).toBeInTheDocument();
+  });
 
-    expect(screen.getByText(/Your privacy matters/)).toBeInTheDocument()
-    expect(screen.getByText(/anonymous/i)).toBeInTheDocument()
-  })
+  it("has proper heading hierarchy", () => {
+    render(<HomePage />);
 
-  it('shows call-to-action buttons', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+    const mainHeading = screen.getByRole("heading", { level: 1 });
+    expect(mainHeading).toBeInTheDocument();
+  });
 
-    const getStartedButton = screen.getByText('Get Started')
-    const learnMoreButton = screen.getByText('Learn More')
+  it("is responsive with Tailwind classes", () => {
+    const { container } = render(<HomePage />);
 
-    expect(getStartedButton).toBeInTheDocument()
-    expect(learnMoreButton).toBeInTheDocument()
-  })
+    const responsiveElements = container.querySelectorAll(
+      '[class*="md:"], [class*="lg:"], [class*="sm:"]',
+    );
+    expect(responsiveElements.length).toBeGreaterThan(0);
+  });
 
-  it('has proper accessibility attributes', () => {
-    render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
+  it("includes link to tell your story", () => {
+    render(<HomePage />);
 
-    // Check for proper heading hierarchy
-    const mainHeading = screen.getByRole('heading', { level: 1 })
-    expect(mainHeading).toBeInTheDocument()
-
-    // Check for proper button roles
-    const buttons = screen.getAllByRole('button')
-    expect(buttons.length).toBeGreaterThan(0)
-
-    buttons.forEach(button => {
-      expect(button).toBeVisible()
-    })
-  })
-
-  it('is responsive and mobile-friendly', () => {
-    const { container } = render(
-      <div>
-        <HomePage />
-      </div>,
-      { wrapper: createWrapper() }
-    )
-
-    // Check for responsive classes (assuming Tailwind CSS)
-    const responsiveElements = container.querySelectorAll('[class*="md:"], [class*="lg:"], [class*="sm:"]')
-    expect(responsiveElements.length).toBeGreaterThan(0)
-  })
-})
+    const storyLinks = screen.getAllByRole("link");
+    const tellStoryLink = storyLinks.find(
+      (link) => link.getAttribute("href") === "/tell-your-story",
+    );
+    expect(tellStoryLink).toBeDefined();
+  });
+});

@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { TranscribeController } from '../controllers/transcribeController';
-import { body, param } from 'express-validator';
-import { validateRequest } from '../middleware/validateRequest';
+import { Router } from "express";
+import { TranscribeController } from "../controllers/transcribeController";
+import { body, param } from "express-validator";
+import { validateRequest } from "../middleware/validateRequest";
 
 const router = Router();
 
@@ -10,13 +10,16 @@ const router = Router();
  * Upload and transcribe audio file
  */
 router.post(
-  '/',
+  "/",
   TranscribeController.uploadAudio,
   [
-    body('userId').optional().isString().withMessage('User ID must be a string'),
+    body("userId")
+      .optional()
+      .isString()
+      .withMessage("User ID must be a string"),
   ],
   validateRequest,
-  TranscribeController.transcribeAudio
+  TranscribeController.transcribeAudio,
 );
 
 /**
@@ -24,12 +27,10 @@ router.post(
  * Get transcription status
  */
 router.get(
-  '/:audioFileId/status',
-  [
-    param('audioFileId').isString().withMessage('Audio file ID is required'),
-  ],
+  "/:audioFileId/status",
+  [param("audioFileId").isString().withMessage("Audio file ID is required")],
   validateRequest,
-  TranscribeController.getTranscriptionStatus
+  TranscribeController.getTranscriptionStatus,
 );
 
 /**
@@ -37,13 +38,19 @@ router.get(
  * Re-process transcript to extract profile data
  */
 router.post(
-  '/:audioFileId?/reprocess',
+  "/:audioFileId?/reprocess",
   [
-    param('audioFileId').optional().isString().withMessage('Audio file ID must be a string'),
-    body('transcript').isString().notEmpty().withMessage('Transcript is required'),
+    param("audioFileId")
+      .optional()
+      .isString()
+      .withMessage("Audio file ID must be a string"),
+    body("transcript")
+      .isString()
+      .notEmpty()
+      .withMessage("Transcript is required"),
   ],
   validateRequest,
-  TranscribeController.reprocessTranscript
+  TranscribeController.reprocessTranscript,
 );
 
 /**
@@ -51,12 +58,15 @@ router.post(
  * Test parser functionality without audio file
  */
 router.post(
-  '/test-parser',
+  "/test-parser",
   [
-    body('transcript').isString().notEmpty().withMessage('Transcript is required'),
+    body("transcript")
+      .isString()
+      .notEmpty()
+      .withMessage("Transcript is required"),
   ],
   validateRequest,
-  TranscribeController.reprocessTranscript
+  TranscribeController.reprocessTranscript,
 );
 
 export default router;

@@ -1,1 +1,585 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[220],{30014:function(e,t,s){Promise.resolve().then(s.bind(s,79025))},79025:function(e,t,s){"use strict";s.r(t),s.d(t,{default:function(){return h}});var r=s(37821),a=s(58078),i=s(96871),l=s.n(i),n=s(6384);let o=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M16.712 4.33a9.027 9.027 0 0 1 1.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 0 0-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 0 1 0 9.424m-4.138-5.976a3.736 3.736 0 0 0-.88-1.388 3.737 3.737 0 0 0-1.388-.88m2.268 2.268a3.765 3.765 0 0 1 0 2.528m-2.268-4.796a3.765 3.765 0 0 0-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 0 1-1.388.88m2.268-2.268 4.138 3.448m0 0a9.027 9.027 0 0 1-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0-3.448-4.138m3.448 4.138a9.014 9.014 0 0 1-9.424 0m5.976-4.138a3.765 3.765 0 0 1-2.528 0m0 0a3.736 3.736 0 0 1-1.388-.88 3.737 3.737 0 0 1-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 0 1-1.652-1.306 9.027 9.027 0 0 1-1.306-1.652m0 0 4.138-3.448M4.33 16.712a9.014 9.014 0 0 1 0-9.424m4.138 5.976a3.765 3.765 0 0 1 0-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 0 1 1.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 0 0-1.652 1.306A9.025 9.025 0 0 0 4.33 7.288"}))});var c=s(19972),d=s(10808);let u=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"}))});var m=s(90185);function h(){let[e,t]=(0,a.useState)({reporterName:"",isGuest:!1,message:"",recordingTicketId:"",contactValue:"",contactType:"",pageUrl:window.location.href}),[s,i]=(0,a.useState)(!1),[h,p]=(0,a.useState)({type:null,message:""}),[x,g]=(0,a.useState)("checking");a.useEffect(()=>{m.h.checkDbHealth().then(()=>g("healthy")).catch(()=>g("unhealthy"))},[]);let b=async s=>{s.preventDefault(),i(!0),p({type:null,message:""});try{if(!e.message.trim())throw Error("Please describe your issue");if(!e.isGuest&&!e.reporterName.trim())throw Error('Please enter your name or select "I am a guest"');let s={reporterName:e.isGuest?"Guest":e.reporterName,isGuest:e.isGuest,message:e.message,recordingTicketId:e.recordingTicketId||null,contactValue:e.contactValue||null,contactType:e.contactType||null,pageUrl:e.pageUrl||null},r=await m.h.post("/support/tickets",s);p({type:"success",message:"Support ticket submitted successfully!",ticketId:r.id}),t({reporterName:"",isGuest:!1,message:"",recordingTicketId:"",contactValue:"",contactType:"",pageUrl:window.location.href})}catch(s){let t="Failed to submit support ticket";503===s.status?t="System unavailable due to database connectivity. Please try again later.":400===s.status?t=s.message||"Invalid ticket data":404===s.status&&e.recordingTicketId?t="Recording ticket not found. Please check the ticket ID.":s.message&&(t=s.message),p({type:"error",message:t})}finally{i(!1)}};return(0,r.jsxs)("div",{className:"min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50",children:[(0,r.jsx)("div",{className:"bg-white shadow-sm border-b",children:(0,r.jsx)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",children:(0,r.jsxs)(n.E.div,{initial:{opacity:0,y:-20},animate:{opacity:1,y:0},className:"text-center",children:[(0,r.jsx)(o,{className:"w-16 h-16 text-purple-600 mx-auto mb-4"}),(0,r.jsx)("h1",{className:"text-4xl font-black text-gray-900 mb-2",children:"Get Support"}),(0,r.jsx)("p",{className:"text-xl text-gray-600",children:"We're here to help. Submit a support ticket and we'll get back to you."})]})})}),(0,r.jsxs)("div",{className:"max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12",children:["unhealthy"===x&&(0,r.jsxs)(n.E.div,{initial:{opacity:0,y:-10},animate:{opacity:1,y:0},className:"mb-6 bg-red-50 border-2 border-red-300 rounded-lg p-4 flex items-start gap-3",children:[(0,r.jsx)(c.Z,{className:"w-6 h-6 text-red-600 flex-shrink-0 mt-0.5"}),(0,r.jsxs)("div",{children:[(0,r.jsx)("h3",{className:"font-bold text-red-900 mb-1",children:"System Offline"}),(0,r.jsx)("p",{className:"text-sm text-red-800",children:"The system is currently unavailable due to database connectivity issues. Support ticket submission is temporarily disabled."})]})]}),"success"===h.type&&(0,r.jsxs)(n.E.div,{initial:{opacity:0,scale:.95},animate:{opacity:1,scale:1},className:"mb-6 bg-green-50 border-2 border-green-300 rounded-lg p-6",children:[(0,r.jsxs)("div",{className:"flex items-start gap-3 mb-4",children:[(0,r.jsx)(d.Z,{className:"w-8 h-8 text-green-600 flex-shrink-0"}),(0,r.jsxs)("div",{children:[(0,r.jsx)("h3",{className:"font-bold text-green-900 text-lg mb-1",children:h.message}),(0,r.jsxs)("p",{className:"text-green-800",children:["Ticket ID: ",(0,r.jsx)("span",{className:"font-mono font-semibold",children:h.ticketId})]}),(0,r.jsx)("p",{className:"text-sm text-green-700 mt-2",children:"We'll review your ticket and get back to you as soon as possible."})]})]}),(0,r.jsx)("button",{onClick:()=>p({type:null,message:""}),className:"text-green-700 hover:text-green-900 font-semibold text-sm underline",children:"Submit another ticket"})]}),"error"===h.type&&(0,r.jsxs)(n.E.div,{initial:{opacity:0,scale:.95},animate:{opacity:1,scale:1},className:"mb-6 bg-red-50 border-2 border-red-300 rounded-lg p-4 flex items-start gap-3",children:[(0,r.jsx)(u,{className:"w-6 h-6 text-red-600 flex-shrink-0 mt-0.5"}),(0,r.jsxs)("div",{children:[(0,r.jsx)("h3",{className:"font-bold text-red-900 mb-1",children:"Error"}),(0,r.jsx)("p",{className:"text-sm text-red-800",children:h.message})]})]}),(0,r.jsx)(n.E.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{delay:.2},className:"bg-white rounded-xl shadow-lg p-8 border-2 border-purple-100",children:(0,r.jsxs)("form",{onSubmit:b,className:"space-y-6",children:[(0,r.jsxs)("div",{className:"flex items-center gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200",children:[(0,r.jsx)("input",{type:"checkbox",id:"isGuest",checked:e.isGuest,onChange:s=>t({...e,isGuest:s.target.checked}),className:"w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"}),(0,r.jsx)("label",{htmlFor:"isGuest",className:"text-sm font-semibold text-gray-900 cursor-pointer",children:"I am a guest (anonymous submission)"})]}),!e.isGuest&&(0,r.jsxs)("div",{children:[(0,r.jsxs)("label",{htmlFor:"reporterName",className:"block text-sm font-semibold text-gray-900 mb-2",children:["Your Name ",(0,r.jsx)("span",{className:"text-red-500",children:"*"})]}),(0,r.jsx)("input",{type:"text",id:"reporterName",value:e.reporterName,onChange:s=>t({...e,reporterName:s.target.value}),className:"w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors",placeholder:"Enter your name",required:!e.isGuest})]}),(0,r.jsxs)("div",{children:[(0,r.jsxs)("label",{htmlFor:"message",className:"block text-sm font-semibold text-gray-900 mb-2",children:["Describe Your Issue ",(0,r.jsx)("span",{className:"text-red-500",children:"*"})]}),(0,r.jsx)("textarea",{id:"message",value:e.message,onChange:s=>t({...e,message:s.target.value}),rows:6,className:"w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors resize-none",placeholder:"Tell us what you need help with...",required:!0})]}),(0,r.jsxs)("div",{className:"border-t-2 border-gray-100 pt-6",children:[(0,r.jsx)("h3",{className:"font-semibold text-gray-900 mb-4",children:"Optional: Link to Recording Profile"}),(0,r.jsxs)("div",{children:[(0,r.jsx)("label",{htmlFor:"recordingTicketId",className:"block text-sm font-medium text-gray-700 mb-2",children:"Recording Ticket ID"}),(0,r.jsx)("input",{type:"text",id:"recordingTicketId",value:e.recordingTicketId,onChange:s=>t({...e,recordingTicketId:s.target.value}),className:"w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors",placeholder:"e.g., 123e4567-e89b-12d3-a456-426614174000"}),(0,r.jsx)("p",{className:"text-xs text-gray-500 mt-1",children:"If your issue is related to a recording profile, enter the ticket ID"})]})]}),(0,r.jsx)("div",{className:"flex gap-4",children:(0,r.jsx)("button",{type:"submit",disabled:s||"unhealthy"===x,className:"flex-1 px-6 py-4 bg-purple-600 text-white rounded-lg font-bold text-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-lg hover:shadow-xl",children:s?(0,r.jsxs)("span",{className:"flex items-center justify-center gap-2",children:[(0,r.jsxs)("svg",{className:"animate-spin h-5 w-5",viewBox:"0 0 24 24",children:[(0,r.jsx)("circle",{className:"opacity-25",cx:"12",cy:"12",r:"10",stroke:"currentColor",strokeWidth:"4",fill:"none"}),(0,r.jsx)("path",{className:"opacity-75",fill:"currentColor",d:"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"})]}),"Submitting..."]}):"Submit Support Ticket"})})]})}),(0,r.jsxs)(n.E.div,{initial:{opacity:0},animate:{opacity:1},transition:{delay:.4},className:"mt-8 text-center text-gray-600",children:[(0,r.jsxs)("p",{className:"mb-4",children:["Need to check on a profile or donate?"," ",(0,r.jsx)(l(),{href:"/find",className:"text-purple-600 hover:underline font-semibold",children:"Find a profile"})]}),(0,r.jsx)("p",{className:"text-sm text-gray-500",children:"For urgent issues, please contact emergency services (911)"})]})]})]})}},90185:function(e,t,s){"use strict";s.d(t,{h:function(){return a}});class r{async request(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},s="".concat(this.baseUrl).concat(e);try{let e=await fetch(s,{...t,headers:{"Content-Type":"application/json",...t.headers}}),r=e.headers.get("content-type"),a=null==r?void 0:r.includes("application/json");if(!e.ok){let t=Error(a?(await e.json()).error:e.statusText);throw t.status=e.status,t}return a?await e.json():await e.text()}catch(e){throw e.status||(e.status=0),e}}async get(e,t){let s=t?"?"+new URLSearchParams(t).toString():"";return this.request("".concat(e).concat(s),{method:"GET"})}async post(e,t){return this.request(e,{method:"POST",body:JSON.stringify(t)})}async put(e,t){return this.request(e,{method:"PUT",body:JSON.stringify(t)})}async delete(e){return this.request(e,{method:"DELETE"})}async checkHealth(){return this.get("/health/status")}async checkDbHealth(){return this.get("/health/db")}constructor(){this.baseUrl="/api"}}let a=new r},10808:function(e,t,s){"use strict";var r=s(58078);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"}))});t.Z=a},19972:function(e,t,s){"use strict";var r=s(58078);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"}))});t.Z=a}},function(e){e.O(0,[54,590,115,835,744],function(){return e(e.s=30014)}),_N_E=e.O()}]);
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [220],
+  {
+    30014: function (e, t, s) {
+      Promise.resolve().then(s.bind(s, 79025));
+    },
+    79025: function (e, t, s) {
+      "use strict";
+      (s.r(t),
+        s.d(t, {
+          default: function () {
+            return h;
+          },
+        }));
+      var r = s(37821),
+        a = s(58078),
+        i = s(96871),
+        l = s.n(i),
+        n = s(6384);
+      let o = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+        return a.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: r,
+              "aria-labelledby": t,
+            },
+            s,
+          ),
+          e ? a.createElement("title", { id: t }, e) : null,
+          a.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M16.712 4.33a9.027 9.027 0 0 1 1.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 0 0-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 0 1 0 9.424m-4.138-5.976a3.736 3.736 0 0 0-.88-1.388 3.737 3.737 0 0 0-1.388-.88m2.268 2.268a3.765 3.765 0 0 1 0 2.528m-2.268-4.796a3.765 3.765 0 0 0-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 0 1-1.388.88m2.268-2.268 4.138 3.448m0 0a9.027 9.027 0 0 1-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0-3.448-4.138m3.448 4.138a9.014 9.014 0 0 1-9.424 0m5.976-4.138a3.765 3.765 0 0 1-2.528 0m0 0a3.736 3.736 0 0 1-1.388-.88 3.737 3.737 0 0 1-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 0 1-1.652-1.306 9.027 9.027 0 0 1-1.306-1.652m0 0 4.138-3.448M4.33 16.712a9.014 9.014 0 0 1 0-9.424m4.138 5.976a3.765 3.765 0 0 1 0-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 0 1 1.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 0 0-1.652 1.306A9.025 9.025 0 0 0 4.33 7.288",
+          }),
+        );
+      });
+      var c = s(19972),
+        d = s(10808);
+      let u = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+        return a.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: r,
+              "aria-labelledby": t,
+            },
+            s,
+          ),
+          e ? a.createElement("title", { id: t }, e) : null,
+          a.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z",
+          }),
+        );
+      });
+      var m = s(90185);
+      function h() {
+        let [e, t] = (0, a.useState)({
+            reporterName: "",
+            isGuest: !1,
+            message: "",
+            recordingTicketId: "",
+            contactValue: "",
+            contactType: "",
+            pageUrl: window.location.href,
+          }),
+          [s, i] = (0, a.useState)(!1),
+          [h, p] = (0, a.useState)({ type: null, message: "" }),
+          [x, g] = (0, a.useState)("checking");
+        a.useEffect(() => {
+          m.h
+            .checkDbHealth()
+            .then(() => g("healthy"))
+            .catch(() => g("unhealthy"));
+        }, []);
+        let b = async (s) => {
+          (s.preventDefault(), i(!0), p({ type: null, message: "" }));
+          try {
+            if (!e.message.trim()) throw Error("Please describe your issue");
+            if (!e.isGuest && !e.reporterName.trim())
+              throw Error('Please enter your name or select "I am a guest"');
+            let s = {
+                reporterName: e.isGuest ? "Guest" : e.reporterName,
+                isGuest: e.isGuest,
+                message: e.message,
+                recordingTicketId: e.recordingTicketId || null,
+                contactValue: e.contactValue || null,
+                contactType: e.contactType || null,
+                pageUrl: e.pageUrl || null,
+              },
+              r = await m.h.post("/support/tickets", s);
+            (p({
+              type: "success",
+              message: "Support ticket submitted successfully!",
+              ticketId: r.id,
+            }),
+              t({
+                reporterName: "",
+                isGuest: !1,
+                message: "",
+                recordingTicketId: "",
+                contactValue: "",
+                contactType: "",
+                pageUrl: window.location.href,
+              }));
+          } catch (s) {
+            let t = "Failed to submit support ticket";
+            (503 === s.status
+              ? (t =
+                  "System unavailable due to database connectivity. Please try again later.")
+              : 400 === s.status
+                ? (t = s.message || "Invalid ticket data")
+                : 404 === s.status && e.recordingTicketId
+                  ? (t =
+                      "Recording ticket not found. Please check the ticket ID.")
+                  : s.message && (t = s.message),
+              p({ type: "error", message: t }));
+          } finally {
+            i(!1);
+          }
+        };
+        return (0, r.jsxs)("div", {
+          className:
+            "min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50",
+          children: [
+            (0, r.jsx)("div", {
+              className: "bg-white shadow-sm border-b",
+              children: (0, r.jsx)("div", {
+                className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+                children: (0, r.jsxs)(n.E.div, {
+                  initial: { opacity: 0, y: -20 },
+                  animate: { opacity: 1, y: 0 },
+                  className: "text-center",
+                  children: [
+                    (0, r.jsx)(o, {
+                      className: "w-16 h-16 text-purple-600 mx-auto mb-4",
+                    }),
+                    (0, r.jsx)("h1", {
+                      className: "text-4xl font-black text-gray-900 mb-2",
+                      children: "Get Support",
+                    }),
+                    (0, r.jsx)("p", {
+                      className: "text-xl text-gray-600",
+                      children:
+                        "We're here to help. Submit a support ticket and we'll get back to you.",
+                    }),
+                  ],
+                }),
+              }),
+            }),
+            (0, r.jsxs)("div", {
+              className: "max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12",
+              children: [
+                "unhealthy" === x &&
+                  (0, r.jsxs)(n.E.div, {
+                    initial: { opacity: 0, y: -10 },
+                    animate: { opacity: 1, y: 0 },
+                    className:
+                      "mb-6 bg-red-50 border-2 border-red-300 rounded-lg p-4 flex items-start gap-3",
+                    children: [
+                      (0, r.jsx)(c.Z, {
+                        className: "w-6 h-6 text-red-600 flex-shrink-0 mt-0.5",
+                      }),
+                      (0, r.jsxs)("div", {
+                        children: [
+                          (0, r.jsx)("h3", {
+                            className: "font-bold text-red-900 mb-1",
+                            children: "System Offline",
+                          }),
+                          (0, r.jsx)("p", {
+                            className: "text-sm text-red-800",
+                            children:
+                              "The system is currently unavailable due to database connectivity issues. Support ticket submission is temporarily disabled.",
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                "success" === h.type &&
+                  (0, r.jsxs)(n.E.div, {
+                    initial: { opacity: 0, scale: 0.95 },
+                    animate: { opacity: 1, scale: 1 },
+                    className:
+                      "mb-6 bg-green-50 border-2 border-green-300 rounded-lg p-6",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-start gap-3 mb-4",
+                        children: [
+                          (0, r.jsx)(d.Z, {
+                            className: "w-8 h-8 text-green-600 flex-shrink-0",
+                          }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              (0, r.jsx)("h3", {
+                                className:
+                                  "font-bold text-green-900 text-lg mb-1",
+                                children: h.message,
+                              }),
+                              (0, r.jsxs)("p", {
+                                className: "text-green-800",
+                                children: [
+                                  "Ticket ID: ",
+                                  (0, r.jsx)("span", {
+                                    className: "font-mono font-semibold",
+                                    children: h.ticketId,
+                                  }),
+                                ],
+                              }),
+                              (0, r.jsx)("p", {
+                                className: "text-sm text-green-700 mt-2",
+                                children:
+                                  "We'll review your ticket and get back to you as soon as possible.",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      (0, r.jsx)("button", {
+                        onClick: () => p({ type: null, message: "" }),
+                        className:
+                          "text-green-700 hover:text-green-900 font-semibold text-sm underline",
+                        children: "Submit another ticket",
+                      }),
+                    ],
+                  }),
+                "error" === h.type &&
+                  (0, r.jsxs)(n.E.div, {
+                    initial: { opacity: 0, scale: 0.95 },
+                    animate: { opacity: 1, scale: 1 },
+                    className:
+                      "mb-6 bg-red-50 border-2 border-red-300 rounded-lg p-4 flex items-start gap-3",
+                    children: [
+                      (0, r.jsx)(u, {
+                        className: "w-6 h-6 text-red-600 flex-shrink-0 mt-0.5",
+                      }),
+                      (0, r.jsxs)("div", {
+                        children: [
+                          (0, r.jsx)("h3", {
+                            className: "font-bold text-red-900 mb-1",
+                            children: "Error",
+                          }),
+                          (0, r.jsx)("p", {
+                            className: "text-sm text-red-800",
+                            children: h.message,
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                (0, r.jsx)(n.E.div, {
+                  initial: { opacity: 0, y: 20 },
+                  animate: { opacity: 1, y: 0 },
+                  transition: { delay: 0.2 },
+                  className:
+                    "bg-white rounded-xl shadow-lg p-8 border-2 border-purple-100",
+                  children: (0, r.jsxs)("form", {
+                    onSubmit: b,
+                    className: "space-y-6",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className:
+                          "flex items-center gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200",
+                        children: [
+                          (0, r.jsx)("input", {
+                            type: "checkbox",
+                            id: "isGuest",
+                            checked: e.isGuest,
+                            onChange: (s) =>
+                              t({ ...e, isGuest: s.target.checked }),
+                            className:
+                              "w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500",
+                          }),
+                          (0, r.jsx)("label", {
+                            htmlFor: "isGuest",
+                            className:
+                              "text-sm font-semibold text-gray-900 cursor-pointer",
+                            children: "I am a guest (anonymous submission)",
+                          }),
+                        ],
+                      }),
+                      !e.isGuest &&
+                        (0, r.jsxs)("div", {
+                          children: [
+                            (0, r.jsxs)("label", {
+                              htmlFor: "reporterName",
+                              className:
+                                "block text-sm font-semibold text-gray-900 mb-2",
+                              children: [
+                                "Your Name ",
+                                (0, r.jsx)("span", {
+                                  className: "text-red-500",
+                                  children: "*",
+                                }),
+                              ],
+                            }),
+                            (0, r.jsx)("input", {
+                              type: "text",
+                              id: "reporterName",
+                              value: e.reporterName,
+                              onChange: (s) =>
+                                t({ ...e, reporterName: s.target.value }),
+                              className:
+                                "w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors",
+                              placeholder: "Enter your name",
+                              required: !e.isGuest,
+                            }),
+                          ],
+                        }),
+                      (0, r.jsxs)("div", {
+                        children: [
+                          (0, r.jsxs)("label", {
+                            htmlFor: "message",
+                            className:
+                              "block text-sm font-semibold text-gray-900 mb-2",
+                            children: [
+                              "Describe Your Issue ",
+                              (0, r.jsx)("span", {
+                                className: "text-red-500",
+                                children: "*",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsx)("textarea", {
+                            id: "message",
+                            value: e.message,
+                            onChange: (s) =>
+                              t({ ...e, message: s.target.value }),
+                            rows: 6,
+                            className:
+                              "w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors resize-none",
+                            placeholder: "Tell us what you need help with...",
+                            required: !0,
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "border-t-2 border-gray-100 pt-6",
+                        children: [
+                          (0, r.jsx)("h3", {
+                            className: "font-semibold text-gray-900 mb-4",
+                            children: "Optional: Link to Recording Profile",
+                          }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              (0, r.jsx)("label", {
+                                htmlFor: "recordingTicketId",
+                                className:
+                                  "block text-sm font-medium text-gray-700 mb-2",
+                                children: "Recording Ticket ID",
+                              }),
+                              (0, r.jsx)("input", {
+                                type: "text",
+                                id: "recordingTicketId",
+                                value: e.recordingTicketId,
+                                onChange: (s) =>
+                                  t({
+                                    ...e,
+                                    recordingTicketId: s.target.value,
+                                  }),
+                                className:
+                                  "w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-colors",
+                                placeholder:
+                                  "e.g., 123e4567-e89b-12d3-a456-426614174000",
+                              }),
+                              (0, r.jsx)("p", {
+                                className: "text-xs text-gray-500 mt-1",
+                                children:
+                                  "If your issue is related to a recording profile, enter the ticket ID",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      (0, r.jsx)("div", {
+                        className: "flex gap-4",
+                        children: (0, r.jsx)("button", {
+                          type: "submit",
+                          disabled: s || "unhealthy" === x,
+                          className:
+                            "flex-1 px-6 py-4 bg-purple-600 text-white rounded-lg font-bold text-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-lg hover:shadow-xl",
+                          children: s
+                            ? (0, r.jsxs)("span", {
+                                className:
+                                  "flex items-center justify-center gap-2",
+                                children: [
+                                  (0, r.jsxs)("svg", {
+                                    className: "animate-spin h-5 w-5",
+                                    viewBox: "0 0 24 24",
+                                    children: [
+                                      (0, r.jsx)("circle", {
+                                        className: "opacity-25",
+                                        cx: "12",
+                                        cy: "12",
+                                        r: "10",
+                                        stroke: "currentColor",
+                                        strokeWidth: "4",
+                                        fill: "none",
+                                      }),
+                                      (0, r.jsx)("path", {
+                                        className: "opacity-75",
+                                        fill: "currentColor",
+                                        d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z",
+                                      }),
+                                    ],
+                                  }),
+                                  "Submitting...",
+                                ],
+                              })
+                            : "Submit Support Ticket",
+                        }),
+                      }),
+                    ],
+                  }),
+                }),
+                (0, r.jsxs)(n.E.div, {
+                  initial: { opacity: 0 },
+                  animate: { opacity: 1 },
+                  transition: { delay: 0.4 },
+                  className: "mt-8 text-center text-gray-600",
+                  children: [
+                    (0, r.jsxs)("p", {
+                      className: "mb-4",
+                      children: [
+                        "Need to check on a profile or donate?",
+                        " ",
+                        (0, r.jsx)(l(), {
+                          href: "/find",
+                          className:
+                            "text-purple-600 hover:underline font-semibold",
+                          children: "Find a profile",
+                        }),
+                      ],
+                    }),
+                    (0, r.jsx)("p", {
+                      className: "text-sm text-gray-500",
+                      children:
+                        "For urgent issues, please contact emergency services (911)",
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        });
+      }
+    },
+    90185: function (e, t, s) {
+      "use strict";
+      s.d(t, {
+        h: function () {
+          return a;
+        },
+      });
+      class r {
+        async request(e) {
+          let t =
+              arguments.length > 1 && void 0 !== arguments[1]
+                ? arguments[1]
+                : {},
+            s = "".concat(this.baseUrl).concat(e);
+          try {
+            let e = await fetch(s, {
+                ...t,
+                headers: { "Content-Type": "application/json", ...t.headers },
+              }),
+              r = e.headers.get("content-type"),
+              a = null == r ? void 0 : r.includes("application/json");
+            if (!e.ok) {
+              let t = Error(a ? (await e.json()).error : e.statusText);
+              throw ((t.status = e.status), t);
+            }
+            return a ? await e.json() : await e.text();
+          } catch (e) {
+            throw (e.status || (e.status = 0), e);
+          }
+        }
+        async get(e, t) {
+          let s = t ? "?" + new URLSearchParams(t).toString() : "";
+          return this.request("".concat(e).concat(s), { method: "GET" });
+        }
+        async post(e, t) {
+          return this.request(e, { method: "POST", body: JSON.stringify(t) });
+        }
+        async put(e, t) {
+          return this.request(e, { method: "PUT", body: JSON.stringify(t) });
+        }
+        async delete(e) {
+          return this.request(e, { method: "DELETE" });
+        }
+        async checkHealth() {
+          return this.get("/health/status");
+        }
+        async checkDbHealth() {
+          return this.get("/health/db");
+        }
+        constructor() {
+          this.baseUrl = "/api";
+        }
+      }
+      let a = new r();
+    },
+    10808: function (e, t, s) {
+      "use strict";
+      var r = s(58078);
+      let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+        return r.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: a,
+              "aria-labelledby": t,
+            },
+            s,
+          ),
+          e ? r.createElement("title", { id: t }, e) : null,
+          r.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+          }),
+        );
+      });
+      t.Z = a;
+    },
+    19972: function (e, t, s) {
+      "use strict";
+      var r = s(58078);
+      let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+        return r.createElement(
+          "svg",
+          Object.assign(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              strokeWidth: 1.5,
+              stroke: "currentColor",
+              "aria-hidden": "true",
+              "data-slot": "icon",
+              ref: a,
+              "aria-labelledby": t,
+            },
+            s,
+          ),
+          e ? r.createElement("title", { id: t }, e) : null,
+          r.createElement("path", {
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            d: "m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+          }),
+        );
+      });
+      t.Z = a;
+    },
+  },
+  function (e) {
+    (e.O(0, [54, 590, 115, 835, 744], function () {
+      return e((e.s = 30014));
+    }),
+      (_N_E = e.O()));
+  },
+]);

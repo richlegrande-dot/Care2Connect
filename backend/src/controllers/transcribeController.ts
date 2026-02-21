@@ -1,15 +1,15 @@
-import { Request, Response } from 'express';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-import { TranscriptionService } from '../services/transcriptionService';
-import { prisma } from '../utils/database';
-import { v4 as uuidv4 } from 'uuid';
+import { Request, Response } from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { TranscriptionService } from "../services/transcriptionService";
+import { prisma } from "../utils/database";
+import { v4 as uuidv4 } from "uuid";
 
 // Configure multer for audio file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = 'uploads/audio';
+    const uploadDir = "uploads/audio";
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
@@ -28,18 +28,18 @@ const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     const allowedTypes = [
-      'audio/mpeg',
-      'audio/mp3',
-      'audio/wav',
-      'audio/m4a',
-      'audio/webm',
-      'audio/ogg',
+      "audio/mpeg",
+      "audio/mp3",
+      "audio/wav",
+      "audio/m4a",
+      "audio/webm",
+      "audio/ogg",
     ];
-    
+
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid audio file type'));
+      cb(new Error("Invalid audio file type"));
     }
   },
 });
@@ -50,15 +50,15 @@ export class TranscribeController {
   /**
    * Upload and transcribe audio file
    */
-  static uploadAudio = upload.single('audio');
+  static uploadAudio = upload.single("audio");
 
   static async transcribeAudio(req: Request, res: Response) {
     try {
       const file = req.file;
       if (!file) {
         return res.status(400).json({
-          error: 'No audio file uploaded',
-          message: 'Please provide an audio file',
+          error: "No audio file uploaded",
+          message: "Please provide an audio file",
         });
       }
 
@@ -75,10 +75,14 @@ export class TranscribeController {
       });
 
       // Transcribe audio
-      const transcriptResult = await transcriptionService.transcribeAudio(file.path);
+      const transcriptResult = await transcriptionService.transcribeAudio(
+        file.path,
+      );
 
       // Extract profile data from transcript
-      const profileData = await transcriptionService.extractProfileData(transcriptResult.transcript);
+      const profileData = await transcriptionService.extractProfileData(
+        transcriptResult.transcript,
+      );
 
       // Update audio file with transcript
       await prisma.audioFile.update({
@@ -91,7 +95,7 @@ export class TranscribeController {
       });
 
       // Clean up uploaded file (optional - keep for debugging in development)
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === "production") {
         fs.unlinkSync(file.path);
       }
 
@@ -104,20 +108,21 @@ export class TranscribeController {
         },
       });
     } catch (error) {
-      console.error('Transcription error:', error);
-      
+      console.error("Transcription error:", error);
+
       // Clean up file if it exists
       if (req.file) {
         try {
           fs.unlinkSync(req.file.path);
         } catch (cleanupError) {
-          console.error('File cleanup error:', cleanupError);
+          console.error("File cleanup error:", cleanupError);
         }
       }
 
       res.status(500).json({
-        error: 'Transcription failed',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Transcription failed",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -143,7 +148,7 @@ export class TranscribeController {
 
       if (!audioFile) {
         return res.status(404).json({
-          error: 'Audio file not found',
+          error: "Audio file not found",
         });
       }
 
@@ -152,10 +157,11 @@ export class TranscribeController {
         data: audioFile,
       });
     } catch (error) {
-      console.error('Status check error:', error);
+      console.error("Status check error:", error);
       res.status(500).json({
-        error: 'Failed to check transcription status',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to check transcription status",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -170,13 +176,14 @@ export class TranscribeController {
 
       if (!transcript) {
         return res.status(400).json({
-          error: 'Transcript required',
-          message: 'Please provide a transcript to process',
+          error: "Transcript required",
+          message: "Please provide a transcript to process",
         });
       }
 
       // Extract profile data from transcript
-      const profileData = await transcriptionService.extractProfileData(transcript);
+      const profileData =
+        await transcriptionService.extractProfileData(transcript);
 
       // Update audio file record
       if (audioFileId) {
@@ -196,10 +203,11 @@ export class TranscribeController {
         },
       });
     } catch (error) {
-      console.error('Reprocessing error:', error);
+      console.error("Reprocessing error:", error);
       res.status(500).json({
-        error: 'Failed to reprocess transcript',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to reprocess transcript",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }

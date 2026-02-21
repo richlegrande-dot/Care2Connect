@@ -1,196 +1,199 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { 
-  MicrophoneIcon, 
-  StopIcon, 
-  PlayIcon, 
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  MicrophoneIcon,
+  StopIcon,
+  PlayIcon,
   PauseIcon,
   CheckCircleIcon,
   ArrowLeftIcon,
   InformationCircleIcon,
   QrCodeIcon,
   DocumentTextIcon,
-  SparklesIcon
-} from '@heroicons/react/24/outline'
-import toast from 'react-hot-toast'
-import Link from 'next/link'
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 // API base URL resolution
 const getApiBaseUrl = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const hostname = window.location.hostname;
-    
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return 'http://localhost:3003';
+
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "http://localhost:3003";
     }
-    
-    if (hostname === 'care2connects.org' || hostname === 'www.care2connects.org') {
-      return 'https://api.care2connects.org';
+
+    if (
+      hostname === "care2connects.org" ||
+      hostname === "www.care2connects.org"
+    ) {
+      return "https://api.care2connects.org";
     }
   }
-  
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003';
+
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3003";
 };
 
 export default function TellYourStoryPage() {
-  const [isRecording, setIsRecording] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
-  const [audioUrl, setAudioUrl] = useState<string | null>(null)
-  const [recordingTime, setRecordingTime] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [showConsent, setShowConsent] = useState(true)
-  const [consentGiven, setConsentGiven] = useState(false)
-  const [isPublic, setIsPublic] = useState(false)
+  const [isRecording, setIsRecording] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showConsent, setShowConsent] = useState(true);
+  const [consentGiven, setConsentGiven] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
 
   // Processing state
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [ticketId, setTicketId] = useState<string | null>(null)
-  const [processingStatus, setProcessingStatus] = useState<string>('')
-  const [processingProgress, setProcessingProgress] = useState<number>(0)
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [ticketId, setTicketId] = useState<string | null>(null);
+  const [processingStatus, setProcessingStatus] = useState<string>("");
+  const [processingProgress, setProcessingProgress] = useState<number>(0);
 
   // Form fields
-  const [name, setName] = useState('')
-  const [age, setAge] = useState('')
-  const [location, setLocation] = useState('')
-  const [language, setLanguage] = useState('en')
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [location, setLocation] = useState("");
+  const [language, setLanguage] = useState("en");
 
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const statusPollRef = useRef<NodeJS.Timeout | null>(null)
-  const router = useRouter()
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const statusPollRef = useRef<NodeJS.Timeout | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
       if (statusPollRef.current) {
-        clearInterval(statusPollRef.current)
+        clearInterval(statusPollRef.current);
       }
       if (audioUrl) {
-        URL.revokeObjectURL(audioUrl)
+        URL.revokeObjectURL(audioUrl);
       }
-    }
-  }, [audioUrl])
+    };
+  }, [audioUrl]);
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const mediaRecorder = new MediaRecorder(stream)
-      mediaRecorderRef.current = mediaRecorder
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
 
-      const chunks: Blob[] = []
+      const chunks: Blob[] = [];
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
-          chunks.push(event.data)
+          chunks.push(event.data);
         }
-      }
+      };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/webm' })
-        setAudioBlob(blob)
-        const url = URL.createObjectURL(blob)
-        setAudioUrl(url)
-        
-        // Stop the stream
-        stream.getTracks().forEach(track => track.stop())
-      }
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        setAudioBlob(blob);
+        const url = URL.createObjectURL(blob);
+        setAudioUrl(url);
 
-      mediaRecorder.start()
-      setIsRecording(true)
-      setRecordingTime(0)
+        // Stop the stream
+        stream.getTracks().forEach((track) => track.stop());
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+      setRecordingTime(0);
 
       // Start timer
       intervalRef.current = setInterval(() => {
-        setRecordingTime(prev => prev + 1)
-      }, 1000)
+        setRecordingTime((prev) => prev + 1);
+      }, 1000);
 
-      toast.success('Recording started!')
+      toast.success("Recording started!");
     } catch (error) {
-      console.error('Error starting recording:', error)
-      toast.error('Could not access microphone. Please check permissions.')
+      console.error("Error starting recording:", error);
+      toast.error("Could not access microphone. Please check permissions.");
     }
-  }
+  };
 
   const pauseRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
       if (isPaused) {
-        mediaRecorderRef.current.resume()
-        setIsPaused(false)
+        mediaRecorderRef.current.resume();
+        setIsPaused(false);
         // Resume timer
         intervalRef.current = setInterval(() => {
-          setRecordingTime(prev => prev + 1)
-        }, 1000)
+          setRecordingTime((prev) => prev + 1);
+        }, 1000);
       } else {
-        mediaRecorderRef.current.pause()
-        setIsPaused(true)
+        mediaRecorderRef.current.pause();
+        setIsPaused(true);
         // Pause timer
         if (intervalRef.current) {
-          clearInterval(intervalRef.current)
+          clearInterval(intervalRef.current);
         }
       }
     }
-  }
+  };
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop()
-      setIsRecording(false)
-      setIsPaused(false)
-      
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      setIsPaused(false);
+
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
-      
-      toast.success('Recording completed!')
+
+      toast.success("Recording completed!");
     }
-  }
+  };
 
   const playAudio = () => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.pause()
-        setIsPlaying(false)
+        audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play()
-        setIsPlaying(true)
+        audioRef.current.play();
+        setIsPlaying(true);
       }
     }
-  }
+  };
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, '0')}`
-  }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const handleSubmit = async () => {
     if (!audioBlob) {
-      toast.error('Please record your story first')
-      return
+      toast.error("Please record your story first");
+      return;
     }
 
     if (!consentGiven) {
-      toast.error('Please give consent to continue')
-      return
+      toast.error("Please give consent to continue");
+      return;
     }
 
-    setIsProcessing(true)
-    setProcessingStatus('Creating your profile...')
-    setProcessingProgress(0)
+    setIsProcessing(true);
+    setProcessingStatus("Creating your profile...");
+    setProcessingProgress(0);
 
     try {
       const apiBaseUrl = getApiBaseUrl();
 
       // Step 1: Start the story ticket
       const startResponse = await fetch(`${apiBaseUrl}/api/story/start`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: name || null,
@@ -198,110 +201,115 @@ export default function TellYourStoryPage() {
           location: location || null,
           language: language,
         }),
-      })
+      });
 
       if (!startResponse.ok) {
-        throw new Error('Failed to start story processing')
+        throw new Error("Failed to start story processing");
       }
 
-      const startData = await startResponse.json()
-      const newTicketId = startData.ticketId
-      setTicketId(newTicketId)
+      const startData = await startResponse.json();
+      const newTicketId = startData.ticketId;
+      setTicketId(newTicketId);
 
-      setProcessingStatus('Uploading your recording...')
-      setProcessingProgress(10)
+      setProcessingStatus("Uploading your recording...");
+      setProcessingProgress(10);
 
       // Step 2: Upload the audio
-      const formData = new FormData()
-      formData.append('audio', audioBlob, 'story.webm')
-      formData.append('language', language)
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "story.webm");
+      formData.append("language", language);
 
-      const uploadResponse = await fetch(`${apiBaseUrl}/api/story/${newTicketId}/upload`, {
-        method: 'POST',
-        body: formData,
-      })
+      const uploadResponse = await fetch(
+        `${apiBaseUrl}/api/story/${newTicketId}/upload`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (!uploadResponse.ok) {
-        throw new Error('Failed to upload audio')
+        throw new Error("Failed to upload audio");
       }
 
-      setProcessingProgress(20)
+      setProcessingProgress(20);
 
       // Step 3: Poll for status updates
-      startStatusPolling(newTicketId)
+      startStatusPolling(newTicketId);
 
-      toast.success('Processing started! This may take a few moments...')
+      toast.success("Processing started! This may take a few moments...");
     } catch (error) {
-      console.error('Upload error:', error)
-      toast.error('Failed to process your story. Please try again.')
-      setIsProcessing(false)
-      setProcessingStatus('')
-      setProcessingProgress(0)
+      console.error("Upload error:", error);
+      toast.error("Failed to process your story. Please try again.");
+      setIsProcessing(false);
+      setProcessingStatus("");
+      setProcessingProgress(0);
     }
-  }
+  };
 
   const startStatusPolling = (ticketId: string) => {
     const apiBaseUrl = getApiBaseUrl();
 
     statusPollRef.current = setInterval(async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/story/${ticketId}/status`)
-        
+        const response = await fetch(
+          `${apiBaseUrl}/api/story/${ticketId}/status`,
+        );
+
         if (!response.ok) {
-          throw new Error('Failed to fetch status')
+          throw new Error("Failed to fetch status");
         }
 
-        const data = await response.json()
+        const data = await response.json();
 
         // Update status
-        setProcessingStatus(getStatusMessage(data.status))
-        setProcessingProgress(data.progress)
+        setProcessingStatus(getStatusMessage(data.status));
+        setProcessingProgress(data.progress);
 
         // Check if completed
-        if (data.status === 'COMPLETED') {
+        if (data.status === "COMPLETED") {
           if (statusPollRef.current) {
-            clearInterval(statusPollRef.current)
+            clearInterval(statusPollRef.current);
           }
 
-          setProcessingStatus('All done!')
-          setProcessingProgress(100)
+          setProcessingStatus("All done!");
+          setProcessingProgress(100);
 
           // Wait a moment then redirect
           setTimeout(() => {
-            router.push(`/profile/${ticketId}`)
-          }, 1500)
+            router.push(`/profile/${ticketId}`);
+          }, 1500);
         }
 
         // Check if failed
-        if (data.status === 'FAILED') {
+        if (data.status === "FAILED") {
           if (statusPollRef.current) {
-            clearInterval(statusPollRef.current)
+            clearInterval(statusPollRef.current);
           }
 
-          toast.error('Processing failed. Please try again.')
-          setIsProcessing(false)
-          setProcessingStatus('')
-          setProcessingProgress(0)
+          toast.error("Processing failed. Please try again.");
+          setIsProcessing(false);
+          setProcessingStatus("");
+          setProcessingProgress(0);
         }
       } catch (error) {
-        console.error('Status polling error:', error)
+        console.error("Status polling error:", error);
       }
-    }, 2000) // Poll every 2 seconds
-  }
+    }, 2000); // Poll every 2 seconds
+  };
 
   const getStatusMessage = (status: string): string => {
     const messages: Record<string, string> = {
-      CREATED: 'Initializing...',
-      UPLOADING: 'Uploading your recording...',
-      TRANSCRIBING: 'Transcribing your story...',
-      ANALYZING: 'Analyzing and extracting details...',
-      GENERATING_QR: 'Generating your QR code...',
-      GENERATING_DOC: 'Creating your GoFundMe draft...',
-      COMPLETED: 'All done!',
-      FAILED: 'Processing failed',
-    }
-    return messages[status] || 'Processing...'
-  }
+      CREATED: "Initializing...",
+      UPLOADING: "Uploading your recording...",
+      TRANSCRIBING: "Transcribing your story...",
+      ANALYZING: "Analyzing and extracting details...",
+      GENERATING_QR: "Generating your QR code...",
+      GENERATING_DOC: "Creating your GoFundMe draft...",
+      COMPLETED: "All done!",
+      FAILED: "Processing failed",
+    };
+    return messages[status] || "Processing...";
+  };
 
   if (showConsent) {
     return (
@@ -309,9 +317,12 @@ export default function TellYourStoryPage() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-lg shadow-md p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">Before We Begin</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                Before We Begin
+              </h1>
               <p className="text-lg text-gray-600">
-                Your privacy and dignity are our top priorities. Please review the following information.
+                Your privacy and dignity are our top priorities. Please review
+                the following information.
               </p>
             </div>
 
@@ -320,12 +331,25 @@ export default function TellYourStoryPage() {
                 <div className="flex items-start">
                   <InformationCircleIcon className="w-6 h-6 text-blue-600 mt-1 mr-3 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-blue-900 mb-2">How Your Story Will Be Used</h3>
+                    <h3 className="font-semibold text-blue-900 mb-2">
+                      How Your Story Will Be Used
+                    </h3>
                     <ul className="text-blue-800 space-y-1 text-sm">
-                      <li>• We'll transcribe your audio recording using secure AI technology</li>
-                      <li>• Your story helps create a personalized profile with QR code and GoFundMe draft</li>
-                      <li>• You control who can see your profile and information</li>
-                      <li>• You can access your profile anytime with your unique ID</li>
+                      <li>
+                        • We'll transcribe your audio recording using secure AI
+                        technology
+                      </li>
+                      <li>
+                        • Your story helps create a personalized profile with QR
+                        code and GoFundMe draft
+                      </li>
+                      <li>
+                        • You control who can see your profile and information
+                      </li>
+                      <li>
+                        • You can access your profile anytime with your unique
+                        ID
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -341,12 +365,24 @@ export default function TellYourStoryPage() {
                     className="mt-1 mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label htmlFor="consent" className="text-gray-700">
-                    <span className="font-medium">I consent to sharing my story</span> and understand that:
+                    <span className="font-medium">
+                      I consent to sharing my story
+                    </span>{" "}
+                    and understand that:
                     <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                      <li>• My audio will be processed to create a text transcript</li>
-                      <li>• AI will help extract key information to create my profile</li>
-                      <li>• My information will be stored securely and encrypted</li>
-                      <li>• A QR code and GoFundMe draft will be generated for me</li>
+                      <li>
+                        • My audio will be processed to create a text transcript
+                      </li>
+                      <li>
+                        • AI will help extract key information to create my
+                        profile
+                      </li>
+                      <li>
+                        • My information will be stored securely and encrypted
+                      </li>
+                      <li>
+                        • A QR code and GoFundMe draft will be generated for me
+                      </li>
                     </ul>
                   </label>
                 </div>
@@ -360,9 +396,11 @@ export default function TellYourStoryPage() {
                     className="mt-1 mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label htmlFor="public" className="text-gray-700">
-                    <span className="font-medium">Make my profile public</span> (optional)
+                    <span className="font-medium">Make my profile public</span>{" "}
+                    (optional)
                     <p className="mt-1 text-sm text-gray-600">
-                      Allow others to view my story and profile. This helps potential donors and supporters find me.
+                      Allow others to view my story and profile. This helps
+                      potential donors and supporters find me.
                     </p>
                   </label>
                 </div>
@@ -370,10 +408,15 @@ export default function TellYourStoryPage() {
 
               {/* Basic info form */}
               <div className="space-y-4 pt-6 border-t">
-                <h3 className="font-semibold text-gray-900">Tell us a bit about yourself (optional)</h3>
+                <h3 className="font-semibold text-gray-900">
+                  Tell us a bit about yourself (optional)
+                </h3>
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
                       Name
                     </label>
                     <input
@@ -387,7 +430,10 @@ export default function TellYourStoryPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="age" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label
+                        htmlFor="age"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
                         Age
                       </label>
                       <input
@@ -400,7 +446,10 @@ export default function TellYourStoryPage() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label
+                        htmlFor="location"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
                         Location
                       </label>
                       <input
@@ -414,7 +463,10 @@ export default function TellYourStoryPage() {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label
+                      htmlFor="language"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
                       Language
                     </label>
                     <select
@@ -441,7 +493,10 @@ export default function TellYourStoryPage() {
               </div>
 
               <div className="flex justify-between pt-6">
-                <Link href="/" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 transition">
+                <Link
+                  href="/"
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 transition"
+                >
                   <ArrowLeftIcon className="w-4 h-4 mr-2" />
                   Back to Home
                 </Link>
@@ -457,7 +512,7 @@ export default function TellYourStoryPage() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   // Processing overlay
@@ -482,9 +537,7 @@ export default function TellYourStoryPage() {
               Processing Your Story
             </h2>
 
-            <p className="text-lg text-gray-600 mb-8">
-              {processingStatus}
-            </p>
+            <p className="text-lg text-gray-600 mb-8">{processingStatus}</p>
 
             {/* Progress bar */}
             <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
@@ -493,23 +546,33 @@ export default function TellYourStoryPage() {
                 style={{ width: `${processingProgress}%` }}
               />
             </div>
-            <p className="text-sm text-gray-500">{processingProgress}% complete</p>
+            <p className="text-sm text-gray-500">
+              {processingProgress}% complete
+            </p>
 
             {/* Steps indicator */}
             <div className="mt-8 grid grid-cols-4 gap-2 text-xs">
-              <div className={`flex flex-col items-center ${processingProgress >= 10 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div
+                className={`flex flex-col items-center ${processingProgress >= 10 ? "text-blue-600" : "text-gray-400"}`}
+              >
                 <MicrophoneIcon className="w-6 h-6 mb-1" />
                 <span>Upload</span>
               </div>
-              <div className={`flex flex-col items-center ${processingProgress >= 40 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div
+                className={`flex flex-col items-center ${processingProgress >= 40 ? "text-blue-600" : "text-gray-400"}`}
+              >
                 <DocumentTextIcon className="w-6 h-6 mb-1" />
                 <span>Transcribe</span>
               </div>
-              <div className={`flex flex-col items-center ${processingProgress >= 70 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div
+                className={`flex flex-col items-center ${processingProgress >= 70 ? "text-blue-600" : "text-gray-400"}`}
+              >
                 <QrCodeIcon className="w-6 h-6 mb-1" />
                 <span>QR Code</span>
               </div>
-              <div className={`flex flex-col items-center ${processingProgress >= 90 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div
+                className={`flex flex-col items-center ${processingProgress >= 90 ? "text-blue-600" : "text-gray-400"}`}
+              >
                 <DocumentTextIcon className="w-6 h-6 mb-1" />
                 <span>Document</span>
               </div>
@@ -517,13 +580,14 @@ export default function TellYourStoryPage() {
 
             <div className="mt-8 p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-800">
-                <strong>Hang tight!</strong> We're creating your profile, QR code, and GoFundMe draft document.
+                <strong>Hang tight!</strong> We're creating your profile, QR
+                code, and GoFundMe draft document.
               </p>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -531,9 +595,12 @@ export default function TellYourStoryPage() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-md p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Tell Your Story</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Tell Your Story
+            </h1>
             <p className="text-lg text-gray-600">
-              Share your experiences, skills, and dreams. Your story matters and helps us create your personalized support profile.
+              Share your experiences, skills, and dreams. Your story matters and
+              helps us create your personalized support profile.
             </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-sm">
               <div className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full">
@@ -568,7 +635,7 @@ export default function TellYourStoryPage() {
                         className="w-2 bg-red-500 rounded-full"
                         style={{
                           animation: `audioBar 0.8s ease-in-out ${i * 0.1}s infinite`,
-                          height: '50%',
+                          height: "50%",
                         }}
                       />
                     ))}
@@ -594,10 +661,12 @@ export default function TellYourStoryPage() {
             <div className="text-center">
               {isRecording ? (
                 <p className="text-red-600 font-medium">
-                  {isPaused ? 'Recording Paused' : 'Recording...'}
+                  {isPaused ? "Recording Paused" : "Recording..."}
                 </p>
               ) : audioBlob ? (
-                <p className="text-green-600 font-medium">Recording Complete ✓</p>
+                <p className="text-green-600 font-medium">
+                  Recording Complete ✓
+                </p>
               ) : (
                 <p className="text-gray-600">Ready to record</p>
               )}
@@ -663,10 +732,10 @@ export default function TellYourStoryPage() {
                   </button>
                   <button
                     onClick={() => {
-                      setAudioBlob(null)
-                      setAudioUrl(null)
-                      setRecordingTime(0)
-                      setIsPlaying(false)
+                      setAudioBlob(null);
+                      setAudioUrl(null);
+                      setRecordingTime(0);
+                      setIsPlaying(false);
                     }}
                     className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition"
                   >
@@ -696,9 +765,25 @@ export default function TellYourStoryPage() {
                 >
                   {isProcessing ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Processing...
                     </>
@@ -710,7 +795,8 @@ export default function TellYourStoryPage() {
                   )}
                 </button>
                 <p className="text-sm text-gray-500 mt-3">
-                  This will transcribe your story, generate a QR code, and create a GoFundMe draft document
+                  This will transcribe your story, generate a QR code, and
+                  create a GoFundMe draft document
                 </p>
               </div>
             )}
@@ -733,11 +819,15 @@ export default function TellYourStoryPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>Share your experiences, skills, goals, and current needs</span>
+                <span>
+                  Share your experiences, skills, goals, and current needs
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>Mention any job history, talents, or things you're good at</span>
+                <span>
+                  Mention any job history, talents, or things you're good at
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
@@ -745,7 +835,9 @@ export default function TellYourStoryPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>You can pause and resume anytime, or start over if needed</span>
+                <span>
+                  You can pause and resume anytime, or start over if needed
+                </span>
               </li>
             </ul>
           </div>
@@ -754,10 +846,15 @@ export default function TellYourStoryPage() {
 
       <style jsx>{`
         @keyframes audioBar {
-          0%, 100% { height: 20%; }
-          50% { height: 100%; }
+          0%,
+          100% {
+            height: 20%;
+          }
+          50% {
+            height: 100%;
+          }
         }
       `}</style>
     </div>
-  )
+  );
 }

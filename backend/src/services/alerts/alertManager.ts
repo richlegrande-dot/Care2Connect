@@ -1,13 +1,13 @@
 /**
  * Alerts Subsystem
- * 
+ *
  * Handles operational alerts via email or webhook when critical issues occur.
  * Includes cooldown to prevent alert spam.
  */
 
 // SMTP/email alerts archived — email transport removed
 
-export type AlertMode = 'none' | 'email' | 'webhook';
+export type AlertMode = "none" | "email" | "webhook";
 
 export interface AlertConfig {
   mode: AlertMode;
@@ -18,7 +18,7 @@ export interface AlertConfig {
 }
 
 export interface AlertPayload {
-  severity: 'critical' | 'warning' | 'info';
+  severity: "critical" | "warning" | "info";
   title: string;
   message: string;
   timestamp: string;
@@ -39,15 +39,21 @@ class AlertManager {
 
   private loadConfig(): AlertConfig {
     return {
-      mode: (process.env.ALERT_MODE || 'none') as AlertMode,
+      mode: (process.env.ALERT_MODE || "none") as AlertMode,
       emailTo: process.env.OPS_ALERT_EMAIL_TO,
       webhookUrl: process.env.OPS_ALERT_WEBHOOK_URL,
-      failureThreshold: parseInt(process.env.ALERT_FAILURE_THRESHOLD || '3', 10),
-      cooldownMinutes: parseInt(process.env.ALERT_COOLDOWN_MINUTES || '15', 10),
+      failureThreshold: parseInt(
+        process.env.ALERT_FAILURE_THRESHOLD || "3",
+        10,
+      ),
+      cooldownMinutes: parseInt(process.env.ALERT_COOLDOWN_MINUTES || "15", 10),
     };
   }
 
-  public async sendAlert(alertKey: string, payload: AlertPayload): Promise<void> {
+  public async sendAlert(
+    alertKey: string,
+    payload: AlertPayload,
+  ): Promise<void> {
     // Check cooldown
     if (!this.canSendAlert(alertKey)) {
       console.log(`⏳ Alert suppressed (cooldown): ${alertKey}`);
@@ -59,14 +65,16 @@ class AlertManager {
 
     // Send via configured channel
     switch (this.config.mode) {
-      case 'email':
+      case "email":
         await this.sendEmailAlert(payload);
         break;
-      case 'webhook':
+      case "webhook":
         await this.sendWebhookAlert(payload);
         break;
-      case 'none':
-        console.log(`⚠️  Alert (suppressed, ALERT_MODE=none): ${payload.title}`);
+      case "none":
+        console.log(
+          `⚠️  Alert (suppressed, ALERT_MODE=none): ${payload.title}`,
+        );
         break;
     }
   }
@@ -99,25 +107,29 @@ class AlertManager {
     // Email alerts have been archived and disabled. If alerts are required,
     // configure ALERT_MODE=webhook and set OPS_ALERT_WEBHOOK_URL. This function
     // intentionally no-ops to avoid SMTP dependency.
-    console.warn('⚠️  sendEmailAlert called but SMTP support is archived. Enable webhook alerts instead.');
+    console.warn(
+      "⚠️  sendEmailAlert called but SMTP support is archived. Enable webhook alerts instead.",
+    );
   }
 
   private async sendWebhookAlert(payload: AlertPayload): Promise<void> {
     if (!this.config.webhookUrl) {
-      console.error('❌ Webhook alert configured but OPS_ALERT_WEBHOOK_URL not set');
+      console.error(
+        "❌ Webhook alert configured but OPS_ALERT_WEBHOOK_URL not set",
+      );
       return;
     }
 
     try {
       const response = await fetch(this.config.webhookUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...payload,
-          source: 'CareConnect Backend',
-          environment: process.env.NODE_ENV || 'development',
+          source: "CareConnect Backend",
+          environment: process.env.NODE_ENV || "development",
         }),
       });
 
@@ -127,7 +139,7 @@ class AlertManager {
 
       console.log(`🔔 Alert sent to webhook: ${this.config.webhookUrl}`);
     } catch (error) {
-      console.error('❌ Failed to send webhook alert:', error);
+      console.error("❌ Failed to send webhook alert:", error);
     }
   }
 
@@ -139,19 +151,19 @@ class AlertManager {
 
     if (payload.failingServices?.length) {
       body += `Failing Services:\n`;
-      payload.failingServices.forEach(s => body += `  • ${s}\n`);
-      body += '\n';
+      payload.failingServices.forEach((s) => (body += `  • ${s}\n`));
+      body += "\n";
     }
 
     if (payload.blockingReasons?.length) {
       body += `Blocking Reasons:\n`;
-      payload.blockingReasons.forEach(r => body += `  • ${r}\n`);
-      body += '\n';
+      payload.blockingReasons.forEach((r) => (body += `  • ${r}\n`));
+      body += "\n";
     }
 
     if (payload.recommendedFix?.length) {
       body += `Recommended Fixes:\n`;
-      payload.recommendedFix.forEach((f, i) => body += `  ${i + 1}. ${f}\n`);
+      payload.recommendedFix.forEach((f, i) => (body += `  ${i + 1}. ${f}\n`));
     }
 
     return body;
@@ -159,9 +171,9 @@ class AlertManager {
 
   private formatEmailHtml(payload: AlertPayload): string {
     const severityColor = {
-      critical: '#dc2626',
-      warning: '#f59e0b',
-      info: '#3b82f6',
+      critical: "#dc2626",
+      warning: "#f59e0b",
+      info: "#3b82f6",
     }[payload.severity];
 
     return `
@@ -174,29 +186,41 @@ class AlertManager {
           <p><strong>Timestamp:</strong> ${payload.timestamp}</p>
           <p>${payload.message}</p>
           
-          ${payload.failingServices?.length ? `
+          ${
+            payload.failingServices?.length
+              ? `
             <h3 style="color: #374151; margin-top: 24px;">Failing Services</h3>
             <ul style="color: #6b7280;">
-              ${payload.failingServices.map(s => `<li>${s}</li>`).join('')}
+              ${payload.failingServices.map((s) => `<li>${s}</li>`).join("")}
             </ul>
-          ` : ''}
+          `
+              : ""
+          }
           
-          ${payload.blockingReasons?.length ? `
+          ${
+            payload.blockingReasons?.length
+              ? `
             <h3 style="color: #374151; margin-top: 24px;">Blocking Reasons</h3>
             <ul style="color: #6b7280;">
-              ${payload.blockingReasons.map(r => `<li>${r}</li>`).join('')}
+              ${payload.blockingReasons.map((r) => `<li>${r}</li>`).join("")}
             </ul>
-          ` : ''}
+          `
+              : ""
+          }
           
-          ${payload.recommendedFix?.length ? `
+          ${
+            payload.recommendedFix?.length
+              ? `
             <h3 style="color: #374151; margin-top: 24px;">Recommended Fixes</h3>
             <ol style="color: #6b7280;">
-              ${payload.recommendedFix.map(f => `<li>${f}</li>`).join('')}
+              ${payload.recommendedFix.map((f) => `<li>${f}</li>`).join("")}
             </ol>
-          ` : ''}
+          `
+              : ""
+          }
         </div>
         <div style="margin-top: 16px; padding: 12px; background: #f3f4f6; border-radius: 8px; font-size: 12px; color: #6b7280;">
-          <p style="margin: 0;">CareConnect Backend • ${process.env.NODE_ENV || 'development'}</p>
+          <p style="margin: 0;">CareConnect Backend • ${process.env.NODE_ENV || "development"}</p>
         </div>
       </div>
     `;

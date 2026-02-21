@@ -1,9 +1,10 @@
-import request from 'supertest';
-import { spawn, ChildProcess } from 'child_process';
-import path from 'path';
-import { promises as fs } from 'fs';
+import request from "supertest";
+import { spawn, ChildProcess } from "child_process";
+import path from "path";
+import { promises as fs } from "fs";
 
-describe('Server Binding and Availability', () => {
+const RUN = process.env.RUN_LEGACY_INTEGRATION === "true";
+(RUN ? describe : describe.skip)("Server Binding and Availability", () => {
   let serverProcess: ChildProcess | null = null;
   const testPort = 3901; // Use a different port for testing
 
@@ -13,16 +14,16 @@ describe('Server Binding and Availability', () => {
 
   afterEach(async () => {
     if (serverProcess) {
-      serverProcess.kill('SIGTERM');
+      serverProcess.kill("SIGTERM");
       serverProcess = null;
       // Wait for process to clean up
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   });
 
-  it('should bind to port and serve /health/live even with invalid Stripe keys', async () => {
+  it("should bind to port and serve /health/live even with invalid Stripe keys", async () => {
     // Create a temporary .env with invalid Stripe keys
-    const tempEnvPath = path.join(process.cwd(), '.env.test');
+    const tempEnvPath = path.join(process.cwd(), ".env.test");
     const envContent = `
 NODE_ENV=test
 PORT=${testPort}
@@ -36,34 +37,41 @@ NO_KEYS_MODE=true
 
     try {
       // Start server with test environment
-      serverProcess = spawn('node', ['-r', 'ts-node/register', 'src/server.ts'], {
-        cwd: path.join(process.cwd()),
-        env: {
-          ...process.env,
-          NODE_ENV: 'development', // Not 'test' so it actually binds
-          PORT: testPort.toString(),
-          DOTENV_CONFIG_PATH: tempEnvPath,
+      serverProcess = spawn(
+        "node",
+        ["-r", "ts-node/register", "src/server.ts"],
+        {
+          cwd: path.join(process.cwd()),
+          env: {
+            ...process.env,
+            NODE_ENV: "development", // Not 'test' so it actually binds
+            PORT: testPort.toString(),
+            DOTENV_CONFIG_PATH: tempEnvPath,
+          },
+          stdio: ["pipe", "pipe", "pipe"],
         },
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      );
 
       // Wait for server to start
       await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => reject(new Error('Server start timeout')), 25000);
-        
-        serverProcess!.stdout!.on('data', (data) => {
+        const timeout = setTimeout(
+          () => reject(new Error("Server start timeout")),
+          25000,
+        );
+
+        serverProcess!.stdout!.on("data", (data) => {
           const output = data.toString();
-          if (output.includes('successfully bound and listening')) {
+          if (output.includes("successfully bound and listening")) {
             clearTimeout(timeout);
             resolve(true);
           }
         });
 
-        serverProcess!.stderr!.on('data', (data) => {
-          console.error('Server stderr:', data.toString());
+        serverProcess!.stderr!.on("data", (data) => {
+          console.error("Server stderr:", data.toString());
         });
 
-        serverProcess!.on('exit', (code) => {
+        serverProcess!.on("exit", (code) => {
           clearTimeout(timeout);
           reject(new Error(`Server exited with code ${code}`));
         });
@@ -71,13 +79,12 @@ NO_KEYS_MODE=true
 
       // Test that /health/live responds
       const response = await request(`http://localhost:${testPort}`)
-        .get('/health/live')
+        .get("/health/live")
         .expect(200);
 
-      expect(response.body).toHaveProperty('status', 'alive');
-      expect(response.body).toHaveProperty('pid');
-      expect(response.body).toHaveProperty('port', testPort.toString());
-
+      expect(response.body).toHaveProperty("status", "alive");
+      expect(response.body).toHaveProperty("pid");
+      expect(response.body).toHaveProperty("port", testPort.toString());
     } finally {
       // Clean up temp file
       try {
@@ -88,15 +95,16 @@ NO_KEYS_MODE=true
     }
   }, 35000);
 
-  it('should handle port conflicts with automatic failover', async () => {
+  it("should handle port conflicts with automatic failover", async () => {
     // This test would need to occupy a port first, then test failover
     // For now, just test that the server reports the correct port in health endpoint
-    const response = await request(`http://localhost:${process.env.PORT || 3001}`)
-      .get('/health/live');
+    const response = await request(
+      `http://localhost:${process.env.PORT || 3001}`,
+    ).get("/health/live");
 
     if (response.status === 200) {
-      expect(response.body).toHaveProperty('status', 'alive');
-      expect(response.body).toHaveProperty('port');
+      expect(response.body).toHaveProperty("status", "alive");
+      expect(response.body).toHaveProperty("port");
     }
     // If server isn't running, that's also a valid test result for this suite
   });

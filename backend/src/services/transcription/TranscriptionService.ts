@@ -8,11 +8,11 @@ import {
   TranscriptionConfig,
   TranscriptionMode,
   EVTSEngine,
-  TranscriptionError
-} from './TranscriptionProvider';
-import { WebSpeechAdapter } from './providers/WebSpeechAdapter';
-import { WhisperCppProvider } from './providers/WhisperCppProvider';
-import { VoskProvider } from './providers/VoskProvider';
+  TranscriptionError,
+} from "./TranscriptionProvider";
+import { WebSpeechAdapter } from "./providers/WebSpeechAdapter";
+import { WhisperCppProvider } from "./providers/WhisperCppProvider";
+import { VoskProvider } from "./providers/VoskProvider";
 
 export class TranscriptionService {
   private provider?: TranscriptionProvider;
@@ -24,17 +24,18 @@ export class TranscriptionService {
   }
 
   private loadConfig(): TranscriptionConfig {
-    const mode = (process.env.TRANSCRIPTION_MODE || 'legacy') as TranscriptionMode;
-    const evtsEngine = (process.env.EVTS_ENGINE || 'whispercpp') as EVTSEngine;
+    const mode = (process.env.TRANSCRIPTION_MODE ||
+      "legacy") as TranscriptionMode;
+    const evtsEngine = (process.env.EVTS_ENGINE || "whispercpp") as EVTSEngine;
     const evtsModelPath = process.env.EVTS_MODEL_PATH;
 
     return {
       mode,
       evtsEngine,
       evtsModelPath,
-      language: process.env.TRANSCRIPTION_LANGUAGE || 'en-US',
+      language: process.env.TRANSCRIPTION_LANGUAGE || "en-US",
       continuous: true,
-      interimResults: true
+      interimResults: true,
     };
   }
 
@@ -52,8 +53,8 @@ export class TranscriptionService {
         } else {
           throw new TranscriptionError(
             `Unknown EVTS engine: ${this.config.evtsEngine}`,
-            'INVALID_CONFIG',
-            false
+            "INVALID_CONFIG",
+            false,
           );
         }
         break;
@@ -61,16 +62,16 @@ export class TranscriptionService {
       case TranscriptionMode.LEGACY:
         // Legacy OpenAI Whisper - not implemented here
         throw new TranscriptionError(
-          'Legacy mode requires OpenAI API key. Use NVT or EVTS for keyless transcription.',
-          'LEGACY_MODE_NOT_SUPPORTED',
-          false
+          "Legacy mode requires OpenAI API key. Use NVT or EVTS for keyless transcription.",
+          "LEGACY_MODE_NOT_SUPPORTED",
+          false,
         );
 
       default:
         throw new TranscriptionError(
           `Unknown transcription mode: ${this.config.mode}`,
-          'INVALID_CONFIG',
-          false
+          "INVALID_CONFIG",
+          false,
         );
     }
 
@@ -80,9 +81,9 @@ export class TranscriptionService {
   getProvider(): TranscriptionProvider {
     if (!this.provider) {
       throw new TranscriptionError(
-        'TranscriptionService not initialized. Call initialize() first.',
-        'NOT_INITIALIZED',
-        false
+        "TranscriptionService not initialized. Call initialize() first.",
+        "NOT_INITIALIZED",
+        false,
       );
     }
     return this.provider;
@@ -98,7 +99,7 @@ export class TranscriptionService {
       return {
         initialized: false,
         mode: this.config.mode,
-        available: false
+        available: false,
       };
     }
 
@@ -110,7 +111,7 @@ export class TranscriptionService {
       mode: this.config.mode,
       engine: this.config.evtsEngine,
       available,
-      capabilities
+      capabilities,
     };
   }
 }

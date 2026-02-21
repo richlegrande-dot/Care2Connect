@@ -1,6 +1,1154 @@
-(()=>{var e={};e.id=972,e.ids=[972],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},56044:(e,s,t)=>{"use strict";t.r(s),t.d(s,{GlobalError:()=>n.a,__next_app__:()=>x,originalPathname:()=>m,pages:()=>d,routeModule:()=>u,tree:()=>c});var a=t(36577),r=t(55533),i=t(40443),n=t.n(i),l=t(53320),o={};for(let e in l)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(o[e]=()=>l[e]);t.d(s,o);let c=["",{children:["tell-story",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(t.bind(t,94877)),"C:\\Users\\richl\\Care2system\\frontend\\app\\tell-story\\page.tsx"]}]},{}]},{layout:[()=>Promise.resolve().then(t.bind(t,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(t.t.bind(t,31459,23)),"next/dist/client/components/not-found-error"]}],d=["C:\\Users\\richl\\Care2system\\frontend\\app\\tell-story\\page.tsx"],m="/tell-story/page",x={require:t,loadChunk:()=>Promise.resolve()},u=new a.AppPageRouteModule({definition:{kind:r.x.APP_PAGE,page:"/tell-story/page",pathname:"/tell-story",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:c}})},20717:(e,s,t)=>{Promise.resolve().then(t.bind(t,56253)),Promise.resolve().then(t.bind(t,9690)),Promise.resolve().then(t.bind(t,33999))},63648:(e,s,t)=>{Promise.resolve().then(t.bind(t,73311))},19191:(e,s,t)=>{Promise.resolve().then(t.t.bind(t,28913,23)),Promise.resolve().then(t.t.bind(t,50409,23)),Promise.resolve().then(t.t.bind(t,75054,23)),Promise.resolve().then(t.t.bind(t,34892,23)),Promise.resolve().then(t.t.bind(t,80356,23)),Promise.resolve().then(t.t.bind(t,73559,23))},56253:(e,s,t)=>{"use strict";t.r(s),t.d(s,{Providers:()=>l});var a=t(73658),r=t(58758),i=t(60459),n=t(55459);function l({children:e}){let[s]=(0,n.useState)(()=>new r.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return a.jsx(i.aH,{client:s,children:e})}},73311:(e,s,t)=>{"use strict";t.r(s),t.d(s,{default:()=>v});var a=t(73658),r=t(55459),i=t(32241),n=t(28317),l=t(35626),o=t(24303),c=t(10546),d=t(82397),m=t(20572),x=t(62043),u=t(33999),h=t(84874),p=t.n(h),f=t(14168),b=t.n(f),y=t(80600);/**
- * @license lucide-react v0.294.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */let j=(0,y.Z)("Check",[["path",{d:"M20 6 9 17l-5-5",key:"1gmf2c"}]]);function g({onComplete:e,duration:s=5e3}){let[t,i]=(0,r.useState)([{id:"transcribe",label:"Transcribing your story",completed:!1},{id:"extract",label:"Extracting key information",completed:!1},{id:"qr",label:"Preparing QR donation code",completed:!1},{id:"gofundme",label:"Drafting GoFundMe template",completed:!1},{id:"finalize",label:"Finalizing your report",completed:!1}]);return(0,r.useEffect)(()=>{let a=s/t.length;t.forEach((s,r)=>{setTimeout(()=>{i(e=>e.map((e,s)=>s===r?{...e,completed:!0}:e)),r===t.length-1&&setTimeout(e,800)},a*r)})},[s,e]),(0,a.jsxs)("div",{role:"dialog","aria-live":"polite","aria-label":"Processing your story",className:"jsx-800bca46b4bf46ca fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center z-50",children:[(0,a.jsxs)("div",{className:"jsx-800bca46b4bf46ca max-w-2xl w-full mx-4",children:[a.jsx("div",{className:"jsx-800bca46b4bf46ca relative mb-12",children:(0,a.jsxs)("div",{className:"jsx-800bca46b4bf46ca bg-white shadow-2xl rounded-lg p-12 transform transition-all duration-1000 animate-slide-up",children:[(0,a.jsxs)("div",{className:"jsx-800bca46b4bf46ca space-y-3 mb-8",children:[a.jsx("div",{style:{animationDelay:"0.2s"},className:"jsx-800bca46b4bf46ca h-4 bg-gray-200 rounded animate-fill-line"}),a.jsx("div",{style:{animationDelay:"0.4s"},className:"jsx-800bca46b4bf46ca h-4 bg-gray-200 rounded animate-fill-line w-3/4"})]}),a.jsx("div",{className:"jsx-800bca46b4bf46ca space-y-2 mb-8",children:[...Array(8)].map((e,s)=>a.jsx("div",{style:{animationDelay:`${.6+.1*s}s`,width:s%3==0?"100%":s%3==1?"95%":"90%"},className:"jsx-800bca46b4bf46ca h-2 bg-gray-100 rounded animate-fill-line"},s))}),a.jsx("div",{style:{animationDelay:"1.8s"},className:"jsx-800bca46b4bf46ca h-3 bg-gray-200 rounded animate-fill-line w-1/2"})]})}),(0,a.jsxs)("div",{className:"jsx-800bca46b4bf46ca bg-white rounded-lg shadow-xl p-8",children:[a.jsx("h2",{className:"jsx-800bca46b4bf46ca text-2xl font-bold text-gray-900 mb-6 text-center",children:"Processing Your Story"}),a.jsx("div",{className:"jsx-800bca46b4bf46ca space-y-4",children:t.map(e=>(0,a.jsxs)("div",{className:"jsx-800bca46b4bf46ca flex items-center gap-4",children:[a.jsx("div",{className:`jsx-800bca46b4bf46ca flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${e.completed?"bg-green-500 scale-100":"bg-gray-200 scale-90"}`,children:e.completed&&a.jsx(j,{className:"text-white",size:16})}),a.jsx("div",{className:"jsx-800bca46b4bf46ca flex-1",children:a.jsx("p",{className:`jsx-800bca46b4bf46ca text-sm font-medium transition-colors duration-300 ${e.completed?"text-green-700":"text-gray-500"}`,children:e.label})}),e.completed&&a.jsx("div",{className:"jsx-800bca46b4bf46ca flex-shrink-0",children:a.jsx("div",{className:"jsx-800bca46b4bf46ca h-1 w-8 bg-green-500 rounded animate-check-dash"})})]},e.id))}),a.jsx("div",{className:"jsx-800bca46b4bf46ca mt-6 text-center",children:(0,a.jsxs)("div",{className:"jsx-800bca46b4bf46ca inline-flex gap-2",children:[a.jsx("div",{style:{animationDelay:"0s"},className:"jsx-800bca46b4bf46ca w-2 h-2 bg-blue-500 rounded-full animate-bounce"}),a.jsx("div",{style:{animationDelay:"0.1s"},className:"jsx-800bca46b4bf46ca w-2 h-2 bg-blue-500 rounded-full animate-bounce"}),a.jsx("div",{style:{animationDelay:"0.2s"},className:"jsx-800bca46b4bf46ca w-2 h-2 bg-blue-500 rounded-full animate-bounce"})]})})]})]}),a.jsx(b(),{id:"800bca46b4bf46ca",children:"@-webkit-keyframes slide-up{from{opacity:0;-webkit-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-webkit-transform:translatey(0);transform:translatey(0)}}@-moz-keyframes slide-up{from{opacity:0;-moz-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-moz-transform:translatey(0);transform:translatey(0)}}@-o-keyframes slide-up{from{opacity:0;-o-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-o-transform:translatey(0);transform:translatey(0)}}@keyframes slide-up{from{opacity:0;-webkit-transform:translatey(20px);-moz-transform:translatey(20px);-o-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-webkit-transform:translatey(0);-moz-transform:translatey(0);-o-transform:translatey(0);transform:translatey(0)}}@-webkit-keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@-moz-keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@-o-keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@-webkit-keyframes check-dash{from{width:0}to{width:2rem}}@-moz-keyframes check-dash{from{width:0}to{width:2rem}}@-o-keyframes check-dash{from{width:0}to{width:2rem}}@keyframes check-dash{from{width:0}to{width:2rem}}.animate-slide-up.jsx-800bca46b4bf46ca{-webkit-animation:slide-up.8s ease-out;-moz-animation:slide-up.8s ease-out;-o-animation:slide-up.8s ease-out;animation:slide-up.8s ease-out}.animate-fill-line.jsx-800bca46b4bf46ca{-webkit-animation:fill-line.6s ease-out forwards;-moz-animation:fill-line.6s ease-out forwards;-o-animation:fill-line.6s ease-out forwards;animation:fill-line.6s ease-out forwards;width:0}.animate-check-dash.jsx-800bca46b4bf46ca{-webkit-animation:check-dash.3s ease-out;-moz-animation:check-dash.3s ease-out;-o-animation:check-dash.3s ease-out;animation:check-dash.3s ease-out}"})]})}function v(){let[e,s]=(0,r.useState)(!1),[t,h]=(0,r.useState)(!1),[f,b]=(0,r.useState)(null),[y,j]=(0,r.useState)(null),[v,N]=(0,r.useState)(0),[w,k]=(0,r.useState)(!1),[P,C]=(0,r.useState)(!1),[S,R]=(0,r.useState)(!0),[z,T]=(0,r.useState)(!1),[_,F]=(0,r.useState)(!1),[M,Z]=(0,r.useState)(!1),D=(0,r.useRef)(null),A=(0,r.useRef)(null),E=(0,r.useRef)(null),U=(0,i.useRouter)();(0,r.useEffect)(()=>()=>{E.current&&clearInterval(E.current),y&&URL.revokeObjectURL(y)},[y]);let q=async()=>{try{let e=await navigator.mediaDevices.getUserMedia({audio:!0}),t=new MediaRecorder(e);D.current=t;let a=[];t.ondataavailable=e=>{e.data.size>0&&a.push(e.data)},t.onstop=()=>{let s=new Blob(a,{type:"audio/webm"});b(s);let t=URL.createObjectURL(s);j(t),e.getTracks().forEach(e=>e.stop())},t.start(),s(!0),N(0),E.current=setInterval(()=>{N(e=>e+1)},1e3),u.default.success("Recording started!")}catch(e){console.error("Error starting recording:",e),u.default.error("Could not access microphone. Please check permissions.")}},I=async()=>{if(!f){u.default.error("Please record your story first");return}if(!z){u.default.error("Please give consent to continue");return}C(!0);try{let e=await fetch("https://api.care2connects.org/api/auth/anonymous",{method:"POST",headers:{"Content-Type":"application/json"}});if(!e.ok)throw Error("Failed to create user session");let s=await e.json(),t=s.data.userId;await fetch("https://api.care2connects.org/api/auth/update-consent",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({userId:t,consentGiven:!0,isProfilePublic:_})});let a=new FormData;a.append("audio",f,"story.webm"),a.append("userId",t);let r=await fetch("https://api.care2connects.org/api/transcribe",{method:"POST",body:a});if(!r.ok)throw Error("Failed to upload audio");let i=await r.json(),n=await fetch("https://api.care2connects.org/api/profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({userId:t,transcript:i.data.transcript,profileData:i.data.profileData,consentGiven:!0,isProfilePublic:_})});if(!n.ok)throw Error("Failed to create profile");await n.json(),u.default.success("Your story has been processed successfully!"),C(!1),Z(!0)}catch(e){console.error("Upload error:",e),u.default.error("Failed to process your story. Please try again."),C(!1)}};return S?a.jsx("div",{className:"min-h-screen bg-gray-50 py-12",children:a.jsx("div",{className:"max-w-2xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,a.jsxs)("div",{className:"bg-white rounded-lg shadow-md p-8",children:[(0,a.jsxs)("div",{className:"text-center mb-8",children:[a.jsx("h1",{className:"text-3xl font-bold text-gray-900 mb-4",children:"Before We Begin"}),a.jsx("p",{className:"text-lg text-gray-600",children:"Your privacy and dignity are our top priorities. Please review the following information."})]}),(0,a.jsxs)("div",{className:"space-y-6",children:[a.jsx("div",{className:"bg-blue-50 rounded-lg p-6",children:(0,a.jsxs)("div",{className:"flex items-start",children:[a.jsx(n.Z,{className:"w-6 h-6 text-blue-600 mt-1 mr-3 flex-shrink-0"}),(0,a.jsxs)("div",{children:[a.jsx("h3",{className:"font-semibold text-blue-900 mb-2",children:"How Your Story Will Be Used"}),(0,a.jsxs)("ul",{className:"text-blue-800 space-y-1 text-sm",children:[a.jsx("li",{children:"• We'll transcribe your audio recording using secure AI technology"}),a.jsx("li",{children:"• Your story helps create a personalized profile with resources and opportunities"}),a.jsx("li",{children:"• You control who can see your profile and information"}),a.jsx("li",{children:"• You can delete your story and profile at any time"})]})]})]})}),(0,a.jsxs)("div",{className:"space-y-4",children:[(0,a.jsxs)("div",{className:"flex items-start",children:[a.jsx("input",{type:"checkbox",id:"consent",checked:z,onChange:e=>T(e.target.checked),className:"mt-1 mr-3 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"}),(0,a.jsxs)("label",{htmlFor:"consent",className:"text-gray-700",children:[a.jsx("span",{className:"font-medium",children:"I consent to sharing my story"})," and understand that:",(0,a.jsxs)("ul",{className:"mt-2 text-sm text-gray-600 space-y-1",children:[a.jsx("li",{children:"• My audio will be processed to create a text transcript"}),a.jsx("li",{children:"• AI will help extract key information to create my profile"}),a.jsx("li",{children:"• My information will be stored securely and encrypted"}),a.jsx("li",{children:"• I retain full control over my data and can delete it anytime"})]})]})]}),(0,a.jsxs)("div",{className:"flex items-start",children:[a.jsx("input",{type:"checkbox",id:"public",checked:_,onChange:e=>F(e.target.checked),className:"mt-1 mr-3 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"}),(0,a.jsxs)("label",{htmlFor:"public",className:"text-gray-700",children:[a.jsx("span",{className:"font-medium",children:"Make my profile public"})," (optional)",a.jsx("p",{className:"mt-1 text-sm text-gray-600",children:"Allow others to view my story and profile. This helps potential donors and supporters find me, but you can change this setting anytime."})]})]})]}),(0,a.jsxs)("div",{className:"flex justify-between pt-6",children:[(0,a.jsxs)(p(),{href:"/",className:"btn-ghost flex items-center",children:[a.jsx(l.Z,{className:"w-4 h-4 mr-2"}),"Back to Home"]}),a.jsx("button",{onClick:()=>R(!1),disabled:!z,className:"btn-primary disabled:opacity-50 disabled:cursor-not-allowed",children:"Continue to Recording"})]})]})]})})}):a.jsx("div",{className:"min-h-screen bg-gray-50 py-12",children:(0,a.jsxs)("div",{className:"max-w-2xl mx-auto px-4 sm:px-6 lg:px-8",children:[(0,a.jsxs)("div",{className:"bg-white rounded-lg shadow-md p-8",children:[(0,a.jsxs)("div",{className:"text-center mb-8",children:[a.jsx("h1",{className:"text-3xl font-bold text-gray-900 mb-4",children:"Tell Your Story"}),a.jsx("p",{className:"text-lg text-gray-600",children:"Share your experiences, skills, and dreams. Your story matters and helps us connect you with the right resources and opportunities."}),(0,a.jsxs)("div",{className:"mt-4 flex flex-wrap items-center justify-center gap-2 text-sm",children:[(0,a.jsxs)("div",{className:"inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full",children:[a.jsx(o.Z,{className:"w-4 h-4"}),a.jsx("span",{children:"AI Transcription"})]}),(0,a.jsxs)("div",{className:"inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full",children:[a.jsx(o.Z,{className:"w-4 h-4"}),a.jsx("span",{children:"Multi-Language Support"})]}),(0,a.jsxs)("div",{className:"inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full",children:[a.jsx(o.Z,{className:"w-4 h-4"}),a.jsx("span",{children:"Auto Profile Creation"})]})]})]}),(0,a.jsxs)("div",{className:"text-center space-y-6",children:[a.jsx("div",{className:"h-32 flex items-center justify-center",children:e?(0,a.jsxs)("div",{className:"flex items-center space-x-2",children:[a.jsx("div",{className:"recording-pulse w-16 h-16 bg-red-500 rounded-full flex items-center justify-center",children:a.jsx(c.Z,{className:"w-8 h-8 text-white"})}),a.jsx("div",{className:"audio-visualizer",children:[...Array(8)].map((e,s)=>a.jsx("div",{className:"audio-bar",style:{animationDelay:`${.1*s}s`}},s))})]}):f?a.jsx("div",{className:"w-16 h-16 bg-green-500 rounded-full flex items-center justify-center",children:a.jsx(o.Z,{className:"w-8 h-8 text-white"})}):a.jsx("div",{className:"w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center",children:a.jsx(c.Z,{className:"w-8 h-8 text-gray-600"})})}),a.jsx("div",{className:"text-2xl font-mono text-gray-700",children:`${Math.floor(v/60)}:${(v%60).toString().padStart(2,"0")}`}),a.jsx("div",{className:"text-center",children:e?a.jsx("p",{className:"text-red-600 font-medium",children:t?"Recording Paused":"Recording..."}):f?a.jsx("p",{className:"text-green-600 font-medium",children:"Recording Complete"}):a.jsx("p",{className:"text-gray-600",children:"Ready to record"})}),(0,a.jsxs)("div",{className:"flex justify-center space-x-4",children:[!e&&!f&&(0,a.jsxs)("button",{onClick:q,className:"btn-primary flex items-center space-x-2",children:[a.jsx(c.Z,{className:"w-5 h-5"}),a.jsx("span",{children:"Start Recording"})]}),e&&(0,a.jsxs)(a.Fragment,{children:[a.jsx("button",{onClick:()=>{D.current&&e&&(t?(D.current.resume(),h(!1),E.current=setInterval(()=>{N(e=>e+1)},1e3)):(D.current.pause(),h(!0),E.current&&clearInterval(E.current)))},className:"btn-secondary flex items-center space-x-2",children:t?(0,a.jsxs)(a.Fragment,{children:[a.jsx(d.Z,{className:"w-5 h-5"}),a.jsx("span",{children:"Resume"})]}):(0,a.jsxs)(a.Fragment,{children:[a.jsx(m.Z,{className:"w-5 h-5"}),a.jsx("span",{children:"Pause"})]})}),(0,a.jsxs)("button",{onClick:()=>{D.current&&e&&(D.current.stop(),s(!1),h(!1),E.current&&clearInterval(E.current),u.default.success("Recording completed!"))},className:"btn-outline flex items-center space-x-2",children:[a.jsx(x.Z,{className:"w-5 h-5"}),a.jsx("span",{children:"Stop"})]})]}),f&&(0,a.jsxs)(a.Fragment,{children:[a.jsx("button",{onClick:()=>{A.current&&(w?(A.current.pause(),k(!1)):(A.current.play(),k(!0)))},className:"btn-secondary flex items-center space-x-2",children:w?(0,a.jsxs)(a.Fragment,{children:[a.jsx(m.Z,{className:"w-5 h-5"}),a.jsx("span",{children:"Pause"})]}):(0,a.jsxs)(a.Fragment,{children:[a.jsx(d.Z,{className:"w-5 h-5"}),a.jsx("span",{children:"Play"})]})}),a.jsx("button",{onClick:()=>{b(null),j(null),N(0),k(!1)},className:"btn-ghost",children:"Record Again"})]})]}),y&&a.jsx("audio",{ref:A,src:y,onEnded:()=>k(!1),className:"hidden"}),f&&(0,a.jsxs)("div",{className:"pt-8 border-t border-gray-200",children:[a.jsx("button",{onClick:I,disabled:P,className:"btn-primary text-lg px-8 py-4 disabled:opacity-50 disabled:cursor-not-allowed",children:P?(0,a.jsxs)(a.Fragment,{children:[a.jsx("div",{className:"spinner mr-2"}),"Processing Your Story..."]}):"Create My Profile"}),a.jsx("p",{className:"text-sm text-gray-500 mt-2",children:"This will transcribe your audio and create your personalized profile"})]})]}),(0,a.jsxs)("div",{className:"mt-12 bg-gray-50 rounded-lg p-6",children:[a.jsx("h3",{className:"font-semibold mb-3",children:"Recording Tips:"}),(0,a.jsxs)("ul",{className:"text-sm text-gray-600 space-y-1",children:[a.jsx("li",{children:"• Find a quiet place with minimal background noise"}),a.jsx("li",{children:"• Speak clearly and at a normal pace"}),a.jsx("li",{children:"• Share your experiences, skills, goals, and current needs"}),a.jsx("li",{children:"• Mention any job history, talents, or things you're good at"}),a.jsx("li",{children:"• Don't worry about being perfect - just be yourself"}),a.jsx("li",{children:"• You can pause and resume anytime, or start over if needed"})]})]})]}),M&&a.jsx(g,{onComplete:()=>{U.push("/gfm/extract")},duration:5e3})]})})}},9690:(e,s,t)=>{"use strict";t.r(s),t.d(s,{default:()=>o});var a=t(73658),r=t(84874),i=t.n(r),n=t(32241),l=t(17872);function o(){let e=(0,n.usePathname)();return"/system"===e?null:a.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:a.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,a.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,a.jsxs)("div",{className:"flex items-center gap-4",children:[a.jsx(i(),{href:"/",className:"flex items-center gap-2",children:a.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),a.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,a.jsxs)("div",{className:"flex items-center gap-6",children:[(0,a.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[a.jsx(i(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),a.jsx(i(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),a.jsx(i(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),a.jsx(i(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,a.jsxs)(i(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[a.jsx(l.Z,{size:16,className:"group-hover:text-blue-600"}),a.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},18685:(e,s,t)=>{"use strict";t.r(s),t.d(s,{default:()=>b,metadata:()=>f});var a=t(31487),r=t(72972),i=t.n(r);t(40642);var n=t(19894);let l=(0,n.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:o,$$typeof:c}=l;l.default;let d=(0,n.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var m=t(15762);let x=(0,n.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:u,$$typeof:h}=x,p=x.default,f={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function b({children:e}){return a.jsx("html",{lang:"en",children:a.jsx("body",{className:i().className,children:(0,a.jsxs)(d,{children:[a.jsx(p,{}),a.jsx("div",{className:"min-h-screen bg-gray-50",children:a.jsx("main",{children:e})}),a.jsx(m.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},94877:(e,s,t)=>{"use strict";t.r(s),t.d(s,{$$typeof:()=>n,__esModule:()=>i,default:()=>o});var a=t(19894);let r=(0,a.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\tell-story\page.tsx`),{__esModule:i,$$typeof:n}=r,l=r.default,o=l},40642:()=>{}};var s=require("../../webpack-runtime.js");s.C(e);var t=e=>s(s.s=e),a=s.X(0,[623,934,20],()=>t(56044));module.exports=a})();
+(() => {
+  var e = {};
+  ((e.id = 972),
+    (e.ids = [972]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      56044: (e, s, t) => {
+        "use strict";
+        (t.r(s),
+          t.d(s, {
+            GlobalError: () => n.a,
+            __next_app__: () => x,
+            originalPathname: () => m,
+            pages: () => d,
+            routeModule: () => u,
+            tree: () => c,
+          }));
+        var a = t(36577),
+          r = t(55533),
+          i = t(40443),
+          n = t.n(i),
+          l = t(53320),
+          o = {};
+        for (let e in l)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (o[e] = () => l[e]);
+        t.d(s, o);
+        let c = [
+            "",
+            {
+              children: [
+                "tell-story",
+                {
+                  children: [
+                    "__PAGE__",
+                    {},
+                    {
+                      page: [
+                        () => Promise.resolve().then(t.bind(t, 94877)),
+                        "C:\\Users\\richl\\Care2system\\frontend\\app\\tell-story\\page.tsx",
+                      ],
+                    },
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(t.bind(t, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(t.t.bind(t, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          d = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\tell-story\\page.tsx",
+          ],
+          m = "/tell-story/page",
+          x = { require: t, loadChunk: () => Promise.resolve() },
+          u = new a.AppPageRouteModule({
+            definition: {
+              kind: r.x.APP_PAGE,
+              page: "/tell-story/page",
+              pathname: "/tell-story",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: c },
+          });
+      },
+      20717: (e, s, t) => {
+        (Promise.resolve().then(t.bind(t, 56253)),
+          Promise.resolve().then(t.bind(t, 9690)),
+          Promise.resolve().then(t.bind(t, 33999)));
+      },
+      63648: (e, s, t) => {
+        Promise.resolve().then(t.bind(t, 73311));
+      },
+      19191: (e, s, t) => {
+        (Promise.resolve().then(t.t.bind(t, 28913, 23)),
+          Promise.resolve().then(t.t.bind(t, 50409, 23)),
+          Promise.resolve().then(t.t.bind(t, 75054, 23)),
+          Promise.resolve().then(t.t.bind(t, 34892, 23)),
+          Promise.resolve().then(t.t.bind(t, 80356, 23)),
+          Promise.resolve().then(t.t.bind(t, 73559, 23)));
+      },
+      56253: (e, s, t) => {
+        "use strict";
+        (t.r(s), t.d(s, { Providers: () => l }));
+        var a = t(73658),
+          r = t(58758),
+          i = t(60459),
+          n = t(55459);
+        function l({ children: e }) {
+          let [s] = (0, n.useState)(
+            () =>
+              new r.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return a.jsx(i.aH, { client: s, children: e });
+        }
+      },
+      73311: (e, s, t) => {
+        "use strict";
+        (t.r(s), t.d(s, { default: () => v }));
+        var a = t(73658),
+          r = t(55459),
+          i = t(32241),
+          n = t(28317),
+          l = t(35626),
+          o = t(24303),
+          c = t(10546),
+          d = t(82397),
+          m = t(20572),
+          x = t(62043),
+          u = t(33999),
+          h = t(84874),
+          p = t.n(h),
+          f = t(14168),
+          b = t.n(f),
+          y = t(80600);
+        /**
+         * @license lucide-react v0.294.0 - ISC
+         *
+         * This source code is licensed under the ISC license.
+         * See the LICENSE file in the root directory of this source tree.
+         */ let j = (0, y.Z)("Check", [
+          ["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }],
+        ]);
+        function g({ onComplete: e, duration: s = 5e3 }) {
+          let [t, i] = (0, r.useState)([
+            {
+              id: "transcribe",
+              label: "Transcribing your story",
+              completed: !1,
+            },
+            {
+              id: "extract",
+              label: "Extracting key information",
+              completed: !1,
+            },
+            { id: "qr", label: "Preparing QR donation code", completed: !1 },
+            {
+              id: "gofundme",
+              label: "Drafting GoFundMe template",
+              completed: !1,
+            },
+            { id: "finalize", label: "Finalizing your report", completed: !1 },
+          ]);
+          return (
+            (0, r.useEffect)(() => {
+              let a = s / t.length;
+              t.forEach((s, r) => {
+                setTimeout(() => {
+                  (i((e) =>
+                    e.map((e, s) => (s === r ? { ...e, completed: !0 } : e)),
+                  ),
+                    r === t.length - 1 && setTimeout(e, 800));
+                }, a * r);
+              });
+            }, [s, e]),
+            (0, a.jsxs)("div", {
+              role: "dialog",
+              "aria-live": "polite",
+              "aria-label": "Processing your story",
+              className:
+                "jsx-800bca46b4bf46ca fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center z-50",
+              children: [
+                (0, a.jsxs)("div", {
+                  className: "jsx-800bca46b4bf46ca max-w-2xl w-full mx-4",
+                  children: [
+                    a.jsx("div", {
+                      className: "jsx-800bca46b4bf46ca relative mb-12",
+                      children: (0, a.jsxs)("div", {
+                        className:
+                          "jsx-800bca46b4bf46ca bg-white shadow-2xl rounded-lg p-12 transform transition-all duration-1000 animate-slide-up",
+                        children: [
+                          (0, a.jsxs)("div", {
+                            className: "jsx-800bca46b4bf46ca space-y-3 mb-8",
+                            children: [
+                              a.jsx("div", {
+                                style: { animationDelay: "0.2s" },
+                                className:
+                                  "jsx-800bca46b4bf46ca h-4 bg-gray-200 rounded animate-fill-line",
+                              }),
+                              a.jsx("div", {
+                                style: { animationDelay: "0.4s" },
+                                className:
+                                  "jsx-800bca46b4bf46ca h-4 bg-gray-200 rounded animate-fill-line w-3/4",
+                              }),
+                            ],
+                          }),
+                          a.jsx("div", {
+                            className: "jsx-800bca46b4bf46ca space-y-2 mb-8",
+                            children: [...Array(8)].map((e, s) =>
+                              a.jsx(
+                                "div",
+                                {
+                                  style: {
+                                    animationDelay: `${0.6 + 0.1 * s}s`,
+                                    width:
+                                      s % 3 == 0
+                                        ? "100%"
+                                        : s % 3 == 1
+                                          ? "95%"
+                                          : "90%",
+                                  },
+                                  className:
+                                    "jsx-800bca46b4bf46ca h-2 bg-gray-100 rounded animate-fill-line",
+                                },
+                                s,
+                              ),
+                            ),
+                          }),
+                          a.jsx("div", {
+                            style: { animationDelay: "1.8s" },
+                            className:
+                              "jsx-800bca46b4bf46ca h-3 bg-gray-200 rounded animate-fill-line w-1/2",
+                          }),
+                        ],
+                      }),
+                    }),
+                    (0, a.jsxs)("div", {
+                      className:
+                        "jsx-800bca46b4bf46ca bg-white rounded-lg shadow-xl p-8",
+                      children: [
+                        a.jsx("h2", {
+                          className:
+                            "jsx-800bca46b4bf46ca text-2xl font-bold text-gray-900 mb-6 text-center",
+                          children: "Processing Your Story",
+                        }),
+                        a.jsx("div", {
+                          className: "jsx-800bca46b4bf46ca space-y-4",
+                          children: t.map((e) =>
+                            (0, a.jsxs)(
+                              "div",
+                              {
+                                className:
+                                  "jsx-800bca46b4bf46ca flex items-center gap-4",
+                                children: [
+                                  a.jsx("div", {
+                                    className: `jsx-800bca46b4bf46ca flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${e.completed ? "bg-green-500 scale-100" : "bg-gray-200 scale-90"}`,
+                                    children:
+                                      e.completed &&
+                                      a.jsx(j, {
+                                        className: "text-white",
+                                        size: 16,
+                                      }),
+                                  }),
+                                  a.jsx("div", {
+                                    className: "jsx-800bca46b4bf46ca flex-1",
+                                    children: a.jsx("p", {
+                                      className: `jsx-800bca46b4bf46ca text-sm font-medium transition-colors duration-300 ${e.completed ? "text-green-700" : "text-gray-500"}`,
+                                      children: e.label,
+                                    }),
+                                  }),
+                                  e.completed &&
+                                    a.jsx("div", {
+                                      className:
+                                        "jsx-800bca46b4bf46ca flex-shrink-0",
+                                      children: a.jsx("div", {
+                                        className:
+                                          "jsx-800bca46b4bf46ca h-1 w-8 bg-green-500 rounded animate-check-dash",
+                                      }),
+                                    }),
+                                ],
+                              },
+                              e.id,
+                            ),
+                          ),
+                        }),
+                        a.jsx("div", {
+                          className: "jsx-800bca46b4bf46ca mt-6 text-center",
+                          children: (0, a.jsxs)("div", {
+                            className: "jsx-800bca46b4bf46ca inline-flex gap-2",
+                            children: [
+                              a.jsx("div", {
+                                style: { animationDelay: "0s" },
+                                className:
+                                  "jsx-800bca46b4bf46ca w-2 h-2 bg-blue-500 rounded-full animate-bounce",
+                              }),
+                              a.jsx("div", {
+                                style: { animationDelay: "0.1s" },
+                                className:
+                                  "jsx-800bca46b4bf46ca w-2 h-2 bg-blue-500 rounded-full animate-bounce",
+                              }),
+                              a.jsx("div", {
+                                style: { animationDelay: "0.2s" },
+                                className:
+                                  "jsx-800bca46b4bf46ca w-2 h-2 bg-blue-500 rounded-full animate-bounce",
+                              }),
+                            ],
+                          }),
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                a.jsx(b(), {
+                  id: "800bca46b4bf46ca",
+                  children:
+                    "@-webkit-keyframes slide-up{from{opacity:0;-webkit-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-webkit-transform:translatey(0);transform:translatey(0)}}@-moz-keyframes slide-up{from{opacity:0;-moz-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-moz-transform:translatey(0);transform:translatey(0)}}@-o-keyframes slide-up{from{opacity:0;-o-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-o-transform:translatey(0);transform:translatey(0)}}@keyframes slide-up{from{opacity:0;-webkit-transform:translatey(20px);-moz-transform:translatey(20px);-o-transform:translatey(20px);transform:translatey(20px)}to{opacity:1;-webkit-transform:translatey(0);-moz-transform:translatey(0);-o-transform:translatey(0);transform:translatey(0)}}@-webkit-keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@-moz-keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@-o-keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@keyframes fill-line{from{width:0;opacity:0}to{width:100%;opacity:1}}@-webkit-keyframes check-dash{from{width:0}to{width:2rem}}@-moz-keyframes check-dash{from{width:0}to{width:2rem}}@-o-keyframes check-dash{from{width:0}to{width:2rem}}@keyframes check-dash{from{width:0}to{width:2rem}}.animate-slide-up.jsx-800bca46b4bf46ca{-webkit-animation:slide-up.8s ease-out;-moz-animation:slide-up.8s ease-out;-o-animation:slide-up.8s ease-out;animation:slide-up.8s ease-out}.animate-fill-line.jsx-800bca46b4bf46ca{-webkit-animation:fill-line.6s ease-out forwards;-moz-animation:fill-line.6s ease-out forwards;-o-animation:fill-line.6s ease-out forwards;animation:fill-line.6s ease-out forwards;width:0}.animate-check-dash.jsx-800bca46b4bf46ca{-webkit-animation:check-dash.3s ease-out;-moz-animation:check-dash.3s ease-out;-o-animation:check-dash.3s ease-out;animation:check-dash.3s ease-out}",
+                }),
+              ],
+            })
+          );
+        }
+        function v() {
+          let [e, s] = (0, r.useState)(!1),
+            [t, h] = (0, r.useState)(!1),
+            [f, b] = (0, r.useState)(null),
+            [y, j] = (0, r.useState)(null),
+            [v, N] = (0, r.useState)(0),
+            [w, k] = (0, r.useState)(!1),
+            [P, C] = (0, r.useState)(!1),
+            [S, R] = (0, r.useState)(!0),
+            [z, T] = (0, r.useState)(!1),
+            [_, F] = (0, r.useState)(!1),
+            [M, Z] = (0, r.useState)(!1),
+            D = (0, r.useRef)(null),
+            A = (0, r.useRef)(null),
+            E = (0, r.useRef)(null),
+            U = (0, i.useRouter)();
+          (0, r.useEffect)(
+            () => () => {
+              (E.current && clearInterval(E.current),
+                y && URL.revokeObjectURL(y));
+            },
+            [y],
+          );
+          let q = async () => {
+              try {
+                let e = await navigator.mediaDevices.getUserMedia({
+                    audio: !0,
+                  }),
+                  t = new MediaRecorder(e);
+                D.current = t;
+                let a = [];
+                ((t.ondataavailable = (e) => {
+                  e.data.size > 0 && a.push(e.data);
+                }),
+                  (t.onstop = () => {
+                    let s = new Blob(a, { type: "audio/webm" });
+                    b(s);
+                    let t = URL.createObjectURL(s);
+                    (j(t), e.getTracks().forEach((e) => e.stop()));
+                  }),
+                  t.start(),
+                  s(!0),
+                  N(0),
+                  (E.current = setInterval(() => {
+                    N((e) => e + 1);
+                  }, 1e3)),
+                  u.default.success("Recording started!"));
+              } catch (e) {
+                (console.error("Error starting recording:", e),
+                  u.default.error(
+                    "Could not access microphone. Please check permissions.",
+                  ));
+              }
+            },
+            I = async () => {
+              if (!f) {
+                u.default.error("Please record your story first");
+                return;
+              }
+              if (!z) {
+                u.default.error("Please give consent to continue");
+                return;
+              }
+              C(!0);
+              try {
+                let e = await fetch(
+                  "https://api.care2connects.org/api/auth/anonymous",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                  },
+                );
+                if (!e.ok) throw Error("Failed to create user session");
+                let s = await e.json(),
+                  t = s.data.userId;
+                await fetch(
+                  "https://api.care2connects.org/api/auth/update-consent",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      userId: t,
+                      consentGiven: !0,
+                      isProfilePublic: _,
+                    }),
+                  },
+                );
+                let a = new FormData();
+                (a.append("audio", f, "story.webm"), a.append("userId", t));
+                let r = await fetch(
+                  "https://api.care2connects.org/api/transcribe",
+                  { method: "POST", body: a },
+                );
+                if (!r.ok) throw Error("Failed to upload audio");
+                let i = await r.json(),
+                  n = await fetch("https://api.care2connects.org/api/profile", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      userId: t,
+                      transcript: i.data.transcript,
+                      profileData: i.data.profileData,
+                      consentGiven: !0,
+                      isProfilePublic: _,
+                    }),
+                  });
+                if (!n.ok) throw Error("Failed to create profile");
+                (await n.json(),
+                  u.default.success(
+                    "Your story has been processed successfully!",
+                  ),
+                  C(!1),
+                  Z(!0));
+              } catch (e) {
+                (console.error("Upload error:", e),
+                  u.default.error(
+                    "Failed to process your story. Please try again.",
+                  ),
+                  C(!1));
+              }
+            };
+          return S
+            ? a.jsx("div", {
+                className: "min-h-screen bg-gray-50 py-12",
+                children: a.jsx("div", {
+                  className: "max-w-2xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, a.jsxs)("div", {
+                    className: "bg-white rounded-lg shadow-md p-8",
+                    children: [
+                      (0, a.jsxs)("div", {
+                        className: "text-center mb-8",
+                        children: [
+                          a.jsx("h1", {
+                            className: "text-3xl font-bold text-gray-900 mb-4",
+                            children: "Before We Begin",
+                          }),
+                          a.jsx("p", {
+                            className: "text-lg text-gray-600",
+                            children:
+                              "Your privacy and dignity are our top priorities. Please review the following information.",
+                          }),
+                        ],
+                      }),
+                      (0, a.jsxs)("div", {
+                        className: "space-y-6",
+                        children: [
+                          a.jsx("div", {
+                            className: "bg-blue-50 rounded-lg p-6",
+                            children: (0, a.jsxs)("div", {
+                              className: "flex items-start",
+                              children: [
+                                a.jsx(n.Z, {
+                                  className:
+                                    "w-6 h-6 text-blue-600 mt-1 mr-3 flex-shrink-0",
+                                }),
+                                (0, a.jsxs)("div", {
+                                  children: [
+                                    a.jsx("h3", {
+                                      className:
+                                        "font-semibold text-blue-900 mb-2",
+                                      children: "How Your Story Will Be Used",
+                                    }),
+                                    (0, a.jsxs)("ul", {
+                                      className:
+                                        "text-blue-800 space-y-1 text-sm",
+                                      children: [
+                                        a.jsx("li", {
+                                          children:
+                                            "• We'll transcribe your audio recording using secure AI technology",
+                                        }),
+                                        a.jsx("li", {
+                                          children:
+                                            "• Your story helps create a personalized profile with resources and opportunities",
+                                        }),
+                                        a.jsx("li", {
+                                          children:
+                                            "• You control who can see your profile and information",
+                                        }),
+                                        a.jsx("li", {
+                                          children:
+                                            "• You can delete your story and profile at any time",
+                                        }),
+                                      ],
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                          }),
+                          (0, a.jsxs)("div", {
+                            className: "space-y-4",
+                            children: [
+                              (0, a.jsxs)("div", {
+                                className: "flex items-start",
+                                children: [
+                                  a.jsx("input", {
+                                    type: "checkbox",
+                                    id: "consent",
+                                    checked: z,
+                                    onChange: (e) => T(e.target.checked),
+                                    className:
+                                      "mt-1 mr-3 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded",
+                                  }),
+                                  (0, a.jsxs)("label", {
+                                    htmlFor: "consent",
+                                    className: "text-gray-700",
+                                    children: [
+                                      a.jsx("span", {
+                                        className: "font-medium",
+                                        children:
+                                          "I consent to sharing my story",
+                                      }),
+                                      " and understand that:",
+                                      (0, a.jsxs)("ul", {
+                                        className:
+                                          "mt-2 text-sm text-gray-600 space-y-1",
+                                        children: [
+                                          a.jsx("li", {
+                                            children:
+                                              "• My audio will be processed to create a text transcript",
+                                          }),
+                                          a.jsx("li", {
+                                            children:
+                                              "• AI will help extract key information to create my profile",
+                                          }),
+                                          a.jsx("li", {
+                                            children:
+                                              "• My information will be stored securely and encrypted",
+                                          }),
+                                          a.jsx("li", {
+                                            children:
+                                              "• I retain full control over my data and can delete it anytime",
+                                          }),
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                              (0, a.jsxs)("div", {
+                                className: "flex items-start",
+                                children: [
+                                  a.jsx("input", {
+                                    type: "checkbox",
+                                    id: "public",
+                                    checked: _,
+                                    onChange: (e) => F(e.target.checked),
+                                    className:
+                                      "mt-1 mr-3 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded",
+                                  }),
+                                  (0, a.jsxs)("label", {
+                                    htmlFor: "public",
+                                    className: "text-gray-700",
+                                    children: [
+                                      a.jsx("span", {
+                                        className: "font-medium",
+                                        children: "Make my profile public",
+                                      }),
+                                      " (optional)",
+                                      a.jsx("p", {
+                                        className: "mt-1 text-sm text-gray-600",
+                                        children:
+                                          "Allow others to view my story and profile. This helps potential donors and supporters find me, but you can change this setting anytime.",
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          (0, a.jsxs)("div", {
+                            className: "flex justify-between pt-6",
+                            children: [
+                              (0, a.jsxs)(p(), {
+                                href: "/",
+                                className: "btn-ghost flex items-center",
+                                children: [
+                                  a.jsx(l.Z, { className: "w-4 h-4 mr-2" }),
+                                  "Back to Home",
+                                ],
+                              }),
+                              a.jsx("button", {
+                                onClick: () => R(!1),
+                                disabled: !z,
+                                className:
+                                  "btn-primary disabled:opacity-50 disabled:cursor-not-allowed",
+                                children: "Continue to Recording",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              })
+            : a.jsx("div", {
+                className: "min-h-screen bg-gray-50 py-12",
+                children: (0, a.jsxs)("div", {
+                  className: "max-w-2xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: [
+                    (0, a.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow-md p-8",
+                      children: [
+                        (0, a.jsxs)("div", {
+                          className: "text-center mb-8",
+                          children: [
+                            a.jsx("h1", {
+                              className:
+                                "text-3xl font-bold text-gray-900 mb-4",
+                              children: "Tell Your Story",
+                            }),
+                            a.jsx("p", {
+                              className: "text-lg text-gray-600",
+                              children:
+                                "Share your experiences, skills, and dreams. Your story matters and helps us connect you with the right resources and opportunities.",
+                            }),
+                            (0, a.jsxs)("div", {
+                              className:
+                                "mt-4 flex flex-wrap items-center justify-center gap-2 text-sm",
+                              children: [
+                                (0, a.jsxs)("div", {
+                                  className:
+                                    "inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full",
+                                  children: [
+                                    a.jsx(o.Z, { className: "w-4 h-4" }),
+                                    a.jsx("span", {
+                                      children: "AI Transcription",
+                                    }),
+                                  ],
+                                }),
+                                (0, a.jsxs)("div", {
+                                  className:
+                                    "inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full",
+                                  children: [
+                                    a.jsx(o.Z, { className: "w-4 h-4" }),
+                                    a.jsx("span", {
+                                      children: "Multi-Language Support",
+                                    }),
+                                  ],
+                                }),
+                                (0, a.jsxs)("div", {
+                                  className:
+                                    "inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full",
+                                  children: [
+                                    a.jsx(o.Z, { className: "w-4 h-4" }),
+                                    a.jsx("span", {
+                                      children: "Auto Profile Creation",
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                        (0, a.jsxs)("div", {
+                          className: "text-center space-y-6",
+                          children: [
+                            a.jsx("div", {
+                              className:
+                                "h-32 flex items-center justify-center",
+                              children: e
+                                ? (0, a.jsxs)("div", {
+                                    className: "flex items-center space-x-2",
+                                    children: [
+                                      a.jsx("div", {
+                                        className:
+                                          "recording-pulse w-16 h-16 bg-red-500 rounded-full flex items-center justify-center",
+                                        children: a.jsx(c.Z, {
+                                          className: "w-8 h-8 text-white",
+                                        }),
+                                      }),
+                                      a.jsx("div", {
+                                        className: "audio-visualizer",
+                                        children: [...Array(8)].map((e, s) =>
+                                          a.jsx(
+                                            "div",
+                                            {
+                                              className: "audio-bar",
+                                              style: {
+                                                animationDelay: `${0.1 * s}s`,
+                                              },
+                                            },
+                                            s,
+                                          ),
+                                        ),
+                                      }),
+                                    ],
+                                  })
+                                : f
+                                  ? a.jsx("div", {
+                                      className:
+                                        "w-16 h-16 bg-green-500 rounded-full flex items-center justify-center",
+                                      children: a.jsx(o.Z, {
+                                        className: "w-8 h-8 text-white",
+                                      }),
+                                    })
+                                  : a.jsx("div", {
+                                      className:
+                                        "w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center",
+                                      children: a.jsx(c.Z, {
+                                        className: "w-8 h-8 text-gray-600",
+                                      }),
+                                    }),
+                            }),
+                            a.jsx("div", {
+                              className: "text-2xl font-mono text-gray-700",
+                              children: `${Math.floor(v / 60)}:${(v % 60).toString().padStart(2, "0")}`,
+                            }),
+                            a.jsx("div", {
+                              className: "text-center",
+                              children: e
+                                ? a.jsx("p", {
+                                    className: "text-red-600 font-medium",
+                                    children: t
+                                      ? "Recording Paused"
+                                      : "Recording...",
+                                  })
+                                : f
+                                  ? a.jsx("p", {
+                                      className: "text-green-600 font-medium",
+                                      children: "Recording Complete",
+                                    })
+                                  : a.jsx("p", {
+                                      className: "text-gray-600",
+                                      children: "Ready to record",
+                                    }),
+                            }),
+                            (0, a.jsxs)("div", {
+                              className: "flex justify-center space-x-4",
+                              children: [
+                                !e &&
+                                  !f &&
+                                  (0, a.jsxs)("button", {
+                                    onClick: q,
+                                    className:
+                                      "btn-primary flex items-center space-x-2",
+                                    children: [
+                                      a.jsx(c.Z, { className: "w-5 h-5" }),
+                                      a.jsx("span", {
+                                        children: "Start Recording",
+                                      }),
+                                    ],
+                                  }),
+                                e &&
+                                  (0, a.jsxs)(a.Fragment, {
+                                    children: [
+                                      a.jsx("button", {
+                                        onClick: () => {
+                                          D.current &&
+                                            e &&
+                                            (t
+                                              ? (D.current.resume(),
+                                                h(!1),
+                                                (E.current = setInterval(() => {
+                                                  N((e) => e + 1);
+                                                }, 1e3)))
+                                              : (D.current.pause(),
+                                                h(!0),
+                                                E.current &&
+                                                  clearInterval(E.current)));
+                                        },
+                                        className:
+                                          "btn-secondary flex items-center space-x-2",
+                                        children: t
+                                          ? (0, a.jsxs)(a.Fragment, {
+                                              children: [
+                                                a.jsx(d.Z, {
+                                                  className: "w-5 h-5",
+                                                }),
+                                                a.jsx("span", {
+                                                  children: "Resume",
+                                                }),
+                                              ],
+                                            })
+                                          : (0, a.jsxs)(a.Fragment, {
+                                              children: [
+                                                a.jsx(m.Z, {
+                                                  className: "w-5 h-5",
+                                                }),
+                                                a.jsx("span", {
+                                                  children: "Pause",
+                                                }),
+                                              ],
+                                            }),
+                                      }),
+                                      (0, a.jsxs)("button", {
+                                        onClick: () => {
+                                          D.current &&
+                                            e &&
+                                            (D.current.stop(),
+                                            s(!1),
+                                            h(!1),
+                                            E.current &&
+                                              clearInterval(E.current),
+                                            u.default.success(
+                                              "Recording completed!",
+                                            ));
+                                        },
+                                        className:
+                                          "btn-outline flex items-center space-x-2",
+                                        children: [
+                                          a.jsx(x.Z, { className: "w-5 h-5" }),
+                                          a.jsx("span", { children: "Stop" }),
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                f &&
+                                  (0, a.jsxs)(a.Fragment, {
+                                    children: [
+                                      a.jsx("button", {
+                                        onClick: () => {
+                                          A.current &&
+                                            (w
+                                              ? (A.current.pause(), k(!1))
+                                              : (A.current.play(), k(!0)));
+                                        },
+                                        className:
+                                          "btn-secondary flex items-center space-x-2",
+                                        children: w
+                                          ? (0, a.jsxs)(a.Fragment, {
+                                              children: [
+                                                a.jsx(m.Z, {
+                                                  className: "w-5 h-5",
+                                                }),
+                                                a.jsx("span", {
+                                                  children: "Pause",
+                                                }),
+                                              ],
+                                            })
+                                          : (0, a.jsxs)(a.Fragment, {
+                                              children: [
+                                                a.jsx(d.Z, {
+                                                  className: "w-5 h-5",
+                                                }),
+                                                a.jsx("span", {
+                                                  children: "Play",
+                                                }),
+                                              ],
+                                            }),
+                                      }),
+                                      a.jsx("button", {
+                                        onClick: () => {
+                                          (b(null), j(null), N(0), k(!1));
+                                        },
+                                        className: "btn-ghost",
+                                        children: "Record Again",
+                                      }),
+                                    ],
+                                  }),
+                              ],
+                            }),
+                            y &&
+                              a.jsx("audio", {
+                                ref: A,
+                                src: y,
+                                onEnded: () => k(!1),
+                                className: "hidden",
+                              }),
+                            f &&
+                              (0, a.jsxs)("div", {
+                                className: "pt-8 border-t border-gray-200",
+                                children: [
+                                  a.jsx("button", {
+                                    onClick: I,
+                                    disabled: P,
+                                    className:
+                                      "btn-primary text-lg px-8 py-4 disabled:opacity-50 disabled:cursor-not-allowed",
+                                    children: P
+                                      ? (0, a.jsxs)(a.Fragment, {
+                                          children: [
+                                            a.jsx("div", {
+                                              className: "spinner mr-2",
+                                            }),
+                                            "Processing Your Story...",
+                                          ],
+                                        })
+                                      : "Create My Profile",
+                                  }),
+                                  a.jsx("p", {
+                                    className: "text-sm text-gray-500 mt-2",
+                                    children:
+                                      "This will transcribe your audio and create your personalized profile",
+                                  }),
+                                ],
+                              }),
+                          ],
+                        }),
+                        (0, a.jsxs)("div", {
+                          className: "mt-12 bg-gray-50 rounded-lg p-6",
+                          children: [
+                            a.jsx("h3", {
+                              className: "font-semibold mb-3",
+                              children: "Recording Tips:",
+                            }),
+                            (0, a.jsxs)("ul", {
+                              className: "text-sm text-gray-600 space-y-1",
+                              children: [
+                                a.jsx("li", {
+                                  children:
+                                    "• Find a quiet place with minimal background noise",
+                                }),
+                                a.jsx("li", {
+                                  children:
+                                    "• Speak clearly and at a normal pace",
+                                }),
+                                a.jsx("li", {
+                                  children:
+                                    "• Share your experiences, skills, goals, and current needs",
+                                }),
+                                a.jsx("li", {
+                                  children:
+                                    "• Mention any job history, talents, or things you're good at",
+                                }),
+                                a.jsx("li", {
+                                  children:
+                                    "• Don't worry about being perfect - just be yourself",
+                                }),
+                                a.jsx("li", {
+                                  children:
+                                    "• You can pause and resume anytime, or start over if needed",
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                    M &&
+                      a.jsx(g, {
+                        onComplete: () => {
+                          U.push("/gfm/extract");
+                        },
+                        duration: 5e3,
+                      }),
+                  ],
+                }),
+              });
+        }
+      },
+      9690: (e, s, t) => {
+        "use strict";
+        (t.r(s), t.d(s, { default: () => o }));
+        var a = t(73658),
+          r = t(84874),
+          i = t.n(r),
+          n = t(32241),
+          l = t(17872);
+        function o() {
+          let e = (0, n.usePathname)();
+          return "/system" === e
+            ? null
+            : a.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: a.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, a.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, a.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          a.jsx(i(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: a.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          a.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, a.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, a.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              a.jsx(i(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              a.jsx(i(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              a.jsx(i(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              a.jsx(i(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, a.jsxs)(i(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              a.jsx(l.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              a.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      18685: (e, s, t) => {
+        "use strict";
+        (t.r(s), t.d(s, { default: () => b, metadata: () => f }));
+        var a = t(31487),
+          r = t(72972),
+          i = t.n(r);
+        t(40642);
+        var n = t(19894);
+        let l = (0, n.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: o, $$typeof: c } = l;
+        l.default;
+        let d = (0, n.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var m = t(15762);
+        let x = (0, n.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: u, $$typeof: h } = x,
+          p = x.default,
+          f = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function b({ children: e }) {
+          return a.jsx("html", {
+            lang: "en",
+            children: a.jsx("body", {
+              className: i().className,
+              children: (0, a.jsxs)(d, {
+                children: [
+                  a.jsx(p, {}),
+                  a.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: a.jsx("main", { children: e }),
+                  }),
+                  a.jsx(m.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      94877: (e, s, t) => {
+        "use strict";
+        (t.r(s),
+          t.d(s, { $$typeof: () => n, __esModule: () => i, default: () => o }));
+        var a = t(19894);
+        let r = (0, a.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\tell-story\page.tsx`,
+          ),
+          { __esModule: i, $$typeof: n } = r,
+          l = r.default,
+          o = l;
+      },
+      40642: () => {},
+    }));
+  var s = require("../../webpack-runtime.js");
+  s.C(e);
+  var t = (e) => s((s.s = e)),
+    a = s.X(0, [623, 934, 20], () => t(56044));
+  module.exports = a;
+})();

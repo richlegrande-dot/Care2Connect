@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { ChatController } from '../controllers/chatController';
-import { body, param, query } from 'express-validator';
-import { validateRequest } from '../middleware/validateRequest';
+import { Router } from "express";
+import { ChatController } from "../controllers/chatController";
+import { body, param, query } from "express-validator";
+import { validateRequest } from "../middleware/validateRequest";
 
 const router = Router();
 
@@ -10,13 +10,13 @@ const router = Router();
  * Send a message to the AI assistant
  */
 router.post(
-  '/',
+  "/",
   [
-    body('userId').isString().notEmpty().withMessage('User ID is required'),
-    body('message').isString().notEmpty().withMessage('Message is required'),
+    body("userId").isString().notEmpty().withMessage("User ID is required"),
+    body("message").isString().notEmpty().withMessage("Message is required"),
   ],
   validateRequest,
-  ChatController.sendMessage
+  ChatController.sendMessage,
 );
 
 /**
@@ -24,14 +24,20 @@ router.post(
  * Get conversation history
  */
 router.get(
-  '/:userId/history',
+  "/:userId/history",
   [
-    param('userId').isString().notEmpty().withMessage('User ID is required'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
-    query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be 1-100'),
+    param("userId").isString().notEmpty().withMessage("User ID is required"),
+    query("page")
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage("Page must be a positive integer"),
+    query("limit")
+      .optional()
+      .isInt({ min: 1, max: 100 })
+      .withMessage("Limit must be 1-100"),
   ],
   validateRequest,
-  ChatController.getConversationHistory
+  ChatController.getConversationHistory,
 );
 
 /**
@@ -39,12 +45,10 @@ router.get(
  * Get conversation starters
  */
 router.get(
-  '/:userId/starters',
-  [
-    param('userId').isString().notEmpty().withMessage('User ID is required'),
-  ],
+  "/:userId/starters",
+  [param("userId").isString().notEmpty().withMessage("User ID is required")],
   validateRequest,
-  ChatController.getConversationStarters
+  ChatController.getConversationStarters,
 );
 
 /**
@@ -52,13 +56,16 @@ router.get(
  * Clear conversation history
  */
 router.delete(
-  '/:userId',
+  "/:userId",
   [
-    param('userId').isString().notEmpty().withMessage('User ID is required'),
-    body('confirmClear').isBoolean().equals('true').withMessage('Confirmation required'),
+    param("userId").isString().notEmpty().withMessage("User ID is required"),
+    body("confirmClear")
+      .isBoolean()
+      .equals("true")
+      .withMessage("Confirmation required"),
   ],
   validateRequest,
-  ChatController.clearConversation
+  ChatController.clearConversation,
 );
 
 /**
@@ -66,12 +73,10 @@ router.delete(
  * Get chat statistics
  */
 router.get(
-  '/:userId/stats',
-  [
-    param('userId').isString().notEmpty().withMessage('User ID is required'),
-  ],
+  "/:userId/stats",
+  [param("userId").isString().notEmpty().withMessage("User ID is required")],
   validateRequest,
-  ChatController.getChatStats
+  ChatController.getChatStats,
 );
 
 export default router;

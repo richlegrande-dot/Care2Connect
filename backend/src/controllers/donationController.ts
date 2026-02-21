@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { DonationService } from '../services/donationService';
-import { prisma } from '../utils/database';
+import { Request, Response } from "express";
+import { DonationService } from "../services/donationService";
+import { prisma } from "../utils/database";
 
 const donationService = new DonationService();
 
@@ -14,8 +14,8 @@ export class DonationController {
 
       if (!cashtag) {
         return res.status(400).json({
-          error: 'Cashtag required',
-          message: 'Please provide a Cash App cashtag',
+          error: "Cashtag required",
+          message: "Please provide a Cash App cashtag",
         });
       }
 
@@ -23,13 +23,15 @@ export class DonationController {
       const validation = donationService.validateCashtag(cashtag);
       if (!validation.valid) {
         return res.status(400).json({
-          error: 'Invalid cashtag',
+          error: "Invalid cashtag",
           message: validation.error,
         });
       }
 
       // Generate QR code
-      const qrCodeUrl = await donationService.generateCashAppQRCode(validation.formatted!);
+      const qrCodeUrl = await donationService.generateCashAppQRCode(
+        validation.formatted!,
+      );
 
       res.status(200).json({
         success: true,
@@ -40,10 +42,11 @@ export class DonationController {
         },
       });
     } catch (error) {
-      console.error('QR generation error:', error);
+      console.error("QR generation error:", error);
       res.status(500).json({
-        error: 'Failed to generate QR code',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to generate QR code",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -68,7 +71,7 @@ export class DonationController {
 
       if (!profile) {
         return res.status(404).json({
-          error: 'Profile not found',
+          error: "Profile not found",
         });
       }
 
@@ -92,10 +95,11 @@ export class DonationController {
         },
       });
     } catch (error) {
-      console.error('GoFundMe story generation error:', error);
+      console.error("GoFundMe story generation error:", error);
       res.status(500).json({
-        error: 'Failed to generate GoFundMe story',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to generate GoFundMe story",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -121,10 +125,11 @@ export class DonationController {
         data: results,
       });
     } catch (error) {
-      console.error('Validation error:', error);
+      console.error("Validation error:", error);
       res.status(500).json({
-        error: 'Validation failed',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Validation failed",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -134,19 +139,13 @@ export class DonationController {
    */
   static async trackDonation(req: Request, res: Response) {
     try {
-      const {
-        userId,
-        platform,
-        amount,
-        reference,
-        donorEmail,
-        message,
-      } = req.body;
+      const { userId, platform, amount, reference, donorEmail, message } =
+        req.body;
 
       if (!userId || !platform) {
         return res.status(400).json({
-          error: 'Missing required fields',
-          message: 'User ID and platform are required',
+          error: "Missing required fields",
+          message: "User ID and platform are required",
         });
       }
 
@@ -164,10 +163,11 @@ export class DonationController {
         data: result,
       });
     } catch (error) {
-      console.error('Donation tracking error:', error);
+      console.error("Donation tracking error:", error);
       res.status(500).json({
-        error: 'Failed to track donation',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to track donation",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -186,10 +186,11 @@ export class DonationController {
         data: stats,
       });
     } catch (error) {
-      console.error('Donation stats error:', error);
+      console.error("Donation stats error:", error);
       res.status(500).json({
-        error: 'Failed to get donation statistics',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to get donation statistics",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -200,7 +201,7 @@ export class DonationController {
   static async generateSocialMediaAppeal(req: Request, res: Response) {
     try {
       const { profileId } = req.params;
-      const { platform = 'twitter' } = req.query;
+      const { platform = "twitter" } = req.query;
 
       const profile = await prisma.profile.findUnique({
         where: { id: profileId },
@@ -215,7 +216,7 @@ export class DonationController {
 
       if (!profile) {
         return res.status(404).json({
-          error: 'Profile not found',
+          error: "Profile not found",
         });
       }
 
@@ -230,7 +231,7 @@ export class DonationController {
 
       const appeal = await donationService.generateSocialMediaAppeal(
         profileData,
-        platform as 'twitter' | 'facebook' | 'instagram'
+        platform as "twitter" | "facebook" | "instagram",
       );
 
       res.status(200).json({
@@ -242,10 +243,11 @@ export class DonationController {
         },
       });
     } catch (error) {
-      console.error('Social media appeal error:', error);
+      console.error("Social media appeal error:", error);
       res.status(500).json({
-        error: 'Failed to generate social media appeal',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to generate social media appeal",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }

@@ -1,1 +1,428 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[163],{51955:function(e,a,r){(window.__NEXT_P=window.__NEXT_P||[]).push(["/story/[recordingId]/manual-draft",function(){return r(30120)}])},30120:function(e,a,r){"use strict";r.r(a),r.d(a,{default:function(){return l}});var s=r(24246),t=r(80726),d=r.n(t),i=r(27378),o=r(86677);function n(e){var a,r,t;let{ticketId:n,failureReason:l,userMessage:f,partialData:c}=e,b=(0,o.useRouter)(),[m,x]=(0,i.useState)((null==c?void 0:null===(a=c.extractedFields)||void 0===a?void 0:a.title)||""),[u,p]=(0,i.useState)((null==c?void 0:null===(r=c.extractedFields)||void 0===r?void 0:r.story)||""),[j,g]=(0,i.useState)((null==c?void 0:null===(t=c.extractedFields)||void 0===t?void 0:t.goalAmount)||1500),[h,k]=(0,i.useState)(!1),[y,w]=(0,i.useState)(!1),[N,v]=(0,i.useState)(""),z=async()=>{if(v(""),k(!0),w(!1),!m.trim()){v("Campaign title is required"),k(!1);return}if(!u.trim()){v("Campaign story is required"),k(!1);return}if(j<=0){v("Goal amount must be greater than zero"),k(!1);return}try{let e=await fetch("/api/donations/manual-draft",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ticketId:n,title:m.trim(),story:u.trim(),goalAmount:j,currency:"USD"})});if(!e.ok)throw Error("Failed to save draft");let a=await e.json();if(!a.success)throw Error(a.error||"Failed to save draft");w(!0),console.log("Draft saved successfully:",a.draft)}catch(e){console.error("Save failed:",e),v(e.message||"Failed to save draft")}finally{k(!1)}},S=async()=>{y||await z(),b.push("/story/".concat(n,"/qr-code"))};return(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df manual-draft-editor",children:[(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df fallback-notice",children:[(0,s.jsx)("div",{className:"jsx-e019f0e5b68678df notice-icon",children:"⚠️"}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df notice-content",children:[(0,s.jsx)("h3",{className:"jsx-e019f0e5b68678df",children:"Continue Manually"}),(0,s.jsx)("p",{className:"jsx-e019f0e5b68678df",children:f||"We couldn't finish generating this automatically. You can continue manually below."}),l&&(0,s.jsxs)("span",{className:"jsx-e019f0e5b68678df debug-info",children:["Reason: ",l]})]})]}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df editor-form",children:[(0,s.jsx)("h2",{className:"jsx-e019f0e5b68678df",children:"Your Fundraising Campaign"}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df form-group",children:[(0,s.jsxs)("label",{htmlFor:"title",className:"jsx-e019f0e5b68678df",children:["Campaign Title ",(0,s.jsx)("span",{className:"jsx-e019f0e5b68678df required",children:"*"})]}),(0,s.jsx)("input",{id:"title",type:"text",value:m,onChange:e=>x(e.target.value),placeholder:"e.g., Help John Get Back on His Feet",maxLength:90,className:"jsx-e019f0e5b68678df form-input"}),(0,s.jsxs)("span",{className:"jsx-e019f0e5b68678df char-count",children:[m.length,"/90"]})]}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df form-group",children:[(0,s.jsxs)("label",{htmlFor:"goalAmount",className:"jsx-e019f0e5b68678df",children:["Goal Amount ($) ",(0,s.jsx)("span",{className:"jsx-e019f0e5b68678df required",children:"*"})]}),(0,s.jsx)("input",{id:"goalAmount",type:"number",value:j,onChange:e=>g(Number(e.target.value)),min:"1",max:"999999",className:"jsx-e019f0e5b68678df form-input"}),(0,s.jsx)("span",{className:"jsx-e019f0e5b68678df help-text",children:"Minimum $1, Maximum $999,999"})]}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df form-group",children:[(0,s.jsxs)("label",{htmlFor:"story",className:"jsx-e019f0e5b68678df",children:["Campaign Story ",(0,s.jsx)("span",{className:"jsx-e019f0e5b68678df required",children:"*"})]}),(0,s.jsx)("textarea",{id:"story",value:u,onChange:e=>p(e.target.value),placeholder:"Tell your story. What happened? What do you need help with? How will the funds be used?",rows:12,className:"jsx-e019f0e5b68678df form-textarea"}),(0,s.jsxs)("span",{className:"jsx-e019f0e5b68678df char-count",children:[u.length," characters"]})]}),(null==c?void 0:c.transcript)&&(0,s.jsx)("div",{className:"jsx-e019f0e5b68678df partial-data-notice",children:(0,s.jsxs)("details",{className:"jsx-e019f0e5b68678df",children:[(0,s.jsx)("summary",{className:"jsx-e019f0e5b68678df",children:"View Original Recording Transcript"}),(0,s.jsx)("div",{className:"jsx-e019f0e5b68678df transcript-text",children:c.transcript})]})}),N&&(0,s.jsx)("div",{className:"jsx-e019f0e5b68678df error-message",children:N}),y&&(0,s.jsx)("div",{className:"jsx-e019f0e5b68678df success-message",children:"✓ Draft saved successfully!"}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df button-group",children:[(0,s.jsx)("button",{onClick:z,disabled:h,className:"jsx-e019f0e5b68678df btn btn-primary",children:h?"Saving...":y?"Update Draft":"Save Draft"}),(0,s.jsx)("button",{onClick:S,disabled:h,className:"jsx-e019f0e5b68678df btn btn-success",children:"Generate QR Code"})]}),(0,s.jsxs)("div",{className:"jsx-e019f0e5b68678df help-section",children:[(0,s.jsx)("h4",{className:"jsx-e019f0e5b68678df",children:"Need Help?"}),(0,s.jsxs)("ul",{className:"jsx-e019f0e5b68678df",children:[(0,s.jsx)("li",{className:"jsx-e019f0e5b68678df",children:"Be specific about your situation and needs"}),(0,s.jsx)("li",{className:"jsx-e019f0e5b68678df",children:"Explain how the funds will be used"}),(0,s.jsx)("li",{className:"jsx-e019f0e5b68678df",children:"Include any urgent deadlines or time-sensitive needs"}),(0,s.jsx)("li",{className:"jsx-e019f0e5b68678df",children:"You can always edit this later"})]})]})]}),(0,s.jsx)(d(),{id:"e019f0e5b68678df",children:".manual-draft-editor.jsx-e019f0e5b68678df{max-width:800px;margin:0 auto;padding:2rem}.fallback-notice.jsx-e019f0e5b68678df{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;gap:1rem;padding:1.5rem;background:#fff3cd;border:2px solid#ffc107;-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;margin-bottom:2rem}.notice-icon.jsx-e019f0e5b68678df{font-size:2rem}.notice-content.jsx-e019f0e5b68678df h3.jsx-e019f0e5b68678df{margin:0 0 .5rem 0;color:#856404}.notice-content.jsx-e019f0e5b68678df p.jsx-e019f0e5b68678df{margin:0;color:#856404}.debug-info.jsx-e019f0e5b68678df{font-size:.85rem;color:#6c757d;display:block;margin-top:.5rem}.editor-form.jsx-e019f0e5b68678df h2.jsx-e019f0e5b68678df{margin-bottom:1.5rem}.form-group.jsx-e019f0e5b68678df{margin-bottom:1.5rem}.form-group.jsx-e019f0e5b68678df label.jsx-e019f0e5b68678df{display:block;margin-bottom:.5rem;font-weight:600}.required.jsx-e019f0e5b68678df{color:#dc3545}.form-input.jsx-e019f0e5b68678df,.form-textarea.jsx-e019f0e5b68678df{width:100%;padding:.75rem;border:2px solid#dee2e6;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:1rem;font-family:inherit}.form-input.jsx-e019f0e5b68678df:focus,.form-textarea.jsx-e019f0e5b68678df:focus{outline:none;border-color:#0d6efd}.char-count.jsx-e019f0e5b68678df,.help-text.jsx-e019f0e5b68678df{display:block;margin-top:.25rem;font-size:.875rem;color:#6c757d}.partial-data-notice.jsx-e019f0e5b68678df{margin:1.5rem 0;padding:1rem;background:#e7f3ff;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}.transcript-text.jsx-e019f0e5b68678df{margin-top:.5rem;padding:1rem;background:white;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;max-height:200px;overflow-y:auto;font-size:.9rem}.error-message.jsx-e019f0e5b68678df{padding:1rem;background:#f8d7da;color:#721c24;border:1px solid#f5c6cb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;margin-bottom:1rem}.success-message.jsx-e019f0e5b68678df{padding:1rem;background:#d4edda;color:#155724;border:1px solid#c3e6cb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;margin-bottom:1rem}.button-group.jsx-e019f0e5b68678df{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;gap:1rem;margin:2rem 0}.btn.jsx-e019f0e5b68678df{padding:.75rem 1.5rem;border:none;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:1rem;font-weight:600;cursor:pointer;-webkit-transition:all.2s;-moz-transition:all.2s;-o-transition:all.2s;transition:all.2s}.btn.jsx-e019f0e5b68678df:disabled{opacity:.6;cursor:not-allowed}.btn-primary.jsx-e019f0e5b68678df{background:#0d6efd;color:white}.btn-primary.jsx-e019f0e5b68678df:hover:not(:disabled){background:#0b5ed7}.btn-success.jsx-e019f0e5b68678df{background:#198754;color:white}.btn-success.jsx-e019f0e5b68678df:hover:not(:disabled){background:#157347}.help-section.jsx-e019f0e5b68678df{margin-top:2rem;padding:1.5rem;background:#f8f9fa;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}.help-section.jsx-e019f0e5b68678df h4.jsx-e019f0e5b68678df{margin-top:0}.help-section.jsx-e019f0e5b68678df ul.jsx-e019f0e5b68678df{margin:0;padding-left:1.5rem}.help-section.jsx-e019f0e5b68678df li.jsx-e019f0e5b68678df{margin-bottom:.5rem}"})]})}function l(){let e=(0,o.useRouter)(),{recordingId:a}=e.query,[r,t]=(0,i.useState)(!0),[l,f]=(0,i.useState)(""),[c,b]=(0,i.useState)(null),[m,x]=(0,i.useState)(null);return((0,i.useEffect)(()=>{if(!a)return;let e=async()=>{t(!0),f("");try{let e=await fetch("/api/donations/manual-draft/".concat(a));if(e.ok){let a=await e.json();a.success&&a.draft&&(x(a.draft),b({success:!1,reasonCode:"MANUAL_EDIT",userMessage:"Continue editing your draft",debugId:a.draft.ticketId,ticketId:a.draft.ticketId,partialData:{extractedFields:{title:a.draft.title,story:a.draft.story,goalAmount:a.draft.goalAmount}}}))}else{let e=sessionStorage.getItem("pipeline_failure_".concat(a));if(e){let a=JSON.parse(e);b(a)}else b({success:!1,reasonCode:"UNKNOWN",userMessage:"Please create your fundraising campaign manually",debugId:String(a),ticketId:String(a)})}}catch(e){console.error("Failed to load draft data:",e),f("Failed to load draft. Please try again.")}finally{t(!1)}};e()},[a]),r)?(0,s.jsxs)("div",{className:"jsx-ad2ba6adba6d018d loading-container",children:[(0,s.jsx)("div",{className:"jsx-ad2ba6adba6d018d spinner"}),(0,s.jsx)("p",{className:"jsx-ad2ba6adba6d018d",children:"Loading editor..."}),(0,s.jsx)(d(),{id:"ad2ba6adba6d018d",children:".loading-container.jsx-ad2ba6adba6d018d{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-moz-box-orient:vertical;-moz-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;-moz-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-moz-box-pack:center;-ms-flex-pack:center;justify-content:center;min-height:60vh;gap:1rem}.spinner.jsx-ad2ba6adba6d018d{width:40px;height:40px;border:4px solid#f3f3f3;border-top:4px solid#0d6efd;-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;-webkit-animation:spin 1s linear infinite;-moz-animation:spin 1s linear infinite;-o-animation:spin 1s linear infinite;animation:spin 1s linear infinite}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-moz-keyframes spin{0%{-moz-transform:rotate(0deg);transform:rotate(0deg)}100%{-moz-transform:rotate(360deg);transform:rotate(360deg)}}@-o-keyframes spin{0%{-o-transform:rotate(0deg);transform:rotate(0deg)}100%{-o-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes spin{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}"})]}):l?(0,s.jsxs)("div",{className:"jsx-f765ab7c2a39d058 error-container",children:[(0,s.jsx)("h2",{className:"jsx-f765ab7c2a39d058",children:"Error Loading Draft"}),(0,s.jsx)("p",{className:"jsx-f765ab7c2a39d058",children:l}),(0,s.jsx)("button",{onClick:()=>e.back(),className:"jsx-f765ab7c2a39d058 btn-back",children:"Go Back"}),(0,s.jsx)(d(),{id:"f765ab7c2a39d058",children:".error-container.jsx-f765ab7c2a39d058{max-width:600px;margin:2rem auto;padding:2rem;text-align:center}.btn-back.jsx-f765ab7c2a39d058{padding:.75rem 1.5rem;background:#0d6efd;color:white;border:none;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:1rem;cursor:pointer}.btn-back.jsx-f765ab7c2a39d058:hover{background:#0b5ed7}"})]}):c?(0,s.jsx)(n,{ticketId:c.ticketId,failureReason:c.reasonCode,userMessage:c.userMessage,partialData:c.partialData}):null}}},function(e){e.O(0,[774,291,888,179],function(){return e(e.s=51955)}),_N_E=e.O()}]);
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [163],
+  {
+    51955: function (e, a, r) {
+      (window.__NEXT_P = window.__NEXT_P || []).push([
+        "/story/[recordingId]/manual-draft",
+        function () {
+          return r(30120);
+        },
+      ]);
+    },
+    30120: function (e, a, r) {
+      "use strict";
+      (r.r(a),
+        r.d(a, {
+          default: function () {
+            return l;
+          },
+        }));
+      var s = r(24246),
+        t = r(80726),
+        d = r.n(t),
+        i = r(27378),
+        o = r(86677);
+      function n(e) {
+        var a, r, t;
+        let {
+            ticketId: n,
+            failureReason: l,
+            userMessage: f,
+            partialData: c,
+          } = e,
+          b = (0, o.useRouter)(),
+          [m, x] = (0, i.useState)(
+            (null == c
+              ? void 0
+              : null === (a = c.extractedFields) || void 0 === a
+                ? void 0
+                : a.title) || "",
+          ),
+          [u, p] = (0, i.useState)(
+            (null == c
+              ? void 0
+              : null === (r = c.extractedFields) || void 0 === r
+                ? void 0
+                : r.story) || "",
+          ),
+          [j, g] = (0, i.useState)(
+            (null == c
+              ? void 0
+              : null === (t = c.extractedFields) || void 0 === t
+                ? void 0
+                : t.goalAmount) || 1500,
+          ),
+          [h, k] = (0, i.useState)(!1),
+          [y, w] = (0, i.useState)(!1),
+          [N, v] = (0, i.useState)(""),
+          z = async () => {
+            if ((v(""), k(!0), w(!1), !m.trim())) {
+              (v("Campaign title is required"), k(!1));
+              return;
+            }
+            if (!u.trim()) {
+              (v("Campaign story is required"), k(!1));
+              return;
+            }
+            if (j <= 0) {
+              (v("Goal amount must be greater than zero"), k(!1));
+              return;
+            }
+            try {
+              let e = await fetch("/api/donations/manual-draft", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  ticketId: n,
+                  title: m.trim(),
+                  story: u.trim(),
+                  goalAmount: j,
+                  currency: "USD",
+                }),
+              });
+              if (!e.ok) throw Error("Failed to save draft");
+              let a = await e.json();
+              if (!a.success) throw Error(a.error || "Failed to save draft");
+              (w(!0), console.log("Draft saved successfully:", a.draft));
+            } catch (e) {
+              (console.error("Save failed:", e),
+                v(e.message || "Failed to save draft"));
+            } finally {
+              k(!1);
+            }
+          },
+          S = async () => {
+            (y || (await z()), b.push("/story/".concat(n, "/qr-code")));
+          };
+        return (0, s.jsxs)("div", {
+          className: "jsx-e019f0e5b68678df manual-draft-editor",
+          children: [
+            (0, s.jsxs)("div", {
+              className: "jsx-e019f0e5b68678df fallback-notice",
+              children: [
+                (0, s.jsx)("div", {
+                  className: "jsx-e019f0e5b68678df notice-icon",
+                  children: "⚠️",
+                }),
+                (0, s.jsxs)("div", {
+                  className: "jsx-e019f0e5b68678df notice-content",
+                  children: [
+                    (0, s.jsx)("h3", {
+                      className: "jsx-e019f0e5b68678df",
+                      children: "Continue Manually",
+                    }),
+                    (0, s.jsx)("p", {
+                      className: "jsx-e019f0e5b68678df",
+                      children:
+                        f ||
+                        "We couldn't finish generating this automatically. You can continue manually below.",
+                    }),
+                    l &&
+                      (0, s.jsxs)("span", {
+                        className: "jsx-e019f0e5b68678df debug-info",
+                        children: ["Reason: ", l],
+                      }),
+                  ],
+                }),
+              ],
+            }),
+            (0, s.jsxs)("div", {
+              className: "jsx-e019f0e5b68678df editor-form",
+              children: [
+                (0, s.jsx)("h2", {
+                  className: "jsx-e019f0e5b68678df",
+                  children: "Your Fundraising Campaign",
+                }),
+                (0, s.jsxs)("div", {
+                  className: "jsx-e019f0e5b68678df form-group",
+                  children: [
+                    (0, s.jsxs)("label", {
+                      htmlFor: "title",
+                      className: "jsx-e019f0e5b68678df",
+                      children: [
+                        "Campaign Title ",
+                        (0, s.jsx)("span", {
+                          className: "jsx-e019f0e5b68678df required",
+                          children: "*",
+                        }),
+                      ],
+                    }),
+                    (0, s.jsx)("input", {
+                      id: "title",
+                      type: "text",
+                      value: m,
+                      onChange: (e) => x(e.target.value),
+                      placeholder: "e.g., Help John Get Back on His Feet",
+                      maxLength: 90,
+                      className: "jsx-e019f0e5b68678df form-input",
+                    }),
+                    (0, s.jsxs)("span", {
+                      className: "jsx-e019f0e5b68678df char-count",
+                      children: [m.length, "/90"],
+                    }),
+                  ],
+                }),
+                (0, s.jsxs)("div", {
+                  className: "jsx-e019f0e5b68678df form-group",
+                  children: [
+                    (0, s.jsxs)("label", {
+                      htmlFor: "goalAmount",
+                      className: "jsx-e019f0e5b68678df",
+                      children: [
+                        "Goal Amount ($) ",
+                        (0, s.jsx)("span", {
+                          className: "jsx-e019f0e5b68678df required",
+                          children: "*",
+                        }),
+                      ],
+                    }),
+                    (0, s.jsx)("input", {
+                      id: "goalAmount",
+                      type: "number",
+                      value: j,
+                      onChange: (e) => g(Number(e.target.value)),
+                      min: "1",
+                      max: "999999",
+                      className: "jsx-e019f0e5b68678df form-input",
+                    }),
+                    (0, s.jsx)("span", {
+                      className: "jsx-e019f0e5b68678df help-text",
+                      children: "Minimum $1, Maximum $999,999",
+                    }),
+                  ],
+                }),
+                (0, s.jsxs)("div", {
+                  className: "jsx-e019f0e5b68678df form-group",
+                  children: [
+                    (0, s.jsxs)("label", {
+                      htmlFor: "story",
+                      className: "jsx-e019f0e5b68678df",
+                      children: [
+                        "Campaign Story ",
+                        (0, s.jsx)("span", {
+                          className: "jsx-e019f0e5b68678df required",
+                          children: "*",
+                        }),
+                      ],
+                    }),
+                    (0, s.jsx)("textarea", {
+                      id: "story",
+                      value: u,
+                      onChange: (e) => p(e.target.value),
+                      placeholder:
+                        "Tell your story. What happened? What do you need help with? How will the funds be used?",
+                      rows: 12,
+                      className: "jsx-e019f0e5b68678df form-textarea",
+                    }),
+                    (0, s.jsxs)("span", {
+                      className: "jsx-e019f0e5b68678df char-count",
+                      children: [u.length, " characters"],
+                    }),
+                  ],
+                }),
+                (null == c ? void 0 : c.transcript) &&
+                  (0, s.jsx)("div", {
+                    className: "jsx-e019f0e5b68678df partial-data-notice",
+                    children: (0, s.jsxs)("details", {
+                      className: "jsx-e019f0e5b68678df",
+                      children: [
+                        (0, s.jsx)("summary", {
+                          className: "jsx-e019f0e5b68678df",
+                          children: "View Original Recording Transcript",
+                        }),
+                        (0, s.jsx)("div", {
+                          className: "jsx-e019f0e5b68678df transcript-text",
+                          children: c.transcript,
+                        }),
+                      ],
+                    }),
+                  }),
+                N &&
+                  (0, s.jsx)("div", {
+                    className: "jsx-e019f0e5b68678df error-message",
+                    children: N,
+                  }),
+                y &&
+                  (0, s.jsx)("div", {
+                    className: "jsx-e019f0e5b68678df success-message",
+                    children: "✓ Draft saved successfully!",
+                  }),
+                (0, s.jsxs)("div", {
+                  className: "jsx-e019f0e5b68678df button-group",
+                  children: [
+                    (0, s.jsx)("button", {
+                      onClick: z,
+                      disabled: h,
+                      className: "jsx-e019f0e5b68678df btn btn-primary",
+                      children: h
+                        ? "Saving..."
+                        : y
+                          ? "Update Draft"
+                          : "Save Draft",
+                    }),
+                    (0, s.jsx)("button", {
+                      onClick: S,
+                      disabled: h,
+                      className: "jsx-e019f0e5b68678df btn btn-success",
+                      children: "Generate QR Code",
+                    }),
+                  ],
+                }),
+                (0, s.jsxs)("div", {
+                  className: "jsx-e019f0e5b68678df help-section",
+                  children: [
+                    (0, s.jsx)("h4", {
+                      className: "jsx-e019f0e5b68678df",
+                      children: "Need Help?",
+                    }),
+                    (0, s.jsxs)("ul", {
+                      className: "jsx-e019f0e5b68678df",
+                      children: [
+                        (0, s.jsx)("li", {
+                          className: "jsx-e019f0e5b68678df",
+                          children:
+                            "Be specific about your situation and needs",
+                        }),
+                        (0, s.jsx)("li", {
+                          className: "jsx-e019f0e5b68678df",
+                          children: "Explain how the funds will be used",
+                        }),
+                        (0, s.jsx)("li", {
+                          className: "jsx-e019f0e5b68678df",
+                          children:
+                            "Include any urgent deadlines or time-sensitive needs",
+                        }),
+                        (0, s.jsx)("li", {
+                          className: "jsx-e019f0e5b68678df",
+                          children: "You can always edit this later",
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            (0, s.jsx)(d(), {
+              id: "e019f0e5b68678df",
+              children:
+                ".manual-draft-editor.jsx-e019f0e5b68678df{max-width:800px;margin:0 auto;padding:2rem}.fallback-notice.jsx-e019f0e5b68678df{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;gap:1rem;padding:1.5rem;background:#fff3cd;border:2px solid#ffc107;-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;margin-bottom:2rem}.notice-icon.jsx-e019f0e5b68678df{font-size:2rem}.notice-content.jsx-e019f0e5b68678df h3.jsx-e019f0e5b68678df{margin:0 0 .5rem 0;color:#856404}.notice-content.jsx-e019f0e5b68678df p.jsx-e019f0e5b68678df{margin:0;color:#856404}.debug-info.jsx-e019f0e5b68678df{font-size:.85rem;color:#6c757d;display:block;margin-top:.5rem}.editor-form.jsx-e019f0e5b68678df h2.jsx-e019f0e5b68678df{margin-bottom:1.5rem}.form-group.jsx-e019f0e5b68678df{margin-bottom:1.5rem}.form-group.jsx-e019f0e5b68678df label.jsx-e019f0e5b68678df{display:block;margin-bottom:.5rem;font-weight:600}.required.jsx-e019f0e5b68678df{color:#dc3545}.form-input.jsx-e019f0e5b68678df,.form-textarea.jsx-e019f0e5b68678df{width:100%;padding:.75rem;border:2px solid#dee2e6;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:1rem;font-family:inherit}.form-input.jsx-e019f0e5b68678df:focus,.form-textarea.jsx-e019f0e5b68678df:focus{outline:none;border-color:#0d6efd}.char-count.jsx-e019f0e5b68678df,.help-text.jsx-e019f0e5b68678df{display:block;margin-top:.25rem;font-size:.875rem;color:#6c757d}.partial-data-notice.jsx-e019f0e5b68678df{margin:1.5rem 0;padding:1rem;background:#e7f3ff;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}.transcript-text.jsx-e019f0e5b68678df{margin-top:.5rem;padding:1rem;background:white;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;max-height:200px;overflow-y:auto;font-size:.9rem}.error-message.jsx-e019f0e5b68678df{padding:1rem;background:#f8d7da;color:#721c24;border:1px solid#f5c6cb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;margin-bottom:1rem}.success-message.jsx-e019f0e5b68678df{padding:1rem;background:#d4edda;color:#155724;border:1px solid#c3e6cb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;margin-bottom:1rem}.button-group.jsx-e019f0e5b68678df{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;gap:1rem;margin:2rem 0}.btn.jsx-e019f0e5b68678df{padding:.75rem 1.5rem;border:none;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:1rem;font-weight:600;cursor:pointer;-webkit-transition:all.2s;-moz-transition:all.2s;-o-transition:all.2s;transition:all.2s}.btn.jsx-e019f0e5b68678df:disabled{opacity:.6;cursor:not-allowed}.btn-primary.jsx-e019f0e5b68678df{background:#0d6efd;color:white}.btn-primary.jsx-e019f0e5b68678df:hover:not(:disabled){background:#0b5ed7}.btn-success.jsx-e019f0e5b68678df{background:#198754;color:white}.btn-success.jsx-e019f0e5b68678df:hover:not(:disabled){background:#157347}.help-section.jsx-e019f0e5b68678df{margin-top:2rem;padding:1.5rem;background:#f8f9fa;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}.help-section.jsx-e019f0e5b68678df h4.jsx-e019f0e5b68678df{margin-top:0}.help-section.jsx-e019f0e5b68678df ul.jsx-e019f0e5b68678df{margin:0;padding-left:1.5rem}.help-section.jsx-e019f0e5b68678df li.jsx-e019f0e5b68678df{margin-bottom:.5rem}",
+            }),
+          ],
+        });
+      }
+      function l() {
+        let e = (0, o.useRouter)(),
+          { recordingId: a } = e.query,
+          [r, t] = (0, i.useState)(!0),
+          [l, f] = (0, i.useState)(""),
+          [c, b] = (0, i.useState)(null),
+          [m, x] = (0, i.useState)(null);
+        return ((0, i.useEffect)(() => {
+          if (!a) return;
+          let e = async () => {
+            (t(!0), f(""));
+            try {
+              let e = await fetch("/api/donations/manual-draft/".concat(a));
+              if (e.ok) {
+                let a = await e.json();
+                a.success &&
+                  a.draft &&
+                  (x(a.draft),
+                  b({
+                    success: !1,
+                    reasonCode: "MANUAL_EDIT",
+                    userMessage: "Continue editing your draft",
+                    debugId: a.draft.ticketId,
+                    ticketId: a.draft.ticketId,
+                    partialData: {
+                      extractedFields: {
+                        title: a.draft.title,
+                        story: a.draft.story,
+                        goalAmount: a.draft.goalAmount,
+                      },
+                    },
+                  }));
+              } else {
+                let e = sessionStorage.getItem("pipeline_failure_".concat(a));
+                if (e) {
+                  let a = JSON.parse(e);
+                  b(a);
+                } else
+                  b({
+                    success: !1,
+                    reasonCode: "UNKNOWN",
+                    userMessage:
+                      "Please create your fundraising campaign manually",
+                    debugId: String(a),
+                    ticketId: String(a),
+                  });
+              }
+            } catch (e) {
+              (console.error("Failed to load draft data:", e),
+                f("Failed to load draft. Please try again."));
+            } finally {
+              t(!1);
+            }
+          };
+          e();
+        }, [a]),
+        r)
+          ? (0, s.jsxs)("div", {
+              className: "jsx-ad2ba6adba6d018d loading-container",
+              children: [
+                (0, s.jsx)("div", {
+                  className: "jsx-ad2ba6adba6d018d spinner",
+                }),
+                (0, s.jsx)("p", {
+                  className: "jsx-ad2ba6adba6d018d",
+                  children: "Loading editor...",
+                }),
+                (0, s.jsx)(d(), {
+                  id: "ad2ba6adba6d018d",
+                  children:
+                    ".loading-container.jsx-ad2ba6adba6d018d{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-moz-box-orient:vertical;-moz-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;-moz-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-moz-box-pack:center;-ms-flex-pack:center;justify-content:center;min-height:60vh;gap:1rem}.spinner.jsx-ad2ba6adba6d018d{width:40px;height:40px;border:4px solid#f3f3f3;border-top:4px solid#0d6efd;-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;-webkit-animation:spin 1s linear infinite;-moz-animation:spin 1s linear infinite;-o-animation:spin 1s linear infinite;animation:spin 1s linear infinite}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-moz-keyframes spin{0%{-moz-transform:rotate(0deg);transform:rotate(0deg)}100%{-moz-transform:rotate(360deg);transform:rotate(360deg)}}@-o-keyframes spin{0%{-o-transform:rotate(0deg);transform:rotate(0deg)}100%{-o-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes spin{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}",
+                }),
+              ],
+            })
+          : l
+            ? (0, s.jsxs)("div", {
+                className: "jsx-f765ab7c2a39d058 error-container",
+                children: [
+                  (0, s.jsx)("h2", {
+                    className: "jsx-f765ab7c2a39d058",
+                    children: "Error Loading Draft",
+                  }),
+                  (0, s.jsx)("p", {
+                    className: "jsx-f765ab7c2a39d058",
+                    children: l,
+                  }),
+                  (0, s.jsx)("button", {
+                    onClick: () => e.back(),
+                    className: "jsx-f765ab7c2a39d058 btn-back",
+                    children: "Go Back",
+                  }),
+                  (0, s.jsx)(d(), {
+                    id: "f765ab7c2a39d058",
+                    children:
+                      ".error-container.jsx-f765ab7c2a39d058{max-width:600px;margin:2rem auto;padding:2rem;text-align:center}.btn-back.jsx-f765ab7c2a39d058{padding:.75rem 1.5rem;background:#0d6efd;color:white;border:none;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:1rem;cursor:pointer}.btn-back.jsx-f765ab7c2a39d058:hover{background:#0b5ed7}",
+                  }),
+                ],
+              })
+            : c
+              ? (0, s.jsx)(n, {
+                  ticketId: c.ticketId,
+                  failureReason: c.reasonCode,
+                  userMessage: c.userMessage,
+                  partialData: c.partialData,
+                })
+              : null;
+      }
+    },
+  },
+  function (e) {
+    (e.O(0, [774, 291, 888, 179], function () {
+      return e((e.s = 51955));
+    }),
+      (_N_E = e.O()));
+  },
+]);

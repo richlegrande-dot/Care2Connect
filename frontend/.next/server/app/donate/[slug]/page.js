@@ -1,1 +1,843 @@
-(()=>{var e={};e.id=157,e.ids=[157],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},14165:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>o.a,__next_app__:()=>u,originalPathname:()=>m,pages:()=>c,routeModule:()=>x,tree:()=>d});var r=s(36577),a=s(55533),n=s(40443),o=s.n(n),l=s(53320),i={};for(let e in l)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(i[e]=()=>l[e]);s.d(t,i);let d=["",{children:["donate",{children:["[slug]",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,11366)),"C:\\Users\\richl\\Care2system\\frontend\\app\\donate\\[slug]\\page.tsx"]}]},{}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],c=["C:\\Users\\richl\\Care2system\\frontend\\app\\donate\\[slug]\\page.tsx"],m="/donate/[slug]/page",u={require:s,loadChunk:()=>Promise.resolve()},x=new r.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/donate/[slug]/page",pathname:"/donate/[slug]",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:d}})},88726:(e,t,s)=>{Promise.resolve().then(s.bind(s,522))},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},522:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>x});var r=s(73658),a=s(55459),n=s(32241),o=s(84874),l=s.n(o),i=s(33999);let d=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 24 24",fill:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{d:"m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"}))}),c=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"}))});var m=s(46865);let u=[{amount:10,label:"$10"},{amount:25,label:"$25"},{amount:50,label:"$50"},{amount:100,label:"$100"}];function x(){let e=(0,n.useParams)(),t=e?.slug||"",[s,o]=(0,a.useState)(25),[x,h]=(0,a.useState)(""),[p,g]=(0,a.useState)(""),[b,f]=(0,a.useState)(""),[y,j]=(0,a.useState)(!1),[v,w]=(0,a.useState)(!1),[N,C]=(0,a.useState)({name:"Community Member",story:"This person is seeking support from the community to improve their situation and work towards stability.",summary:"Help provide essential support for someone in our community.",goalAmount:2500,amountRaised:0,donationCount:0}),[k,P]=(0,a.useState)(!1);(0,a.useEffect)(()=>{S(),C(e=>({...e,name:t.replace(/-/g," ").replace(/\b\w/g,e=>e.toUpperCase())}))},[t]);let S=async()=>{try{let e=await fetch("https://api.care2connects.org/api/qr/status"),t=await e.json();t.success&&P(t.data.configured)}catch(e){console.error("Error checking Stripe status:",e)}},E=e=>{o(e),h(""),w(!1)},_=e=>{h(e);let t=parseFloat(e);!isNaN(t)&&t>0?o(t):o(null)},A=async e=>{if(e.preventDefault(),!s||s<.5){i.default.error("Minimum donation amount is $0.50");return}if(!k){i.default.error("Payment system is not configured. Please try again later.");return}j(!0);try{let e=await fetch("https://api.care2connects.org/api/qr/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({publicSlug:t,amount:s,donorEmail:p||void 0})}),r=await e.json();r.success?window.location.href=r.data.checkoutUrl:i.default.error(r.error||"Failed to create checkout session")}catch(e){console.error("Donation error:",e),i.default.error("Failed to process donation. Please try again.")}finally{j(!1)}},M=N.goalAmount?Math.min((N.amountRaised||0)/N.goalAmount*100,100):0;return(0,r.jsxs)("div",{className:"min-h-screen bg-gradient-to-b from-blue-50 to-white",children:[r.jsx("header",{className:"bg-white border-b shadow-sm",children:r.jsx("div",{className:"max-w-4xl mx-auto px-4 py-6",children:(0,r.jsxs)(l(),{href:"/",className:"inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors",children:[r.jsx("svg",{className:"w-5 h-5",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24",children:r.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M10 19l-7-7m0 0l7-7m-7 7h18"})}),r.jsx("span",{children:"Back to CareConnect"})]})})}),r.jsx("div",{className:"max-w-4xl mx-auto px-4 py-8",children:(0,r.jsxs)("div",{className:"grid lg:grid-cols-2 gap-8",children:[(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow-lg p-6",children:[(0,r.jsxs)("div",{className:"mb-6",children:[(0,r.jsxs)("h1",{className:"text-2xl font-bold text-gray-900 mb-2",children:["Support ",N.name]}),N.summary&&r.jsx("p",{className:"text-lg text-gray-600 mb-4",children:N.summary}),N.goalAmount&&(0,r.jsxs)("div",{className:"mb-6",children:[(0,r.jsxs)("div",{className:"flex justify-between text-sm text-gray-600 mb-1",children:[(0,r.jsxs)("span",{children:["$",(N.amountRaised||0).toLocaleString()," raised"]}),(0,r.jsxs)("span",{children:["$",N.goalAmount.toLocaleString()," goal"]})]}),r.jsx("div",{className:"w-full bg-gray-200 rounded-full h-3",children:r.jsx("div",{className:"bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500",style:{width:`${M}%`}})}),(0,r.jsxs)("div",{className:"flex justify-between text-sm text-gray-500 mt-1",children:[(0,r.jsxs)("span",{children:[N.donationCount||0," supporters"]}),(0,r.jsxs)("span",{children:[Math.round(M),"% of goal"]})]})]}),r.jsx("div",{className:"prose prose-sm max-w-none",children:r.jsx("p",{className:"text-gray-700 leading-relaxed",children:N.story})})]}),r.jsx("div",{className:"border-t pt-4",children:(0,r.jsxs)("div",{className:"flex items-center justify-between",children:[r.jsx("span",{className:"text-sm font-medium text-gray-700",children:"Share this campaign:"}),(0,r.jsxs)("button",{onClick:()=>{navigator.clipboard.writeText(""),i.default.success("Link copied to clipboard!")},className:"flex items-center gap-2 px-3 py-1 text-sm text-blue-600 hover:text-blue-700 transition-colors",children:[r.jsx(c,{className:"w-4 h-4"}),"Copy Link"]})]})})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow-lg p-6",children:[(0,r.jsxs)("div",{className:"text-center mb-6",children:[r.jsx(d,{className:"w-12 h-12 text-red-500 mx-auto mb-3"}),r.jsx("h2",{className:"text-xl font-semibold text-gray-900 mb-2",children:"Make a Donation"}),r.jsx("p",{className:"text-gray-600",children:"Your support makes a real difference"})]}),!k&&r.jsx("div",{className:"mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg",children:(0,r.jsxs)("p",{className:"text-yellow-800 text-sm",children:[r.jsx("strong",{children:"Note:"})," The payment system is currently being set up. Please check back soon to make a donation."]})}),(0,r.jsxs)("form",{onSubmit:A,className:"space-y-6",children:[(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-3",children:"Choose Amount (USD)"}),r.jsx("div",{className:"grid grid-cols-2 gap-3 mb-4",children:u.map(({amount:e,label:t})=>r.jsx("button",{type:"button",onClick:()=>E(e),className:`p-3 rounded-lg border-2 font-semibold transition-all ${s!==e||v?"bg-white text-gray-700 border-gray-300 hover:border-blue-400":"bg-blue-600 text-white border-blue-600"}`,children:t},e))}),(0,r.jsxs)("div",{className:"space-y-2",children:[r.jsx("button",{type:"button",onClick:()=>w(!v),className:"text-blue-600 text-sm hover:text-blue-700 transition-colors",children:v?"Hide custom amount":"Enter custom amount"}),v&&r.jsx("input",{type:"number",value:x,onChange:e=>_(e.target.value),className:"w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",placeholder:"Enter amount",min:"0.50",step:"0.01"})]})]}),(0,r.jsxs)("div",{className:"space-y-4",children:[(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Email (Optional)"}),r.jsx("input",{type:"email",value:p,onChange:e=>g(e.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",placeholder:"your@email.com"}),r.jsx("p",{className:"text-xs text-gray-500 mt-1",children:"For donation receipt (optional)"})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Message (Optional)"}),r.jsx("textarea",{value:b,onChange:e=>f(e.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",rows:3,placeholder:"Leave a message of support..."})]})]}),r.jsx("button",{type:"submit",disabled:!s||s<.5||!k||y,className:"w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2",children:y?(0,r.jsxs)(r.Fragment,{children:[r.jsx("div",{className:"animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"}),r.jsx("span",{children:"Processing..."})]}):(0,r.jsxs)(r.Fragment,{children:[r.jsx(m.Z,{className:"w-5 h-5"}),(0,r.jsxs)("span",{children:["Donate ",s?`$${s}`:""," with Card"]})]})})]}),r.jsx("div",{className:"mt-6 p-3 bg-gray-50 rounded-lg",children:r.jsx("p",{className:"text-xs text-gray-600 text-center",children:"\uD83D\uDD12 Secure payment powered by Stripe. Your card information is never stored by CareConnect."})}),(0,r.jsxs)("div",{className:"mt-6 pt-6 border-t border-gray-200",children:[r.jsx("h3",{className:"text-sm font-medium text-gray-700 mb-3",children:"Other ways to help:"}),(0,r.jsxs)("ul",{className:"text-sm text-gray-600 space-y-1",children:[r.jsx("li",{children:"• Share this page with friends and family"}),r.jsx("li",{children:"• Connect with local support organizations"}),r.jsx("li",{children:"• Offer resources or job opportunities if available"})]})]})]})]})})]})}},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>l});var r=s(73658),a=s(58758),n=s(60459),o=s(55459);function l({children:e}){let[t]=(0,o.useState)(()=>new a.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(n.aH,{client:t,children:e})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>i});var r=s(73658),a=s(84874),n=s.n(a),o=s(32241),l=s(17872);function i(){let e=(0,o.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(n(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(n(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(n(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(n(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(n(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(n(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(l.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},11366:(e,t,s)=>{"use strict";s.r(t),s.d(t,{$$typeof:()=>o,__esModule:()=>n,default:()=>i});var r=s(19894);let a=(0,r.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\donate\[slug]\page.tsx`),{__esModule:n,$$typeof:o}=a,l=a.default,i=l},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>b,metadata:()=>g});var r=s(31487),a=s(72972),n=s.n(a);s(40642);var o=s(19894);let l=(0,o.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:i,$$typeof:d}=l;l.default;let c=(0,o.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var m=s(15762);let u=(0,o.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:x,$$typeof:h}=u,p=u.default,g={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function b({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:n().className,children:(0,r.jsxs)(c,{children:[r.jsx(p,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(m.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},40642:()=>{},46865:(e,t,s)=>{"use strict";s.d(t,{Z:()=>n});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"}))}),n=a}};var t=require("../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(14165));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 157),
+    (e.ids = [157]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      14165: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => o.a,
+            __next_app__: () => u,
+            originalPathname: () => m,
+            pages: () => c,
+            routeModule: () => x,
+            tree: () => d,
+          }));
+        var r = s(36577),
+          a = s(55533),
+          n = s(40443),
+          o = s.n(n),
+          l = s(53320),
+          i = {};
+        for (let e in l)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (i[e] = () => l[e]);
+        s.d(t, i);
+        let d = [
+            "",
+            {
+              children: [
+                "donate",
+                {
+                  children: [
+                    "[slug]",
+                    {
+                      children: [
+                        "__PAGE__",
+                        {},
+                        {
+                          page: [
+                            () => Promise.resolve().then(s.bind(s, 11366)),
+                            "C:\\Users\\richl\\Care2system\\frontend\\app\\donate\\[slug]\\page.tsx",
+                          ],
+                        },
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          c = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\donate\\[slug]\\page.tsx",
+          ],
+          m = "/donate/[slug]/page",
+          u = { require: s, loadChunk: () => Promise.resolve() },
+          x = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: "/donate/[slug]/page",
+              pathname: "/donate/[slug]",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: d },
+          });
+      },
+      88726: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 522));
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      522: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => x }));
+        var r = s(73658),
+          a = s(55459),
+          n = s(32241),
+          o = s(84874),
+          l = s.n(o),
+          i = s(33999);
+        let d = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 24 24",
+                  fill: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                d: "m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z",
+              }),
+            );
+          }),
+          c = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z",
+              }),
+            );
+          });
+        var m = s(46865);
+        let u = [
+          { amount: 10, label: "$10" },
+          { amount: 25, label: "$25" },
+          { amount: 50, label: "$50" },
+          { amount: 100, label: "$100" },
+        ];
+        function x() {
+          let e = (0, n.useParams)(),
+            t = e?.slug || "",
+            [s, o] = (0, a.useState)(25),
+            [x, h] = (0, a.useState)(""),
+            [p, g] = (0, a.useState)(""),
+            [b, f] = (0, a.useState)(""),
+            [y, j] = (0, a.useState)(!1),
+            [v, w] = (0, a.useState)(!1),
+            [N, C] = (0, a.useState)({
+              name: "Community Member",
+              story:
+                "This person is seeking support from the community to improve their situation and work towards stability.",
+              summary:
+                "Help provide essential support for someone in our community.",
+              goalAmount: 2500,
+              amountRaised: 0,
+              donationCount: 0,
+            }),
+            [k, P] = (0, a.useState)(!1);
+          (0, a.useEffect)(() => {
+            (S(),
+              C((e) => ({
+                ...e,
+                name: t
+                  .replace(/-/g, " ")
+                  .replace(/\b\w/g, (e) => e.toUpperCase()),
+              })));
+          }, [t]);
+          let S = async () => {
+              try {
+                let e = await fetch(
+                    "https://api.care2connects.org/api/qr/status",
+                  ),
+                  t = await e.json();
+                t.success && P(t.data.configured);
+              } catch (e) {
+                console.error("Error checking Stripe status:", e);
+              }
+            },
+            E = (e) => {
+              (o(e), h(""), w(!1));
+            },
+            _ = (e) => {
+              h(e);
+              let t = parseFloat(e);
+              !isNaN(t) && t > 0 ? o(t) : o(null);
+            },
+            A = async (e) => {
+              if ((e.preventDefault(), !s || s < 0.5)) {
+                i.default.error("Minimum donation amount is $0.50");
+                return;
+              }
+              if (!k) {
+                i.default.error(
+                  "Payment system is not configured. Please try again later.",
+                );
+                return;
+              }
+              j(!0);
+              try {
+                let e = await fetch(
+                    "https://api.care2connects.org/api/qr/checkout",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        publicSlug: t,
+                        amount: s,
+                        donorEmail: p || void 0,
+                      }),
+                    },
+                  ),
+                  r = await e.json();
+                r.success
+                  ? (window.location.href = r.data.checkoutUrl)
+                  : i.default.error(
+                      r.error || "Failed to create checkout session",
+                    );
+              } catch (e) {
+                (console.error("Donation error:", e),
+                  i.default.error(
+                    "Failed to process donation. Please try again.",
+                  ));
+              } finally {
+                j(!1);
+              }
+            },
+            M = N.goalAmount
+              ? Math.min(((N.amountRaised || 0) / N.goalAmount) * 100, 100)
+              : 0;
+          return (0, r.jsxs)("div", {
+            className: "min-h-screen bg-gradient-to-b from-blue-50 to-white",
+            children: [
+              r.jsx("header", {
+                className: "bg-white border-b shadow-sm",
+                children: r.jsx("div", {
+                  className: "max-w-4xl mx-auto px-4 py-6",
+                  children: (0, r.jsxs)(l(), {
+                    href: "/",
+                    className:
+                      "inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors",
+                    children: [
+                      r.jsx("svg", {
+                        className: "w-5 h-5",
+                        fill: "none",
+                        stroke: "currentColor",
+                        viewBox: "0 0 24 24",
+                        children: r.jsx("path", {
+                          strokeLinecap: "round",
+                          strokeLinejoin: "round",
+                          strokeWidth: 2,
+                          d: "M10 19l-7-7m0 0l7-7m-7 7h18",
+                        }),
+                      }),
+                      r.jsx("span", { children: "Back to CareConnect" }),
+                    ],
+                  }),
+                }),
+              }),
+              r.jsx("div", {
+                className: "max-w-4xl mx-auto px-4 py-8",
+                children: (0, r.jsxs)("div", {
+                  className: "grid lg:grid-cols-2 gap-8",
+                  children: [
+                    (0, r.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow-lg p-6",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "mb-6",
+                          children: [
+                            (0, r.jsxs)("h1", {
+                              className:
+                                "text-2xl font-bold text-gray-900 mb-2",
+                              children: ["Support ", N.name],
+                            }),
+                            N.summary &&
+                              r.jsx("p", {
+                                className: "text-lg text-gray-600 mb-4",
+                                children: N.summary,
+                              }),
+                            N.goalAmount &&
+                              (0, r.jsxs)("div", {
+                                className: "mb-6",
+                                children: [
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "flex justify-between text-sm text-gray-600 mb-1",
+                                    children: [
+                                      (0, r.jsxs)("span", {
+                                        children: [
+                                          "$",
+                                          (
+                                            N.amountRaised || 0
+                                          ).toLocaleString(),
+                                          " raised",
+                                        ],
+                                      }),
+                                      (0, r.jsxs)("span", {
+                                        children: [
+                                          "$",
+                                          N.goalAmount.toLocaleString(),
+                                          " goal",
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                  r.jsx("div", {
+                                    className:
+                                      "w-full bg-gray-200 rounded-full h-3",
+                                    children: r.jsx("div", {
+                                      className:
+                                        "bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500",
+                                      style: { width: `${M}%` },
+                                    }),
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "flex justify-between text-sm text-gray-500 mt-1",
+                                    children: [
+                                      (0, r.jsxs)("span", {
+                                        children: [
+                                          N.donationCount || 0,
+                                          " supporters",
+                                        ],
+                                      }),
+                                      (0, r.jsxs)("span", {
+                                        children: [Math.round(M), "% of goal"],
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                            r.jsx("div", {
+                              className: "prose prose-sm max-w-none",
+                              children: r.jsx("p", {
+                                className: "text-gray-700 leading-relaxed",
+                                children: N.story,
+                              }),
+                            }),
+                          ],
+                        }),
+                        r.jsx("div", {
+                          className: "border-t pt-4",
+                          children: (0, r.jsxs)("div", {
+                            className: "flex items-center justify-between",
+                            children: [
+                              r.jsx("span", {
+                                className: "text-sm font-medium text-gray-700",
+                                children: "Share this campaign:",
+                              }),
+                              (0, r.jsxs)("button", {
+                                onClick: () => {
+                                  (navigator.clipboard.writeText(""),
+                                    i.default.success(
+                                      "Link copied to clipboard!",
+                                    ));
+                                },
+                                className:
+                                  "flex items-center gap-2 px-3 py-1 text-sm text-blue-600 hover:text-blue-700 transition-colors",
+                                children: [
+                                  r.jsx(c, { className: "w-4 h-4" }),
+                                  "Copy Link",
+                                ],
+                              }),
+                            ],
+                          }),
+                        }),
+                      ],
+                    }),
+                    (0, r.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow-lg p-6",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "text-center mb-6",
+                          children: [
+                            r.jsx(d, {
+                              className: "w-12 h-12 text-red-500 mx-auto mb-3",
+                            }),
+                            r.jsx("h2", {
+                              className:
+                                "text-xl font-semibold text-gray-900 mb-2",
+                              children: "Make a Donation",
+                            }),
+                            r.jsx("p", {
+                              className: "text-gray-600",
+                              children: "Your support makes a real difference",
+                            }),
+                          ],
+                        }),
+                        !k &&
+                          r.jsx("div", {
+                            className:
+                              "mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg",
+                            children: (0, r.jsxs)("p", {
+                              className: "text-yellow-800 text-sm",
+                              children: [
+                                r.jsx("strong", { children: "Note:" }),
+                                " The payment system is currently being set up. Please check back soon to make a donation.",
+                              ],
+                            }),
+                          }),
+                        (0, r.jsxs)("form", {
+                          onSubmit: A,
+                          className: "space-y-6",
+                          children: [
+                            (0, r.jsxs)("div", {
+                              children: [
+                                r.jsx("label", {
+                                  className:
+                                    "block text-sm font-medium text-gray-700 mb-3",
+                                  children: "Choose Amount (USD)",
+                                }),
+                                r.jsx("div", {
+                                  className: "grid grid-cols-2 gap-3 mb-4",
+                                  children: u.map(({ amount: e, label: t }) =>
+                                    r.jsx(
+                                      "button",
+                                      {
+                                        type: "button",
+                                        onClick: () => E(e),
+                                        className: `p-3 rounded-lg border-2 font-semibold transition-all ${s !== e || v ? "bg-white text-gray-700 border-gray-300 hover:border-blue-400" : "bg-blue-600 text-white border-blue-600"}`,
+                                        children: t,
+                                      },
+                                      e,
+                                    ),
+                                  ),
+                                }),
+                                (0, r.jsxs)("div", {
+                                  className: "space-y-2",
+                                  children: [
+                                    r.jsx("button", {
+                                      type: "button",
+                                      onClick: () => w(!v),
+                                      className:
+                                        "text-blue-600 text-sm hover:text-blue-700 transition-colors",
+                                      children: v
+                                        ? "Hide custom amount"
+                                        : "Enter custom amount",
+                                    }),
+                                    v &&
+                                      r.jsx("input", {
+                                        type: "number",
+                                        value: x,
+                                        onChange: (e) => _(e.target.value),
+                                        className:
+                                          "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                        placeholder: "Enter amount",
+                                        min: "0.50",
+                                        step: "0.01",
+                                      }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                            (0, r.jsxs)("div", {
+                              className: "space-y-4",
+                              children: [
+                                (0, r.jsxs)("div", {
+                                  children: [
+                                    r.jsx("label", {
+                                      className:
+                                        "block text-sm font-medium text-gray-700 mb-1",
+                                      children: "Email (Optional)",
+                                    }),
+                                    r.jsx("input", {
+                                      type: "email",
+                                      value: p,
+                                      onChange: (e) => g(e.target.value),
+                                      className:
+                                        "w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                      placeholder: "your@email.com",
+                                    }),
+                                    r.jsx("p", {
+                                      className: "text-xs text-gray-500 mt-1",
+                                      children:
+                                        "For donation receipt (optional)",
+                                    }),
+                                  ],
+                                }),
+                                (0, r.jsxs)("div", {
+                                  children: [
+                                    r.jsx("label", {
+                                      className:
+                                        "block text-sm font-medium text-gray-700 mb-1",
+                                      children: "Message (Optional)",
+                                    }),
+                                    r.jsx("textarea", {
+                                      value: b,
+                                      onChange: (e) => f(e.target.value),
+                                      className:
+                                        "w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                      rows: 3,
+                                      placeholder:
+                                        "Leave a message of support...",
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                            r.jsx("button", {
+                              type: "submit",
+                              disabled: !s || s < 0.5 || !k || y,
+                              className:
+                                "w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2",
+                              children: y
+                                ? (0, r.jsxs)(r.Fragment, {
+                                    children: [
+                                      r.jsx("div", {
+                                        className:
+                                          "animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent",
+                                      }),
+                                      r.jsx("span", {
+                                        children: "Processing...",
+                                      }),
+                                    ],
+                                  })
+                                : (0, r.jsxs)(r.Fragment, {
+                                    children: [
+                                      r.jsx(m.Z, { className: "w-5 h-5" }),
+                                      (0, r.jsxs)("span", {
+                                        children: [
+                                          "Donate ",
+                                          s ? `$${s}` : "",
+                                          " with Card",
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                            }),
+                          ],
+                        }),
+                        r.jsx("div", {
+                          className: "mt-6 p-3 bg-gray-50 rounded-lg",
+                          children: r.jsx("p", {
+                            className: "text-xs text-gray-600 text-center",
+                            children:
+                              "\uD83D\uDD12 Secure payment powered by Stripe. Your card information is never stored by CareConnect.",
+                          }),
+                        }),
+                        (0, r.jsxs)("div", {
+                          className: "mt-6 pt-6 border-t border-gray-200",
+                          children: [
+                            r.jsx("h3", {
+                              className:
+                                "text-sm font-medium text-gray-700 mb-3",
+                              children: "Other ways to help:",
+                            }),
+                            (0, r.jsxs)("ul", {
+                              className: "text-sm text-gray-600 space-y-1",
+                              children: [
+                                r.jsx("li", {
+                                  children:
+                                    "• Share this page with friends and family",
+                                }),
+                                r.jsx("li", {
+                                  children:
+                                    "• Connect with local support organizations",
+                                }),
+                                r.jsx("li", {
+                                  children:
+                                    "• Offer resources or job opportunities if available",
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              }),
+            ],
+          });
+        }
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => l }));
+        var r = s(73658),
+          a = s(58758),
+          n = s(60459),
+          o = s(55459);
+        function l({ children: e }) {
+          let [t] = (0, o.useState)(
+            () =>
+              new a.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(n.aH, { client: t, children: e });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => i }));
+        var r = s(73658),
+          a = s(84874),
+          n = s.n(a),
+          o = s(32241),
+          l = s(17872);
+        function i() {
+          let e = (0, o.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(n(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(n(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(n(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(n(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(n(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(l.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      11366: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, { $$typeof: () => o, __esModule: () => n, default: () => i }));
+        var r = s(19894);
+        let a = (0, r.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\donate\[slug]\page.tsx`,
+          ),
+          { __esModule: n, $$typeof: o } = a,
+          l = a.default,
+          i = l;
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => b, metadata: () => g }));
+        var r = s(31487),
+          a = s(72972),
+          n = s.n(a);
+        s(40642);
+        var o = s(19894);
+        let l = (0, o.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: i, $$typeof: d } = l;
+        l.default;
+        let c = (0, o.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var m = s(15762);
+        let u = (0, o.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: x, $$typeof: h } = u,
+          p = u.default,
+          g = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function b({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: n().className,
+              children: (0, r.jsxs)(c, {
+                children: [
+                  r.jsx(p, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(m.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      40642: () => {},
+      46865: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => n });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z",
+              }),
+            );
+          }),
+          n = a;
+      },
+    }));
+  var t = require("../../../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(14165));
+  module.exports = r;
+})();

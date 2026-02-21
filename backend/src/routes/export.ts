@@ -1,5 +1,12 @@
-import { Router, Request, Response } from 'express';
-import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel } from 'docx';
+import { Router, Request, Response } from "express";
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  AlignmentType,
+  HeadingLevel,
+} from "docx";
 
 const router = Router();
 
@@ -8,17 +15,17 @@ const router = Router();
  * POST /api/export/word/:clientId
  * Body: { title, goal, category, location, beneficiary, story, summary }
  */
-router.post('/word/:clientId', async (req: Request, res: Response) => {
+router.post("/word/:clientId", async (req: Request, res: Response) => {
   try {
     const { clientId } = req.params;
     const {
-      title = '',
-      goal = '',
-      category = '',
-      location = '',
-      beneficiary = '',
-      story = '',
-      summary = ''
+      title = "",
+      goal = "",
+      category = "",
+      location = "",
+      beneficiary = "",
+      story = "",
+      summary = "",
     } = req.body;
 
     // Create document
@@ -28,175 +35,184 @@ router.post('/word/:clientId', async (req: Request, res: Response) => {
           children: [
             // Title
             new Paragraph({
-              text: 'GoFundMe Campaign Draft',
+              text: "GoFundMe Campaign Draft",
               heading: HeadingLevel.HEADING_1,
               alignment: AlignmentType.CENTER,
-              spacing: { after: 400 }
+              spacing: { after: 400 },
             }),
 
             // Campaign Title
             new Paragraph({
-              text: 'Campaign Title',
+              text: "Campaign Title",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: title || '[Not provided]',
-                  bold: false
-                })
+                  text: title || "[Not provided]",
+                  bold: false,
+                }),
               ],
-              spacing: { after: 300 }
+              spacing: { after: 300 },
             }),
 
             // Fundraising Goal
             new Paragraph({
-              text: 'Fundraising Goal',
+              text: "Fundraising Goal",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: goal ? `$${goal}` : '[Not provided]',
-                  bold: false
-                })
+                  text: goal ? `$${goal}` : "[Not provided]",
+                  bold: false,
+                }),
               ],
-              spacing: { after: 300 }
+              spacing: { after: 300 },
             }),
 
             // Category
             new Paragraph({
-              text: 'Category',
+              text: "Category",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: category || '[Not provided]',
-                  bold: false
-                })
+                  text: category || "[Not provided]",
+                  bold: false,
+                }),
               ],
-              spacing: { after: 300 }
+              spacing: { after: 300 },
             }),
 
             // Location
             new Paragraph({
-              text: 'Location',
+              text: "Location",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: location || '[Not provided]',
-                  bold: false
-                })
+                  text: location || "[Not provided]",
+                  bold: false,
+                }),
               ],
-              spacing: { after: 300 }
+              spacing: { after: 300 },
             }),
 
             // Beneficiary
             new Paragraph({
-              text: 'Beneficiary',
+              text: "Beneficiary",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: beneficiary || '[Not provided]',
-                  bold: false
-                })
+                  text: beneficiary || "[Not provided]",
+                  bold: false,
+                }),
               ],
-              spacing: { after: 300 }
+              spacing: { after: 300 },
             }),
 
             // Summary
             new Paragraph({
-              text: 'Short Summary (150 characters)',
+              text: "Short Summary (150 characters)",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: summary || '[Not provided]',
-                  bold: false
-                })
+                  text: summary || "[Not provided]",
+                  bold: false,
+                }),
               ],
-              spacing: { after: 300 }
+              spacing: { after: 300 },
             }),
 
             // Full Story
             new Paragraph({
-              text: 'Full Campaign Story',
+              text: "Full Campaign Story",
               heading: HeadingLevel.HEADING_2,
-              spacing: { before: 300, after: 200 }
+              spacing: { before: 300, after: 200 },
             }),
-            ...story.split('\n').map((line: string) => 
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: line || ' ',
-                    bold: false
-                  })
-                ],
-                spacing: { after: 100 }
-              })
+            ...story.split("\n").map(
+              (line: string) =>
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: line || " ",
+                      bold: false,
+                    }),
+                  ],
+                  spacing: { after: 100 },
+                }),
             ),
 
             // Footer
             new Paragraph({
-              text: '',
-              spacing: { before: 600 }
+              text: "",
+              spacing: { before: 600 },
             }),
             new Paragraph({
-              text: '---',
+              text: "---",
               alignment: AlignmentType.CENTER,
-              spacing: { before: 200, after: 200 }
+              spacing: { before: 200, after: 200 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: 'Generated by CareConnect on ' + new Date().toLocaleDateString(),
+                  text:
+                    "Generated by CareConnect on " +
+                    new Date().toLocaleDateString(),
                   italics: true,
-                  size: 20
-                })
+                  size: 20,
+                }),
               ],
               alignment: AlignmentType.CENTER,
-              spacing: { after: 100 }
+              spacing: { after: 100 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: 'For support: workflown8n@gmail.com',
+                  text: "For support: workflown8n@gmail.com",
                   italics: true,
-                  size: 20
-                })
+                  size: 20,
+                }),
               ],
-              alignment: AlignmentType.CENTER
-            })
-          ]
-        }
-      ]
+              alignment: AlignmentType.CENTER,
+            }),
+          ],
+        },
+      ],
     });
 
     // Generate buffer
     const buffer = await Packer.toBuffer(doc);
 
     // Send as download
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    res.setHeader('Content-Disposition', `attachment; filename="gofundme-draft-${clientId}.docx"`);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="gofundme-draft-${clientId}.docx"`,
+    );
     res.send(buffer);
   } catch (error: any) {
-    console.error('[Export] Word generation error:', error);
+    console.error("[Export] Word generation error:", error);
     return res.status(500).json({
       success: false,
-      error: 'Failed to generate Word document',
-      message: error.message
+      error: "Failed to generate Word document",
+      message: error.message,
     });
   }
 });

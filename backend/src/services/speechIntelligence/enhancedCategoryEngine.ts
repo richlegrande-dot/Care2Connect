@@ -30,72 +30,72 @@ class IntentDetector {
     // SAFETY: Violence, abuse, danger
     if (this.hasSafetySignals(textLower)) {
       intents.push({
-        category: 'SAFETY',
+        category: "SAFETY",
         confidence: 0.9,
-        signals: this.extractSafetySignals(textLower)
+        signals: this.extractSafetySignals(textLower),
       });
     }
 
     // HOUSING: Rent, eviction, homelessness
     if (this.hasHousingSignals(textLower)) {
       intents.push({
-        category: 'HOUSING',
+        category: "HOUSING",
         confidence: 0.85,
-        signals: this.extractHousingSignals(textLower)
+        signals: this.extractHousingSignals(textLower),
       });
     }
 
     // EMPLOYMENT: Job loss, work, unemployment
     if (this.hasEmploymentSignals(textLower)) {
       intents.push({
-        category: 'EMPLOYMENT',
+        category: "EMPLOYMENT",
         confidence: 0.8,
-        signals: this.extractEmploymentSignals(textLower)
+        signals: this.extractEmploymentSignals(textLower),
       });
     }
 
     // TRANSPORTATION: Vehicle, car, transportation
     if (this.hasTransportationSignals(textLower)) {
       intents.push({
-        category: 'TRANSPORTATION',
+        category: "TRANSPORTATION",
         confidence: 0.75,
-        signals: this.extractTransportationSignals(textLower)
+        signals: this.extractTransportationSignals(textLower),
       });
     }
 
     // HEALTHCARE: Medical, health, treatment
     if (this.hasHealthcareSignals(textLower)) {
       intents.push({
-        category: 'HEALTHCARE',
+        category: "HEALTHCARE",
         confidence: 0.85,
-        signals: this.extractHealthcareSignals(textLower)
+        signals: this.extractHealthcareSignals(textLower),
       });
     }
 
     // LEGAL: Court, legal, lawyer
     if (this.hasLegalSignals(textLower)) {
       intents.push({
-        category: 'LEGAL',
+        category: "LEGAL",
         confidence: 0.8,
-        signals: this.extractLegalSignals(textLower)
+        signals: this.extractLegalSignals(textLower),
       });
     }
 
     // FOOD: Hunger, food insecurity
     if (this.hasFoodSignals(textLower)) {
       intents.push({
-        category: 'FOOD',
+        category: "FOOD",
         confidence: 0.85,
-        signals: this.extractFoodSignals(textLower)
+        signals: this.extractFoodSignals(textLower),
       });
     }
 
     // EDUCATION: School, tuition, training
     if (this.hasEducationSignals(textLower)) {
       intents.push({
-        category: 'EDUCATION',
+        category: "EDUCATION",
         confidence: 0.75,
-        signals: this.extractEducationSignals(textLower)
+        signals: this.extractEducationSignals(textLower),
       });
     }
 
@@ -103,106 +103,126 @@ class IntentDetector {
   }
 
   private hasSafetySignals(text: string): boolean {
-    return /\b(dangerous|unsafe|threat|threaten|violence|violent|abuse|abuser|domestic|assault|fleeing|hiding|escape|emergency|urgent)\b/.test(text);
+    return /\b(dangerous|unsafe|threat|threaten|violence|violent|abuse|abuser|domestic|assault|fleeing|hiding|escape|emergency|urgent)\b/.test(
+      text,
+    );
   }
 
   private extractSafetySignals(text: string): string[] {
     const signals = [];
-    if (/\b(dangerous|unsafe)\b/.test(text)) signals.push('danger');
-    if (/\b(violence|violent|assault)\b/.test(text)) signals.push('violence');
-    if (/\b(abuse|abuser|domestic)\b/.test(text)) signals.push('abuse');
-    if (/\b(fleeing|hiding|escape)\b/.test(text)) signals.push('fleeing');
-    if (/\b(threat|threaten)\b/.test(text)) signals.push('threatening');
-    if (/\b(emergency|urgent)\b/.test(text)) signals.push('emergency');
+    if (/\b(dangerous|unsafe)\b/.test(text)) signals.push("danger");
+    if (/\b(violence|violent|assault)\b/.test(text)) signals.push("violence");
+    if (/\b(abuse|abuser|domestic)\b/.test(text)) signals.push("abuse");
+    if (/\b(fleeing|hiding|escape)\b/.test(text)) signals.push("fleeing");
+    if (/\b(threat|threaten)\b/.test(text)) signals.push("threatening");
+    if (/\b(emergency|urgent)\b/.test(text)) signals.push("emergency");
     return signals;
   }
 
   private hasHousingSignals(text: string): boolean {
-    return /\b(rent|evict|eviction|housing|apartment|homeless|landlord|lease|deposit|utilities)\b/.test(text);
+    return /\b(rent|evict|eviction|housing|apartment|homeless|landlord|lease|deposit|utilities)\b/.test(
+      text,
+    );
   }
 
   private extractHousingSignals(text: string): string[] {
     const signals = [];
-    if (/\b(evict|eviction)\b/.test(text)) signals.push('eviction');
-    if (/\bretnt?\b/.test(text)) signals.push('rent');
-    if (/\bhomeless\b/.test(text)) signals.push('homelessness');
-    if (/\b(apartment|housing)\b/.test(text)) signals.push('housing_general');
-    if (/\blandlord\b/.test(text)) signals.push('landlord');
+    if (/\b(evict|eviction)\b/.test(text)) signals.push("eviction");
+    if (/\bretnt?\b/.test(text)) signals.push("rent");
+    if (/\bhomeless\b/.test(text)) signals.push("homelessness");
+    if (/\b(apartment|housing)\b/.test(text)) signals.push("housing_general");
+    if (/\blandlord\b/.test(text)) signals.push("landlord");
     return signals;
   }
 
   private hasEmploymentSignals(text: string): boolean {
-    return /\b(work|job|employment|unemployed|laid off|fired|terminated|paycheck|income|shift)\b/.test(text);
+    return /\b(work|job|employment|unemployed|laid off|fired|terminated|paycheck|income|shift)\b/.test(
+      text,
+    );
   }
 
   private extractEmploymentSignals(text: string): string[] {
     const signals = [];
-    if (/\b(laid off|fired|terminated)\b/.test(text)) signals.push('job_loss');
-    if (/\b(work|job|employment)\b/.test(text)) signals.push('work_general');
-    if (/\bunemployed\b/.test(text)) signals.push('unemployment');
-    if (/\b(paycheck|income)\b/.test(text)) signals.push('income');
+    if (/\b(laid off|fired|terminated)\b/.test(text)) signals.push("job_loss");
+    if (/\b(work|job|employment)\b/.test(text)) signals.push("work_general");
+    if (/\bunemployed\b/.test(text)) signals.push("unemployment");
+    if (/\b(paycheck|income)\b/.test(text)) signals.push("income");
     return signals;
   }
 
   private hasTransportationSignals(text: string): boolean {
-    return /\b(car|vehicle|truck|transportation|bus|transit|commute|ride|driver)\b/.test(text);
+    return /\b(car|vehicle|truck|transportation|bus|transit|commute|ride|driver)\b/.test(
+      text,
+    );
   }
 
   private extractTransportationSignals(text: string): string[] {
     const signals = [];
-    if (/\b(car|vehicle|truck)\b/.test(text)) signals.push('vehicle');
-    if (/\b(broke|broken|repair|fix)\b/.test(text)) signals.push('repair');
-    if (/\b(commute|ride)\b/.test(text)) signals.push('commute');
-    if (/\b(bus|transit)\b/.test(text)) signals.push('public_transit');
+    if (/\b(car|vehicle|truck)\b/.test(text)) signals.push("vehicle");
+    if (/\b(broke|broken|repair|fix)\b/.test(text)) signals.push("repair");
+    if (/\b(commute|ride)\b/.test(text)) signals.push("commute");
+    if (/\b(bus|transit)\b/.test(text)) signals.push("public_transit");
     return signals;
   }
 
   private hasHealthcareSignals(text: string): boolean {
-    return /\b(medical|health|healthcare|doctor|hospital|surgery|treatment|medication|medicine|sick|illness|therapy|therapist|childcare|child care|disability|disabled|injury|injured)\b/.test(text);
+    return /\b(medical|health|healthcare|doctor|hospital|surgery|treatment|medication|medicine|sick|illness|therapy|therapist|childcare|child care|disability|disabled|injury|injured)\b/.test(
+      text,
+    );
   }
 
   private extractHealthcareSignals(text: string): string[] {
     const signals = [];
-    if (/\b(surgery|operation)\b/.test(text)) signals.push('surgery');
-    if (/\b(doctor|hospital|clinic)\b/.test(text)) signals.push('medical_facility');
-    if (/\b(medication|medicine|treatment)\b/.test(text)) signals.push('treatment');
-    if (/\b(emergency)\b/.test(text)) signals.push('medical_emergency');
+    if (/\b(surgery|operation)\b/.test(text)) signals.push("surgery");
+    if (/\b(doctor|hospital|clinic)\b/.test(text))
+      signals.push("medical_facility");
+    if (/\b(medication|medicine|treatment)\b/.test(text))
+      signals.push("treatment");
+    if (/\b(emergency)\b/.test(text)) signals.push("medical_emergency");
     return signals;
   }
 
   private hasLegalSignals(text: string): boolean {
-    return /\b(court|legal|lawyer|attorney|trial|hearing|lawsuit|judge|case)\b/.test(text);
+    return /\b(court|legal|lawyer|attorney|trial|hearing|lawsuit|judge|case)\b/.test(
+      text,
+    );
   }
 
   private extractLegalSignals(text: string): string[] {
     const signals = [];
-    if (/\b(court|trial|hearing)\b/.test(text)) signals.push('court');
-    if (/\b(lawyer|attorney)\b/.test(text)) signals.push('legal_representation');
-    if (/\b(lawsuit|case)\b/.test(text)) signals.push('legal_case');
+    if (/\b(court|trial|hearing)\b/.test(text)) signals.push("court");
+    if (/\b(lawyer|attorney)\b/.test(text))
+      signals.push("legal_representation");
+    if (/\b(lawsuit|case)\b/.test(text)) signals.push("legal_case");
     return signals;
   }
 
   private hasFoodSignals(text: string): boolean {
-    return /\b(food|hungry|hunger|starving|starve|meal|eat|groceries|food bank)\b/.test(text);
+    return /\b(food|hungry|hunger|starving|starve|meal|eat|groceries|food bank)\b/.test(
+      text,
+    );
   }
 
   private extractFoodSignals(text: string): string[] {
     const signals = [];
-    if (/\b(hungry|hunger|starving)\b/.test(text)) signals.push('hunger');
-    if (/\b(food|meal|groceries)\b/.test(text)) signals.push('food_general');
-    if (/\bfood bank\b/.test(text)) signals.push('food_bank');
+    if (/\b(hungry|hunger|starving)\b/.test(text)) signals.push("hunger");
+    if (/\b(food|meal|groceries)\b/.test(text)) signals.push("food_general");
+    if (/\bfood bank\b/.test(text)) signals.push("food_bank");
     return signals;
   }
 
   private hasEducationSignals(text: string): boolean {
-    return /\b(school|education|tuition|college|university|training|certification|degree|class|student)\b/.test(text);
+    return /\b(school|education|tuition|college|university|training|certification|degree|class|student)\b/.test(
+      text,
+    );
   }
 
   private extractEducationSignals(text: string): string[] {
     const signals = [];
-    if (/\b(tuition|fees)\b/.test(text)) signals.push('tuition');
-    if (/\b(certification|training|degree)\b/.test(text)) signals.push('training');
-    if (/\b(school|college|university)\b/.test(text)) signals.push('school');
+    if (/\b(tuition|fees)\b/.test(text)) signals.push("tuition");
+    if (/\b(certification|training|degree)\b/.test(text))
+      signals.push("training");
+    if (/\b(school|college|university)\b/.test(text)) signals.push("school");
     return signals;
   }
 }
@@ -214,9 +234,9 @@ class IntentDetector {
 class CauseEffectAnalyzer {
   analyze(intents: Intent[], text: string): Map<string, string[]> {
     const graph = new Map<string, string[]>();
-    
+
     // Initialize graph with all intents
-    intents.forEach(intent => {
+    intents.forEach((intent) => {
       if (!graph.has(intent.category)) {
         graph.set(intent.category, []);
       }
@@ -225,30 +245,54 @@ class CauseEffectAnalyzer {
     // Detect cause-effect relationships
 
     // TRANSPORTATION → EMPLOYMENT (car broke, can't work)
-    if (this.hasIntent(intents, 'TRANSPORTATION') && this.hasIntent(intents, 'EMPLOYMENT')) {
-      if (/\b(can't get to work|can't work|unable to work|cannot work)\b/i.test(text)) {
-        this.addEdge(graph, 'TRANSPORTATION', 'EMPLOYMENT');
+    if (
+      this.hasIntent(intents, "TRANSPORTATION") &&
+      this.hasIntent(intents, "EMPLOYMENT")
+    ) {
+      if (
+        /\b(can't get to work|can't work|unable to work|cannot work)\b/i.test(
+          text,
+        )
+      ) {
+        this.addEdge(graph, "TRANSPORTATION", "EMPLOYMENT");
       }
     }
 
     // EMPLOYMENT → HOUSING (lost job, can't pay rent)
-    if (this.hasIntent(intents, 'EMPLOYMENT') && this.hasIntent(intents, 'HOUSING')) {
-      if (/\b(can't pay rent|behind on rent|lost.*job.*rent|laid off.*rent)\b/i.test(text)) {
-        this.addEdge(graph, 'EMPLOYMENT', 'HOUSING');
+    if (
+      this.hasIntent(intents, "EMPLOYMENT") &&
+      this.hasIntent(intents, "HOUSING")
+    ) {
+      if (
+        /\b(can't pay rent|behind on rent|lost.*job.*rent|laid off.*rent)\b/i.test(
+          text,
+        )
+      ) {
+        this.addEdge(graph, "EMPLOYMENT", "HOUSING");
       }
     }
 
     // HEALTHCARE → EMPLOYMENT (medical issue, can't work)
-    if (this.hasIntent(intents, 'HEALTHCARE') && this.hasIntent(intents, 'EMPLOYMENT')) {
-      if (/\b(sick.*can't work|medical.*unable to work|injury.*can't work)\b/i.test(text)) {
-        this.addEdge(graph, 'HEALTHCARE', 'EMPLOYMENT');
+    if (
+      this.hasIntent(intents, "HEALTHCARE") &&
+      this.hasIntent(intents, "EMPLOYMENT")
+    ) {
+      if (
+        /\b(sick.*can't work|medical.*unable to work|injury.*can't work)\b/i.test(
+          text,
+        )
+      ) {
+        this.addEdge(graph, "HEALTHCARE", "EMPLOYMENT");
       }
     }
 
     // SAFETY → HOUSING (fleeing abuse, need housing)
-    if (this.hasIntent(intents, 'SAFETY') && this.hasIntent(intents, 'HOUSING')) {
+    if (
+      this.hasIntent(intents, "SAFETY") &&
+      this.hasIntent(intents, "HOUSING")
+    ) {
       if (/\b(fleeing|escape.*need.*place|domestic.*housing)\b/i.test(text)) {
-        this.addEdge(graph, 'SAFETY', 'HOUSING');
+        this.addEdge(graph, "SAFETY", "HOUSING");
       }
     }
 
@@ -256,10 +300,14 @@ class CauseEffectAnalyzer {
   }
 
   private hasIntent(intents: Intent[], category: string): boolean {
-    return intents.some(i => i.category === category);
+    return intents.some((i) => i.category === category);
   }
 
-  private addEdge(graph: Map<string, string[]>, from: string, to: string): void {
+  private addEdge(
+    graph: Map<string, string[]>,
+    from: string,
+    to: string,
+  ): void {
     const edges = graph.get(from) || [];
     edges.push(to);
     graph.set(from, edges);
@@ -271,13 +319,17 @@ class CauseEffectAnalyzer {
  * Selects primary category using context, not just priority
  */
 class PrimarySelector {
-  select(intents: Intent[], causeEffectGraph: Map<string, string[]>, text: string): CategoryResult {
+  select(
+    intents: Intent[],
+    causeEffectGraph: Map<string, string[]>,
+    text: string,
+  ): CategoryResult {
     if (intents.length === 0) {
       return {
-        primary: 'OTHER',
+        primary: "OTHER",
         allIntents: [],
         confidence: 0.3,
-        reasoning: 'No intents detected, defaulting to OTHER'
+        reasoning: "No intents detected, defaulting to OTHER",
       };
     }
 
@@ -286,94 +338,145 @@ class PrimarySelector {
         primary: intents[0].category,
         allIntents: intents,
         confidence: intents[0].confidence,
-        reasoning: 'Single intent detected'
+        reasoning: "Single intent detected",
       };
     }
 
     // Multi-intent disambiguation
     const primary = this.disambiguate(intents, causeEffectGraph, text);
-    
+
     return {
       primary: primary.category,
       allIntents: intents,
       confidence: primary.confidence,
-      reasoning: primary.reasoning
+      reasoning: primary.reasoning,
     };
   }
 
-  private disambiguate(intents: Intent[], graph: Map<string, string[]>, text: string): { category: string; confidence: number; reasoning: string } {
+  private disambiguate(
+    intents: Intent[],
+    graph: Map<string, string[]>,
+    text: string,
+  ): { category: string; confidence: number; reasoning: string } {
     const textLower = text.toLowerCase();
 
     // SAFETY always takes priority when violence/threat present (but not eviction threats alone)
-    const safetyIntent = intents.find(i => i.category === 'SAFETY');
+    const safetyIntent = intents.find((i) => i.category === "SAFETY");
     if (safetyIntent) {
       // Distinguish eviction threats (HOUSING) from actual safety emergencies (SAFETY)
-      const isEvictionThreat = /\b(evict|eviction)\b/.test(textLower) && 
-                              /\b(threaten|threat)\b/.test(textLower) &&
-                              !/\b(violence|violent|abuse|dangerous|unsafe|assault|fleeing|hiding)\b/.test(textLower);
-      
+      const isEvictionThreat =
+        /\b(evict|eviction)\b/.test(textLower) &&
+        /\b(threaten|threat)\b/.test(textLower) &&
+        !/\b(violence|violent|abuse|dangerous|unsafe|assault|fleeing|hiding)\b/.test(
+          textLower,
+        );
+
       if (isEvictionThreat) {
         // Eviction threat without violence signals → HOUSING
         // Fall through to other disambiguation logic
-      } else if (/\b(violence|violent|abuse|dangerous|unsafe|assault|emergency|urgent)\b/.test(textLower)) {
+      } else if (
+        /\b(violence|violent|abuse|dangerous|unsafe|assault|emergency|urgent)\b/.test(
+          textLower,
+        )
+      ) {
         return {
-          category: 'SAFETY',
+          category: "SAFETY",
           confidence: 0.95,
-          reasoning: 'SAFETY prioritized due to violence/danger/emergency signals'
+          reasoning:
+            "SAFETY prioritized due to violence/danger/emergency signals",
         };
       }
     }
 
     // TRANSPORTATION vs EMPLOYMENT disambiguation
-    if (this.hasIntent(intents, 'TRANSPORTATION') && this.hasIntent(intents, 'EMPLOYMENT')) {
-      const workKeywords = ['work', 'job', 'employment', 'employed', 'shift', 'paycheck', 'income', 'commute'];
-      const workScore = workKeywords.filter(kw => new RegExp(`\\b${kw}\\b`, 'i').test(text)).length;
-      
-      const repairKeywords = ['broke', 'repair', 'fix', 'broken', 'mechanic', 'maintenance', 'needs work'];
-      const repairScore = repairKeywords.filter(kw => new RegExp(`\\b${kw}\\b`, 'i').test(text)).length;
-      
+    if (
+      this.hasIntent(intents, "TRANSPORTATION") &&
+      this.hasIntent(intents, "EMPLOYMENT")
+    ) {
+      const workKeywords = [
+        "work",
+        "job",
+        "employment",
+        "employed",
+        "shift",
+        "paycheck",
+        "income",
+        "commute",
+      ];
+      const workScore = workKeywords.filter((kw) =>
+        new RegExp(`\\b${kw}\\b`, "i").test(text),
+      ).length;
+
+      const repairKeywords = [
+        "broke",
+        "repair",
+        "fix",
+        "broken",
+        "mechanic",
+        "maintenance",
+        "needs work",
+      ];
+      const repairScore = repairKeywords.filter((kw) =>
+        new RegExp(`\\b${kw}\\b`, "i").test(text),
+      ).length;
+
       // Work context dominates? Prioritize EMPLOYMENT
       if (workScore > repairScore * 1.5 && workScore >= 2) {
         return {
-          category: 'EMPLOYMENT',
+          category: "EMPLOYMENT",
           confidence: 0.85,
-          reasoning: `EMPLOYMENT prioritized (work context: ${workScore} vs repair: ${repairScore})`
+          reasoning: `EMPLOYMENT prioritized (work context: ${workScore} vs repair: ${repairScore})`,
         };
       }
     }
 
     // EMPLOYMENT vs HOUSING disambiguation
-    if (this.hasIntent(intents, 'EMPLOYMENT') && this.hasIntent(intents, 'HOUSING')) {
+    if (
+      this.hasIntent(intents, "EMPLOYMENT") &&
+      this.hasIntent(intents, "HOUSING")
+    ) {
       // Eviction risk? Prioritize HOUSING
-      if (/\b(evict|eviction|kicked out|losing apartment|losing home)\b/i.test(text)) {
+      if (
+        /\b(evict|eviction|kicked out|losing apartment|losing home)\b/i.test(
+          text,
+        )
+      ) {
         return {
-          category: 'HOUSING',
+          category: "HOUSING",
           confidence: 0.9,
-          reasoning: 'HOUSING prioritized due to eviction risk'
+          reasoning: "HOUSING prioritized due to eviction risk",
         };
       }
-      
+
       // Job loss mentioned? Check if it's cause (EMPLOYMENT) or effect (rent consequence)
       if (/\b(laid off|fired|terminated|lost.*job)\b/i.test(text)) {
         // If rent is consequence ("laid off, can't pay rent"), EMPLOYMENT is primary
         if (/\b(laid off|fired).{0,50}(rent|housing|eviction)\b/i.test(text)) {
           return {
-            category: 'EMPLOYMENT',
+            category: "EMPLOYMENT",
             confidence: 0.85,
-            reasoning: 'EMPLOYMENT prioritized as root cause (job loss → rent crisis)'
+            reasoning:
+              "EMPLOYMENT prioritized as root cause (job loss → rent crisis)",
           };
         }
       }
     }
 
     // HEALTHCARE vs SAFETY disambiguation
-    if (this.hasIntent(intents, 'HEALTHCARE') && this.hasIntent(intents, 'SAFETY')) {
+    if (
+      this.hasIntent(intents, "HEALTHCARE") &&
+      this.hasIntent(intents, "SAFETY")
+    ) {
       // Medical emergency? HEALTHCARE wins
-      if (/\b(surgery|hospital|medical emergency|life-threatening|critical|doctor)\b/i.test(text)) {
+      if (
+        /\b(surgery|hospital|medical emergency|life-threatening|critical|doctor)\b/i.test(
+          text,
+        )
+      ) {
         return {
-          category: 'HEALTHCARE',
+          category: "HEALTHCARE",
           confidence: 0.9,
-          reasoning: 'HEALTHCARE prioritized due to medical emergency'
+          reasoning: "HEALTHCARE prioritized due to medical emergency",
         };
       }
     }
@@ -382,12 +485,12 @@ class PrimarySelector {
     return {
       category: intents[0].category,
       confidence: intents[0].confidence,
-      reasoning: 'Highest confidence intent selected'
+      reasoning: "Highest confidence intent selected",
     };
   }
 
   private hasIntent(intents: Intent[], category: string): boolean {
-    return intents.some(i => i.category === category);
+    return intents.some((i) => i.category === category);
   }
 }
 
@@ -408,13 +511,13 @@ export class EnhancedCategoryEngine {
   assess(text: string): CategoryResult {
     // Detect all intents
     const intents = this.intentDetector.detectAll(text);
-    
+
     // Build cause-effect graph
     const causeEffectGraph = this.causeEffectAnalyzer.analyze(intents, text);
-    
+
     // Select primary category
     const result = this.primarySelector.select(intents, causeEffectGraph, text);
-    
+
     return result;
   }
 }

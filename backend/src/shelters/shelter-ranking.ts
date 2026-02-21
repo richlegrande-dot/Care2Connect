@@ -1,5 +1,5 @@
-import { logger } from '../utils/structuredLogger';
-import { PrismaClient } from '@prisma/client';
+import { logger } from "../utils/structuredLogger";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ export interface ShelterSearchCriteria {
   lat?: number;
   lng?: number;
   maxDistance?: number; // miles
-  populationType?: 'men' | 'women' | 'families' | 'youth' | 'mixed';
+  populationType?: "men" | "women" | "families" | "youth" | "mixed";
   hasAvailableBeds?: boolean;
   acceptsPets?: boolean;
   hasSpecialServices?: string[]; // medical, mental_health, substance_abuse, etc.
@@ -30,25 +30,29 @@ export interface ShelterRanking {
 }
 
 export class ShelterRankingEngine {
-
-  async rankShelters(criteria: ShelterSearchCriteria): Promise<ShelterRanking[]> {
-    logger.info('RANK_SHELTERS', 'Ranking shelters for user criteria', { 
-      location: criteria.lat && criteria.lng ? 'provided' : 'not provided',
+  async rankShelters(
+    criteria: ShelterSearchCriteria,
+  ): Promise<ShelterRanking[]> {
+    logger.info("RANK_SHELTERS", "Ranking shelters for user criteria", {
+      location: criteria.lat && criteria.lng ? "provided" : "not provided",
       populationType: criteria.populationType,
-      hasAvailableBeds: criteria.hasAvailableBeds
+      hasAvailableBeds: criteria.hasAvailableBeds,
     });
 
     // Get base shelter data with availability
     const shelters = await this.getSheltersWithAvailability(criteria);
-    
+
     if (shelters.length === 0) {
-      logger.warn('NO_SHELTERS_FOUND', 'No shelters found matching base criteria');
+      logger.warn(
+        "NO_SHELTERS_FOUND",
+        "No shelters found matching base criteria",
+      );
       return [];
     }
 
     // Calculate rankings for each shelter
     const rankings: ShelterRanking[] = [];
-    
+
     for (const shelter of shelters) {
       const ranking = await this.calculateShelterRanking(shelter, criteria);
       rankings.push(ranking);
@@ -57,10 +61,14 @@ export class ShelterRankingEngine {
     // Sort by score (highest first)
     rankings.sort((a, b) => b.score - a.score);
 
-    logger.info('RANK_COMPLETE', `Ranked ${rankings.length} shelters`, {
+    logger.info("RANK_COMPLETE", `Ranked ${rankings.length} shelters`, {
       topScore: rankings[0]?.score,
-      averageScore: rankings.length > 0 ? 
-        (rankings.reduce((sum, r) => sum + r.score, 0) / rankings.length).toFixed(1) : 0
+      averageScore:
+        rankings.length > 0
+          ? (
+              rankings.reduce((sum, r) => sum + r.score, 0) / rankings.length
+            ).toFixed(1)
+          : 0,
     });
 
     return rankings;
@@ -68,22 +76,22 @@ export class ShelterRankingEngine {
 
   private async getSheltersWithAvailability(criteria: ShelterSearchCriteria) {
     const where: any = {
-      isActive: true
+      isActive: true,
     };
 
     // Filter by population type
     if (criteria.populationType) {
       switch (criteria.populationType) {
-        case 'men':
+        case "men":
           where.servesAdultMen = true;
           break;
-        case 'women':
+        case "women":
           where.servesAdultWomen = true;
           break;
-        case 'families':
+        case "families":
           where.servesFamilies = true;
           break;
-        case 'youth':
+        case "youth":
           where.servesYouth = true;
           break;
         // 'mixed' doesn't add specific filter
@@ -97,7 +105,7 @@ export class ShelterRankingEngine {
         { currentAvailableMen: { gt: 0 } },
         { currentAvailableWomen: { gt: 0 } },
         { currentAvailableFamilies: { gt: 0 } },
-        { currentAvailableYouth: { gt: 0 } }
+        { currentAvailableYouth: { gt: 0 } },
       ];
     }
 
@@ -105,7 +113,7 @@ export class ShelterRankingEngine {
     if (criteria.acceptsPets !== undefined) {
       where.allowsPets = criteria.acceptsPets;
     }
-    
+
     if (criteria.wheelchairAccessible) {
       where.wheelchairAccessible = true;
     }
@@ -122,18 +130,17 @@ export class ShelterRankingEngine {
       where,
       include: {
         availabilityLogs: {
-          orderBy: { timestamp: 'desc' },
-          take: 1
-        }
-      }
+          orderBy: { timestamp: "desc" },
+          take: 1,
+        },
+      },
     });
   }
 
   private async calculateShelterRanking(
-    shelter: any, 
-    criteria: ShelterSearchCriteria
+    shelter: any,
+    criteria: ShelterSearchCriteria,
   ): Promise<ShelterRanking> {
-    
     let score = 0;
     const reasoning: string[] = [];
     const warnings: string[] = [];
@@ -143,16 +150,19 @@ export class ShelterRankingEngine {
 
     // Base score for operational shelters
     score += 10;
-    reasoning.push('Base operational score');
+    reasoning.push("Base operational score");
 
     // Availability scoring (40% of total weight)
-    const availabilityScore = this.calculateAvailabilityScore(shelter, criteria);
+    const availabilityScore = this.calculateAvailabilityScore(
+      shelter,
+      criteria,
+    );
     score += availabilityScore.score;
     if (availabilityScore.hasAvailable) {
       availabilityMatch = true;
       reasoning.push(availabilityScore.reason);
     } else if (availabilityScore.score === 0) {
-      warnings.push('No available beds reported');
+      warnings.push("No available beds reported");
     }
 
     // Population type match (25% of total weight)
@@ -164,12 +174,17 @@ export class ShelterRankingEngine {
     let distance: number | null = null;
     if (criteria.lat && criteria.lng) {
       distance = this.calculateDistance(
-        criteria.lat, criteria.lng, 
-        shelter.latitude, shelter.longitude
+        criteria.lat,
+        criteria.lng,
+        shelter.latitude,
+        shelter.longitude,
       );
-      
+
       if (distance !== null && distance <= (criteria.maxDistance || 50)) {
-        const distanceScore = this.calculateDistanceScore(distance!, criteria.maxDistance);
+        const distanceScore = this.calculateDistanceScore(
+          distance!,
+          criteria.maxDistance,
+        );
         score += distanceScore;
         reasoning.push(`Within ${distance!.toFixed(1)} miles`);
       } else if (distance !== null) {
@@ -179,16 +194,24 @@ export class ShelterRankingEngine {
 
     // Special services matching (10% of total weight)
     if (criteria.hasSpecialServices && criteria.hasSpecialServices.length > 0) {
-      const servicesScore = this.calculateServicesScore(shelter, criteria.hasSpecialServices);
+      const servicesScore = this.calculateServicesScore(
+        shelter,
+        criteria.hasSpecialServices,
+      );
       score += servicesScore.score;
       serviceMatches.push(...servicesScore.matches);
       if (servicesScore.matches.length > 0) {
-        reasoning.push(`Offers ${servicesScore.matches.length} requested services`);
+        reasoning.push(
+          `Offers ${servicesScore.matches.length} requested services`,
+        );
       }
     }
 
     // Accessibility and accommodation scoring (10% of total weight)
-    const accommodationScore = this.calculateAccommodationScore(shelter, criteria);
+    const accommodationScore = this.calculateAccommodationScore(
+      shelter,
+      criteria,
+    );
     score += accommodationScore.score;
     accessibilityMatch = accommodationScore.accessible;
     reasoning.push(...accommodationScore.reasons);
@@ -210,18 +233,19 @@ export class ShelterRankingEngine {
 
     // Recent data freshness bonus
     if (shelter.lastAutoUpdateAt) {
-      const hoursAgo = (Date.now() - shelter.lastAutoUpdateAt.getTime()) / (1000 * 60 * 60);
+      const hoursAgo =
+        (Date.now() - shelter.lastAutoUpdateAt.getTime()) / (1000 * 60 * 60);
       if (hoursAgo <= 6) {
         score += 3;
-        reasoning.push('Recent availability data');
+        reasoning.push("Recent availability data");
       } else if (hoursAgo <= 24) {
         score += 1;
-        reasoning.push('Data updated within 24 hours');
+        reasoning.push("Data updated within 24 hours");
       } else {
         warnings.push(`Availability data is ${Math.floor(hoursAgo)} hours old`);
       }
     } else {
-      warnings.push('No recent availability updates');
+      warnings.push("No recent availability updates");
     }
 
     return {
@@ -232,17 +256,24 @@ export class ShelterRankingEngine {
       serviceMatches,
       accessibilityMatch,
       reasoning,
-      warnings
+      warnings,
     };
   }
 
-  private calculateAvailabilityScore(shelter: any, criteria: ShelterSearchCriteria) {
+  private calculateAvailabilityScore(
+    shelter: any,
+    criteria: ShelterSearchCriteria,
+  ) {
     let score = 0;
     let hasAvailable = false;
-    let reason = '';
+    let reason = "";
 
     if (!criteria.hasAvailableBeds) {
-      return { score: 20, hasAvailable: true, reason: 'Availability not required' };
+      return {
+        score: 20,
+        hasAvailable: true,
+        reason: "Availability not required",
+      };
     }
 
     const populationType = criteria.populationType;
@@ -250,7 +281,7 @@ export class ShelterRankingEngine {
 
     // Check availability for specific population types
     switch (populationType) {
-      case 'men':
+      case "men":
         relevantAvailability = shelter.currentAvailableMen || 0;
         if (relevantAvailability > 0) {
           score = 40;
@@ -258,8 +289,8 @@ export class ShelterRankingEngine {
           reason = `${relevantAvailability} beds available for men`;
         }
         break;
-      
-      case 'women':
+
+      case "women":
         relevantAvailability = shelter.currentAvailableWomen || 0;
         if (relevantAvailability > 0) {
           score = 40;
@@ -267,8 +298,8 @@ export class ShelterRankingEngine {
           reason = `${relevantAvailability} beds available for women`;
         }
         break;
-      
-      case 'families':
+
+      case "families":
         relevantAvailability = shelter.currentAvailableFamilies || 0;
         if (relevantAvailability > 0) {
           score = 40;
@@ -276,8 +307,8 @@ export class ShelterRankingEngine {
           reason = `${relevantAvailability} family units available`;
         }
         break;
-      
-      case 'youth':
+
+      case "youth":
         relevantAvailability = shelter.currentAvailableYouth || 0;
         if (relevantAvailability > 0) {
           score = 40;
@@ -285,7 +316,7 @@ export class ShelterRankingEngine {
           reason = `${relevantAvailability} youth beds available`;
         }
         break;
-      
+
       default:
         // Check total or any category
         const totalAvailable = shelter.currentAvailableTotal || 0;
@@ -293,15 +324,15 @@ export class ShelterRankingEngine {
         const womenAvailable = shelter.currentAvailableWomen || 0;
         const familyAvailable = shelter.currentAvailableFamilies || 0;
         const youthAvailable = shelter.currentAvailableYouth || 0;
-        
+
         relevantAvailability = Math.max(
-          totalAvailable, 
-          menAvailable, 
-          womenAvailable, 
-          familyAvailable, 
-          youthAvailable
+          totalAvailable,
+          menAvailable,
+          womenAvailable,
+          familyAvailable,
+          youthAvailable,
         );
-        
+
         if (relevantAvailability > 0) {
           score = 40;
           hasAvailable = true;
@@ -313,79 +344,82 @@ export class ShelterRankingEngine {
     // Bonus for higher availability
     if (relevantAvailability >= 10) {
       score += 5;
-      reason += ' (high availability)';
+      reason += " (high availability)";
     } else if (relevantAvailability >= 5) {
       score += 2;
-      reason += ' (moderate availability)';
+      reason += " (moderate availability)";
     }
 
     return { score, hasAvailable, reason };
   }
 
-  private calculatePopulationScore(shelter: any, criteria: ShelterSearchCriteria) {
+  private calculatePopulationScore(
+    shelter: any,
+    criteria: ShelterSearchCriteria,
+  ) {
     const populationType = criteria.populationType;
-    
-    if (!populationType || populationType === 'mixed') {
-      return { score: 25, reason: 'Serves general population' };
+
+    if (!populationType || populationType === "mixed") {
+      return { score: 25, reason: "Serves general population" };
     }
 
     let score = 0;
-    let reason = '';
+    let reason = "";
 
     switch (populationType) {
-      case 'men':
+      case "men":
         if (shelter.servesAdultMen) {
           score = 25;
-          reason = 'Serves adult men';
+          reason = "Serves adult men";
           // Bonus if it's men-only (more focused services)
           if (!shelter.servesAdultWomen && !shelter.servesFamilies) {
             score += 5;
-            reason += ' (men-focused facility)';
+            reason += " (men-focused facility)";
           }
         } else {
-          reason = 'Does not serve adult men';
+          reason = "Does not serve adult men";
         }
         break;
-      
-      case 'women':
+
+      case "women":
         if (shelter.servesAdultWomen) {
           score = 25;
-          reason = 'Serves adult women';
+          reason = "Serves adult women";
           // Bonus for women-only facilities (safer environment)
           if (!shelter.servesAdultMen || shelter.hasWomenOnlyAreas) {
             score += 5;
-            reason += ' (women-focused/safe space)';
+            reason += " (women-focused/safe space)";
           }
         } else {
-          reason = 'Does not serve adult women';
+          reason = "Does not serve adult women";
         }
         break;
-      
-      case 'families':
+
+      case "families":
         if (shelter.servesFamilies) {
           score = 25;
-          reason = 'Serves families with children';
+          reason = "Serves families with children";
           // Bonus for family-specific facilities
           if (shelter.hasFamilyRooms || shelter.hasChildcare) {
             score += 5;
-            reason += ' (family amenities)';
+            reason += " (family amenities)";
           }
         } else {
-          reason = 'Does not serve families';
+          reason = "Does not serve families";
         }
         break;
-      
-      case 'youth':
+
+      case "youth":
         if (shelter.servesYouth) {
           score = 25;
-          reason = 'Serves youth/young adults';
+          reason = "Serves youth/young adults";
           // Bonus for youth-specific programming
           if (shelter.hasEducationalSupport || shelter.hasJobTraining) {
             score += 5;
-            reason += ' (youth programming)';
+            reason += " (youth programming)";
           }
         } else {
-          reason = 'Does not serve youth';
+          reason = "Does not serve youth";
         }
         break;
     }
@@ -393,9 +427,12 @@ export class ShelterRankingEngine {
     return { score, reason };
   }
 
-  private calculateDistanceScore(distance: number, maxDistance?: number): number {
+  private calculateDistanceScore(
+    distance: number,
+    maxDistance?: number,
+  ): number {
     const preferredDistance = maxDistance || 10; // Default 10 mile preference
-    
+
     if (distance <= 2) {
       return 15; // Very close
     } else if (distance <= 5) {
@@ -414,15 +451,15 @@ export class ShelterRankingEngine {
     const matches: string[] = [];
 
     const availableServices: any = {
-      'medical': shelter.hasMedicalCare,
-      'mental_health': shelter.hasMentalHealthSupport,
-      'substance_abuse': shelter.hasSubstanceAbuseSupport,
-      'job_training': shelter.hasJobTraining,
-      'childcare': shelter.hasChildcare,
-      'educational_support': shelter.hasEducationalSupport,
-      'case_management': shelter.hasCaseManagement,
-      'legal_aid': shelter.hasLegalAid,
-      'transportation': shelter.hasTransportation
+      medical: shelter.hasMedicalCare,
+      mental_health: shelter.hasMentalHealthSupport,
+      substance_abuse: shelter.hasSubstanceAbuseSupport,
+      job_training: shelter.hasJobTraining,
+      childcare: shelter.hasChildcare,
+      educational_support: shelter.hasEducationalSupport,
+      case_management: shelter.hasCaseManagement,
+      legal_aid: shelter.hasLegalAid,
+      transportation: shelter.hasTransportation,
     };
 
     for (const service of requestedServices) {
@@ -432,11 +469,14 @@ export class ShelterRankingEngine {
     }
 
     const matchScore = (matches.length / requestedServices.length) * 10;
-    
+
     return { score: matchScore, matches };
   }
 
-  private calculateAccommodationScore(shelter: any, criteria: ShelterSearchCriteria) {
+  private calculateAccommodationScore(
+    shelter: any,
+    criteria: ShelterSearchCriteria,
+  ) {
     let score = 0;
     const reasons: string[] = [];
     const warnings: string[] = [];
@@ -446,44 +486,44 @@ export class ShelterRankingEngine {
     if (criteria.wheelchairAccessible) {
       if (shelter.wheelchairAccessible) {
         score += 5;
-        reasons.push('Wheelchair accessible');
+        reasons.push("Wheelchair accessible");
       } else {
         accessible = false;
-        warnings.push('Not wheelchair accessible');
+        warnings.push("Not wheelchair accessible");
       }
     } else if (shelter.wheelchairAccessible) {
       score += 2;
-      reasons.push('Wheelchair accessible facility');
+      reasons.push("Wheelchair accessible facility");
     }
 
     // Pet accommodation
     if (criteria.acceptsPets) {
       if (shelter.allowsPets) {
         score += 5;
-        reasons.push('Accepts pets');
+        reasons.push("Accepts pets");
       } else {
-        warnings.push('Does not accept pets');
+        warnings.push("Does not accept pets");
       }
     } else if (shelter.allowsPets) {
       score += 1;
-      reasons.push('Pet-friendly');
+      reasons.push("Pet-friendly");
     }
 
     // Emergency vs. planned stays
     if (criteria.emergencyOnly === true && shelter.emergencyOnly) {
       score += 3;
-      reasons.push('Emergency shelter');
+      reasons.push("Emergency shelter");
     } else if (criteria.emergencyOnly === false && !shelter.emergencyOnly) {
       score += 3;
-      reasons.push('Accepts planned stays');
+      reasons.push("Accepts planned stays");
     }
 
     // Intake requirements
     if (criteria.requiresIntake === false && !shelter.requiresIntake) {
       score += 2;
-      reasons.push('No intake required');
+      reasons.push("No intake required");
     } else if (shelter.requiresIntake) {
-      warnings.push('Requires intake process');
+      warnings.push("Requires intake process");
     }
 
     return { score, accessible, reasons, warnings };
@@ -491,7 +531,7 @@ export class ShelterRankingEngine {
 
   private calculateQualityScore(shelter: any) {
     let score = 0;
-    let reason = '';
+    let reason = "";
 
     // Basic amenities bonus
     const amenityCount = [
@@ -500,18 +540,18 @@ export class ShelterRankingEngine {
       shelter.hasMeals,
       shelter.hasStorage,
       shelter.hasPhoneAccess,
-      shelter.hasInternetAccess
+      shelter.hasInternetAccess,
     ].filter(Boolean).length;
 
     if (amenityCount >= 5) {
       score += 5;
-      reason = 'Excellent amenities';
+      reason = "Excellent amenities";
     } else if (amenityCount >= 3) {
       score += 3;
-      reason = 'Good amenities';
+      reason = "Good amenities";
     } else if (amenityCount >= 1) {
       score += 1;
-      reason = 'Basic amenities';
+      reason = "Basic amenities";
     }
 
     // Safety and security
@@ -524,20 +564,22 @@ export class ShelterRankingEngine {
 
   private calculateCapacityScore(shelter: any) {
     let score = 0;
-    let reason = '';
+    let reason = "";
 
     if (shelter.capacityTotal && shelter.currentAvailableTotal !== null) {
-      const occupancyRate = (shelter.capacityTotal - shelter.currentAvailableTotal) / shelter.capacityTotal;
-      
+      const occupancyRate =
+        (shelter.capacityTotal - shelter.currentAvailableTotal) /
+        shelter.capacityTotal;
+
       if (occupancyRate < 0.5) {
         score += 2;
-        reason = 'Low occupancy (more space)';
+        reason = "Low occupancy (more space)";
       } else if (occupancyRate < 0.8) {
         score += 1;
-        reason = 'Moderate occupancy';
+        reason = "Moderate occupancy";
       } else if (occupancyRate >= 0.95) {
         score -= 2;
-        reason = 'Very high occupancy';
+        reason = "Very high occupancy";
       }
     }
 
@@ -549,19 +591,27 @@ export class ShelterRankingEngine {
     return { score, reason };
   }
 
-  private calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number | null {
+  private calculateDistance(
+    lat1: number,
+    lng1: number,
+    lat2: number,
+    lng2: number,
+  ): number | null {
     if (!lat2 || !lng2) return null;
 
     const R = 3959; // Earth's radius in miles
     const dLat = this.toRadians(lat2 - lat1);
     const dLng = this.toRadians(lng2 - lng1);
-    
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
-              Math.sin(dLng / 2) * Math.sin(dLng / 2);
-    
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.toRadians(lat1)) *
+        Math.cos(this.toRadians(lat2)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    
+
     return R * c;
   }
 
@@ -571,8 +621,8 @@ export class ShelterRankingEngine {
 
   // Helper method to get top recommendations with explanations
   async getTopRecommendations(
-    criteria: ShelterSearchCriteria, 
-    limit: number = 5
+    criteria: ShelterSearchCriteria,
+    limit: number = 5,
   ): Promise<{
     recommendations: ShelterRanking[];
     summary: {
@@ -582,28 +632,31 @@ export class ShelterRankingEngine {
       topServices: string[];
     };
   }> {
-    
     const allRankings = await this.rankShelters(criteria);
     const recommendations = allRankings.slice(0, limit);
-    
-    const withAvailability = allRankings.filter(r => r.availabilityMatch).length;
+
+    const withAvailability = allRankings.filter(
+      (r) => r.availabilityMatch,
+    ).length;
     const distances = allRankings
-      .filter(r => r.distance !== undefined)
-      .map(r => r.distance!);
-    
-    const averageDistance = distances.length > 0 ? 
-      distances.reduce((sum, d) => sum + d, 0) / distances.length : undefined;
+      .filter((r) => r.distance !== undefined)
+      .map((r) => r.distance!);
+
+    const averageDistance =
+      distances.length > 0
+        ? distances.reduce((sum, d) => sum + d, 0) / distances.length
+        : undefined;
 
     // Count service matches across all shelters
     const serviceCount: { [key: string]: number } = {};
-    allRankings.forEach(ranking => {
-      ranking.serviceMatches.forEach(service => {
+    allRankings.forEach((ranking) => {
+      ranking.serviceMatches.forEach((service) => {
         serviceCount[service] = (serviceCount[service] || 0) + 1;
       });
     });
 
     const topServices = Object.entries(serviceCount)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
       .map(([service]) => service);
 
@@ -612,9 +665,11 @@ export class ShelterRankingEngine {
       summary: {
         totalFound: allRankings.length,
         withAvailability,
-        averageDistance: averageDistance ? Math.round(averageDistance * 10) / 10 : undefined,
-        topServices
-      }
+        averageDistance: averageDistance
+          ? Math.round(averageDistance * 10) / 10
+          : undefined,
+        topServices,
+      },
     };
   }
 }

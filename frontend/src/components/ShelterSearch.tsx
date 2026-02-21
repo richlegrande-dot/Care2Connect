@@ -1,23 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  MapPin, 
-  Phone, 
-  Globe, 
-  Users, 
-  Bed, 
-  Clock, 
-  Shield, 
-  Heart, 
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  MapPin,
+  Phone,
+  Globe,
+  Users,
+  Bed,
+  Clock,
+  Shield,
+  Heart,
   Car,
   Wifi,
   Utensils,
@@ -29,14 +40,14 @@ import {
   AlertTriangle,
   Info,
   Navigation,
-  RefreshCw
-} from 'lucide-react';
+  RefreshCw,
+} from "lucide-react";
 
 interface ShelterSearchCriteria {
   lat?: number;
   lng?: number;
   maxDistance: number;
-  populationType?: 'men' | 'women' | 'families' | 'youth' | 'mixed';
+  populationType?: "men" | "women" | "families" | "youth" | "mixed";
   hasAvailableBeds: boolean;
   acceptsPets: boolean;
   wheelchairAccessible: boolean;
@@ -129,15 +140,15 @@ interface SearchSummary {
 }
 
 const SERVICE_OPTIONS = [
-  { id: 'medical', label: 'Medical Care', icon: Heart },
-  { id: 'mental_health', label: 'Mental Health Support', icon: Heart },
-  { id: 'substance_abuse', label: 'Substance Abuse Support', icon: Heart },
-  { id: 'job_training', label: 'Job Training', icon: Users },
-  { id: 'childcare', label: 'Childcare', icon: Users },
-  { id: 'educational_support', label: 'Educational Support', icon: Users },
-  { id: 'case_management', label: 'Case Management', icon: Users },
-  { id: 'legal_aid', label: 'Legal Aid', icon: Shield },
-  { id: 'transportation', label: 'Transportation', icon: Car }
+  { id: "medical", label: "Medical Care", icon: Heart },
+  { id: "mental_health", label: "Mental Health Support", icon: Heart },
+  { id: "substance_abuse", label: "Substance Abuse Support", icon: Heart },
+  { id: "job_training", label: "Job Training", icon: Users },
+  { id: "childcare", label: "Childcare", icon: Users },
+  { id: "educational_support", label: "Educational Support", icon: Users },
+  { id: "case_management", label: "Case Management", icon: Users },
+  { id: "legal_aid", label: "Legal Aid", icon: Shield },
+  { id: "transportation", label: "Transportation", icon: Car },
 ];
 
 export default function ShelterSearch() {
@@ -147,7 +158,7 @@ export default function ShelterSearch() {
     acceptsPets: false,
     wheelchairAccessible: false,
     hasSpecialServices: [],
-    limit: 10
+    limit: 10,
   });
 
   const [shelters, setShelters] = useState<Shelter[]>([]);
@@ -155,8 +166,11 @@ export default function ShelterSearch() {
   const [loading, setLoading] = useState(false);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [locationError, setLocationError] = useState<string>('');
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [locationError, setLocationError] = useState<string>("");
 
   // Get user's location on component mount
   useEffect(() => {
@@ -169,56 +183,77 @@ export default function ShelterSearch() {
         (position) => {
           const location = {
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
           };
           setUserLocation(location);
-          setSearchCriteria(prev => ({ ...prev, ...location }));
-          setLocationError('');
+          setSearchCriteria((prev) => ({ ...prev, ...location }));
+          setLocationError("");
         },
         (error) => {
-          console.error('Location error:', error);
-          setLocationError('Unable to get your location. Search results will not include distance sorting.');
-        }
+          console.error("Location error:", error);
+          setLocationError(
+            "Unable to get your location. Search results will not include distance sorting.",
+          );
+        },
       );
     } else {
-      setLocationError('Geolocation is not supported by this browser.');
+      setLocationError("Geolocation is not supported by this browser.");
     }
   };
 
-  const updateSearchCriteria = (field: keyof ShelterSearchCriteria, value: any) => {
-    setSearchCriteria(prev => ({
+  const updateSearchCriteria = (
+    field: keyof ShelterSearchCriteria,
+    value: any,
+  ) => {
+    setSearchCriteria((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const toggleSpecialService = (serviceId: string) => {
-    setSearchCriteria(prev => ({
+    setSearchCriteria((prev) => ({
       ...prev,
       hasSpecialServices: prev.hasSpecialServices.includes(serviceId)
-        ? prev.hasSpecialServices.filter(id => id !== serviceId)
-        : [...prev.hasSpecialServices, serviceId]
+        ? prev.hasSpecialServices.filter((id) => id !== serviceId)
+        : [...prev.hasSpecialServices, serviceId],
     }));
   };
 
   const searchShelters = async () => {
     setLoading(true);
-    
+
     try {
       // Build query parameters
       const params = new URLSearchParams();
-      
-      if (searchCriteria.lat) params.append('lat', searchCriteria.lat.toString());
-      if (searchCriteria.lng) params.append('lng', searchCriteria.lng.toString());
-      params.append('maxDistance', searchCriteria.maxDistance.toString());
-      if (searchCriteria.populationType) params.append('populationType', searchCriteria.populationType);
-      params.append('hasAvailableBeds', searchCriteria.hasAvailableBeds.toString());
-      params.append('acceptsPets', searchCriteria.acceptsPets.toString());
-      params.append('wheelchairAccessible', searchCriteria.wheelchairAccessible.toString());
-      if (searchCriteria.emergencyOnly !== undefined) params.append('emergencyOnly', searchCriteria.emergencyOnly.toString());
-      if (searchCriteria.requiresIntake !== undefined) params.append('requiresIntake', searchCriteria.requiresIntake.toString());
-      searchCriteria.hasSpecialServices.forEach(service => params.append('hasSpecialServices', service));
-      params.append('limit', searchCriteria.limit.toString());
+
+      if (searchCriteria.lat)
+        params.append("lat", searchCriteria.lat.toString());
+      if (searchCriteria.lng)
+        params.append("lng", searchCriteria.lng.toString());
+      params.append("maxDistance", searchCriteria.maxDistance.toString());
+      if (searchCriteria.populationType)
+        params.append("populationType", searchCriteria.populationType);
+      params.append(
+        "hasAvailableBeds",
+        searchCriteria.hasAvailableBeds.toString(),
+      );
+      params.append("acceptsPets", searchCriteria.acceptsPets.toString());
+      params.append(
+        "wheelchairAccessible",
+        searchCriteria.wheelchairAccessible.toString(),
+      );
+      if (searchCriteria.emergencyOnly !== undefined)
+        params.append("emergencyOnly", searchCriteria.emergencyOnly.toString());
+      if (searchCriteria.requiresIntake !== undefined)
+        params.append(
+          "requiresIntake",
+          searchCriteria.requiresIntake.toString(),
+        );
+      searchCriteria.hasSpecialServices.forEach((service) =>
+        params.append("hasSpecialServices", service),
+      );
+      params.append("limit", searchCriteria.limit.toString());
 
       const response = await fetch(`/api/shelters/search?${params.toString()}`);
       const data = await response.json();
@@ -227,10 +262,10 @@ export default function ShelterSearch() {
         setShelters(data.shelters);
         setSummary(data.summary);
       } else {
-        console.error('Search failed:', data.error);
+        console.error("Search failed:", data.error);
       }
     } catch (error) {
-      console.error('Search error:', error);
+      console.error("Search error:", error);
     } finally {
       setLoading(false);
     }
@@ -248,17 +283,19 @@ export default function ShelterSearch() {
   }, [searchCriteria]);
 
   const formatDistance = (distance?: number) => {
-    if (!distance) return 'Distance unknown';
+    if (!distance) return "Distance unknown";
     return `${distance.toFixed(1)} miles`;
   };
 
   const formatLastUpdated = (lastUpdated?: string) => {
-    if (!lastUpdated) return 'No recent updates';
+    if (!lastUpdated) return "No recent updates";
     const date = new Date(lastUpdated);
     const now = new Date();
-    const diffHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
-    if (diffHours < 1) return 'Updated recently';
+    const diffHours = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
+    );
+
+    if (diffHours < 1) return "Updated recently";
     if (diffHours < 24) return `Updated ${diffHours} hours ago`;
     const diffDays = Math.floor(diffHours / 24);
     return `Updated ${diffDays} days ago`;
@@ -266,29 +303,45 @@ export default function ShelterSearch() {
 
   const getAvailabilityStatus = (shelter: Shelter) => {
     const { availability, ranking } = shelter;
-    
+
     if (!ranking.availabilityMatch) {
-      return { status: 'none', text: 'No beds available', color: 'text-red-600' };
+      return {
+        status: "none",
+        text: "No beds available",
+        color: "text-red-600",
+      };
     }
-    
+
     const total = availability.total || 0;
     if (total >= 10) {
-      return { status: 'high', text: `${total} beds available`, color: 'text-green-600' };
+      return {
+        status: "high",
+        text: `${total} beds available`,
+        color: "text-green-600",
+      };
     } else if (total >= 3) {
-      return { status: 'medium', text: `${total} beds available`, color: 'text-yellow-600' };
+      return {
+        status: "medium",
+        text: `${total} beds available`,
+        color: "text-yellow-600",
+      };
     } else if (total > 0) {
-      return { status: 'low', text: `${total} beds available`, color: 'text-orange-600' };
+      return {
+        status: "low",
+        text: `${total} beds available`,
+        color: "text-orange-600",
+      };
     }
-    
-    return { status: 'none', text: 'No beds available', color: 'text-red-600' };
+
+    return { status: "none", text: "No beds available", color: "text-red-600" };
   };
 
   const renderShelterCard = (shelter: Shelter) => {
     const availabilityStatus = getAvailabilityStatus(shelter);
-    
+
     return (
-      <Card 
-        key={shelter.id} 
+      <Card
+        key={shelter.id}
         className="hover:shadow-md transition-shadow cursor-pointer"
         onClick={() => setSelectedShelter(shelter)}
       >
@@ -300,7 +353,9 @@ export default function ShelterSearch() {
                 <h3 className="font-semibold text-lg">{shelter.name}</h3>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <MapPin className="h-4 w-4" />
-                  <span>{shelter.address.city}, {shelter.address.state}</span>
+                  <span>
+                    {shelter.address.city}, {shelter.address.state}
+                  </span>
                   {shelter.ranking.distance && (
                     <>
                       <span>•</span>
@@ -314,7 +369,9 @@ export default function ShelterSearch() {
                   <Star className="h-4 w-4 text-yellow-500" />
                   <span className="font-semibold">{shelter.ranking.score}</span>
                 </div>
-                <div className={`text-sm font-medium ${availabilityStatus.color}`}>
+                <div
+                  className={`text-sm font-medium ${availabilityStatus.color}`}
+                >
                   {availabilityStatus.text}
                 </div>
               </div>
@@ -322,27 +379,41 @@ export default function ShelterSearch() {
 
             {/* Description */}
             {shelter.description && (
-              <p className="text-sm text-gray-600 line-clamp-2">{shelter.description}</p>
+              <p className="text-sm text-gray-600 line-clamp-2">
+                {shelter.description}
+              </p>
             )}
 
             {/* Services and Population */}
             <div className="flex flex-wrap gap-2">
               {/* Population served */}
               {shelter.serves.adultMen && <Badge variant="outline">Men</Badge>}
-              {shelter.serves.adultWomen && <Badge variant="outline">Women</Badge>}
-              {shelter.serves.families && <Badge variant="outline">Families</Badge>}
+              {shelter.serves.adultWomen && (
+                <Badge variant="outline">Women</Badge>
+              )}
+              {shelter.serves.families && (
+                <Badge variant="outline">Families</Badge>
+              )}
               {shelter.serves.youth && <Badge variant="outline">Youth</Badge>}
-              
+
               {/* Key services */}
-              {shelter.services.meals && <Badge variant="secondary">Meals</Badge>}
-              {shelter.services.medical && <Badge variant="secondary">Medical</Badge>}
-              {shelter.policies.allowsPets && <Badge variant="secondary">Pet-Friendly</Badge>}
-              {shelter.policies.wheelchairAccessible && <Badge variant="secondary">Accessible</Badge>}
-              
+              {shelter.services.meals && (
+                <Badge variant="secondary">Meals</Badge>
+              )}
+              {shelter.services.medical && (
+                <Badge variant="secondary">Medical</Badge>
+              )}
+              {shelter.policies.allowsPets && (
+                <Badge variant="secondary">Pet-Friendly</Badge>
+              )}
+              {shelter.policies.wheelchairAccessible && (
+                <Badge variant="secondary">Accessible</Badge>
+              )}
+
               {/* Service matches */}
-              {shelter.ranking.serviceMatches.slice(0, 2).map(service => (
+              {shelter.ranking.serviceMatches.slice(0, 2).map((service) => (
                 <Badge key={service} className="bg-green-100 text-green-700">
-                  ✓ {service.replace('_', ' ')}
+                  ✓ {service.replace("_", " ")}
                 </Badge>
               ))}
             </div>
@@ -353,7 +424,8 @@ export default function ShelterSearch() {
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription className="text-sm">
                   {shelter.ranking.warnings[0]}
-                  {shelter.ranking.warnings.length > 1 && ` (+${shelter.ranking.warnings.length - 1} more)`}
+                  {shelter.ranking.warnings.length > 1 &&
+                    ` (+${shelter.ranking.warnings.length - 1} more)`}
                 </AlertDescription>
               </Alert>
             )}
@@ -388,14 +460,17 @@ export default function ShelterSearch() {
     if (!selectedShelter) return null;
 
     const shelter = selectedShelter;
-    
+
     return (
-      <Dialog open={!!selectedShelter} onOpenChange={() => setSelectedShelter(null)}>
+      <Dialog
+        open={!!selectedShelter}
+        onOpenChange={() => setSelectedShelter(null)}
+      >
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl">{shelter.name}</DialogTitle>
           </DialogHeader>
-          
+
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -403,38 +478,46 @@ export default function ShelterSearch() {
               <TabsTrigger value="services">Services</TabsTrigger>
               <TabsTrigger value="policies">Policies</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="overview" className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 {/* Contact Information */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Contact Information</CardTitle>
+                    <CardTitle className="text-lg">
+                      Contact Information
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-start gap-2">
                       <MapPin className="h-4 w-4 mt-1 text-gray-500" />
                       <div>
                         <div>{shelter.address.street}</div>
-                        <div>{shelter.address.city}, {shelter.address.state} {shelter.address.zipCode}</div>
+                        <div>
+                          {shelter.address.city}, {shelter.address.state}{" "}
+                          {shelter.address.zipCode}
+                        </div>
                       </div>
                     </div>
-                    
+
                     {shelter.contact.phone && (
                       <div className="flex items-center gap-2">
                         <Phone className="h-4 w-4 text-gray-500" />
-                        <a href={`tel:${shelter.contact.phone}`} className="text-blue-600 hover:underline">
+                        <a
+                          href={`tel:${shelter.contact.phone}`}
+                          className="text-blue-600 hover:underline"
+                        >
                           {shelter.contact.phone}
                         </a>
                       </div>
                     )}
-                    
+
                     {shelter.contact.website && (
                       <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4 text-gray-500" />
-                        <a 
-                          href={shelter.contact.website} 
-                          target="_blank" 
+                        <a
+                          href={shelter.contact.website}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 hover:underline"
                         >
@@ -446,7 +529,9 @@ export default function ShelterSearch() {
                     {shelter.ranking.distance && (
                       <div className="flex items-center gap-2">
                         <Navigation className="h-4 w-4 text-gray-500" />
-                        <span>{formatDistance(shelter.ranking.distance)} away</span>
+                        <span>
+                          {formatDistance(shelter.ranking.distance)} away
+                        </span>
                       </div>
                     )}
                   </CardContent>
@@ -459,10 +544,12 @@ export default function ShelterSearch() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-center mb-4">
-                      <div className="text-3xl font-bold text-blue-600">{shelter.ranking.score}</div>
+                      <div className="text-3xl font-bold text-blue-600">
+                        {shelter.ranking.score}
+                      </div>
                       <div className="text-sm text-gray-600">out of 100</div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <h4 className="font-medium">Why this shelter matches:</h4>
                       <ul className="text-sm space-y-1">
@@ -477,7 +564,9 @@ export default function ShelterSearch() {
 
                     {shelter.ranking.warnings.length > 0 && (
                       <div className="mt-4 space-y-2">
-                        <h4 className="font-medium text-orange-700">Considerations:</h4>
+                        <h4 className="font-medium text-orange-700">
+                          Considerations:
+                        </h4>
                         <ul className="text-sm space-y-1">
                           {shelter.ranking.warnings.map((warning, index) => (
                             <li key={index} className="flex items-start gap-2">
@@ -495,7 +584,9 @@ export default function ShelterSearch() {
               {shelter.description && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">About This Shelter</CardTitle>
+                    <CardTitle className="text-lg">
+                      About This Shelter
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-700">{shelter.description}</p>
@@ -503,11 +594,13 @@ export default function ShelterSearch() {
                 </Card>
               )}
             </TabsContent>
-            
+
             <TabsContent value="availability" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Current Availability</CardTitle>
+                  <CardTitle className="text-lg">
+                    Current Availability
+                  </CardTitle>
                   <p className="text-sm text-gray-600">
                     {formatLastUpdated(shelter.availability.lastUpdated)}
                   </p>
@@ -517,7 +610,7 @@ export default function ShelterSearch() {
                     {shelter.serves.adultMen && (
                       <div className="text-center p-3 bg-blue-50 rounded-lg">
                         <div className="text-2xl font-bold text-blue-600">
-                          {shelter.availability.men ?? '?'}
+                          {shelter.availability.men ?? "?"}
                         </div>
                         <div className="text-sm text-gray-600">Men</div>
                         <div className="text-xs text-gray-500">
@@ -525,11 +618,11 @@ export default function ShelterSearch() {
                         </div>
                       </div>
                     )}
-                    
+
                     {shelter.serves.adultWomen && (
                       <div className="text-center p-3 bg-pink-50 rounded-lg">
                         <div className="text-2xl font-bold text-pink-600">
-                          {shelter.availability.women ?? '?'}
+                          {shelter.availability.women ?? "?"}
                         </div>
                         <div className="text-sm text-gray-600">Women</div>
                         <div className="text-xs text-gray-500">
@@ -537,11 +630,11 @@ export default function ShelterSearch() {
                         </div>
                       </div>
                     )}
-                    
+
                     {shelter.serves.families && (
                       <div className="text-center p-3 bg-green-50 rounded-lg">
                         <div className="text-2xl font-bold text-green-600">
-                          {shelter.availability.families ?? '?'}
+                          {shelter.availability.families ?? "?"}
                         </div>
                         <div className="text-sm text-gray-600">Families</div>
                         <div className="text-xs text-gray-500">
@@ -549,11 +642,11 @@ export default function ShelterSearch() {
                         </div>
                       </div>
                     )}
-                    
+
                     {shelter.serves.youth && (
                       <div className="text-center p-3 bg-purple-50 rounded-lg">
                         <div className="text-2xl font-bold text-purple-600">
-                          {shelter.availability.youth ?? '?'}
+                          {shelter.availability.youth ?? "?"}
                         </div>
                         <div className="text-sm text-gray-600">Youth</div>
                         <div className="text-xs text-gray-500">
@@ -562,7 +655,7 @@ export default function ShelterSearch() {
                       </div>
                     )}
                   </div>
-                  
+
                   {shelter.availability.total !== undefined && (
                     <div className="mt-4 text-center p-4 bg-gray-50 rounded-lg">
                       <div className="text-3xl font-bold text-gray-700">
@@ -577,7 +670,7 @@ export default function ShelterSearch() {
                 </CardContent>
               </Card>
             </TabsContent>
-            
+
             <TabsContent value="services" className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 {/* Basic Amenities */}
@@ -587,27 +680,39 @@ export default function ShelterSearch() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 gap-3">
-                      <div className={`flex items-center gap-2 ${shelter.services.meals ? 'text-green-600' : 'text-gray-400'}`}>
+                      <div
+                        className={`flex items-center gap-2 ${shelter.services.meals ? "text-green-600" : "text-gray-400"}`}
+                      >
                         <Utensils className="h-4 w-4" />
                         <span>Meals</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${shelter.services.showers ? 'text-green-600' : 'text-gray-400'}`}>
+                      <div
+                        className={`flex items-center gap-2 ${shelter.services.showers ? "text-green-600" : "text-gray-400"}`}
+                      >
                         <Shower className="h-4 w-4" />
                         <span>Showers</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${shelter.services.laundry ? 'text-green-600' : 'text-gray-400'}`}>
+                      <div
+                        className={`flex items-center gap-2 ${shelter.services.laundry ? "text-green-600" : "text-gray-400"}`}
+                      >
                         <Package className="h-4 w-4" />
                         <span>Laundry</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${shelter.services.storage ? 'text-green-600' : 'text-gray-400'}`}>
+                      <div
+                        className={`flex items-center gap-2 ${shelter.services.storage ? "text-green-600" : "text-gray-400"}`}
+                      >
                         <Package className="h-4 w-4" />
                         <span>Storage</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${shelter.services.internetAccess ? 'text-green-600' : 'text-gray-400'}`}>
+                      <div
+                        className={`flex items-center gap-2 ${shelter.services.internetAccess ? "text-green-600" : "text-gray-400"}`}
+                      >
                         <Wifi className="h-4 w-4" />
                         <span>Internet</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${shelter.services.phoneAccess ? 'text-green-600' : 'text-gray-400'}`}>
+                      <div
+                        className={`flex items-center gap-2 ${shelter.services.phoneAccess ? "text-green-600" : "text-gray-400"}`}
+                      >
                         <Phone className="h-4 w-4" />
                         <span>Phone</span>
                       </div>
@@ -623,29 +728,38 @@ export default function ShelterSearch() {
                   <CardContent>
                     <div className="space-y-2">
                       {[
-                        { key: 'medical', label: 'Medical Care' },
-                        { key: 'mentalHealth', label: 'Mental Health Support' },
-                        { key: 'substanceAbuse', label: 'Substance Abuse Support' },
-                        { key: 'jobTraining', label: 'Job Training' },
-                        { key: 'education', label: 'Educational Support' },
-                        { key: 'caseManagement', label: 'Case Management' },
-                        { key: 'legalAid', label: 'Legal Aid' },
-                        { key: 'childcare', label: 'Childcare' },
-                        { key: 'transportation', label: 'Transportation' }
-                      ].map(service => (
-                        <div 
+                        { key: "medical", label: "Medical Care" },
+                        { key: "mentalHealth", label: "Mental Health Support" },
+                        {
+                          key: "substanceAbuse",
+                          label: "Substance Abuse Support",
+                        },
+                        { key: "jobTraining", label: "Job Training" },
+                        { key: "education", label: "Educational Support" },
+                        { key: "caseManagement", label: "Case Management" },
+                        { key: "legalAid", label: "Legal Aid" },
+                        { key: "childcare", label: "Childcare" },
+                        { key: "transportation", label: "Transportation" },
+                      ].map((service) => (
+                        <div
                           key={service.key}
                           className={`flex items-center gap-2 ${
-                            shelter.services[service.key as keyof typeof shelter.services] 
-                              ? 'text-green-600' 
-                              : 'text-gray-400'
+                            shelter.services[
+                              service.key as keyof typeof shelter.services
+                            ]
+                              ? "text-green-600"
+                              : "text-gray-400"
                           }`}
                         >
-                          <div className={`w-2 h-2 rounded-full ${
-                            shelter.services[service.key as keyof typeof shelter.services]
-                              ? 'bg-green-600'
-                              : 'bg-gray-300'
-                          }`} />
+                          <div
+                            className={`w-2 h-2 rounded-full ${
+                              shelter.services[
+                                service.key as keyof typeof shelter.services
+                              ]
+                                ? "bg-green-600"
+                                : "bg-gray-300"
+                            }`}
+                          />
                           <span>{service.label}</span>
                         </div>
                       ))}
@@ -654,28 +768,42 @@ export default function ShelterSearch() {
                 </Card>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="policies" className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Admission Policies</CardTitle>
+                    <CardTitle className="text-lg">
+                      Admission Policies
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span>Requires Intake Process</span>
-                      <Badge variant={shelter.policies.requiresIntake ? "destructive" : "secondary"}>
+                      <Badge
+                        variant={
+                          shelter.policies.requiresIntake
+                            ? "destructive"
+                            : "secondary"
+                        }
+                      >
                         {shelter.policies.requiresIntake ? "Yes" : "No"}
                       </Badge>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <span>Emergency Only</span>
-                      <Badge variant={shelter.policies.emergencyOnly ? "destructive" : "secondary"}>
+                      <Badge
+                        variant={
+                          shelter.policies.emergencyOnly
+                            ? "destructive"
+                            : "secondary"
+                        }
+                      >
                         {shelter.policies.emergencyOnly ? "Yes" : "No"}
                       </Badge>
                     </div>
-                    
+
                     {shelter.policies.maxStayDays && (
                       <div className="flex items-center justify-between">
                         <span>Maximum Stay</span>
@@ -689,26 +817,42 @@ export default function ShelterSearch() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Accessibility & Accommodations</CardTitle>
+                    <CardTitle className="text-lg">
+                      Accessibility & Accommodations
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span>Wheelchair Accessible</span>
-                      <Badge variant={shelter.policies.wheelchairAccessible ? "secondary" : "outline"}>
+                      <Badge
+                        variant={
+                          shelter.policies.wheelchairAccessible
+                            ? "secondary"
+                            : "outline"
+                        }
+                      >
                         {shelter.policies.wheelchairAccessible ? "Yes" : "No"}
                       </Badge>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <span>Pets Allowed</span>
-                      <Badge variant={shelter.policies.allowsPets ? "secondary" : "outline"}>
+                      <Badge
+                        variant={
+                          shelter.policies.allowsPets ? "secondary" : "outline"
+                        }
+                      >
                         {shelter.policies.allowsPets ? "Yes" : "No"}
                       </Badge>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <span>Security Staff</span>
-                      <Badge variant={shelter.services.security ? "secondary" : "outline"}>
+                      <Badge
+                        variant={
+                          shelter.services.security ? "secondary" : "outline"
+                        }
+                      >
                         {shelter.services.security ? "Yes" : "No"}
                       </Badge>
                     </div>
@@ -739,7 +883,11 @@ export default function ShelterSearch() {
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
                 {locationError}
-                <Button variant="link" className="ml-2 h-auto p-0" onClick={getUserLocation}>
+                <Button
+                  variant="link"
+                  className="ml-2 h-auto p-0"
+                  onClick={getUserLocation}
+                >
                   Try again
                 </Button>
               </AlertDescription>
@@ -764,9 +912,11 @@ export default function ShelterSearch() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <Label htmlFor="populationType">Who needs shelter?</Label>
-              <Select 
-                value={searchCriteria.populationType || ''} 
-                onValueChange={(value) => updateSearchCriteria('populationType', value || undefined)}
+              <Select
+                value={searchCriteria.populationType || ""}
+                onValueChange={(value) =>
+                  updateSearchCriteria("populationType", value || undefined)
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Any population" />
@@ -775,7 +925,9 @@ export default function ShelterSearch() {
                   <SelectItem value="">Any population</SelectItem>
                   <SelectItem value="men">Single men</SelectItem>
                   <SelectItem value="women">Single women</SelectItem>
-                  <SelectItem value="families">Families with children</SelectItem>
+                  <SelectItem value="families">
+                    Families with children
+                  </SelectItem>
                   <SelectItem value="youth">Youth/Young adults</SelectItem>
                 </SelectContent>
               </Select>
@@ -783,9 +935,11 @@ export default function ShelterSearch() {
 
             <div>
               <Label htmlFor="maxDistance">Maximum distance</Label>
-              <Select 
-                value={searchCriteria.maxDistance.toString()} 
-                onValueChange={(value) => updateSearchCriteria('maxDistance', parseInt(value))}
+              <Select
+                value={searchCriteria.maxDistance.toString()}
+                onValueChange={(value) =>
+                  updateSearchCriteria("maxDistance", parseInt(value))
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -803,13 +957,15 @@ export default function ShelterSearch() {
               <Checkbox
                 id="hasAvailableBeds"
                 checked={searchCriteria.hasAvailableBeds}
-                onCheckedChange={(checked) => updateSearchCriteria('hasAvailableBeds', checked)}
+                onCheckedChange={(checked) =>
+                  updateSearchCriteria("hasAvailableBeds", checked)
+                }
               />
               <Label htmlFor="hasAvailableBeds">Only show available beds</Label>
             </div>
 
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center gap-2"
             >
@@ -829,7 +985,9 @@ export default function ShelterSearch() {
                       <Checkbox
                         id="acceptsPets"
                         checked={searchCriteria.acceptsPets}
-                        onCheckedChange={(checked) => updateSearchCriteria('acceptsPets', checked)}
+                        onCheckedChange={(checked) =>
+                          updateSearchCriteria("acceptsPets", checked)
+                        }
                       />
                       <Label htmlFor="acceptsPets">Pet-friendly</Label>
                     </div>
@@ -837,9 +995,13 @@ export default function ShelterSearch() {
                       <Checkbox
                         id="wheelchairAccessible"
                         checked={searchCriteria.wheelchairAccessible}
-                        onCheckedChange={(checked) => updateSearchCriteria('wheelchairAccessible', checked)}
+                        onCheckedChange={(checked) =>
+                          updateSearchCriteria("wheelchairAccessible", checked)
+                        }
                       />
-                      <Label htmlFor="wheelchairAccessible">Wheelchair accessible</Label>
+                      <Label htmlFor="wheelchairAccessible">
+                        Wheelchair accessible
+                      </Label>
                     </div>
                   </div>
                 </div>
@@ -851,17 +1013,31 @@ export default function ShelterSearch() {
                       <Checkbox
                         id="emergencyOnly"
                         checked={searchCriteria.emergencyOnly === true}
-                        onCheckedChange={(checked) => updateSearchCriteria('emergencyOnly', checked ? true : undefined)}
+                        onCheckedChange={(checked) =>
+                          updateSearchCriteria(
+                            "emergencyOnly",
+                            checked ? true : undefined,
+                          )
+                        }
                       />
-                      <Label htmlFor="emergencyOnly">Emergency shelters only</Label>
+                      <Label htmlFor="emergencyOnly">
+                        Emergency shelters only
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id="noIntake"
                         checked={searchCriteria.requiresIntake === false}
-                        onCheckedChange={(checked) => updateSearchCriteria('requiresIntake', checked ? false : undefined)}
+                        onCheckedChange={(checked) =>
+                          updateSearchCriteria(
+                            "requiresIntake",
+                            checked ? false : undefined,
+                          )
+                        }
                       />
-                      <Label htmlFor="noIntake">No intake process required</Label>
+                      <Label htmlFor="noIntake">
+                        No intake process required
+                      </Label>
                     </div>
                   </div>
                 </div>
@@ -869,14 +1045,23 @@ export default function ShelterSearch() {
                 <div className="space-y-2">
                   <Label>Special Services</Label>
                   <div className="space-y-2 max-h-32 overflow-y-auto">
-                    {SERVICE_OPTIONS.map(service => (
-                      <div key={service.id} className="flex items-center space-x-2">
+                    {SERVICE_OPTIONS.map((service) => (
+                      <div
+                        key={service.id}
+                        className="flex items-center space-x-2"
+                      >
                         <Checkbox
                           id={service.id}
-                          checked={searchCriteria.hasSpecialServices.includes(service.id)}
-                          onCheckedChange={() => toggleSpecialService(service.id)}
+                          checked={searchCriteria.hasSpecialServices.includes(
+                            service.id,
+                          )}
+                          onCheckedChange={() =>
+                            toggleSpecialService(service.id)
+                          }
                         />
-                        <Label htmlFor={service.id} className="text-sm">{service.label}</Label>
+                        <Label htmlFor={service.id} className="text-sm">
+                          {service.label}
+                        </Label>
                       </div>
                     ))}
                   </div>
@@ -893,11 +1078,15 @@ export default function ShelterSearch() {
           <CardContent className="pt-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
-                <div className="text-2xl font-bold text-blue-600">{summary.totalFound}</div>
+                <div className="text-2xl font-bold text-blue-600">
+                  {summary.totalFound}
+                </div>
                 <div className="text-sm text-gray-600">Shelters Found</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-green-600">{summary.withAvailability}</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {summary.withAvailability}
+                </div>
                 <div className="text-sm text-gray-600">With Available Beds</div>
               </div>
               {summary.averageDistance && (
@@ -909,14 +1098,16 @@ export default function ShelterSearch() {
                 </div>
               )}
               <div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={searchShelters}
                   disabled={loading}
                   className="flex items-center gap-2"
                 >
-                  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                  <RefreshCw
+                    className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+                  />
                   Refresh
                 </Button>
               </div>
@@ -935,16 +1126,19 @@ export default function ShelterSearch() {
         ) : shelters.length > 0 ? (
           <>
             {shelters.map(renderShelterCard)}
-            
+
             {shelters.length >= searchCriteria.limit && (
               <Card>
                 <CardContent className="pt-6 text-center">
                   <p className="text-gray-600 mb-4">
-                    Showing {shelters.length} results. Adjust your filters to see more options.
+                    Showing {shelters.length} results. Adjust your filters to
+                    see more options.
                   </p>
-                  <Button 
+                  <Button
                     variant="outline"
-                    onClick={() => updateSearchCriteria('limit', searchCriteria.limit + 10)}
+                    onClick={() =>
+                      updateSearchCriteria("limit", searchCriteria.limit + 10)
+                    }
                   >
                     Load More Results
                   </Button>
@@ -958,16 +1152,17 @@ export default function ShelterSearch() {
               <Search className="h-12 w-12 mx-auto mb-4 text-gray-400" />
               <h3 className="font-semibold mb-2">No shelters found</h3>
               <p className="text-gray-600 mb-4">
-                Try adjusting your search criteria or expanding your search distance.
+                Try adjusting your search criteria or expanding your search
+                distance.
               </p>
-              <Button 
+              <Button
                 variant="outline"
                 onClick={() => {
                   setSearchCriteria({
                     ...searchCriteria,
                     maxDistance: 50,
                     hasAvailableBeds: false,
-                    hasSpecialServices: []
+                    hasSpecialServices: [],
                   });
                 }}
               >

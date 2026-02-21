@@ -1,10 +1,10 @@
-import express from 'express';
-import { z } from 'zod';
-import logger from '../config/logger';
-import { PrismaClient } from '@prisma/client';
-import { shelterAvailabilitySync } from '../shelters/availability-sync';
-import { shelterRankingEngine } from '../shelters/shelter-ranking';
-import { authenticateUser } from '../middleware/auth';
+import express from "express";
+import { z } from "zod";
+import logger from "../config/logger";
+import { PrismaClient } from "@prisma/client";
+import { shelterAvailabilitySync } from "../shelters/availability-sync";
+import { shelterRankingEngine } from "../shelters/shelter-ranking";
+import { authenticateUser } from "../middleware/auth";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -14,14 +14,16 @@ const shelterSearchSchema = z.object({
   lat: z.number().optional(),
   lng: z.number().optional(),
   maxDistance: z.number().min(1).max(100).optional(),
-  populationType: z.enum(['men', 'women', 'families', 'youth', 'mixed']).optional(),
+  populationType: z
+    .enum(["men", "women", "families", "youth", "mixed"])
+    .optional(),
   hasAvailableBeds: z.boolean().optional(),
   acceptsPets: z.boolean().optional(),
   wheelchairAccessible: z.boolean().optional(),
   emergencyOnly: z.boolean().optional(),
   requiresIntake: z.boolean().optional(),
   hasSpecialServices: z.array(z.string()).optional(),
-  limit: z.number().min(1).max(50).default(10)
+  limit: z.number().min(1).max(50).default(10),
 });
 
 const availabilityUpdateSchema = z.object({
@@ -35,7 +37,7 @@ const availabilityUpdateSchema = z.object({
   occupiedFamilies: z.number().min(0).optional(),
   occupiedYouth: z.number().min(0).optional(),
   occupiedTotal: z.number().min(0).optional(),
-  notes: z.string().max(500).optional()
+  notes: z.string().max(500).optional(),
 });
 
 const shelterCreateSchema = z.object({
@@ -49,27 +51,27 @@ const shelterCreateSchema = z.object({
   website: z.string().url().optional(),
   latitude: z.number().min(-90).max(90).optional(),
   longitude: z.number().min(-180).max(180).optional(),
-  
+
   // Population served
   servesAdultMen: z.boolean().default(false),
   servesAdultWomen: z.boolean().default(false),
   servesFamilies: z.boolean().default(false),
   servesYouth: z.boolean().default(false),
-  
+
   // Capacity
   capacityMen: z.number().min(0).optional(),
   capacityWomen: z.number().min(0).optional(),
   capacityFamilies: z.number().min(0).optional(),
   capacityYouth: z.number().min(0).optional(),
   capacityTotal: z.number().min(1),
-  
+
   // Policies
   maxStayDays: z.number().min(1).optional(),
   allowsPets: z.boolean().default(false),
   wheelchairAccessible: z.boolean().default(false),
   requiresIntake: z.boolean().default(true),
   emergencyOnly: z.boolean().default(false),
-  
+
   // Services and amenities
   hasMeals: z.boolean().default(false),
   hasShowers: z.boolean().default(false),
@@ -87,10 +89,10 @@ const shelterCreateSchema = z.object({
   hasCaseManagement: z.boolean().default(false),
   hasLegalAid: z.boolean().default(false),
   hasSecurityStaff: z.boolean().default(false),
-  
+
   // External system integration
   externalSystemId: z.string().optional(),
-  externalSystemName: z.string().optional()
+  externalSystemName: z.string().optional(),
 });
 
 /**
@@ -98,22 +100,22 @@ const shelterCreateSchema = z.object({
  * @desc Search and rank shelters based on criteria
  * @access Public
  */
-router.get('/search', async (req, res) => {
+router.get("/search", async (req, res) => {
   try {
     const validationResult = shelterSearchSchema.safeParse(req.query);
-    
+
     if (!validationResult.success) {
       return res.status(400).json({
-        error: 'Invalid search parameters',
-        details: validationResult.error.errors
+        error: "Invalid search parameters",
+        details: validationResult.error.errors,
       });
     }
 
     const criteria = validationResult.data;
-    
+
     // Extract userId if authenticated
     const authHeader = req.headers.authorization;
-    if (authHeader?.startsWith('Bearer ')) {
+    if (authHeader?.startsWith("Bearer ")) {
       try {
         // Simple user extraction - in production use proper JWT validation
         criteria.userId = authHeader.substring(7);
@@ -122,26 +124,29 @@ router.get('/search', async (req, res) => {
       }
     }
 
-    const results = await shelterRankingEngine.getTopRecommendations(criteria, criteria.limit);
-    
+    const results = await shelterRankingEngine.getTopRecommendations(
+      criteria,
+      criteria.limit,
+    );
+
     // Log search for analytics
-    logger.info('Shelter search performed', {
+    logger.info("Shelter search performed", {
       criteria: {
-        location: criteria.lat && criteria.lng ? 'provided' : 'not_provided',
+        location: criteria.lat && criteria.lng ? "provided" : "not_provided",
         populationType: criteria.populationType,
         hasAvailableBeds: criteria.hasAvailableBeds,
-        specialServices: criteria.hasSpecialServices?.length || 0
+        specialServices: criteria.hasSpecialServices?.length || 0,
       },
       results: {
         totalFound: results.summary.totalFound,
         withAvailability: results.summary.withAvailability,
-        returned: results.recommendations.length
-      }
+        returned: results.recommendations.length,
+      },
     });
 
     res.json({
       success: true,
-      shelters: results.recommendations.map(ranking => ({
+      shelters: results.recommendations.map((ranking) => ({
         id: ranking.shelter.id,
         name: ranking.shelter.name,
         description: ranking.shelter.description,
@@ -149,30 +154,33 @@ router.get('/search', async (req, res) => {
           street: ranking.shelter.address,
           city: ranking.shelter.city,
           state: ranking.shelter.state,
-          zipCode: ranking.shelter.zipCode
+          zipCode: ranking.shelter.zipCode,
         },
         contact: {
           phone: ranking.shelter.phone,
-          website: ranking.shelter.website
+          website: ranking.shelter.website,
         },
-        location: ranking.shelter.latitude && ranking.shelter.longitude ? {
-          lat: ranking.shelter.latitude,
-          lng: ranking.shelter.longitude
-        } : null,
-        
+        location:
+          ranking.shelter.latitude && ranking.shelter.longitude
+            ? {
+                lat: ranking.shelter.latitude,
+                lng: ranking.shelter.longitude,
+              }
+            : null,
+
         // Population and capacity info
         serves: {
           adultMen: ranking.shelter.servesAdultMen,
           adultWomen: ranking.shelter.servesAdultWomen,
           families: ranking.shelter.servesFamilies,
-          youth: ranking.shelter.servesYouth
+          youth: ranking.shelter.servesYouth,
         },
         capacity: {
           men: ranking.shelter.capacityMen,
           women: ranking.shelter.capacityWomen,
           families: ranking.shelter.capacityFamilies,
           youth: ranking.shelter.capacityYouth,
-          total: ranking.shelter.capacityTotal
+          total: ranking.shelter.capacityTotal,
         },
         availability: {
           men: ranking.shelter.currentAvailableMen,
@@ -180,18 +188,18 @@ router.get('/search', async (req, res) => {
           families: ranking.shelter.currentAvailableFamilies,
           youth: ranking.shelter.currentAvailableYouth,
           total: ranking.shelter.currentAvailableTotal,
-          lastUpdated: ranking.shelter.lastAutoUpdateAt
+          lastUpdated: ranking.shelter.lastAutoUpdateAt,
         },
-        
+
         // Policies and requirements
         policies: {
           maxStayDays: ranking.shelter.maxStayDays,
           allowsPets: ranking.shelter.allowsPets,
           wheelchairAccessible: ranking.shelter.wheelchairAccessible,
           requiresIntake: ranking.shelter.requiresIntake,
-          emergencyOnly: ranking.shelter.emergencyOnly
+          emergencyOnly: ranking.shelter.emergencyOnly,
         },
-        
+
         // Services and amenities
         services: {
           meals: ranking.shelter.hasMeals,
@@ -209,9 +217,9 @@ router.get('/search', async (req, res) => {
           education: ranking.shelter.hasEducationalSupport,
           caseManagement: ranking.shelter.hasCaseManagement,
           legalAid: ranking.shelter.hasLegalAid,
-          security: ranking.shelter.hasSecurityStaff
+          security: ranking.shelter.hasSecurityStaff,
         },
-        
+
         // Ranking information
         ranking: {
           score: ranking.score,
@@ -220,18 +228,17 @@ router.get('/search', async (req, res) => {
           serviceMatches: ranking.serviceMatches,
           accessibilityMatch: ranking.accessibilityMatch,
           reasoning: ranking.reasoning,
-          warnings: ranking.warnings
-        }
+          warnings: ranking.warnings,
+        },
       })),
       summary: results.summary,
-      searchCriteria: criteria
+      searchCriteria: criteria,
     });
-
   } catch (error) {
-    logger.error('Shelter search failed:', error);
+    logger.error("Shelter search failed:", error);
     res.status(500).json({
-      error: 'Failed to search shelters',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to search shelters",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -241,23 +248,23 @@ router.get('/search', async (req, res) => {
  * @desc Get detailed shelter information
  * @access Public
  */
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const shelter = await prisma.shelterFacility.findUnique({
       where: { id },
       include: {
         availabilityLogs: {
-          orderBy: { timestamp: 'desc' },
-          take: 10
-        }
-      }
+          orderBy: { timestamp: "desc" },
+          take: 10,
+        },
+      },
     });
 
     if (!shelter) {
       return res.status(404).json({
-        error: 'Shelter not found'
+        error: "Shelter not found",
       });
     }
 
@@ -271,30 +278,33 @@ router.get('/:id', async (req, res) => {
           street: shelter.address,
           city: shelter.city,
           state: shelter.state,
-          zipCode: shelter.zipCode
+          zipCode: shelter.zipCode,
         },
         contact: {
           phone: shelter.phone,
-          website: shelter.website
+          website: shelter.website,
         },
-        location: shelter.latitude && shelter.longitude ? {
-          lat: shelter.latitude,
-          lng: shelter.longitude
-        } : null,
-        
+        location:
+          shelter.latitude && shelter.longitude
+            ? {
+                lat: shelter.latitude,
+                lng: shelter.longitude,
+              }
+            : null,
+
         // Full details
         serves: {
           adultMen: shelter.servesAdultMen,
           adultWomen: shelter.servesAdultWomen,
           families: shelter.servesFamilies,
-          youth: shelter.servesYouth
+          youth: shelter.servesYouth,
         },
         capacity: {
           men: shelter.capacityMen,
           women: shelter.capacityWomen,
           families: shelter.capacityFamilies,
           youth: shelter.capacityYouth,
-          total: shelter.capacityTotal
+          total: shelter.capacityTotal,
         },
         currentAvailability: {
           men: shelter.currentAvailableMen,
@@ -302,7 +312,7 @@ router.get('/:id', async (req, res) => {
           families: shelter.currentAvailableFamilies,
           youth: shelter.currentAvailableYouth,
           total: shelter.currentAvailableTotal,
-          lastUpdated: shelter.lastAutoUpdateAt
+          lastUpdated: shelter.lastAutoUpdateAt,
         },
         policies: {
           maxStayDays: shelter.maxStayDays,
@@ -311,7 +321,7 @@ router.get('/:id', async (req, res) => {
           requiresIntake: shelter.requiresIntake,
           emergencyOnly: shelter.emergencyOnly,
           hasWomenOnlyAreas: shelter.hasWomenOnlyAreas,
-          hasFamilyRooms: shelter.hasFamilyRooms
+          hasFamilyRooms: shelter.hasFamilyRooms,
         },
         services: {
           meals: shelter.hasMeals,
@@ -329,33 +339,32 @@ router.get('/:id', async (req, res) => {
           education: shelter.hasEducationalSupport,
           caseManagement: shelter.hasCaseManagement,
           legalAid: shelter.hasLegalAid,
-          security: shelter.hasSecurityStaff
+          security: shelter.hasSecurityStaff,
         },
         isActive: shelter.isActive,
         createdAt: shelter.createdAt,
         updatedAt: shelter.updatedAt,
-        
+
         // Recent availability history
-        recentAvailability: shelter.availabilityLogs.map(log => ({
+        recentAvailability: shelter.availabilityLogs.map((log) => ({
           timestamp: log.timestamp,
           availability: {
             men: log.availableMen,
             women: log.availableWomen,
             families: log.availableFamilies,
             youth: log.availableYouth,
-            total: log.availableTotal
+            total: log.availableTotal,
           },
           source: log.source,
-          notes: log.notes
-        }))
-      }
+          notes: log.notes,
+        })),
+      },
     });
-
   } catch (error) {
-    logger.error('Failed to get shelter details:', error);
+    logger.error("Failed to get shelter details:", error);
     res.status(500).json({
-      error: 'Failed to get shelter details',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to get shelter details",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -365,23 +374,23 @@ router.get('/:id', async (req, res) => {
  * @desc List shelters with basic filtering
  * @access Public
  */
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = Math.min(parseInt(req.query.limit as string) || 20, 100);
     const skip = (page - 1) * limit;
-    
+
     const city = req.query.city as string;
     const state = req.query.state as string;
-    const hasAvailability = req.query.hasAvailability === 'true';
+    const hasAvailability = req.query.hasAvailability === "true";
     const populationType = req.query.populationType as string;
 
     const where: any = { isActive: true };
 
     if (city) {
-      where.city = { contains: city, mode: 'insensitive' };
+      where.city = { contains: city, mode: "insensitive" };
     }
-    
+
     if (state) {
       where.state = state.toUpperCase();
     }
@@ -392,22 +401,22 @@ router.get('/', async (req, res) => {
         { currentAvailableMen: { gt: 0 } },
         { currentAvailableWomen: { gt: 0 } },
         { currentAvailableFamilies: { gt: 0 } },
-        { currentAvailableYouth: { gt: 0 } }
+        { currentAvailableYouth: { gt: 0 } },
       ];
     }
 
     if (populationType) {
       switch (populationType) {
-        case 'men':
+        case "men":
           where.servesAdultMen = true;
           break;
-        case 'women':
+        case "women":
           where.servesAdultWomen = true;
           break;
-        case 'families':
+        case "families":
           where.servesFamilies = true;
           break;
-        case 'youth':
+        case "youth":
           where.servesYouth = true;
           break;
       }
@@ -418,34 +427,31 @@ router.get('/', async (req, res) => {
         where,
         skip,
         take: limit,
-        orderBy: [
-          { currentAvailableTotal: 'desc' },
-          { name: 'asc' }
-        ]
+        orderBy: [{ currentAvailableTotal: "desc" }, { name: "asc" }],
       }),
-      prisma.shelterFacility.count({ where })
+      prisma.shelterFacility.count({ where }),
     ]);
 
     res.json({
       success: true,
-      shelters: shelters.map(shelter => ({
+      shelters: shelters.map((shelter) => ({
         id: shelter.id,
         name: shelter.name,
         address: {
           street: shelter.address,
           city: shelter.city,
           state: shelter.state,
-          zipCode: shelter.zipCode
+          zipCode: shelter.zipCode,
         },
         contact: {
           phone: shelter.phone,
-          website: shelter.website
+          website: shelter.website,
         },
         serves: {
           adultMen: shelter.servesAdultMen,
           adultWomen: shelter.servesAdultWomen,
           families: shelter.servesFamilies,
-          youth: shelter.servesYouth
+          youth: shelter.servesYouth,
         },
         availability: {
           men: shelter.currentAvailableMen,
@@ -453,27 +459,26 @@ router.get('/', async (req, res) => {
           families: shelter.currentAvailableFamilies,
           youth: shelter.currentAvailableYouth,
           total: shelter.currentAvailableTotal,
-          lastUpdated: shelter.lastAutoUpdateAt
+          lastUpdated: shelter.lastAutoUpdateAt,
         },
         policies: {
           allowsPets: shelter.allowsPets,
           wheelchairAccessible: shelter.wheelchairAccessible,
-          emergencyOnly: shelter.emergencyOnly
-        }
+          emergencyOnly: shelter.emergencyOnly,
+        },
       })),
       pagination: {
         page,
         limit,
         total,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
-
   } catch (error) {
-    logger.error('Failed to list shelters:', error);
+    logger.error("Failed to list shelters:", error);
     res.status(500).json({
-      error: 'Failed to list shelters',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to list shelters",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -483,17 +488,17 @@ router.get('/', async (req, res) => {
  * @desc Update shelter availability (manual update)
  * @access Protected (shelter staff/admin)
  */
-router.put('/:id/availability', authenticateUser, async (req, res) => {
+router.put("/:id/availability", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
     const userId = (req as any).user.id;
-    
+
     const validationResult = availabilityUpdateSchema.safeParse(req.body);
-    
+
     if (!validationResult.success) {
       return res.status(400).json({
-        error: 'Invalid availability data',
-        details: validationResult.error.errors
+        error: "Invalid availability data",
+        details: validationResult.error.errors,
       });
     }
 
@@ -501,20 +506,20 @@ router.put('/:id/availability', authenticateUser, async (req, res) => {
 
     // Verify shelter exists and user has permission
     const shelter = await prisma.shelterFacility.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!shelter) {
       return res.status(404).json({
-        error: 'Shelter not found'
+        error: "Shelter not found",
       });
     }
 
     // Apply availability update
     await shelterAvailabilitySync.updateShelterAvailability(
-      id, 
-      updateData, 
-      userId
+      id,
+      updateData,
+      userId,
     );
 
     // Get updated shelter data
@@ -522,36 +527,35 @@ router.put('/:id/availability', authenticateUser, async (req, res) => {
       where: { id },
       include: {
         availabilityLogs: {
-          orderBy: { timestamp: 'desc' },
-          take: 1
-        }
-      }
+          orderBy: { timestamp: "desc" },
+          take: 1,
+        },
+      },
     });
 
-    logger.info('Manual shelter availability update', {
+    logger.info("Manual shelter availability update", {
       shelterId: id,
       updatedBy: userId,
-      updateData
+      updateData,
     });
 
     res.json({
       success: true,
-      message: 'Availability updated successfully',
+      message: "Availability updated successfully",
       availability: {
         men: updatedShelter?.currentAvailableMen,
         women: updatedShelter?.currentAvailableWomen,
         families: updatedShelter?.currentAvailableFamilies,
         youth: updatedShelter?.currentAvailableYouth,
         total: updatedShelter?.currentAvailableTotal,
-        lastUpdated: updatedShelter?.lastAutoUpdateAt
-      }
+        lastUpdated: updatedShelter?.lastAutoUpdateAt,
+      },
     });
-
   } catch (error) {
-    logger.error('Failed to update shelter availability:', error);
+    logger.error("Failed to update shelter availability:", error);
     res.status(500).json({
-      error: 'Failed to update availability',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to update availability",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -561,27 +565,27 @@ router.put('/:id/availability', authenticateUser, async (req, res) => {
  * @desc Create new shelter facility
  * @access Protected (admin only)
  */
-router.post('/', authenticateUser, async (req, res) => {
+router.post("/", authenticateUser, async (req, res) => {
   try {
     const userId = (req as any).user.id;
-    
+
     // Check if user is admin (implement your admin check logic)
     const user = await prisma.user.findUnique({
-      where: { id: userId }
+      where: { id: userId },
     });
 
-    if (!user || user.role !== 'ADMIN') {
+    if (!user || user.role !== "ADMIN") {
       return res.status(403).json({
-        error: 'Admin access required'
+        error: "Admin access required",
       });
     }
 
     const validationResult = shelterCreateSchema.safeParse(req.body);
-    
+
     if (!validationResult.success) {
       return res.status(400).json({
-        error: 'Invalid shelter data',
-        details: validationResult.error.errors
+        error: "Invalid shelter data",
+        details: validationResult.error.errors,
       });
     }
 
@@ -590,19 +594,19 @@ router.post('/', authenticateUser, async (req, res) => {
     const newShelter = await prisma.shelterFacility.create({
       data: {
         ...shelterData,
-        createdBy: userId
-      }
+        createdBy: userId,
+      },
     });
 
-    logger.info('New shelter facility created', {
+    logger.info("New shelter facility created", {
       shelterId: newShelter.id,
       name: newShelter.name,
-      createdBy: userId
+      createdBy: userId,
     });
 
     res.status(201).json({
       success: true,
-      message: 'Shelter created successfully',
+      message: "Shelter created successfully",
       shelter: {
         id: newShelter.id,
         name: newShelter.name,
@@ -610,16 +614,15 @@ router.post('/', authenticateUser, async (req, res) => {
           street: newShelter.address,
           city: newShelter.city,
           state: newShelter.state,
-          zipCode: newShelter.zipCode
-        }
-      }
+          zipCode: newShelter.zipCode,
+        },
+      },
     });
-
   } catch (error) {
-    logger.error('Failed to create shelter:', error);
+    logger.error("Failed to create shelter:", error);
     res.status(500).json({
-      error: 'Failed to create shelter',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to create shelter",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -629,20 +632,19 @@ router.post('/', authenticateUser, async (req, res) => {
  * @desc Get shelter availability sync status
  * @access Protected (admin/staff)
  */
-router.get('/availability/sync-status', authenticateUser, async (req, res) => {
+router.get("/availability/sync-status", authenticateUser, async (req, res) => {
   try {
     const syncStatus = await shelterAvailabilitySync.getSyncStatus();
-    
+
     res.json({
       success: true,
-      syncStatus
+      syncStatus,
     });
-
   } catch (error) {
-    logger.error('Failed to get sync status:', error);
+    logger.error("Failed to get sync status:", error);
     res.status(500).json({
-      error: 'Failed to get sync status',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to get sync status",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -652,41 +654,41 @@ router.get('/availability/sync-status', authenticateUser, async (req, res) => {
  * @desc Trigger manual sync of all shelter availability data
  * @access Protected (admin only)
  */
-router.post('/availability/sync', authenticateUser, async (req, res) => {
+router.post("/availability/sync", authenticateUser, async (req, res) => {
   try {
     const userId = (req as any).user.id;
-    
+
     // Check admin permissions
     const user = await prisma.user.findUnique({
-      where: { id: userId }
+      where: { id: userId },
     });
 
-    if (!user || user.role !== 'ADMIN') {
+    if (!user || user.role !== "ADMIN") {
       return res.status(403).json({
-        error: 'Admin access required'
+        error: "Admin access required",
       });
     }
 
     // Trigger sync asynchronously
-    shelterAvailabilitySync.syncAllSources()
-      .then(results => {
-        logger.info('Manual sync completed', { results, triggeredBy: userId });
+    shelterAvailabilitySync
+      .syncAllSources()
+      .then((results) => {
+        logger.info("Manual sync completed", { results, triggeredBy: userId });
       })
-      .catch(error => {
-        logger.error('Manual sync failed:', error);
+      .catch((error) => {
+        logger.error("Manual sync failed:", error);
       });
 
     res.json({
       success: true,
-      message: 'Sync triggered successfully',
-      note: 'Sync is running in background, check sync status for results'
+      message: "Sync triggered successfully",
+      note: "Sync is running in background, check sync status for results",
     });
-
   } catch (error) {
-    logger.error('Failed to trigger sync:', error);
+    logger.error("Failed to trigger sync:", error);
     res.status(500).json({
-      error: 'Failed to trigger sync',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to trigger sync",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -696,45 +698,44 @@ router.post('/availability/sync', authenticateUser, async (req, res) => {
  * @desc Bulk update shelter availability from uploaded file
  * @access Protected (admin/shelter staff)
  */
-router.post('/availability/bulk-update', authenticateUser, async (req, res) => {
+router.post("/availability/bulk-update", authenticateUser, async (req, res) => {
   try {
     const userId = (req as any).user.id;
     const { fileData, format } = req.body;
-    
+
     if (!fileData || !format) {
       return res.status(400).json({
-        error: 'File data and format required'
+        error: "File data and format required",
       });
     }
 
-    if (!['csv', 'json'].includes(format)) {
+    if (!["csv", "json"].includes(format)) {
       return res.status(400).json({
-        error: 'Format must be csv or json'
+        error: "Format must be csv or json",
       });
     }
 
     const results = await shelterAvailabilitySync.bulkUpdateFromFile(
-      fileData, 
-      format, 
-      userId
+      fileData,
+      format,
+      userId,
     );
 
-    logger.info('Bulk availability update completed', {
+    logger.info("Bulk availability update completed", {
       results,
-      uploadedBy: userId
+      uploadedBy: userId,
     });
 
     res.json({
       success: true,
-      message: 'Bulk update completed',
-      results
+      message: "Bulk update completed",
+      results,
     });
-
   } catch (error) {
-    logger.error('Bulk update failed:', error);
+    logger.error("Bulk update failed:", error);
     res.status(500).json({
-      error: 'Bulk update failed',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Bulk update failed",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });

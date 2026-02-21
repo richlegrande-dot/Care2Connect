@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { CheckCircle, AlertCircle, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { CheckCircle, AlertCircle, HelpCircle } from "lucide-react";
 
 // Import step components
-import ConfirmDetailsStep from '@/components/funding-wizard/ConfirmDetailsStep';
-import QRCodeStep from '@/components/funding-wizard/QRCodeStep';
-import GoFundMeDraftStep from '@/components/funding-wizard/GoFundMeDraftStep';
-import GoFundMeWizardStep from '@/components/funding-wizard/GoFundMeWizardStep';
-import PrintKitStep from '@/components/funding-wizard/PrintKitStep';
-import HelpModal from '@/components/funding-wizard/HelpModal';
+import ConfirmDetailsStep from "@/components/funding-wizard/ConfirmDetailsStep";
+import QRCodeStep from "@/components/funding-wizard/QRCodeStep";
+import GoFundMeDraftStep from "@/components/funding-wizard/GoFundMeDraftStep";
+import GoFundMeWizardStep from "@/components/funding-wizard/GoFundMeWizardStep";
+import PrintKitStep from "@/components/funding-wizard/PrintKitStep";
+import HelpModal from "@/components/funding-wizard/HelpModal";
 
 interface FundingWizardData {
   // Client info
@@ -54,33 +54,49 @@ interface FundingWizardData {
 }
 
 const WIZARD_STEPS = [
-  { id: 1, title: 'Confirm Your Details', description: 'Verify and complete information' },
-  { id: 2, title: 'Generate Donation QR Code', description: 'Create shareable donation link' },
-  { id: 3, title: 'Prepare GoFundMe Draft', description: 'Review auto-generated content' },
-  { id: 4, title: 'Finalize GoFundMe Manually', description: 'Step-by-step guide' },
-  { id: 5, title: 'Download Print Kit', description: 'Get all materials' }
+  {
+    id: 1,
+    title: "Confirm Your Details",
+    description: "Verify and complete information",
+  },
+  {
+    id: 2,
+    title: "Generate Donation QR Code",
+    description: "Create shareable donation link",
+  },
+  {
+    id: 3,
+    title: "Prepare GoFundMe Draft",
+    description: "Review auto-generated content",
+  },
+  {
+    id: 4,
+    title: "Finalize GoFundMe Manually",
+    description: "Step-by-step guide",
+  },
+  { id: 5, title: "Download Print Kit", description: "Get all materials" },
 ];
 
 export default function FundingSetupWizard() {
   const params = useParams();
   const router = useRouter();
-  const clientId = (params?.clientId as string) || '';
+  const clientId = (params?.clientId as string) || "";
 
   const [currentStep, setCurrentStep] = useState(1);
   const [wizardData, setWizardData] = useState<FundingWizardData>({
-    fullName: '',
-    zipCode: '',
-    dateOfBirth: '',
-    email: '',
-    phone: '',
+    fullName: "",
+    zipCode: "",
+    dateOfBirth: "",
+    email: "",
+    phone: "",
     consent: false,
     extractedFields: {},
     missingFields: [],
-    followUpQuestions: []
+    followUpQuestions: [],
   });
   const [isLoading, setIsLoading] = useState(true);
   const [showHelp, setShowHelp] = useState(false);
-  const [helpContext, setHelpContext] = useState('');
+  const [helpContext, setHelpContext] = useState("");
 
   // Load client data and extracted fields
   useEffect(() => {
@@ -97,19 +113,23 @@ export default function FundingSetupWizard() {
         const response = await fetch(`/api/analysis/${clientId}`);
         if (response.ok) {
           const analysisData = await response.json();
-          
-          setWizardData(prev => ({
+
+          setWizardData((prev) => ({
             ...prev,
             extractedFields: analysisData.extractedFields || {},
             missingFields: analysisData.missingFields || [],
             followUpQuestions: analysisData.followUpQuestions || [],
             // Pre-fill from extracted data
-            fullName: analysisData.extractedFields?.name?.value || prev.fullName,
-            zipCode: extractLocationZip(analysisData.extractedFields?.location?.value) || prev.zipCode
+            fullName:
+              analysisData.extractedFields?.name?.value || prev.fullName,
+            zipCode:
+              extractLocationZip(
+                analysisData.extractedFields?.location?.value,
+              ) || prev.zipCode,
           }));
         }
       } catch (error) {
-        console.error('[FundingWizard] Error loading client data:', error);
+        console.error("[FundingWizard] Error loading client data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -123,20 +143,23 @@ export default function FundingSetupWizard() {
   // Save wizard progress to local storage
   useEffect(() => {
     if (!isLoading && clientId) {
-      localStorage.setItem(`funding-wizard-${clientId}`, JSON.stringify(wizardData));
+      localStorage.setItem(
+        `funding-wizard-${clientId}`,
+        JSON.stringify(wizardData),
+      );
     }
   }, [wizardData, clientId, isLoading]);
 
   const extractLocationZip = (location?: string): string => {
-    if (!location) return '';
+    if (!location) return "";
     // Try to extract ZIP code from location string
     const zipMatch = location.match(/\b\d{5}\b/);
-    return zipMatch ? zipMatch[0] : '';
+    return zipMatch ? zipMatch[0] : "";
   };
 
   const handleStepComplete = (stepData: Partial<FundingWizardData>) => {
-    setWizardData(prev => ({ ...prev, ...stepData }));
-    
+    setWizardData((prev) => ({ ...prev, ...stepData }));
+
     // Auto-advance to next step
     if (currentStep < WIZARD_STEPS.length) {
       setCurrentStep(currentStep + 1);
@@ -164,11 +187,12 @@ export default function FundingSetupWizard() {
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium
                   transition-colors duration-200
-                  ${currentStep === step.id
-                    ? 'bg-blue-600 text-white'
-                    : currentStep > step.id
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-200 text-gray-600'
+                  ${
+                    currentStep === step.id
+                      ? "bg-blue-600 text-white"
+                      : currentStep > step.id
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-200 text-gray-600"
                   }
                 `}
               >
@@ -179,7 +203,9 @@ export default function FundingSetupWizard() {
                 )}
               </div>
               <div className="mt-2 text-center">
-                <p className={`text-sm font-medium ${currentStep === step.id ? 'text-blue-600' : 'text-gray-600'}`}>
+                <p
+                  className={`text-sm font-medium ${currentStep === step.id ? "text-blue-600" : "text-gray-600"}`}
+                >
                   {step.title}
                 </p>
                 <p className="text-xs text-gray-500 mt-1 max-w-[150px]">
@@ -191,7 +217,7 @@ export default function FundingSetupWizard() {
               <div
                 className={`
                   h-1 flex-1 mx-2 transition-colors duration-200
-                  ${currentStep > step.id ? 'bg-green-600' : 'bg-gray-200'}
+                  ${currentStep > step.id ? "bg-green-600" : "bg-gray-200"}
                 `}
               />
             )}
@@ -209,7 +235,7 @@ export default function FundingSetupWizard() {
             data={wizardData}
             onComplete={handleStepComplete}
             onBack={handleStepBack}
-            onHelp={() => openHelp('confirm_details')}
+            onHelp={() => openHelp("confirm_details")}
           />
         );
       case 2:
@@ -218,7 +244,7 @@ export default function FundingSetupWizard() {
             data={wizardData}
             onComplete={handleStepComplete}
             onBack={handleStepBack}
-            onHelp={() => openHelp('qr_code')}
+            onHelp={() => openHelp("qr_code")}
             clientId={clientId}
           />
         );
@@ -228,7 +254,7 @@ export default function FundingSetupWizard() {
             data={wizardData}
             onComplete={handleStepComplete}
             onBack={handleStepBack}
-            onHelp={() => openHelp('gofundme_draft')}
+            onHelp={() => openHelp("gofundme_draft")}
             clientId={clientId}
           />
         );
@@ -238,7 +264,7 @@ export default function FundingSetupWizard() {
             data={wizardData}
             onComplete={handleStepComplete}
             onBack={handleStepBack}
-            onHelp={() => openHelp('gofundme_wizard')}
+            onHelp={() => openHelp("gofundme_wizard")}
           />
         );
       case 5:
@@ -290,7 +316,7 @@ export default function FundingSetupWizard() {
 
         {/* Help Button (Floating) */}
         <button
-          onClick={() => openHelp('general')}
+          onClick={() => openHelp("general")}
           className="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-colors"
           title="Need help?"
         >

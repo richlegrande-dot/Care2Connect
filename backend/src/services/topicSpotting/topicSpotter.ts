@@ -4,8 +4,8 @@
  * NO API KEYS REQUIRED
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
 interface TopicTaxonomy {
   gofundme: any;
@@ -21,7 +21,7 @@ interface TopicTaxonomy {
 interface ExtractedField {
   value: string;
   confidence: number;
-  source: 'extracted' | 'inferred' | 'manual';
+  source: "extracted" | "inferred" | "manual";
   snippet?: string; // Original text that led to extraction
 }
 
@@ -53,13 +53,19 @@ export class TopicSpotter {
 
   constructor() {
     // Load taxonomy
-    const taxonomyPath = path.join(__dirname, 'topicTaxonomy.json');
-    this.taxonomy = JSON.parse(fs.readFileSync(taxonomyPath, 'utf-8'));
+    const taxonomyPath = path.join(__dirname, "topicTaxonomy.json");
+    this.taxonomy = JSON.parse(fs.readFileSync(taxonomyPath, "utf-8"));
 
     // Load phrase hints (learning dictionary)
-    const hintsPath = path.join(__dirname, '..', '..', 'config', 'phraseHints.json');
+    const hintsPath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "config",
+      "phraseHints.json",
+    );
     if (fs.existsSync(hintsPath)) {
-      this.phraseHints = JSON.parse(fs.readFileSync(hintsPath, 'utf-8'));
+      this.phraseHints = JSON.parse(fs.readFileSync(hintsPath, "utf-8"));
     }
   }
 
@@ -71,7 +77,7 @@ export class TopicSpotter {
       fields: {},
       missingFields: [],
       followUpQuestions: [],
-      metadata: this.analyzeMetadata(transcript)
+      metadata: this.analyzeMetadata(transcript),
     };
 
     const normalizedText = transcript.toLowerCase();
@@ -108,15 +114,15 @@ export class TopicSpotter {
     result.fields.story = {
       value: transcript.trim(),
       confidence: 1.0,
-      source: 'extracted'
+      source: "extracted",
     };
 
     // Generate display name
     if (result.fields.name) {
       result.fields.displayName = {
-        value: result.fields.name.value.split(' ')[0], // First name only
+        value: result.fields.name.value.split(" ")[0], // First name only
         confidence: result.fields.name.confidence,
-        source: 'inferred'
+        source: "inferred",
       };
     }
 
@@ -124,18 +130,23 @@ export class TopicSpotter {
     result.missingFields = this.identifyMissingFields(result.fields);
 
     // Generate follow-up questions
-    result.followUpQuestions = this.generateFollowUpQuestions(result.missingFields);
+    result.followUpQuestions = this.generateFollowUpQuestions(
+      result.missingFields,
+    );
 
     return result;
   }
 
-  private extractName(transcript: string, normalized: string): ExtractedField | undefined {
+  private extractName(
+    transcript: string,
+    normalized: string,
+  ): ExtractedField | undefined {
     // Pattern: "My name is X" or "I'm X" or "I am X"
     const patterns = [
       /my name is ([A-Z][a-z]+(?: [A-Z][a-z]+)+)/,
       /i'm ([A-Z][a-z]+(?: [A-Z][a-z]+)+)/,
       /i am ([A-Z][a-z]+(?: [A-Z][a-z]+)+)/,
-      /this is ([A-Z][a-z]+(?: [A-Z][a-z]+)+)/
+      /this is ([A-Z][a-z]+(?: [A-Z][a-z]+)+)/,
     ];
 
     for (const pattern of patterns) {
@@ -144,8 +155,8 @@ export class TopicSpotter {
         return {
           value: match[1],
           confidence: this.taxonomy.confidence.high,
-          source: 'extracted',
-          snippet: match[0]
+          source: "extracted",
+          snippet: match[0],
         };
       }
     }
@@ -154,14 +165,14 @@ export class TopicSpotter {
     if (this.phraseHints.name) {
       for (const hint of this.phraseHints.name) {
         if (normalized.includes(hint.toLowerCase())) {
-          const regex = new RegExp(hint, 'i');
+          const regex = new RegExp(hint, "i");
           const match = transcript.match(regex);
           if (match) {
             return {
               value: match[0],
               confidence: this.taxonomy.confidence.medium,
-              source: 'extracted',
-              snippet: match[0]
+              source: "extracted",
+              snippet: match[0],
             };
           }
         }
@@ -171,13 +182,16 @@ export class TopicSpotter {
     return undefined;
   }
 
-  private extractAge(transcript: string, normalized: string): ExtractedField | undefined {
+  private extractAge(
+    transcript: string,
+    normalized: string,
+  ): ExtractedField | undefined {
     // Pattern: "X years old" or "I'm X" (when X is a number)
     const patterns = [
       /(\d{1,2}) years? old/i,
       /i'm (\d{1,2})/i,
       /i am (\d{1,2})/i,
-      /age (\d{1,2})/i
+      /age (\d{1,2})/i,
     ];
 
     for (const pattern of patterns) {
@@ -188,8 +202,8 @@ export class TopicSpotter {
           return {
             value: age.toString(),
             confidence: this.taxonomy.confidence.high,
-            source: 'extracted',
-            snippet: match[0]
+            source: "extracted",
+            snippet: match[0],
           };
         }
       }
@@ -198,18 +212,23 @@ export class TopicSpotter {
     return undefined;
   }
 
-  private extractLocation(transcript: string, normalized: string): ExtractedField | undefined {
+  private extractLocation(
+    transcript: string,
+    normalized: string,
+  ): ExtractedField | undefined {
     // Pattern: "in {city}, {state}" or "from {city}"
-    const cityStatePattern = /in ([A-Z][a-z]+(?: [A-Z][a-z]+)?),? ([A-Z]{2}|[A-Z][a-z]+)/;
-    const cityPattern = /(?:in|from|living in|located in) ([A-Z][a-z]+(?: [A-Z][a-z]+)?)/;
+    const cityStatePattern =
+      /in ([A-Z][a-z]+(?: [A-Z][a-z]+)?),? ([A-Z]{2}|[A-Z][a-z]+)/;
+    const cityPattern =
+      /(?:in|from|living in|located in) ([A-Z][a-z]+(?: [A-Z][a-z]+)?)/;
 
     let match = transcript.match(cityStatePattern);
     if (match) {
       return {
         value: `${match[1]}, ${match[2]}`,
         confidence: this.taxonomy.confidence.high,
-        source: 'extracted',
-        snippet: match[0]
+        source: "extracted",
+        snippet: match[0],
       };
     }
 
@@ -218,31 +237,34 @@ export class TopicSpotter {
       return {
         value: match[1],
         confidence: this.taxonomy.confidence.medium,
-        source: 'extracted',
-        snippet: match[0]
+        source: "extracted",
+        snippet: match[0],
       };
     }
 
     return undefined;
   }
 
-  private extractGoalAmount(transcript: string, normalized: string): ExtractedField | undefined {
+  private extractGoalAmount(
+    transcript: string,
+    normalized: string,
+  ): ExtractedField | undefined {
     // Pattern: "$X" or "X dollars" or "raise X"
     const patterns = [
       /\$([0-9,]+)/,
       /([0-9,]+) dollars?/i,
-      /(?:raise|need|goal of|target) \$?([0-9,]+)/i
+      /(?:raise|need|goal of|target) \$?([0-9,]+)/i,
     ];
 
     for (const pattern of patterns) {
       const match = transcript.match(pattern);
       if (match) {
-        const amount = match[1].replace(/,/g, '');
+        const amount = match[1].replace(/,/g, "");
         return {
           value: amount,
           confidence: this.taxonomy.confidence.high,
-          source: 'extracted',
-          snippet: match[0]
+          source: "extracted",
+          snippet: match[0],
         };
       }
     }
@@ -252,14 +274,16 @@ export class TopicSpotter {
 
   private extractCategory(normalized: string): ExtractedField | undefined {
     const categories = this.taxonomy.gofundme.category;
-    let bestMatch: { category: string; count: number; keywords: string[] } | undefined;
+    let bestMatch:
+      | { category: string; count: number; keywords: string[] }
+      | undefined;
 
     for (const [category, keywords] of Object.entries(categories)) {
-      if (category === 'other') continue;
-      
+      if (category === "other") continue;
+
       const matchedKeywords: string[] = [];
       let count = 0;
-      
+
       for (const keyword of keywords as string[]) {
         if (normalized.includes(keyword)) {
           count++;
@@ -275,14 +299,14 @@ export class TopicSpotter {
     if (bestMatch) {
       const confidence = Math.min(
         this.taxonomy.confidence.high,
-        this.taxonomy.confidence.medium + (bestMatch.count * 0.1)
+        this.taxonomy.confidence.medium + bestMatch.count * 0.1,
       );
 
       return {
         value: bestMatch.category,
         confidence,
-        source: 'extracted',
-        snippet: bestMatch.keywords.join(', ')
+        source: "extracted",
+        snippet: bestMatch.keywords.join(", "),
       };
     }
 
@@ -295,34 +319,38 @@ export class TopicSpotter {
     for (const keyword of keywords) {
       if (normalized.includes(keyword)) {
         return {
-          value: keyword === 'myself' || keyword === 'for me' ? 'Self' : keyword,
+          value:
+            keyword === "myself" || keyword === "for me" ? "Self" : keyword,
           confidence: this.taxonomy.confidence.high,
-          source: 'extracted',
-          snippet: keyword
+          source: "extracted",
+          snippet: keyword,
         };
       }
     }
 
     // Default to 'Self' if no explicit beneficiary mentioned
     return {
-      value: 'Self',
+      value: "Self",
       confidence: this.taxonomy.confidence.low,
-      source: 'inferred'
+      source: "inferred",
     };
   }
 
-  private generateTitle(fields: any, normalized: string): ExtractedField | undefined {
+  private generateTitle(
+    fields: any,
+    normalized: string,
+  ): ExtractedField | undefined {
     const name = fields.name?.value;
     const category = fields.category?.value;
 
     if (!name) return undefined;
 
-    const firstName = name.split(' ')[0];
+    const firstName = name.split(" ")[0];
 
     // Check for help-related keywords
     const hasHelp = /help|support|assist|aid/.test(normalized);
-    
-    let title = '';
+
+    let title = "";
     if (hasHelp && category) {
       title = `Help ${firstName} with ${category}`;
     } else if (category) {
@@ -337,36 +365,43 @@ export class TopicSpotter {
     // Truncate to max length
     const maxLength = this.taxonomy.gofundme.title.maxLength;
     if (title.length > maxLength) {
-      title = title.substring(0, maxLength - 3) + '...';
+      title = title.substring(0, maxLength - 3) + "...";
     }
 
     return {
       value: title,
       confidence: this.taxonomy.confidence.medium,
-      source: 'inferred'
+      source: "inferred",
     };
   }
 
   private analyzeMetadata(transcript: string) {
-    const words = transcript.split(/\s+/).filter(w => w.length > 0);
-    const sentences = transcript.split(/[.!?]+/).filter(s => s.trim().length > 0);
-    const hasPersonalPronouns = /\b(i|me|my|myself|we|us|our)\b/i.test(transcript);
+    const words = transcript.split(/\s+/).filter((w) => w.length > 0);
+    const sentences = transcript
+      .split(/[.!?]+/)
+      .filter((s) => s.trim().length > 0);
+    const hasPersonalPronouns = /\b(i|me|my|myself|we|us|our)\b/i.test(
+      transcript,
+    );
     const hasNumbers = /\d/.test(transcript);
 
     return {
       wordCount: words.length,
       sentenceCount: sentences.length,
       hasPersonalPronouns,
-      hasNumbers
+      hasNumbers,
     };
   }
 
   private identifyMissingFields(fields: any): string[] {
-    const required = ['name', 'goalAmount', 'location', 'category'];
+    const required = ["name", "goalAmount", "location", "category"];
     const missing: string[] = [];
 
     for (const field of required) {
-      if (!fields[field] || fields[field].confidence < this.taxonomy.confidence.low) {
+      if (
+        !fields[field] ||
+        fields[field].confidence < this.taxonomy.confidence.low
+      ) {
         missing.push(field);
       }
     }
@@ -393,7 +428,12 @@ export class TopicSpotter {
    * Update phrase hints based on user corrections
    * This creates the "learning" feedback loop
    */
-  updatePhraseHints(field: string, originalValue: string, correctedValue: string, snippet: string) {
+  updatePhraseHints(
+    field: string,
+    originalValue: string,
+    correctedValue: string,
+    snippet: string,
+  ) {
     if (!this.phraseHints[field]) {
       this.phraseHints[field] = [];
     }
@@ -404,9 +444,15 @@ export class TopicSpotter {
     }
 
     // Save updated hints
-    const hintsPath = path.join(__dirname, '..', '..', 'config', 'phraseHints.json');
+    const hintsPath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "config",
+      "phraseHints.json",
+    );
     const dir = path.dirname(hintsPath);
-    
+
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }

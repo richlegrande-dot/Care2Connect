@@ -3,8 +3,13 @@
  * Handles transcription session lifecycle with consent management
  */
 
-import { prisma } from '../../lib/prisma';
-import { TranscriptionSource, TranscriptionEngine, TranscriptionStatus, TranscriptionStage } from '@prisma/client';
+import { prisma } from "../../lib/prisma";
+import {
+  TranscriptionSource,
+  TranscriptionEngine,
+  TranscriptionStatus,
+  TranscriptionStage,
+} from "@prisma/client";
 
 export interface SessionCreateOptions {
   userId?: string;
@@ -33,7 +38,7 @@ export class SessionManager {
    * Create a new transcription session
    */
   async createSession(options: SessionCreateOptions) {
-    const retentionUntil = options.retentionDays 
+    const retentionUntil = options.retentionDays
       ? new Date(Date.now() + options.retentionDays * 24 * 60 * 60 * 1000)
       : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Default 30 days
 
@@ -53,8 +58,8 @@ export class SessionManager {
         consentToStoreText: options.consentToStoreText ?? false,
         consentToStoreMetrics: options.consentToStoreMetrics ?? true,
         retentionUntil,
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     });
 
     return session;
@@ -82,7 +87,7 @@ export class SessionManager {
     if (options.transcriptText) {
       const session = await prisma.transcription_sessions.findUnique({
         where: { id: sessionId },
-        select: { consentToStoreText: true }
+        select: { consentToStoreText: true },
       });
 
       if (session?.consentToStoreText) {
@@ -96,27 +101,30 @@ export class SessionManager {
 
     return await prisma.transcription_sessions.update({
       where: { id: sessionId },
-      data: updateData
+      data: updateData,
     });
   }
 
   /**
    * Add segments to session
    */
-  async addSegments(sessionId: string, segments: Array<{
-    index: number;
-    startMs: number;
-    endMs: number;
-    text?: string;
-    confidence?: number;
-    tokens?: number;
-  }>) {
+  async addSegments(
+    sessionId: string,
+    segments: Array<{
+      index: number;
+      startMs: number;
+      endMs: number;
+      text?: string;
+      confidence?: number;
+      tokens?: number;
+    }>,
+  ) {
     const session = await prisma.transcription_sessions.findUnique({
       where: { id: sessionId },
-      select: { consentToStoreText: true }
+      select: { consentToStoreText: true },
     });
 
-    const segmentData = segments.map(seg => ({
+    const segmentData = segments.map((seg) => ({
       id: crypto.randomUUID(),
       sessionId,
       index: seg.index,
@@ -125,11 +133,11 @@ export class SessionManager {
       // Only store text if consent
       text: session?.consentToStoreText ? seg.text : undefined,
       confidence: seg.confidence,
-      tokens: seg.tokens
+      tokens: seg.tokens,
     }));
 
     await prisma.transcription_segments.createMany({
-      data: segmentData
+      data: segmentData,
     });
   }
 
@@ -159,20 +167,23 @@ export class SessionManager {
         errorMessageSafe: sanitizedMessage,
         retryCount: options.retryCount ?? 0,
         isTransient: options.isTransient ?? false,
-        metaJson: options.metaJson
-      }
+        metaJson: options.metaJson,
+      },
     });
   }
 
   /**
    * Add analysis result
    */
-  async addAnalysisResult(sessionId: string, options: {
-    analyzerVersion: string;
-    resultJson: any;
-    qualityScore?: number;
-    warnings?: string[];
-  }) {
+  async addAnalysisResult(
+    sessionId: string,
+    options: {
+      analyzerVersion: string;
+      resultJson: any;
+      qualityScore?: number;
+      warnings?: string[];
+    },
+  ) {
     await prisma.speechAnalysisResult.create({
       data: {
         id: crypto.randomUUID(),
@@ -180,8 +191,8 @@ export class SessionManager {
         analyzerVersion: options.analyzerVersion,
         resultJson: options.resultJson,
         qualityScore: options.qualityScore,
-        warnings: options.warnings ?? []
-      }
+        warnings: options.warnings ?? [],
+      },
     });
   }
 
@@ -192,14 +203,17 @@ export class SessionManager {
     if (!text) return text;
 
     let redacted = text;
-    
+
     // Redact emails
-    redacted = redacted.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, '[EMAIL]');
-    
+    redacted = redacted.replace(
+      /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g,
+      "[EMAIL]",
+    );
+
     // Redact phone numbers (various formats)
-    redacted = redacted.replace(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g, '[PHONE]');
-    redacted = redacted.replace(/\(\d{3}\)\s*\d{3}[-.]?\d{4}/g, '[PHONE]');
-    
+    redacted = redacted.replace(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g, "[PHONE]");
+    redacted = redacted.replace(/\(\d{3}\)\s*\d{3}[-.]?\d{4}/g, "[PHONE]");
+
     return redacted;
   }
 
@@ -207,22 +221,22 @@ export class SessionManager {
    * Sanitize error messages
    */
   private sanitizeErrorMessage(message: string): string {
-    if (!message) return 'Unknown error';
+    if (!message) return "Unknown error";
 
     let sanitized = message;
-    
+
     // Remove file paths
-    sanitized = sanitized.replace(/[A-Za-z]:\\[^\s]+/g, '[PATH]');
-    sanitized = sanitized.replace(/\/[^\s]+\/[^\s]+/g, '[PATH]');
-    
+    sanitized = sanitized.replace(/[A-Za-z]:\\[^\s]+/g, "[PATH]");
+    sanitized = sanitized.replace(/\/[^\s]+\/[^\s]+/g, "[PATH]");
+
     // Remove potential API keys or tokens
-    sanitized = sanitized.replace(/\b[A-Za-z0-9_-]{20,}\b/g, '[TOKEN]');
-    
+    sanitized = sanitized.replace(/\b[A-Za-z0-9_-]{20,}\b/g, "[TOKEN]");
+
     // Limit length
     if (sanitized.length > 500) {
-      sanitized = sanitized.substring(0, 500) + '...';
+      sanitized = sanitized.substring(0, 500) + "...";
     }
-    
+
     return sanitized;
   }
 }

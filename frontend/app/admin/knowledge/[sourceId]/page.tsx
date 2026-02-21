@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { AdminPasswordGate } from '@/components/AdminPasswordGate';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { AdminPasswordGate } from "@/components/AdminPasswordGate";
 
 interface KnowledgeSource {
   id: string;
@@ -36,9 +36,9 @@ export default function KnowledgeSourceDetailPage({
   const [source, setSource] = useState<KnowledgeSource | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [editedTitle, setEditedTitle] = useState('');
-  const [editedUrl, setEditedUrl] = useState('');
-  const [editedLicense, setEditedLicense] = useState('');
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedUrl, setEditedUrl] = useState("");
+  const [editedLicense, setEditedLicense] = useState("");
 
   useEffect(() => {
     fetchSource();
@@ -47,25 +47,28 @@ export default function KnowledgeSourceDetailPage({
   const fetchSource = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`/api/admin/knowledge/sources/${params.sourceId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(
+        `/api/admin/knowledge/sources/${params.sourceId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (response.ok) {
         const data = await response.json();
         setSource(data);
         setEditedTitle(data.title);
-        setEditedUrl(data.url || '');
-        setEditedLicense(data.licenseNote || '');
+        setEditedUrl(data.url || "");
+        setEditedLicense(data.licenseNote || "");
       } else if (response.status === 404) {
-        alert('Source not found');
-        router.push('/admin/knowledge');
+        alert("Source not found");
+        router.push("/admin/knowledge");
       }
     } catch (error) {
-      console.error('Error fetching source:', error);
+      console.error("Error fetching source:", error);
     } finally {
       setLoading(false);
     }
@@ -76,59 +79,66 @@ export default function KnowledgeSourceDetailPage({
 
     setSaving(true);
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`/api/admin/knowledge/sources/${source.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(
+        `/api/admin/knowledge/sources/${source.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: editedTitle,
+            url: editedUrl || null,
+            licenseNote: editedLicense || null,
+            reason: "Updated from Knowledge Vault admin interface",
+          }),
         },
-        body: JSON.stringify({
-          title: editedTitle,
-          url: editedUrl || null,
-          licenseNote: editedLicense || null,
-          reason: 'Updated from Knowledge Vault admin interface',
-        }),
-      });
+      );
 
       if (response.ok) {
         await fetchSource();
-        alert('Source updated successfully');
+        alert("Source updated successfully");
       } else {
-        alert('Failed to update source');
+        alert("Failed to update source");
       }
     } catch (error) {
-      alert('Error updating source');
+      alert("Error updating source");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDeleteChunk = async (chunkId: string) => {
-    if (!confirm('Delete this chunk? It will be soft-deleted and kept in the database.')) {
+    if (
+      !confirm(
+        "Delete this chunk? It will be soft-deleted and kept in the database.",
+      )
+    ) {
       return;
     }
 
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const response = await fetch(`/api/admin/knowledge/chunks/${chunkId}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          reason: 'Deleted from Knowledge Vault admin interface',
+          reason: "Deleted from Knowledge Vault admin interface",
         }),
       });
 
       if (response.ok) {
         await fetchSource();
       } else {
-        alert('Failed to delete chunk');
+        alert("Failed to delete chunk");
       }
     } catch (error) {
-      alert('Error deleting chunk');
+      alert("Error deleting chunk");
     }
   };
 
@@ -152,7 +162,7 @@ export default function KnowledgeSourceDetailPage({
           <div className="text-center">
             <p className="text-gray-600">Source not found</p>
             <button
-              onClick={() => router.push('/admin/knowledge')}
+              onClick={() => router.push("/admin/knowledge")}
               className="mt-4 text-blue-600 hover:text-blue-700 underline"
             >
               Back to Knowledge Vault
@@ -172,7 +182,7 @@ export default function KnowledgeSourceDetailPage({
             <div className="flex justify-between items-center">
               <div>
                 <button
-                  onClick={() => router.push('/admin/knowledge')}
+                  onClick={() => router.push("/admin/knowledge")}
                   className="text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center"
                 >
                   ← Back to Knowledge Vault
@@ -180,13 +190,13 @@ export default function KnowledgeSourceDetailPage({
                 <h1 className="text-3xl font-bold text-gray-900">
                   Edit Knowledge Source
                 </h1>
-                <p className="mt-1 text-sm text-gray-500">
-                  {source.id}
-                </p>
+                <p className="mt-1 text-sm text-gray-500">{source.id}</p>
               </div>
               <div className="flex space-x-3">
                 <button
-                  onClick={() => router.push(`/admin/knowledge/audit?entityId=${source.id}`)}
+                  onClick={() =>
+                    router.push(`/admin/knowledge/audit?entityId=${source.id}`)
+                  }
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                   View Audit History
@@ -196,7 +206,7 @@ export default function KnowledgeSourceDetailPage({
                   disabled={saving}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
                 >
-                  {saving ? 'Saving...' : 'Save Changes'}
+                  {saving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </div>
@@ -228,7 +238,9 @@ export default function KnowledgeSourceDetailPage({
                 </label>
                 <div className="px-4 py-2 bg-gray-100 rounded-md text-gray-700">
                   {source.sourceType}
-                  <span className="ml-2 text-sm text-gray-500">(cannot be changed)</span>
+                  <span className="ml-2 text-sm text-gray-500">
+                    (cannot be changed)
+                  </span>
                 </div>
               </div>
 
@@ -260,11 +272,11 @@ export default function KnowledgeSourceDetailPage({
 
               <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
                 <div>
-                  <span className="font-medium">Created:</span>{' '}
+                  <span className="font-medium">Created:</span>{" "}
                   {new Date(source.createdAt).toLocaleString()}
                 </div>
                 <div>
-                  <span className="font-medium">Updated:</span>{' '}
+                  <span className="font-medium">Updated:</span>{" "}
                   {new Date(source.updatedAt).toLocaleString()}
                 </div>
               </div>
@@ -275,11 +287,12 @@ export default function KnowledgeSourceDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-900">
-                Knowledge Chunks ({source.chunks.filter(c => !c.isDeleted).length})
+                Knowledge Chunks (
+                {source.chunks.filter((c) => !c.isDeleted).length})
               </h2>
               <button
                 className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700"
-                onClick={() => alert('Add chunk feature coming soon')}
+                onClick={() => alert("Add chunk feature coming soon")}
               >
                 Add Chunk
               </button>
@@ -295,18 +308,22 @@ export default function KnowledgeSourceDetailPage({
                   <div
                     key={chunk.id}
                     className={`border rounded-lg p-4 ${
-                      chunk.isDeleted ? 'bg-red-50 border-red-200 opacity-50' : 'border-gray-200'
+                      chunk.isDeleted
+                        ? "bg-red-50 border-red-200 opacity-50"
+                        : "border-gray-200"
                     }`}
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">
                         <div className="text-sm text-gray-500 mb-1">
                           {chunk.language && (
-                            <span className="mr-3">Language: {chunk.language}</span>
+                            <span className="mr-3">
+                              Language: {chunk.language}
+                            </span>
                           )}
                           {chunk.tags.length > 0 && (
                             <span>
-                              Tags:{' '}
+                              Tags:{" "}
                               {chunk.tags.map((tag) => (
                                 <span
                                   key={tag}
@@ -324,7 +341,9 @@ export default function KnowledgeSourceDetailPage({
                       </div>
                       <div className="ml-4 flex space-x-2">
                         <button
-                          onClick={() => alert('Edit chunk feature coming soon')}
+                          onClick={() =>
+                            alert("Edit chunk feature coming soon")
+                          }
                           className="text-blue-600 hover:text-blue-900 text-sm"
                         >
                           Edit
@@ -342,7 +361,9 @@ export default function KnowledgeSourceDetailPage({
                     <div className="text-xs text-gray-500 mt-2">
                       Updated: {new Date(chunk.updatedAt).toLocaleString()}
                       {chunk.isDeleted && (
-                        <span className="ml-2 text-red-600 font-medium">(Deleted)</span>
+                        <span className="ml-2 text-red-600 font-medium">
+                          (Deleted)
+                        </span>
                       )}
                     </div>
                   </div>

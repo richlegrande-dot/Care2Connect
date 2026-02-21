@@ -1,1 +1,2056 @@
-(()=>{var e={};e.id=613,e.ids=[613],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},30878:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>n.a,__next_app__:()=>x,originalPathname:()=>m,pages:()=>c,routeModule:()=>h,tree:()=>d});var r=s(36577),a=s(55533),l=s(40443),n=s.n(l),i=s(53320),o={};for(let e in i)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(o[e]=()=>i[e]);s.d(t,o);let d=["",{children:["health",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,4320)),"C:\\Users\\richl\\Care2system\\frontend\\app\\health\\page.tsx"]}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],c=["C:\\Users\\richl\\Care2system\\frontend\\app\\health\\page.tsx"],m="/health/page",x={require:s,loadChunk:()=>Promise.resolve()},h=new r.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/health/page",pathname:"/health",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:d}})},37722:(e,t,s)=>{Promise.resolve().then(s.bind(s,58929))},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},58929:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>N});var r=s(73658),a=s(55459),l=s(84874),n=s.n(l),i=s(24303),o=s(91913);let d=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"}))});var c=s(32021);let m=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"}))}),x=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"}))}),h=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"}))});var g=s(87990),u=s(55594);let p=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"}))}),b=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z"}))});var j=s(46865);let f=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z"}))});function v(){let[e,t]=(0,a.useState)([]),[s,l]=(0,a.useState)(!0),[n,i]=(0,a.useState)("open");(0,a.useEffect)(()=>{o()},[n]);let o=async()=>{try{let e="https://api.care2connects.org",s="all"===n?`${e}/admin/support/tickets`:`${e}/admin/support/tickets?status=${n.toUpperCase()}`,r=await fetch(s,{headers:{Authorization:`Bearer ${localStorage.getItem("adminToken")||""}`}});if(r.ok){let e=await r.json();t(e.tickets||[])}}catch(e){console.error("Failed to fetch tickets:",e)}finally{l(!1)}},d=async(e,t)=>{try{let s=await fetch(`https://api.care2connects.org/admin/support/tickets/${e}`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${localStorage.getItem("adminToken")||""}`},body:JSON.stringify({status:t})});s.ok&&o()}catch(e){console.error("Failed to update ticket:",e)}};return s?r.jsx("div",{className:"text-gray-600",children:"Loading tickets..."}):(0,r.jsxs)("div",{children:[r.jsx("div",{className:"flex gap-2 mb-4",children:["all","open","in_progress","closed"].map(e=>r.jsx("button",{onClick:()=>i(e),className:`px-3 py-1 rounded ${n===e?"bg-blue-600 text-white":"bg-gray-200 text-gray-700"}`,children:"in_progress"===e?"In Progress":e.charAt(0).toUpperCase()+e.slice(1)},e))}),0===e.length?(0,r.jsxs)("div",{className:"text-gray-500 italic",children:["No ","all"!==n?n:""," tickets found"]}):r.jsx("div",{className:"space-y-3",children:e.map(e=>r.jsx("div",{className:"border border-gray-300 rounded p-3 hover:bg-gray-50",children:(0,r.jsxs)("div",{className:"flex justify-between items-start",children:[(0,r.jsxs)("div",{className:"flex-1",children:[(0,r.jsxs)("div",{className:"flex items-center gap-2 mb-1",children:[r.jsx("span",{className:`px-2 py-0.5 rounded text-xs font-semibold ${"HIGH"===e.priority?"bg-red-100 text-red-700":"MEDIUM"===e.priority?"bg-yellow-100 text-yellow-700":"bg-gray-100 text-gray-700"}`,children:e.priority}),r.jsx("span",{className:"text-xs text-gray-500",children:e.type}),(0,r.jsxs)("span",{className:"text-xs text-gray-400",children:["#",e.id.slice(0,8)]})]}),r.jsx("h4",{className:"font-semibold text-gray-900",children:e.subject}),r.jsx("p",{className:"text-sm text-gray-600 mt-1 line-clamp-2",children:e.description}),(0,r.jsxs)("div",{className:"text-xs text-gray-400 mt-1",children:[new Date(e.createdAt).toLocaleString()," • Source: ",e.source]})]}),r.jsx("div",{className:"ml-4",children:(0,r.jsxs)("select",{value:e.status,onChange:t=>d(e.id,t.target.value),className:"text-sm border border-gray-300 rounded px-2 py-1",children:[r.jsx("option",{value:"OPEN",children:"Open"}),r.jsx("option",{value:"IN_PROGRESS",children:"In Progress"}),r.jsx("option",{value:"RESOLVED",children:"Resolved"}),r.jsx("option",{value:"CLOSED",children:"Closed"})]})})]})},e.id))})]})}function y({history:e}){if(!e||0===e.length)return r.jsx("div",{className:"text-gray-500 italic",children:"No historical data available yet"});let t=e.map(e=>({timestamp:new Date(e.timestamp).toLocaleTimeString(),healthy:"healthy"===e.status?1:0,degraded:"degraded"===e.status?1:0,unhealthy:"unhealthy"===e.status?1:0})),s=e.map(e=>({timestamp:new Date(e.timestamp).toLocaleTimeString(),db:e.services?.db?.latency||0,stripe:e.services?.stripe?.latency||0,openai:e.services?.openai?.latency||0}));return(0,r.jsxs)("div",{className:"space-y-6",children:[(0,r.jsxs)("div",{children:[r.jsx("h4",{className:"font-semibold text-gray-700 mb-2",children:"System Status History"}),(0,r.jsxs)("div",{className:"bg-gray-50 p-4 rounded",children:[r.jsx("div",{className:"flex items-end gap-1 h-32",children:t.slice(-20).map((e,t)=>(0,r.jsxs)("div",{className:"flex-1 flex flex-col justify-end gap-1",children:[e.healthy>0&&r.jsx("div",{className:"bg-green-500",style:{height:"100%"}}),e.degraded>0&&r.jsx("div",{className:"bg-yellow-500",style:{height:"100%"}}),e.unhealthy>0&&r.jsx("div",{className:"bg-red-500",style:{height:"100%"}})]},t))}),(0,r.jsxs)("div",{className:"flex gap-4 mt-2 text-xs",children:[(0,r.jsxs)("div",{className:"flex items-center gap-1",children:[r.jsx("div",{className:"w-3 h-3 bg-green-500 rounded"}),r.jsx("span",{children:"Healthy"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-1",children:[r.jsx("div",{className:"w-3 h-3 bg-yellow-500 rounded"}),r.jsx("span",{children:"Degraded"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-1",children:[r.jsx("div",{className:"w-3 h-3 bg-red-500 rounded"}),r.jsx("span",{children:"Unhealthy"})]})]})]})]}),(0,r.jsxs)("div",{children:[r.jsx("h4",{className:"font-semibold text-gray-700 mb-2",children:"API Dependencies (Latency ms)"}),(0,r.jsxs)("div",{className:"bg-gray-50 p-4 rounded",children:[r.jsx("div",{className:"flex items-end gap-1 h-32",children:s.slice(-20).map((e,t)=>{let s=Math.max(e.db,e.stripe,e.openai,100);return(0,r.jsxs)("div",{className:"flex-1 flex flex-col justify-end gap-0.5",children:[e.db>0&&r.jsx("div",{className:"bg-blue-500",style:{height:`${e.db/s*100}%`},title:`DB: ${e.db}ms`}),e.stripe>0&&r.jsx("div",{className:"bg-purple-500",style:{height:`${e.stripe/s*100}%`},title:`Stripe: ${e.stripe}ms`}),e.openai>0&&r.jsx("div",{className:"bg-indigo-500",style:{height:`${e.openai/s*100}%`},title:`OpenAI: ${e.openai}ms`})]},t)})}),(0,r.jsxs)("div",{className:"flex gap-4 mt-2 text-xs",children:[(0,r.jsxs)("div",{className:"flex items-center gap-1",children:[r.jsx("div",{className:"w-3 h-3 bg-blue-500 rounded"}),r.jsx("span",{children:"Database"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-1",children:[r.jsx("div",{className:"w-3 h-3 bg-purple-500 rounded"}),r.jsx("span",{children:"Stripe"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-1",children:[r.jsx("div",{className:"w-3 h-3 bg-indigo-500 rounded"}),r.jsx("span",{children:"OpenAI"})]})]})]})]})]})}function N(){let[e,t]=(0,a.useState)(null),[s,l]=(0,a.useState)(!0),[N,w]=(0,a.useState)(null),[k,S]=(0,a.useState)(new Date),[E,C]=(0,a.useState)({frontend:null,backend:null,database:null,proxy:null}),[$,L]=(0,a.useState)([]),[P,R]=(0,a.useState)(!1),[Z,A]=(0,a.useState)([]),[D,M]=(0,a.useState)(!0),O=async()=>{try{l(!0),w(null);let e=await fetch("https://api.care2connects.org/health/ready");if(!e.ok&&503!==e.status)throw Error(`Health check failed: ${e.status}`);let s=await e.json();t(s),S(new Date)}catch(e){console.error("Health check error:",e),w(e instanceof Error?e.message:"Failed to fetch health status")}finally{l(!1)}},T=async()=>{let e="https://api.care2connects.org",t=Date.now();try{let s=await fetch(`${e}/health/live`,{method:"GET",cache:"no-store"}),r=Date.now()-t;C(e=>({...e,backend:{ok:s.ok,latency:r}}))}catch(e){C(s=>({...s,backend:{ok:!1,latency:Date.now()-t,error:e instanceof Error?e.message:"Failed"}}))}let s=Date.now();try{let t=await fetch(`${e}/health/ready`,{method:"GET",cache:"no-store"}),r=Date.now()-s;if(t.ok){let e=await t.json(),s=e.services?.db?.ok||e.services?.database?.ok||!1,a=e.services?.db?.message||e.services?.database?.message||"",l=a.includes("FileStore")?"FileStore mode (no database)":"Database connected";C(e=>({...e,database:{ok:s,latency:r,detail:l}}))}else C(e=>({...e,database:{ok:!1,latency:r,error:"Health check failed"}}))}catch(e){C(t=>({...t,database:{ok:!1,latency:Date.now()-s,error:e instanceof Error?e.message:"Failed"}}))}let r=Date.now();try{await fetch("/api/health",{method:"HEAD",cache:"no-store"});let e=Date.now()-r;C(t=>({...t,frontend:{ok:!0,latency:e}}))}catch(e){C(t=>({...t,frontend:{ok:!1,latency:Date.now()-r,error:e instanceof Error?e.message:"Failed"}}))}let a=Date.now();try{let e=await fetch("http://localhost:8080",{method:"HEAD",cache:"no-store",headers:{Host:"care2connects.org"}}),t=Date.now()-a;C(s=>({...s,proxy:{ok:e.ok,latency:t}}))}catch(e){C(t=>({...t,proxy:{ok:!1,latency:Date.now()-a,error:e instanceof Error?e.message:"Failed"}}))}},H=async()=>{try{let e=await fetch("https://api.care2connects.org/health/history?limit=10");if(e.ok){let t=await e.json();L(t.history||[])}}catch(e){console.error("Failed to fetch health history:",e)}},F=async()=>{R(!0),A(["Starting self-healing process..."]);try{A(e=>[...e,"Calling backend self-heal API..."]);let e=await fetch("https://api.care2connects.org/admin/self-heal/run",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${localStorage.getItem("adminToken")||""}`}});if(e.ok){let t=await e.json();A(e=>[...e,`Self-healing completed in ${t.duration}ms`,`Status: ${t.success?"SUCCESS":"PARTIAL FAILURE"}`,`Actions performed: ${t.actions.length}`]),t.actions.forEach(e=>{let t=e.success?"✓":"✗",s=`${t} ${e.component}: ${e.action}`;A(e=>[...e,s]),e.error&&A(t=>[...t,`  Error: ${e.error}`])}),A(e=>[...e,"Running connectivity tests..."]),await T(),A(e=>[...e,"Refreshing system status..."]),await O(),await H(),A(e=>[...e,"Self-healing complete!"])}else{let t=await e.json().catch(()=>({error:"Unknown error"}));A(s=>[...s,`Self-heal API failed: ${t.error||e.statusText}`])}}catch(e){A(t=>[...t,`Error: ${e instanceof Error?e.message:"Unknown error"}`])}finally{R(!1)}};(0,a.useEffect)(()=>{O(),T(),H();let e=null,t=null;return D&&(e=setInterval(()=>{O(),H()},3e4),t=setInterval(()=>{T()},15e3)),()=>{e&&clearInterval(e),t&&clearInterval(t)}},[D]);let I=({name:e,icon:t,status:s})=>r.jsx("div",{className:`p-6 rounded-lg border-2 ${s?.ok?"bg-green-50 border-green-200":"bg-red-50 border-red-200"}`,children:(0,r.jsxs)("div",{className:"flex items-start justify-between",children:[(0,r.jsxs)("div",{className:"flex items-center gap-3",children:[r.jsx(t,{className:"w-8 h-8 text-gray-700"}),(0,r.jsxs)("div",{children:[r.jsx("h3",{className:"font-bold text-lg text-gray-900",children:e}),s?.message&&r.jsx("p",{className:"text-sm text-gray-600 mt-1",children:s.message})]})]}),(0,r.jsxs)("div",{className:"flex flex-col items-end gap-1",children:[s?.ok?r.jsx(i.Z,{className:"w-8 h-8 text-green-600"}):r.jsx(o.Z,{className:"w-8 h-8 text-red-600"}),s?.latency&&(0,r.jsxs)("span",{className:"text-xs text-gray-500",children:[s.latency,"ms"]})]})]})});return(0,r.jsxs)("div",{className:"min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50",children:[r.jsx("div",{className:"bg-white border-b-2 border-blue-100 shadow-sm",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",children:(0,r.jsxs)("div",{className:"flex items-center justify-between",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(n(),{href:"/",className:"text-blue-600 hover:text-blue-800 transition-colors",children:r.jsx(d,{className:"w-8 h-8"})}),(0,r.jsxs)("div",{children:[r.jsx("h1",{className:"text-3xl font-black text-gray-900",children:"System Health"}),r.jsx("p",{className:"text-gray-600",children:"Real-time system status and monitoring"})]})]}),(0,r.jsxs)("div",{className:"flex items-center gap-3",children:[(0,r.jsxs)(n(),{href:"/admin/knowledge/incidents",className:"flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg font-semibold transition-colors",children:[r.jsx(c.Z,{className:"w-5 h-5"}),"Incidents"]}),(0,r.jsxs)(n(),{href:"/admin/knowledge",className:"flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg font-semibold transition-colors",children:[r.jsx(m,{className:"w-5 h-5"}),"Knowledge"]}),(0,r.jsxs)("button",{onClick:()=>M(!D),className:`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors ${D?"bg-green-100 text-green-700 hover:bg-green-200":"bg-gray-100 text-gray-700 hover:bg-gray-200"}`,children:[r.jsx(x,{className:"w-5 h-5"}),"Auto-Refresh ",D?"ON":"OFF"]}),(0,r.jsxs)("button",{onClick:O,disabled:s,className:"flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg font-semibold transition-colors",children:[r.jsx(h,{className:`w-5 h-5 ${s?"animate-spin":""}`}),"Refresh"]}),(0,r.jsxs)("button",{onClick:F,disabled:P,className:"flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white rounded-lg font-semibold transition-colors",children:[r.jsx(g.Z,{className:`w-5 h-5 ${P?"animate-spin":""}`}),"Self-Heal"]})]})]})})}),(0,r.jsxs)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12",children:[e&&r.jsx("div",{className:`p-6 rounded-xl border-2 mb-8 ${(e=>{switch(e){case"healthy":return"bg-green-50 border-green-200";case"degraded":return"bg-yellow-50 border-yellow-200";case"unhealthy":return"bg-red-50 border-red-200";default:return"bg-gray-50 border-gray-200"}})(e.status)}`,children:(0,r.jsxs)("div",{className:"flex items-center justify-between",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:["healthy"===e.status?r.jsx(i.Z,{className:"w-12 h-12 text-green-600"}):"degraded"===e.status?r.jsx(u.Z,{className:"w-12 h-12 text-yellow-600"}):r.jsx(o.Z,{className:"w-12 h-12 text-red-600"}),(0,r.jsxs)("div",{children:[(0,r.jsxs)("h2",{className:`text-2xl font-bold ${(e=>{switch(e){case"healthy":return"text-green-600";case"degraded":return"text-yellow-600";case"unhealthy":return"text-red-600";default:return"text-gray-400"}})(e.status)}`,children:["healthy"===e.status&&"All Systems Operational","degraded"===e.status&&"Partial Service Degradation","unhealthy"===e.status&&"Service Outage"]}),(0,r.jsxs)("p",{className:"text-gray-600 mt-1",children:["Uptime: ",(e=>{let t=Math.floor(e/3600),s=Math.floor(e%3600/60),r=Math.floor(e%60);return t>0?`${t}h ${s}m`:s>0?`${s}m ${r}s`:`${r}s`})(e.uptime)," • Last checked: ",k.toLocaleTimeString()]})]})]}),e.metrics&&(0,r.jsxs)("div",{className:"text-right",children:[r.jsx("div",{className:"text-sm text-gray-600",children:"Requests"}),r.jsx("div",{className:"text-2xl font-bold text-gray-900",children:e.metrics.totalRequests.toLocaleString()})]})]})}),N&&r.jsx("div",{className:"bg-red-50 border-2 border-red-200 rounded-lg p-6 mb-8",children:(0,r.jsxs)("div",{className:"flex items-center gap-3",children:[r.jsx(o.Z,{className:"w-8 h-8 text-red-600"}),(0,r.jsxs)("div",{children:[r.jsx("h3",{className:"font-bold text-red-900",children:"Unable to fetch system health"}),r.jsx("p",{className:"text-red-700 mt-1",children:N})]})]})}),s&&!e&&r.jsx("div",{className:"flex items-center justify-center py-20",children:r.jsx(h,{className:"w-12 h-12 text-blue-600 animate-spin"})}),e&&(0,r.jsxs)(r.Fragment,{children:[r.jsx("h2",{className:"text-2xl font-bold text-gray-900 mb-6",children:"Service Status"}),(0,r.jsxs)("div",{className:"grid md:grid-cols-2 gap-6 mb-12",children:[r.jsx(I,{name:"Database",icon:p,status:e.services.db}),r.jsx(I,{name:"File Storage",icon:b,status:e.services.storage}),r.jsx(I,{name:"Payment Processing",icon:j.Z,status:e.services.stripe}),(0,r.jsxs)("div",{className:"mt-8 bg-white p-6 rounded-lg border-2 border-purple-200",children:[(0,r.jsxs)("div",{className:"flex items-center justify-between mb-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-2",children:[r.jsx(g.Z,{className:"w-6 h-6 text-purple-600"}),r.jsx("h3",{className:"font-bold text-lg text-gray-900",children:"Connectivity Tests"})]}),r.jsx("button",{onClick:T,className:"text-sm px-3 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors",children:"Run Tests"})]}),(0,r.jsxs)("div",{className:"grid md:grid-cols-4 gap-4",children:[(0,r.jsxs)("div",{className:`p-4 rounded-lg border-2 ${E.backend?.ok?"bg-green-50 border-green-200":"bg-red-50 border-red-200"}`,children:[r.jsx("div",{className:"font-semibold text-gray-900 mb-2",children:"Backend API"}),E.backend?(0,r.jsxs)(r.Fragment,{children:[r.jsx("div",{className:`text-sm ${E.backend.ok?"text-green-700":"text-red-700"}`,children:E.backend.ok?"Connected":"Failed"}),(0,r.jsxs)("div",{className:"text-xs text-gray-600 mt-1",children:[E.backend.latency,"ms latency"]}),E.backend.error&&r.jsx("div",{className:"text-xs text-red-600 mt-1",children:E.backend.error})]}):r.jsx("div",{className:"text-sm text-gray-500",children:"Testing..."})]}),(0,r.jsxs)("div",{className:`p-4 rounded-lg border-2 ${E.database?.ok?"bg-green-50 border-green-200":"bg-red-50 border-red-200"}`,children:[r.jsx("div",{className:"font-semibold text-gray-900 mb-2",children:"Database"}),E.database?(0,r.jsxs)(r.Fragment,{children:[r.jsx("div",{className:`text-sm ${E.database.ok?"text-green-700":"text-red-700"}`,children:E.database.ok?"Connected":"Failed"}),(0,r.jsxs)("div",{className:"text-xs text-gray-600 mt-1",children:[E.database.latency,"ms latency"]}),E.database.detail&&r.jsx("div",{className:"text-xs text-gray-600 mt-1",children:E.database.detail}),E.database.error&&r.jsx("div",{className:"text-xs text-red-600 mt-1",children:E.database.error})]}):r.jsx("div",{className:"text-sm text-gray-500",children:"Testing..."})]}),(0,r.jsxs)("div",{className:`p-4 rounded-lg border-2 ${E.frontend?.ok?"bg-green-50 border-green-200":"bg-red-50 border-red-200"}`,children:[r.jsx("div",{className:"font-semibold text-gray-900 mb-2",children:"Frontend App"}),E.frontend?(0,r.jsxs)(r.Fragment,{children:[r.jsx("div",{className:`text-sm ${E.frontend.ok?"text-green-700":"text-red-700"}`,children:E.frontend.ok?"Running":"Failed"}),(0,r.jsxs)("div",{className:"text-xs text-gray-600 mt-1",children:[E.frontend.latency,"ms response"]})]}):r.jsx("div",{className:"text-sm text-gray-500",children:"Testing..."})]}),(0,r.jsxs)("div",{className:`p-4 rounded-lg border-2 ${E.proxy?.ok?"bg-green-50 border-green-200":"bg-yellow-50 border-yellow-200"}`,children:[r.jsx("div",{className:"font-semibold text-gray-900 mb-2",children:"Reverse Proxy"}),E.proxy?(0,r.jsxs)(r.Fragment,{children:[r.jsx("div",{className:`text-sm ${E.proxy.ok?"text-green-700":"text-yellow-700"}`,children:E.proxy.ok?"Active":"Unreachable"}),(0,r.jsxs)("div",{className:"text-xs text-gray-600 mt-1",children:[E.proxy.latency,"ms latency"]})]}):r.jsx("div",{className:"text-sm text-gray-500",children:"Testing..."})]})]})]}),Z.length>0&&(0,r.jsxs)("div",{className:"mt-8 bg-purple-50 border-2 border-purple-200 rounded-lg p-6",children:[(0,r.jsxs)("div",{className:"flex items-center gap-2 mb-4",children:[r.jsx(g.Z,{className:"w-6 h-6 text-purple-600"}),r.jsx("h3",{className:"font-bold text-lg text-gray-900",children:"Self-Healing Log"})]}),r.jsx("div",{className:"bg-white rounded border border-purple-200 p-4 max-h-60 overflow-y-auto",children:Z.map((e,t)=>r.jsx("div",{className:"text-sm text-gray-700 font-mono py-1",children:e},t))})]}),$.length>0&&(0,r.jsxs)("div",{className:"mt-8 bg-white p-6 rounded-lg border-2 border-gray-200",children:[r.jsx("h3",{className:"font-bold text-lg text-gray-900 mb-4",children:"Recent Health Checks"}),r.jsx("div",{className:"overflow-x-auto",children:(0,r.jsxs)("table",{className:"w-full text-sm",children:[r.jsx("thead",{children:(0,r.jsxs)("tr",{className:"border-b",children:[r.jsx("th",{className:"text-left py-2",children:"Time"}),r.jsx("th",{className:"text-left py-2",children:"Status"}),r.jsx("th",{className:"text-left py-2",children:"DB"}),r.jsx("th",{className:"text-left py-2",children:"Storage"}),r.jsx("th",{className:"text-left py-2",children:"Stripe"})]})}),r.jsx("tbody",{children:$.slice(0,5).map((e,t)=>(0,r.jsxs)("tr",{className:"border-b",children:[r.jsx("td",{className:"py-2 text-gray-600",children:new Date(e.timestamp).toLocaleTimeString()}),r.jsx("td",{className:"py-2",children:r.jsx("span",{className:`inline-block px-2 py-1 rounded text-xs font-semibold ${"healthy"===e.status?"bg-green-100 text-green-800":"degraded"===e.status?"bg-yellow-100 text-yellow-800":"bg-red-100 text-red-800"}`,children:e.status})}),r.jsx("td",{className:"py-2",children:e.services?.db?.ok?r.jsx(i.Z,{className:"w-5 h-5 text-green-600"}):r.jsx(o.Z,{className:"w-5 h-5 text-red-600"})}),r.jsx("td",{className:"py-2",children:e.services?.storage?.ok?r.jsx(i.Z,{className:"w-5 h-5 text-green-600"}):r.jsx(o.Z,{className:"w-5 h-5 text-red-600"})}),r.jsx("td",{className:"py-2",children:e.services?.stripe?.ok?r.jsx(i.Z,{className:"w-5 h-5 text-green-600"}):r.jsx(o.Z,{className:"w-5 h-5 text-red-600"})})]},t))})]})})]}),r.jsx(I,{name:"AI Description",icon:f,status:e.services.openai})]}),e.metrics&&(0,r.jsxs)(r.Fragment,{children:[r.jsx("h2",{className:"text-2xl font-bold text-gray-900 mb-6 mt-12",children:"Performance Metrics"}),(0,r.jsxs)("div",{className:"grid md:grid-cols-3 gap-6",children:[(0,r.jsxs)("div",{className:"bg-white p-6 rounded-lg border-2 border-gray-200",children:[r.jsx(m,{className:"w-8 h-8 text-blue-600 mb-3"}),r.jsx("div",{className:"text-3xl font-bold text-gray-900 mb-1",children:e.metrics.totalRequests.toLocaleString()}),r.jsx("div",{className:"text-sm text-gray-600",children:"Total Requests"})]}),(0,r.jsxs)("div",{className:"bg-white p-6 rounded-lg border-2 border-gray-200",children:[r.jsx(m,{className:"w-8 h-8 text-green-600 mb-3"}),(0,r.jsxs)("div",{className:"text-3xl font-bold text-gray-900 mb-1",children:[e.metrics.avgResponseTime,"ms"]}),r.jsx("div",{className:"text-sm text-gray-600",children:"Avg Response Time"})]}),(0,r.jsxs)("div",{className:"bg-white p-6 rounded-lg border-2 border-gray-200",children:[r.jsx(m,{className:`w-8 h-8 mb-3 ${e.metrics.errorRate>5?"text-red-600":"text-yellow-600"}`}),(0,r.jsxs)("div",{className:"text-3xl font-bold text-gray-900 mb-1",children:[e.metrics.errorRate.toFixed(1),"%"]}),r.jsx("div",{className:"text-sm text-gray-600",children:"Error Rate"})]})]})]})]}),(0,r.jsxs)("div",{className:"mt-8 bg-white p-6 rounded-lg border-2 border-yellow-200",children:[(0,r.jsxs)("h3",{className:"font-bold text-lg text-gray-900 mb-4 flex items-center gap-2",children:[r.jsx(c.Z,{className:"w-5 h-5 text-yellow-600"}),"Support Tickets"]}),r.jsx(v,{})]}),(0,r.jsxs)("div",{className:"mt-8 bg-white p-6 rounded-lg border-2 border-blue-200",children:[(0,r.jsxs)("h3",{className:"font-bold text-lg text-gray-900 mb-4 flex items-center gap-2",children:[r.jsx(m,{className:"w-5 h-5 text-blue-600"}),"Health Trends"]}),r.jsx(y,{history:$})]}),(0,r.jsxs)("div",{className:"mt-12 bg-white p-6 rounded-lg border-2 border-blue-200",children:[r.jsx("h3",{className:"font-bold text-lg text-gray-900 mb-4",children:"Quick Links"}),(0,r.jsxs)("div",{className:"grid md:grid-cols-2 gap-4",children:[(0,r.jsxs)(n(),{href:"/tell-story",className:"flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",children:[r.jsx("span",{children:"→"})," Tell Your Story (Recording)"]}),(0,r.jsxs)(n(),{href:"/donate",className:"flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",children:[r.jsx("span",{children:"→"})," Donation System"]}),(0,r.jsxs)(n(),{href:"/",className:"flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",children:[r.jsx("span",{children:"→"})," Home"]}),(0,r.jsxs)("a",{href:"https://api.care2connects.org/health/live",target:"_blank",rel:"noopener noreferrer",className:"flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",children:[r.jsx("span",{children:"→"})," API Health (JSON)"]})]})]})]})]})}},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>i});var r=s(73658),a=s(58758),l=s(60459),n=s(55459);function i({children:e}){let[t]=(0,n.useState)(()=>new a.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(l.aH,{client:t,children:e})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>o});var r=s(73658),a=s(84874),l=s.n(a),n=s(32241),i=s(17872);function o(){let e=(0,n.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(l(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(l(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(l(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(l(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(l(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(l(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(i.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},4320:(e,t,s)=>{"use strict";s.r(t),s.d(t,{$$typeof:()=>n,__esModule:()=>l,default:()=>o});var r=s(19894);let a=(0,r.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\health\page.tsx`),{__esModule:l,$$typeof:n}=a,i=a.default,o=i},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>b,metadata:()=>p});var r=s(31487),a=s(72972),l=s.n(a);s(40642);var n=s(19894);let i=(0,n.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:o,$$typeof:d}=i;i.default;let c=(0,n.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var m=s(15762);let x=(0,n.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:h,$$typeof:g}=x,u=x.default,p={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function b({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:l().className,children:(0,r.jsxs)(c,{children:[r.jsx(u,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(m.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},40642:()=>{},24303:(e,t,s)=>{"use strict";s.d(t,{Z:()=>l});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"}))}),l=a},55594:(e,t,s)=>{"use strict";s.d(t,{Z:()=>l});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"}))}),l=a},46865:(e,t,s)=>{"use strict";s.d(t,{Z:()=>l});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"}))}),l=a},32021:(e,t,s)=>{"use strict";s.d(t,{Z:()=>l});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"}))}),l=a},87990:(e,t,s)=>{"use strict";s.d(t,{Z:()=>l});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"}))}),l=a},91913:(e,t,s)=>{"use strict";s.d(t,{Z:()=>l});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"}))}),l=a}};var t=require("../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(30878));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 613),
+    (e.ids = [613]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      30878: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => n.a,
+            __next_app__: () => x,
+            originalPathname: () => m,
+            pages: () => c,
+            routeModule: () => h,
+            tree: () => d,
+          }));
+        var r = s(36577),
+          a = s(55533),
+          l = s(40443),
+          n = s.n(l),
+          i = s(53320),
+          o = {};
+        for (let e in i)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (o[e] = () => i[e]);
+        s.d(t, o);
+        let d = [
+            "",
+            {
+              children: [
+                "health",
+                {
+                  children: [
+                    "__PAGE__",
+                    {},
+                    {
+                      page: [
+                        () => Promise.resolve().then(s.bind(s, 4320)),
+                        "C:\\Users\\richl\\Care2system\\frontend\\app\\health\\page.tsx",
+                      ],
+                    },
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          c = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\health\\page.tsx",
+          ],
+          m = "/health/page",
+          x = { require: s, loadChunk: () => Promise.resolve() },
+          h = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: "/health/page",
+              pathname: "/health",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: d },
+          });
+      },
+      37722: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 58929));
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      58929: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => N }));
+        var r = s(73658),
+          a = s(55459),
+          l = s(84874),
+          n = s.n(l),
+          i = s(24303),
+          o = s(91913);
+        let d = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+          return a.createElement(
+            "svg",
+            Object.assign(
+              {
+                xmlns: "http://www.w3.org/2000/svg",
+                fill: "none",
+                viewBox: "0 0 24 24",
+                strokeWidth: 1.5,
+                stroke: "currentColor",
+                "aria-hidden": "true",
+                "data-slot": "icon",
+                ref: r,
+                "aria-labelledby": t,
+              },
+              s,
+            ),
+            e ? a.createElement("title", { id: t }, e) : null,
+            a.createElement("path", {
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              d: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z",
+            }),
+          );
+        });
+        var c = s(32021);
+        let m = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z",
+              }),
+            );
+          }),
+          x = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z",
+              }),
+            );
+          }),
+          h = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99",
+              }),
+            );
+          });
+        var g = s(87990),
+          u = s(55594);
+        let p = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125",
+              }),
+            );
+          }),
+          b = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z",
+              }),
+            );
+          });
+        var j = s(46865);
+        let f = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+          return a.createElement(
+            "svg",
+            Object.assign(
+              {
+                xmlns: "http://www.w3.org/2000/svg",
+                fill: "none",
+                viewBox: "0 0 24 24",
+                strokeWidth: 1.5,
+                stroke: "currentColor",
+                "aria-hidden": "true",
+                "data-slot": "icon",
+                ref: r,
+                "aria-labelledby": t,
+              },
+              s,
+            ),
+            e ? a.createElement("title", { id: t }, e) : null,
+            a.createElement("path", {
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              d: "M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z",
+            }),
+          );
+        });
+        function v() {
+          let [e, t] = (0, a.useState)([]),
+            [s, l] = (0, a.useState)(!0),
+            [n, i] = (0, a.useState)("open");
+          (0, a.useEffect)(() => {
+            o();
+          }, [n]);
+          let o = async () => {
+              try {
+                let e = "https://api.care2connects.org",
+                  s =
+                    "all" === n
+                      ? `${e}/admin/support/tickets`
+                      : `${e}/admin/support/tickets?status=${n.toUpperCase()}`,
+                  r = await fetch(s, {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("adminToken") || ""}`,
+                    },
+                  });
+                if (r.ok) {
+                  let e = await r.json();
+                  t(e.tickets || []);
+                }
+              } catch (e) {
+                console.error("Failed to fetch tickets:", e);
+              } finally {
+                l(!1);
+              }
+            },
+            d = async (e, t) => {
+              try {
+                let s = await fetch(
+                  `https://api.care2connects.org/admin/support/tickets/${e}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${localStorage.getItem("adminToken") || ""}`,
+                    },
+                    body: JSON.stringify({ status: t }),
+                  },
+                );
+                s.ok && o();
+              } catch (e) {
+                console.error("Failed to update ticket:", e);
+              }
+            };
+          return s
+            ? r.jsx("div", {
+                className: "text-gray-600",
+                children: "Loading tickets...",
+              })
+            : (0, r.jsxs)("div", {
+                children: [
+                  r.jsx("div", {
+                    className: "flex gap-2 mb-4",
+                    children: ["all", "open", "in_progress", "closed"].map(
+                      (e) =>
+                        r.jsx(
+                          "button",
+                          {
+                            onClick: () => i(e),
+                            className: `px-3 py-1 rounded ${n === e ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`,
+                            children:
+                              "in_progress" === e
+                                ? "In Progress"
+                                : e.charAt(0).toUpperCase() + e.slice(1),
+                          },
+                          e,
+                        ),
+                    ),
+                  }),
+                  0 === e.length
+                    ? (0, r.jsxs)("div", {
+                        className: "text-gray-500 italic",
+                        children: [
+                          "No ",
+                          "all" !== n ? n : "",
+                          " tickets found",
+                        ],
+                      })
+                    : r.jsx("div", {
+                        className: "space-y-3",
+                        children: e.map((e) =>
+                          r.jsx(
+                            "div",
+                            {
+                              className:
+                                "border border-gray-300 rounded p-3 hover:bg-gray-50",
+                              children: (0, r.jsxs)("div", {
+                                className: "flex justify-between items-start",
+                                children: [
+                                  (0, r.jsxs)("div", {
+                                    className: "flex-1",
+                                    children: [
+                                      (0, r.jsxs)("div", {
+                                        className:
+                                          "flex items-center gap-2 mb-1",
+                                        children: [
+                                          r.jsx("span", {
+                                            className: `px-2 py-0.5 rounded text-xs font-semibold ${"HIGH" === e.priority ? "bg-red-100 text-red-700" : "MEDIUM" === e.priority ? "bg-yellow-100 text-yellow-700" : "bg-gray-100 text-gray-700"}`,
+                                            children: e.priority,
+                                          }),
+                                          r.jsx("span", {
+                                            className: "text-xs text-gray-500",
+                                            children: e.type,
+                                          }),
+                                          (0, r.jsxs)("span", {
+                                            className: "text-xs text-gray-400",
+                                            children: ["#", e.id.slice(0, 8)],
+                                          }),
+                                        ],
+                                      }),
+                                      r.jsx("h4", {
+                                        className:
+                                          "font-semibold text-gray-900",
+                                        children: e.subject,
+                                      }),
+                                      r.jsx("p", {
+                                        className:
+                                          "text-sm text-gray-600 mt-1 line-clamp-2",
+                                        children: e.description,
+                                      }),
+                                      (0, r.jsxs)("div", {
+                                        className: "text-xs text-gray-400 mt-1",
+                                        children: [
+                                          new Date(
+                                            e.createdAt,
+                                          ).toLocaleString(),
+                                          " • Source: ",
+                                          e.source,
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                  r.jsx("div", {
+                                    className: "ml-4",
+                                    children: (0, r.jsxs)("select", {
+                                      value: e.status,
+                                      onChange: (t) => d(e.id, t.target.value),
+                                      className:
+                                        "text-sm border border-gray-300 rounded px-2 py-1",
+                                      children: [
+                                        r.jsx("option", {
+                                          value: "OPEN",
+                                          children: "Open",
+                                        }),
+                                        r.jsx("option", {
+                                          value: "IN_PROGRESS",
+                                          children: "In Progress",
+                                        }),
+                                        r.jsx("option", {
+                                          value: "RESOLVED",
+                                          children: "Resolved",
+                                        }),
+                                        r.jsx("option", {
+                                          value: "CLOSED",
+                                          children: "Closed",
+                                        }),
+                                      ],
+                                    }),
+                                  }),
+                                ],
+                              }),
+                            },
+                            e.id,
+                          ),
+                        ),
+                      }),
+                ],
+              });
+        }
+        function y({ history: e }) {
+          if (!e || 0 === e.length)
+            return r.jsx("div", {
+              className: "text-gray-500 italic",
+              children: "No historical data available yet",
+            });
+          let t = e.map((e) => ({
+              timestamp: new Date(e.timestamp).toLocaleTimeString(),
+              healthy: "healthy" === e.status ? 1 : 0,
+              degraded: "degraded" === e.status ? 1 : 0,
+              unhealthy: "unhealthy" === e.status ? 1 : 0,
+            })),
+            s = e.map((e) => ({
+              timestamp: new Date(e.timestamp).toLocaleTimeString(),
+              db: e.services?.db?.latency || 0,
+              stripe: e.services?.stripe?.latency || 0,
+              openai: e.services?.openai?.latency || 0,
+            }));
+          return (0, r.jsxs)("div", {
+            className: "space-y-6",
+            children: [
+              (0, r.jsxs)("div", {
+                children: [
+                  r.jsx("h4", {
+                    className: "font-semibold text-gray-700 mb-2",
+                    children: "System Status History",
+                  }),
+                  (0, r.jsxs)("div", {
+                    className: "bg-gray-50 p-4 rounded",
+                    children: [
+                      r.jsx("div", {
+                        className: "flex items-end gap-1 h-32",
+                        children: t
+                          .slice(-20)
+                          .map((e, t) =>
+                            (0, r.jsxs)(
+                              "div",
+                              {
+                                className:
+                                  "flex-1 flex flex-col justify-end gap-1",
+                                children: [
+                                  e.healthy > 0 &&
+                                    r.jsx("div", {
+                                      className: "bg-green-500",
+                                      style: { height: "100%" },
+                                    }),
+                                  e.degraded > 0 &&
+                                    r.jsx("div", {
+                                      className: "bg-yellow-500",
+                                      style: { height: "100%" },
+                                    }),
+                                  e.unhealthy > 0 &&
+                                    r.jsx("div", {
+                                      className: "bg-red-500",
+                                      style: { height: "100%" },
+                                    }),
+                                ],
+                              },
+                              t,
+                            ),
+                          ),
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex gap-4 mt-2 text-xs",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-1",
+                            children: [
+                              r.jsx("div", {
+                                className: "w-3 h-3 bg-green-500 rounded",
+                              }),
+                              r.jsx("span", { children: "Healthy" }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-1",
+                            children: [
+                              r.jsx("div", {
+                                className: "w-3 h-3 bg-yellow-500 rounded",
+                              }),
+                              r.jsx("span", { children: "Degraded" }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-1",
+                            children: [
+                              r.jsx("div", {
+                                className: "w-3 h-3 bg-red-500 rounded",
+                              }),
+                              r.jsx("span", { children: "Unhealthy" }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              (0, r.jsxs)("div", {
+                children: [
+                  r.jsx("h4", {
+                    className: "font-semibold text-gray-700 mb-2",
+                    children: "API Dependencies (Latency ms)",
+                  }),
+                  (0, r.jsxs)("div", {
+                    className: "bg-gray-50 p-4 rounded",
+                    children: [
+                      r.jsx("div", {
+                        className: "flex items-end gap-1 h-32",
+                        children: s.slice(-20).map((e, t) => {
+                          let s = Math.max(e.db, e.stripe, e.openai, 100);
+                          return (0, r.jsxs)(
+                            "div",
+                            {
+                              className:
+                                "flex-1 flex flex-col justify-end gap-0.5",
+                              children: [
+                                e.db > 0 &&
+                                  r.jsx("div", {
+                                    className: "bg-blue-500",
+                                    style: { height: `${(e.db / s) * 100}%` },
+                                    title: `DB: ${e.db}ms`,
+                                  }),
+                                e.stripe > 0 &&
+                                  r.jsx("div", {
+                                    className: "bg-purple-500",
+                                    style: {
+                                      height: `${(e.stripe / s) * 100}%`,
+                                    },
+                                    title: `Stripe: ${e.stripe}ms`,
+                                  }),
+                                e.openai > 0 &&
+                                  r.jsx("div", {
+                                    className: "bg-indigo-500",
+                                    style: {
+                                      height: `${(e.openai / s) * 100}%`,
+                                    },
+                                    title: `OpenAI: ${e.openai}ms`,
+                                  }),
+                              ],
+                            },
+                            t,
+                          );
+                        }),
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex gap-4 mt-2 text-xs",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-1",
+                            children: [
+                              r.jsx("div", {
+                                className: "w-3 h-3 bg-blue-500 rounded",
+                              }),
+                              r.jsx("span", { children: "Database" }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-1",
+                            children: [
+                              r.jsx("div", {
+                                className: "w-3 h-3 bg-purple-500 rounded",
+                              }),
+                              r.jsx("span", { children: "Stripe" }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-1",
+                            children: [
+                              r.jsx("div", {
+                                className: "w-3 h-3 bg-indigo-500 rounded",
+                              }),
+                              r.jsx("span", { children: "OpenAI" }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          });
+        }
+        function N() {
+          let [e, t] = (0, a.useState)(null),
+            [s, l] = (0, a.useState)(!0),
+            [N, w] = (0, a.useState)(null),
+            [k, S] = (0, a.useState)(new Date()),
+            [E, C] = (0, a.useState)({
+              frontend: null,
+              backend: null,
+              database: null,
+              proxy: null,
+            }),
+            [$, L] = (0, a.useState)([]),
+            [P, R] = (0, a.useState)(!1),
+            [Z, A] = (0, a.useState)([]),
+            [D, M] = (0, a.useState)(!0),
+            O = async () => {
+              try {
+                (l(!0), w(null));
+                let e = await fetch(
+                  "https://api.care2connects.org/health/ready",
+                );
+                if (!e.ok && 503 !== e.status)
+                  throw Error(`Health check failed: ${e.status}`);
+                let s = await e.json();
+                (t(s), S(new Date()));
+              } catch (e) {
+                (console.error("Health check error:", e),
+                  w(
+                    e instanceof Error
+                      ? e.message
+                      : "Failed to fetch health status",
+                  ));
+              } finally {
+                l(!1);
+              }
+            },
+            T = async () => {
+              let e = "https://api.care2connects.org",
+                t = Date.now();
+              try {
+                let s = await fetch(`${e}/health/live`, {
+                    method: "GET",
+                    cache: "no-store",
+                  }),
+                  r = Date.now() - t;
+                C((e) => ({ ...e, backend: { ok: s.ok, latency: r } }));
+              } catch (e) {
+                C((s) => ({
+                  ...s,
+                  backend: {
+                    ok: !1,
+                    latency: Date.now() - t,
+                    error: e instanceof Error ? e.message : "Failed",
+                  },
+                }));
+              }
+              let s = Date.now();
+              try {
+                let t = await fetch(`${e}/health/ready`, {
+                    method: "GET",
+                    cache: "no-store",
+                  }),
+                  r = Date.now() - s;
+                if (t.ok) {
+                  let e = await t.json(),
+                    s = e.services?.db?.ok || e.services?.database?.ok || !1,
+                    a =
+                      e.services?.db?.message ||
+                      e.services?.database?.message ||
+                      "",
+                    l = a.includes("FileStore")
+                      ? "FileStore mode (no database)"
+                      : "Database connected";
+                  C((e) => ({
+                    ...e,
+                    database: { ok: s, latency: r, detail: l },
+                  }));
+                } else
+                  C((e) => ({
+                    ...e,
+                    database: {
+                      ok: !1,
+                      latency: r,
+                      error: "Health check failed",
+                    },
+                  }));
+              } catch (e) {
+                C((t) => ({
+                  ...t,
+                  database: {
+                    ok: !1,
+                    latency: Date.now() - s,
+                    error: e instanceof Error ? e.message : "Failed",
+                  },
+                }));
+              }
+              let r = Date.now();
+              try {
+                await fetch("/api/health", {
+                  method: "HEAD",
+                  cache: "no-store",
+                });
+                let e = Date.now() - r;
+                C((t) => ({ ...t, frontend: { ok: !0, latency: e } }));
+              } catch (e) {
+                C((t) => ({
+                  ...t,
+                  frontend: {
+                    ok: !1,
+                    latency: Date.now() - r,
+                    error: e instanceof Error ? e.message : "Failed",
+                  },
+                }));
+              }
+              let a = Date.now();
+              try {
+                let e = await fetch("http://localhost:8080", {
+                    method: "HEAD",
+                    cache: "no-store",
+                    headers: { Host: "care2connects.org" },
+                  }),
+                  t = Date.now() - a;
+                C((s) => ({ ...s, proxy: { ok: e.ok, latency: t } }));
+              } catch (e) {
+                C((t) => ({
+                  ...t,
+                  proxy: {
+                    ok: !1,
+                    latency: Date.now() - a,
+                    error: e instanceof Error ? e.message : "Failed",
+                  },
+                }));
+              }
+            },
+            H = async () => {
+              try {
+                let e = await fetch(
+                  "https://api.care2connects.org/health/history?limit=10",
+                );
+                if (e.ok) {
+                  let t = await e.json();
+                  L(t.history || []);
+                }
+              } catch (e) {
+                console.error("Failed to fetch health history:", e);
+              }
+            },
+            F = async () => {
+              (R(!0), A(["Starting self-healing process..."]));
+              try {
+                A((e) => [...e, "Calling backend self-heal API..."]);
+                let e = await fetch(
+                  "https://api.care2connects.org/admin/self-heal/run",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${localStorage.getItem("adminToken") || ""}`,
+                    },
+                  },
+                );
+                if (e.ok) {
+                  let t = await e.json();
+                  (A((e) => [
+                    ...e,
+                    `Self-healing completed in ${t.duration}ms`,
+                    `Status: ${t.success ? "SUCCESS" : "PARTIAL FAILURE"}`,
+                    `Actions performed: ${t.actions.length}`,
+                  ]),
+                    t.actions.forEach((e) => {
+                      let t = e.success ? "✓" : "✗",
+                        s = `${t} ${e.component}: ${e.action}`;
+                      (A((e) => [...e, s]),
+                        e.error && A((t) => [...t, `  Error: ${e.error}`]));
+                    }),
+                    A((e) => [...e, "Running connectivity tests..."]),
+                    await T(),
+                    A((e) => [...e, "Refreshing system status..."]),
+                    await O(),
+                    await H(),
+                    A((e) => [...e, "Self-healing complete!"]));
+                } else {
+                  let t = await e
+                    .json()
+                    .catch(() => ({ error: "Unknown error" }));
+                  A((s) => [
+                    ...s,
+                    `Self-heal API failed: ${t.error || e.statusText}`,
+                  ]);
+                }
+              } catch (e) {
+                A((t) => [
+                  ...t,
+                  `Error: ${e instanceof Error ? e.message : "Unknown error"}`,
+                ]);
+              } finally {
+                R(!1);
+              }
+            };
+          (0, a.useEffect)(() => {
+            (O(), T(), H());
+            let e = null,
+              t = null;
+            return (
+              D &&
+                ((e = setInterval(() => {
+                  (O(), H());
+                }, 3e4)),
+                (t = setInterval(() => {
+                  T();
+                }, 15e3))),
+              () => {
+                (e && clearInterval(e), t && clearInterval(t));
+              }
+            );
+          }, [D]);
+          let I = ({ name: e, icon: t, status: s }) =>
+            r.jsx("div", {
+              className: `p-6 rounded-lg border-2 ${s?.ok ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`,
+              children: (0, r.jsxs)("div", {
+                className: "flex items-start justify-between",
+                children: [
+                  (0, r.jsxs)("div", {
+                    className: "flex items-center gap-3",
+                    children: [
+                      r.jsx(t, { className: "w-8 h-8 text-gray-700" }),
+                      (0, r.jsxs)("div", {
+                        children: [
+                          r.jsx("h3", {
+                            className: "font-bold text-lg text-gray-900",
+                            children: e,
+                          }),
+                          s?.message &&
+                            r.jsx("p", {
+                              className: "text-sm text-gray-600 mt-1",
+                              children: s.message,
+                            }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  (0, r.jsxs)("div", {
+                    className: "flex flex-col items-end gap-1",
+                    children: [
+                      s?.ok
+                        ? r.jsx(i.Z, { className: "w-8 h-8 text-green-600" })
+                        : r.jsx(o.Z, { className: "w-8 h-8 text-red-600" }),
+                      s?.latency &&
+                        (0, r.jsxs)("span", {
+                          className: "text-xs text-gray-500",
+                          children: [s.latency, "ms"],
+                        }),
+                    ],
+                  }),
+                ],
+              }),
+            });
+          return (0, r.jsxs)("div", {
+            className:
+              "min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50",
+            children: [
+              r.jsx("div", {
+                className: "bg-white border-b-2 border-blue-100 shadow-sm",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex items-center justify-between",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(n(), {
+                            href: "/",
+                            className:
+                              "text-blue-600 hover:text-blue-800 transition-colors",
+                            children: r.jsx(d, { className: "w-8 h-8" }),
+                          }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              r.jsx("h1", {
+                                className: "text-3xl font-black text-gray-900",
+                                children: "System Health",
+                              }),
+                              r.jsx("p", {
+                                className: "text-gray-600",
+                                children:
+                                  "Real-time system status and monitoring",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-3",
+                        children: [
+                          (0, r.jsxs)(n(), {
+                            href: "/admin/knowledge/incidents",
+                            className:
+                              "flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg font-semibold transition-colors",
+                            children: [
+                              r.jsx(c.Z, { className: "w-5 h-5" }),
+                              "Incidents",
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/admin/knowledge",
+                            className:
+                              "flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg font-semibold transition-colors",
+                            children: [
+                              r.jsx(m, { className: "w-5 h-5" }),
+                              "Knowledge",
+                            ],
+                          }),
+                          (0, r.jsxs)("button", {
+                            onClick: () => M(!D),
+                            className: `flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors ${D ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`,
+                            children: [
+                              r.jsx(x, { className: "w-5 h-5" }),
+                              "Auto-Refresh ",
+                              D ? "ON" : "OFF",
+                            ],
+                          }),
+                          (0, r.jsxs)("button", {
+                            onClick: O,
+                            disabled: s,
+                            className:
+                              "flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg font-semibold transition-colors",
+                            children: [
+                              r.jsx(h, {
+                                className: `w-5 h-5 ${s ? "animate-spin" : ""}`,
+                              }),
+                              "Refresh",
+                            ],
+                          }),
+                          (0, r.jsxs)("button", {
+                            onClick: F,
+                            disabled: P,
+                            className:
+                              "flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white rounded-lg font-semibold transition-colors",
+                            children: [
+                              r.jsx(g.Z, {
+                                className: `w-5 h-5 ${P ? "animate-spin" : ""}`,
+                              }),
+                              "Self-Heal",
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              }),
+              (0, r.jsxs)("div", {
+                className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12",
+                children: [
+                  e &&
+                    r.jsx("div", {
+                      className: `p-6 rounded-xl border-2 mb-8 ${((e) => {
+                        switch (e) {
+                          case "healthy":
+                            return "bg-green-50 border-green-200";
+                          case "degraded":
+                            return "bg-yellow-50 border-yellow-200";
+                          case "unhealthy":
+                            return "bg-red-50 border-red-200";
+                          default:
+                            return "bg-gray-50 border-gray-200";
+                        }
+                      })(e.status)}`,
+                      children: (0, r.jsxs)("div", {
+                        className: "flex items-center justify-between",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center gap-4",
+                            children: [
+                              "healthy" === e.status
+                                ? r.jsx(i.Z, {
+                                    className: "w-12 h-12 text-green-600",
+                                  })
+                                : "degraded" === e.status
+                                  ? r.jsx(u.Z, {
+                                      className: "w-12 h-12 text-yellow-600",
+                                    })
+                                  : r.jsx(o.Z, {
+                                      className: "w-12 h-12 text-red-600",
+                                    }),
+                              (0, r.jsxs)("div", {
+                                children: [
+                                  (0, r.jsxs)("h2", {
+                                    className: `text-2xl font-bold ${((e) => {
+                                      switch (e) {
+                                        case "healthy":
+                                          return "text-green-600";
+                                        case "degraded":
+                                          return "text-yellow-600";
+                                        case "unhealthy":
+                                          return "text-red-600";
+                                        default:
+                                          return "text-gray-400";
+                                      }
+                                    })(e.status)}`,
+                                    children: [
+                                      "healthy" === e.status &&
+                                        "All Systems Operational",
+                                      "degraded" === e.status &&
+                                        "Partial Service Degradation",
+                                      "unhealthy" === e.status &&
+                                        "Service Outage",
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("p", {
+                                    className: "text-gray-600 mt-1",
+                                    children: [
+                                      "Uptime: ",
+                                      ((e) => {
+                                        let t = Math.floor(e / 3600),
+                                          s = Math.floor((e % 3600) / 60),
+                                          r = Math.floor(e % 60);
+                                        return t > 0
+                                          ? `${t}h ${s}m`
+                                          : s > 0
+                                            ? `${s}m ${r}s`
+                                            : `${r}s`;
+                                      })(e.uptime),
+                                      " • Last checked: ",
+                                      k.toLocaleTimeString(),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          e.metrics &&
+                            (0, r.jsxs)("div", {
+                              className: "text-right",
+                              children: [
+                                r.jsx("div", {
+                                  className: "text-sm text-gray-600",
+                                  children: "Requests",
+                                }),
+                                r.jsx("div", {
+                                  className: "text-2xl font-bold text-gray-900",
+                                  children:
+                                    e.metrics.totalRequests.toLocaleString(),
+                                }),
+                              ],
+                            }),
+                        ],
+                      }),
+                    }),
+                  N &&
+                    r.jsx("div", {
+                      className:
+                        "bg-red-50 border-2 border-red-200 rounded-lg p-6 mb-8",
+                      children: (0, r.jsxs)("div", {
+                        className: "flex items-center gap-3",
+                        children: [
+                          r.jsx(o.Z, { className: "w-8 h-8 text-red-600" }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              r.jsx("h3", {
+                                className: "font-bold text-red-900",
+                                children: "Unable to fetch system health",
+                              }),
+                              r.jsx("p", {
+                                className: "text-red-700 mt-1",
+                                children: N,
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    }),
+                  s &&
+                    !e &&
+                    r.jsx("div", {
+                      className: "flex items-center justify-center py-20",
+                      children: r.jsx(h, {
+                        className: "w-12 h-12 text-blue-600 animate-spin",
+                      }),
+                    }),
+                  e &&
+                    (0, r.jsxs)(r.Fragment, {
+                      children: [
+                        r.jsx("h2", {
+                          className: "text-2xl font-bold text-gray-900 mb-6",
+                          children: "Service Status",
+                        }),
+                        (0, r.jsxs)("div", {
+                          className: "grid md:grid-cols-2 gap-6 mb-12",
+                          children: [
+                            r.jsx(I, {
+                              name: "Database",
+                              icon: p,
+                              status: e.services.db,
+                            }),
+                            r.jsx(I, {
+                              name: "File Storage",
+                              icon: b,
+                              status: e.services.storage,
+                            }),
+                            r.jsx(I, {
+                              name: "Payment Processing",
+                              icon: j.Z,
+                              status: e.services.stripe,
+                            }),
+                            (0, r.jsxs)("div", {
+                              className:
+                                "mt-8 bg-white p-6 rounded-lg border-2 border-purple-200",
+                              children: [
+                                (0, r.jsxs)("div", {
+                                  className:
+                                    "flex items-center justify-between mb-4",
+                                  children: [
+                                    (0, r.jsxs)("div", {
+                                      className: "flex items-center gap-2",
+                                      children: [
+                                        r.jsx(g.Z, {
+                                          className: "w-6 h-6 text-purple-600",
+                                        }),
+                                        r.jsx("h3", {
+                                          className:
+                                            "font-bold text-lg text-gray-900",
+                                          children: "Connectivity Tests",
+                                        }),
+                                      ],
+                                    }),
+                                    r.jsx("button", {
+                                      onClick: T,
+                                      className:
+                                        "text-sm px-3 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors",
+                                      children: "Run Tests",
+                                    }),
+                                  ],
+                                }),
+                                (0, r.jsxs)("div", {
+                                  className: "grid md:grid-cols-4 gap-4",
+                                  children: [
+                                    (0, r.jsxs)("div", {
+                                      className: `p-4 rounded-lg border-2 ${E.backend?.ok ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`,
+                                      children: [
+                                        r.jsx("div", {
+                                          className:
+                                            "font-semibold text-gray-900 mb-2",
+                                          children: "Backend API",
+                                        }),
+                                        E.backend
+                                          ? (0, r.jsxs)(r.Fragment, {
+                                              children: [
+                                                r.jsx("div", {
+                                                  className: `text-sm ${E.backend.ok ? "text-green-700" : "text-red-700"}`,
+                                                  children: E.backend.ok
+                                                    ? "Connected"
+                                                    : "Failed",
+                                                }),
+                                                (0, r.jsxs)("div", {
+                                                  className:
+                                                    "text-xs text-gray-600 mt-1",
+                                                  children: [
+                                                    E.backend.latency,
+                                                    "ms latency",
+                                                  ],
+                                                }),
+                                                E.backend.error &&
+                                                  r.jsx("div", {
+                                                    className:
+                                                      "text-xs text-red-600 mt-1",
+                                                    children: E.backend.error,
+                                                  }),
+                                              ],
+                                            })
+                                          : r.jsx("div", {
+                                              className:
+                                                "text-sm text-gray-500",
+                                              children: "Testing...",
+                                            }),
+                                      ],
+                                    }),
+                                    (0, r.jsxs)("div", {
+                                      className: `p-4 rounded-lg border-2 ${E.database?.ok ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`,
+                                      children: [
+                                        r.jsx("div", {
+                                          className:
+                                            "font-semibold text-gray-900 mb-2",
+                                          children: "Database",
+                                        }),
+                                        E.database
+                                          ? (0, r.jsxs)(r.Fragment, {
+                                              children: [
+                                                r.jsx("div", {
+                                                  className: `text-sm ${E.database.ok ? "text-green-700" : "text-red-700"}`,
+                                                  children: E.database.ok
+                                                    ? "Connected"
+                                                    : "Failed",
+                                                }),
+                                                (0, r.jsxs)("div", {
+                                                  className:
+                                                    "text-xs text-gray-600 mt-1",
+                                                  children: [
+                                                    E.database.latency,
+                                                    "ms latency",
+                                                  ],
+                                                }),
+                                                E.database.detail &&
+                                                  r.jsx("div", {
+                                                    className:
+                                                      "text-xs text-gray-600 mt-1",
+                                                    children: E.database.detail,
+                                                  }),
+                                                E.database.error &&
+                                                  r.jsx("div", {
+                                                    className:
+                                                      "text-xs text-red-600 mt-1",
+                                                    children: E.database.error,
+                                                  }),
+                                              ],
+                                            })
+                                          : r.jsx("div", {
+                                              className:
+                                                "text-sm text-gray-500",
+                                              children: "Testing...",
+                                            }),
+                                      ],
+                                    }),
+                                    (0, r.jsxs)("div", {
+                                      className: `p-4 rounded-lg border-2 ${E.frontend?.ok ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`,
+                                      children: [
+                                        r.jsx("div", {
+                                          className:
+                                            "font-semibold text-gray-900 mb-2",
+                                          children: "Frontend App",
+                                        }),
+                                        E.frontend
+                                          ? (0, r.jsxs)(r.Fragment, {
+                                              children: [
+                                                r.jsx("div", {
+                                                  className: `text-sm ${E.frontend.ok ? "text-green-700" : "text-red-700"}`,
+                                                  children: E.frontend.ok
+                                                    ? "Running"
+                                                    : "Failed",
+                                                }),
+                                                (0, r.jsxs)("div", {
+                                                  className:
+                                                    "text-xs text-gray-600 mt-1",
+                                                  children: [
+                                                    E.frontend.latency,
+                                                    "ms response",
+                                                  ],
+                                                }),
+                                              ],
+                                            })
+                                          : r.jsx("div", {
+                                              className:
+                                                "text-sm text-gray-500",
+                                              children: "Testing...",
+                                            }),
+                                      ],
+                                    }),
+                                    (0, r.jsxs)("div", {
+                                      className: `p-4 rounded-lg border-2 ${E.proxy?.ok ? "bg-green-50 border-green-200" : "bg-yellow-50 border-yellow-200"}`,
+                                      children: [
+                                        r.jsx("div", {
+                                          className:
+                                            "font-semibold text-gray-900 mb-2",
+                                          children: "Reverse Proxy",
+                                        }),
+                                        E.proxy
+                                          ? (0, r.jsxs)(r.Fragment, {
+                                              children: [
+                                                r.jsx("div", {
+                                                  className: `text-sm ${E.proxy.ok ? "text-green-700" : "text-yellow-700"}`,
+                                                  children: E.proxy.ok
+                                                    ? "Active"
+                                                    : "Unreachable",
+                                                }),
+                                                (0, r.jsxs)("div", {
+                                                  className:
+                                                    "text-xs text-gray-600 mt-1",
+                                                  children: [
+                                                    E.proxy.latency,
+                                                    "ms latency",
+                                                  ],
+                                                }),
+                                              ],
+                                            })
+                                          : r.jsx("div", {
+                                              className:
+                                                "text-sm text-gray-500",
+                                              children: "Testing...",
+                                            }),
+                                      ],
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                            Z.length > 0 &&
+                              (0, r.jsxs)("div", {
+                                className:
+                                  "mt-8 bg-purple-50 border-2 border-purple-200 rounded-lg p-6",
+                                children: [
+                                  (0, r.jsxs)("div", {
+                                    className: "flex items-center gap-2 mb-4",
+                                    children: [
+                                      r.jsx(g.Z, {
+                                        className: "w-6 h-6 text-purple-600",
+                                      }),
+                                      r.jsx("h3", {
+                                        className:
+                                          "font-bold text-lg text-gray-900",
+                                        children: "Self-Healing Log",
+                                      }),
+                                    ],
+                                  }),
+                                  r.jsx("div", {
+                                    className:
+                                      "bg-white rounded border border-purple-200 p-4 max-h-60 overflow-y-auto",
+                                    children: Z.map((e, t) =>
+                                      r.jsx(
+                                        "div",
+                                        {
+                                          className:
+                                            "text-sm text-gray-700 font-mono py-1",
+                                          children: e,
+                                        },
+                                        t,
+                                      ),
+                                    ),
+                                  }),
+                                ],
+                              }),
+                            $.length > 0 &&
+                              (0, r.jsxs)("div", {
+                                className:
+                                  "mt-8 bg-white p-6 rounded-lg border-2 border-gray-200",
+                                children: [
+                                  r.jsx("h3", {
+                                    className:
+                                      "font-bold text-lg text-gray-900 mb-4",
+                                    children: "Recent Health Checks",
+                                  }),
+                                  r.jsx("div", {
+                                    className: "overflow-x-auto",
+                                    children: (0, r.jsxs)("table", {
+                                      className: "w-full text-sm",
+                                      children: [
+                                        r.jsx("thead", {
+                                          children: (0, r.jsxs)("tr", {
+                                            className: "border-b",
+                                            children: [
+                                              r.jsx("th", {
+                                                className: "text-left py-2",
+                                                children: "Time",
+                                              }),
+                                              r.jsx("th", {
+                                                className: "text-left py-2",
+                                                children: "Status",
+                                              }),
+                                              r.jsx("th", {
+                                                className: "text-left py-2",
+                                                children: "DB",
+                                              }),
+                                              r.jsx("th", {
+                                                className: "text-left py-2",
+                                                children: "Storage",
+                                              }),
+                                              r.jsx("th", {
+                                                className: "text-left py-2",
+                                                children: "Stripe",
+                                              }),
+                                            ],
+                                          }),
+                                        }),
+                                        r.jsx("tbody", {
+                                          children: $.slice(0, 5).map((e, t) =>
+                                            (0, r.jsxs)(
+                                              "tr",
+                                              {
+                                                className: "border-b",
+                                                children: [
+                                                  r.jsx("td", {
+                                                    className:
+                                                      "py-2 text-gray-600",
+                                                    children: new Date(
+                                                      e.timestamp,
+                                                    ).toLocaleTimeString(),
+                                                  }),
+                                                  r.jsx("td", {
+                                                    className: "py-2",
+                                                    children: r.jsx("span", {
+                                                      className: `inline-block px-2 py-1 rounded text-xs font-semibold ${"healthy" === e.status ? "bg-green-100 text-green-800" : "degraded" === e.status ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800"}`,
+                                                      children: e.status,
+                                                    }),
+                                                  }),
+                                                  r.jsx("td", {
+                                                    className: "py-2",
+                                                    children: e.services?.db?.ok
+                                                      ? r.jsx(i.Z, {
+                                                          className:
+                                                            "w-5 h-5 text-green-600",
+                                                        })
+                                                      : r.jsx(o.Z, {
+                                                          className:
+                                                            "w-5 h-5 text-red-600",
+                                                        }),
+                                                  }),
+                                                  r.jsx("td", {
+                                                    className: "py-2",
+                                                    children: e.services
+                                                      ?.storage?.ok
+                                                      ? r.jsx(i.Z, {
+                                                          className:
+                                                            "w-5 h-5 text-green-600",
+                                                        })
+                                                      : r.jsx(o.Z, {
+                                                          className:
+                                                            "w-5 h-5 text-red-600",
+                                                        }),
+                                                  }),
+                                                  r.jsx("td", {
+                                                    className: "py-2",
+                                                    children: e.services?.stripe
+                                                      ?.ok
+                                                      ? r.jsx(i.Z, {
+                                                          className:
+                                                            "w-5 h-5 text-green-600",
+                                                        })
+                                                      : r.jsx(o.Z, {
+                                                          className:
+                                                            "w-5 h-5 text-red-600",
+                                                        }),
+                                                  }),
+                                                ],
+                                              },
+                                              t,
+                                            ),
+                                          ),
+                                        }),
+                                      ],
+                                    }),
+                                  }),
+                                ],
+                              }),
+                            r.jsx(I, {
+                              name: "AI Description",
+                              icon: f,
+                              status: e.services.openai,
+                            }),
+                          ],
+                        }),
+                        e.metrics &&
+                          (0, r.jsxs)(r.Fragment, {
+                            children: [
+                              r.jsx("h2", {
+                                className:
+                                  "text-2xl font-bold text-gray-900 mb-6 mt-12",
+                                children: "Performance Metrics",
+                              }),
+                              (0, r.jsxs)("div", {
+                                className: "grid md:grid-cols-3 gap-6",
+                                children: [
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "bg-white p-6 rounded-lg border-2 border-gray-200",
+                                    children: [
+                                      r.jsx(m, {
+                                        className: "w-8 h-8 text-blue-600 mb-3",
+                                      }),
+                                      r.jsx("div", {
+                                        className:
+                                          "text-3xl font-bold text-gray-900 mb-1",
+                                        children:
+                                          e.metrics.totalRequests.toLocaleString(),
+                                      }),
+                                      r.jsx("div", {
+                                        className: "text-sm text-gray-600",
+                                        children: "Total Requests",
+                                      }),
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "bg-white p-6 rounded-lg border-2 border-gray-200",
+                                    children: [
+                                      r.jsx(m, {
+                                        className:
+                                          "w-8 h-8 text-green-600 mb-3",
+                                      }),
+                                      (0, r.jsxs)("div", {
+                                        className:
+                                          "text-3xl font-bold text-gray-900 mb-1",
+                                        children: [
+                                          e.metrics.avgResponseTime,
+                                          "ms",
+                                        ],
+                                      }),
+                                      r.jsx("div", {
+                                        className: "text-sm text-gray-600",
+                                        children: "Avg Response Time",
+                                      }),
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "bg-white p-6 rounded-lg border-2 border-gray-200",
+                                    children: [
+                                      r.jsx(m, {
+                                        className: `w-8 h-8 mb-3 ${e.metrics.errorRate > 5 ? "text-red-600" : "text-yellow-600"}`,
+                                      }),
+                                      (0, r.jsxs)("div", {
+                                        className:
+                                          "text-3xl font-bold text-gray-900 mb-1",
+                                        children: [
+                                          e.metrics.errorRate.toFixed(1),
+                                          "%",
+                                        ],
+                                      }),
+                                      r.jsx("div", {
+                                        className: "text-sm text-gray-600",
+                                        children: "Error Rate",
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                      ],
+                    }),
+                  (0, r.jsxs)("div", {
+                    className:
+                      "mt-8 bg-white p-6 rounded-lg border-2 border-yellow-200",
+                    children: [
+                      (0, r.jsxs)("h3", {
+                        className:
+                          "font-bold text-lg text-gray-900 mb-4 flex items-center gap-2",
+                        children: [
+                          r.jsx(c.Z, { className: "w-5 h-5 text-yellow-600" }),
+                          "Support Tickets",
+                        ],
+                      }),
+                      r.jsx(v, {}),
+                    ],
+                  }),
+                  (0, r.jsxs)("div", {
+                    className:
+                      "mt-8 bg-white p-6 rounded-lg border-2 border-blue-200",
+                    children: [
+                      (0, r.jsxs)("h3", {
+                        className:
+                          "font-bold text-lg text-gray-900 mb-4 flex items-center gap-2",
+                        children: [
+                          r.jsx(m, { className: "w-5 h-5 text-blue-600" }),
+                          "Health Trends",
+                        ],
+                      }),
+                      r.jsx(y, { history: $ }),
+                    ],
+                  }),
+                  (0, r.jsxs)("div", {
+                    className:
+                      "mt-12 bg-white p-6 rounded-lg border-2 border-blue-200",
+                    children: [
+                      r.jsx("h3", {
+                        className: "font-bold text-lg text-gray-900 mb-4",
+                        children: "Quick Links",
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "grid md:grid-cols-2 gap-4",
+                        children: [
+                          (0, r.jsxs)(n(), {
+                            href: "/tell-story",
+                            className:
+                              "flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",
+                            children: [
+                              r.jsx("span", { children: "→" }),
+                              " Tell Your Story (Recording)",
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/donate",
+                            className:
+                              "flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",
+                            children: [
+                              r.jsx("span", { children: "→" }),
+                              " Donation System",
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/",
+                            className:
+                              "flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",
+                            children: [
+                              r.jsx("span", { children: "→" }),
+                              " Home",
+                            ],
+                          }),
+                          (0, r.jsxs)("a", {
+                            href: "https://api.care2connects.org/health/live",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            className:
+                              "flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold",
+                            children: [
+                              r.jsx("span", { children: "→" }),
+                              " API Health (JSON)",
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          });
+        }
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => i }));
+        var r = s(73658),
+          a = s(58758),
+          l = s(60459),
+          n = s(55459);
+        function i({ children: e }) {
+          let [t] = (0, n.useState)(
+            () =>
+              new a.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(l.aH, { client: t, children: e });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => o }));
+        var r = s(73658),
+          a = s(84874),
+          l = s.n(a),
+          n = s(32241),
+          i = s(17872);
+        function o() {
+          let e = (0, n.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(l(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(l(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(l(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(l(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(l(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(l(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(i.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      4320: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, { $$typeof: () => n, __esModule: () => l, default: () => o }));
+        var r = s(19894);
+        let a = (0, r.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\health\page.tsx`,
+          ),
+          { __esModule: l, $$typeof: n } = a,
+          i = a.default,
+          o = i;
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => b, metadata: () => p }));
+        var r = s(31487),
+          a = s(72972),
+          l = s.n(a);
+        s(40642);
+        var n = s(19894);
+        let i = (0, n.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: o, $$typeof: d } = i;
+        i.default;
+        let c = (0, n.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var m = s(15762);
+        let x = (0, n.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: h, $$typeof: g } = x,
+          u = x.default,
+          p = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function b({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: l().className,
+              children: (0, r.jsxs)(c, {
+                children: [
+                  r.jsx(u, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(m.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      40642: () => {},
+      24303: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => l });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+              }),
+            );
+          }),
+          l = a;
+      },
+      55594: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => l });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+              }),
+            );
+          }),
+          l = a;
+      },
+      46865: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => l });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z",
+              }),
+            );
+          }),
+          l = a;
+      },
+      32021: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => l });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z",
+              }),
+            );
+          }),
+          l = a;
+      },
+      87990: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => l });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
+              }),
+            );
+          }),
+          l = a;
+      },
+      91913: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => l });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+              }),
+            );
+          }),
+          l = a;
+      },
+    }));
+  var t = require("../../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(30878));
+  module.exports = r;
+})();

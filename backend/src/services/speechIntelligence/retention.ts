@@ -3,7 +3,7 @@
  * Handles data retention policies
  */
 
-import { prisma } from '../../lib/prisma';
+import { prisma } from "../../lib/prisma";
 
 export class RetentionManager {
   /**
@@ -15,7 +15,7 @@ export class RetentionManager {
   }> {
     const results = {
       deleted: 0,
-      errors: [] as string[]
+      errors: [] as string[],
     };
 
     try {
@@ -25,35 +25,41 @@ export class RetentionManager {
       const expiredSessions = await prisma.transcription_sessions.findMany({
         where: {
           retentionUntil: {
-            lt: now
-          }
+            lt: now,
+          },
         },
-        select: { id: true }
+        select: { id: true },
       });
 
       // Delete in batches
       const batchSize = 100;
       for (let i = 0; i < expiredSessions.length; i += batchSize) {
         const batch = expiredSessions.slice(i, i + batchSize);
-        const ids = batch.map(s => s.id);
+        const ids = batch.map((s) => s.id);
 
         try {
           // Cascade delete will handle related records
           const result = await prisma.transcription_sessions.deleteMany({
             where: {
-              id: { in: ids }
-            }
+              id: { in: ids },
+            },
           });
 
           results.deleted += result.count;
         } catch (error) {
-          results.errors.push(`Batch ${i / batchSize + 1} failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          results.errors.push(
+            `Batch ${i / batchSize + 1} failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+          );
         }
       }
 
-      console.log(`Retention cleanup completed: ${results.deleted} sessions deleted`);
+      console.log(
+        `Retention cleanup completed: ${results.deleted} sessions deleted`,
+      );
     } catch (error) {
-      results.errors.push(`Cleanup failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      results.errors.push(
+        `Cleanup failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
 
     return results;
@@ -77,29 +83,29 @@ export class RetentionManager {
         where: {
           retentionUntil: {
             gte: now,
-            lte: sevenDaysFromNow
-          }
-        }
+            lte: sevenDaysFromNow,
+          },
+        },
       }),
       prisma.transcription_sessions.count({
         where: {
           retentionUntil: {
-            lt: now
-          }
-        }
+            lt: now,
+          },
+        },
       }),
       prisma.$queryRaw<Array<{ avg: number }>>`
         SELECT AVG(EXTRACT(EPOCH FROM ("retentionUntil" - "createdAt")) / 86400) as avg
         FROM "transcription_sessions"
         WHERE "retentionUntil" IS NOT NULL
-      `.then(result => result[0]?.avg || 0)
+      `.then((result) => result[0]?.avg || 0),
     ]);
 
     return {
       totalSessions: total,
       expiringSoon,
       expired,
-      avgRetentionDays: Math.round(avgRetention * 10) / 10
+      avgRetentionDays: Math.round(avgRetention * 10) / 10,
     };
   }
 }

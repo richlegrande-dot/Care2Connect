@@ -1,1 +1,156 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[422],{53918:function(e,t,n){Promise.resolve().then(n.bind(n,43755))},43755:function(e,t,n){"use strict";n.r(t),n.d(t,{default:function(){return i}});var r=n(37821),a=n(58078);function i(){let[e,t]=(0,a.useState)(null),[n,i]=(0,a.useState)(null),[o,l]=(0,a.useState)(!1);(0,a.useEffect)(()=>{!async function(){try{let e=await fetch("/admin/setup/preflight");401===e.status?l(!0):e.ok&&t(await e.json())}catch(e){}try{let e=await fetch("/admin/setup/stripe");401===e.status?l(!0):e.ok&&i(await e.json())}catch(e){}}()},[]);let s="# Care2system environment template (fill values locally)\nSTRIPE_SECRET_KEY=REPLACE_WITH_SK_xxx\nSTRIPE_PUBLISHABLE_KEY=REPLACE_WITH_PK_xxx\nSTRIPE_WEBHOOK_SECRET=REPLACE_WITH_WHSEC_xxx\n\n# Server settings\nPORT=3001\nFRONTEND_URL=http://localhost:3000\n\n# Email (example)\nSMTP_HOST=smtp.example.com\nSMTP_PORT=587\nSMTP_USER=you@example.com\nSMTP_PASSWORD=your-smtp-password\n",c=async()=>{try{await navigator.clipboard.writeText(s),alert("Template copied to clipboard")}catch(t){let e=document.createElement("textarea");e.value=s,document.body.appendChild(e),e.select(),document.execCommand("copy"),document.body.removeChild(e),alert("Template copied to clipboard")}};return(0,r.jsxs)("div",{style:{padding:24},children:[(0,r.jsx)("h1",{children:"Credential Setup Wizard (No Secrets Stored)"}),o&&(0,r.jsx)("div",{style:{marginBottom:16,color:"#a00"},children:"This page can show live checks only when you are authenticated as a system admin. Use the system admin panel to generate a short-lived token."}),(0,r.jsxs)("section",{style:{marginBottom:20},children:[(0,r.jsx)("h2",{children:"Preflight"}),e?(0,r.jsx)("pre",{style:{background:"#f7f7f7",padding:12},children:JSON.stringify(e,null,2)}):(0,r.jsx)("div",{children:"Preflight info unavailable (requires admin auth or server offline)"})]}),(0,r.jsxs)("section",{style:{marginBottom:20},children:[(0,r.jsx)("h2",{children:"Stripe Check"}),n?(0,r.jsx)("pre",{style:{background:"#f7f7f7",padding:12},children:JSON.stringify(n,null,2)}):(0,r.jsx)("div",{children:"Stripe presence info unavailable (requires admin auth)"})]}),(0,r.jsxs)("section",{children:[(0,r.jsx)("h2",{children:"Copyable `.env` Template"}),(0,r.jsx)("p",{children:"This generator never reads or returns secrets — it only provides a fill-in template you can copy into your local `.env`."}),(0,r.jsx)("textarea",{readOnly:!0,value:s,cols:80,rows:12,style:{display:"block",marginBottom:8}}),(0,r.jsx)("button",{onClick:c,children:"Copy Template"})]})]})}},8489:function(e,t,n){"use strict";var r=n(58078),a=Symbol.for("react.element"),i=Symbol.for("react.fragment"),o=Object.prototype.hasOwnProperty,l=r.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,s={key:!0,ref:!0,__self:!0,__source:!0};function c(e,t,n){var r,i={},c=null,d=null;for(r in void 0!==n&&(c=""+n),void 0!==t.key&&(c=""+t.key),void 0!==t.ref&&(d=t.ref),t)o.call(t,r)&&!s.hasOwnProperty(r)&&(i[r]=t[r]);if(e&&e.defaultProps)for(r in t=e.defaultProps)void 0===i[r]&&(i[r]=t[r]);return{$$typeof:a,type:e,key:c,ref:d,props:i,_owner:l.current}}t.Fragment=i,t.jsx=c,t.jsxs=c},37821:function(e,t,n){"use strict";e.exports=n(8489)}},function(e){e.O(0,[115,835,744],function(){return e(e.s=53918)}),_N_E=e.O()}]);
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [422],
+  {
+    53918: function (e, t, n) {
+      Promise.resolve().then(n.bind(n, 43755));
+    },
+    43755: function (e, t, n) {
+      "use strict";
+      (n.r(t),
+        n.d(t, {
+          default: function () {
+            return i;
+          },
+        }));
+      var r = n(37821),
+        a = n(58078);
+      function i() {
+        let [e, t] = (0, a.useState)(null),
+          [n, i] = (0, a.useState)(null),
+          [o, l] = (0, a.useState)(!1);
+        (0, a.useEffect)(() => {
+          !(async function () {
+            try {
+              let e = await fetch("/admin/setup/preflight");
+              401 === e.status ? l(!0) : e.ok && t(await e.json());
+            } catch (e) {}
+            try {
+              let e = await fetch("/admin/setup/stripe");
+              401 === e.status ? l(!0) : e.ok && i(await e.json());
+            } catch (e) {}
+          })();
+        }, []);
+        let s =
+            "# Care2system environment template (fill values locally)\nSTRIPE_SECRET_KEY=REPLACE_WITH_SK_xxx\nSTRIPE_PUBLISHABLE_KEY=REPLACE_WITH_PK_xxx\nSTRIPE_WEBHOOK_SECRET=REPLACE_WITH_WHSEC_xxx\n\n# Server settings\nPORT=3001\nFRONTEND_URL=http://localhost:3000\n\n# Email (example)\nSMTP_HOST=smtp.example.com\nSMTP_PORT=587\nSMTP_USER=you@example.com\nSMTP_PASSWORD=your-smtp-password\n",
+          c = async () => {
+            try {
+              (await navigator.clipboard.writeText(s),
+                alert("Template copied to clipboard"));
+            } catch (t) {
+              let e = document.createElement("textarea");
+              ((e.value = s),
+                document.body.appendChild(e),
+                e.select(),
+                document.execCommand("copy"),
+                document.body.removeChild(e),
+                alert("Template copied to clipboard"));
+            }
+          };
+        return (0, r.jsxs)("div", {
+          style: { padding: 24 },
+          children: [
+            (0, r.jsx)("h1", {
+              children: "Credential Setup Wizard (No Secrets Stored)",
+            }),
+            o &&
+              (0, r.jsx)("div", {
+                style: { marginBottom: 16, color: "#a00" },
+                children:
+                  "This page can show live checks only when you are authenticated as a system admin. Use the system admin panel to generate a short-lived token.",
+              }),
+            (0, r.jsxs)("section", {
+              style: { marginBottom: 20 },
+              children: [
+                (0, r.jsx)("h2", { children: "Preflight" }),
+                e
+                  ? (0, r.jsx)("pre", {
+                      style: { background: "#f7f7f7", padding: 12 },
+                      children: JSON.stringify(e, null, 2),
+                    })
+                  : (0, r.jsx)("div", {
+                      children:
+                        "Preflight info unavailable (requires admin auth or server offline)",
+                    }),
+              ],
+            }),
+            (0, r.jsxs)("section", {
+              style: { marginBottom: 20 },
+              children: [
+                (0, r.jsx)("h2", { children: "Stripe Check" }),
+                n
+                  ? (0, r.jsx)("pre", {
+                      style: { background: "#f7f7f7", padding: 12 },
+                      children: JSON.stringify(n, null, 2),
+                    })
+                  : (0, r.jsx)("div", {
+                      children:
+                        "Stripe presence info unavailable (requires admin auth)",
+                    }),
+              ],
+            }),
+            (0, r.jsxs)("section", {
+              children: [
+                (0, r.jsx)("h2", { children: "Copyable `.env` Template" }),
+                (0, r.jsx)("p", {
+                  children:
+                    "This generator never reads or returns secrets — it only provides a fill-in template you can copy into your local `.env`.",
+                }),
+                (0, r.jsx)("textarea", {
+                  readOnly: !0,
+                  value: s,
+                  cols: 80,
+                  rows: 12,
+                  style: { display: "block", marginBottom: 8 },
+                }),
+                (0, r.jsx)("button", { onClick: c, children: "Copy Template" }),
+              ],
+            }),
+          ],
+        });
+      }
+    },
+    8489: function (e, t, n) {
+      "use strict";
+      var r = n(58078),
+        a = Symbol.for("react.element"),
+        i = Symbol.for("react.fragment"),
+        o = Object.prototype.hasOwnProperty,
+        l =
+          r.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
+            .ReactCurrentOwner,
+        s = { key: !0, ref: !0, __self: !0, __source: !0 };
+      function c(e, t, n) {
+        var r,
+          i = {},
+          c = null,
+          d = null;
+        for (r in (void 0 !== n && (c = "" + n),
+        void 0 !== t.key && (c = "" + t.key),
+        void 0 !== t.ref && (d = t.ref),
+        t))
+          o.call(t, r) && !s.hasOwnProperty(r) && (i[r] = t[r]);
+        if (e && e.defaultProps)
+          for (r in (t = e.defaultProps)) void 0 === i[r] && (i[r] = t[r]);
+        return {
+          $$typeof: a,
+          type: e,
+          key: c,
+          ref: d,
+          props: i,
+          _owner: l.current,
+        };
+      }
+      ((t.Fragment = i), (t.jsx = c), (t.jsxs = c));
+    },
+    37821: function (e, t, n) {
+      "use strict";
+      e.exports = n(8489);
+    },
+  },
+  function (e) {
+    (e.O(0, [115, 835, 744], function () {
+      return e((e.s = 53918));
+    }),
+      (_N_E = e.O()));
+  },
+]);

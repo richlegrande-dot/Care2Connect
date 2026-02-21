@@ -1,6 +1,6 @@
 /**
  * Hardening Metrics API
- * 
+ *
  * Provides visibility into security hardening measures across:
  * - Prisma database security
  * - Server security headers
@@ -8,8 +8,8 @@
  * - Tunnel health (if available)
  */
 
-import express from 'express';
-import { getPrismaMetrics, checkPrismaHealth } from '../lib/prisma';
+import express from "express";
+import { getPrismaMetrics, checkPrismaHealth } from "../lib/prisma";
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ const router = express.Router();
  * GET /api/hardening/metrics
  * Get comprehensive hardening metrics
  */
-router.get('/metrics', async (req, res) => {
+router.get("/metrics", async (req, res) => {
   try {
     // Prisma metrics
     const prismaMetrics = getPrismaMetrics();
@@ -38,11 +38,11 @@ router.get('/metrics', async (req, res) => {
       helmetEnabled: true,
       corsConfigured: true,
       rateLimitingEnabled: true,
-      sslEnforced: process.env.NODE_ENV === 'production',
+      sslEnforced: process.env.NODE_ENV === "production",
     };
 
     res.json({
-      status: 'ok',
+      status: "ok",
       timestamp: new Date().toISOString(),
       hardening: {
         database: {
@@ -63,7 +63,7 @@ router.get('/metrics', async (req, res) => {
             helmet: true,
             cors: true,
             rateLimiting: true,
-            requestSizeLimit: '10mb',
+            requestSizeLimit: "10mb",
             jsonParsing: true,
           },
         },
@@ -71,14 +71,14 @@ router.get('/metrics', async (req, res) => {
           monitoringEnabled: true,
           autoRestartEnabled: true,
           healthCheckInterval: 30,
-          note: 'Tunnel metrics available in tunnel-metrics.json',
+          note: "Tunnel metrics available in tunnel-metrics.json",
         },
       },
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to retrieve hardening metrics',
+      status: "error",
+      message: "Failed to retrieve hardening metrics",
       error: error.message,
     });
   }
@@ -88,13 +88,13 @@ router.get('/metrics', async (req, res) => {
  * GET /api/hardening/database
  * Get detailed database security metrics
  */
-router.get('/database', async (req, res) => {
+router.get("/database", async (req, res) => {
   try {
     const prismaMetrics = getPrismaMetrics();
     const prismaHealth = await checkPrismaHealth();
 
     res.json({
-      status: 'ok',
+      status: "ok",
       timestamp: new Date().toISOString(),
       database: {
         connection: prismaHealth,
@@ -107,22 +107,24 @@ router.get('/database', async (req, res) => {
         },
         security: {
           suspiciousQueries: prismaMetrics.suspiciousQueries,
-          circuitBreakerStatus: prismaMetrics.circuitBreakerTripped ? 'TRIPPED' : 'OK',
+          circuitBreakerStatus: prismaMetrics.circuitBreakerTripped
+            ? "TRIPPED"
+            : "OK",
           consecutiveFailures: prismaMetrics.consecutiveFailures,
         },
         features: {
-          queryTimeout: '30s',
+          queryTimeout: "30s",
           retryAttempts: 3,
           maxConsecutiveFailures: 5,
-          sqlInjectionPrevention: 'enabled',
-          performanceTracking: 'enabled',
+          sqlInjectionPrevention: "enabled",
+          performanceTracking: "enabled",
         },
       },
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to retrieve database metrics',
+      status: "error",
+      message: "Failed to retrieve database metrics",
       error: error.message,
     });
   }
@@ -132,24 +134,25 @@ router.get('/database', async (req, res) => {
  * GET /api/hardening/security
  * Get security configuration status
  */
-router.get('/security', (req, res) => {
+router.get("/security", (req, res) => {
   try {
     const securityConfig = {
       headers: {
-        helmet: 'enabled',
-        csp: 'enabled',
-        hsts: 'enabled',
-        xssProtection: 'enabled',
-        frameGuard: 'deny',
-        noSniff: 'enabled',
+        helmet: "enabled",
+        csp: "enabled",
+        hsts: "enabled",
+        xssProtection: "enabled",
+        frameGuard: "deny",
+        noSniff: "enabled",
       },
       cors: {
         enabled: true,
-        allowedOrigins: process.env.NODE_ENV === 'production' 
-          ? ['care2connects.org']
-          : ['localhost:3000', 'localhost:3001'],
+        allowedOrigins:
+          process.env.NODE_ENV === "production"
+            ? ["care2connects.org"]
+            : ["localhost:3000", "localhost:3001"],
         credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       },
       rateLimiting: {
         enabled: true,
@@ -157,27 +160,27 @@ router.get('/security', (req, res) => {
           windowMs: 15 * 60 * 1000,
           max: 100,
         },
-        exemptions: ['/health', '/metrics', '/admin'],
+        exemptions: ["/health", "/metrics", "/admin"],
       },
       requestValidation: {
-        jsonLimit: '10mb',
-        urlEncodedLimit: '10mb',
+        jsonLimit: "10mb",
+        urlEncodedLimit: "10mb",
       },
       environment: {
         nodeEnv: process.env.NODE_ENV,
-        sslEnforced: process.env.NODE_ENV === 'production',
+        sslEnforced: process.env.NODE_ENV === "production",
       },
     };
 
     res.json({
-      status: 'ok',
+      status: "ok",
       timestamp: new Date().toISOString(),
       security: securityConfig,
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to retrieve security configuration',
+      status: "error",
+      message: "Failed to retrieve security configuration",
       error: error.message,
     });
   }
@@ -187,21 +190,21 @@ router.get('/security', (req, res) => {
  * POST /api/hardening/database/reset-metrics
  * Reset database metrics (admin only)
  */
-router.post('/database/reset-metrics', async (req, res) => {
+router.post("/database/reset-metrics", async (req, res) => {
   try {
     // Import reset function
-    const { resetPrismaMetrics } = await import('../lib/prisma');
+    const { resetPrismaMetrics } = await import("../lib/prisma");
     resetPrismaMetrics();
 
     res.json({
-      status: 'ok',
-      message: 'Database metrics reset successfully',
+      status: "ok",
+      message: "Database metrics reset successfully",
       timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to reset database metrics',
+      status: "error",
+      message: "Failed to reset database metrics",
       error: error.message,
     });
   }
@@ -211,7 +214,7 @@ router.post('/database/reset-metrics', async (req, res) => {
  * GET /api/hardening/health
  * Comprehensive health check for all hardened components
  */
-router.get('/health', async (req, res) => {
+router.get("/health", async (req, res) => {
   try {
     const prismaHealth = await checkPrismaHealth();
     const prismaMetrics = getPrismaMetrics();
@@ -222,10 +225,12 @@ router.get('/health', async (req, res) => {
       circuitBreaker: !prismaMetrics.circuitBreakerTripped,
     };
 
-    const allHealthy = Object.values(overallHealth).every(status => status === true);
+    const allHealthy = Object.values(overallHealth).every(
+      (status) => status === true,
+    );
 
     res.status(allHealthy ? 200 : 503).json({
-      status: allHealthy ? 'healthy' : 'degraded',
+      status: allHealthy ? "healthy" : "degraded",
       timestamp: new Date().toISOString(),
       components: overallHealth,
       details: {
@@ -242,8 +247,8 @@ router.get('/health', async (req, res) => {
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'error',
-      message: 'Health check failed',
+      status: "error",
+      message: "Health check failed",
       error: error.message,
     });
   }

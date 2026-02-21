@@ -1,11 +1,11 @@
 /**
  * Audit Logging Service
  * Tracks all changes to KnowledgeSource and KnowledgeChunk with full audit trail
- * 
+ *
  * Security: Automatically redacts secrets from audit logs
  */
 
-import { PrismaClient, AuditAction, AuditEntityType } from '@prisma/client';
+import { PrismaClient, AuditAction, AuditEntityType } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -49,12 +49,12 @@ function redactSecrets(obj: any): any {
 
   // Handle null, undefined, or non-objects
   if (obj === null || obj === undefined) return obj;
-  if (typeof obj !== 'object') {
+  if (typeof obj !== "object") {
     // Redact strings
-    if (typeof obj === 'string') {
+    if (typeof obj === "string") {
       let redacted = obj;
       for (const pattern of SENSITIVE_PATTERNS) {
-        redacted = redacted.replace(pattern, '[REDACTED]');
+        redacted = redacted.replace(pattern, "[REDACTED]");
       }
       return redacted;
     }
@@ -72,21 +72,21 @@ function redactSecrets(obj: any): any {
     // Redact common secret field names
     const lowerKey = key.toLowerCase();
     if (
-      lowerKey.includes('password') ||
-      lowerKey.includes('secret') ||
-      lowerKey.includes('token') ||
-      lowerKey.includes('apikey') ||
-      lowerKey.includes('api_key')
+      lowerKey.includes("password") ||
+      lowerKey.includes("secret") ||
+      lowerKey.includes("token") ||
+      lowerKey.includes("apikey") ||
+      lowerKey.includes("api_key")
     ) {
-      redacted[key] = '[REDACTED]';
-    } else if (typeof value === 'string') {
+      redacted[key] = "[REDACTED]";
+    } else if (typeof value === "string") {
       // Redact string values
       let redactedValue = value;
       for (const pattern of SENSITIVE_PATTERNS) {
-        redactedValue = redactedValue.replace(pattern, '[REDACTED]');
+        redactedValue = redactedValue.replace(pattern, "[REDACTED]");
       }
       redacted[key] = redactedValue;
-    } else if (typeof value === 'object') {
+    } else if (typeof value === "object") {
       // Recursively redact nested objects
       redacted[key] = redactSecrets(value);
     } else {
@@ -128,10 +128,10 @@ function computeDiff(before: any, after: any): any {
 
 /**
  * Log an audit event
- * 
+ *
  * @param input - Audit log details
  * @returns Promise that resolves when log is created (or silently fails)
- * 
+ *
  * @example
  * await logAudit({
  *   actor: 'admin',
@@ -167,12 +167,12 @@ export async function logAudit(input: AuditLogInput): Promise<void> {
     });
 
     console.log(
-      `[AuditLogger] Logged ${input.action} on ${input.entityType}:${input.entityId} by ${input.actor}`
+      `[AuditLogger] Logged ${input.action} on ${input.entityType}:${input.entityId} by ${input.actor}`,
     );
   } catch (error) {
     // Don't throw - audit logging failures shouldn't break operations
-    console.error('[AuditLogger] Failed to log audit event:', error);
-    console.error('[AuditLogger] Input:', {
+    console.error("[AuditLogger] Failed to log audit event:", error);
+    console.error("[AuditLogger] Input:", {
       actor: input.actor,
       action: input.action,
       entityType: input.entityType,
@@ -183,14 +183,14 @@ export async function logAudit(input: AuditLogInput): Promise<void> {
 
 /**
  * Helper function to get audit logs for a specific entity
- * 
+ *
  * @param entityType - Type of entity (KNOWLEDGE_SOURCE or KNOWLEDGE_CHUNK)
  * @param entityId - ID of the entity
  * @returns Array of audit logs for the entity
  */
 export async function getAuditLogsForEntity(
   entityType: AuditEntityType,
-  entityId: string
+  entityId: string,
 ) {
   return prisma.knowledgeAuditLog.findMany({
     where: {
@@ -198,14 +198,14 @@ export async function getAuditLogsForEntity(
       entityId,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 }
 
 /**
  * Helper function to get recent audit logs
- * 
+ *
  * @param limit - Maximum number of logs to return
  * @returns Array of recent audit logs
  */
@@ -213,7 +213,7 @@ export async function getRecentAuditLogs(limit: number = 50) {
   return prisma.knowledgeAuditLog.findMany({
     take: limit,
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 }

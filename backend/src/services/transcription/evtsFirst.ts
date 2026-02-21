@@ -1,28 +1,35 @@
 /**
  * EVTS-First Transcription Service
- * 
+ *
  * Implements transcription preference strategy:
  * 1. Try EVTS (local) first - WHISPER variant preferred
  * 2. Fallback to OpenAI if EVTS unavailable/fails
- * 
+ *
  * Environment Variables:
  * - TRANSCRIPTION_PREFERENCE: "EVTS_FIRST" | "OPENAI_ONLY"
  * - EVTS_VARIANT: "WHISPER" | "VOSK"
  * - OPENAI_API_KEY: Fallback key
  */
 
-import { SessionManager } from '../speechIntelligence/sessionManager';
-import * as fs from 'fs';
-import * as path from 'path';
-import OpenAI from 'openai';
-import { prisma } from '../lib/prisma';
+import { SessionManager } from "../speechIntelligence/sessionManager";
+import * as fs from "fs";
+import * as path from "path";
+import OpenAI from "openai";
+import { prisma } from "../lib/prisma";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export type TranscriptionEngine = 'EVTS_WHISPER' | 'EVTS_VOSK' | 'OPENAI_WHISPER' | 'BROWSER_ONLY';
-export type TranscriptionPreference = 'EVTS_FIRST' | 'OPENAI_ONLY' | 'BROWSER_ONLY';
+export type TranscriptionEngine =
+  | "EVTS_WHISPER"
+  | "EVTS_VOSK"
+  | "OPENAI_WHISPER"
+  | "BROWSER_ONLY";
+export type TranscriptionPreference =
+  | "EVTS_FIRST"
+  | "OPENAI_ONLY"
+  | "BROWSER_ONLY";
 
 interface TranscriptionResult {
   success: boolean;
@@ -33,7 +40,7 @@ interface TranscriptionResult {
 }
 
 interface EVTSConfig {
-  variant: 'WHISPER' | 'VOSK';
+  variant: "WHISPER" | "VOSK";
   available: boolean;
   reason?: string;
 }
@@ -42,15 +49,19 @@ interface EVTSConfig {
  * Check if EVTS is available and configured
  */
 export function checkEVTSAvailability(): EVTSConfig {
-  const variant = (process.env.EVTS_VARIANT || 'WHISPER').toUpperCase() as 'WHISPER' | 'VOSK';
-  
+  const variant = (process.env.EVTS_VARIANT || "WHISPER").toUpperCase() as
+    | "WHISPER"
+    | "VOSK";
+
   // Check if EVTS model exists
-  const evtsModelPath = process.env.EVTS_MODEL_PATH || path.join(
-    process.cwd(),
-    '..',
-    'models',
-    variant === 'WHISPER' ? 'ggml-base.en.bin' : 'vosk-model-small-en-us'
-  );
+  const evtsModelPath =
+    process.env.EVTS_MODEL_PATH ||
+    path.join(
+      process.cwd(),
+      "..",
+      "models",
+      variant === "WHISPER" ? "ggml-base.en.bin" : "vosk-model-small-en-us",
+    );
 
   if (!fs.existsSync(evtsModelPath)) {
     return {
@@ -71,7 +82,7 @@ export function checkEVTSAvailability(): EVTSConfig {
  */
 async function transcribeWithEVTS(
   audioFilePath: string,
-  variant: 'WHISPER' | 'VOSK'
+  variant: "WHISPER" | "VOSK",
 ): Promise<TranscriptionResult> {
   const startTime = Date.now();
 
@@ -103,11 +114,11 @@ async function transcribeWithEVTS(
     */
   } catch (error: any) {
     console.error(`[EVTS] ${variant} transcription failed:`, error.message);
-    
+
     return {
       success: false,
-      transcript: '',
-      engine: variant === 'WHISPER' ? 'EVTS_WHISPER' : 'EVTS_VOSK',
+      transcript: "",
+      engine: variant === "WHISPER" ? "EVTS_WHISPER" : "EVTS_VOSK",
       duration: Date.now() - startTime,
       error: error.message,
     };
@@ -117,14 +128,16 @@ async function transcribeWithEVTS(
 /**
  * Transcribe using OpenAI Whisper API (cloud fallback)
  */
-async function transcribeWithOpenAI(audioFilePath: string): Promise<TranscriptionResult> {
+async function transcribeWithOpenAI(
+  audioFilePath: string,
+): Promise<TranscriptionResult> {
   const startTime = Date.now();
 
   try {
-    console.log('[OpenAI] Starting Whisper API transcription...');
+    console.log("[OpenAI] Starting Whisper API transcription...");
 
     if (!process.env.OPENAI_API_KEY) {
-      throw new Error('OPENAI_API_KEY not configured');
+      throw new Error("OPENAI_API_KEY not configured");
     }
 
     if (!fs.existsSync(audioFilePath)) {
@@ -135,26 +148,26 @@ async function transcribeWithOpenAI(audioFilePath: string): Promise<Transcriptio
 
     const response = await openai.audio.transcriptions.create({
       file: audioFile,
-      model: 'whisper-1',
-      language: 'en',
-      response_format: 'json',
+      model: "whisper-1",
+      language: "en",
+      response_format: "json",
     });
 
-    console.log('[OpenAI] ✅ Transcription successful');
+    console.log("[OpenAI] ✅ Transcription successful");
 
     return {
       success: true,
       transcript: response.text,
-      engine: 'OPENAI_WHISPER',
+      engine: "OPENAI_WHISPER",
       duration: Date.now() - startTime,
     };
   } catch (error: any) {
-    console.error('[OpenAI] Transcription failed:', error.message);
+    console.error("[OpenAI] Transcription failed:", error.message);
 
     return {
       success: false,
-      transcript: '',
-      engine: 'OPENAI_WHISPER',
+      transcript: "",
+      engine: "OPENAI_WHISPER",
       duration: Date.now() - startTime,
       error: error.message,
     };
@@ -166,43 +179,51 @@ async function transcribeWithOpenAI(audioFilePath: string): Promise<Transcriptio
  */
 export async function transcribeAudioWithStrategy(
   audioFilePath: string,
-  sessionId?: string
+  sessionId?: string,
 ): Promise<TranscriptionResult> {
-  const preference = (process.env.TRANSCRIPTION_PREFERENCE || 'EVTS_FIRST') as TranscriptionPreference;
+  const preference = (process.env.TRANSCRIPTION_PREFERENCE ||
+    "EVTS_FIRST") as TranscriptionPreference;
 
   console.log(`\n🎤 Starting transcription with strategy: ${preference}`);
 
   // Browser-only mode (no server-side transcription)
-  if (preference === 'BROWSER_ONLY') {
-    console.log('[Transcription] Browser-only mode - server transcription skipped');
+  if (preference === "BROWSER_ONLY") {
+    console.log(
+      "[Transcription] Browser-only mode - server transcription skipped",
+    );
     return {
       success: false,
-      transcript: '',
-      engine: 'BROWSER_ONLY',
+      transcript: "",
+      engine: "BROWSER_ONLY",
       duration: 0,
-      error: 'Server transcription disabled (browser-only mode)',
+      error: "Server transcription disabled (browser-only mode)",
     };
   }
 
   // OpenAI-only mode (skip EVTS)
-  if (preference === 'OPENAI_ONLY') {
-    console.log('[Transcription] OpenAI-only mode - skipping EVTS');
+  if (preference === "OPENAI_ONLY") {
+    console.log("[Transcription] OpenAI-only mode - skipping EVTS");
     return await transcribeWithOpenAI(audioFilePath);
   }
 
   // EVTS-first mode
-  console.log('[Transcription] EVTS-first mode');
-  
+  console.log("[Transcription] EVTS-first mode");
+
   const evtsConfig = checkEVTSAvailability();
-  
+
   if (evtsConfig.available) {
-    console.log(`[Transcription] ✅ EVTS ${evtsConfig.variant} available, trying first...`);
-    
-    const evtsResult = await transcribeWithEVTS(audioFilePath, evtsConfig.variant);
-    
+    console.log(
+      `[Transcription] ✅ EVTS ${evtsConfig.variant} available, trying first...`,
+    );
+
+    const evtsResult = await transcribeWithEVTS(
+      audioFilePath,
+      evtsConfig.variant,
+    );
+
     if (evtsResult.success) {
       console.log(`[Transcription] ✅ EVTS ${evtsConfig.variant} succeeded`);
-      
+
       // Store engine used
       if (sessionId) {
         await prisma.transcriptionSession.update({
@@ -210,22 +231,24 @@ export async function transcribeAudioWithStrategy(
           data: { engine: evtsResult.engine },
         });
       }
-      
+
       return evtsResult;
     }
-    
-    console.log(`[Transcription] ⚠️ EVTS ${evtsConfig.variant} failed, falling back to OpenAI...`);
+
+    console.log(
+      `[Transcription] ⚠️ EVTS ${evtsConfig.variant} failed, falling back to OpenAI...`,
+    );
   } else {
     console.log(`[Transcription] ⚠️ EVTS unavailable: ${evtsConfig.reason}`);
-    console.log('[Transcription] Falling back to OpenAI...');
+    console.log("[Transcription] Falling back to OpenAI...");
   }
 
   // Fallback to OpenAI
   const openaiResult = await transcribeWithOpenAI(audioFilePath);
-  
+
   if (openaiResult.success) {
-    console.log('[Transcription] ✅ OpenAI fallback succeeded');
-    
+    console.log("[Transcription] ✅ OpenAI fallback succeeded");
+
     // Store engine used
     if (sessionId) {
       await prisma.transcriptionSession.update({
@@ -234,7 +257,7 @@ export async function transcribeAudioWithStrategy(
       });
     }
   } else {
-    console.error('[Transcription] ❌ All transcription methods failed');
+    console.error("[Transcription] ❌ All transcription methods failed");
   }
 
   return openaiResult;
@@ -246,8 +269,12 @@ export async function transcribeAudioWithStrategy(
  */
 export async function transcribeWithSessionManager(
   audioFilePath: string,
-  recordingTicketId?: string
-): Promise<{ sessionId: string; transcript: string; engine: TranscriptionEngine }> {
+  recordingTicketId?: string,
+): Promise<{
+  sessionId: string;
+  transcript: string;
+  engine: TranscriptionEngine;
+}> {
   // Create session
   const sessionManager = new SessionManager();
   const session = await sessionManager.createSession({
@@ -256,7 +283,7 @@ export async function transcribeWithSessionManager(
       path: audioFilePath,
       filename: path.basename(audioFilePath),
       size: fs.statSync(audioFilePath).size,
-      mimeType: 'audio/wav',
+      mimeType: "audio/wav",
     },
   });
 
@@ -265,7 +292,7 @@ export async function transcribeWithSessionManager(
 
   if (!result.success) {
     await sessionManager.updateSession(session.id, {
-      status: 'ERROR',
+      status: "ERROR",
       errorMessage: result.error,
     });
 
@@ -274,13 +301,15 @@ export async function transcribeWithSessionManager(
 
   // Update session with results
   await sessionManager.updateSession(session.id, {
-    status: 'COMPLETED',
+    status: "COMPLETED",
     transcript: result.transcript,
     engine: result.engine,
     processingTimeMs: result.duration,
   });
 
-  console.log(`[Transcription] ✅ Session ${session.id} completed with ${result.engine}`);
+  console.log(
+    `[Transcription] ✅ Session ${session.id} completed with ${result.engine}`,
+  );
 
   return {
     sessionId: session.id,
@@ -299,7 +328,7 @@ export async function getTranscriptionStats(): Promise<{
 }> {
   const sessions = await prisma.transcriptionSession.findMany({
     where: {
-      status: 'COMPLETED',
+      status: "COMPLETED",
       engine: { not: null },
     },
     select: { engine: true },
@@ -312,7 +341,7 @@ export async function getTranscriptionStats(): Promise<{
     BROWSER_ONLY: 0,
   };
 
-  sessions.forEach(session => {
+  sessions.forEach((session) => {
     if (session.engine) {
       byEngine[session.engine] = (byEngine[session.engine] || 0) + 1;
     }

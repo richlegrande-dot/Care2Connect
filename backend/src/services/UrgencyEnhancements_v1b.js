@@ -1,9 +1,9 @@
 /**
  * UrgencyEnhancements_v1b.js - Targeted Urgency Improvements
- * 
+ *
  * Phase 1B: Simple, focused enhancements to reduce urgency under-assessment
  * without disrupting the stable v1 architecture.
- * 
+ *
  * Targets: 196 urgency_under_assessed cases from baseline analysis
  * Approach: Add specific high-confidence patterns with conservative scoring
  */
@@ -12,12 +12,12 @@ class UrgencyEnhancements {
   /**
    * Enhanced urgency assessment with targeted improvements
    * @param {string} transcript - The transcript text
-   * @param {Object} baseAssessment - Base assessment from v1 service 
+   * @param {Object} baseAssessment - Base assessment from v1 service
    * @param {Object} context - Additional context (category, amount, etc.)
    * @returns {Object} Enhanced assessment {score, urgency, reasons}
    */
   static enhanceAssessment(transcript, baseAssessment, context = {}) {
-    const cleanText = transcript.toLowerCase().replace(/[^\w\s]/g, ' ');
+    const cleanText = transcript.toLowerCase().replace(/[^\w\s]/g, " ");
     let enhancedScore = baseAssessment.score || 0;
     let reasons = [...(baseAssessment.reasons || [])];
     let appliedEnhancements = [];
@@ -36,11 +36,11 @@ class UrgencyEnhancements {
     if (enhancedScore < 0.77) {
       for (const pattern of criticalEvictionPatterns) {
         if (pattern.test(cleanText)) {
-          const boost = Math.min(0.15, 0.80 - enhancedScore); // Conservative CRITICAL boost
+          const boost = Math.min(0.15, 0.8 - enhancedScore); // Conservative CRITICAL boost
           if (boost > 0) {
             enhancedScore += boost;
-            appliedEnhancements.push('critical_eviction_temporal');
-            reasons.push('v1b_critical_eviction_enhancement');
+            appliedEnhancements.push("critical_eviction_temporal");
+            reasons.push("v1b_critical_eviction_enhancement");
             break;
           }
         }
@@ -60,8 +60,8 @@ class UrgencyEnhancements {
           const boost = Math.min(0.12, 0.55 - enhancedScore); // Moderate HIGH boost
           if (boost > 0) {
             enhancedScore += boost;
-            appliedEnhancements.push('high_eviction');
-            reasons.push('v1b_high_eviction_enhancement');
+            appliedEnhancements.push("high_eviction");
+            reasons.push("v1b_high_eviction_enhancement");
             break;
           }
         }
@@ -75,15 +75,15 @@ class UrgencyEnhancements {
       /\b(?:emergency\s+surgery|urgent\s+surgery|immediate\s+surgery)/i,
     ];
 
-    // Only boost to CRITICAL if current score is below CRITICAL threshold (0.77) 
+    // Only boost to CRITICAL if current score is below CRITICAL threshold (0.77)
     if (enhancedScore < 0.77 && appliedEnhancements.length === 0) {
       for (const pattern of criticalMedicalPatterns) {
         if (pattern.test(cleanText)) {
           const boost = Math.min(0.35, 0.85 - enhancedScore); // Stronger boost for critical medical
           if (boost > 0) {
             enhancedScore += boost;
-            appliedEnhancements.push('critical_medical_emergency');
-            reasons.push('v1b_critical_medical_enhancement');
+            appliedEnhancements.push("critical_medical_emergency");
+            reasons.push("v1b_critical_medical_enhancement");
             break;
           }
         }
@@ -105,8 +105,8 @@ class UrgencyEnhancements {
           const boost = Math.min(0.12, 0.55 - enhancedScore); // Moderate HIGH boost
           if (boost > 0) {
             enhancedScore += boost;
-            appliedEnhancements.push('high_medical_urgency');
-            reasons.push('v1b_high_medical_enhancement');
+            appliedEnhancements.push("high_medical_urgency");
+            reasons.push("v1b_high_medical_enhancement");
             break;
           }
         }
@@ -125,11 +125,11 @@ class UrgencyEnhancements {
     if (enhancedScore < 0.47 && appliedEnhancements.length === 0) {
       for (const pattern of timeCriticalPatterns) {
         if (pattern.test(cleanText)) {
-          const boost = Math.min(0.10, 0.50 - enhancedScore); // Moderate HIGH boost
+          const boost = Math.min(0.1, 0.5 - enhancedScore); // Moderate HIGH boost
           if (boost > 0) {
             enhancedScore += boost;
-            appliedEnhancements.push('time_critical');
-            reasons.push('v1b_time_critical_enhancement');
+            appliedEnhancements.push("time_critical");
+            reasons.push("v1b_time_critical_enhancement");
             break;
           }
         }
@@ -148,11 +148,11 @@ class UrgencyEnhancements {
     if (enhancedScore < 0.47 && appliedEnhancements.length === 0) {
       for (const pattern of familyCrisisPatterns) {
         if (pattern.test(cleanText)) {
-          const boost = Math.min(0.10, 0.50 - enhancedScore); // Moderate HIGH boost
+          const boost = Math.min(0.1, 0.5 - enhancedScore); // Moderate HIGH boost
           if (boost > 0) {
             enhancedScore += boost;
-            appliedEnhancements.push('family_crisis');
-            reasons.push('v1b_family_crisis_enhancement');
+            appliedEnhancements.push("family_crisis");
+            reasons.push("v1b_family_crisis_enhancement");
             break;
           }
         }
@@ -166,7 +166,7 @@ class UrgencyEnhancements {
       score: Math.min(enhancedScore, 1.0), // Cap at 1.0
       urgency,
       reasons,
-      enhancements: appliedEnhancements
+      enhancements: appliedEnhancements,
     };
   }
 
@@ -174,17 +174,17 @@ class UrgencyEnhancements {
    * Map numeric score to urgency level (matching v1 thresholds)
    */
   static mapScoreToUrgency(score) {
-    if (score >= 0.77) return 'CRITICAL';
-    if (score >= 0.47) return 'HIGH';  
-    if (score >= 0.15) return 'MEDIUM';
-    return 'LOW';
+    if (score >= 0.77) return "CRITICAL";
+    if (score >= 0.47) return "HIGH";
+    if (score >= 0.15) return "MEDIUM";
+    return "LOW";
   }
 
   /**
    * Check if enhancement is applicable (avoid over-enhancement)
    */
   static shouldEnhance(baseUrgency, targetUrgency) {
-    const levels = { 'LOW': 1, 'MEDIUM': 2, 'HIGH': 3, 'CRITICAL': 4 };
+    const levels = { LOW: 1, MEDIUM: 2, HIGH: 3, CRITICAL: 4 };
     return levels[targetUrgency] > levels[baseUrgency];
   }
 }

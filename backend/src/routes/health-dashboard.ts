@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { healthMonitor } from '../monitoring/healthMonitor';
+import { Router, Request, Response } from "express";
+import { healthMonitor } from "../monitoring/healthMonitor";
 
 const router = Router();
 
@@ -7,10 +7,10 @@ const router = Router();
  * GET /health/dashboard
  * Health monitoring dashboard with real-time graphs
  */
-router.get('/dashboard', async (req: Request, res: Response) => {
+router.get("/dashboard", async (req: Request, res: Response) => {
   const snapshot = await healthMonitor.performHealthCheck();
   const history = healthMonitor.getHistory(100);
-  
+
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -560,7 +560,7 @@ router.get('/dashboard', async (req: Request, res: Response) => {
 </body>
 </html>
   `;
-  
+
   res.send(html);
 });
 

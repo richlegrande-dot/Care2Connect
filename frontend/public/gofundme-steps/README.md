@@ -23,7 +23,7 @@ Place screenshots in this directory with the following naming convention:
 
 - **Resolution**: 1200x900 pixels or higher
 - **Format**: PNG or JPG
-- **Content**: 
+- **Content**:
   - Show the actual GoFundMe interface clearly
   - Highlight the relevant input field or button
   - Avoid including personal information
@@ -32,6 +32,7 @@ Place screenshots in this directory with the following naming convention:
 ## Fallback Behavior
 
 If screenshots are missing, the GoFundMe wizard component will display:
+
 - Placeholder icon (image placeholder)
 - Text instructions only
 - The wizard remains fully functional without images

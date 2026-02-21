@@ -1,20 +1,20 @@
 /**
  * Phase 3: Urgency Under-Assessment Fix (v3c Enhancement)
- * 
+ *
  * PURPOSE: Fix urgency_under_assessed cases (147 cases, 24.9%) to achieve 50%+ target
  * TARGET: Convert 30-40 under-assessed cases to correct urgency → 282-292/590 (47.8-49.5%)
- * 
+ *
  * PROBLEM ANALYSIS:
  * - urgency_under_assessed: 147 cases where urgency level is too low
  * - Common patterns: CRITICAL→HIGH, HIGH→MEDIUM, MEDIUM→LOW misclassifications
  * - Key indicators: Emergency situations, time pressure, life-critical needs
- * 
+ *
  * APPROACH: Contextual urgency boosting with situation-aware detection
  * - Emergency keywords and phrases detection
  * - Time pressure indicators (deadlines, immediate needs)
  * - Life-critical situations (medical emergencies, homelessness, safety)
  * - Financial crisis indicators (eviction, shutoff notices)
- * 
+ *
  * INTEGRATION: Works alongside v3b (Core30 protection) + v2c (category fixes)
  * SAFETY: Conservative boosts with confidence thresholds
  */
@@ -27,69 +27,69 @@ const URGENCY_BOOST_PATTERNS = {
     /\b(emergency|urgent|critical|life.?threatening|dying|death)\b/i,
     /\b(surgery|operation|hospital|ambulance|doctor|medical.emergency)\b/i,
     /\b(heart.attack|stroke|accident|injury|bleeding|pain)\b/i,
-    
-    // Housing/Safety emergencies  
+
+    // Housing/Safety emergencies
     /\b(evict(ed|ion)|homeless|kicked.out|nowhere.to.go)\b/i,
     /\b(fire|flood|disaster|emergency.shelter|domestic.violence)\b/i,
     /\b(utilities?.?(shut.?off|disconnect|cut.?off)|no.(power|heat|water))\b/i,
-    
+
     // Time pressure - immediate deadlines
     /\b(today|tomorrow|this.week|by.friday|deadline|immediate)\b/i,
     /\b(right.away|asap|as.soon.as.possible|urgent|can.t.wait)\b/i,
-    
+
     // General crisis indicators - EXPANDED for Phase 3
     /\b(crisis|desperate|can.t.afford|running.out|emergency)\b/i,
     /\b(shutoff.notice|final.notice|last.chance|no.choice)\b/i,
   ],
-  
+
   // HIGH level indicators - serious situations requiring prompt attention
   HIGH_INDICATORS: [
     // Job/income loss with dependents
     /\b(lost.(job|work)|unemployed|laid.off).*(kids?|children|family)\b/i,
     /\b(single.(mom|mother|dad|father|parent)).*(work|job|money)\b/i,
-    
+
     // Medical needs with urgency
     /\b(medication|prescription|therapy|treatment).*(need|urgent|help)\b/i,
     /\b(medical.bills|hospital.bills|doctor.bills)\b/i,
-    
+
     // Housing with time pressure
     /\b(rent|mortgage|eviction).*(behind|late|overdue|notice)\b/i,
     /\b(thirty.days?|60.days?|notice).*(evict|move|out)\b/i,
-    
+
     // Transportation for work/medical
     /\b(car.*(broke|repair|work)|transport.*(work|job|medical))\b/i,
-    
+
     // General high urgency - EXPANDED for Phase 3
     /\b(help|need|assistance).*(urgent|asap|soon|quick)\b/i,
     /\b(behind.*(rent|bills|mortgage)|overdue|late.payment)\b/i,
     /\b(weeks?|days?).*(evict|shutoff|due|deadline)\b/i,
   ],
-  
-  // MEDIUM level indicators - important but less time-sensitive  
+
+  // MEDIUM level indicators - important but less time-sensitive
   MEDIUM_INDICATORS: [
-    // Education/training with deadlines  
+    // Education/training with deadlines
     /\b(school|college|education|training).*(semester|deadline|start)\b/i,
     /\b(tuition|fees).*(due|semester|year)\b/i,
-    
+
     // Ongoing financial strain
     /\b(bills?.?(pile|piling|stack)|debt|financial.strain)\b/i,
     /\b(struggle|struggling).*(month|pay|afford)\b/i,
-    
+
     // General stress indicators - EXPANDED for Phase 3
     /\b(stress|worry|anxious|scared|don.t.know.what.to.do)\b/i,
     /\b(help|need|assistance).*(please|really|desperately)\b/i,
     /\b(month|week).*(bills?|expenses?|payments?)\b/i,
-  ]
+  ],
 };
 
 // Contextual boost scoring based on situation severity
 const URGENCY_CONTEXT_SCORES = {
   // Emergency keywords add significant boost
-  EMERGENCY_BOOST: 0.25,      // "emergency", "critical", "urgent"
-  DEADLINE_BOOST: 0.20,       // "today", "tomorrow", "deadline"  
-  LIFE_CRITICAL_BOOST: 0.30,  // "surgery", "eviction", "homeless"
-  FAMILY_BOOST: 0.15,         // "children", "kids", "family" with crisis
-  MEDICAL_BOOST: 0.20,        // Medical situations
+  EMERGENCY_BOOST: 0.25, // "emergency", "critical", "urgent"
+  DEADLINE_BOOST: 0.2, // "today", "tomorrow", "deadline"
+  LIFE_CRITICAL_BOOST: 0.3, // "surgery", "eviction", "homeless"
+  FAMILY_BOOST: 0.15, // "children", "kids", "family" with crisis
+  MEDICAL_BOOST: 0.2, // Medical situations
   FINANCIAL_CRISIS_BOOST: 0.15, // Shutoff notices, evictions
 };
 
@@ -106,14 +106,14 @@ const BOOST_EXCLUSION_PATTERNS = {
   NON_URGENT_ROUTINE: [
     /\b(regular|routine|usual|normal|typical|just.wanted.to.ask)\b/i,
     /\b(monthly|weekly|recurring|ongoing|quick.question)\b/i,
-  ]
+  ],
 };
 
 // Confidence thresholds for apply boosts - CONSERVATIVE Phase 3 settings to prevent overcorrection
 const BOOST_CONFIDENCE_THRESHOLDS = {
-  CRITICAL_BOOST: 0.40,    // Much more conservative for true emergencies only
-  HIGH_BOOST: 0.35,        // Raised significantly to reduce false positives  
-  MEDIUM_BOOST: 0.30,      // Higher threshold for selective application
+  CRITICAL_BOOST: 0.4, // Much more conservative for true emergencies only
+  HIGH_BOOST: 0.35, // Raised significantly to reduce false positives
+  MEDIUM_BOOST: 0.3, // Higher threshold for selective application
 };
 
 /**
@@ -136,10 +136,10 @@ function calculateUrgencyBoost(transcript, baseCategory, baseScore) {
         return {
           boost: 0,
           confidence: 0,
-          reasons: ['Excluded: Informational/routine request detected'],
+          reasons: ["Excluded: Informational/routine request detected"],
           criticalMatches: 0,
           highMatches: 0,
-          mediumMatches: 0
+          mediumMatches: 0,
         };
       }
     }
@@ -152,7 +152,7 @@ function calculateUrgencyBoost(transcript, baseCategory, baseScore) {
       criticalMatches++;
       totalBoost += URGENCY_CONTEXT_SCORES.LIFE_CRITICAL_BOOST;
       confidence += 0.15;
-      
+
       const match = text.match(pattern);
       if (match) {
         reasons.push(`Critical indicator: ${match[0]}`);
@@ -166,8 +166,8 @@ function calculateUrgencyBoost(transcript, baseCategory, baseScore) {
     if (pattern.test(text)) {
       highMatches++;
       totalBoost += URGENCY_CONTEXT_SCORES.MEDICAL_BOOST;
-      confidence += 0.10;
-      
+      confidence += 0.1;
+
       const match = text.match(pattern);
       if (match) {
         reasons.push(`High urgency indicator: ${match[0]}`);
@@ -175,14 +175,14 @@ function calculateUrgencyBoost(transcript, baseCategory, baseScore) {
     }
   }
 
-  // Check for MEDIUM level indicators  
+  // Check for MEDIUM level indicators
   let mediumMatches = 0;
   for (const pattern of URGENCY_BOOST_PATTERNS.MEDIUM_INDICATORS) {
     if (pattern.test(text)) {
       mediumMatches++;
       totalBoost += URGENCY_CONTEXT_SCORES.FINANCIAL_CRISIS_BOOST;
       confidence += 0.08;
-      
+
       const match = text.match(pattern);
       if (match) {
         reasons.push(`Medium urgency indicator: ${match[0]}`);
@@ -191,53 +191,74 @@ function calculateUrgencyBoost(transcript, baseCategory, baseScore) {
   }
 
   // Emergency keywords get extra boost - BUT ONLY if no other boosts applied (prevent stacking)
-  if (totalBoost === 0 && /\b(emergency|urgent|critical|asap|immediate)\b/i.test(text)) {
+  if (
+    totalBoost === 0 &&
+    /\b(emergency|urgent|critical|asap|immediate)\b/i.test(text)
+  ) {
     totalBoost += URGENCY_CONTEXT_SCORES.EMERGENCY_BOOST;
-    confidence += 0.20;
-    reasons.push('Emergency language detected');
+    confidence += 0.2;
+    reasons.push("Emergency language detected");
   }
 
   // CONSERVATIVE Phase 3: Only apply ONE additional boost to prevent overcorrection
   if (totalBoost === 0) {
     // Basic urgency words (specific crisis indicators)
-    if (/\b(desperate|crisis|emergency|can.t.afford.*(rent|medicine|food)|evict|shutoff)\b/i.test(text)) {
+    if (
+      /\b(desperate|crisis|emergency|can.t.afford.*(rent|medicine|food)|evict|shutoff)\b/i.test(
+        text,
+      )
+    ) {
       totalBoost += URGENCY_CONTEXT_SCORES.FINANCIAL_CRISIS_BOOST;
       confidence += 0.15;
-      reasons.push('Crisis situation detected');
+      reasons.push("Crisis situation detected");
     }
     // Time pressure indicators (urgent deadlines) - only if no crisis detected
-    else if (/\b(today|tomorrow|this.week|by.*(friday|monday|end.of|deadline)|asap|right.away|immediately)\b/i.test(text)) {
+    else if (
+      /\b(today|tomorrow|this.week|by.*(friday|monday|end.of|deadline)|asap|right.away|immediately)\b/i.test(
+        text,
+      )
+    ) {
       totalBoost += URGENCY_CONTEXT_SCORES.DEADLINE_BOOST;
       confidence += 0.18;
-      reasons.push('Urgent deadline detected');
+      reasons.push("Urgent deadline detected");
     }
     // Financial crisis (specific threat indicators) - only if no other boosts
-    else if (/\b(eviction.notice|shutoff.notice|disconnect.notice|final.notice|behind.*months|overdue.*payment|foreclosure)\b/i.test(text)) {
+    else if (
+      /\b(eviction.notice|shutoff.notice|disconnect.notice|final.notice|behind.*months|overdue.*payment|foreclosure)\b/i.test(
+        text,
+      )
+    ) {
       totalBoost += URGENCY_CONTEXT_SCORES.FINANCIAL_CRISIS_BOOST;
       confidence += 0.15;
-      reasons.push('Financial crisis situation');
+      reasons.push("Financial crisis situation");
     }
   }
 
   // Family/children in crisis - only apply if no other boosts to prevent stacking
-  if (totalBoost === 0 && 
-      /\b(kids?|children|family|son|daughter)\b/i.test(text) && 
-      /\b(help|need|crisis|problem|trouble)\b/i.test(text)) {
+  if (
+    totalBoost === 0 &&
+    /\b(kids?|children|family|son|daughter)\b/i.test(text) &&
+    /\b(help|need|crisis|problem|trouble)\b/i.test(text)
+  ) {
     totalBoost += URGENCY_CONTEXT_SCORES.FAMILY_BOOST;
     confidence += 0.12;
-    reasons.push('Family/children in crisis');
+    reasons.push("Family/children in crisis");
   }
 
   // Medical category - only if no other boosts to prevent overcorrection
-  if (totalBoost === 0 && baseCategory === 'HEALTHCARE' && /\b(surgery|hospital|doctor|medication)\b/i.test(text)) {
+  if (
+    totalBoost === 0 &&
+    baseCategory === "HEALTHCARE" &&
+    /\b(surgery|hospital|doctor|medication)\b/i.test(text)
+  ) {
     totalBoost += URGENCY_CONTEXT_SCORES.MEDICAL_BOOST;
     confidence += 0.15;
-    reasons.push('Medical situation urgency');
+    reasons.push("Medical situation urgency");
   }
 
   // Normalize confidence (cap at 0.95)
   confidence = Math.min(confidence, 0.95);
-  
+
   // CONSERVATIVE: Cap total boost to prevent over-correction (reduced from 0.40)
   totalBoost = Math.min(totalBoost, 0.25);
 
@@ -246,8 +267,8 @@ function calculateUrgencyBoost(transcript, baseCategory, baseScore) {
     confidence,
     reasons,
     criticalMatches,
-    highMatches, 
-    mediumMatches
+    highMatches,
+    mediumMatches,
   };
 }
 
@@ -261,9 +282,9 @@ function enhancedUrgencyAssessment(transcript, baseResult) {
   try {
     // Get urgency boost analysis
     const boostAnalysis = calculateUrgencyBoost(
-      transcript, 
-      baseResult.category, 
-      baseResult.score
+      transcript,
+      baseResult.category,
+      baseResult.score,
     );
 
     // Only apply boost if confidence meets threshold
@@ -273,19 +294,19 @@ function enhancedUrgencyAssessment(transcript, baseResult) {
 
     if (boostAnalysis.confidence >= BOOST_CONFIDENCE_THRESHOLDS.MEDIUM_BOOST) {
       enhancedScore = Math.min(baseResult.score + boostAnalysis.boost, 0.95);
-      
+
       // Recalculate urgency level based on enhanced score
-      if (enhancedScore >= 0.80) {
-        enhancedLevel = 'CRITICAL';
-      } else if (enhancedScore >= 0.50) {
-        enhancedLevel = 'HIGH';
-      } else if (enhancedScore >= 0.20) {
-        enhancedLevel = 'MEDIUM';
+      if (enhancedScore >= 0.8) {
+        enhancedLevel = "CRITICAL";
+      } else if (enhancedScore >= 0.5) {
+        enhancedLevel = "HIGH";
+      } else if (enhancedScore >= 0.2) {
+        enhancedLevel = "MEDIUM";
       } else {
-        enhancedLevel = 'LOW';
+        enhancedLevel = "LOW";
       }
-      
-      applied = (enhancedLevel !== baseResult.level);
+
+      applied = enhancedLevel !== baseResult.level;
     }
 
     return {
@@ -297,11 +318,10 @@ function enhancedUrgencyAssessment(transcript, baseResult) {
       enhanced: applied,
       originalLevel: baseResult.level,
       originalScore: baseResult.score,
-      boost: boostAnalysis.boost
+      boost: boostAnalysis.boost,
     };
-
   } catch (error) {
-    console.error('Phase 3 urgency enhancement error:', error);
+    console.error("Phase 3 urgency enhancement error:", error);
     return baseResult; // Return original if error
   }
 }
@@ -315,12 +335,16 @@ function enhancedUrgencyAssessment(transcript, baseResult) {
 function enhanceUrgency(transcript, baseResult) {
   try {
     const enhanced = enhancedUrgencyAssessment(transcript, baseResult);
-    
+
     if (enhanced.enhanced && enhanced.level !== baseResult.level) {
-      console.log(`🚀 V3c Urgency Enhancement: ${baseResult.level} → ${enhanced.level} (score: ${baseResult.score.toFixed(2)} → ${enhanced.score.toFixed(2)})`);
-      console.log(`   Reasons: ${enhanced.reasons.slice(0, 2).join(', ')}`);
+      console.log(
+        `🚀 V3c Urgency Enhancement: ${baseResult.level} → ${enhanced.level} (score: ${baseResult.score.toFixed(2)} → ${enhanced.score.toFixed(2)})`,
+      );
+      console.log(`   Reasons: ${enhanced.reasons.slice(0, 2).join(", ")}`);
     } else {
-      console.log(`📋 V3c Enhancement: No urgency change from ${baseResult.level}`);
+      console.log(
+        `📋 V3c Enhancement: No urgency change from ${baseResult.level}`,
+      );
     }
 
     return {
@@ -328,17 +352,16 @@ function enhanceUrgency(transcript, baseResult) {
       score: enhanced.score,
       confidence: enhanced.confidence,
       reasons: enhanced.reasons,
-      enhanced: enhanced.enhanced
+      enhanced: enhanced.enhanced,
     };
-
   } catch (error) {
-    console.error('V3c enhancement API error:', error);
+    console.error("V3c enhancement API error:", error);
     return {
       level: baseResult.level,
       score: baseResult.score,
-      confidence: 0.50,
-      reasons: ['Enhancement error - using base result'],
-      enhanced: false
+      confidence: 0.5,
+      reasons: ["Enhancement error - using base result"],
+      enhanced: false,
     };
   }
 }
@@ -349,5 +372,5 @@ module.exports = {
   enhanceUrgency, // API compatibility function
   URGENCY_BOOST_PATTERNS,
   URGENCY_CONTEXT_SCORES,
-  BOOST_CONFIDENCE_THRESHOLDS
+  BOOST_CONFIDENCE_THRESHOLDS,
 };

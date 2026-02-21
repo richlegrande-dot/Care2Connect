@@ -1,1 +1,951 @@
-(()=>{var e={};e.id=684,e.ids=[684],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},60407:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>i.a,__next_app__:()=>u,originalPathname:()=>m,pages:()=>c,routeModule:()=>x,tree:()=>o});var r=s(36577),a=s(55533),n=s(40443),i=s.n(n),l=s(53320),d={};for(let e in l)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(d[e]=()=>l[e]);s.d(t,d);let o=["",{children:["admin",{children:["knowledge",{children:["[sourceId]",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,11203)),"C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\[sourceId]\\page.tsx"]}]},{}]},{}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],c=["C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\[sourceId]\\page.tsx"],m="/admin/knowledge/[sourceId]/page",u={require:s,loadChunk:()=>Promise.resolve()},x=new r.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/admin/knowledge/[sourceId]/page",pathname:"/admin/knowledge/[sourceId]",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:o}})},75829:(e,t,s)=>{Promise.resolve().then(s.bind(s,30470))},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},30470:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>l});var r=s(73658),a=s(55459),n=s(32241),i=s(9567);function l({params:e}){let t=(0,n.useRouter)(),[s,l]=(0,a.useState)(null),[d,o]=(0,a.useState)(!0),[c,m]=(0,a.useState)(!1),[u,x]=(0,a.useState)(""),[h,p]=(0,a.useState)(""),[g,b]=(0,a.useState)("");(0,a.useEffect)(()=>{f()},[e.sourceId]);let f=async()=>{o(!0);try{let s=localStorage.getItem("adminToken"),r=await fetch(`/api/admin/knowledge/sources/${e.sourceId}`,{headers:{Authorization:`Bearer ${s}`}});if(r.ok){let e=await r.json();l(e),x(e.title),p(e.url||""),b(e.licenseNote||"")}else 404===r.status&&(alert("Source not found"),t.push("/admin/knowledge"))}catch(e){console.error("Error fetching source:",e)}finally{o(!1)}},y=async()=>{if(s){m(!0);try{let e=localStorage.getItem("adminToken"),t=await fetch(`/api/admin/knowledge/sources/${s.id}`,{method:"PATCH",headers:{Authorization:`Bearer ${e}`,"Content-Type":"application/json"},body:JSON.stringify({title:u,url:h||null,licenseNote:g||null,reason:"Updated from Knowledge Vault admin interface"})});t.ok?(await f(),alert("Source updated successfully")):alert("Failed to update source")}catch(e){alert("Error updating source")}finally{m(!1)}}},j=async e=>{if(confirm("Delete this chunk? It will be soft-deleted and kept in the database."))try{let t=localStorage.getItem("adminToken"),s=await fetch(`/api/admin/knowledge/chunks/${e}`,{method:"DELETE",headers:{Authorization:`Bearer ${t}`,"Content-Type":"application/json"},body:JSON.stringify({reason:"Deleted from Knowledge Vault admin interface"})});s.ok?await f():alert("Failed to delete chunk")}catch(e){alert("Error deleting chunk")}};return d?r.jsx(i.t,{children:r.jsx("div",{className:"min-h-screen flex items-center justify-center",children:(0,r.jsxs)("div",{className:"text-center",children:[r.jsx("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"}),r.jsx("p",{className:"text-gray-600",children:"Loading source..."})]})})}):s?r.jsx(i.t,{children:(0,r.jsxs)("div",{className:"min-h-screen bg-gray-50",children:[r.jsx("div",{className:"bg-white border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",children:(0,r.jsxs)("div",{className:"flex justify-between items-center",children:[(0,r.jsxs)("div",{children:[r.jsx("button",{onClick:()=>t.push("/admin/knowledge"),className:"text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center",children:"← Back to Knowledge Vault"}),r.jsx("h1",{className:"text-3xl font-bold text-gray-900",children:"Edit Knowledge Source"}),r.jsx("p",{className:"mt-1 text-sm text-gray-500",children:s.id})]}),(0,r.jsxs)("div",{className:"flex space-x-3",children:[r.jsx("button",{onClick:()=>t.push(`/admin/knowledge/audit?entityId=${s.id}`),className:"px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50",children:"View Audit History"}),r.jsx("button",{onClick:y,disabled:c,className:"px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50",children:c?"Saving...":"Save Changes"})]})]})})}),(0,r.jsxs)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",children:[(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow mb-6 p-6",children:[r.jsx("h2",{className:"text-lg font-semibold text-gray-900 mb-4",children:"Source Details"}),(0,r.jsxs)("div",{className:"space-y-4",children:[(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Title"}),r.jsx("input",{type:"text",value:u,onChange:e=>x(e.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Source Type"}),(0,r.jsxs)("div",{className:"px-4 py-2 bg-gray-100 rounded-md text-gray-700",children:[s.sourceType,r.jsx("span",{className:"ml-2 text-sm text-gray-500",children:"(cannot be changed)"})]})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"URL (optional)"}),r.jsx("input",{type:"url",value:h,onChange:e=>p(e.target.value),placeholder:"https://example.com",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"License Note (optional)"}),r.jsx("textarea",{value:g,onChange:e=>b(e.target.value),rows:3,placeholder:"e.g., MIT License, CC BY 4.0, etc.",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"})]}),(0,r.jsxs)("div",{className:"grid grid-cols-2 gap-4 text-sm text-gray-600",children:[(0,r.jsxs)("div",{children:[r.jsx("span",{className:"font-medium",children:"Created:"})," ",new Date(s.createdAt).toLocaleString()]}),(0,r.jsxs)("div",{children:[r.jsx("span",{className:"font-medium",children:"Updated:"})," ",new Date(s.updatedAt).toLocaleString()]})]})]})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[(0,r.jsxs)("div",{className:"flex justify-between items-center mb-4",children:[(0,r.jsxs)("h2",{className:"text-lg font-semibold text-gray-900",children:["Knowledge Chunks (",s.chunks.filter(e=>!e.isDeleted).length,")"]}),r.jsx("button",{className:"px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700",onClick:()=>alert("Add chunk feature coming soon"),children:"Add Chunk"})]}),0===s.chunks.length?r.jsx("p",{className:"text-center text-gray-500 py-8",children:"No chunks yet. Add your first chunk to get started."}):r.jsx("div",{className:"space-y-4",children:s.chunks.map(e=>(0,r.jsxs)("div",{className:`border rounded-lg p-4 ${e.isDeleted?"bg-red-50 border-red-200 opacity-50":"border-gray-200"}`,children:[(0,r.jsxs)("div",{className:"flex justify-between items-start mb-2",children:[(0,r.jsxs)("div",{className:"flex-1",children:[(0,r.jsxs)("div",{className:"text-sm text-gray-500 mb-1",children:[e.language&&(0,r.jsxs)("span",{className:"mr-3",children:["Language: ",e.language]}),e.tags.length>0&&(0,r.jsxs)("span",{children:["Tags:"," ",e.tags.map(e=>r.jsx("span",{className:"inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1",children:e},e))]})]}),r.jsx("div",{className:"text-gray-900 whitespace-pre-wrap",children:e.chunkText})]}),(0,r.jsxs)("div",{className:"ml-4 flex space-x-2",children:[r.jsx("button",{onClick:()=>alert("Edit chunk feature coming soon"),className:"text-blue-600 hover:text-blue-900 text-sm",children:"Edit"}),!e.isDeleted&&r.jsx("button",{onClick:()=>j(e.id),className:"text-red-600 hover:text-red-900 text-sm",children:"Delete"})]})]}),(0,r.jsxs)("div",{className:"text-xs text-gray-500 mt-2",children:["Updated: ",new Date(e.updatedAt).toLocaleString(),e.isDeleted&&r.jsx("span",{className:"ml-2 text-red-600 font-medium",children:"(Deleted)"})]})]},e.id))})]})]})]})}):r.jsx(i.t,{children:r.jsx("div",{className:"min-h-screen flex items-center justify-center",children:(0,r.jsxs)("div",{className:"text-center",children:[r.jsx("p",{className:"text-gray-600",children:"Source not found"}),r.jsx("button",{onClick:()=>t.push("/admin/knowledge"),className:"mt-4 text-blue-600 hover:text-blue-700 underline",children:"Back to Knowledge Vault"})]})})})}},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>l});var r=s(73658),a=s(58758),n=s(60459),i=s(55459);function l({children:e}){let[t]=(0,i.useState)(()=>new a.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(n.aH,{client:t,children:e})}},9567:(e,t,s)=>{"use strict";s.d(t,{t:()=>i});var r=s(73658),a=s(55459),n=s(32241);function i({children:e}){let[t,s]=(0,a.useState)(!1),[i,l]=(0,a.useState)(!0),[d,o]=(0,a.useState)(""),[c,m]=(0,a.useState)("");(0,n.useRouter)(),(0,a.useEffect)(()=>{let e=localStorage.getItem("adminToken");e?u(e):l(!1)},[]);let u=async e=>{try{let t=await fetch("/api/admin/db/connection-info",{headers:{Authorization:`Bearer ${e}`}});t.ok?s(!0):localStorage.removeItem("adminToken")}catch(e){s(!0)}finally{l(!1)}},x=async e=>{e.preventDefault(),m("");try{let e=await fetch("/api/admin/db/connection-info",{headers:{Authorization:`Bearer ${d}`}});e.ok?(localStorage.setItem("adminToken",d),s(!0),o("")):m("Invalid admin password")}catch(e){m("Authentication failed - server may be unavailable")}};return i?r.jsx("div",{className:"min-h-screen flex items-center justify-center bg-gray-50",children:(0,r.jsxs)("div",{className:"text-center",children:[r.jsx("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"}),r.jsx("p",{className:"text-gray-600",children:"Verifying authentication..."})]})}):t?(0,r.jsxs)("div",{children:[(0,r.jsxs)("div",{className:"bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center",children:[(0,r.jsxs)("div",{className:"flex items-center space-x-2",children:[r.jsx("div",{className:"w-2 h-2 bg-green-500 rounded-full"}),r.jsx("span",{className:"text-sm text-gray-600",children:"Admin authenticated"})]}),r.jsx("button",{onClick:()=>{localStorage.removeItem("adminToken"),s(!1),o("")},className:"text-sm text-gray-600 hover:text-gray-900 underline",children:"Logout"})]}),e]}):r.jsx("div",{className:"min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100",children:r.jsx("div",{className:"max-w-md w-full mx-4",children:(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow-xl p-8",children:[(0,r.jsxs)("div",{className:"text-center mb-8",children:[r.jsx("div",{className:"inline-block p-3 bg-blue-100 rounded-full mb-4",children:r.jsx("svg",{className:"w-8 h-8 text-blue-600",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24",children:r.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"})})}),r.jsx("h2",{className:"text-2xl font-bold text-gray-900 mb-2",children:"Admin Access Required"}),r.jsx("p",{className:"text-gray-600",children:"Enter admin password to access Knowledge Vault"})]}),(0,r.jsxs)("form",{onSubmit:x,className:"space-y-4",children:[(0,r.jsxs)("div",{children:[r.jsx("label",{htmlFor:"password",className:"block text-sm font-medium text-gray-700 mb-1",children:"Admin Password"}),r.jsx("input",{id:"password",type:"password",value:d,onChange:e=>o(e.target.value),placeholder:"Enter admin password",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",autoFocus:!0,required:!0})]}),c&&r.jsx("div",{className:"bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded",children:c}),r.jsx("button",{type:"submit",className:"w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors",children:"Unlock"})]}),r.jsx("div",{className:"mt-6 text-center text-sm text-gray-500",children:r.jsx("p",{children:"This is the same password used for the System Health page"})})]})})})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>d});var r=s(73658),a=s(84874),n=s.n(a),i=s(32241),l=s(17872);function d(){let e=(0,i.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(n(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(n(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(n(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(n(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(n(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(n(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(l.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},11203:(e,t,s)=>{"use strict";s.r(t),s.d(t,{$$typeof:()=>i,__esModule:()=>n,default:()=>d});var r=s(19894);let a=(0,r.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\admin\knowledge\[sourceId]\page.tsx`),{__esModule:n,$$typeof:i}=a,l=a.default,d=l},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>b,metadata:()=>g});var r=s(31487),a=s(72972),n=s.n(a);s(40642);var i=s(19894);let l=(0,i.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:d,$$typeof:o}=l;l.default;let c=(0,i.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var m=s(15762);let u=(0,i.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:x,$$typeof:h}=u,p=u.default,g={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function b({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:n().className,children:(0,r.jsxs)(c,{children:[r.jsx(p,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(m.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},40642:()=>{}};var t=require("../../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(60407));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 684),
+    (e.ids = [684]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      60407: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => i.a,
+            __next_app__: () => u,
+            originalPathname: () => m,
+            pages: () => c,
+            routeModule: () => x,
+            tree: () => o,
+          }));
+        var r = s(36577),
+          a = s(55533),
+          n = s(40443),
+          i = s.n(n),
+          l = s(53320),
+          d = {};
+        for (let e in l)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (d[e] = () => l[e]);
+        s.d(t, d);
+        let o = [
+            "",
+            {
+              children: [
+                "admin",
+                {
+                  children: [
+                    "knowledge",
+                    {
+                      children: [
+                        "[sourceId]",
+                        {
+                          children: [
+                            "__PAGE__",
+                            {},
+                            {
+                              page: [
+                                () => Promise.resolve().then(s.bind(s, 11203)),
+                                "C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\[sourceId]\\page.tsx",
+                              ],
+                            },
+                          ],
+                        },
+                        {},
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          c = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\[sourceId]\\page.tsx",
+          ],
+          m = "/admin/knowledge/[sourceId]/page",
+          u = { require: s, loadChunk: () => Promise.resolve() },
+          x = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: "/admin/knowledge/[sourceId]/page",
+              pathname: "/admin/knowledge/[sourceId]",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: o },
+          });
+      },
+      75829: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 30470));
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      30470: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => l }));
+        var r = s(73658),
+          a = s(55459),
+          n = s(32241),
+          i = s(9567);
+        function l({ params: e }) {
+          let t = (0, n.useRouter)(),
+            [s, l] = (0, a.useState)(null),
+            [d, o] = (0, a.useState)(!0),
+            [c, m] = (0, a.useState)(!1),
+            [u, x] = (0, a.useState)(""),
+            [h, p] = (0, a.useState)(""),
+            [g, b] = (0, a.useState)("");
+          (0, a.useEffect)(() => {
+            f();
+          }, [e.sourceId]);
+          let f = async () => {
+              o(!0);
+              try {
+                let s = localStorage.getItem("adminToken"),
+                  r = await fetch(
+                    `/api/admin/knowledge/sources/${e.sourceId}`,
+                    { headers: { Authorization: `Bearer ${s}` } },
+                  );
+                if (r.ok) {
+                  let e = await r.json();
+                  (l(e), x(e.title), p(e.url || ""), b(e.licenseNote || ""));
+                } else
+                  404 === r.status &&
+                    (alert("Source not found"), t.push("/admin/knowledge"));
+              } catch (e) {
+                console.error("Error fetching source:", e);
+              } finally {
+                o(!1);
+              }
+            },
+            y = async () => {
+              if (s) {
+                m(!0);
+                try {
+                  let e = localStorage.getItem("adminToken"),
+                    t = await fetch(`/api/admin/knowledge/sources/${s.id}`, {
+                      method: "PATCH",
+                      headers: {
+                        Authorization: `Bearer ${e}`,
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        title: u,
+                        url: h || null,
+                        licenseNote: g || null,
+                        reason: "Updated from Knowledge Vault admin interface",
+                      }),
+                    });
+                  t.ok
+                    ? (await f(), alert("Source updated successfully"))
+                    : alert("Failed to update source");
+                } catch (e) {
+                  alert("Error updating source");
+                } finally {
+                  m(!1);
+                }
+              }
+            },
+            j = async (e) => {
+              if (
+                confirm(
+                  "Delete this chunk? It will be soft-deleted and kept in the database.",
+                )
+              )
+                try {
+                  let t = localStorage.getItem("adminToken"),
+                    s = await fetch(`/api/admin/knowledge/chunks/${e}`, {
+                      method: "DELETE",
+                      headers: {
+                        Authorization: `Bearer ${t}`,
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        reason: "Deleted from Knowledge Vault admin interface",
+                      }),
+                    });
+                  s.ok ? await f() : alert("Failed to delete chunk");
+                } catch (e) {
+                  alert("Error deleting chunk");
+                }
+            };
+          return d
+            ? r.jsx(i.t, {
+                children: r.jsx("div", {
+                  className: "min-h-screen flex items-center justify-center",
+                  children: (0, r.jsxs)("div", {
+                    className: "text-center",
+                    children: [
+                      r.jsx("div", {
+                        className:
+                          "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4",
+                      }),
+                      r.jsx("p", {
+                        className: "text-gray-600",
+                        children: "Loading source...",
+                      }),
+                    ],
+                  }),
+                }),
+              })
+            : s
+              ? r.jsx(i.t, {
+                  children: (0, r.jsxs)("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: [
+                      r.jsx("div", {
+                        className: "bg-white border-b border-gray-200",
+                        children: r.jsx("div", {
+                          className:
+                            "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",
+                          children: (0, r.jsxs)("div", {
+                            className: "flex justify-between items-center",
+                            children: [
+                              (0, r.jsxs)("div", {
+                                children: [
+                                  r.jsx("button", {
+                                    onClick: () => t.push("/admin/knowledge"),
+                                    className:
+                                      "text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center",
+                                    children: "← Back to Knowledge Vault",
+                                  }),
+                                  r.jsx("h1", {
+                                    className:
+                                      "text-3xl font-bold text-gray-900",
+                                    children: "Edit Knowledge Source",
+                                  }),
+                                  r.jsx("p", {
+                                    className: "mt-1 text-sm text-gray-500",
+                                    children: s.id,
+                                  }),
+                                ],
+                              }),
+                              (0, r.jsxs)("div", {
+                                className: "flex space-x-3",
+                                children: [
+                                  r.jsx("button", {
+                                    onClick: () =>
+                                      t.push(
+                                        `/admin/knowledge/audit?entityId=${s.id}`,
+                                      ),
+                                    className:
+                                      "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50",
+                                    children: "View Audit History",
+                                  }),
+                                  r.jsx("button", {
+                                    onClick: y,
+                                    disabled: c,
+                                    className:
+                                      "px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50",
+                                    children: c ? "Saving..." : "Save Changes",
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                        }),
+                      }),
+                      (0, r.jsxs)("div", {
+                        className:
+                          "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            className: "bg-white rounded-lg shadow mb-6 p-6",
+                            children: [
+                              r.jsx("h2", {
+                                className:
+                                  "text-lg font-semibold text-gray-900 mb-4",
+                                children: "Source Details",
+                              }),
+                              (0, r.jsxs)("div", {
+                                className: "space-y-4",
+                                children: [
+                                  (0, r.jsxs)("div", {
+                                    children: [
+                                      r.jsx("label", {
+                                        className:
+                                          "block text-sm font-medium text-gray-700 mb-1",
+                                        children: "Title",
+                                      }),
+                                      r.jsx("input", {
+                                        type: "text",
+                                        value: u,
+                                        onChange: (e) => x(e.target.value),
+                                        className:
+                                          "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                      }),
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    children: [
+                                      r.jsx("label", {
+                                        className:
+                                          "block text-sm font-medium text-gray-700 mb-1",
+                                        children: "Source Type",
+                                      }),
+                                      (0, r.jsxs)("div", {
+                                        className:
+                                          "px-4 py-2 bg-gray-100 rounded-md text-gray-700",
+                                        children: [
+                                          s.sourceType,
+                                          r.jsx("span", {
+                                            className:
+                                              "ml-2 text-sm text-gray-500",
+                                            children: "(cannot be changed)",
+                                          }),
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    children: [
+                                      r.jsx("label", {
+                                        className:
+                                          "block text-sm font-medium text-gray-700 mb-1",
+                                        children: "URL (optional)",
+                                      }),
+                                      r.jsx("input", {
+                                        type: "url",
+                                        value: h,
+                                        onChange: (e) => p(e.target.value),
+                                        placeholder: "https://example.com",
+                                        className:
+                                          "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                      }),
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    children: [
+                                      r.jsx("label", {
+                                        className:
+                                          "block text-sm font-medium text-gray-700 mb-1",
+                                        children: "License Note (optional)",
+                                      }),
+                                      r.jsx("textarea", {
+                                        value: g,
+                                        onChange: (e) => b(e.target.value),
+                                        rows: 3,
+                                        placeholder:
+                                          "e.g., MIT License, CC BY 4.0, etc.",
+                                        className:
+                                          "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                      }),
+                                    ],
+                                  }),
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "grid grid-cols-2 gap-4 text-sm text-gray-600",
+                                    children: [
+                                      (0, r.jsxs)("div", {
+                                        children: [
+                                          r.jsx("span", {
+                                            className: "font-medium",
+                                            children: "Created:",
+                                          }),
+                                          " ",
+                                          new Date(
+                                            s.createdAt,
+                                          ).toLocaleString(),
+                                        ],
+                                      }),
+                                      (0, r.jsxs)("div", {
+                                        children: [
+                                          r.jsx("span", {
+                                            className: "font-medium",
+                                            children: "Updated:",
+                                          }),
+                                          " ",
+                                          new Date(
+                                            s.updatedAt,
+                                          ).toLocaleString(),
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            className: "bg-white rounded-lg shadow p-6",
+                            children: [
+                              (0, r.jsxs)("div", {
+                                className:
+                                  "flex justify-between items-center mb-4",
+                                children: [
+                                  (0, r.jsxs)("h2", {
+                                    className:
+                                      "text-lg font-semibold text-gray-900",
+                                    children: [
+                                      "Knowledge Chunks (",
+                                      s.chunks.filter((e) => !e.isDeleted)
+                                        .length,
+                                      ")",
+                                    ],
+                                  }),
+                                  r.jsx("button", {
+                                    className:
+                                      "px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700",
+                                    onClick: () =>
+                                      alert("Add chunk feature coming soon"),
+                                    children: "Add Chunk",
+                                  }),
+                                ],
+                              }),
+                              0 === s.chunks.length
+                                ? r.jsx("p", {
+                                    className: "text-center text-gray-500 py-8",
+                                    children:
+                                      "No chunks yet. Add your first chunk to get started.",
+                                  })
+                                : r.jsx("div", {
+                                    className: "space-y-4",
+                                    children: s.chunks.map((e) =>
+                                      (0, r.jsxs)(
+                                        "div",
+                                        {
+                                          className: `border rounded-lg p-4 ${e.isDeleted ? "bg-red-50 border-red-200 opacity-50" : "border-gray-200"}`,
+                                          children: [
+                                            (0, r.jsxs)("div", {
+                                              className:
+                                                "flex justify-between items-start mb-2",
+                                              children: [
+                                                (0, r.jsxs)("div", {
+                                                  className: "flex-1",
+                                                  children: [
+                                                    (0, r.jsxs)("div", {
+                                                      className:
+                                                        "text-sm text-gray-500 mb-1",
+                                                      children: [
+                                                        e.language &&
+                                                          (0, r.jsxs)("span", {
+                                                            className: "mr-3",
+                                                            children: [
+                                                              "Language: ",
+                                                              e.language,
+                                                            ],
+                                                          }),
+                                                        e.tags.length > 0 &&
+                                                          (0, r.jsxs)("span", {
+                                                            children: [
+                                                              "Tags:",
+                                                              " ",
+                                                              e.tags.map((e) =>
+                                                                r.jsx(
+                                                                  "span",
+                                                                  {
+                                                                    className:
+                                                                      "inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1",
+                                                                    children: e,
+                                                                  },
+                                                                  e,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          }),
+                                                      ],
+                                                    }),
+                                                    r.jsx("div", {
+                                                      className:
+                                                        "text-gray-900 whitespace-pre-wrap",
+                                                      children: e.chunkText,
+                                                    }),
+                                                  ],
+                                                }),
+                                                (0, r.jsxs)("div", {
+                                                  className:
+                                                    "ml-4 flex space-x-2",
+                                                  children: [
+                                                    r.jsx("button", {
+                                                      onClick: () =>
+                                                        alert(
+                                                          "Edit chunk feature coming soon",
+                                                        ),
+                                                      className:
+                                                        "text-blue-600 hover:text-blue-900 text-sm",
+                                                      children: "Edit",
+                                                    }),
+                                                    !e.isDeleted &&
+                                                      r.jsx("button", {
+                                                        onClick: () => j(e.id),
+                                                        className:
+                                                          "text-red-600 hover:text-red-900 text-sm",
+                                                        children: "Delete",
+                                                      }),
+                                                  ],
+                                                }),
+                                              ],
+                                            }),
+                                            (0, r.jsxs)("div", {
+                                              className:
+                                                "text-xs text-gray-500 mt-2",
+                                              children: [
+                                                "Updated: ",
+                                                new Date(
+                                                  e.updatedAt,
+                                                ).toLocaleString(),
+                                                e.isDeleted &&
+                                                  r.jsx("span", {
+                                                    className:
+                                                      "ml-2 text-red-600 font-medium",
+                                                    children: "(Deleted)",
+                                                  }),
+                                              ],
+                                            }),
+                                          ],
+                                        },
+                                        e.id,
+                                      ),
+                                    ),
+                                  }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                })
+              : r.jsx(i.t, {
+                  children: r.jsx("div", {
+                    className: "min-h-screen flex items-center justify-center",
+                    children: (0, r.jsxs)("div", {
+                      className: "text-center",
+                      children: [
+                        r.jsx("p", {
+                          className: "text-gray-600",
+                          children: "Source not found",
+                        }),
+                        r.jsx("button", {
+                          onClick: () => t.push("/admin/knowledge"),
+                          className:
+                            "mt-4 text-blue-600 hover:text-blue-700 underline",
+                          children: "Back to Knowledge Vault",
+                        }),
+                      ],
+                    }),
+                  }),
+                });
+        }
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => l }));
+        var r = s(73658),
+          a = s(58758),
+          n = s(60459),
+          i = s(55459);
+        function l({ children: e }) {
+          let [t] = (0, i.useState)(
+            () =>
+              new a.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(n.aH, { client: t, children: e });
+        }
+      },
+      9567: (e, t, s) => {
+        "use strict";
+        s.d(t, { t: () => i });
+        var r = s(73658),
+          a = s(55459),
+          n = s(32241);
+        function i({ children: e }) {
+          let [t, s] = (0, a.useState)(!1),
+            [i, l] = (0, a.useState)(!0),
+            [d, o] = (0, a.useState)(""),
+            [c, m] = (0, a.useState)("");
+          ((0, n.useRouter)(),
+            (0, a.useEffect)(() => {
+              let e = localStorage.getItem("adminToken");
+              e ? u(e) : l(!1);
+            }, []));
+          let u = async (e) => {
+              try {
+                let t = await fetch("/api/admin/db/connection-info", {
+                  headers: { Authorization: `Bearer ${e}` },
+                });
+                t.ok ? s(!0) : localStorage.removeItem("adminToken");
+              } catch (e) {
+                s(!0);
+              } finally {
+                l(!1);
+              }
+            },
+            x = async (e) => {
+              (e.preventDefault(), m(""));
+              try {
+                let e = await fetch("/api/admin/db/connection-info", {
+                  headers: { Authorization: `Bearer ${d}` },
+                });
+                e.ok
+                  ? (localStorage.setItem("adminToken", d), s(!0), o(""))
+                  : m("Invalid admin password");
+              } catch (e) {
+                m("Authentication failed - server may be unavailable");
+              }
+            };
+          return i
+            ? r.jsx("div", {
+                className:
+                  "min-h-screen flex items-center justify-center bg-gray-50",
+                children: (0, r.jsxs)("div", {
+                  className: "text-center",
+                  children: [
+                    r.jsx("div", {
+                      className:
+                        "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4",
+                    }),
+                    r.jsx("p", {
+                      className: "text-gray-600",
+                      children: "Verifying authentication...",
+                    }),
+                  ],
+                }),
+              })
+            : t
+              ? (0, r.jsxs)("div", {
+                  children: [
+                    (0, r.jsxs)("div", {
+                      className:
+                        "bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "flex items-center space-x-2",
+                          children: [
+                            r.jsx("div", {
+                              className: "w-2 h-2 bg-green-500 rounded-full",
+                            }),
+                            r.jsx("span", {
+                              className: "text-sm text-gray-600",
+                              children: "Admin authenticated",
+                            }),
+                          ],
+                        }),
+                        r.jsx("button", {
+                          onClick: () => {
+                            (localStorage.removeItem("adminToken"),
+                              s(!1),
+                              o(""));
+                          },
+                          className:
+                            "text-sm text-gray-600 hover:text-gray-900 underline",
+                          children: "Logout",
+                        }),
+                      ],
+                    }),
+                    e,
+                  ],
+                })
+              : r.jsx("div", {
+                  className:
+                    "min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100",
+                  children: r.jsx("div", {
+                    className: "max-w-md w-full mx-4",
+                    children: (0, r.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow-xl p-8",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "text-center mb-8",
+                          children: [
+                            r.jsx("div", {
+                              className:
+                                "inline-block p-3 bg-blue-100 rounded-full mb-4",
+                              children: r.jsx("svg", {
+                                className: "w-8 h-8 text-blue-600",
+                                fill: "none",
+                                stroke: "currentColor",
+                                viewBox: "0 0 24 24",
+                                children: r.jsx("path", {
+                                  strokeLinecap: "round",
+                                  strokeLinejoin: "round",
+                                  strokeWidth: 2,
+                                  d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
+                                }),
+                              }),
+                            }),
+                            r.jsx("h2", {
+                              className:
+                                "text-2xl font-bold text-gray-900 mb-2",
+                              children: "Admin Access Required",
+                            }),
+                            r.jsx("p", {
+                              className: "text-gray-600",
+                              children:
+                                "Enter admin password to access Knowledge Vault",
+                            }),
+                          ],
+                        }),
+                        (0, r.jsxs)("form", {
+                          onSubmit: x,
+                          className: "space-y-4",
+                          children: [
+                            (0, r.jsxs)("div", {
+                              children: [
+                                r.jsx("label", {
+                                  htmlFor: "password",
+                                  className:
+                                    "block text-sm font-medium text-gray-700 mb-1",
+                                  children: "Admin Password",
+                                }),
+                                r.jsx("input", {
+                                  id: "password",
+                                  type: "password",
+                                  value: d,
+                                  onChange: (e) => o(e.target.value),
+                                  placeholder: "Enter admin password",
+                                  className:
+                                    "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                  autoFocus: !0,
+                                  required: !0,
+                                }),
+                              ],
+                            }),
+                            c &&
+                              r.jsx("div", {
+                                className:
+                                  "bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded",
+                                children: c,
+                              }),
+                            r.jsx("button", {
+                              type: "submit",
+                              className:
+                                "w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors",
+                              children: "Unlock",
+                            }),
+                          ],
+                        }),
+                        r.jsx("div", {
+                          className: "mt-6 text-center text-sm text-gray-500",
+                          children: r.jsx("p", {
+                            children:
+                              "This is the same password used for the System Health page",
+                          }),
+                        }),
+                      ],
+                    }),
+                  }),
+                });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => d }));
+        var r = s(73658),
+          a = s(84874),
+          n = s.n(a),
+          i = s(32241),
+          l = s(17872);
+        function d() {
+          let e = (0, i.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(n(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(n(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(n(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(n(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(n(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(l.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      11203: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, { $$typeof: () => i, __esModule: () => n, default: () => d }));
+        var r = s(19894);
+        let a = (0, r.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\admin\knowledge\[sourceId]\page.tsx`,
+          ),
+          { __esModule: n, $$typeof: i } = a,
+          l = a.default,
+          d = l;
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => b, metadata: () => g }));
+        var r = s(31487),
+          a = s(72972),
+          n = s.n(a);
+        s(40642);
+        var i = s(19894);
+        let l = (0, i.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: d, $$typeof: o } = l;
+        l.default;
+        let c = (0, i.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var m = s(15762);
+        let u = (0, i.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: x, $$typeof: h } = u,
+          p = u.default,
+          g = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function b({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: n().className,
+              children: (0, r.jsxs)(c, {
+                children: [
+                  r.jsx(p, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(m.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      40642: () => {},
+    }));
+  var t = require("../../../../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(60407));
+  module.exports = r;
+})();

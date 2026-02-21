@@ -1,1 +1,1212 @@
-(()=>{var e={};e.id=316,e.ids=[316],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},71812:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>l.a,__next_app__:()=>m,originalPathname:()=>u,pages:()=>d,routeModule:()=>x,tree:()=>c});var r=s(36577),a=s(55533),n=s(40443),l=s.n(n),i=s(53320),o={};for(let e in i)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(o[e]=()=>i[e]);s.d(t,o);let c=["",{children:["gfm",{children:["extract",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,77318)),"C:\\Users\\richl\\Care2system\\frontend\\app\\gfm\\extract\\page.tsx"]}]},{}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],d=["C:\\Users\\richl\\Care2system\\frontend\\app\\gfm\\extract\\page.tsx"],u="/gfm/extract/page",m={require:s,loadChunk:()=>Promise.resolve()},x=new r.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/gfm/extract/page",pathname:"/gfm/extract",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:c}})},4426:(e,t,s)=>{Promise.resolve().then(s.bind(s,3673))},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},3673:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>m});var r=s(73658),a=s(55459),n=s(32241),l=s(84874),i=s.n(l),o=s(33999),c=s(28098);let d=a.forwardRef(function({title:e,titleId:t,...s},r){return a.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:r,"aria-labelledby":t},s),e?a.createElement("title",{id:t},e):null,a.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M6 18 18 6M6 6l12 12"}))}),u=function(e){if(e&&Array.isArray(e.questions)){let{questions:t,currentDraft:s,isOpen:n,onComplete:l,onSkip:i,onClose:o}=e,[u,m]=(0,a.useState)(0),[x,h]=(0,a.useState)({}),[p,g]=(0,a.useState)(""),[f,b]=(0,a.useState)({}),y=(0,a.useRef)(null);if(!n)return null;if((0,a.useEffect)(()=>{n&&y.current&&y.current.focus()},[n]),0===t.length)return r.jsx("div",{tabIndex:-1,onKeyDown:e=>{"Escape"===e.key&&o?.()},className:"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",children:r.jsx("div",{className:"bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto",children:(0,r.jsxs)("div",{className:"p-6",children:[(0,r.jsxs)("div",{className:"flex items-start justify-between mb-4",children:[(0,r.jsxs)("div",{className:"flex items-center",children:[r.jsx(c.Z,{className:"w-6 h-6 text-blue-600 mr-2"}),r.jsx("h3",{className:"text-lg font-semibold text-gray-900",children:"Follow-up Questions"})]}),r.jsx("button",{onClick:()=>o?.(),className:"text-gray-400 hover:text-gray-600 transition-colors","aria-label":"Close dialog",children:r.jsx(d,{className:"w-6 h-6"})})]}),r.jsx("p",{className:"text-gray-600",children:"No questions available."})]})})});let j=t[u],v={field:j.field,question:j.question,type:"text",options:j.suggestions};(0,a.useEffect)(()=>{g(x[j.field]||"")},[u,x,j.field]);let N=(e,t)=>{if(!e.trim())return"Please provide an answer.";if("goalAmount"===t){let t=parseFloat(e.replace(/[$,]/g,""));if(isNaN(t)||t<=0)return"Please enter a valid amount."}return null},w=()=>{let e=N(p,j.field);if(e){b({[j.field]:e});return}b({});let s={...x,[j.field]:p};h(s),u<t.length-1?m(e=>e+1):l?.(s)},C=()=>o?.(),S=e=>s?e.replace(/\[Name\]/g,s.name?.value||""):e,k=e=>{let t=S(e);g(t),b({})};return r.jsx("div",{ref:y,tabIndex:-1,onKeyDown:e=>{"Escape"===e.key&&C()},className:"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",children:r.jsx("div",{className:"bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto",children:(0,r.jsxs)("div",{className:"p-6",children:[(0,r.jsxs)("div",{className:"flex items-start justify-between mb-4",children:[(0,r.jsxs)("div",{className:"flex items-center",children:[r.jsx(c.Z,{className:"w-6 h-6 text-blue-600 mr-2"}),r.jsx("h3",{className:"text-lg font-semibold text-gray-900",children:"Follow-up Questions"})]}),r.jsx("button",{onClick:C,className:"text-gray-400 hover:text-gray-600 transition-colors","aria-label":"Close dialog",children:r.jsx(d,{className:"w-6 h-6"})})]}),(0,r.jsxs)("div",{className:"mb-4 text-center",children:[(0,r.jsxs)("span",{className:"text-sm text-gray-600",children:[u+1," of ",t.length]}),r.jsx("p",{className:"text-sm text-gray-600",children:"Improve your campaign"})]}),(0,r.jsxs)("div",{className:"mb-6",children:[r.jsx("p",{className:"text-gray-800 text-lg mb-2",children:v.question}),j.context&&r.jsx("p",{className:"text-gray-600 text-sm mb-4",children:j.context}),(0,r.jsxs)("form",{onSubmit:e=>{e.preventDefault(),w()},children:[r.jsx("input",{"aria-label":v.question,className:`w-full px-4 py-3 border-2 rounded-lg ${f[j.field]?"border-red-300":"border-gray-300"}`,value:p,onChange:e=>{g(e.target.value),f[j.field]&&b({})}}),f[j.field]&&r.jsx("p",{className:"text-red-600 text-sm mt-1",children:f[j.field]}),j.suggestions&&r.jsx("div",{className:"mt-3 flex flex-wrap gap-2",children:j.suggestions.map(e=>r.jsx("button",{type:"button",onClick:()=>k(e),className:"px-3 py-1 border rounded hover:bg-gray-50",children:S(e)},e))}),(0,r.jsxs)("div",{className:"flex gap-3 mt-6",children:[u>0&&r.jsx("button",{type:"button",onClick:()=>{let e={...x,[j.field]:p};h(e),b({}),u>0&&m(e=>e-1)},className:"px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50",children:"Back"}),r.jsx("button",{type:"submit",className:"flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700",children:u===t.length-1?"Finish":"Next"}),r.jsx("button",{type:"button",onClick:()=>i?.(),className:"px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50",children:"Skip"})]})]})]}),(0,r.jsxs)("div",{className:"text-sm text-gray-500 bg-gray-50 rounded-lg p-3",children:[(0,r.jsxs)("p",{className:"mb-1",children:["\uD83D\uDCA1 ",r.jsx("strong",{children:"Why do we ask?"})]}),r.jsx("p",{children:"This information helps create a complete and compelling campaign that donors can trust and connect with."})]})]})})})}let{question:t,onAnswer:s,onSkip:n,onClose:l,progress:i}=e,[o,u]=(0,a.useState)(""),[m,x]=(0,a.useState)(!1),h=async e=>{if(e.preventDefault(),o.trim()){x(!0);try{await s(o.trim())}catch(e){console.error("Error submitting answer:",e)}finally{x(!1)}}};return r.jsx("div",{className:"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",children:r.jsx("div",{className:"bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto",children:(0,r.jsxs)("div",{className:"p-6",children:[(0,r.jsxs)("div",{className:"flex items-start justify-between mb-4",children:[(0,r.jsxs)("div",{className:"flex items-center",children:[r.jsx(c.Z,{className:"w-6 h-6 text-blue-600 mr-2"}),r.jsx("h3",{className:"text-lg font-semibold text-gray-900",children:"Quick Question"})]}),r.jsx("button",{onClick:l,className:"text-gray-400 hover:text-gray-600 transition-colors","aria-label":"Close dialog",children:r.jsx(d,{className:"w-6 h-6"})})]}),i&&(0,r.jsxs)("div",{className:"mb-4",children:[(0,r.jsxs)("div",{className:"flex justify-between text-sm text-gray-600 mb-1",children:[(0,r.jsxs)("span",{children:["Question ",i.current+1," of ",i.total]}),(0,r.jsxs)("span",{children:[Math.round((i.current+1)/i.total*100),"%"]})]}),r.jsx("div",{className:"w-full bg-gray-200 rounded-full h-2",children:r.jsx("div",{className:"bg-blue-600 h-2 rounded-full transition-all duration-300",style:{width:`${(i.current+1)/i.total*100}%`}})})]}),(0,r.jsxs)("div",{className:"mb-6",children:[r.jsx("p",{className:"text-gray-800 text-lg mb-4",children:t.question}),(0,r.jsxs)("form",{onSubmit:h,children:[(()=>{switch(t.type){case"select":return(0,r.jsxs)("select",{value:o,onChange:e=>u(e.target.value),className:"w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all","aria-label":t.question,required:!0,children:[r.jsx("option",{value:"",children:"Please select..."}),t.options?.map(e=>r.jsx("option",{value:e,children:e},e))]});case"number":return r.jsx("input",{type:"number",value:o,onChange:e=>u(e.target.value),className:"w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",placeholder:"Enter amount",min:"1",required:!0});case"date":return r.jsx("input",{type:"text",value:o,onChange:e=>u(e.target.value),className:"w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",placeholder:"MM/DD/YYYY",pattern:"\\\\d{1,2}/\\\\d{1,2}/\\\\d{4}",required:!0});default:return r.jsx("textarea",{value:o,onChange:e=>u(e.target.value),className:"w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",rows:"shortSummary"===t.field?3:1,placeholder:"Type your answer...",required:!0})}})(),"date"===t.type&&r.jsx("p",{className:"text-sm text-gray-500 mt-1",children:"Please use MM/DD/YYYY format (e.g., 01/15/1990)"}),"number"===t.type&&"goalAmount"===t.field&&r.jsx("p",{className:"text-sm text-gray-500 mt-1",children:"Enter the total amount you hope to raise"}),(0,r.jsxs)("div",{className:"flex gap-3 mt-6",children:[r.jsx("button",{type:"submit",disabled:!o.trim()||m,className:"flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors",children:m?"Submitting...":"Continue"}),r.jsx("button",{type:"button",onClick:()=>{n()},disabled:m,className:"px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors",children:"Skip"})]})]})]}),(0,r.jsxs)("div",{className:"text-sm text-gray-500 bg-gray-50 rounded-lg p-3",children:[(0,r.jsxs)("p",{className:"mb-1",children:["\uD83D\uDCA1 ",r.jsx("strong",{children:"Why do we ask?"})]}),r.jsx("p",{children:"This information helps create a complete and compelling campaign that donors can trust and connect with."})]})]})})})};function m(){let e=(0,n.useRouter)();(0,n.useSearchParams)();let[t,s]=(0,a.useState)(null),[l,c]=(0,a.useState)(!1),[d,m]=(0,a.useState)(""),[x,h]=(0,a.useState)(!1),[p,g]=(0,a.useState)(!1),[f,b]=(0,a.useState)(null),[y,j]=(0,a.useState)(null);(0,a.useEffect)(()=>{v()},[]);let v=async()=>{try{let e=await fetch("https://api.care2connects.org/api/transcription/status"),t=await e.json();t.success&&t.data.fallbackMode&&h(!0)}catch(e){console.error("Status check error:",e),h(!0)}},N=async()=>{if(!d.trim()){o.default.error("Please enter your story transcript");return}c(!0);try{let e=await fetch("https://api.care2connects.org/api/transcription/text",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({transcript:d.trim()})}),t=await e.json();t.success?(s(t.data.extraction),t.data.extraction.draft?.followUpQuestions?.length>0?await w(t.data.extraction.draft):o.default.success("Story processed successfully!")):o.default.error(t.error||"Failed to process transcript")}catch(e){console.error("Processing error:",e),o.default.error("Failed to process your story")}finally{c(!1)}},w=async e=>{try{let t=await fetch("https://api.care2connects.org/api/transcription/followup/start",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({draftId:`draft_${Date.now()}`,userId:"anonymous_user"})}),s=await t.json();s.success&&(j(s.data.sessionId),await C(s.data.sessionId,e))}catch(e){console.error("Follow-up session error:",e),o.default.error("Error starting follow-up questions")}},C=async(e,t)=>{try{let s=await fetch(`https://api.care2connects.org/api/transcription/followup/${e}/question?draft=${encodeURIComponent(JSON.stringify(t))}`),r=await s.json();r.success&&(r.data.completed?(g(!1),o.default.success("All questions completed!")):(b(r.data.question),g(!0)))}catch(e){console.error("Get question error:",e)}},S=async e=>{if(y)try{let s=await fetch(`https://api.care2connects.org/api/transcription/followup/${y}/answer`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({answer:e})});s.ok&&t&&await C(y,t.draft)}catch(e){console.error("Submit answer error:",e),o.default.error("Failed to submit answer")}},k=async()=>{if(y&&t)try{await C(y,t.draft)}catch(e){console.error("Skip error:",e)}},P=(e,t)=>{if(!e?.value)return null;let s=e.confidence||0;return(0,r.jsxs)("div",{className:"border rounded-lg p-3 mb-3",children:[(0,r.jsxs)("div",{className:"flex justify-between items-center mb-2",children:[r.jsx("span",{className:"font-medium text-gray-700",children:t}),(0,r.jsxs)("span",{className:`text-sm ${s>.7?"text-green-600":s>.4?"text-yellow-600":"text-red-600"}`,children:[s>.7?"✅":s>.4?"⚠️":"❓"," ",Math.round(100*s),"%"]})]}),r.jsx("div",{className:"text-gray-900",children:"object"==typeof e.value?JSON.stringify(e.value):String(e.value)})]})};return r.jsx("div",{className:"min-h-screen bg-gray-50 py-8",children:(0,r.jsxs)("div",{className:"max-w-4xl mx-auto px-4 sm:px-6 lg:px-8",children:[(0,r.jsxs)("div",{className:"text-center mb-8",children:[r.jsx("h1",{className:"text-3xl font-bold text-gray-900 mb-4",children:"Story Analysis & GoFundMe Setup"}),r.jsx("p",{className:"text-lg text-gray-600",children:"AI will analyze your story and auto-fill GoFundMe campaign fields"})]}),(0,r.jsxs)("div",{className:"grid lg:grid-cols-2 gap-8",children:[(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[r.jsx("h2",{className:"text-xl font-semibold mb-4",children:"Your Story"}),x?(0,r.jsxs)("div",{children:[r.jsx("div",{className:"mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg",children:(0,r.jsxs)("p",{className:"text-blue-800 text-sm",children:[r.jsx("strong",{children:"Manual Mode:"})," Please paste your story transcript below. Our AI will analyze it and help create your GoFundMe campaign."]})}),r.jsx("textarea",{value:d,onChange:e=>m(e.target.value),className:"w-full h-40 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",placeholder:"Please type or paste your story here... Tell us about your situation, what help you need, and what you hope to achieve."}),(0,r.jsxs)("div",{className:"mt-4 flex justify-between items-center",children:[(0,r.jsxs)("span",{className:"text-sm text-gray-500",children:[d.length," characters"]}),r.jsx("button",{onClick:N,disabled:!d.trim()||l,className:"btn-primary disabled:bg-gray-300 disabled:cursor-not-allowed",children:l?"Processing...":"Analyze Story"})]})]}):(0,r.jsxs)("div",{className:"text-center py-8",children:[r.jsx("p",{className:"text-gray-600 mb-4",children:"Audio transcription will be processed here once uploaded from the recording page."}),r.jsx(i(),{href:"/tell-story",className:"btn-primary",children:"Go to Recording"})]})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[r.jsx("h2",{className:"text-xl font-semibold mb-4",children:"Extracted Information"}),t?(0,r.jsxs)("div",{children:[t.warnings?.length>0&&(0,r.jsxs)("div",{className:"mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg",children:[r.jsx("h4",{className:"font-medium text-yellow-800 mb-1",children:"Warnings:"}),r.jsx("ul",{className:"text-sm text-yellow-700",children:t.warnings.map((e,t)=>(0,r.jsxs)("li",{children:["• ",e]},t))})]}),(0,r.jsxs)("div",{className:"space-y-3",children:[P(t.draft.name,"Name"),P(t.draft.title,"Campaign Title"),P(t.draft.category,"Category"),P(t.draft.goalAmount,"Goal Amount"),P(t.draft.location,"Location"),P(t.draft.shortSummary,"Summary")]}),t.draft.missingFields?.length>0&&(0,r.jsxs)("div",{className:"mt-4 p-3 bg-red-50 border border-red-200 rounded-lg",children:[r.jsx("h4",{className:"font-medium text-red-800 mb-1",children:"Missing Information:"}),(0,r.jsxs)("p",{className:"text-sm text-red-700",children:[t.draft.missingFields.join(", ")," - We'll ask follow-up questions for these."]})]}),r.jsx("div",{className:"mt-6",children:r.jsx("button",{onClick:()=>{t?.draft&&(localStorage.setItem("gfm_extracted_draft",JSON.stringify(t.draft)),e.push("/gfm/review"))},className:"w-full btn-primary",children:"Continue to GoFundMe Stepper →"})})]}):r.jsx("div",{className:"text-center py-8 text-gray-500",children:"Process your story to see extracted information here"})]})]}),(0,r.jsxs)("div",{className:"mt-8 flex justify-between",children:[r.jsx(i(),{href:"/tell-story",className:"btn-secondary",children:"← Back to Recording"}),r.jsx(i(),{href:"/",className:"btn-secondary",children:"Cancel & Go Home"})]}),p&&f&&r.jsx(u,{question:f,onAnswer:S,onSkip:k,onClose:()=>g(!1)})]})})}},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>i});var r=s(73658),a=s(58758),n=s(60459),l=s(55459);function i({children:e}){let[t]=(0,l.useState)(()=>new a.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(n.aH,{client:t,children:e})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>o});var r=s(73658),a=s(84874),n=s.n(a),l=s(32241),i=s(17872);function o(){let e=(0,l.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(n(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(n(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(n(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(n(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(n(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(n(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(i.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},77318:(e,t,s)=>{"use strict";s.r(t),s.d(t,{$$typeof:()=>l,__esModule:()=>n,default:()=>o});var r=s(19894);let a=(0,r.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\gfm\extract\page.tsx`),{__esModule:n,$$typeof:l}=a,i=a.default,o=i},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>f,metadata:()=>g});var r=s(31487),a=s(72972),n=s.n(a);s(40642);var l=s(19894);let i=(0,l.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:o,$$typeof:c}=i;i.default;let d=(0,l.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var u=s(15762);let m=(0,l.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:x,$$typeof:h}=m,p=m.default,g={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function f({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:n().className,children:(0,r.jsxs)(d,{children:[r.jsx(p,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(u.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},40642:()=>{},28098:(e,t,s)=>{"use strict";s.d(t,{Z:()=>n});var r=s(55459);let a=r.forwardRef(function({title:e,titleId:t,...s},a){return r.createElement("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor","aria-hidden":"true","data-slot":"icon",ref:a,"aria-labelledby":t},s),e?r.createElement("title",{id:t},e):null,r.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"}))}),n=a}};var t=require("../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(71812));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 316),
+    (e.ids = [316]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      71812: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => l.a,
+            __next_app__: () => m,
+            originalPathname: () => u,
+            pages: () => d,
+            routeModule: () => x,
+            tree: () => c,
+          }));
+        var r = s(36577),
+          a = s(55533),
+          n = s(40443),
+          l = s.n(n),
+          i = s(53320),
+          o = {};
+        for (let e in i)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (o[e] = () => i[e]);
+        s.d(t, o);
+        let c = [
+            "",
+            {
+              children: [
+                "gfm",
+                {
+                  children: [
+                    "extract",
+                    {
+                      children: [
+                        "__PAGE__",
+                        {},
+                        {
+                          page: [
+                            () => Promise.resolve().then(s.bind(s, 77318)),
+                            "C:\\Users\\richl\\Care2system\\frontend\\app\\gfm\\extract\\page.tsx",
+                          ],
+                        },
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          d = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\gfm\\extract\\page.tsx",
+          ],
+          u = "/gfm/extract/page",
+          m = { require: s, loadChunk: () => Promise.resolve() },
+          x = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: "/gfm/extract/page",
+              pathname: "/gfm/extract",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: c },
+          });
+      },
+      4426: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 3673));
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      3673: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => m }));
+        var r = s(73658),
+          a = s(55459),
+          n = s(32241),
+          l = s(84874),
+          i = s.n(l),
+          o = s(33999),
+          c = s(28098);
+        let d = a.forwardRef(function ({ title: e, titleId: t, ...s }, r) {
+            return a.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: r,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? a.createElement("title", { id: t }, e) : null,
+              a.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M6 18 18 6M6 6l12 12",
+              }),
+            );
+          }),
+          u = function (e) {
+            if (e && Array.isArray(e.questions)) {
+              let {
+                  questions: t,
+                  currentDraft: s,
+                  isOpen: n,
+                  onComplete: l,
+                  onSkip: i,
+                  onClose: o,
+                } = e,
+                [u, m] = (0, a.useState)(0),
+                [x, h] = (0, a.useState)({}),
+                [p, g] = (0, a.useState)(""),
+                [f, b] = (0, a.useState)({}),
+                y = (0, a.useRef)(null);
+              if (!n) return null;
+              if (
+                ((0, a.useEffect)(() => {
+                  n && y.current && y.current.focus();
+                }, [n]),
+                0 === t.length)
+              )
+                return r.jsx("div", {
+                  tabIndex: -1,
+                  onKeyDown: (e) => {
+                    "Escape" === e.key && o?.();
+                  },
+                  className:
+                    "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",
+                  children: r.jsx("div", {
+                    className:
+                      "bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto",
+                    children: (0, r.jsxs)("div", {
+                      className: "p-6",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "flex items-start justify-between mb-4",
+                          children: [
+                            (0, r.jsxs)("div", {
+                              className: "flex items-center",
+                              children: [
+                                r.jsx(c.Z, {
+                                  className: "w-6 h-6 text-blue-600 mr-2",
+                                }),
+                                r.jsx("h3", {
+                                  className:
+                                    "text-lg font-semibold text-gray-900",
+                                  children: "Follow-up Questions",
+                                }),
+                              ],
+                            }),
+                            r.jsx("button", {
+                              onClick: () => o?.(),
+                              className:
+                                "text-gray-400 hover:text-gray-600 transition-colors",
+                              "aria-label": "Close dialog",
+                              children: r.jsx(d, { className: "w-6 h-6" }),
+                            }),
+                          ],
+                        }),
+                        r.jsx("p", {
+                          className: "text-gray-600",
+                          children: "No questions available.",
+                        }),
+                      ],
+                    }),
+                  }),
+                });
+              let j = t[u],
+                v = {
+                  field: j.field,
+                  question: j.question,
+                  type: "text",
+                  options: j.suggestions,
+                };
+              (0, a.useEffect)(() => {
+                g(x[j.field] || "");
+              }, [u, x, j.field]);
+              let N = (e, t) => {
+                  if (!e.trim()) return "Please provide an answer.";
+                  if ("goalAmount" === t) {
+                    let t = parseFloat(e.replace(/[$,]/g, ""));
+                    if (isNaN(t) || t <= 0)
+                      return "Please enter a valid amount.";
+                  }
+                  return null;
+                },
+                w = () => {
+                  let e = N(p, j.field);
+                  if (e) {
+                    b({ [j.field]: e });
+                    return;
+                  }
+                  b({});
+                  let s = { ...x, [j.field]: p };
+                  (h(s), u < t.length - 1 ? m((e) => e + 1) : l?.(s));
+                },
+                C = () => o?.(),
+                S = (e) =>
+                  s ? e.replace(/\[Name\]/g, s.name?.value || "") : e,
+                k = (e) => {
+                  let t = S(e);
+                  (g(t), b({}));
+                };
+              return r.jsx("div", {
+                ref: y,
+                tabIndex: -1,
+                onKeyDown: (e) => {
+                  "Escape" === e.key && C();
+                },
+                className:
+                  "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",
+                children: r.jsx("div", {
+                  className:
+                    "bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto",
+                  children: (0, r.jsxs)("div", {
+                    className: "p-6",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-start justify-between mb-4",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            className: "flex items-center",
+                            children: [
+                              r.jsx(c.Z, {
+                                className: "w-6 h-6 text-blue-600 mr-2",
+                              }),
+                              r.jsx("h3", {
+                                className:
+                                  "text-lg font-semibold text-gray-900",
+                                children: "Follow-up Questions",
+                              }),
+                            ],
+                          }),
+                          r.jsx("button", {
+                            onClick: C,
+                            className:
+                              "text-gray-400 hover:text-gray-600 transition-colors",
+                            "aria-label": "Close dialog",
+                            children: r.jsx(d, { className: "w-6 h-6" }),
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "mb-4 text-center",
+                        children: [
+                          (0, r.jsxs)("span", {
+                            className: "text-sm text-gray-600",
+                            children: [u + 1, " of ", t.length],
+                          }),
+                          r.jsx("p", {
+                            className: "text-sm text-gray-600",
+                            children: "Improve your campaign",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "mb-6",
+                        children: [
+                          r.jsx("p", {
+                            className: "text-gray-800 text-lg mb-2",
+                            children: v.question,
+                          }),
+                          j.context &&
+                            r.jsx("p", {
+                              className: "text-gray-600 text-sm mb-4",
+                              children: j.context,
+                            }),
+                          (0, r.jsxs)("form", {
+                            onSubmit: (e) => {
+                              (e.preventDefault(), w());
+                            },
+                            children: [
+                              r.jsx("input", {
+                                "aria-label": v.question,
+                                className: `w-full px-4 py-3 border-2 rounded-lg ${f[j.field] ? "border-red-300" : "border-gray-300"}`,
+                                value: p,
+                                onChange: (e) => {
+                                  (g(e.target.value), f[j.field] && b({}));
+                                },
+                              }),
+                              f[j.field] &&
+                                r.jsx("p", {
+                                  className: "text-red-600 text-sm mt-1",
+                                  children: f[j.field],
+                                }),
+                              j.suggestions &&
+                                r.jsx("div", {
+                                  className: "mt-3 flex flex-wrap gap-2",
+                                  children: j.suggestions.map((e) =>
+                                    r.jsx(
+                                      "button",
+                                      {
+                                        type: "button",
+                                        onClick: () => k(e),
+                                        className:
+                                          "px-3 py-1 border rounded hover:bg-gray-50",
+                                        children: S(e),
+                                      },
+                                      e,
+                                    ),
+                                  ),
+                                }),
+                              (0, r.jsxs)("div", {
+                                className: "flex gap-3 mt-6",
+                                children: [
+                                  u > 0 &&
+                                    r.jsx("button", {
+                                      type: "button",
+                                      onClick: () => {
+                                        let e = { ...x, [j.field]: p };
+                                        (h(e), b({}), u > 0 && m((e) => e - 1));
+                                      },
+                                      className:
+                                        "px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50",
+                                      children: "Back",
+                                    }),
+                                  r.jsx("button", {
+                                    type: "submit",
+                                    className:
+                                      "flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700",
+                                    children:
+                                      u === t.length - 1 ? "Finish" : "Next",
+                                  }),
+                                  r.jsx("button", {
+                                    type: "button",
+                                    onClick: () => i?.(),
+                                    className:
+                                      "px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50",
+                                    children: "Skip",
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className:
+                          "text-sm text-gray-500 bg-gray-50 rounded-lg p-3",
+                        children: [
+                          (0, r.jsxs)("p", {
+                            className: "mb-1",
+                            children: [
+                              "\uD83D\uDCA1 ",
+                              r.jsx("strong", { children: "Why do we ask?" }),
+                            ],
+                          }),
+                          r.jsx("p", {
+                            children:
+                              "This information helps create a complete and compelling campaign that donors can trust and connect with.",
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+            }
+            let {
+                question: t,
+                onAnswer: s,
+                onSkip: n,
+                onClose: l,
+                progress: i,
+              } = e,
+              [o, u] = (0, a.useState)(""),
+              [m, x] = (0, a.useState)(!1),
+              h = async (e) => {
+                if ((e.preventDefault(), o.trim())) {
+                  x(!0);
+                  try {
+                    await s(o.trim());
+                  } catch (e) {
+                    console.error("Error submitting answer:", e);
+                  } finally {
+                    x(!1);
+                  }
+                }
+              };
+            return r.jsx("div", {
+              className:
+                "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",
+              children: r.jsx("div", {
+                className:
+                  "bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto",
+                children: (0, r.jsxs)("div", {
+                  className: "p-6",
+                  children: [
+                    (0, r.jsxs)("div", {
+                      className: "flex items-start justify-between mb-4",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "flex items-center",
+                          children: [
+                            r.jsx(c.Z, {
+                              className: "w-6 h-6 text-blue-600 mr-2",
+                            }),
+                            r.jsx("h3", {
+                              className: "text-lg font-semibold text-gray-900",
+                              children: "Quick Question",
+                            }),
+                          ],
+                        }),
+                        r.jsx("button", {
+                          onClick: l,
+                          className:
+                            "text-gray-400 hover:text-gray-600 transition-colors",
+                          "aria-label": "Close dialog",
+                          children: r.jsx(d, { className: "w-6 h-6" }),
+                        }),
+                      ],
+                    }),
+                    i &&
+                      (0, r.jsxs)("div", {
+                        className: "mb-4",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            className:
+                              "flex justify-between text-sm text-gray-600 mb-1",
+                            children: [
+                              (0, r.jsxs)("span", {
+                                children: [
+                                  "Question ",
+                                  i.current + 1,
+                                  " of ",
+                                  i.total,
+                                ],
+                              }),
+                              (0, r.jsxs)("span", {
+                                children: [
+                                  Math.round(((i.current + 1) / i.total) * 100),
+                                  "%",
+                                ],
+                              }),
+                            ],
+                          }),
+                          r.jsx("div", {
+                            className: "w-full bg-gray-200 rounded-full h-2",
+                            children: r.jsx("div", {
+                              className:
+                                "bg-blue-600 h-2 rounded-full transition-all duration-300",
+                              style: {
+                                width: `${((i.current + 1) / i.total) * 100}%`,
+                              },
+                            }),
+                          }),
+                        ],
+                      }),
+                    (0, r.jsxs)("div", {
+                      className: "mb-6",
+                      children: [
+                        r.jsx("p", {
+                          className: "text-gray-800 text-lg mb-4",
+                          children: t.question,
+                        }),
+                        (0, r.jsxs)("form", {
+                          onSubmit: h,
+                          children: [
+                            (() => {
+                              switch (t.type) {
+                                case "select":
+                                  return (0, r.jsxs)("select", {
+                                    value: o,
+                                    onChange: (e) => u(e.target.value),
+                                    className:
+                                      "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                    "aria-label": t.question,
+                                    required: !0,
+                                    children: [
+                                      r.jsx("option", {
+                                        value: "",
+                                        children: "Please select...",
+                                      }),
+                                      t.options?.map((e) =>
+                                        r.jsx(
+                                          "option",
+                                          { value: e, children: e },
+                                          e,
+                                        ),
+                                      ),
+                                    ],
+                                  });
+                                case "number":
+                                  return r.jsx("input", {
+                                    type: "number",
+                                    value: o,
+                                    onChange: (e) => u(e.target.value),
+                                    className:
+                                      "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                    placeholder: "Enter amount",
+                                    min: "1",
+                                    required: !0,
+                                  });
+                                case "date":
+                                  return r.jsx("input", {
+                                    type: "text",
+                                    value: o,
+                                    onChange: (e) => u(e.target.value),
+                                    className:
+                                      "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                    placeholder: "MM/DD/YYYY",
+                                    pattern: "\\\\d{1,2}/\\\\d{1,2}/\\\\d{4}",
+                                    required: !0,
+                                  });
+                                default:
+                                  return r.jsx("textarea", {
+                                    value: o,
+                                    onChange: (e) => u(e.target.value),
+                                    className:
+                                      "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                    rows: "shortSummary" === t.field ? 3 : 1,
+                                    placeholder: "Type your answer...",
+                                    required: !0,
+                                  });
+                              }
+                            })(),
+                            "date" === t.type &&
+                              r.jsx("p", {
+                                className: "text-sm text-gray-500 mt-1",
+                                children:
+                                  "Please use MM/DD/YYYY format (e.g., 01/15/1990)",
+                              }),
+                            "number" === t.type &&
+                              "goalAmount" === t.field &&
+                              r.jsx("p", {
+                                className: "text-sm text-gray-500 mt-1",
+                                children:
+                                  "Enter the total amount you hope to raise",
+                              }),
+                            (0, r.jsxs)("div", {
+                              className: "flex gap-3 mt-6",
+                              children: [
+                                r.jsx("button", {
+                                  type: "submit",
+                                  disabled: !o.trim() || m,
+                                  className:
+                                    "flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors",
+                                  children: m ? "Submitting..." : "Continue",
+                                }),
+                                r.jsx("button", {
+                                  type: "button",
+                                  onClick: () => {
+                                    n();
+                                  },
+                                  disabled: m,
+                                  className:
+                                    "px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors",
+                                  children: "Skip",
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                    (0, r.jsxs)("div", {
+                      className:
+                        "text-sm text-gray-500 bg-gray-50 rounded-lg p-3",
+                      children: [
+                        (0, r.jsxs)("p", {
+                          className: "mb-1",
+                          children: [
+                            "\uD83D\uDCA1 ",
+                            r.jsx("strong", { children: "Why do we ask?" }),
+                          ],
+                        }),
+                        r.jsx("p", {
+                          children:
+                            "This information helps create a complete and compelling campaign that donors can trust and connect with.",
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              }),
+            });
+          };
+        function m() {
+          let e = (0, n.useRouter)();
+          (0, n.useSearchParams)();
+          let [t, s] = (0, a.useState)(null),
+            [l, c] = (0, a.useState)(!1),
+            [d, m] = (0, a.useState)(""),
+            [x, h] = (0, a.useState)(!1),
+            [p, g] = (0, a.useState)(!1),
+            [f, b] = (0, a.useState)(null),
+            [y, j] = (0, a.useState)(null);
+          (0, a.useEffect)(() => {
+            v();
+          }, []);
+          let v = async () => {
+              try {
+                let e = await fetch(
+                    "https://api.care2connects.org/api/transcription/status",
+                  ),
+                  t = await e.json();
+                t.success && t.data.fallbackMode && h(!0);
+              } catch (e) {
+                (console.error("Status check error:", e), h(!0));
+              }
+            },
+            N = async () => {
+              if (!d.trim()) {
+                o.default.error("Please enter your story transcript");
+                return;
+              }
+              c(!0);
+              try {
+                let e = await fetch(
+                    "https://api.care2connects.org/api/transcription/text",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ transcript: d.trim() }),
+                    },
+                  ),
+                  t = await e.json();
+                t.success
+                  ? (s(t.data.extraction),
+                    t.data.extraction.draft?.followUpQuestions?.length > 0
+                      ? await w(t.data.extraction.draft)
+                      : o.default.success("Story processed successfully!"))
+                  : o.default.error(t.error || "Failed to process transcript");
+              } catch (e) {
+                (console.error("Processing error:", e),
+                  o.default.error("Failed to process your story"));
+              } finally {
+                c(!1);
+              }
+            },
+            w = async (e) => {
+              try {
+                let t = await fetch(
+                    "https://api.care2connects.org/api/transcription/followup/start",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        draftId: `draft_${Date.now()}`,
+                        userId: "anonymous_user",
+                      }),
+                    },
+                  ),
+                  s = await t.json();
+                s.success &&
+                  (j(s.data.sessionId), await C(s.data.sessionId, e));
+              } catch (e) {
+                (console.error("Follow-up session error:", e),
+                  o.default.error("Error starting follow-up questions"));
+              }
+            },
+            C = async (e, t) => {
+              try {
+                let s = await fetch(
+                    `https://api.care2connects.org/api/transcription/followup/${e}/question?draft=${encodeURIComponent(JSON.stringify(t))}`,
+                  ),
+                  r = await s.json();
+                r.success &&
+                  (r.data.completed
+                    ? (g(!1), o.default.success("All questions completed!"))
+                    : (b(r.data.question), g(!0)));
+              } catch (e) {
+                console.error("Get question error:", e);
+              }
+            },
+            S = async (e) => {
+              if (y)
+                try {
+                  let s = await fetch(
+                    `https://api.care2connects.org/api/transcription/followup/${y}/answer`,
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ answer: e }),
+                    },
+                  );
+                  s.ok && t && (await C(y, t.draft));
+                } catch (e) {
+                  (console.error("Submit answer error:", e),
+                    o.default.error("Failed to submit answer"));
+                }
+            },
+            k = async () => {
+              if (y && t)
+                try {
+                  await C(y, t.draft);
+                } catch (e) {
+                  console.error("Skip error:", e);
+                }
+            },
+            P = (e, t) => {
+              if (!e?.value) return null;
+              let s = e.confidence || 0;
+              return (0, r.jsxs)("div", {
+                className: "border rounded-lg p-3 mb-3",
+                children: [
+                  (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center mb-2",
+                    children: [
+                      r.jsx("span", {
+                        className: "font-medium text-gray-700",
+                        children: t,
+                      }),
+                      (0, r.jsxs)("span", {
+                        className: `text-sm ${s > 0.7 ? "text-green-600" : s > 0.4 ? "text-yellow-600" : "text-red-600"}`,
+                        children: [
+                          s > 0.7 ? "✅" : s > 0.4 ? "⚠️" : "❓",
+                          " ",
+                          Math.round(100 * s),
+                          "%",
+                        ],
+                      }),
+                    ],
+                  }),
+                  r.jsx("div", {
+                    className: "text-gray-900",
+                    children:
+                      "object" == typeof e.value
+                        ? JSON.stringify(e.value)
+                        : String(e.value),
+                  }),
+                ],
+              });
+            };
+          return r.jsx("div", {
+            className: "min-h-screen bg-gray-50 py-8",
+            children: (0, r.jsxs)("div", {
+              className: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8",
+              children: [
+                (0, r.jsxs)("div", {
+                  className: "text-center mb-8",
+                  children: [
+                    r.jsx("h1", {
+                      className: "text-3xl font-bold text-gray-900 mb-4",
+                      children: "Story Analysis & GoFundMe Setup",
+                    }),
+                    r.jsx("p", {
+                      className: "text-lg text-gray-600",
+                      children:
+                        "AI will analyze your story and auto-fill GoFundMe campaign fields",
+                    }),
+                  ],
+                }),
+                (0, r.jsxs)("div", {
+                  className: "grid lg:grid-cols-2 gap-8",
+                  children: [
+                    (0, r.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow p-6",
+                      children: [
+                        r.jsx("h2", {
+                          className: "text-xl font-semibold mb-4",
+                          children: "Your Story",
+                        }),
+                        x
+                          ? (0, r.jsxs)("div", {
+                              children: [
+                                r.jsx("div", {
+                                  className:
+                                    "mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg",
+                                  children: (0, r.jsxs)("p", {
+                                    className: "text-blue-800 text-sm",
+                                    children: [
+                                      r.jsx("strong", {
+                                        children: "Manual Mode:",
+                                      }),
+                                      " Please paste your story transcript below. Our AI will analyze it and help create your GoFundMe campaign.",
+                                    ],
+                                  }),
+                                }),
+                                r.jsx("textarea", {
+                                  value: d,
+                                  onChange: (e) => m(e.target.value),
+                                  className:
+                                    "w-full h-40 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all",
+                                  placeholder:
+                                    "Please type or paste your story here... Tell us about your situation, what help you need, and what you hope to achieve.",
+                                }),
+                                (0, r.jsxs)("div", {
+                                  className:
+                                    "mt-4 flex justify-between items-center",
+                                  children: [
+                                    (0, r.jsxs)("span", {
+                                      className: "text-sm text-gray-500",
+                                      children: [d.length, " characters"],
+                                    }),
+                                    r.jsx("button", {
+                                      onClick: N,
+                                      disabled: !d.trim() || l,
+                                      className:
+                                        "btn-primary disabled:bg-gray-300 disabled:cursor-not-allowed",
+                                      children: l
+                                        ? "Processing..."
+                                        : "Analyze Story",
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            })
+                          : (0, r.jsxs)("div", {
+                              className: "text-center py-8",
+                              children: [
+                                r.jsx("p", {
+                                  className: "text-gray-600 mb-4",
+                                  children:
+                                    "Audio transcription will be processed here once uploaded from the recording page.",
+                                }),
+                                r.jsx(i(), {
+                                  href: "/tell-story",
+                                  className: "btn-primary",
+                                  children: "Go to Recording",
+                                }),
+                              ],
+                            }),
+                      ],
+                    }),
+                    (0, r.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow p-6",
+                      children: [
+                        r.jsx("h2", {
+                          className: "text-xl font-semibold mb-4",
+                          children: "Extracted Information",
+                        }),
+                        t
+                          ? (0, r.jsxs)("div", {
+                              children: [
+                                t.warnings?.length > 0 &&
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg",
+                                    children: [
+                                      r.jsx("h4", {
+                                        className:
+                                          "font-medium text-yellow-800 mb-1",
+                                        children: "Warnings:",
+                                      }),
+                                      r.jsx("ul", {
+                                        className: "text-sm text-yellow-700",
+                                        children: t.warnings.map((e, t) =>
+                                          (0, r.jsxs)(
+                                            "li",
+                                            { children: ["• ", e] },
+                                            t,
+                                          ),
+                                        ),
+                                      }),
+                                    ],
+                                  }),
+                                (0, r.jsxs)("div", {
+                                  className: "space-y-3",
+                                  children: [
+                                    P(t.draft.name, "Name"),
+                                    P(t.draft.title, "Campaign Title"),
+                                    P(t.draft.category, "Category"),
+                                    P(t.draft.goalAmount, "Goal Amount"),
+                                    P(t.draft.location, "Location"),
+                                    P(t.draft.shortSummary, "Summary"),
+                                  ],
+                                }),
+                                t.draft.missingFields?.length > 0 &&
+                                  (0, r.jsxs)("div", {
+                                    className:
+                                      "mt-4 p-3 bg-red-50 border border-red-200 rounded-lg",
+                                    children: [
+                                      r.jsx("h4", {
+                                        className:
+                                          "font-medium text-red-800 mb-1",
+                                        children: "Missing Information:",
+                                      }),
+                                      (0, r.jsxs)("p", {
+                                        className: "text-sm text-red-700",
+                                        children: [
+                                          t.draft.missingFields.join(", "),
+                                          " - We'll ask follow-up questions for these.",
+                                        ],
+                                      }),
+                                    ],
+                                  }),
+                                r.jsx("div", {
+                                  className: "mt-6",
+                                  children: r.jsx("button", {
+                                    onClick: () => {
+                                      t?.draft &&
+                                        (localStorage.setItem(
+                                          "gfm_extracted_draft",
+                                          JSON.stringify(t.draft),
+                                        ),
+                                        e.push("/gfm/review"));
+                                    },
+                                    className: "w-full btn-primary",
+                                    children: "Continue to GoFundMe Stepper →",
+                                  }),
+                                }),
+                              ],
+                            })
+                          : r.jsx("div", {
+                              className: "text-center py-8 text-gray-500",
+                              children:
+                                "Process your story to see extracted information here",
+                            }),
+                      ],
+                    }),
+                  ],
+                }),
+                (0, r.jsxs)("div", {
+                  className: "mt-8 flex justify-between",
+                  children: [
+                    r.jsx(i(), {
+                      href: "/tell-story",
+                      className: "btn-secondary",
+                      children: "← Back to Recording",
+                    }),
+                    r.jsx(i(), {
+                      href: "/",
+                      className: "btn-secondary",
+                      children: "Cancel & Go Home",
+                    }),
+                  ],
+                }),
+                p &&
+                  f &&
+                  r.jsx(u, {
+                    question: f,
+                    onAnswer: S,
+                    onSkip: k,
+                    onClose: () => g(!1),
+                  }),
+              ],
+            }),
+          });
+        }
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => i }));
+        var r = s(73658),
+          a = s(58758),
+          n = s(60459),
+          l = s(55459);
+        function i({ children: e }) {
+          let [t] = (0, l.useState)(
+            () =>
+              new a.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(n.aH, { client: t, children: e });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => o }));
+        var r = s(73658),
+          a = s(84874),
+          n = s.n(a),
+          l = s(32241),
+          i = s(17872);
+        function o() {
+          let e = (0, l.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(n(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(n(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(n(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(n(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(n(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(i.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      77318: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, { $$typeof: () => l, __esModule: () => n, default: () => o }));
+        var r = s(19894);
+        let a = (0, r.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\gfm\extract\page.tsx`,
+          ),
+          { __esModule: n, $$typeof: l } = a,
+          i = a.default,
+          o = i;
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => f, metadata: () => g }));
+        var r = s(31487),
+          a = s(72972),
+          n = s.n(a);
+        s(40642);
+        var l = s(19894);
+        let i = (0, l.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: o, $$typeof: c } = i;
+        i.default;
+        let d = (0, l.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var u = s(15762);
+        let m = (0, l.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: x, $$typeof: h } = m,
+          p = m.default,
+          g = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function f({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: n().className,
+              children: (0, r.jsxs)(d, {
+                children: [
+                  r.jsx(p, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(u.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      40642: () => {},
+      28098: (e, t, s) => {
+        "use strict";
+        s.d(t, { Z: () => n });
+        var r = s(55459);
+        let a = r.forwardRef(function ({ title: e, titleId: t, ...s }, a) {
+            return r.createElement(
+              "svg",
+              Object.assign(
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  strokeWidth: 1.5,
+                  stroke: "currentColor",
+                  "aria-hidden": "true",
+                  "data-slot": "icon",
+                  ref: a,
+                  "aria-labelledby": t,
+                },
+                s,
+              ),
+              e ? r.createElement("title", { id: t }, e) : null,
+              r.createElement("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z",
+              }),
+            );
+          }),
+          n = a;
+      },
+    }));
+  var t = require("../../../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(71812));
+  module.exports = r;
+})();

@@ -1,11 +1,11 @@
 /**
  * Feature Integrity System
- * 
+ *
  * Enforces strict feature dependency checking and prevents silent degradation.
  * Three modes: strict (fail on missing deps), demo (warn but allow), dev (permissive)
  */
 
-export type IntegrityMode = 'strict' | 'demo' | 'dev';
+export type IntegrityMode = "strict" | "demo" | "dev";
 
 export interface FeatureConfig {
   donations: boolean;
@@ -39,7 +39,7 @@ export interface IntegrityStatus {
 export class FeatureIntegrityManager {
   private mode: IntegrityMode;
   private features: FeatureConfig;
-  private servicesStatus: IntegrityStatus['services'];
+  private servicesStatus: IntegrityStatus["services"];
   private connectedSince: Record<string, string> = {};
 
   constructor() {
@@ -49,28 +49,33 @@ export class FeatureIntegrityManager {
   }
 
   private getIntegrityMode(): IntegrityMode {
-    const mode = (process.env.FEATURE_INTEGRITY_MODE || 'dev').toLowerCase() as IntegrityMode;
-    if (!['strict', 'demo', 'dev'].includes(mode)) {
-      console.warn(`⚠️  Invalid FEATURE_INTEGRITY_MODE: ${mode}. Defaulting to 'dev'.`);
-      return 'dev';
+    const mode = (
+      process.env.FEATURE_INTEGRITY_MODE || "dev"
+    ).toLowerCase() as IntegrityMode;
+    if (!["strict", "demo", "dev"].includes(mode)) {
+      console.warn(
+        `⚠️  Invalid FEATURE_INTEGRITY_MODE: ${mode}. Defaulting to 'dev'.`,
+      );
+      return "dev";
     }
     return mode;
   }
 
   private getFeatureConfig(): FeatureConfig {
     // In dev/demo mode, make all features optional by default except core ones
-    const isDevMode = this.mode === 'dev' || this.mode === 'demo';
-    
+    const isDevMode = this.mode === "dev" || this.mode === "demo";
+
     return {
-      donations: process.env.FEATURE_DONATIONS_ENABLED !== 'false' && !isDevMode, // Optional in dev
-      email: process.env.FEATURE_EMAIL_ENABLED !== 'false' && !isDevMode, // Optional in dev
-      transcription: process.env.FEATURE_TRANSCRIPTION_ENABLED !== 'false',
-      storage: process.env.FEATURE_STORAGE_ENABLED !== 'false',
-      database: process.env.FEATURE_DATABASE_ENABLED !== 'false',
+      donations:
+        process.env.FEATURE_DONATIONS_ENABLED !== "false" && !isDevMode, // Optional in dev
+      email: process.env.FEATURE_EMAIL_ENABLED !== "false" && !isDevMode, // Optional in dev
+      transcription: process.env.FEATURE_TRANSCRIPTION_ENABLED !== "false",
+      storage: process.env.FEATURE_STORAGE_ENABLED !== "false",
+      database: process.env.FEATURE_DATABASE_ENABLED !== "false",
     };
   }
 
-  private initializeServicesStatus(): IntegrityStatus['services'] {
+  private initializeServicesStatus(): IntegrityStatus["services"] {
     return {
       database: {
         available: false,
@@ -93,12 +98,12 @@ export class FeatureIntegrityManager {
   }
 
   public updateServiceStatus(
-    service: keyof IntegrityStatus['services'],
+    service: keyof IntegrityStatus["services"],
     available: boolean,
-    error?: string
+    error?: string,
   ) {
     const now = new Date().toISOString();
-    
+
     if (available && !this.servicesStatus[service].available) {
       // Service just became available
       this.connectedSince[service] = now;
@@ -107,7 +112,7 @@ export class FeatureIntegrityManager {
 
     this.servicesStatus[service].available = available;
     this.servicesStatus[service].lastCheck = now;
-    
+
     if (error) {
       this.servicesStatus[service].lastError = error;
     }
@@ -121,7 +126,7 @@ export class FeatureIntegrityManager {
       if (status.required && !status.available) {
         const featureName = this.getFeatureNameForService(service);
         blockingReasons.push(
-          `${service}: Required for ${featureName} feature but unavailable${status.lastError ? ` (${status.lastError})` : ''}`
+          `${service}: Required for ${featureName} feature but unavailable${status.lastError ? ` (${status.lastError})` : ""}`,
         );
       }
     });
@@ -139,19 +144,19 @@ export class FeatureIntegrityManager {
 
   private getFeatureNameForService(service: string): string {
     const mapping: Record<string, string> = {
-      database: 'database operations',
-      storage: 'file storage',
-      stripe: 'donations',
-      evtsModel: 'transcription',
+      database: "database operations",
+      storage: "file storage",
+      stripe: "donations",
+      evtsModel: "transcription",
     };
     return mapping[service] || service;
   }
 
   public shouldFailOnMissingDeps(): boolean {
     const status = this.getIntegrityStatus();
-    const allowPartialStart = process.env.ALLOW_PARTIAL_START === 'true';
-    
-    return this.mode === 'strict' && !status.ready && !allowPartialStart;
+    const allowPartialStart = process.env.ALLOW_PARTIAL_START === "true";
+
+    return this.mode === "strict" && !status.ready && !allowPartialStart;
   }
 
   public getStartupBehavior(): {
@@ -161,9 +166,9 @@ export class FeatureIntegrityManager {
   } {
     const status = this.getIntegrityStatus();
 
-    if (this.mode === 'strict' && !status.ready) {
-      const allowPartialStart = process.env.ALLOW_PARTIAL_START === 'true';
-      
+    if (this.mode === "strict" && !status.ready) {
+      const allowPartialStart = process.env.ALLOW_PARTIAL_START === "true";
+
       if (!allowPartialStart) {
         return {
           shouldExit: true,
@@ -174,7 +179,7 @@ export class FeatureIntegrityManager {
 ╚════════════════════════════════════════════════════════════╝
 
 Blocking reasons:
-${status.blockingReasons.map(r => `  • ${r}`).join('\n')}
+${status.blockingReasons.map((r) => `  • ${r}`).join("\n")}
 
 To fix:
 1. Configure missing services (see .env.example)
@@ -190,7 +195,7 @@ Server refusing to start.
     return {
       shouldExit: false,
       exitCode: 0,
-      message: '',
+      message: "",
     };
   }
 
@@ -206,7 +211,9 @@ Server refusing to start.
     return this.features[feature];
   }
 
-  public getConnectedSince(service: keyof IntegrityStatus['services']): string | undefined {
+  public getConnectedSince(
+    service: keyof IntegrityStatus["services"],
+  ): string | undefined {
     return this.connectedSince[service];
   }
 }

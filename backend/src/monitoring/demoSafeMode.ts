@@ -1,5 +1,5 @@
-import net from 'net';
-import { integrityManager } from '../services/integrity/featureIntegrity';
+import net from "net";
+import { integrityManager } from "../services/integrity/featureIntegrity";
 
 export interface DemoModeConfig {
   enabled: boolean;
@@ -19,8 +19,8 @@ class DemoSafeMode {
   };
 
   constructor() {
-    this.config.enabled = process.env.DEMO_SAFE_MODE === 'true';
-    this.config.requestedPort = parseInt(process.env.PORT || '3001');
+    this.config.enabled = process.env.DEMO_SAFE_MODE === "true";
+    this.config.requestedPort = parseInt(process.env.PORT || "3001");
   }
 
   /**
@@ -33,7 +33,10 @@ class DemoSafeMode {
   /**
    * Find an available port starting from the requested port
    */
-  public async findAvailablePort(startPort: number, maxAttempts: number = 10): Promise<number> {
+  public async findAvailablePort(
+    startPort: number,
+    maxAttempts: number = 10,
+  ): Promise<number> {
     let port = startPort;
 
     for (let i = 0; i < maxAttempts; i++) {
@@ -43,7 +46,9 @@ class DemoSafeMode {
       port++;
     }
 
-    throw new Error(`Could not find available port after ${maxAttempts} attempts starting from ${startPort}`);
+    throw new Error(
+      `Could not find available port after ${maxAttempts} attempts starting from ${startPort}`,
+    );
   }
 
   /**
@@ -53,15 +58,15 @@ class DemoSafeMode {
     return new Promise((resolve) => {
       const server = net.createServer();
 
-      server.once('error', (err: any) => {
-        if (err.code === 'EADDRINUSE') {
+      server.once("error", (err: any) => {
+        if (err.code === "EADDRINUSE") {
           resolve(false);
         } else {
           resolve(false);
         }
       });
 
-      server.once('listening', () => {
+      server.once("listening", () => {
         server.close();
         resolve(true);
       });
@@ -79,20 +84,24 @@ class DemoSafeMode {
       return this.config.requestedPort;
     }
 
-    console.log('\n🛡️  DEMO SAFE MODE ENABLED');
-    console.log('═══════════════════════════════════════\n');
+    console.log("\n🛡️  DEMO SAFE MODE ENABLED");
+    console.log("═══════════════════════════════════════\n");
 
     // Check if requested port is available
     const portAvailable = await this.isPortAvailable(this.config.requestedPort);
 
     if (portAvailable) {
       this.config.actualPort = this.config.requestedPort;
-      console.log(`✅ Requested port ${this.config.requestedPort} is available`);
+      console.log(
+        `✅ Requested port ${this.config.requestedPort} is available`,
+      );
     } else {
       console.log(`⚠️  Requested port ${this.config.requestedPort} is in use`);
-      console.log('   Finding next available port...');
+      console.log("   Finding next available port...");
 
-      const newPort = await this.findAvailablePort(this.config.requestedPort + 1);
+      const newPort = await this.findAvailablePort(
+        this.config.requestedPort + 1,
+      );
       this.config.actualPort = newPort;
       this.config.portAutoSelected = true;
 
@@ -112,8 +121,11 @@ class DemoSafeMode {
     const disabled: string[] = [];
 
     // Stripe
-    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('your_')) {
-      disabled.push('Stripe (card payments) - QR donations will work');
+    if (
+      !process.env.STRIPE_SECRET_KEY ||
+      process.env.STRIPE_SECRET_KEY.includes("your_")
+    ) {
+      disabled.push("Stripe (card payments) - QR donations will work");
     }
 
     // SMTP
@@ -125,8 +137,8 @@ class DemoSafeMode {
     this.config.disabledServices = disabled;
 
     if (disabled.length > 0) {
-      console.log('\n⚠️  Optional Services (Running in No-Keys Mode):');
-      disabled.forEach(service => {
+      console.log("\n⚠️  Optional Services (Running in No-Keys Mode):");
+      disabled.forEach((service) => {
         console.log(`   • ${service}`);
       });
     }
@@ -138,39 +150,50 @@ class DemoSafeMode {
   public displayBanner(): void {
     if (!this.config.enabled) return;
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
     const backendUrl = `http://localhost:${this.config.actualPort}`;
 
-    console.log('\n╔════════════════════════════════════════════════════════════╗');
-    console.log('║                  🎬 DEMO MODE ACTIVE 🎬                    ║');
-    console.log('╚════════════════════════════════════════════════════════════╝');
-    console.log('');
-    console.log('📍 URLs:');
+    console.log(
+      "\n╔════════════════════════════════════════════════════════════╗",
+    );
+    console.log(
+      "║                  🎬 DEMO MODE ACTIVE 🎬                    ║",
+    );
+    console.log(
+      "╚════════════════════════════════════════════════════════════╝",
+    );
+    console.log("");
+    console.log("📍 URLs:");
     console.log(`   Frontend:  ${frontendUrl}`);
     console.log(`   Backend:   ${backendUrl}`);
     console.log(`   Health:    ${backendUrl}/health/status`);
     console.log(`   Demo Info: ${backendUrl}/demo/status`);
-    console.log('');
+    console.log("");
 
     if (this.config.portAutoSelected) {
-      console.log('⚠️  Port Auto-Selection:');
+      console.log("⚠️  Port Auto-Selection:");
       console.log(`   Requested: ${this.config.requestedPort} (in use)`);
       console.log(`   Using:     ${this.config.actualPort} (auto-selected)`);
-      console.log('');
+      console.log("");
     }
 
     if (this.config.disabledServices.length > 0) {
-      console.log('⚠️  Services in No-Keys Mode:');
-      this.config.disabledServices.forEach(service => {
+      console.log("⚠️  Services in No-Keys Mode:");
+      this.config.disabledServices.forEach((service) => {
         console.log(`   • ${service}`);
       });
-      console.log('');
+      console.log("");
     }
 
     const integrity = integrityManager.getIntegrityStatus();
-    console.log('📊 Demo Readiness: ' + (integrity.ready ? 'Ready for presentation' : 'NOT READY — see blocking reasons'));
-    console.log('═══════════════════════════════════════════════════════════');
-    console.log('');
+    console.log(
+      "📊 Demo Readiness: " +
+        (integrity.ready
+          ? "Ready for presentation"
+          : "NOT READY — see blocking reasons"),
+    );
+    console.log("═══════════════════════════════════════════════════════════");
+    console.log("");
   }
 
   /**
@@ -210,32 +233,37 @@ class DemoSafeMode {
     warnings: string[];
     integrity?: any;
   } {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
     const backendUrl = `http://localhost:${this.config.actualPort}`;
 
     const availableServices: string[] = [];
     const warnings: string[] = [];
 
     // Check what's available
-    if (process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.includes('your_')) {
-      availableServices.push('Stripe card payments');
+    if (
+      process.env.STRIPE_SECRET_KEY &&
+      !process.env.STRIPE_SECRET_KEY.includes("your_")
+    ) {
+      availableServices.push("Stripe card payments");
     }
 
     // SMTP archived; support tickets are always available via support log
 
     // Core services always available
-    availableServices.push('QR code donations');
-    availableServices.push('Word document export');
-    availableServices.push('Support tickets');
-    availableServices.push('Browser-based speech recognition');
+    availableServices.push("QR code donations");
+    availableServices.push("Word document export");
+    availableServices.push("Support tickets");
+    availableServices.push("Browser-based speech recognition");
 
     // Add warnings
     if (this.config.portAutoSelected) {
-      warnings.push(`Port auto-selected: ${this.config.actualPort} (requested ${this.config.requestedPort} was in use)`);
+      warnings.push(
+        `Port auto-selected: ${this.config.actualPort} (requested ${this.config.requestedPort} was in use)`,
+      );
     }
 
     if (this.config.disabledServices.length > 0) {
-      warnings.push('Running in no-keys mode for some services');
+      warnings.push("Running in no-keys mode for some services");
     }
 
     const integrity = integrityManager.getIntegrityStatus();
@@ -262,8 +290,16 @@ class DemoSafeMode {
         available: availableServices,
         disabled: this.config.disabledServices,
         stripe: {
-          enabled: !!(process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.includes('your_')),
-          reason: !(process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.includes('your_')) ? 'NO_KEYS_MODE' : undefined,
+          enabled: !!(
+            process.env.STRIPE_SECRET_KEY &&
+            !process.env.STRIPE_SECRET_KEY.includes("your_")
+          ),
+          reason: !(
+            process.env.STRIPE_SECRET_KEY &&
+            !process.env.STRIPE_SECRET_KEY.includes("your_")
+          )
+            ? "NO_KEYS_MODE"
+            : undefined,
         },
         // smtp archived
       },

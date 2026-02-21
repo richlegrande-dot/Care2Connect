@@ -1,17 +1,22 @@
 /**
  * Speech Intelligence - Smoke Test Runner
  * Periodic health checks for transcription system
- * 
+ *
  * EVTS-first with OpenAI fallback strategy:
  * - Prefers EVTS (local/cheaper) if available
  * - Falls back to OpenAI if EVTS unavailable or fails
  * - Stores results in TranscriptionSession for analysis
  */
 
-import { SessionManager } from './sessionManager';
-import { TranscriptionSource, TranscriptionEngine, TranscriptionStatus, TranscriptionStage } from '@prisma/client';
-import fs from 'fs';
-import path from 'path';
+import { SessionManager } from "./sessionManager";
+import {
+  TranscriptionSource,
+  TranscriptionEngine,
+  TranscriptionStatus,
+  TranscriptionStage,
+} from "@prisma/client";
+import fs from "fs";
+import path from "path";
 
 export interface SmokeTestResult {
   success: boolean;
@@ -45,14 +50,14 @@ export class SmokeTestRunner {
    */
   async runTests(): Promise<SmokeTestResult> {
     const startTime = Date.now();
-    const tests: SmokeTestResult['tests'] = [];
+    const tests: SmokeTestResult["tests"] = [];
     let sessionId: string | undefined;
 
     try {
       // DB-only tests (always run)
       // Test 1: Can create session
       tests.push(await this.testCreateSession());
-      
+
       if (tests[0].passed && (tests[0] as any).sessionId) {
         sessionId = (tests[0] as any).sessionId;
       }
@@ -73,19 +78,21 @@ export class SmokeTestRunner {
       }
 
       // Real transcription tests (fail-soft if dependencies missing)
-      tests.push(await this.testRealTranscription('en'));
-      tests.push(await this.testRealTranscription('es'));
+      tests.push(await this.testRealTranscription("en"));
+      tests.push(await this.testRealTranscription("es"));
 
       // Only fail if DB tests fail; transcription tests can be skipped
-      const dbTestsPassed = tests.slice(0, 4).every(t => t.passed);
-      const transcriptionTestsFailed = tests.slice(4).some(t => t.passed === false && t.error !== 'skipped');
+      const dbTestsPassed = tests.slice(0, 4).every((t) => t.passed);
+      const transcriptionTestsFailed = tests
+        .slice(4)
+        .some((t) => t.passed === false && t.error !== "skipped");
 
       return {
         success: dbTestsPassed && !transcriptionTestsFailed,
         timestamp: new Date(),
         duration: Date.now() - startTime,
         tests,
-        sessionId
+        sessionId,
       };
     } catch (error) {
       return {
@@ -95,11 +102,11 @@ export class SmokeTestRunner {
         tests: [
           ...tests,
           {
-            name: 'overall',
+            name: "overall",
             passed: false,
-            error: error instanceof Error ? error.message : 'Unknown error'
-          }
-        ]
+            error: error instanceof Error ? error.message : "Unknown error",
+          },
+        ],
       };
     }
   }
@@ -107,17 +114,20 @@ export class SmokeTestRunner {
   private async testCreateSession(): Promise<any> {
     try {
       // Choose transcription engine based on environment configuration
-      const isZeroOpenAI = process.env.ZERO_OPENAI_MODE === 'true' || process.env.V1_STABLE === 'true';
-      const transcriptionProvider = process.env.TRANSCRIPTION_PROVIDER || 'assemblyai';
-      
+      const isZeroOpenAI =
+        process.env.ZERO_OPENAI_MODE === "true" ||
+        process.env.V1_STABLE === "true";
+      const transcriptionProvider =
+        process.env.TRANSCRIPTION_PROVIDER || "assemblyai";
+
       let engine: TranscriptionEngine = TranscriptionEngine.ASSEMBLYAI;
       if (isZeroOpenAI) {
         // In Zero-OpenAI mode, use the configured provider or default to AssemblyAI
         switch (transcriptionProvider.toLowerCase()) {
-          case 'stub':
+          case "stub":
             engine = TranscriptionEngine.EVTS; // Use EVTS as stub representation
             break;
-          case 'assemblyai':
+          case "assemblyai":
           default:
             engine = TranscriptionEngine.ASSEMBLYAI;
             break;
@@ -130,21 +140,21 @@ export class SmokeTestRunner {
       const session = await this.sessionManager.createSession({
         source: TranscriptionSource.SYSTEM_SMOKE_TEST,
         engine: engine,
-        engineVersion: 'smoke-test-1.0',
+        engineVersion: "smoke-test-1.0",
         consentToStoreText: false,
-        consentToStoreMetrics: true
+        consentToStoreMetrics: true,
       });
 
       return {
-        name: 'create_session',
+        name: "create_session",
         passed: !!session.id,
-        sessionId: session.id
+        sessionId: session.id,
       };
     } catch (error) {
       return {
-        name: 'create_session',
+        name: "create_session",
         passed: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -153,18 +163,18 @@ export class SmokeTestRunner {
     try {
       await this.sessionManager.updateSession(sessionId, {
         status: TranscriptionStatus.SUCCESS,
-        detectedLanguage: 'en'
+        detectedLanguage: "en",
       });
 
       return {
-        name: 'record_metrics',
-        passed: true
+        name: "record_metrics",
+        passed: true,
       };
     } catch (error) {
       return {
-        name: 'record_metrics',
+        name: "record_metrics",
         passed: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -175,20 +185,20 @@ export class SmokeTestRunner {
         sessionId,
         engine: TranscriptionEngine.OPENAI,
         stage: TranscriptionStage.VALIDATION,
-        errorCode: 'SMOKE_TEST_ERROR',
-        errorMessage: 'This is a smoke test error',
-        isTransient: true
+        errorCode: "SMOKE_TEST_ERROR",
+        errorMessage: "This is a smoke test error",
+        isTransient: true,
       });
 
       return {
-        name: 'record_error',
-        passed: true
+        name: "record_error",
+        passed: true,
       };
     } catch (error) {
       return {
-        name: 'record_error',
+        name: "record_error",
         passed: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -196,24 +206,24 @@ export class SmokeTestRunner {
   private async testAddAnalysis(sessionId: string): Promise<any> {
     try {
       await this.sessionManager.addAnalysisResult(sessionId, {
-        analyzerVersion: 'smoke-test-1.0',
+        analyzerVersion: "smoke-test-1.0",
         resultJson: {
           test: true,
-          sentiment: 'neutral'
+          sentiment: "neutral",
         },
         qualityScore: 0.95,
-        warnings: []
+        warnings: [],
       });
 
       return {
-        name: 'add_analysis',
-        passed: true
+        name: "add_analysis",
+        passed: true,
       };
     } catch (error) {
       return {
-        name: 'add_analysis',
+        name: "add_analysis",
         passed: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -222,47 +232,53 @@ export class SmokeTestRunner {
    * Test real transcription with audio fixture
    * EVTS-first with OpenAI fallback
    */
-  private async testRealTranscription(language: 'en' | 'es'): Promise<any> {
+  private async testRealTranscription(language: "en" | "es"): Promise<any> {
     const testName = `real_transcription_${language}`;
     const startTime = Date.now();
     const engineAttempted: TranscriptionEngine[] = [];
     let engineUsed: TranscriptionEngine | undefined;
     let fallbackUsed = false;
-    
+
     try {
       // Check for audio fixture
-      const fixturePath = path.join(__dirname, '../../../fixtures', 'smoke-test-audio.wav');
+      const fixturePath = path.join(
+        __dirname,
+        "../../../fixtures",
+        "smoke-test-audio.wav",
+      );
 
       if (!fs.existsSync(fixturePath)) {
         return {
           name: testName,
           passed: true, // Don't fail - this is expected
-          error: 'skipped',
-          message: `No audio fixture found at ${fixturePath}`
+          error: "skipped",
+          message: `No audio fixture found at ${fixturePath}`,
         };
       }
 
       // Load audio fixture
       const audioBuffer = fs.readFileSync(fixturePath);
-      
+
       // Check fixture size (must be > 1KB to be real audio)
       if (audioBuffer.length < 1024) {
         return {
           name: testName,
           passed: true,
-          error: 'skipped',
-          message: 'Audio fixture too small (placeholder file)'
+          error: "skipped",
+          message: "Audio fixture too small (placeholder file)",
         };
       }
 
       // V1_STABLE mode: Never use OpenAI, only stubs/AssemblyAI/EVTS
-      const isV1Mode = process.env.V1_STABLE === 'true' || 
-                       process.env.ZERO_OPENAI_MODE === 'true' || 
-                       process.env.AI_PROVIDER === 'rules';
+      const isV1Mode =
+        process.env.V1_STABLE === "true" ||
+        process.env.ZERO_OPENAI_MODE === "true" ||
+        process.env.AI_PROVIDER === "rules";
 
       // EVTS-first strategy (but use stubs in V1 if no EVTS/AssemblyAI)
-      const preferEVTS = process.env.SPEECH_SMOKE_PREFER_EVTS !== 'false';
-      const allowOpenAIFallback = !isV1Mode && process.env.SPEECH_SMOKE_FALLBACK_OPENAI !== 'false';
+      const preferEVTS = process.env.SPEECH_SMOKE_PREFER_EVTS !== "false";
+      const allowOpenAIFallback =
+        !isV1Mode && process.env.SPEECH_SMOKE_FALLBACK_OPENAI !== "false";
       const useStubInV1 = isV1Mode && !process.env.ASSEMBLYAI_API_KEY;
 
       let transcriptionResult: any = null;
@@ -276,7 +292,7 @@ export class SmokeTestRunner {
           message: `Stub fixture used in V1 mode (AssemblyAI not configured)`,
           engineAttempted: [],
           engineUsed: undefined,
-          fallbackUsed: false
+          fallbackUsed: false,
         };
       }
 
@@ -284,13 +300,20 @@ export class SmokeTestRunner {
       if (isV1Mode && process.env.ASSEMBLYAI_API_KEY) {
         engineAttempted.push(TranscriptionEngine.ASSEMBLYAI);
         try {
-          const result = await this.transcribeWithAssemblyAI(fixturePath, language);
+          const result = await this.transcribeWithAssemblyAI(
+            fixturePath,
+            language,
+          );
           transcriptionResult = result;
           engineUsed = TranscriptionEngine.ASSEMBLYAI;
         } catch (assemblyError) {
-          console.warn(`[SmokeTest] AssemblyAI failed: ${assemblyError instanceof Error ? assemblyError.message : 'Unknown'}`);
+          console.warn(
+            `[SmokeTest] AssemblyAI failed: ${assemblyError instanceof Error ? assemblyError.message : "Unknown"}`,
+          );
           // Fail in V1 mode - no OpenAI fallback allowed
-          throw new Error(`AssemblyAI transcription failed in V1 mode: ${assemblyError instanceof Error ? assemblyError.message : 'Unknown'}`);
+          throw new Error(
+            `AssemblyAI transcription failed in V1 mode: ${assemblyError instanceof Error ? assemblyError.message : "Unknown"}`,
+          );
         }
       }
 
@@ -304,14 +327,20 @@ export class SmokeTestRunner {
             transcriptionResult = result;
             engineUsed = TranscriptionEngine.EVTS_VOSK;
           } catch (evtsError) {
-            console.warn(`[SmokeTest] EVTS failed: ${evtsError instanceof Error ? evtsError.message : 'Unknown'}`);
+            console.warn(
+              `[SmokeTest] EVTS failed: ${evtsError instanceof Error ? evtsError.message : "Unknown"}`,
+            );
             // Will fall back to OpenAI if enabled
           }
         }
       }
 
       // Fallback to OpenAI if EVTS not used or failed
-      if (!transcriptionResult && allowOpenAIFallback && process.env.OPENAI_API_KEY) {
+      if (
+        !transcriptionResult &&
+        allowOpenAIFallback &&
+        process.env.OPENAI_API_KEY
+      ) {
         engineAttempted.push(TranscriptionEngine.OPENAI);
         fallbackUsed = engineAttempted.length > 1;
         try {
@@ -319,7 +348,9 @@ export class SmokeTestRunner {
           transcriptionResult = result;
           engineUsed = TranscriptionEngine.OPENAI;
         } catch (openaiError) {
-          throw new Error(`OpenAI transcription failed: ${openaiError instanceof Error ? openaiError.message : 'Unknown'}`);
+          throw new Error(
+            `OpenAI transcription failed: ${openaiError instanceof Error ? openaiError.message : "Unknown"}`,
+          );
         }
       }
 
@@ -328,9 +359,9 @@ export class SmokeTestRunner {
         return {
           name: testName,
           passed: true,
-          error: 'skipped',
-          message: 'No transcription engine available',
-          engineAttempted
+          error: "skipped",
+          message: "No transcription engine available",
+          engineAttempted,
         };
       }
 
@@ -338,60 +369,64 @@ export class SmokeTestRunner {
       session = await this.sessionManager.createSession({
         source: TranscriptionSource.SYSTEM_SMOKE_TEST,
         engine: engineUsed,
-        engineVersion: 'smoke-test-v1',
+        engineVersion: "smoke-test-v1",
         consentToStoreText: false, // Never store smoke test transcript text
-        consentToStoreMetrics: true // Store metrics for analysis
+        consentToStoreMetrics: true, // Store metrics for analysis
       });
 
       // Validate transcription result
-      const transcript = transcriptionResult.text?.toLowerCase() || '';
-      const passesValidation = 
-        /he?llo/i.test(transcript) || 
-        (transcriptionResult.wordCount > 0 && transcriptionResult.confidence > 0);
+      const transcript = transcriptionResult.text?.toLowerCase() || "";
+      const passesValidation =
+        /he?llo/i.test(transcript) ||
+        (transcriptionResult.wordCount > 0 &&
+          transcriptionResult.confidence > 0);
 
       // Update session with results
       await this.sessionManager.updateSession(session.id, {
-        status: passesValidation ? TranscriptionStatus.SUCCESS : TranscriptionStatus.FAILED,
+        status: passesValidation
+          ? TranscriptionStatus.SUCCESS
+          : TranscriptionStatus.FAILED,
         durationMs: Date.now() - startTime,
         detectedLanguage: transcriptionResult.language || language,
         wordCount: transcriptionResult.wordCount || 0,
-        confidenceScore: transcriptionResult.confidence || 0
+        confidenceScore: transcriptionResult.confidence || 0,
       });
 
       // Add analysis result
       await this.sessionManager.addAnalysisResult(session.id, {
-        analyzerVersion: 'smoke-test-v1',
+        analyzerVersion: "smoke-test-v1",
         resultJson: {
-          engineAttempted: engineAttempted.map(e => e.toString()),
+          engineAttempted: engineAttempted.map((e) => e.toString()),
           engineUsed: engineUsed.toString(),
           fallbackUsed,
           transcript: transcript.substring(0, 50), // First 50 chars only
-          validated: passesValidation
+          validated: passesValidation,
         },
         qualityScore: transcriptionResult.confidence || 0,
-        warnings: fallbackUsed ? ['EVTS unavailable, used OpenAI fallback'] : []
+        warnings: fallbackUsed
+          ? ["EVTS unavailable, used OpenAI fallback"]
+          : [],
       });
 
       return {
         name: testName,
         passed: passesValidation,
-        message: `Transcription ${passesValidation ? 'PASSED' : 'FAILED'} with ${engineUsed}`,
+        message: `Transcription ${passesValidation ? "PASSED" : "FAILED"} with ${engineUsed}`,
         engineAttempted,
         engineUsed,
         fallbackUsed,
         latencyMs: Date.now() - startTime,
         detectedLanguage: transcriptionResult.language,
-        wordCount: transcriptionResult.wordCount
+        wordCount: transcriptionResult.wordCount,
       };
-
     } catch (error) {
       return {
         name: testName,
         passed: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : "Unknown error",
         engineAttempted,
         engineUsed,
-        fallbackUsed
+        fallbackUsed,
       };
     }
   }
@@ -418,18 +453,21 @@ export class SmokeTestRunner {
   /**
    * Transcribe with EVTS (local engine)
    */
-  private async transcribeWithEVTS(audioPath: string, languageHint: string): Promise<any> {
+  private async transcribeWithEVTS(
+    audioPath: string,
+    languageHint: string,
+  ): Promise<any> {
     // This is a placeholder - actual EVTS integration would go here
     // For now, we'll simulate EVTS transcription
-    const { exec } = require('child_process');
-    const { promisify } = require('util');
+    const { exec } = require("child_process");
+    const { promisify } = require("util");
     const execAsync = promisify(exec);
 
-    const evtsBinary = process.env.EVTS_BINARY_PATH || 'evts';
+    const evtsBinary = process.env.EVTS_BINARY_PATH || "evts";
     const modelPath = process.env.EVTS_MODEL_PATH;
 
     if (!modelPath) {
-      throw new Error('EVTS_MODEL_PATH not configured');
+      throw new Error("EVTS_MODEL_PATH not configured");
     }
 
     try {
@@ -439,15 +477,17 @@ export class SmokeTestRunner {
 
       // Parse EVTS output (adjust based on actual format)
       const result = {
-        text: stdout.trim() || 'hello world',
+        text: stdout.trim() || "hello world",
         confidence: 0.85,
         language: languageHint,
-        wordCount: stdout.trim().split(/\s+/).length
+        wordCount: stdout.trim().split(/\s+/).length,
       };
 
       return result;
     } catch (error) {
-      throw new Error(`EVTS execution failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+      throw new Error(
+        `EVTS execution failed: ${error instanceof Error ? error.message : "Unknown"}`,
+      );
     }
   }
 
@@ -455,49 +495,57 @@ export class SmokeTestRunner {
    * Transcribe with OpenAI Whisper
    */
   private async transcribeWithOpenAI(audioPath: string): Promise<any> {
-    const OpenAI = require('openai').default;
+    const OpenAI = require("openai").default;
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     try {
       const transcription = await openai.audio.transcriptions.create({
         file: fs.createReadStream(audioPath),
-        model: 'whisper-1',
-        response_format: 'verbose_json'
+        model: "whisper-1",
+        response_format: "verbose_json",
       });
 
       return {
         text: transcription.text,
         confidence: 0.95, // OpenAI doesn't provide confidence, assume high
-        language: transcription.language || 'en',
-        wordCount: transcription.text.split(/\s+/).length
+        language: transcription.language || "en",
+        wordCount: transcription.text.split(/\s+/).length,
       };
     } catch (error) {
-      throw new Error(`OpenAI transcription failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+      throw new Error(
+        `OpenAI transcription failed: ${error instanceof Error ? error.message : "Unknown"}`,
+      );
     }
   }
 
   /**
    * Transcribe with AssemblyAI (V1 primary transcription provider)
    */
-  private async transcribeWithAssemblyAI(audioPath: string, languageHint: string): Promise<any> {
-    const fetch = require('node-fetch');
+  private async transcribeWithAssemblyAI(
+    audioPath: string,
+    languageHint: string,
+  ): Promise<any> {
+    const fetch = require("node-fetch");
     const apiKey = process.env.ASSEMBLYAI_API_KEY;
 
     if (!apiKey) {
-      throw new Error('ASSEMBLYAI_API_KEY not configured');
+      throw new Error("ASSEMBLYAI_API_KEY not configured");
     }
 
     try {
       // Step 1: Upload audio file
       const audioBuffer = fs.readFileSync(audioPath);
-      const uploadResponse = await fetch('https://api.assemblyai.com/v2/upload', {
-        method: 'POST',
-        headers: {
-          'authorization': apiKey,
-          'content-type': 'application/octet-stream'
+      const uploadResponse = await fetch(
+        "https://api.assemblyai.com/v2/upload",
+        {
+          method: "POST",
+          headers: {
+            authorization: apiKey,
+            "content-type": "application/octet-stream",
+          },
+          body: audioBuffer,
         },
-        body: audioBuffer
-      });
+      );
 
       if (!uploadResponse.ok) {
         throw new Error(`AssemblyAI upload failed: ${uploadResponse.status}`);
@@ -507,20 +555,25 @@ export class SmokeTestRunner {
       const audioUrl = uploadData.upload_url;
 
       // Step 2: Request transcription
-      const transcriptResponse = await fetch('https://api.assemblyai.com/v2/transcript', {
-        method: 'POST',
-        headers: {
-          'authorization': apiKey,
-          'content-type': 'application/json'
+      const transcriptResponse = await fetch(
+        "https://api.assemblyai.com/v2/transcript",
+        {
+          method: "POST",
+          headers: {
+            authorization: apiKey,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            audio_url: audioUrl,
+            language_code: languageHint === "es" ? "es" : "en",
+          }),
         },
-        body: JSON.stringify({
-          audio_url: audioUrl,
-          language_code: languageHint === 'es' ? 'es' : 'en'
-        })
-      });
+      );
 
       if (!transcriptResponse.ok) {
-        throw new Error(`AssemblyAI transcription request failed: ${transcriptResponse.status}`);
+        throw new Error(
+          `AssemblyAI transcription request failed: ${transcriptResponse.status}`,
+        );
       }
 
       const transcriptData = await transcriptResponse.json();
@@ -529,37 +582,44 @@ export class SmokeTestRunner {
       // Step 3: Poll for completion (smoke test timeout: 30s)
       const maxPolls = 30;
       const pollInterval = 1000; // 1 second
-      
-      for (let i = 0; i < maxPolls; i++) {
-        await new Promise(resolve => setTimeout(resolve, pollInterval));
 
-        const statusResponse = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptId}`, {
-          headers: { 'authorization': apiKey }
-        });
+      for (let i = 0; i < maxPolls; i++) {
+        await new Promise((resolve) => setTimeout(resolve, pollInterval));
+
+        const statusResponse = await fetch(
+          `https://api.assemblyai.com/v2/transcript/${transcriptId}`,
+          {
+            headers: { authorization: apiKey },
+          },
+        );
 
         if (!statusResponse.ok) {
-          throw new Error(`AssemblyAI status check failed: ${statusResponse.status}`);
+          throw new Error(
+            `AssemblyAI status check failed: ${statusResponse.status}`,
+          );
         }
 
         const status = await statusResponse.json();
 
-        if (status.status === 'completed') {
+        if (status.status === "completed") {
           return {
-            text: status.text || '',
+            text: status.text || "",
             confidence: status.confidence || 0.85,
             language: status.language_code || languageHint,
-            wordCount: status.words?.length || status.text.split(/\s+/).length
+            wordCount: status.words?.length || status.text.split(/\s+/).length,
           };
-        } else if (status.status === 'error') {
+        } else if (status.status === "error") {
           throw new Error(`AssemblyAI transcription error: ${status.error}`);
         }
-        
+
         // Status is still 'queued' or 'processing', continue polling
       }
 
-      throw new Error('AssemblyAI transcription timeout (30s)');
+      throw new Error("AssemblyAI transcription timeout (30s)");
     } catch (error) {
-      throw new Error(`AssemblyAI transcription failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+      throw new Error(
+        `AssemblyAI transcription failed: ${error instanceof Error ? error.message : "Unknown"}`,
+      );
     }
   }
 }

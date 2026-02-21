@@ -148,7 +148,7 @@ jobs:
 
       - name: Run database migrations
         working-directory: ./backend
-        run: npx prisma migrate deploy
+        run: npx prisma@6.19.1 migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -156,7 +156,7 @@ jobs:
         working-directory: ./backend
         run: |
           if [ -f "prisma/seed.ts" ]; then
-            npx prisma db seed
+            npx prisma@6.19.1 db seed
           fi
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

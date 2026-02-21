@@ -51,7 +51,7 @@ jobs:
 
       - name: Run database migrations
         working-directory: ./backend
-        run: npx prisma migrate deploy
+        run: npx prisma@6.19.1 migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_test
 
@@ -412,7 +412,7 @@ jobs:
         working-directory: ./backend
         run: |
           npm run prisma:generate:ci
-          npx prisma migrate deploy
+          npx prisma@6.19.1 migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_e2e
 

@@ -96,6 +96,32 @@ function redactPII(data: any): any {
 }
 
 /**
+ * Public interface for request-scoped loggers
+ */
+export interface RequestLogger {
+  requestId: string;
+  debug(event: string, message: string, context?: LogContext): void;
+  info(event: string, message: string, context?: LogContext): void;
+  warn(event: string, message: string, context?: LogContext): void;
+  error(event: string, message: string, context?: LogContext): void;
+  recordingCreated(recordingId: string, userId?: string): void;
+  transcriptionCompleted(
+    ticketId: string,
+    sessionId: string,
+    durationMs: number,
+  ): void;
+  draftReady(draftId: string, ticketId: string, qualityScore: number): void;
+  qrGenerated(
+    qrId: string,
+    ticketId: string,
+    stripeSessionId?: string,
+  ): void;
+  adminLoginSuccess(sessionId: string): void;
+  adminLoginFailed(reason: string): void;
+  pipelineError(stage: string, ticketId: string, error: string): void;
+}
+
+/**
  * Structured logger class
  */
 export class StructuredLogger {
@@ -252,7 +278,7 @@ export const logger = new StructuredLogger();
 // Helper to create logger with request context
 export function getRequestLogger(
   req: Request,
-): StructuredLogger & { requestId: string } {
+): RequestLogger {
   const requestId = getRequestId(req);
   const baseLogger = new StructuredLogger();
 

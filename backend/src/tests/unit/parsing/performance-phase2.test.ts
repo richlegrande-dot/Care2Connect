@@ -10,7 +10,7 @@ import {
   extractGoalAmountWithConfidence,
   extractBeneficiaryRelationship,
   extractUrgency,
-} from "../../../src/utils/extraction/rulesEngine";
+} from "../../../utils/extraction/rulesEngine";
 
 interface PerformanceResult {
   operationName: string;

@@ -10,7 +10,7 @@ import {
   extractGoalAmountWithConfidence,
   extractBeneficiaryRelationship,
   extractUrgency,
-} from "../../../src/utils/extraction/rulesEngine";
+} from "../../../utils/extraction/rulesEngine";
 
 describe("Phase 3: Reliability and Failsafe Tests", () => {
   describe("Input Validation and Failsafe Behavior", () => {

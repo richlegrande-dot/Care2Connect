@@ -5,8 +5,8 @@
  */
 
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
-import { extractAllWithTelemetry } from "../../../src/utils/extraction/rulesEngine";
-import { TelemetryCollector } from "../../../src/services/telemetry";
+import { extractAllWithTelemetry } from "../../../utils/extraction/rulesEngine";
+import { TelemetryCollector } from "../../../services/telemetry";
 
 // Performance test transcript (medium complexity)
 const PERFORMANCE_TRANSCRIPT = `

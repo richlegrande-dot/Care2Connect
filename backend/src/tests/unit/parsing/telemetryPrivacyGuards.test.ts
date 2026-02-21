@@ -5,8 +5,8 @@
  */
 
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
-import { TelemetryCollector } from "../../../src/services/telemetry";
-import { extractAllWithTelemetry } from "../../../src/utils/extraction/rulesEngine";
+import { TelemetryCollector } from "../../../services/telemetry";
+import { extractAllWithTelemetry } from "../../../utils/extraction/rulesEngine";
 
 // Sample PII-containing transcript for testing redaction
 const PII_TRANSCRIPT = `

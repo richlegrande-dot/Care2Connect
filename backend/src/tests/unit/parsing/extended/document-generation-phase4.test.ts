@@ -13,8 +13,8 @@ import {
   afterEach,
   jest,
 } from "@jest/globals";
-import GofundmeDocxExporter from "../../../src/exports/generateGofundmeDocx";
-import { isValidDocx } from "../helpers/docxTextExtract";
+import GofundmeDocxExporter from "../../../../exports/generateGofundmeDocx";
+import { isValidDocx } from "../../../../../tests/helpers/docxTextExtract";
 
 // Mock docx library for controlled testing
 jest.mock("docx", () => ({

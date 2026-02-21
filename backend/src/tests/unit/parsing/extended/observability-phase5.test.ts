@@ -17,8 +17,8 @@ import {
   TelemetryCollector,
   calculateQualityScore,
   withTelemetry,
-} from "../../../src/services/telemetry";
-import { extractAllWithTelemetry } from "../../../src/utils/extraction/rulesEngine";
+} from "../../../../services/telemetry";
+import { extractAllWithTelemetry } from "../../../../utils/extraction/rulesEngine";
 
 describe("Phase 5: Observability and Metrics Tests", () => {
   let telemetry: TelemetryCollector;

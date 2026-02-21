@@ -43,7 +43,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Help John Recover',
           story: 'John was injured in an accident and needs help with medical bills.',
           goalAmount: 5000,
@@ -62,7 +62,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Emergency Fund',
           story: 'Need help urgently',
           goalAmount: 1000,
@@ -83,7 +83,7 @@ describe('Manual Draft Endpoints', () => {
       await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Initial Title',
           story: 'Initial story',
           goalAmount: 2000,
@@ -94,7 +94,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Updated Title',
           story: 'Updated story with more details',
           goalAmount: 3000,
@@ -107,7 +107,7 @@ describe('Manual Draft Endpoints', () => {
       
       // Verify only one draft exists
       const drafts = await prisma.donationDraft.findMany({
-        where: { ticketId: testTicketId' }
+        where: { ticketId: testTicketId }
       });
       expect(drafts).toHaveLength(1);
     });
@@ -116,7 +116,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: '',
           story: 'Story without title',
           goalAmount: 1000,
@@ -132,7 +132,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Title without story',
           story: '   ',
           goalAmount: 1000,
@@ -148,7 +148,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Invalid Amount',
           story: 'Story with invalid amount',
           goalAmount: 0,
@@ -164,7 +164,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId'
+          ticketId: testTicketId
           // Missing title, story, goalAmount
         });
 
@@ -178,7 +178,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: longTitle,
           story: 'Story here',
           goalAmount: 1000,
@@ -197,7 +197,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Ayuda para José 🙏',
           story: 'Mi familia necesita ayuda después del huracán 🌪️',
           goalAmount: 2500,
@@ -213,7 +213,7 @@ describe('Manual Draft Endpoints', () => {
       const response = await request(app)
         .post('/api/donations/manual-draft')
         .send({
-          ticketId: testTicketId',
+          ticketId: testTicketId,
           title: 'Default Currency Test',
           story: 'Testing currency default',
           goalAmount: 1000

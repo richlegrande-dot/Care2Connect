@@ -16,7 +16,7 @@ import {
   extractPhone,
   extractEmail,
   extractLocation,
-} from "../../../src/utils/extraction/rulesEngine";
+} from "../../../../utils/extraction/rulesEngine";
 
 describe("Phase 6: Comprehensive Production Test Suite (30+ Scenarios)", () => {
   beforeEach(() => {

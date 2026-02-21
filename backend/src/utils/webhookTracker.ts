@@ -12,7 +12,11 @@ const state: WebhookState = {
   lastWebhookError: null,
 };
 
-export function updateWebhookReceived(eventType: string, verified: boolean, error?: string) {
+export function updateWebhookReceived(
+  eventType: string,
+  verified: boolean,
+  error?: string,
+) {
   state.lastWebhookReceivedAt = new Date().toISOString();
   state.lastWebhookEventType = eventType || null;
   state.lastWebhookVerified = !!verified;

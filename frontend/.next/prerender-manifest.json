@@ -1,1 +1,237 @@
-{"version":4,"routes":{"/admin/knowledge":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/admin/knowledge","dataRoute":"/admin/knowledge.rsc"},"/resources":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/resources","dataRoute":"/resources.rsc"},"/support":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/support","dataRoute":"/support.rsc"},"/tell-story":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/tell-story","dataRoute":"/tell-story.rsc"},"/about":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/about","dataRoute":"/about.rsc"},"/system/setup-wizard":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/system/setup-wizard","dataRoute":"/system/setup-wizard.rsc"},"/tell-your-story":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/tell-your-story","dataRoute":"/tell-your-story.rsc"},"/system":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/system","dataRoute":"/system.rsc"},"/gfm/extract":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/gfm/extract","dataRoute":"/gfm/extract.rsc"},"/api/health":{"initialHeaders":{"content-type":"application/json","x-next-cache-tags":"_N_T_/layout,_N_T_/api/layout,_N_T_/api/health/layout,_N_T_/api/health/route,_N_T_/api/health"},"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/api/health","dataRoute":null},"/gfm/review":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/gfm/review","dataRoute":"/gfm/review.rsc"},"/admin/knowledge/audit":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/admin/knowledge/audit","dataRoute":"/admin/knowledge/audit.rsc"},"/find":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/find","dataRoute":"/find.rsc"},"/health":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/health","dataRoute":"/health.rsc"},"/admin/knowledge/incidents":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/admin/knowledge/incidents","dataRoute":"/admin/knowledge/incidents.rsc"},"/":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/","dataRoute":"/index.rsc"},"/profiles":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data"}],"initialRevalidateSeconds":false,"srcRoute":"/profiles","dataRoute":"/profiles.rsc"}},"dynamicRoutes":{},"notFoundRoutes":[],"preview":{"previewModeId":"37374b237b09d6c2d0e49593a114d1cf","previewModeSigningKey":"5264509f1857b01999a2f879e579055e5e5a7b9dc93c5b22ffdba8f8cd023fba","previewModeEncryptionKey":"70d5ed244439ef4b1c0ea3d03a55ef6cc9470107d0c8728dee8817d0e18df0b5"}}
+{
+  "version": 4,
+  "routes": {
+    "/admin/knowledge": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/knowledge",
+      "dataRoute": "/admin/knowledge.rsc"
+    },
+    "/resources": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/resources",
+      "dataRoute": "/resources.rsc"
+    },
+    "/support": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/support",
+      "dataRoute": "/support.rsc"
+    },
+    "/tell-story": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/tell-story",
+      "dataRoute": "/tell-story.rsc"
+    },
+    "/about": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/about",
+      "dataRoute": "/about.rsc"
+    },
+    "/system/setup-wizard": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/system/setup-wizard",
+      "dataRoute": "/system/setup-wizard.rsc"
+    },
+    "/tell-your-story": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/tell-your-story",
+      "dataRoute": "/tell-your-story.rsc"
+    },
+    "/system": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/system",
+      "dataRoute": "/system.rsc"
+    },
+    "/gfm/extract": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/gfm/extract",
+      "dataRoute": "/gfm/extract.rsc"
+    },
+    "/api/health": {
+      "initialHeaders": {
+        "content-type": "application/json",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/api/layout,_N_T_/api/health/layout,_N_T_/api/health/route,_N_T_/api/health"
+      },
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/api/health",
+      "dataRoute": null
+    },
+    "/gfm/review": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/gfm/review",
+      "dataRoute": "/gfm/review.rsc"
+    },
+    "/admin/knowledge/audit": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/knowledge/audit",
+      "dataRoute": "/admin/knowledge/audit.rsc"
+    },
+    "/find": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/find",
+      "dataRoute": "/find.rsc"
+    },
+    "/health": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/health",
+      "dataRoute": "/health.rsc"
+    },
+    "/admin/knowledge/incidents": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/knowledge/incidents",
+      "dataRoute": "/admin/knowledge/incidents.rsc"
+    },
+    "/": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc"
+    },
+    "/profiles": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/profiles",
+      "dataRoute": "/profiles.rsc"
+    }
+  },
+  "dynamicRoutes": {},
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "37374b237b09d6c2d0e49593a114d1cf",
+    "previewModeSigningKey": "5264509f1857b01999a2f879e579055e5e5a7b9dc93c5b22ffdba8f8cd023fba",
+    "previewModeEncryptionKey": "70d5ed244439ef4b1c0ea3d03a55ef6cc9470107d0c8728dee8817d0e18df0b5"
+  }
+}

@@ -1,6 +1,6 @@
 /**
  * Auto-Recovery Service for Hardened Health Monitoring
- * 
+ *
  * PHASE 6M HARDENING:
  * - Automatic service recovery
  * - Prisma connection healing
@@ -8,8 +8,8 @@
  * - Recovery attempt tracking
  */
 
-import { checkPrismaHealth, getPrismaMetrics } from '../lib/prisma';
-import { healthCheckRunner } from './healthCheckRunner';
+import { checkPrismaHealth, getPrismaMetrics } from "../lib/prisma";
+import { healthCheckRunner } from "./healthCheckRunner";
 
 interface RecoveryAttempt {
   service: string;
@@ -45,18 +45,18 @@ class AutoRecoveryService {
     try {
       // Check Prisma health
       const prismaHealth = await checkPrismaHealth();
-      
+
       if (!prismaHealth.healthy) {
-        console.log('[AutoRecovery] Detected unhealthy Prisma connection');
+        console.log("[AutoRecovery] Detected unhealthy Prisma connection");
         const result = await this.recoverPrisma();
         results.push(result);
       }
 
       // Check other services via health runner
       const healthResults = healthCheckRunner.getSanitizedResults();
-      
+
       for (const [service, health] of Object.entries(healthResults)) {
-        if (!health.healthy && service !== 'prisma') {
+        if (!health.healthy && service !== "prisma") {
           console.log(`[AutoRecovery] Detected unhealthy service: ${service}`);
           const result = await this.recoverService(service);
           results.push(result);
@@ -71,7 +71,7 @@ class AutoRecoveryService {
 
       return {
         attempted: true,
-        services: results.map(r => r.service),
+        services: results.map((r) => r.service),
         results,
       };
     } finally {
@@ -84,27 +84,27 @@ class AutoRecoveryService {
    */
   private async recoverPrisma(): Promise<RecoveryAttempt> {
     const attempt: RecoveryAttempt = {
-      service: 'prisma',
+      service: "prisma",
       timestamp: new Date(),
       success: false,
     };
 
     try {
-      console.log('[AutoRecovery] Attempting Prisma reconnection...');
-      
+      console.log("[AutoRecovery] Attempting Prisma reconnection...");
+
       // Force health check to trigger retry logic
       const health = await checkPrismaHealth();
-      
+
       if (health.healthy) {
         attempt.success = true;
-        console.log('[AutoRecovery] ✅ Prisma recovered');
+        console.log("[AutoRecovery] ✅ Prisma recovered");
       } else {
-        attempt.error = health.error || 'Still unhealthy after retry';
-        console.log('[AutoRecovery] ❌ Prisma recovery failed:', attempt.error);
+        attempt.error = health.error || "Still unhealthy after retry";
+        console.log("[AutoRecovery] ❌ Prisma recovery failed:", attempt.error);
       }
     } catch (error: any) {
       attempt.error = error.message;
-      console.error('[AutoRecovery] ❌ Prisma recovery error:', error);
+      console.error("[AutoRecovery] ❌ Prisma recovery error:", error);
     }
 
     return attempt;
@@ -125,28 +125,28 @@ class AutoRecoveryService {
 
       // Service-specific recovery logic
       switch (service) {
-        case 'speech':
+        case "speech":
           // Speech service is read-only, just log
           attempt.success = true;
-          attempt.error = 'Speech service monitoring only';
+          attempt.error = "Speech service monitoring only";
           break;
 
-        case 'tunnel':
+        case "tunnel":
           // Tunnel recovery is handled by tunnel-monitor.ps1
           attempt.success = true;
-          attempt.error = 'Tunnel has dedicated monitor';
+          attempt.error = "Tunnel has dedicated monitor";
           break;
 
-        case 'openai':
-        case 'stripe':
-        case 'cloudflare':
+        case "openai":
+        case "stripe":
+        case "cloudflare":
           // External API services - can't restart, just mark as attempted
           attempt.success = true;
-          attempt.error = 'External service - no local recovery possible';
+          attempt.error = "External service - no local recovery possible";
           break;
 
         default:
-          attempt.error = 'Unknown service';
+          attempt.error = "Unknown service";
       }
 
       if (attempt.success) {
@@ -172,17 +172,21 @@ class AutoRecoveryService {
    */
   getRecoveryStats() {
     const total = this.recoveryAttempts.length;
-    const successful = this.recoveryAttempts.filter(a => a.success).length;
-    const byService = this.recoveryAttempts.reduce((acc, attempt) => {
-      acc[attempt.service] = (acc[attempt.service] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const successful = this.recoveryAttempts.filter((a) => a.success).length;
+    const byService = this.recoveryAttempts.reduce(
+      (acc, attempt) => {
+        acc[attempt.service] = (acc[attempt.service] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     return {
       total,
       successful,
       failed: total - successful,
-      successRate: total > 0 ? (successful / total * 100).toFixed(1) + '%' : 'N/A',
+      successRate:
+        total > 0 ? ((successful / total) * 100).toFixed(1) + "%" : "N/A",
       byService,
       isRecovering: this.isRecovering,
     };
@@ -200,13 +204,13 @@ class AutoRecoveryService {
     // Check Prisma
     const prismaHealth = await checkPrismaHealth();
     if (!prismaHealth.healthy) {
-      unhealthyServices.push('prisma');
+      unhealthyServices.push("prisma");
     }
 
     // Check Prisma circuit breaker
     const prismaMetrics = getPrismaMetrics();
     if (prismaMetrics.circuitBreakerTripped) {
-      unhealthyServices.push('prisma-circuit-breaker');
+      unhealthyServices.push("prisma-circuit-breaker");
     }
 
     // Check other services

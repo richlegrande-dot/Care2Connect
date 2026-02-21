@@ -1,27 +1,27 @@
 /**
  * Stripe Live Loop Test
  * Tests the complete flow: ticket creation → payment → webhook → attribution update
- * 
+ *
  * This test validates:
  * 1. RecordingTicket creation
  * 2. Stripe checkout session creation
  * 3. Webhook event processing (idempotency)
  * 4. Donation attribution updates
  * 5. Ticket status transitions
- * 
+ *
  * NOTE: This file contains standalone test utilities that can be run manually.
  * The Jest describe block below is a placeholder to satisfy Jest requirements.
  * To run the actual stripe webhook tests, use: npx ts-node src/tests/stripeWebhookLiveLoop.test.ts
  */
 
-import { prisma } from '../lib/prisma';
-import Stripe from 'stripe';
-import { stripe } from '../config/stripe';
-import crypto from 'crypto';
+import { prisma } from "../lib/prisma";
+import Stripe from "stripe";
+import { stripe } from "../config/stripe";
+import crypto from "crypto";
 
 // Jest placeholder test - actual tests are run via the exported functions
-describe('Stripe Webhook Live Loop Test (Standalone Script)', () => {
-  it('should skip as this is a standalone test script', () => {
+describe("Stripe Webhook Live Loop Test (Standalone Script)", () => {
+  it("should skip as this is a standalone test script", () => {
     // This is a standalone test script meant to be run with ts-node
     // not as part of the Jest test suite since it requires live Stripe integration
     expect(true).toBe(true);
@@ -43,14 +43,17 @@ interface WebhookTestPayload {
 /**
  * Create a test ticket for Stripe webhook testing
  */
-async function createTestTicket(): Promise<{ ticketId: string; result: TestResult }> {
+async function createTestTicket(): Promise<{
+  ticketId: string;
+  result: TestResult;
+}> {
   try {
     const ticket = await prisma.recordingTicket.create({
       data: {
-        contactType: 'EMAIL',
+        contactType: "EMAIL",
         contactValue: `stripe-test-${Date.now()}@example.com`,
-        displayName: 'Stripe Webhook Test',
-        status: 'DRAFT',
+        displayName: "Stripe Webhook Test",
+        status: "DRAFT",
       },
     });
 
@@ -58,16 +61,16 @@ async function createTestTicket(): Promise<{ ticketId: string; result: TestResul
       ticketId: ticket.id,
       result: {
         passed: true,
-        message: 'Test ticket created',
+        message: "Test ticket created",
         details: { ticketId: ticket.id },
       },
     };
   } catch (error: any) {
     return {
-      ticketId: '',
+      ticketId: "",
       result: {
         passed: false,
-        message: 'Failed to create test ticket',
+        message: "Failed to create test ticket",
         details: { error: error.message },
       },
     };
@@ -77,28 +80,31 @@ async function createTestTicket(): Promise<{ ticketId: string; result: TestResul
 /**
  * Create a Stripe checkout session for the test ticket
  */
-async function createTestCheckoutSession(ticketId: string): Promise<{ sessionId: string; result: TestResult }> {
+async function createTestCheckoutSession(
+  ticketId: string,
+): Promise<{ sessionId: string; result: TestResult }> {
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
-            currency: 'usd',
+            currency: "usd",
             product_data: {
-              name: 'Test Donation - Webhook Validation',
+              name: "Test Donation - Webhook Validation",
             },
             unit_amount: 5000, // $50.00
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      success_url: 'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:3000/cancel',
+      mode: "payment",
+      success_url:
+        "http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "http://localhost:3000/cancel",
       metadata: {
         ticketId,
-        testMode: 'webhook-validation',
+        testMode: "webhook-validation",
       },
     });
 
@@ -107,9 +113,9 @@ async function createTestCheckoutSession(ticketId: string): Promise<{ sessionId:
       data: {
         ticketId,
         checkoutSessionId: session.id,
-        amount: 50.00,
-        currency: 'USD',
-        status: 'CREATED',
+        amount: 50.0,
+        currency: "USD",
+        status: "CREATED",
       },
     });
 
@@ -117,16 +123,16 @@ async function createTestCheckoutSession(ticketId: string): Promise<{ sessionId:
       sessionId: session.id,
       result: {
         passed: true,
-        message: 'Checkout session created',
+        message: "Checkout session created",
         details: { sessionId: session.id, url: session.url },
       },
     };
   } catch (error: any) {
     return {
-      sessionId: '',
+      sessionId: "",
       result: {
         passed: false,
-        message: 'Failed to create checkout session',
+        message: "Failed to create checkout session",
         details: { error: error.message },
       },
     };
@@ -136,34 +142,37 @@ async function createTestCheckoutSession(ticketId: string): Promise<{ sessionId:
 /**
  * Simulate a payment_intent.succeeded webhook event
  */
-function createMockWebhookPayload(sessionId: string, ticketId: string): Stripe.Event {
+function createMockWebhookPayload(
+  sessionId: string,
+  ticketId: string,
+): Stripe.Event {
   const paymentIntentId = `pi_test_${Date.now()}`;
   const chargeId = `ch_test_${Date.now()}`;
-  
+
   return {
     id: `evt_test_${Date.now()}`,
-    object: 'event',
-    api_version: '2023-10-16',
+    object: "event",
+    api_version: "2023-10-16",
     created: Math.floor(Date.now() / 1000),
     data: {
       object: {
         id: paymentIntentId,
-        object: 'payment_intent',
+        object: "payment_intent",
         amount: 5000,
-        currency: 'usd',
-        status: 'succeeded',
+        currency: "usd",
+        status: "succeeded",
         latest_charge: {
           id: chargeId,
-          object: 'charge',
+          object: "charge",
           billing_details: {
-            name: 'John Test Smith',
-            email: 'john.smith@test.com',
+            name: "John Test Smith",
+            email: "john.smith@test.com",
             address: {
-              country: 'US',
-              city: 'Test City',
-              line1: '123 Test St',
-              postal_code: '12345',
-              state: 'CA',
+              country: "US",
+              city: "Test City",
+              line1: "123 Test St",
+              postal_code: "12345",
+              state: "CA",
             },
           },
         } as any,
@@ -178,7 +187,7 @@ function createMockWebhookPayload(sessionId: string, ticketId: string): Stripe.E
       id: `req_test_${Date.now()}`,
       idempotency_key: null,
     },
-    type: 'payment_intent.succeeded',
+    type: "payment_intent.succeeded",
   } as Stripe.Event;
 }
 
@@ -195,7 +204,7 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
     if (!existingEvent) {
       return {
         passed: false,
-        message: 'Event not found in stripe_events table',
+        message: "Event not found in stripe_events table",
         details: { eventId },
       };
     }
@@ -205,7 +214,7 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
       await prisma.stripe_events.create({
         data: {
           stripeEventId: eventId,
-          type: 'payment_intent.succeeded',
+          type: "payment_intent.succeeded",
           stripeCreated: new Date(),
           livemode: false,
           processedAt: new Date(),
@@ -214,15 +223,15 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
 
       return {
         passed: false,
-        message: 'Duplicate event was allowed (idempotency failed)',
+        message: "Duplicate event was allowed (idempotency failed)",
         details: { eventId },
       };
     } catch (error: any) {
-      if (error.code === 'P2002') {
+      if (error.code === "P2002") {
         // Unique constraint violation - expected behavior
         return {
           passed: true,
-          message: 'Webhook idempotency working (duplicate rejected)',
+          message: "Webhook idempotency working (duplicate rejected)",
           details: { eventId },
         };
       }
@@ -231,7 +240,7 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
   } catch (error: any) {
     return {
       passed: false,
-      message: 'Idempotency test failed',
+      message: "Idempotency test failed",
       details: { error: error.message },
     };
   }
@@ -240,7 +249,9 @@ async function testWebhookIdempotency(eventId: string): Promise<TestResult> {
 /**
  * Verify donation attribution was updated correctly
  */
-async function verifyDonationAttribution(ticketId: string): Promise<TestResult> {
+async function verifyDonationAttribution(
+  ticketId: string,
+): Promise<TestResult> {
   try {
     const attributions = await prisma.stripe_attributions.findMany({
       where: { ticketId },
@@ -249,7 +260,7 @@ async function verifyDonationAttribution(ticketId: string): Promise<TestResult> 
     if (attributions.length === 0) {
       return {
         passed: false,
-        message: 'No attribution records found',
+        message: "No attribution records found",
         details: { ticketId },
       };
     }
@@ -263,28 +274,28 @@ async function verifyDonationAttribution(ticketId: string): Promise<TestResult> 
       hasDonorLastName: !!attribution.donorLastName,
       hasDonorCountry: !!attribution.donorCountry,
       hasDonorEmailHash: !!attribution.donorEmailHash,
-      statusIsPaid: attribution.status === 'PAID',
+      statusIsPaid: attribution.status === "PAID",
       hasPaidAt: !!attribution.paidAt,
-      amountCorrect: parseFloat(attribution.amount.toString()) === 50.00,
+      amountCorrect: parseFloat(attribution.amount.toString()) === 50.0,
     };
 
-    const allPassed = Object.values(checks).every(v => v);
+    const allPassed = Object.values(checks).every((v) => v);
 
     if (!allPassed) {
       return {
         passed: false,
-        message: 'Attribution record incomplete',
+        message: "Attribution record incomplete",
         details: { checks, attribution },
       };
     }
 
     // Verify donor name extraction (should be "Smith" from "John Test Smith")
-    if (attribution.donorLastName !== 'Smith') {
+    if (attribution.donorLastName !== "Smith") {
       return {
         passed: false,
-        message: 'Donor last name extraction failed',
+        message: "Donor last name extraction failed",
         details: {
-          expected: 'Smith',
+          expected: "Smith",
           actual: attribution.donorLastName,
         },
       };
@@ -292,14 +303,14 @@ async function verifyDonationAttribution(ticketId: string): Promise<TestResult> 
 
     // Verify email hash
     const expectedHash = crypto
-      .createHash('sha256')
-      .update('john.smith@test.com')
-      .digest('hex');
+      .createHash("sha256")
+      .update("john.smith@test.com")
+      .digest("hex");
 
     if (attribution.donorEmailHash !== expectedHash) {
       return {
         passed: false,
-        message: 'Email hash mismatch',
+        message: "Email hash mismatch",
         details: {
           expected: expectedHash,
           actual: attribution.donorEmailHash,
@@ -309,7 +320,7 @@ async function verifyDonationAttribution(ticketId: string): Promise<TestResult> 
 
     return {
       passed: true,
-      message: 'Donation attribution verified',
+      message: "Donation attribution verified",
       details: {
         attributionId: attribution.id,
         donor: attribution.donorLastName,
@@ -320,7 +331,7 @@ async function verifyDonationAttribution(ticketId: string): Promise<TestResult> 
   } catch (error: any) {
     return {
       passed: false,
-      message: 'Attribution verification failed',
+      message: "Attribution verification failed",
       details: { error: error.message },
     };
   }
@@ -338,17 +349,17 @@ async function verifyTicketStatus(ticketId: string): Promise<TestResult> {
     if (!ticket) {
       return {
         passed: false,
-        message: 'Ticket not found',
+        message: "Ticket not found",
         details: { ticketId },
       };
     }
 
-    if (ticket.status !== 'PAYMENT_RECEIVED') {
+    if (ticket.status !== "PAYMENT_RECEIVED") {
       return {
         passed: false,
-        message: 'Ticket status not updated',
+        message: "Ticket status not updated",
         details: {
-          expected: 'PAYMENT_RECEIVED',
+          expected: "PAYMENT_RECEIVED",
           actual: ticket.status,
         },
       };
@@ -356,13 +367,13 @@ async function verifyTicketStatus(ticketId: string): Promise<TestResult> {
 
     return {
       passed: true,
-      message: 'Ticket status updated correctly',
+      message: "Ticket status updated correctly",
       details: { status: ticket.status },
     };
   } catch (error: any) {
     return {
       passed: false,
-      message: 'Status verification failed',
+      message: "Status verification failed",
       details: { error: error.message },
     };
   }
@@ -375,13 +386,13 @@ async function verifyDonationsEndpoint(ticketId: string): Promise<TestResult> {
   try {
     const donations = await prisma.stripe_attributions.findMany({
       where: { ticketId },
-      orderBy: { paidAt: 'desc' },
+      orderBy: { paidAt: "desc" },
     });
 
     if (donations.length === 0) {
       return {
         passed: false,
-        message: 'No donations found for ticket',
+        message: "No donations found for ticket",
         details: { ticketId },
       };
     }
@@ -390,15 +401,15 @@ async function verifyDonationsEndpoint(ticketId: string): Promise<TestResult> {
 
     // Calculate totals
     const paidTotal = donations
-      .filter(d => d.status === 'PAID')
+      .filter((d) => d.status === "PAID")
       .reduce((sum, d) => sum + parseFloat(d.amount.toString()), 0);
 
-    if (paidTotal !== 50.00) {
+    if (paidTotal !== 50.0) {
       return {
         passed: false,
-        message: 'Donation total incorrect',
+        message: "Donation total incorrect",
         details: {
-          expected: 50.00,
+          expected: 50.0,
           actual: paidTotal,
         },
       };
@@ -406,7 +417,7 @@ async function verifyDonationsEndpoint(ticketId: string): Promise<TestResult> {
 
     return {
       passed: true,
-      message: 'Donations endpoint data verified',
+      message: "Donations endpoint data verified",
       details: {
         count: donations.length,
         total: paidTotal,
@@ -416,7 +427,7 @@ async function verifyDonationsEndpoint(ticketId: string): Promise<TestResult> {
   } catch (error: any) {
     return {
       passed: false,
-      message: 'Endpoint verification failed',
+      message: "Endpoint verification failed",
       details: { error: error.message },
     };
   }
@@ -431,15 +442,15 @@ async function cleanupTestData(ticketId: string): Promise<void> {
     await prisma.stripe_attributions.deleteMany({ where: { ticketId } });
     await prisma.stripe_events.deleteMany({
       where: {
-        type: 'payment_intent.succeeded',
+        type: "payment_intent.succeeded",
         livemode: false,
       },
     });
     await prisma.recordingTicket.delete({ where: { id: ticketId } });
-    
-    console.log('[Test Cleanup] Test data deleted');
+
+    console.log("[Test Cleanup] Test data deleted");
   } catch (error: any) {
-    console.error('[Test Cleanup] Failed to cleanup:', error.message);
+    console.error("[Test Cleanup] Failed to cleanup:", error.message);
   }
 }
 
@@ -452,36 +463,39 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
   summary: string;
 }> {
   const results: Record<string, TestResult> = {};
-  let ticketId = '';
+  let ticketId = "";
 
   try {
-    console.log('\n🧪 Starting Stripe Webhook Live Loop Test\n');
+    console.log("\n🧪 Starting Stripe Webhook Live Loop Test\n");
 
     // Step 1: Create test ticket
-    console.log('1️⃣ Creating test ticket...');
+    console.log("1️⃣ Creating test ticket...");
     const ticketResult = await createTestTicket();
     ticketId = ticketResult.ticketId;
-    results['1_ticket_creation'] = ticketResult.result;
-    
+    results["1_ticket_creation"] = ticketResult.result;
+
     if (!ticketResult.result.passed) {
-      throw new Error('Ticket creation failed');
+      throw new Error("Ticket creation failed");
     }
     console.log(`   ✅ ${ticketResult.result.message}`);
 
     // Step 2: Create checkout session
-    console.log('2️⃣ Creating Stripe checkout session...');
+    console.log("2️⃣ Creating Stripe checkout session...");
     const sessionResult = await createTestCheckoutSession(ticketId);
-    results['2_checkout_session'] = sessionResult.result;
-    
+    results["2_checkout_session"] = sessionResult.result;
+
     if (!sessionResult.result.passed) {
-      throw new Error('Checkout session creation failed');
+      throw new Error("Checkout session creation failed");
     }
     console.log(`   ✅ ${sessionResult.result.message}`);
 
     // Step 3: Simulate webhook event processing
-    console.log('3️⃣ Simulating webhook event...');
-    const mockEvent = createMockWebhookPayload(sessionResult.sessionId, ticketId);
-    
+    console.log("3️⃣ Simulating webhook event...");
+    const mockEvent = createMockWebhookPayload(
+      sessionResult.sessionId,
+      ticketId,
+    );
+
     // Store event in StripeEvent table
     await prisma.stripe_events.create({
       data: {
@@ -499,7 +513,7 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
     });
 
     if (!attribution) {
-      throw new Error('Attribution not found');
+      throw new Error("Attribution not found");
     }
 
     const paymentIntent = mockEvent.data.object as Stripe.PaymentIntent;
@@ -508,53 +522,59 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
     await prisma.stripe_attributions.update({
       where: { id: attribution.id },
       data: {
-        status: 'PAID',
+        status: "PAID",
         paymentIntentId: paymentIntent.id,
         chargeId: charge.id,
-        donorLastName: 'Smith', // Extracted from "John Test Smith"
-        donorCountry: 'US',
+        donorLastName: "Smith", // Extracted from "John Test Smith"
+        donorCountry: "US",
         donorEmailHash: crypto
-          .createHash('sha256')
-          .update('john.smith@test.com')
-          .digest('hex'),
+          .createHash("sha256")
+          .update("john.smith@test.com")
+          .digest("hex"),
         stripeCreatedAt: new Date(mockEvent.created * 1000),
         paidAt: new Date(),
       },
     });
 
-    results['3_webhook_processing'] = {
+    results["3_webhook_processing"] = {
       passed: true,
-      message: 'Webhook event processed',
+      message: "Webhook event processed",
       details: { eventId: mockEvent.id },
     };
-    console.log('   ✅ Webhook event processed');
+    console.log("   ✅ Webhook event processed");
 
     // Step 4: Test idempotency
-    console.log('4️⃣ Testing webhook idempotency...');
+    console.log("4️⃣ Testing webhook idempotency...");
     const idempotencyResult = await testWebhookIdempotency(mockEvent.id);
-    results['4_idempotency'] = idempotencyResult;
-    console.log(`   ${idempotencyResult.passed ? '✅' : '❌'} ${idempotencyResult.message}`);
+    results["4_idempotency"] = idempotencyResult;
+    console.log(
+      `   ${idempotencyResult.passed ? "✅" : "❌"} ${idempotencyResult.message}`,
+    );
 
     // Step 5: Verify attribution
-    console.log('5️⃣ Verifying donation attribution...');
+    console.log("5️⃣ Verifying donation attribution...");
     const attributionResult = await verifyDonationAttribution(ticketId);
-    results['5_attribution'] = attributionResult;
-    console.log(`   ${attributionResult.passed ? '✅' : '❌'} ${attributionResult.message}`);
+    results["5_attribution"] = attributionResult;
+    console.log(
+      `   ${attributionResult.passed ? "✅" : "❌"} ${attributionResult.message}`,
+    );
 
     // Step 6: Verify donations endpoint
-    console.log('6️⃣ Verifying donations endpoint...');
+    console.log("6️⃣ Verifying donations endpoint...");
     const endpointResult = await verifyDonationsEndpoint(ticketId);
-    results['6_donations_endpoint'] = endpointResult;
-    console.log(`   ${endpointResult.passed ? '✅' : '❌'} ${endpointResult.message}`);
+    results["6_donations_endpoint"] = endpointResult;
+    console.log(
+      `   ${endpointResult.passed ? "✅" : "❌"} ${endpointResult.message}`,
+    );
 
     // Generate summary
     const totalTests = Object.keys(results).length;
-    const passedTests = Object.values(results).filter(r => r.passed).length;
+    const passedTests = Object.values(results).filter((r) => r.passed).length;
     const allPassed = passedTests === totalTests;
 
     const summary = `Stripe Webhook Live Loop Test: ${passedTests}/${totalTests} passed`;
 
-    console.log(`\n${allPassed ? '✅' : '❌'} ${summary}\n`);
+    console.log(`\n${allPassed ? "✅" : "❌"} ${summary}\n`);
 
     return {
       passed: allPassed,
@@ -562,11 +582,11 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
       summary,
     };
   } catch (error: any) {
-    console.error('❌ Test failed:', error.message);
-    
-    results['error'] = {
+    console.error("❌ Test failed:", error.message);
+
+    results["error"] = {
       passed: false,
-      message: 'Test execution failed',
+      message: "Test execution failed",
       details: { error: error.message, stack: error.stack },
     };
 
@@ -586,13 +606,13 @@ export async function runStripeWebhookLiveLoopTest(): Promise<{
 // CLI runner
 if (require.main === module) {
   runStripeWebhookLiveLoopTest()
-    .then(result => {
-      console.log('\n📊 Test Results:');
+    .then((result) => {
+      console.log("\n📊 Test Results:");
       console.log(JSON.stringify(result, null, 2));
       process.exit(result.passed ? 0 : 1);
     })
-    .catch(error => {
-      console.error('Fatal error:', error);
+    .catch((error) => {
+      console.error("Fatal error:", error);
       process.exit(1);
     });
 }

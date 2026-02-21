@@ -1,6 +1,9 @@
-import { Request, Response } from 'express';
-import { JobSearchService, JobSearchParams } from '../services/jobSearchService';
-import { prisma } from '../utils/database';
+import { Request, Response } from "express";
+import {
+  JobSearchService,
+  JobSearchParams,
+} from "../services/jobSearchService";
+import { prisma } from "../utils/database";
 
 const jobSearchService = new JobSearchService();
 
@@ -53,7 +56,7 @@ export class JobController {
             radius: searchParams.radius,
             jobResults: jobs as any,
             totalResults: jobs.length,
-            source: 'mixed',
+            source: "mixed",
           },
         });
       }
@@ -67,10 +70,11 @@ export class JobController {
         },
       });
     } catch (error) {
-      console.error('Job search error:', error);
+      console.error("Job search error:", error);
       res.status(500).json({
-        error: 'Job search failed',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Job search failed",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -89,20 +93,22 @@ export class JobController {
 
       if (!user || !user.profile) {
         return res.status(404).json({
-          error: 'User or profile not found',
+          error: "User or profile not found",
         });
       }
 
       // Generate search parameters based on user profile
       const searchParams: JobSearchParams = {
-        keywords: user.profile.skills.join(' '),
-        location: (user.location || user.zipCode) || undefined,
+        keywords: user.profile.skills.join(" "),
+        location: user.location || user.zipCode || undefined,
         limit: 10,
-        experienceLevel: 'entry', // Assume entry level for homeless individuals
+        experienceLevel: "entry", // Assume entry level for homeless individuals
       };
 
       const jobs = await jobSearchService.searchJobs(searchParams);
-      const suggestions = await jobSearchService.getJobSuggestions(user.profile);
+      const suggestions = await jobSearchService.getJobSuggestions(
+        user.profile,
+      );
 
       // Cache results
       if (jobs.length > 0) {
@@ -113,7 +119,7 @@ export class JobController {
             location: (searchParams.location as string) || undefined,
             jobResults: jobs as any,
             totalResults: jobs.length,
-            source: 'recommendations',
+            source: "recommendations",
           },
         });
       }
@@ -130,10 +136,11 @@ export class JobController {
         },
       });
     } catch (error) {
-      console.error('Job recommendations error:', error);
+      console.error("Job recommendations error:", error);
       res.status(500).json({
-        error: 'Failed to get job recommendations',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to get job recommendations",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -150,7 +157,7 @@ export class JobController {
 
       const cachedSearches = await prisma.jobsCache.findMany({
         where: { userId },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         skip,
         take: Number(limit),
         select: {
@@ -181,10 +188,11 @@ export class JobController {
         },
       });
     } catch (error) {
-      console.error('Cached jobs error:', error);
+      console.error("Cached jobs error:", error);
       res.status(500).json({
-        error: 'Failed to get cached job searches',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to get cached job searches",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -199,8 +207,8 @@ export class JobController {
 
       if (!jobTitle || !company) {
         return res.status(400).json({
-          error: 'Job details required',
-          message: 'Job title and company are required',
+          error: "Job details required",
+          message: "Job title and company are required",
         });
       }
 
@@ -211,24 +219,27 @@ export class JobController {
 
       if (!user || !user.profile) {
         return res.status(404).json({
-          error: 'User or profile not found',
+          error: "User or profile not found",
         });
       }
 
       const jobListing = {
-        id: jobId || 'manual',
+        id: jobId || "manual",
         title: jobTitle,
         company,
-        description: jobDescription || '',
-        location: '',
-        salary: '',
-        type: '',
-        url: '',
-        postedDate: '',
-        source: 'manual',
+        description: jobDescription || "",
+        location: "",
+        salary: "",
+        type: "",
+        url: "",
+        postedDate: "",
+        source: "manual",
       };
 
-      const coverLetter = await jobSearchService.generateCoverLetter(jobListing, user.profile);
+      const coverLetter = await jobSearchService.generateCoverLetter(
+        jobListing,
+        user.profile,
+      );
 
       res.status(200).json({
         success: true,
@@ -245,10 +256,11 @@ export class JobController {
         },
       });
     } catch (error) {
-      console.error('Cover letter generation error:', error);
+      console.error("Cover letter generation error:", error);
       res.status(500).json({
-        error: 'Failed to generate cover letter',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to generate cover letter",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -267,21 +279,24 @@ export class JobController {
 
       if (!user || !user.profile) {
         return res.status(404).json({
-          error: 'User or profile not found',
+          error: "User or profile not found",
         });
       }
 
-      const suggestions = await jobSearchService.getJobSuggestions(user.profile);
+      const suggestions = await jobSearchService.getJobSuggestions(
+        user.profile,
+      );
 
       res.status(200).json({
         success: true,
         data: suggestions,
       });
     } catch (error) {
-      console.error('Job suggestions error:', error);
+      console.error("Job suggestions error:", error);
       res.status(500).json({
-        error: 'Failed to get job suggestions',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to get job suggestions",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -296,8 +311,9 @@ export class JobController {
 
       if (!confirmClear) {
         return res.status(400).json({
-          error: 'Confirmation required',
-          message: 'Please confirm clearing cache by setting confirmClear to true',
+          error: "Confirmation required",
+          message:
+            "Please confirm clearing cache by setting confirmClear to true",
         });
       }
 
@@ -312,10 +328,11 @@ export class JobController {
         },
       });
     } catch (error) {
-      console.error('Clear job cache error:', error);
+      console.error("Clear job cache error:", error);
       res.status(500).json({
-        error: 'Failed to clear job cache',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to clear job cache",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }

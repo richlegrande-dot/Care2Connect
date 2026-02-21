@@ -1,13 +1,16 @@
 /**
  * Rules-Based Extraction Engine
- * 
+ *
  * Extracts structured data from transcripts using regex patterns
  * and keyword scoring - NO external AI APIs
  */
 
-import { TelemetryCollector, calculateQualityScore } from '../../services/telemetry';
-import { UrgencyAssessmentEngine } from './urgencyEngine';
-import { AmountDetectionEngine } from './amountEngine';
+import {
+  TelemetryCollector,
+  calculateQualityScore,
+} from "../../services/telemetry";
+import { UrgencyAssessmentEngine } from "./urgencyEngine";
+import { AmountDetectionEngine } from "./amountEngine";
 
 /**
  * Enhanced Name Candidate Filtering for Production Quality
@@ -17,22 +20,22 @@ const NAME_REJECT_PATTERNS: ReadonlyArray<RegExp> = Object.freeze([
   /^\d+$/,
   /^(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)$/i,
   /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)$/i,
-  
+
   // Phase 2B: Housing/situation phrases (false positives from T008, T028)
   /^(facing\s+eviction|calling\s+because|eviction\s+notice|losing\s+my|lost\s+my|getting\s+evicted)$/i,
   /^(housing\s+issues|financial\s+problems|money\s+troubles|can't\s+afford)$/i,
-  
+
   // Phase 2B: Action phrases that sound like names
   /^(trying\s+to|looking\s+for|hoping\s+to|need\s+to|want\s+to|have\s+to)$/i,
   /^(working\s+on|dealing\s+with|struggling\s+with|going\s+through)$/i,
-  
+
   // Common false positives
   /^(critical|urgent|emergency|important|needed|struggling|difficult|desperate)$/i,
   /^(help|need|want|trying|looking|asking|hoping)$/i,
   /^(here|there|where|when|what|how|why|who)$/i,
   /^(good|bad|okay|fine|great|terrible|awful)$/i,
   /^(today|tomorrow|yesterday|now|then|soon)$/i,
-  
+
   // Skill/descriptive phrases (major bug fix)
   /^(good at|bad at|skilled at|experienced in|expert in|familiar with)$/i,
   /^(customer service|retail|sales|management|administration|food service)$/i,
@@ -72,8 +75,16 @@ interface ExtractionConfidences {
  * Amount parsing context requirements
  */
 const AMOUNT_NEED_VERBS: ReadonlyArray<string> = Object.freeze([
-  'need', 'raise', 'goal', 'asking', 'looking', 'require', 'seeking',
-  'trying to raise', 'help with', 'assistance with'
+  "need",
+  "raise",
+  "goal",
+  "asking",
+  "looking",
+  "require",
+  "seeking",
+  "trying to raise",
+  "help with",
+  "assistance with",
 ]);
 
 const AMOUNT_REJECT_CONTEXTS: ReadonlyArray<RegExp> = Object.freeze([
@@ -113,7 +124,7 @@ const COMPILED_EXTRACTION_PATTERNS: Readonly<{
     /(?:call me|you can call me)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+(?!speaking|here|and|but)[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,3})(?=\.|,|$|\s+and)/i,
     // "Thomas Anderson speaking" or "David Smith here" - name before speaking/here
     /\b([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){1,2})\s+(?:speaking|here)(?=\s|,|\.|$)/i,
-    // "Name is David Kim" - simple name statement  
+    // "Name is David Kim" - simple name statement
     /(?:name is|my name)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\.|,|$|\s+and)/i,
     // Title extraction: "My name is Dr. Sarah Thompson" - extract name after title
     /(?:my (?:full )?name(?:'s| is))\s+(?:Dr\.|Mr\.|Mrs\.|Ms\.|Rev\.|Prof\.|Captain|Major|Colonel)\s+([A-ZÀ-ÿ][a-zÀ-ÿ'-]+(?:\s+[A-ZÀ-ÿ][a-zÀ-ÿ'-]+){0,2})(?=\s+(?:MD|Jr|Sr|PhD|and|but|or|here)|,|\.|$|'s|;)/i,
@@ -134,9 +145,7 @@ const COMPILED_EXTRACTION_PATTERNS: Readonly<{
     /(?:phone|call|reach me|contact me).*?(\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{4})/i,
     /(\d{3}[-\s]\d{3}[-\s]\d{4})/,
   ]),
-  email: Object.freeze([
-    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/,
-  ]),
+  email: Object.freeze([/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/]),
   location: Object.freeze([
     /(?:live in|living in|from|in)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*(?:,\s*[A-Z]{2})?)/i,
     /([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*),\s*([A-Z]{2})\b/,
@@ -164,13 +173,13 @@ const COMPILED_EXTRACTION_PATTERNS: Readonly<{
     /between\s+\$([\d,]+)\s+and\s+\$([\d,]+)/i,
     // "around $3000" or "about 2500" or "somewhere around"
     /(?:around|about|approximately|somewhere around)\s+(?:\$)?([\d,]+)/i,
-    // "no more than" or "up to" or "maximum of"  
+    // "no more than" or "up to" or "maximum of"
     /(?:no more than|up to|maximum of)\s+(?:\$)?([\d,]+)/i,
   ]),
   urgency: Object.freeze([
     // High urgency indicators
     /(?:urgent|emergency|crisis|critical|immediate|asap|desperate|help)/i,
-    // Medium urgency indicators 
+    // Medium urgency indicators
     /(?:soon|needed|important|pressing|struggling)/i,
     // Temporal urgency
     /(?:today|tomorrow|this week|by [A-Z][a-z]+)/i,
@@ -188,35 +197,227 @@ const COMPILED_EXTRACTION_PATTERNS: Readonly<{
  * Pre-compiled and frozen keyword sets for performance
  * Using Map for O(1) lookup instead of object property access
  */
-const COMPILED_NEEDS_KEYWORDS = new Map(Object.entries(Object.freeze({
-  HOUSING: Object.freeze(['housing', 'shelter', 'homeless', 'eviction', 'evicted', 'rent', 'apartment', 'room', 'place to stay', 'living situation', 'housing insecurity', 'couch surfing', 'transitional', 'nowhere to live', 'facing eviction']),
-  FOOD: Object.freeze(['food', 'hungry', 'meal', 'eat', 'nutrition', 'pantry', 'food bank', 'groceries', 'food stamps', 'snap', 'feeding']),
-  EMPLOYMENT: Object.freeze(['job', 'work', 'employment', 'unemployed', 'income', 'paycheck', 'career', 'hire', 'hiring', 'looking for work', 'need a job', 'laid off', 'fired', 'lost my job', 'get back to work']),
-  // Phase 1B: JOBS removed — all 11 keywords were duplicates of EMPLOYMENT (double-counting inflated employment scores)
-  HEALTHCARE: Object.freeze(['medical', 'health', 'healthcare', 'doctor', 'hospital', 'medicine', 'medication', 'sick', 'illness', 'injury', 'treatment', 'clinic', 'dental', 'medications', 'prescription', 'prescriptions', 'ptsd', 'veteran', 'declining']),
-  SAFETY: Object.freeze(['safe', 'safety', 'abuse', 'violence', 'domestic violence', 'assault', 'threatened', 'danger', 'protection']),
-  EDUCATION: Object.freeze(['education', 'school', 'training', 'ged', 'diploma', 'college', 'university', 'learn', 'classes']),
-  TRANSPORTATION: Object.freeze(['transportation', 'bus', 'car', 'vehicle', 'ride', 'transit', 'get around', 'commute']),
-  CHILDCARE: Object.freeze(['childcare', 'daycare', 'babysitter', 'care for children', 'need childcare']),
-  LEGAL: Object.freeze(['legal', 'lawyer', 'attorney', 'court', 'case', 'charges', 'record', 'expungement']),
-  MENTAL_HEALTH: Object.freeze(['mental health', 'depression', 'anxiety', 'ptsd', 'trauma', 'counseling', 'therapy', 'therapist']),
-  // Phase 1C: New categories to close vocabulary gap (76 failures)
-  EMERGENCY: Object.freeze(['emergency', 'crisis', 'fire', 'flood', 'disaster', 'emergency shelter', 'natural disaster', 'tornado', 'hurricane', 'earthquake', 'displaced', 'evacuation', 'red cross', 'fema', 'catastrophe']),
-  UTILITIES: Object.freeze(['utilities', 'electric', 'electricity', 'gas bill', 'water bill', 'power bill', 'heating', 'utility bill', 'shut off', 'disconnection', 'energy assistance', 'liheap', 'weatherization']),
-  FAMILY: Object.freeze(['family', 'children', 'kids', 'child', 'parenting', 'custody', 'family support', 'family services', 'reunification', 'foster', 'my kids', 'wedding', 'ceremony', 'celebration', 'marriage', 'funeral', 'family event']),
-  // Additional categories for remaining vocabulary gaps
-  FINANCIAL: Object.freeze(['financial', 'money', 'cash', 'financial assistance', 'financial help', 'financial support', 'debt', 'bills', 'budget', 'economic hardship']),
-  CLOTHING: Object.freeze(['clothes', 'clothing', 'apparel', 'dress', 'outfit', 'garments', 'wardrobe', 'clothing assistance']),
-  // Phase 5: GENERAL and OTHER are catch-all categories with NO keywords (selected only when nothing else matches)
-  GENERAL: Object.freeze([]),
-  OTHER: Object.freeze([]),
-})));
+const COMPILED_NEEDS_KEYWORDS = new Map(
+  Object.entries(
+    Object.freeze({
+      HOUSING: Object.freeze([
+        "housing",
+        "shelter",
+        "homeless",
+        "eviction",
+        "evicted",
+        "rent",
+        "apartment",
+        "room",
+        "place to stay",
+        "living situation",
+        "housing insecurity",
+        "couch surfing",
+        "transitional",
+        "nowhere to live",
+        "facing eviction",
+      ]),
+      FOOD: Object.freeze([
+        "food",
+        "hungry",
+        "meal",
+        "eat",
+        "nutrition",
+        "pantry",
+        "food bank",
+        "groceries",
+        "food stamps",
+        "snap",
+        "feeding",
+      ]),
+      EMPLOYMENT: Object.freeze([
+        "job",
+        "work",
+        "employment",
+        "unemployed",
+        "income",
+        "paycheck",
+        "career",
+        "hire",
+        "hiring",
+        "looking for work",
+        "need a job",
+        "laid off",
+        "fired",
+        "lost my job",
+        "get back to work",
+      ]),
+      // Phase 1B: JOBS removed — all 11 keywords were duplicates of EMPLOYMENT (double-counting inflated employment scores)
+      HEALTHCARE: Object.freeze([
+        "medical",
+        "health",
+        "healthcare",
+        "doctor",
+        "hospital",
+        "medicine",
+        "medication",
+        "sick",
+        "illness",
+        "injury",
+        "treatment",
+        "clinic",
+        "dental",
+        "medications",
+        "prescription",
+        "prescriptions",
+        "ptsd",
+        "veteran",
+        "declining",
+      ]),
+      SAFETY: Object.freeze([
+        "safe",
+        "safety",
+        "abuse",
+        "violence",
+        "domestic violence",
+        "assault",
+        "threatened",
+        "danger",
+        "protection",
+      ]),
+      EDUCATION: Object.freeze([
+        "education",
+        "school",
+        "training",
+        "ged",
+        "diploma",
+        "college",
+        "university",
+        "learn",
+        "classes",
+      ]),
+      TRANSPORTATION: Object.freeze([
+        "transportation",
+        "bus",
+        "car",
+        "vehicle",
+        "ride",
+        "transit",
+        "get around",
+        "commute",
+      ]),
+      CHILDCARE: Object.freeze([
+        "childcare",
+        "daycare",
+        "babysitter",
+        "care for children",
+        "need childcare",
+      ]),
+      LEGAL: Object.freeze([
+        "legal",
+        "lawyer",
+        "attorney",
+        "court",
+        "case",
+        "charges",
+        "record",
+        "expungement",
+      ]),
+      MENTAL_HEALTH: Object.freeze([
+        "mental health",
+        "depression",
+        "anxiety",
+        "ptsd",
+        "trauma",
+        "counseling",
+        "therapy",
+        "therapist",
+      ]),
+      // Phase 1C: New categories to close vocabulary gap (76 failures)
+      EMERGENCY: Object.freeze([
+        "emergency",
+        "crisis",
+        "fire",
+        "flood",
+        "disaster",
+        "emergency shelter",
+        "natural disaster",
+        "tornado",
+        "hurricane",
+        "earthquake",
+        "displaced",
+        "evacuation",
+        "red cross",
+        "fema",
+        "catastrophe",
+      ]),
+      UTILITIES: Object.freeze([
+        "utilities",
+        "electric",
+        "electricity",
+        "gas bill",
+        "water bill",
+        "power bill",
+        "heating",
+        "utility bill",
+        "shut off",
+        "disconnection",
+        "energy assistance",
+        "liheap",
+        "weatherization",
+      ]),
+      FAMILY: Object.freeze([
+        "family",
+        "children",
+        "kids",
+        "child",
+        "parenting",
+        "custody",
+        "family support",
+        "family services",
+        "reunification",
+        "foster",
+        "my kids",
+        "wedding",
+        "ceremony",
+        "celebration",
+        "marriage",
+        "funeral",
+        "family event",
+      ]),
+      // Additional categories for remaining vocabulary gaps
+      FINANCIAL: Object.freeze([
+        "financial",
+        "money",
+        "cash",
+        "financial assistance",
+        "financial help",
+        "financial support",
+        "debt",
+        "bills",
+        "budget",
+        "economic hardship",
+      ]),
+      CLOTHING: Object.freeze([
+        "clothes",
+        "clothing",
+        "apparel",
+        "dress",
+        "outfit",
+        "garments",
+        "wardrobe",
+        "clothing assistance",
+      ]),
+      // Phase 5: GENERAL and OTHER are catch-all categories with NO keywords (selected only when nothing else matches)
+      GENERAL: Object.freeze([]),
+      OTHER: Object.freeze([]),
+    }),
+  ),
+);
 
 /**
  * Optimized text normalization cache with size limit to prevent memory leaks
  */
 const MAX_CACHE_SIZE = 1000;
-const textNormalizationCache = new Map<string, { lower: string; original: string }>();
+const textNormalizationCache = new Map<
+  string,
+  { lower: string; original: string }
+>();
 
 /**
  * Clear cache if it exceeds max size
@@ -224,8 +425,11 @@ const textNormalizationCache = new Map<string, { lower: string; original: string
 function maintainCacheSize() {
   if (textNormalizationCache.size > MAX_CACHE_SIZE) {
     // Remove oldest 20% of entries
-    const keysToDelete = Array.from(textNormalizationCache.keys()).slice(0, Math.floor(MAX_CACHE_SIZE * 0.2));
-    keysToDelete.forEach(key => textNormalizationCache.delete(key));
+    const keysToDelete = Array.from(textNormalizationCache.keys()).slice(
+      0,
+      Math.floor(MAX_CACHE_SIZE * 0.2),
+    );
+    keysToDelete.forEach((key) => textNormalizationCache.delete(key));
   }
 }
 
@@ -234,16 +438,16 @@ function maintainCacheSize() {
  */
 function getNormalizedText(text: string): { lower: string; original: string } {
   maintainCacheSize();
-  
+
   if (textNormalizationCache.has(text)) {
     return textNormalizationCache.get(text)!;
   }
-  
+
   const normalized = {
     lower: text.toLowerCase().trim(),
-    original: text.trim()
+    original: text.trim(),
   };
-  
+
   textNormalizationCache.set(text, normalized);
   return normalized;
 }
@@ -314,14 +518,8 @@ export const EXTRACTION_PATTERNS: ExtractionPatterns = {
     // Embedded in text: "homeless 27 years"
     /homeless\s+(?:for\s+)?(\d{1,3})\s+(?:years|yr)/i,
   ],
-  phone: [
-    /\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/,
-    /\d{3}-\d{3}-\d{4}/,
-    /\d{10}/,
-  ],
-  email: [
-    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/,
-  ],
+  phone: [/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/, /\d{3}-\d{3}-\d{4}/, /\d{10}/],
+  email: [/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/],
   location: [
     /(?:live in|living in|from|in) ([A-Z][a-z]+(?: [A-Z][a-z]+)*(?:, [A-Z]{2})?)/i,
     /([A-Z][a-z]+(?: [A-Z][a-z]+)*), ([A-Z]{2})\b/,
@@ -355,7 +553,7 @@ export const EXTRACTION_PATTERNS: ExtractionPatterns = {
   urgency: [
     // High urgency indicators
     /(?:urgent|emergency|crisis|critical|immediate|asap|desperate|help)/i,
-    // Medium urgency indicators 
+    // Medium urgency indicators
     /(?:soon|needed|important|pressing|struggling)/i,
     // Temporal urgency
     /(?:today|tomorrow|this week|by [A-Z][a-z]+)/i,
@@ -374,24 +572,209 @@ export interface NeedsKeywords {
 }
 
 export const NEEDS_KEYWORDS: NeedsKeywords = {
-  HOUSING: ['housing', 'shelter', 'homeless', 'eviction', 'evicted', 'rent', 'apartment', 'room', 'place to stay', 'living situation', 'housing insecurity', 'couch surfing', 'transitional', 'nowhere to live', 'facing eviction'],
-  FOOD: ['food', 'hungry', 'meal', 'eat', 'nutrition', 'pantry', 'food bank', 'groceries', 'food stamps', 'snap', 'feeding'],
-  EMPLOYMENT: ['job', 'work', 'employment', 'unemployed', 'income', 'paycheck', 'career', 'hire', 'hiring', 'looking for work', 'need a job', 'laid off', 'fired', 'lost my job', 'get back to work'],
+  HOUSING: [
+    "housing",
+    "shelter",
+    "homeless",
+    "eviction",
+    "evicted",
+    "rent",
+    "apartment",
+    "room",
+    "place to stay",
+    "living situation",
+    "housing insecurity",
+    "couch surfing",
+    "transitional",
+    "nowhere to live",
+    "facing eviction",
+  ],
+  FOOD: [
+    "food",
+    "hungry",
+    "meal",
+    "eat",
+    "nutrition",
+    "pantry",
+    "food bank",
+    "groceries",
+    "food stamps",
+    "snap",
+    "feeding",
+  ],
+  EMPLOYMENT: [
+    "job",
+    "work",
+    "employment",
+    "unemployed",
+    "income",
+    "paycheck",
+    "career",
+    "hire",
+    "hiring",
+    "looking for work",
+    "need a job",
+    "laid off",
+    "fired",
+    "lost my job",
+    "get back to work",
+  ],
   // Phase 1B: JOBS removed — duplicate of EMPLOYMENT
-  HEALTHCARE: ['medical', 'health', 'healthcare', 'doctor', 'hospital', 'medicine', 'medication', 'sick', 'illness', 'injury', 'treatment', 'clinic', 'dental', 'medications', 'prescription', 'prescriptions', 'ptsd', 'veteran', 'declining'],
-  SAFETY: ['safe', 'safety', 'abuse', 'violence', 'domestic violence', 'assault', 'threatened', 'danger', 'protection'],
-  EDUCATION: ['education', 'school', 'training', 'ged', 'diploma', 'college', 'university', 'learn', 'classes'],
-  TRANSPORTATION: ['transportation', 'bus', 'car', 'vehicle', 'ride', 'transit', 'get around', 'commute'],
-  CHILDCARE: ['childcare', 'daycare', 'babysitter', 'care for children', 'need childcare'],
-  LEGAL: ['legal', 'lawyer', 'attorney', 'court', 'case', 'charges', 'record', 'expungement'],
-  MENTAL_HEALTH: ['mental health', 'depression', 'anxiety', 'ptsd', 'trauma', 'counseling', 'therapy', 'therapist'],
+  HEALTHCARE: [
+    "medical",
+    "health",
+    "healthcare",
+    "doctor",
+    "hospital",
+    "medicine",
+    "medication",
+    "sick",
+    "illness",
+    "injury",
+    "treatment",
+    "clinic",
+    "dental",
+    "medications",
+    "prescription",
+    "prescriptions",
+    "ptsd",
+    "veteran",
+    "declining",
+  ],
+  SAFETY: [
+    "safe",
+    "safety",
+    "abuse",
+    "violence",
+    "domestic violence",
+    "assault",
+    "threatened",
+    "danger",
+    "protection",
+  ],
+  EDUCATION: [
+    "education",
+    "school",
+    "training",
+    "ged",
+    "diploma",
+    "college",
+    "university",
+    "learn",
+    "classes",
+  ],
+  TRANSPORTATION: [
+    "transportation",
+    "bus",
+    "car",
+    "vehicle",
+    "ride",
+    "transit",
+    "get around",
+    "commute",
+  ],
+  CHILDCARE: [
+    "childcare",
+    "daycare",
+    "babysitter",
+    "care for children",
+    "need childcare",
+  ],
+  LEGAL: [
+    "legal",
+    "lawyer",
+    "attorney",
+    "court",
+    "case",
+    "charges",
+    "record",
+    "expungement",
+  ],
+  MENTAL_HEALTH: [
+    "mental health",
+    "depression",
+    "anxiety",
+    "ptsd",
+    "trauma",
+    "counseling",
+    "therapy",
+    "therapist",
+  ],
   // Phase 1C: New categories
-  EMERGENCY: ['emergency', 'crisis', 'fire', 'flood', 'disaster', 'emergency shelter', 'natural disaster', 'tornado', 'hurricane', 'earthquake', 'displaced', 'evacuation', 'red cross', 'fema', 'catastrophe'],
-  UTILITIES: ['utilities', 'electric', 'electricity', 'gas bill', 'water bill', 'power bill', 'heating', 'utility bill', 'shut off', 'disconnection', 'energy assistance', 'liheap', 'weatherization'],
-  FAMILY: ['family', 'children', 'kids', 'child', 'parenting', 'custody', 'family support', 'family services', 'reunification', 'foster', 'my kids', 'wedding', 'ceremony', 'celebration', 'marriage', 'funeral', 'family event'],
+  EMERGENCY: [
+    "emergency",
+    "crisis",
+    "fire",
+    "flood",
+    "disaster",
+    "emergency shelter",
+    "natural disaster",
+    "tornado",
+    "hurricane",
+    "earthquake",
+    "displaced",
+    "evacuation",
+    "red cross",
+    "fema",
+    "catastrophe",
+  ],
+  UTILITIES: [
+    "utilities",
+    "electric",
+    "electricity",
+    "gas bill",
+    "water bill",
+    "power bill",
+    "heating",
+    "utility bill",
+    "shut off",
+    "disconnection",
+    "energy assistance",
+    "liheap",
+    "weatherization",
+  ],
+  FAMILY: [
+    "family",
+    "children",
+    "kids",
+    "child",
+    "parenting",
+    "custody",
+    "family support",
+    "family services",
+    "reunification",
+    "foster",
+    "my kids",
+    "wedding",
+    "ceremony",
+    "celebration",
+    "marriage",
+    "funeral",
+    "family event",
+  ],
   // Additional categories for vocabulary gaps
-  FINANCIAL: ['financial', 'money', 'cash', 'financial assistance', 'financial help', 'financial support', 'debt', 'bills', 'budget', 'economic hardship'],
-  CLOTHING: ['clothes', 'clothing', 'apparel', 'dress', 'outfit', 'garments', 'wardrobe', 'clothing assistance'],
+  FINANCIAL: [
+    "financial",
+    "money",
+    "cash",
+    "financial assistance",
+    "financial help",
+    "financial support",
+    "debt",
+    "bills",
+    "budget",
+    "economic hardship",
+  ],
+  CLOTHING: [
+    "clothes",
+    "clothing",
+    "apparel",
+    "dress",
+    "outfit",
+    "garments",
+    "wardrobe",
+    "clothing assistance",
+  ],
   // Phase 5: GENERAL and OTHER are catch-all categories with NO keywords (selected only when nothing else matches)
   GENERAL: [],
   OTHER: [],
@@ -402,14 +785,62 @@ export interface SkillsKeywords {
 }
 
 export const SKILLS_KEYWORDS: SkillsKeywords = {
-  Construction: ['construction', 'carpenter', 'carpentry', 'plumber', 'electrician', 'hvac', 'contractor', 'builder'],
-  Healthcare: ['nurse', 'nursing', 'cna', 'caregiver', 'medical assistant', 'phlebotomy'],
-  Retail: ['retail', 'sales', 'cashier', 'customer service', 'merchandising'],
-  Food_Service: ['restaurant', 'cook', 'chef', 'server', 'waiter', 'waitress', 'barista', 'food service'],
-  Technology: ['computer', 'it', 'programming', 'coding', 'software', 'tech support', 'web design'],
-  Transportation: ['driver', 'cdl', 'truck driver', 'delivery', 'uber', 'lyft', 'forklift'],
-  Cleaning: ['cleaning', 'janitor', 'custodian', 'housekeeping', 'maintenance'],
-  Administrative: ['administrative', 'office', 'clerical', 'data entry', 'receptionist', 'secretary'],
+  Construction: [
+    "construction",
+    "carpenter",
+    "carpentry",
+    "plumber",
+    "electrician",
+    "hvac",
+    "contractor",
+    "builder",
+  ],
+  Healthcare: [
+    "nurse",
+    "nursing",
+    "cna",
+    "caregiver",
+    "medical assistant",
+    "phlebotomy",
+  ],
+  Retail: ["retail", "sales", "cashier", "customer service", "merchandising"],
+  Food_Service: [
+    "restaurant",
+    "cook",
+    "chef",
+    "server",
+    "waiter",
+    "waitress",
+    "barista",
+    "food service",
+  ],
+  Technology: [
+    "computer",
+    "it",
+    "programming",
+    "coding",
+    "software",
+    "tech support",
+    "web design",
+  ],
+  Transportation: [
+    "driver",
+    "cdl",
+    "truck driver",
+    "delivery",
+    "uber",
+    "lyft",
+    "forklift",
+  ],
+  Cleaning: ["cleaning", "janitor", "custodian", "housekeeping", "maintenance"],
+  Administrative: [
+    "administrative",
+    "office",
+    "clerical",
+    "data entry",
+    "receptionist",
+    "secretary",
+  ],
 };
 
 /**
@@ -417,13 +848,17 @@ export const SKILLS_KEYWORDS: SkillsKeywords = {
  */
 export function extractName(transcript: string): string | undefined {
   const normalized = getNormalizedText(transcript);
-  
+
   for (const pattern of COMPILED_EXTRACTION_PATTERNS.name) {
     const match = normalized.original.match(pattern);
     if (match && match[1]) {
       const candidate = match[1].trim();
-      const validation = validateNameCandidate(candidate, transcript, match.index || 0);
-      
+      const validation = validateNameCandidate(
+        candidate,
+        transcript,
+        match.index || 0,
+      );
+
       if (validation.isValid) {
         // Strip common titles
         const strippedName = stripTitles(candidate);
@@ -431,7 +866,7 @@ export function extractName(transcript: string): string | undefined {
       }
     }
   }
-  
+
   return undefined;
 }
 
@@ -441,14 +876,14 @@ export function extractName(transcript: string): string | undefined {
 function stripTitles(name: string): string {
   const titlePatterns = [
     /^\s*(?:Dr\.?|Doctor|Mr\.?|Mrs\.?|Ms\.?|Miss|Prof\.?|Professor|Rev\.?|Reverend|Sir|Madam|Mx\.?)\s+/i,
-    /\s+(?:Dr\.?|Doctor|Mr\.?|Mrs\.?|Ms\.?|Miss|Prof\.?|Professor|Rev\.?|Reverend|Sir|Madam|Mx\.?)\s*$/i
+    /\s+(?:Dr\.?|Doctor|Mr\.?|Mrs\.?|Ms\.?|Miss|Prof\.?|Professor|Rev\.?|Reverend|Sir|Madam|Mx\.?)\s*$/i,
   ];
-  
+
   let stripped = name;
   for (const pattern of titlePatterns) {
-    stripped = stripped.replace(pattern, '');
+    stripped = stripped.replace(pattern, "");
   }
-  
+
   return stripped.trim();
 }
 
@@ -456,13 +891,16 @@ function stripTitles(name: string): string {
  * Enhanced name extraction with confidence scoring and failsafe error handling
  * Phase 3: Never fail the revenue pipeline - always return valid structure
  */
-export function extractNameWithConfidence(transcript: string): { value: string | null; confidence: number } {
+export function extractNameWithConfidence(transcript: string): {
+  value: string | null;
+  confidence: number;
+} {
   try {
     // Input validation
-    if (!transcript || typeof transcript !== 'string') {
+    if (!transcript || typeof transcript !== "string") {
       return { value: null, confidence: 0 };
     }
-    
+
     // Performance optimization: limit processing for extremely long transcripts
     if (transcript.length > 10000) {
       // Only search first 5K characters for names (most names appear early)
@@ -471,57 +909,68 @@ export function extractNameWithConfidence(transcript: string): { value: string |
 
     // Pre-process chaotic speech - remove excessive filler words and artifacts
     let preprocessed = transcript;
-    
+
     // Detect highly chaotic speech (excessive fillers, artifacts, or ALL CAPS)
     const hasExcessiveFillers = /(?:uh|um|like|you know){5,}/i.test(transcript);
-    const hasArtifacts = /[\*\[]{2,}|crying|sobbing|shouting|screaming|wailing|hiccup/i.test(transcript);
-    const isAllCaps = /[A-Z]{10,}/.test(transcript) && !/[a-z]{5,}/.test(transcript);
-    const isDrunkSpeech = /\b(?:I'mmmm|wasss|sooo|likeee|ummmm|neeeeed|ish|sssomething|shtuff)\b/i.test(transcript);
-    
+    const hasArtifacts =
+      /[\*\[]{2,}|crying|sobbing|shouting|screaming|wailing|hiccup/i.test(
+        transcript,
+      );
+    const isAllCaps =
+      /[A-Z]{10,}/.test(transcript) && !/[a-z]{5,}/.test(transcript);
+    const isDrunkSpeech =
+      /\b(?:I'mmmm|wasss|sooo|likeee|ummmm|neeeeed|ish|sssomething|shtuff)\b/i.test(
+        transcript,
+      );
+
     if (hasExcessiveFillers || hasArtifacts || isAllCaps || isDrunkSpeech) {
       // Highly chaotic - aggressive cleanup
       preprocessed = transcript
         // Remove emotional artifacts (be more aggressive)
-        .replace(/\*+[^*]*?\*+/g, ' ')  // *crying* *sobbing* *screaming*
-        .replace(/\[[^\]]*?\]/g, ' ')   // [shouting] [distressed] [Speaker 1]
-        .replace(/\{[^}]*?\}/g, ' ')    // {emergency}
-        .replace(/\([^)]{0,15}\)/g, ' ')  // Remove short parentheticals like (hiccup)
+        .replace(/\*+[^*]*?\*+/g, " ") // *crying* *sobbing* *screaming*
+        .replace(/\[[^\]]*?\]/g, " ") // [shouting] [distressed] [Speaker 1]
+        .replace(/\{[^}]*?\}/g, " ") // {emergency}
+        .replace(/\([^)]{0,15}\)/g, " ") // Remove short parentheticals like (hiccup)
         // Remove excessive filler words
-        .replace(/\b(?:uh+|um+|er+|ah+|hmm+|heyyy+)\s*/gi, '')
-        .replace(/\b(?:like|you know|I mean|basically|literally)\s+/gi, ' ')
+        .replace(/\b(?:uh+|um+|er+|ah+|hmm+|heyyy+)\s*/gi, "")
+        .replace(/\b(?:like|you know|I mean|basically|literally)\s+/gi, " ")
         // Handle drunk speech patterns (repeated letters) - more aggressive
-        .replace(/([a-z])\1{2,}/gi, '$1')  // "wasssss" -> "was", "sooo" -> "so", "neeeeed" -> "need"
-        .replace(/\bish\b/gi, 'is')  // "ish" -> "is"
-        .replace(/\.{2,}/g, ' ')  // Remove ellipsis "..." 
+        .replace(/([a-z])\1{2,}/gi, "$1") // "wasssss" -> "was", "sooo" -> "so", "neeeeed" -> "need"
+        .replace(/\bish\b/gi, "is") // "ish" -> "is"
+        .replace(/\.{2,}/g, " ") // Remove ellipsis "..."
         // Remove repeated words (stutter): "ish... ish... Sarah" -> "ish Sarah"
-        .replace(/\b(\w+)(?:\s*\.{2,}\s*\1)+/gi, '$1')
+        .replace(/\b(\w+)(?:\s*\.{2,}\s*\1)+/gi, "$1")
         // Normalize ALL CAPS to title case for better name extraction
         .replace(/\b([A-Z]{2,})\b/g, (match) => {
           if (match.length <= 3) return match; // Keep acronyms like "USA"
           return match.charAt(0) + match.slice(1).toLowerCase();
         })
         // Collapse multiple spaces
-        .replace(/\s{2,}/g, ' ')
+        .replace(/\s{2,}/g, " ")
         .trim();
     }
-    
+
     maintainCacheSize();
 
     const normalized = getNormalizedText(preprocessed);
-    
+
     // Collect all potential matches with their confidence scores
-    const candidates: Array<{value: string; confidence: number}> = [];
-    
+    const candidates: Array<{ value: string; confidence: number }> = [];
+
     for (let i = 0; i < COMPILED_EXTRACTION_PATTERNS.name.length; i++) {
       const pattern = COMPILED_EXTRACTION_PATTERNS.name[i];
       const match = preprocessed.match(pattern);
       if (match && match[1]) {
         const candidate = match[1].trim();
-        const validation = validateNameCandidate(candidate, preprocessed, match.index || 0);
-        
+        const validation = validateNameCandidate(
+          candidate,
+          preprocessed,
+          match.index || 0,
+        );
+
         if (validation.isValid) {
           let patternBonus = 0;
-          
+
           // Pattern-specific confidence bonuses (higher index = more specific = higher bonus)
           if (i <= 1) {
             // Title extraction patterns (patterns 0-1) get highest bonus
@@ -534,46 +983,49 @@ export function extractNameWithConfidence(transcript: string): { value: string |
             patternBonus = 0.1;
           }
           // Generic patterns (later ones) get no bonus
-          
+
           candidates.push({
             value: candidate,
-            confidence: Math.min(1.0, validation.confidence + patternBonus)
+            confidence: Math.min(1.0, validation.confidence + patternBonus),
           });
         }
       }
     }
-    
+
     // Return the candidate with highest confidence
     if (candidates.length > 0) {
-      const bestMatch = candidates.reduce((best, current) => 
-        current.confidence > best.confidence ? current : best
+      const bestMatch = candidates.reduce((best, current) =>
+        current.confidence > best.confidence ? current : best,
       );
       return bestMatch;
     }
-    
+
     return { value: null, confidence: 0 };
   } catch (error) {
     // Phase 3: Never fail the revenue pipeline - always return valid structure
-    console.error('[EXTRACTION_ERROR] Name extraction failed:', {
+    console.error("[EXTRACTION_ERROR] Name extraction failed:", {
       error: (error as Error).message,
       stackTrace: (error as Error).stack?.slice(0, 200),
       transcriptLength: transcript?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
+
     // Failsafe fallback: Extract any capitalized word as potential name
     try {
       const fallbackMatch = transcript.match(/\b[A-Z][a-z]+\b/);
       if (fallbackMatch) {
         return {
           value: fallbackMatch[0],
-          confidence: 0.1 // Very low confidence for failsafe extraction
+          confidence: 0.1, // Very low confidence for failsafe extraction
         };
       }
     } catch (fallbackError) {
-      console.error('[CRITICAL_FAILSAFE] Even fallback name extraction failed:', (fallbackError as Error).message);
+      console.error(
+        "[CRITICAL_FAILSAFE] Even fallback name extraction failed:",
+        (fallbackError as Error).message,
+      );
     }
-    
+
     return { value: null, confidence: 0 };
   }
 }
@@ -581,7 +1033,11 @@ export function extractNameWithConfidence(transcript: string): { value: string |
 /**
  * Validate name candidate against false positive patterns
  */
-function validateNameCandidate(candidate: string, fullTranscript: string, matchIndex: number): {
+function validateNameCandidate(
+  candidate: string,
+  fullTranscript: string,
+  matchIndex: number,
+): {
   isValid: boolean;
   confidence: number;
 } {
@@ -591,71 +1047,80 @@ function validateNameCandidate(candidate: string, fullTranscript: string, matchI
       return { isValid: false, confidence: 0 };
     }
   }
-  
+
   // Check context around the match
   const contextStart = Math.max(0, matchIndex - 50);
-  const contextEnd = Math.min(fullTranscript.length, matchIndex + candidate.length + 50);
+  const contextEnd = Math.min(
+    fullTranscript.length,
+    matchIndex + candidate.length + 50,
+  );
   const context = fullTranscript.slice(contextStart, contextEnd);
-  
+
   for (const pattern of NAME_CONTEXT_REJECT) {
     if (pattern.test(context)) {
       return { isValid: false, confidence: 0 };
     }
   }
-  
+
   // Check for contradictions/corrections that should lower confidence
-  const hasContradiction = /\b(?:but|actually|I mean|wait no|not really|well technically)\b/i.test(context);
-  
+  const hasContradiction =
+    /\b(?:but|actually|I mean|wait no|not really|well technically)\b/i.test(
+      context,
+    );
+
   // Calculate confidence based on name quality
   let confidence = 0.7; // Base confidence for pattern match
-  
+
   // Boost for multi-token names (first + last)
   const tokens = candidate.split(/\s+/);
   if (tokens.length >= 2 && tokens.length <= 4) {
     confidence += 0.25; // Increased from 0.2
   }
-  
+
   // Boost for proper capitalization
-  const properCase = tokens.every(token => 
-    token.length > 0 && 
-    token[0].toUpperCase() === token[0] &&
-    token.slice(1).toLowerCase() === token.slice(1)
+  const properCase = tokens.every(
+    (token) =>
+      token.length > 0 &&
+      token[0].toUpperCase() === token[0] &&
+      token.slice(1).toLowerCase() === token.slice(1),
   );
   if (properCase) {
     confidence += 0.15; // Increased from 0.1
   }
-  
+
   // Penalize contradictions
   if (hasContradiction) {
     confidence -= 0.3;
   }
-  
+
   // Penalize very short or very long names
   if (candidate.length < 3 || candidate.length > 50) {
     confidence -= 0.3;
   }
 
   // Reject urgency-sounding words as names
-  const urgencyWords = /^(Critical|Emergency|Urgent|Desperate|Crisis|Help|Alarm|Alert|Houston|Dallas|Portland)$/i;
+  const urgencyWords =
+    /^(Critical|Emergency|Urgent|Desperate|Crisis|Help|Alarm|Alert|Houston|Dallas|Portland)$/i;
   if (urgencyWords.test(candidate.trim())) {
     return {
       isValid: false,
-      confidence: 0
+      confidence: 0,
     };
   }
 
   // Reject common location/city names that might be mistaken as names
-  const locationWords = /^(Avenue|Street|Texas|Oregon|California|Florida|York|Angeles)$/i;
+  const locationWords =
+    /^(Avenue|Street|Texas|Oregon|California|Florida|York|Angeles)$/i;
   if (locationWords.test(candidate.trim())) {
     return {
       isValid: false,
-      confidence: 0
+      confidence: 0,
     };
   }
 
   return {
     isValid: true,
-    confidence: Math.max(0, Math.min(1, confidence))
+    confidence: Math.max(0, Math.min(1, confidence)),
   };
 }
 
@@ -672,32 +1137,34 @@ export function extractGoalAmount(transcript: string): number | null {
  * Jan v4.0: Enhanced goal amount extraction with full detection details
  * Provides comprehensive amount detection with context validation and ambiguity rejection
  */
-export function extractGoalAmountWithConfidence(transcript: string, context?: {
-  category?: string;
-  urgency?: string;
-}): { value: number | null; confidence: number } {
+export function extractGoalAmountWithConfidence(
+  transcript: string,
+  context?: {
+    category?: string;
+    urgency?: string;
+  },
+): { value: number | null; confidence: number } {
   try {
     // Input validation
-    if (!transcript || typeof transcript !== 'string') {
+    if (!transcript || typeof transcript !== "string") {
       return { value: null, confidence: 0 };
     }
-    
+
     // Use the new Jan v4.0 amount detection engine
     const amountEngine = new AmountDetectionEngine();
     const detection = amountEngine.detectGoalAmount(transcript, context);
-    
+
     return {
       value: detection.goalAmount,
-      confidence: detection.confidence
+      confidence: detection.confidence,
     };
-    
   } catch (error) {
-    console.error('[EXTRACTION_ERROR] Amount extraction failed:', {
+    console.error("[EXTRACTION_ERROR] Amount extraction failed:", {
       error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
+
     return { value: null, confidence: 0 };
   }
 }
@@ -706,45 +1173,47 @@ export function extractGoalAmountWithConfidence(transcript: string, context?: {
  * Jan v4.0: Full amount detection with detailed results
  * Provides complete detection information for evaluation/debugging
  */
-export function extractGoalAmountWithDetection(transcript: string, context?: {
-  category?: string;
-  urgency?: string;
-}): {
+export function extractGoalAmountWithDetection(
+  transcript: string,
+  context?: {
+    category?: string;
+    urgency?: string;
+  },
+): {
   goalAmount: number | null;
   confidence: number;
-  source: 'explicit' | 'contextual' | 'vague' | 'inferred' | 'none';
+  source: "explicit" | "contextual" | "vague" | "inferred" | "none";
   reasons: string[];
   candidates: any[];
 } {
   try {
-    if (!transcript || typeof transcript !== 'string') {
+    if (!transcript || typeof transcript !== "string") {
       return {
         goalAmount: null,
         confidence: 0.0,
-        source: 'none',
-        reasons: ['invalid_input'],
-        candidates: []
+        source: "none",
+        reasons: ["invalid_input"],
+        candidates: [],
       };
     }
 
     const amountEngine = new AmountDetectionEngine();
     const detection = amountEngine.detectGoalAmount(transcript, context);
-    
+
     return detection;
-    
   } catch (error) {
-    console.error('[EXTRACTION_ERROR] Detailed amount extraction failed:', {
+    console.error("[EXTRACTION_ERROR] Detailed amount extraction failed:", {
       error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
+
     return {
       goalAmount: null,
       confidence: 0.0,
-      source: 'none',
-      reasons: ['extraction_failed'],
-      candidates: []
+      source: "none",
+      reasons: ["extraction_failed"],
+      candidates: [],
     };
   }
 }
@@ -752,44 +1221,52 @@ export function extractGoalAmountWithDetection(transcript: string, context?: {
 /**
  * Validate amount context to prevent false positives
  */
-function validateAmountContext(transcript: string, matchIndex: number, amountStr: string): {
+function validateAmountContext(
+  transcript: string,
+  matchIndex: number,
+  amountStr: string,
+): {
   isValid: boolean;
   confidence: number;
 } {
   // Get context around the match
   const contextStart = Math.max(0, matchIndex - 100);
-  const contextEnd = Math.min(transcript.length, matchIndex + amountStr.length + 100);
+  const contextEnd = Math.min(
+    transcript.length,
+    matchIndex + amountStr.length + 100,
+  );
   const context = transcript.slice(contextStart, contextEnd).toLowerCase();
-  
+
   // Check for negation/sarcasm markers that should lower confidence
-  const hasNegation = /\b(?:don't|dont|not|never|unlike|oh sure|totally don't)\b/i.test(context);
-  
+  const hasNegation =
+    /\b(?:don't|dont|not|never|unlike|oh sure|totally don't)\b/i.test(context);
+
   // Look for need verbs in context
-  const hasNeedVerb = AMOUNT_NEED_VERBS.some(verb => context.includes(verb));
-  
+  const hasNeedVerb = AMOUNT_NEED_VERBS.some((verb) => context.includes(verb));
+
   // Look for currency indicators
   const hasCurrencyContext = /\$|dollars?|money|cost|amount|fund/.test(context);
-  
+
   // Strong confidence: has need verb + currency context, no negation
   if (hasNeedVerb && hasCurrencyContext && !hasNegation) {
     return { isValid: true, confidence: 0.95 };
   }
-  
+
   // Penalize for negation/sarcasm
   if (hasNegation) {
     return { isValid: true, confidence: 0.4 };
   }
-  
+
   // Medium confidence: has need verb OR strong currency context
-  if (hasNeedVerb || context.includes('goal') || context.includes('raise')) {
+  if (hasNeedVerb || context.includes("goal") || context.includes("raise")) {
     return { isValid: true, confidence: 0.7 };
   }
-  
+
   // Weak confidence: currency context only
   if (hasCurrencyContext) {
     return { isValid: true, confidence: 0.5 };
   }
-  
+
   // No valid context found
   return { isValid: false, confidence: 0 };
 }
@@ -805,56 +1282,85 @@ function boundAmount(amount: number): number {
  * Extract beneficiary relationship (non-PII) with failsafe error handling
  * Phase 3: Never fail the revenue pipeline - always return valid structure
  */
-export function extractBeneficiaryRelationship(transcript: string): 'myself' | 'family_member' | 'other' {
+export function extractBeneficiaryRelationship(
+  transcript: string,
+): "myself" | "family_member" | "other" {
   try {
     // Input validation
-    if (!transcript || typeof transcript !== 'string') {
-      return 'myself'; // Safe default
+    if (!transcript || typeof transcript !== "string") {
+      return "myself"; // Safe default
     }
 
     const text = transcript.toLowerCase();
-    
+
     // Check for third-party fundraising
-    if (/\b(?:raising (?:money |funds )?for|campaign (?:is )?for|helping (?:out )?(?:my |a )?(?:friend|neighbor|community|coworker)|for (?:my |a )?(?:friend|neighbor))\b/i.test(transcript)) {
-      return 'other';
+    if (
+      /\b(?:raising (?:money |funds )?for|campaign (?:is )?for|helping (?:out )?(?:my |a )?(?:friend|neighbor|community|coworker)|for (?:my |a )?(?:friend|neighbor))\b/i.test(
+        transcript,
+      )
+    ) {
+      return "other";
     }
-    
+
     // Check for pets/animals
     if (/\b(?:my |our )?(?:dog|cat|pet|animal)\b/i.test(transcript)) {
-      return 'other';
+      return "other";
     }
-    
+
     // Check for family member patterns including wife/husband
-    if (/\b(?:my |our )?(?:wife|husband|spouse|partner|son|daughter|child|children|kids?|mom|mother|dad|father|parent|family|brother|sister|sibling)\b/i.test(transcript)) {
-      return 'family_member';
+    if (
+      /\b(?:my |our )?(?:wife|husband|spouse|partner|son|daughter|child|children|kids?|mom|mother|dad|father|parent|family|brother|sister|sibling)\b/i.test(
+        transcript,
+      )
+    ) {
+      return "family_member";
     }
-    
+
     const patterns = EXTRACTION_PATTERNS.relationship;
-    
+
     for (const pattern of patterns) {
       const match = transcript.match(pattern);
       if (match) {
         const relationshipType = match[1]?.toLowerCase();
-        
-        if (relationshipType && ['son', 'daughter', 'child', 'children', 'kids', 'kid', 'mom', 'mother', 'dad', 'father', 'parent', 'family'].includes(relationshipType)) {
-          return 'family_member';
+
+        if (
+          relationshipType &&
+          [
+            "son",
+            "daughter",
+            "child",
+            "children",
+            "kids",
+            "kid",
+            "mom",
+            "mother",
+            "dad",
+            "father",
+            "parent",
+            "family",
+          ].includes(relationshipType)
+        ) {
+          return "family_member";
         }
-        
-        if (match[0].toLowerCase().includes('myself') || match[0].toLowerCase().includes('my own')) {
-          return 'myself';
+
+        if (
+          match[0].toLowerCase().includes("myself") ||
+          match[0].toLowerCase().includes("my own")
+        ) {
+          return "myself";
         }
       }
     }
-    
-    return 'myself'; // Default assumption
+
+    return "myself"; // Default assumption
   } catch (error) {
-    console.error('[EXTRACTION_ERROR] Relationship extraction failed:', {
+    console.error("[EXTRACTION_ERROR] Relationship extraction failed:", {
       error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
-    return 'myself'; // Safest default when extraction fails
+
+    return "myself"; // Safest default when extraction fails
   }
 }
 
@@ -863,25 +1369,31 @@ export function extractBeneficiaryRelationship(transcript: string): 'myself' | '
  */
 function parseRomanNumeral(roman: string): number | null {
   const romanMap: { [key: string]: number } = {
-    'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
   };
-  
+
   let result = 0;
   const normalized = roman.toUpperCase();
-  
+
   for (let i = 0; i < normalized.length; i++) {
     const current = romanMap[normalized[i]];
     const next = romanMap[normalized[i + 1]];
-    
+
     if (!current) return null; // Invalid roman numeral
-    
+
     if (next && current < next) {
       result -= current;
     } else {
       result += current;
     }
   }
-  
+
   return result;
 }
 
@@ -890,27 +1402,54 @@ function parseRomanNumeral(roman: string): number | null {
  */
 function parseWrittenNumber(text: string): number | null {
   const numberWords: { [key: string]: number } = {
-    'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
-    'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
-    'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14, 'fifteen': 15,
-    'sixteen': 16, 'seventeen': 17, 'eighteen': 18, 'nineteen': 19, 'twenty': 20,
-    'thirty': 30, 'forty': 40, 'fifty': 50, 'sixty': 60, 'seventy': 70,
-    'eighty': 80, 'ninety': 90, 'hundred': 100, 'thousand': 1000
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+    ten: 10,
+    eleven: 11,
+    twelve: 12,
+    thirteen: 13,
+    fourteen: 14,
+    fifteen: 15,
+    sixteen: 16,
+    seventeen: 17,
+    eighteen: 18,
+    nineteen: 19,
+    twenty: 20,
+    thirty: 30,
+    forty: 40,
+    fifty: 50,
+    sixty: 60,
+    seventy: 70,
+    eighty: 80,
+    ninety: 90,
+    hundred: 100,
+    thousand: 1000,
   };
-  
-  const words = text.toLowerCase().replace(/-/g, ' ').replace(/\band\b/g, '').split(/\s+/);
+
+  const words = text
+    .toLowerCase()
+    .replace(/-/g, " ")
+    .replace(/\band\b/g, "")
+    .split(/\s+/);
   let total = 0;
   let current = 0;
   let lastMultiplier = 1;
-  
+
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
     if (numberWords[word]) {
       const value = numberWords[word];
-      if (word === 'hundred') {
+      if (word === "hundred") {
         current = current === 0 ? 100 : current * 100;
         lastMultiplier = 100;
-      } else if (word === 'thousand') {
+      } else if (word === "thousand") {
         if (current === 0) current = 1;
         total += current * 1000;
         current = 0;
@@ -919,7 +1458,12 @@ function parseWrittenNumber(text: string): number | null {
         // This is a tens number (twenty, thirty, forty, etc.)
         // Check if next word is a single digit to make compound numbers
         const nextWord = words[i + 1];
-        if (nextWord && numberWords[nextWord] && numberWords[nextWord] < 10 && numberWords[nextWord] > 0) {
+        if (
+          nextWord &&
+          numberWords[nextWord] &&
+          numberWords[nextWord] < 10 &&
+          numberWords[nextWord] > 0
+        ) {
           current += value + numberWords[nextWord];
           i++; // Skip next word as we've already processed it
         } else {
@@ -930,7 +1474,7 @@ function parseWrittenNumber(text: string): number | null {
       }
     }
   }
-  
+
   total += current;
   return total > 0 ? total : null;
 }
@@ -939,7 +1483,7 @@ function parseWrittenNumber(text: string): number | null {
  * Parse numeric amount strings with comma handling
  */
 function parseNumericAmount(text: string): number | null {
-  const cleanText = text.replace(/[,$]/g, '');
+  const cleanText = text.replace(/[,$]/g, "");
   const parsed = parseInt(cleanText, 10);
   return isNaN(parsed) ? null : parsed;
 }
@@ -948,27 +1492,28 @@ function parseNumericAmount(text: string): number | null {
  * Jan v4.0: Enhanced urgency extraction using multi-layer urgency engine
  * Addresses the PRIMARY performance blocker (50% → 80%+ target accuracy)
  */
-export function extractUrgency(transcript: string): 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL' {
+export function extractUrgency(
+  transcript: string,
+): "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" {
   try {
     // Input validation
-    if (!transcript || typeof transcript !== 'string') {
-      return 'LOW'; // Safe default
+    if (!transcript || typeof transcript !== "string") {
+      return "LOW"; // Safe default
     }
 
     // Use the new Jan v4.0 urgency assessment engine
     const urgencyEngine = new UrgencyAssessmentEngine();
     const assessment = urgencyEngine.assessUrgency(transcript);
-    
+
     return assessment.urgencyLevel;
-    
   } catch (error) {
-    console.error('[EXTRACTION_ERROR] Urgency extraction failed:', {
+    console.error("[EXTRACTION_ERROR] Urgency extraction failed:", {
       error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
-    return 'LOW'; // Safest default when extraction fails
+
+    return "LOW"; // Safest default when extraction fails
   }
 }
 
@@ -976,51 +1521,53 @@ export function extractUrgency(transcript: string): 'LOW' | 'MEDIUM' | 'HIGH' | 
  * Jan v4.0: Enhanced urgency extraction with full assessment details
  * Provides detailed reasoning and confidence scoring for evaluation/debugging
  */
-export function extractUrgencyWithAssessment(transcript: string, context?: {
-  category?: string;
-  amount?: number;
-}): {
-  urgencyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+export function extractUrgencyWithAssessment(
+  transcript: string,
+  context?: {
+    category?: string;
+    amount?: number;
+  },
+): {
+  urgencyLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
   score: number;
   confidence: number;
   reasons: string[];
   layerScores: any;
 } {
   try {
-    if (!transcript || typeof transcript !== 'string') {
+    if (!transcript || typeof transcript !== "string") {
       return {
-        urgencyLevel: 'LOW',
+        urgencyLevel: "LOW",
         score: 0.0,
         confidence: 0.0,
-        reasons: ['invalid_input'],
-        layerScores: {}
+        reasons: ["invalid_input"],
+        layerScores: {},
       };
     }
 
     const urgencyEngine = new UrgencyAssessmentEngine();
     const assessment = urgencyEngine.assessUrgency(transcript, context);
-    
+
     return {
       urgencyLevel: assessment.urgencyLevel,
       score: assessment.score,
       confidence: assessment.confidence,
       reasons: assessment.reasons,
-      layerScores: assessment.layerScores
+      layerScores: assessment.layerScores,
     };
-    
   } catch (error) {
-    console.error('[EXTRACTION_ERROR] Detailed urgency extraction failed:', {
+    console.error("[EXTRACTION_ERROR] Detailed urgency extraction failed:", {
       error: (error as Error).message,
       transcriptLength: transcript?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
+
     return {
-      urgencyLevel: 'LOW',
+      urgencyLevel: "LOW",
       score: 0.0,
       confidence: 0.0,
-      reasons: ['extraction_failed'],
-      layerScores: {}
+      reasons: ["extraction_failed"],
+      layerScores: {},
     };
   }
 }
@@ -1028,32 +1575,36 @@ export function extractUrgencyWithAssessment(transcript: string, context?: {
 /**
  * Generate sensible default goal amount based on category and urgency
  */
-export function generateDefaultGoalAmount(category: string, urgency: string, transcript: string): number {
+export function generateDefaultGoalAmount(
+  category: string,
+  urgency: string,
+  transcript: string,
+): number {
   const baseAmounts: { [key: string]: number } = {
-    'HOUSING': 3000,
-    'MEDICAL': 5000, 
-    'EMERGENCY': 2500,
-    'FOOD': 500,
-    'EMPLOYMENT': 1000,
-    'EDUCATION': 2000,
-    'TRANSPORTATION': 1500,
-    'CHILDCARE': 1200,
-    'LEGAL': 3500,
-    'BUSINESS': 5000
+    HOUSING: 3000,
+    MEDICAL: 5000,
+    EMERGENCY: 2500,
+    FOOD: 500,
+    EMPLOYMENT: 1000,
+    EDUCATION: 2000,
+    TRANSPORTATION: 1500,
+    CHILDCARE: 1200,
+    LEGAL: 3500,
+    BUSINESS: 5000,
   };
-  
+
   let baseAmount = baseAmounts[category] || 1500;
-  
+
   // Adjust based on urgency
   const urgencyMultipliers: { [key: string]: number } = {
-    'CRITICAL': 1.5,
-    'HIGH': 1.2,
-    'MEDIUM': 1.0,
-    'LOW': 0.8
+    CRITICAL: 1.5,
+    HIGH: 1.2,
+    MEDIUM: 1.0,
+    LOW: 0.8,
   };
-  
+
   const multiplier = urgencyMultipliers[urgency] || 1.0;
-  
+
   // Look for contextual clues in transcript
   const contextualAdjustments: Array<[RegExp, number]> = [
     [/children|kids|family of \d+/i, 1.3],
@@ -1061,9 +1612,9 @@ export function generateDefaultGoalAmount(category: string, urgency: string, tra
     [/rent|mortgage|eviction/i, 1.4],
     [/student|college|education/i, 0.9],
     [/vehicle|car|transportation/i, 0.8],
-    [/business|equipment|inventory/i, 2.0]
+    [/business|equipment|inventory/i, 2.0],
   ];
-  
+
   let contextMultiplier = 1.0;
   for (const [pattern, adjustment] of contextualAdjustments) {
     if (pattern.test(transcript)) {
@@ -1071,9 +1622,9 @@ export function generateDefaultGoalAmount(category: string, urgency: string, tra
       break; // Apply first match only
     }
   }
-  
+
   const finalAmount = Math.round(baseAmount * multiplier * contextMultiplier);
-  
+
   // Round to nearest $50 and cap at reasonable limits
   const rounded = Math.round(finalAmount / 50) * 50;
   return Math.max(300, Math.min(50000, rounded));
@@ -1091,51 +1642,59 @@ export interface GoFundMeDataValidation {
 
 export function validateGoFundMeData(
   title?: string,
-  story?: string, 
+  story?: string,
   goalAmount?: number,
   category?: string,
   beneficiary?: string,
-  transcript?: string
+  transcript?: string,
 ): GoFundMeDataValidation {
   const missing: string[] = [];
   const suggestions: { [field: string]: any } = {};
   let confidence = 1.0;
-  
+
   // Validate title
   if (!title || title.length < 10) {
-    missing.push('title');
+    missing.push("title");
     if (beneficiary && category) {
       suggestions.title = `Help ${beneficiary} with ${category.toLowerCase()} crisis`;
     } else if (category) {
       suggestions.title = `Emergency ${category.toLowerCase()} support needed`;
     } else {
-      suggestions.title = 'Emergency assistance needed';
+      suggestions.title = "Emergency assistance needed";
     }
     confidence -= 0.15;
   }
-  
+
   // Validate story
   if (!story || story.length < 50) {
-    missing.push('story');
+    missing.push("story");
     if (transcript && transcript.length > 20) {
-      suggestions.story = transcript.substring(0, 300) + (transcript.length > 300 ? '...' : '');
+      suggestions.story =
+        transcript.substring(0, 300) + (transcript.length > 300 ? "..." : "");
     } else {
-      suggestions.story = 'Individual facing financial hardship and in need of community support.';
+      suggestions.story =
+        "Individual facing financial hardship and in need of community support.";
     }
     confidence -= 0.2;
   }
-  
+
   // Validate goal amount
   if (!goalAmount || goalAmount <= 0) {
-    missing.push('goalAmount');
+    missing.push("goalAmount");
     if (transcript) {
       const extractedAmount = extractGoalAmount(transcript);
       if (extractedAmount) {
         suggestions.goalAmount = extractedAmount;
       } else {
-        const inferredCategory = category || 'GENERAL';
-        const inferredUrgency = transcript ? extractUrgency(transcript) : 'MEDIUM';
-        suggestions.goalAmount = generateDefaultGoalAmount(inferredCategory, inferredUrgency, transcript || '');
+        const inferredCategory = category || "GENERAL";
+        const inferredUrgency = transcript
+          ? extractUrgency(transcript)
+          : "MEDIUM";
+        suggestions.goalAmount = generateDefaultGoalAmount(
+          inferredCategory,
+          inferredUrgency,
+          transcript || "",
+        );
       }
     } else {
       suggestions.goalAmount = 2500; // Safe default
@@ -1145,36 +1704,37 @@ export function validateGoFundMeData(
     suggestions.goalAmount = Math.max(50, Math.min(100000, goalAmount));
     confidence -= 0.1;
   }
-  
+
   // Validate category
   if (!category) {
-    missing.push('category');
+    missing.push("category");
     if (transcript) {
       const needs = extractNeeds(transcript, 1);
-      suggestions.category = needs.length > 0 ? needs[0].toUpperCase() : 'GENERAL';
+      suggestions.category =
+        needs.length > 0 ? needs[0].toUpperCase() : "GENERAL";
     } else {
-      suggestions.category = 'GENERAL';
+      suggestions.category = "GENERAL";
     }
     confidence -= 0.1;
   }
-  
+
   // Validate beneficiary
   if (!beneficiary) {
-    missing.push('beneficiary');
+    missing.push("beneficiary");
     if (transcript) {
       const extractedName = extractName(transcript);
-      suggestions.beneficiary = extractedName || 'Individual in need';
+      suggestions.beneficiary = extractedName || "Individual in need";
     } else {
-      suggestions.beneficiary = 'Individual in need';
+      suggestions.beneficiary = "Individual in need";
     }
     confidence -= 0.1;
   }
-  
+
   return {
     isComplete: missing.length === 0,
     missingFields: missing,
     suggestions,
-    confidence: Math.max(0, confidence)
+    confidence: Math.max(0, confidence),
   };
 }
 
@@ -1192,7 +1752,7 @@ export function extractAge(transcript: string): number | undefined {
       }
     }
   }
-  
+
   return undefined;
 }
 
@@ -1204,13 +1764,13 @@ export function extractPhone(transcript: string): string | undefined {
     const match = transcript.match(pattern);
     if (match && match[0]) {
       // Normalize format
-      const digits = match[0].replace(/\D/g, '');
+      const digits = match[0].replace(/\D/g, "");
       if (digits.length === 10) {
         return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
       }
     }
   }
-  
+
   return undefined;
 }
 
@@ -1224,7 +1784,7 @@ export function extractEmail(transcript: string): string | undefined {
       return match[0].toLowerCase();
     }
   }
-  
+
   return undefined;
 }
 
@@ -1238,7 +1798,7 @@ export function extractLocation(transcript: string): string | undefined {
       return match[1].trim();
     }
   }
-  
+
   return undefined;
 }
 
@@ -1248,16 +1808,16 @@ export function extractLocation(transcript: string): string | undefined {
 export function scoreKeywords(transcript: string, keywords: string[]): number {
   const text = transcript.toLowerCase();
   let score = 0;
-  
+
   for (const keyword of keywords) {
     // Count occurrences of keyword
-    const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+    const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     const matches = text.match(regex);
     if (matches) {
       score += matches.length;
     }
   }
-  
+
   return score;
 }
 
@@ -1267,41 +1827,137 @@ export function scoreKeywords(transcript: string, keywords: string[]): number {
 export function extractNeeds(transcript: string, topN: number = 3): string[] {
   const normalized = transcript.toLowerCase();
   const scores: Array<{ need: string; score: number }> = [];
-  
+
   // Phase 4C: Category priority tiers — life-threatening categories override keyword frequency
   const PRIORITY_TIERS = {
-    CRITICAL: ['SAFETY'],           // Tier 1: Life-threatening (domestic violence, abuse)
-    HIGH: ['EMERGENCY'],            // Tier 2: Urgent crisis (fire, flood, disaster)
-    MEDIUM: ['HEALTHCARE', 'HOUSING', 'LEGAL'],  // Tier 3: Essential needs
-    LOW: ['EMPLOYMENT', 'EDUCATION', 'FAMILY', 'UTILITIES', 'TRANSPORTATION', 'CHILDCARE', 'MENTAL_HEALTH', 'FOOD'],
-    FALLBACK: ['FINANCIAL', 'CLOTHING', 'GENERAL']  // Tier 5: Catch-all categories
+    CRITICAL: ["SAFETY"], // Tier 1: Life-threatening (domestic violence, abuse)
+    HIGH: ["EMERGENCY"], // Tier 2: Urgent crisis (fire, flood, disaster)
+    MEDIUM: ["HEALTHCARE", "HOUSING", "LEGAL"], // Tier 3: Essential needs
+    LOW: [
+      "EMPLOYMENT",
+      "EDUCATION",
+      "FAMILY",
+      "UTILITIES",
+      "TRANSPORTATION",
+      "CHILDCARE",
+      "MENTAL_HEALTH",
+      "FOOD",
+    ],
+    FALLBACK: ["FINANCIAL", "CLOTHING", "GENERAL"], // Tier 5: Catch-all categories
   };
-  
+
   // Phase 4C: Negation patterns — subtract score if category is explicitly negated
   const negationPatterns = [
-    { category: 'HEALTHCARE', patterns: ['not medical', 'not health', "isn't medical", "isn't health", 'not a medical'] },
-    { category: 'HOUSING', patterns: ['not housing', "isn't housing", 'not about housing', 'not related to housing'] },
-    { category: 'EMPLOYMENT', patterns: ['not job', 'not employment', 'not work related'] },
-    { category: 'LEGAL', patterns: ['not legal', "isn't legal", 'not a legal'] },
+    {
+      category: "HEALTHCARE",
+      patterns: [
+        "not medical",
+        "not health",
+        "isn't medical",
+        "isn't health",
+        "not a medical",
+      ],
+    },
+    {
+      category: "HOUSING",
+      patterns: [
+        "not housing",
+        "isn't housing",
+        "not about housing",
+        "not related to housing",
+      ],
+    },
+    {
+      category: "EMPLOYMENT",
+      patterns: ["not job", "not employment", "not work related"],
+    },
+    {
+      category: "LEGAL",
+      patterns: ["not legal", "isn't legal", "not a legal"],
+    },
   ];
-  
+
   // Phase 4C: Explicit category markers — strong boost when category is explicitly stated
   const explicitMarkers = [
-    { category: 'EMERGENCY', patterns: ['this is an emergency', 'emergency situation', 'emergency!', 'crisis!'] },
-    { category: 'SAFETY', patterns: ['domestic violence', 'violent', 'abuse', 'threatened', 'danger', 'need to escape', 'need to get out'] },
-    { category: 'LEGAL', patterns: ['need legal', 'lawyer', 'attorney', 'court case', 'legal help'] },
+    {
+      category: "EMERGENCY",
+      patterns: [
+        "this is an emergency",
+        "emergency situation",
+        "emergency!",
+        "crisis!",
+      ],
+    },
+    {
+      category: "SAFETY",
+      patterns: [
+        "domestic violence",
+        "violent",
+        "abuse",
+        "threatened",
+        "danger",
+        "need to escape",
+        "need to get out",
+      ],
+    },
+    {
+      category: "LEGAL",
+      patterns: [
+        "need legal",
+        "lawyer",
+        "attorney",
+        "court case",
+        "legal help",
+      ],
+    },
   ];
-  
+
   // Phase 5: Employment context suppression — when job loss is mentioned but actual need is different
   const employmentContextPatterns = [
-    'lost my job', 'got laid off', 'got fired', 'unemployed', 'need a job', 'looking for work'
+    "lost my job",
+    "got laid off",
+    "got fired",
+    "unemployed",
+    "need a job",
+    "looking for work",
   ];
   const primaryNeedIndicators = [
-    { category: 'HOUSING', patterns: ['rent', 'apartment', 'eviction', 'evicted', 'housing', 'place to stay'] },
-    { category: 'EDUCATION', patterns: ['tuition', 'school', 'training', 'certification', 'degree', 'program', 'classes'] },
-    { category: 'HEALTHCARE', patterns: ['medical', 'hospital', 'doctor', 'surgery', 'medication', 'treatment'] },
+    {
+      category: "HOUSING",
+      patterns: [
+        "rent",
+        "apartment",
+        "eviction",
+        "evicted",
+        "housing",
+        "place to stay",
+      ],
+    },
+    {
+      category: "EDUCATION",
+      patterns: [
+        "tuition",
+        "school",
+        "training",
+        "certification",
+        "degree",
+        "program",
+        "classes",
+      ],
+    },
+    {
+      category: "HEALTHCARE",
+      patterns: [
+        "medical",
+        "hospital",
+        "doctor",
+        "surgery",
+        "medication",
+        "treatment",
+      ],
+    },
   ];
-  
+
   // Detect if employment is just context vs. primary need
   let employmentIsContext = false;
   for (const marker of primaryNeedIndicators) {
@@ -1319,16 +1975,16 @@ export function extractNeeds(transcript: string, topN: number = 3): string[] {
     }
     if (employmentIsContext) break;
   }
-  
+
   // Score each category by keyword frequency
   for (const [need, keywords] of Object.entries(NEEDS_KEYWORDS)) {
     let score = scoreKeywords(transcript, keywords);
-    
+
     // Phase 5: Suppress EMPLOYMENT when it's just context (e.g., "lost my job but need rent")
-    if (need === 'EMPLOYMENT' && employmentIsContext && score > 0) {
+    if (need === "EMPLOYMENT" && employmentIsContext && score > 0) {
       score = Math.max(score - 5, 0); // Heavy penalty but not elimination
     }
-    
+
     // Apply negation penalty (-100 effectively removes category from consideration)
     for (const negation of negationPatterns) {
       if (negation.category === need) {
@@ -1340,7 +1996,7 @@ export function extractNeeds(transcript: string, topN: number = 3): string[] {
         }
       }
     }
-    
+
     // Apply explicit marker boost (+50 makes it highly competitive)
     for (const marker of explicitMarkers) {
       if (marker.category === need) {
@@ -1352,56 +2008,60 @@ export function extractNeeds(transcript: string, topN: number = 3): string[] {
         }
       }
     }
-    
+
     if (score > 0) {
       scores.push({ need, score });
     }
   }
-  
+
   // Phase 5: If no category scored (all zero), return OTHER as ultimate fallback
-  if (scores.length === 0 || scores.every(s => s.score <= 0)) {
-    return ['OTHER'];
+  if (scores.length === 0 || scores.every((s) => s.score <= 0)) {
+    return ["OTHER"];
   }
-  
+
   // Sort by score descending
   scores.sort((a, b) => b.score - a.score);
-  
+
   // Phase 4C: Priority tier enforcement — if a higher-tier category scores reasonably well, it wins
-  const tierOrder = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'FALLBACK'];
+  const tierOrder = ["CRITICAL", "HIGH", "MEDIUM", "LOW", "FALLBACK"];
   const categoryTier = (category: string): number => {
     for (let i = 0; i < tierOrder.length; i++) {
-      if (PRIORITY_TIERS[tierOrder[i] as keyof typeof PRIORITY_TIERS].includes(category)) {
+      if (
+        PRIORITY_TIERS[tierOrder[i] as keyof typeof PRIORITY_TIERS].includes(
+          category,
+        )
+      ) {
         return i;
       }
     }
     return tierOrder.length; // Unknown categories go last
   };
-  
+
   // Get top score for reference
   const topScore = scores.length > 0 ? scores[0].score : 0;
-  
+
   // Re-sort with priority tier logic: higher tier wins if score is within 30% of top score
   scores.sort((a, b) => {
     const aTier = categoryTier(a.need);
     const bTier = categoryTier(b.need);
-    
+
     // If both categories score reasonably well (within 30% of top)
     const aCompetitive = a.score >= topScore * 0.7;
     const bCompetitive = b.score >= topScore * 0.7;
-    
+
     if (aCompetitive && bCompetitive) {
       // Both competitive — higher priority tier wins
       if (aTier !== bTier) {
         return aTier - bTier; // Lower tier number = higher priority
       }
     }
-    
+
     // Otherwise fall back to score-based sorting
     return b.score - a.score;
   });
-  
+
   // Return top N needs
-  return scores.slice(0, topN).map(s => s.need);
+  return scores.slice(0, topN).map((s) => s.need);
 }
 
 /**
@@ -1409,19 +2069,19 @@ export function extractNeeds(transcript: string, topN: number = 3): string[] {
  */
 export function extractSkills(transcript: string, topN: number = 5): string[] {
   const scores: Array<{ skill: string; score: number }> = [];
-  
+
   for (const [skill, keywords] of Object.entries(SKILLS_KEYWORDS)) {
     const score = scoreKeywords(transcript, keywords);
     if (score > 0) {
       scores.push({ skill, score });
     }
   }
-  
+
   // Sort by score descending
   scores.sort((a, b) => b.score - a.score);
-  
+
   // Return top N skills
-  return scores.slice(0, topN).map(s => s.skill);
+  return scores.slice(0, topN).map((s) => s.skill);
 }
 
 /**
@@ -1432,16 +2092,16 @@ export function calculateConfidence(
   age?: number,
   needs?: string[],
   phone?: string,
-  email?: string
+  email?: string,
 ): number {
   let confidence = 0;
-  
+
   if (name) confidence += 25;
   if (age) confidence += 15;
   if (needs && needs.length > 0) confidence += 30;
   if (phone) confidence += 15;
   if (email) confidence += 15;
-  
+
   return Math.min(confidence, 95); // Cap at 95% (never 100% for rules-based)
 }
 
@@ -1451,19 +2111,20 @@ export function calculateConfidence(
 export function generateTemplateSummary(
   name: string | undefined,
   needs: string[],
-  transcriptLength: number
+  transcriptLength: number,
 ): string {
-  const nameStr = name || 'A community member';
-  const needsStr = needs.length > 0 
-    ? needs.map(n => n.replace('_', ' ').toLowerCase()).join(', ')
-    : 'general support';
-  
-  const date = new Date().toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  const nameStr = name || "A community member";
+  const needsStr =
+    needs.length > 0
+      ? needs.map((n) => n.replace("_", " ").toLowerCase()).join(", ")
+      : "general support";
+
+  const date = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
-  
+
   return `${nameStr} is seeking support related to: ${needsStr}. They shared their story on ${date}. Further details can be added below.`;
 }
 
@@ -1475,8 +2136,8 @@ export function extractAllWithTelemetry(transcript: string): {
   results: {
     name: { value: string | null; confidence: number };
     amount: { value: number | null; confidence: number };
-    relationship: 'myself' | 'family_member' | 'other';
-    urgency: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+    relationship: "myself" | "family_member" | "other";
+    urgency: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
     age?: number;
     phone?: string;
     email?: string;
@@ -1502,7 +2163,7 @@ export function extractAllWithTelemetry(transcript: string): {
     const amountResult = extractGoalAmountWithConfidence(transcript);
     const relationship = extractBeneficiaryRelationship(transcript);
     const urgency = extractUrgency(transcript);
-    
+
     // Optional fields
     const age = extractAge(transcript);
     const phone = extractPhone(transcript);
@@ -1510,15 +2171,21 @@ export function extractAllWithTelemetry(transcript: string): {
     const location = extractLocation(transcript);
 
     // Track fallback usage
-    if (nameResult.confidence <= 0.1) fallbacksUsed.push('name_fallback');
-    if (amountResult.confidence <= 0.1) fallbacksUsed.push('amount_fallback');
-    
+    if (nameResult.confidence <= 0.1) fallbacksUsed.push("name_fallback");
+    if (amountResult.confidence <= 0.1) fallbacksUsed.push("amount_fallback");
+
     // Calculate quality score
     const extractedFields = {
-      name: { extracted: nameResult.value !== null, confidence: nameResult.confidence },
-      amount: { extracted: amountResult.value !== null, confidence: amountResult.confidence },
+      name: {
+        extracted: nameResult.value !== null,
+        confidence: nameResult.confidence,
+      },
+      amount: {
+        extracted: amountResult.value !== null,
+        confidence: amountResult.confidence,
+      },
       relationship: { extracted: true, value: relationship },
-      urgency: { extracted: true, value: urgency }
+      urgency: { extracted: true, value: urgency },
     };
 
     const qualityScore = calculateQualityScore(extractedFields);
@@ -1531,13 +2198,19 @@ export function extractAllWithTelemetry(transcript: string): {
       extractedFields,
       fallbacksUsed,
       errorCount,
-      qualityScore
+      qualityScore,
     });
 
     // Calculate data quality indicators
-    const hasFillerWords = /\b(?:uh|um|like|you know|basically|literally|actually|kinda|sorta|i mean)\b/i.test(transcript);
-    const hasUncertainty = /\b(?:maybe|perhaps|possibly|probably|i think|i guess|not sure|unsure)\b/i.test(transcript);
-    
+    const hasFillerWords =
+      /\b(?:uh|um|like|you know|basically|literally|actually|kinda|sorta|i mean)\b/i.test(
+        transcript,
+      );
+    const hasUncertainty =
+      /\b(?:maybe|perhaps|possibly|probably|i think|i guess|not sure|unsure)\b/i.test(
+        transcript,
+      );
+
     return {
       results: {
         name: nameResult,
@@ -1547,7 +2220,7 @@ export function extractAllWithTelemetry(transcript: string): {
         age,
         phone,
         email,
-        location
+        location,
       },
       metrics: {
         sessionId,
@@ -1555,14 +2228,13 @@ export function extractAllWithTelemetry(transcript: string): {
         qualityScore,
         fallbacksUsed,
         hasFillerWords,
-        hasUncertainty
-      }
+        hasUncertainty,
+      },
     };
-
   } catch (error) {
     errorCount++;
     const extractionDuration = Date.now() - startTime;
-    
+
     // Record failed extraction metrics
     TelemetryCollector.getInstance().recordParsingMetrics(sessionId, {
       extractionDuration,
@@ -1570,15 +2242,14 @@ export function extractAllWithTelemetry(transcript: string): {
       extractedFields: {
         name: { extracted: false, confidence: 0 },
         amount: { extracted: false, confidence: 0 },
-        relationship: { extracted: false, value: 'myself' },
-        urgency: { extracted: false, value: 'LOW' }
+        relationship: { extracted: false, value: "myself" },
+        urgency: { extracted: false, value: "LOW" },
       },
-      fallbacksUsed: ['complete_failure'],
+      fallbacksUsed: ["complete_failure"],
       errorCount,
-      qualityScore: 0
+      qualityScore: 0,
     });
 
     throw error;
   }
 }
-

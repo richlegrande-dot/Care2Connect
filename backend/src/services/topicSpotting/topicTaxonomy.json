@@ -1,7 +1,16 @@
 {
   "gofundme": {
     "title": {
-      "keywords": ["help", "support", "need", "save", "raise", "fund", "fundraiser", "campaign"],
+      "keywords": [
+        "help",
+        "support",
+        "need",
+        "save",
+        "raise",
+        "fund",
+        "fundraiser",
+        "campaign"
+      ],
       "patterns": [
         "help {name} {action}",
         "support {name}",
@@ -11,7 +20,18 @@
       "maxLength": 100
     },
     "beneficiary": {
-      "keywords": ["myself", "my family", "my son", "my daughter", "my mother", "my father", "my wife", "my husband", "for me", "for us"],
+      "keywords": [
+        "myself",
+        "my family",
+        "my son",
+        "my daughter",
+        "my mother",
+        "my father",
+        "my wife",
+        "my husband",
+        "for me",
+        "for us"
+      ],
       "patterns": [
         "for {relationship}",
         "helping {name}",
@@ -20,14 +40,87 @@
       ]
     },
     "category": {
-      "medical": ["medical", "hospital", "surgery", "treatment", "cancer", "illness", "disease", "health", "doctor", "medication", "therapy"],
-      "housing": ["housing", "rent", "apartment", "homeless", "eviction", "shelter", "home", "place to live", "first month", "deposit"],
-      "emergency": ["emergency", "urgent", "crisis", "disaster", "fire", "flood", "accident", "sudden"],
-      "education": ["education", "tuition", "school", "college", "university", "student", "scholarship", "books"],
-      "memorial": ["memorial", "funeral", "burial", "passed away", "died", "death", "loved one", "loss"],
-      "community": ["community", "neighborhood", "local", "organization", "nonprofit", "charity", "group"],
-      "family": ["family", "children", "kids", "child", "baby", "parent", "relatives"],
-      "business": ["business", "startup", "small business", "company", "shop", "store"],
+      "medical": [
+        "medical",
+        "hospital",
+        "surgery",
+        "treatment",
+        "cancer",
+        "illness",
+        "disease",
+        "health",
+        "doctor",
+        "medication",
+        "therapy"
+      ],
+      "housing": [
+        "housing",
+        "rent",
+        "apartment",
+        "homeless",
+        "eviction",
+        "shelter",
+        "home",
+        "place to live",
+        "first month",
+        "deposit"
+      ],
+      "emergency": [
+        "emergency",
+        "urgent",
+        "crisis",
+        "disaster",
+        "fire",
+        "flood",
+        "accident",
+        "sudden"
+      ],
+      "education": [
+        "education",
+        "tuition",
+        "school",
+        "college",
+        "university",
+        "student",
+        "scholarship",
+        "books"
+      ],
+      "memorial": [
+        "memorial",
+        "funeral",
+        "burial",
+        "passed away",
+        "died",
+        "death",
+        "loved one",
+        "loss"
+      ],
+      "community": [
+        "community",
+        "neighborhood",
+        "local",
+        "organization",
+        "nonprofit",
+        "charity",
+        "group"
+      ],
+      "family": [
+        "family",
+        "children",
+        "kids",
+        "child",
+        "baby",
+        "parent",
+        "relatives"
+      ],
+      "business": [
+        "business",
+        "startup",
+        "small business",
+        "company",
+        "shop",
+        "store"
+      ],
       "other": []
     },
     "location": {
@@ -39,7 +132,15 @@
         "{city}, {state}",
         "{state}"
       ],
-      "keywords": ["city", "town", "state", "located", "living", "residing", "from"]
+      "keywords": [
+        "city",
+        "town",
+        "state",
+        "located",
+        "living",
+        "residing",
+        "from"
+      ]
     },
     "goalAmount": {
       "patterns": [
@@ -55,11 +156,39 @@
     "story": {
       "sections": {
         "introduction": ["my name is", "I am", "I'm", "we are"],
-        "situation": ["currently", "right now", "facing", "experiencing", "going through", "dealing with"],
-        "need": ["need", "require", "looking for", "trying to", "hoping to", "want to"],
+        "situation": [
+          "currently",
+          "right now",
+          "facing",
+          "experiencing",
+          "going through",
+          "dealing with"
+        ],
+        "need": [
+          "need",
+          "require",
+          "looking for",
+          "trying to",
+          "hoping to",
+          "want to"
+        ],
         "background": ["years", "experience", "worked", "been", "have", "had"],
-        "impact": ["help", "allow", "enable", "support", "make it possible", "give me", "provide"],
-        "gratitude": ["thank you", "grateful", "appreciate", "thankful", "bless"]
+        "impact": [
+          "help",
+          "allow",
+          "enable",
+          "support",
+          "make it possible",
+          "give me",
+          "provide"
+        ],
+        "gratitude": [
+          "thank you",
+          "grateful",
+          "appreciate",
+          "thankful",
+          "bless"
+        ]
       }
     }
   },

@@ -1,14 +1,14 @@
-import { PrismaClient } from '@prisma/client';
-import { EncryptionService } from '../utils/encryption';
+import { PrismaClient } from "@prisma/client";
+import { EncryptionService } from "../utils/encryption";
 
 // Prisma middleware for automatic encryption/decryption
 export const encryptionMiddleware = (prisma: PrismaClient) => {
   // Fields that should be encrypted
   const encryptedFields = {
-    User: ['email', 'phone'],
-    Profile: ['healthNotes'],
+    User: ["email", "phone"],
+    Profile: ["healthNotes"],
     Message: [], // Messages are not encrypted to allow AI processing
-    Donation: ['donorEmail'],
+    Donation: ["donorEmail"],
   };
 
   // Middleware for encrypting data before write operations
@@ -16,12 +16,17 @@ export const encryptionMiddleware = (prisma: PrismaClient) => {
     const { model, action, args } = params;
 
     // Encrypt data before creating or updating
-    if (['create', 'update', 'upsert'].includes(action) && model && encryptedFields[model as keyof typeof encryptedFields]) {
-      const fieldsToEncrypt = encryptedFields[model as keyof typeof encryptedFields];
-      
+    if (
+      ["create", "update", "upsert"].includes(action) &&
+      model &&
+      encryptedFields[model as keyof typeof encryptedFields]
+    ) {
+      const fieldsToEncrypt =
+        encryptedFields[model as keyof typeof encryptedFields];
+
       if (args.data) {
-        fieldsToEncrypt.forEach(field => {
-          if (args.data[field] && typeof args.data[field] === 'string') {
+        fieldsToEncrypt.forEach((field) => {
+          if (args.data[field] && typeof args.data[field] === "string") {
             try {
               const encrypted = EncryptionService.encrypt(args.data[field]);
               args.data[field] = JSON.stringify(encrypted);
@@ -36,14 +41,19 @@ export const encryptionMiddleware = (prisma: PrismaClient) => {
     const result = await next(params);
 
     // Decrypt data after read operations
-    if (['findUnique', 'findFirst', 'findMany'].includes(action) && model && encryptedFields[model as keyof typeof encryptedFields]) {
-      const fieldsToDecrypt = encryptedFields[model as keyof typeof encryptedFields];
-      
+    if (
+      ["findUnique", "findFirst", "findMany"].includes(action) &&
+      model &&
+      encryptedFields[model as keyof typeof encryptedFields]
+    ) {
+      const fieldsToDecrypt =
+        encryptedFields[model as keyof typeof encryptedFields];
+
       const decryptRecord = (record: any) => {
         if (!record) return record;
-        
-        fieldsToDecrypt.forEach(field => {
-          if (record[field] && typeof record[field] === 'string') {
+
+        fieldsToDecrypt.forEach((field) => {
+          if (record[field] && typeof record[field] === "string") {
             try {
               const encryptedData = JSON.parse(record[field]);
               record[field] = EncryptionService.decrypt(encryptedData);
@@ -53,7 +63,7 @@ export const encryptionMiddleware = (prisma: PrismaClient) => {
             }
           }
         });
-        
+
         return record;
       };
 
@@ -72,11 +82,11 @@ export const encryptionMiddleware = (prisma: PrismaClient) => {
     const { model, action } = params;
 
     // If this is a request for anonymized data (marked by special flag)
-    if (params.args?.anonymize && ['findMany', 'findUnique'].includes(action)) {
+    if (params.args?.anonymize && ["findMany", "findUnique"].includes(action)) {
       const result = await next(params);
-      
+
       if (Array.isArray(result)) {
-        return result.map(record => EncryptionService.anonymizeData(record));
+        return result.map((record) => EncryptionService.anonymizeData(record));
       } else {
         return EncryptionService.anonymizeData(result);
       }
@@ -90,12 +100,17 @@ export const encryptionMiddleware = (prisma: PrismaClient) => {
     const { model, action, args } = params;
 
     // Log sensitive operations
-    const sensitiveActions = ['create', 'update', 'delete'];
-    const sensitiveModels = ['User', 'Profile', 'Message'];
+    const sensitiveActions = ["create", "update", "delete"];
+    const sensitiveModels = ["User", "Profile", "Message"];
 
-    if (sensitiveActions.includes(action) && sensitiveModels.includes(model || '')) {
-      console.log(`[AUDIT] ${action.toUpperCase()} on ${model} at ${new Date().toISOString()}`);
-      
+    if (
+      sensitiveActions.includes(action) &&
+      sensitiveModels.includes(model || "")
+    ) {
+      console.log(
+        `[AUDIT] ${action.toUpperCase()} on ${model} at ${new Date().toISOString()}`,
+      );
+
       // In production, you might want to send this to a dedicated audit log service
       // await auditLogService.log({
       //   action,
@@ -140,7 +155,7 @@ export class DataRetentionService {
       console.log(`Cleaned up ${deletedFiles.count} old audio files`);
       return deletedFiles.count;
     } catch (error) {
-      console.error('Failed to cleanup old audio files:', error);
+      console.error("Failed to cleanup old audio files:", error);
       return 0;
     }
   }
@@ -177,12 +192,12 @@ export class DataRetentionService {
             where: { id: user.profile.id },
             data: {
               name: null,
-              transcript: '[ANONYMIZED]',
-              bio: '[ANONYMIZED]',
+              transcript: "[ANONYMIZED]",
+              bio: "[ANONYMIZED]",
               healthNotes: null,
               // Keep aggregated, non-identifying data for statistics
               skills: [], // Remove specific skills
-              tags: ['anonymized'],
+              tags: ["anonymized"],
             },
           });
         }
@@ -203,7 +218,7 @@ export class DataRetentionService {
       console.log(`Anonymized ${anonymizedCount} old user records`);
       return anonymizedCount;
     } catch (error) {
-      console.error('Failed to anonymize old user data:', error);
+      console.error("Failed to anonymize old user data:", error);
       return 0;
     }
   }
@@ -227,7 +242,7 @@ export class DataRetentionService {
       console.log(`Cleaned up ${deletedMessages.count} old messages`);
       return deletedMessages.count;
     } catch (error) {
-      console.error('Failed to cleanup old messages:', error);
+      console.error("Failed to cleanup old messages:", error);
       return 0;
     }
   }
@@ -236,8 +251,8 @@ export class DataRetentionService {
    * Run all cleanup tasks
    */
   async runMaintenance() {
-    console.log('Starting data retention maintenance...');
-    
+    console.log("Starting data retention maintenance...");
+
     const results = await Promise.allSettled([
       this.cleanupOldAudioFiles(),
       this.anonymizeOldUserData(),
@@ -245,14 +260,16 @@ export class DataRetentionService {
     ]);
 
     results.forEach((result, index) => {
-      const taskName = ['Audio Files', 'User Data', 'Messages'][index];
-      if (result.status === 'rejected') {
+      const taskName = ["Audio Files", "User Data", "Messages"][index];
+      if (result.status === "rejected") {
         console.error(`${taskName} cleanup failed:`, result.reason);
       } else {
-        console.log(`${taskName} cleanup completed: ${result.value} items processed`);
+        console.log(
+          `${taskName} cleanup completed: ${result.value} items processed`,
+        );
       }
     });
 
-    console.log('Data retention maintenance completed');
+    console.log("Data retention maintenance completed");
   }
 }

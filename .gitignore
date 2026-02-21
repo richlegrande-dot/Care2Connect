@@ -63,3 +63,6 @@ outreach/generated/
 playwright-report/
 test-results/
 
+# Runtime artifacts
+health-status.json
+

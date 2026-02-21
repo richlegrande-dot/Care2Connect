@@ -3,15 +3,15 @@
  * Tests support ticket submission with SMTP and mailto fallback
  */
 
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import HelpModal from '../../components/funding-wizard/HelpModal';
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import HelpModal from "../../components/funding-wizard/HelpModal";
 
 // Mock fetch globally
 global.fetch = jest.fn();
 
-describe('HelpModal - Support Ticket Submission', () => {
+describe("HelpModal - Support Ticket Submission", () => {
   const mockOnClose = jest.fn();
 
   beforeEach(() => {
@@ -19,18 +19,18 @@ describe('HelpModal - Support Ticket Submission', () => {
     (global.fetch as jest.Mock).mockReset();
   });
 
-  describe('SMTP Email Path (Success)', () => {
-    it('submits ticket and shows success message when SMTP configured', async () => {
+  describe("SMTP Email Path (Success)", () => {
+    it("submits ticket and shows success message when SMTP configured", async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           success: true,
-          message: 'Support ticket submitted and sent via email.',
+          message: "Support ticket submitted and sent via email.",
           ticket: {
-            id: 'TICKET-123',
-            timestamp: '2024-01-01T00:00:00.000Z'
-          }
-        })
+            id: "TICKET-123",
+            timestamp: "2024-01-01T00:00:00.000Z",
+          },
+        }),
       });
 
       render(
@@ -39,36 +39,40 @@ describe('HelpModal - Support Ticket Submission', () => {
           onClose={mockOnClose}
           context="GoFundMe Setup Issues"
           clientId="test-client-789"
-        />
+        />,
       );
 
       // Select issue type
       const issueTypeSelect = screen.getByLabelText(/what.*help with/i);
-      fireEvent.change(issueTypeSelect, { target: { value: 'gofundme_blocked' } });
+      fireEvent.change(issueTypeSelect, {
+        target: { value: "gofundme_blocked" },
+      });
 
       // Enter description
       const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'I cannot access my GoFundMe account after setup' } 
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "I cannot access my GoFundMe account after setup" },
       });
 
       // Optional: Enter email
       const emailInput = screen.getByLabelText(/email.*optional/i);
-      fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
+      fireEvent.change(emailInput, { target: { value: "user@example.com" } });
 
       // Submit form
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
       fireEvent.click(submitButton);
 
       // Verify API call
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
-          '/api/support/tickets',
+          "/api/support/tickets",
           expect.objectContaining({
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: expect.stringContaining('gofundme_blocked')
-          })
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: expect.stringContaining("gofundme_blocked"),
+          }),
         );
       });
 
@@ -79,13 +83,13 @@ describe('HelpModal - Support Ticket Submission', () => {
       });
     });
 
-    it('includes context and clientId in submission', async () => {
+    it("includes context and clientId in submission", async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           success: true,
-          ticket: { id: 'TICKET-456', timestamp: new Date().toISOString() }
-        })
+          ticket: { id: "TICKET-456", timestamp: new Date().toISOString() },
+        }),
       });
 
       render(
@@ -94,47 +98,53 @@ describe('HelpModal - Support Ticket Submission', () => {
           onClose={mockOnClose}
           context="QR Code Generation Step"
           clientId="test-client-999"
-        />
+        />,
       );
 
       const issueTypeSelect = screen.getByLabelText(/what.*help with/i);
-      fireEvent.change(issueTypeSelect, { target: { value: 'qr_problem' } });
+      fireEvent.change(issueTypeSelect, { target: { value: "qr_problem" } });
 
       const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'QR code is not displaying properly' } 
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "QR code is not displaying properly" },
       });
 
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalled();
       });
 
-      const callBody = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body);
-      expect(callBody.context).toBe('QR Code Generation Step');
-      expect(callBody.clientId).toBe('test-client-999');
-      expect(callBody.issueType).toBe('qr_problem');
+      const callBody = JSON.parse(
+        (global.fetch as jest.Mock).mock.calls[0][1].body,
+      );
+      expect(callBody.context).toBe("QR Code Generation Step");
+      expect(callBody.clientId).toBe("test-client-999");
+      expect(callBody.issueType).toBe("qr_problem");
     });
   });
 
-  describe('SMTP Not Configured (Mailto Fallback)', () => {
-    it('shows mailto fallback when SMTP not configured', async () => {
+  describe("SMTP Not Configured (Mailto Fallback)", () => {
+    it("shows mailto fallback when SMTP not configured", async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           success: true,
-          message: 'Support ticket saved locally.',
+          message: "Support ticket saved locally.",
           ticket: {
-            id: 'TICKET-789',
-            timestamp: '2024-01-01T00:00:00.000Z'
+            id: "TICKET-789",
+            timestamp: "2024-01-01T00:00:00.000Z",
           },
           fallback: {
-            mailto: 'mailto:workflown8n@gmail.com?subject=Support%20Ticket%20TICKET-789&body=Issue%20details',
-            instructions: 'Click the link below to send via your default email client'
-          }
-        })
+            mailto:
+              "mailto:workflown8n@gmail.com?subject=Support%20Ticket%20TICKET-789&body=Issue%20details",
+            instructions:
+              "Click the link below to send via your default email client",
+          },
+        }),
       });
 
       render(
@@ -143,18 +153,20 @@ describe('HelpModal - Support Ticket Submission', () => {
           onClose={mockOnClose}
           context="Funding Wizard"
           clientId="test-client-fallback"
-        />
+        />,
       );
 
       const issueTypeSelect = screen.getByLabelText(/what.*help with/i);
-      fireEvent.change(issueTypeSelect, { target: { value: 'other' } });
+      fireEvent.change(issueTypeSelect, { target: { value: "other" } });
 
       const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'General question about the funding process' } 
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "General question about the funding process" },
       });
 
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -168,24 +180,29 @@ describe('HelpModal - Support Ticket Submission', () => {
       });
 
       // Verify mailto link exists
-      const mailtoLink = screen.getByRole('link', { name: /open.*email/i });
-      expect(mailtoLink).toHaveAttribute('href', expect.stringContaining('mailto:workflown8n@gmail.com'));
+      const mailtoLink = screen.getByRole("link", { name: /open.*email/i });
+      expect(mailtoLink).toHaveAttribute(
+        "href",
+        expect.stringContaining("mailto:workflown8n@gmail.com"),
+      );
     });
   });
 
-  describe('Validation', () => {
-    it('requires description before submission', async () => {
+  describe("Validation", () => {
+    it("requires description before submission", async () => {
       render(
         <HelpModal
           isOpen={true}
           onClose={mockOnClose}
           context="Test"
           clientId="test-validation"
-        />
+        />,
       );
 
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
-      
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
+
       // Try to submit with empty description
       fireEvent.click(submitButton);
 
@@ -193,14 +210,14 @@ describe('HelpModal - Support Ticket Submission', () => {
       expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    it('requires issue type selection', async () => {
+    it("requires issue type selection", async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
         status: 400,
         json: async () => ({
           success: false,
-          errors: [{ msg: 'issueType is required' }]
-        })
+          errors: [{ msg: "issueType is required" }],
+        }),
       });
 
       render(
@@ -209,16 +226,18 @@ describe('HelpModal - Support Ticket Submission', () => {
           onClose={mockOnClose}
           context="Test"
           clientId="test-validation"
-        />
+        />,
       );
 
       // Enter description but don't select issue type
       const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'Some problem description' } 
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "Some problem description" },
       });
 
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -231,37 +250,39 @@ describe('HelpModal - Support Ticket Submission', () => {
       });
     });
 
-    it('validates email format when provided', async () => {
+    it("validates email format when provided", async () => {
       render(
         <HelpModal
           isOpen={true}
           onClose={mockOnClose}
           context="Test"
           clientId="test-email-validation"
-        />
+        />,
       );
 
       const issueTypeSelect = screen.getByLabelText(/what.*help with/i);
-      fireEvent.change(issueTypeSelect, { target: { value: 'other' } });
+      fireEvent.change(issueTypeSelect, { target: { value: "other" } });
 
       const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'Test description for email validation' } 
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "Test description for email validation" },
       });
 
       // Enter invalid email
       const emailInput = screen.getByLabelText(/email.*optional/i);
-      fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
+      fireEvent.change(emailInput, { target: { value: "invalid-email" } });
 
       // HTML5 validation should prevent submission or backend will reject
       // This test verifies the email field has type="email"
-      expect(emailInput).toHaveAttribute('type', 'email');
+      expect(emailInput).toHaveAttribute("type", "email");
     });
   });
 
-  describe('Error Handling', () => {
-    it('shows error message on network failure', async () => {
-      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+  describe("Error Handling", () => {
+    it("shows error message on network failure", async () => {
+      (global.fetch as jest.Mock).mockRejectedValueOnce(
+        new Error("Network error"),
+      );
 
       render(
         <HelpModal
@@ -269,18 +290,22 @@ describe('HelpModal - Support Ticket Submission', () => {
           onClose={mockOnClose}
           context="Test"
           clientId="test-error"
-        />
+        />,
       );
 
       const issueTypeSelect = screen.getByLabelText(/what.*help with/i);
-      fireEvent.change(issueTypeSelect, { target: { value: 'transcription_problem' } });
-
-      const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'Transcription is not working correctly' } 
+      fireEvent.change(issueTypeSelect, {
+        target: { value: "transcription_problem" },
       });
 
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
+      const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "Transcription is not working correctly" },
+      });
+
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -293,7 +318,7 @@ describe('HelpModal - Support Ticket Submission', () => {
       });
     });
 
-    it('disables submit button while submitting', async () => {
+    it("disables submit button while submitting", async () => {
       let resolveRequest: any;
       const requestPromise = new Promise((resolve) => {
         resolveRequest = resolve;
@@ -307,19 +332,21 @@ describe('HelpModal - Support Ticket Submission', () => {
           onClose={mockOnClose}
           context="Test"
           clientId="test-loading"
-        />
+        />,
       );
 
       const issueTypeSelect = screen.getByLabelText(/what.*help with/i);
-      fireEvent.change(issueTypeSelect, { target: { value: 'other' } });
+      fireEvent.change(issueTypeSelect, { target: { value: "other" } });
 
       const descriptionTextarea = screen.getByLabelText(/describe.*problem/i);
-      fireEvent.change(descriptionTextarea, { 
-        target: { value: 'Test loading state' } 
+      fireEvent.change(descriptionTextarea, {
+        target: { value: "Test loading state" },
       });
 
-      const submitButton = screen.getByRole('button', { name: /send.*message/i });
-      
+      const submitButton = screen.getByRole("button", {
+        name: /send.*message/i,
+      });
+
       // Button should be enabled initially
       expect(submitButton).not.toBeDisabled();
 
@@ -335,46 +362,48 @@ describe('HelpModal - Support Ticket Submission', () => {
         ok: true,
         json: async () => ({
           success: true,
-          ticket: { id: 'TICKET-LOAD', timestamp: new Date().toISOString() }
-        })
+          ticket: { id: "TICKET-LOAD", timestamp: new Date().toISOString() },
+        }),
       });
 
       // After completion, success screen should show (with Close button)
       await waitFor(() => {
-        expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
+        expect(
+          screen.getByRole("button", { name: /close/i }),
+        ).toBeInTheDocument();
       });
     });
   });
 
-  describe('Modal Behavior', () => {
-    it('closes modal when onClose is called', () => {
+  describe("Modal Behavior", () => {
+    it("closes modal when onClose is called", () => {
       render(
         <HelpModal
           isOpen={true}
           onClose={mockOnClose}
           context="Test"
           clientId="test-close"
-        />
+        />,
       );
 
-      const closeButton = screen.getByRole('button', { name: /×|close/i });
+      const closeButton = screen.getByRole("button", { name: /×|close/i });
       fireEvent.click(closeButton);
 
       expect(mockOnClose).toHaveBeenCalled();
     });
 
-    it('does not render when isOpen is false', () => {
+    it("does not render when isOpen is false", () => {
       const { container } = render(
         <HelpModal
           isOpen={false}
           onClose={mockOnClose}
           context="Test"
           clientId="test-not-open"
-        />
+        />,
       );
 
       // Modal should not be visible
-      expect(container.querySelector('.modal')).toBeNull();
+      expect(container.querySelector(".modal")).toBeNull();
     });
   });
 });

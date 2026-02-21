@@ -9,33 +9,33 @@ interface ApiError extends Error {
 }
 
 class ApiClient {
-  private baseUrl = '/api';
+  private baseUrl = "/api";
 
   /**
    * Generic fetch wrapper with error handling
    */
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    
+
     try {
       const response = await fetch(url, {
         ...options,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...options.headers,
         },
       });
 
       // Handle non-JSON responses
-      const contentType = response.headers.get('content-type');
-      const isJson = contentType?.includes('application/json');
+      const contentType = response.headers.get("content-type");
+      const isJson = contentType?.includes("application/json");
 
       if (!response.ok) {
         const error: ApiError = new Error(
-          isJson ? (await response.json()).error : response.statusText
+          isJson ? (await response.json()).error : response.statusText,
         );
         error.status = response.status;
         throw error;
@@ -56,10 +56,10 @@ class ApiClient {
    */
   async get<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
     const queryString = params
-      ? '?' + new URLSearchParams(params).toString()
-      : '';
+      ? "?" + new URLSearchParams(params).toString()
+      : "";
     return this.request<T>(`${endpoint}${queryString}`, {
-      method: 'GET',
+      method: "GET",
     });
   }
 
@@ -68,7 +68,7 @@ class ApiClient {
    */
   async post<T>(endpoint: string, body?: any): Promise<T> {
     return this.request<T>(endpoint, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(body),
     });
   }
@@ -78,7 +78,7 @@ class ApiClient {
    */
   async put<T>(endpoint: string, body?: any): Promise<T> {
     return this.request<T>(endpoint, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(body),
     });
   }
@@ -88,7 +88,7 @@ class ApiClient {
    */
   async delete<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, {
-      method: 'DELETE',
+      method: "DELETE",
     });
   }
 
@@ -99,14 +99,14 @@ class ApiClient {
     status: string;
     services: Record<string, { healthy: boolean }>;
   }> {
-    return this.get('/health/status');
+    return this.get("/health/status");
   }
 
   /**
    * Check database health specifically
    */
   async checkDbHealth(): Promise<{ ready: boolean; message: string }> {
-    return this.get('/health/db');
+    return this.get("/health/db");
   }
 }
 
@@ -118,7 +118,7 @@ export interface RecordingTicket {
   id: string;
   displayName?: string;
   contactValue?: string;
-  contactType?: 'EMAIL' | 'PHONE' | 'SMS';
+  contactType?: "EMAIL" | "PHONE" | "SMS";
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -146,7 +146,7 @@ export interface Donation {
   id: string;
   amount: number;
   currency: string;
-  status: 'PAID' | 'REFUNDED' | 'DISPUTED' | 'EXPIRED';
+  status: "PAID" | "REFUNDED" | "DISPUTED" | "EXPIRED";
   donorLastName?: string;
   donorCountry?: string;
   paidAt?: string;

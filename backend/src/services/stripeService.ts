@@ -1,11 +1,15 @@
-import { getStripeClient, isStripeConfigured, isWebhookConfigured } from '../config/stripe';
-import { PrismaClient } from '@prisma/client';
+import {
+  getStripeClient,
+  isStripeConfigured,
+  isWebhookConfigured,
+} from "../config/stripe";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 /**
  * Phase 6: Stripe Integration Service
- * 
+ *
  * Handles:
  * - Creating Checkout Sessions with RecordingTicket metadata
  * - Storing StripeAttribution records
@@ -32,9 +36,11 @@ export interface CheckoutSessionResult {
  * Create a Stripe Checkout Session for a RecordingTicket
  * Stores attribution in database immediately
  */
-export async function createCheckoutSession(params: CreateCheckoutSessionParams): Promise<CheckoutSessionResult> {
+export async function createCheckoutSession(
+  params: CreateCheckoutSessionParams,
+): Promise<CheckoutSessionResult> {
   if (!isStripeConfigured()) {
-    throw new Error('Stripe is not configured. Contact administrator.');
+    throw new Error("Stripe is not configured. Contact administrator.");
   }
 
   // Verify ticket exists
@@ -48,11 +54,11 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
 
   const stripe = getStripeClient();
   const amountCents = Math.round(params.amount * 100); // Convert to cents
-  const currency = params.currency || 'USD';
+  const currency = params.currency || "USD";
 
   // Create Checkout Session with ticket metadata
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
+    payment_method_types: ["card"],
     line_items: [
       {
         price_data: {
@@ -66,12 +72,12 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
         quantity: 1,
       },
     ],
-    mode: 'payment',
+    mode: "payment",
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,
     metadata: {
       ticketId: params.ticketId,
-      source: 'care2connect_donation_pipeline',
+      source: "care2connect_donation_pipeline",
     },
   });
 
@@ -83,9 +89,9 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
       checkoutSessionId: session.id,
       amount: params.amount,
       currency: currency,
-      status: 'CREATED',
+      status: "CREATED",
       metadataSnapshot: session.metadata as any,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
   });
 
@@ -100,16 +106,23 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
  * Verify Stripe webhook signature
  * CRITICAL: Always verify webhook signatures to prevent attacks
  */
-export function verifyWebhookSignature(payload: string | Buffer, signature: string): any {
+export function verifyWebhookSignature(
+  payload: string | Buffer,
+  signature: string,
+): any {
   if (!isWebhookConfigured()) {
-    throw new Error('Stripe webhook secret not configured');
+    throw new Error("Stripe webhook secret not configured");
   }
 
   const stripe = getStripeClient();
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
   try {
-    const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+    const event = stripe.webhooks.constructEvent(
+      payload,
+      signature,
+      webhookSecret,
+    );
     return event;
   } catch (err) {
     const error = err as Error;
@@ -132,7 +145,9 @@ export async function handleCheckoutCompleted(session: any): Promise<void> {
   });
 
   if (!attribution) {
-    console.warn(`[Stripe Webhook] No attribution found for session: ${checkoutSessionId}`);
+    console.warn(
+      `[Stripe Webhook] No attribution found for session: ${checkoutSessionId}`,
+    );
     return;
   }
 
@@ -142,14 +157,16 @@ export async function handleCheckoutCompleted(session: any): Promise<void> {
     where: { id: attribution.id },
     data: {
       paymentIntentId,
-      status: 'CREATED', // Will be updated to PAID by payment_intent.succeeded
+      status: "CREATED", // Will be updated to PAID by payment_intent.succeeded
       webhookEventId: session.id, // Idempotency: store event ID
       metadataSnapshot: session.metadata as any,
       stripeCreatedAt: new Date(session.created * 1000),
     },
   });
 
-  console.log(`[Stripe] Checkout completed for ticket ${attribution.ticketId}, awaiting payment confirmation`);
+  console.log(
+    `[Stripe] Checkout completed for ticket ${attribution.ticketId}, awaiting payment confirmation`,
+  );
 }
 
 /**
@@ -169,7 +186,7 @@ export async function handleCheckoutExpired(session: any): Promise<void> {
   await prisma.stripe_attributions.update({
     where: { id: attribution.id },
     data: {
-      status: 'EXPIRED',
+      status: "EXPIRED",
       webhookEventId: session.id,
     },
   });
@@ -183,7 +200,7 @@ export async function handleCheckoutExpired(session: any): Promise<void> {
 export async function getTicketAttributions(ticketId: string) {
   return await prisma.stripe_attributions.findMany({
     where: { ticketId },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: "desc" },
   });
 }
 
@@ -195,7 +212,7 @@ export function getStripeStatus() {
     configured: isStripeConfigured(),
     webhooksConfigured: isWebhookConfigured(),
     ready: isStripeConfigured() && isWebhookConfigured(),
-    testMode: process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_') || false,
+    testMode: process.env.STRIPE_SECRET_KEY?.startsWith("sk_test_") || false,
   };
 }
 

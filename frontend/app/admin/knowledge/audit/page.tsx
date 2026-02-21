@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { AdminPasswordGate } from '@/components/AdminPasswordGate';
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { AdminPasswordGate } from "@/components/AdminPasswordGate";
 
 interface AuditLog {
   id: string;
@@ -27,9 +27,15 @@ export default function AuditLogPage() {
   const [stats, setStats] = useState<any>(null);
 
   // Filters
-  const [actionFilter, setActionFilter] = useState(searchParams?.get('action') || '');
-  const [entityTypeFilter, setEntityTypeFilter] = useState(searchParams?.get('entityType') || '');
-  const [entityIdFilter, setEntityIdFilter] = useState(searchParams?.get('entityId') || '');
+  const [actionFilter, setActionFilter] = useState(
+    searchParams?.get("action") || "",
+  );
+  const [entityTypeFilter, setEntityTypeFilter] = useState(
+    searchParams?.get("entityType") || "",
+  );
+  const [entityIdFilter, setEntityIdFilter] = useState(
+    searchParams?.get("entityId") || "",
+  );
 
   useEffect(() => {
     fetchLogs();
@@ -39,10 +45,10 @@ export default function AuditLogPage() {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '50',
+        limit: "50",
         ...(actionFilter && { action: actionFilter }),
         ...(entityTypeFilter && { entityType: entityTypeFilter }),
         ...(entityIdFilter && { entityId: entityIdFilter }),
@@ -50,7 +56,7 @@ export default function AuditLogPage() {
 
       const response = await fetch(`/api/admin/knowledge/audit?${params}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -60,7 +66,7 @@ export default function AuditLogPage() {
         setTotalPages(data.pagination.pages);
       }
     } catch (error) {
-      console.error('Error fetching audit logs:', error);
+      console.error("Error fetching audit logs:", error);
     } finally {
       setLoading(false);
     }
@@ -68,10 +74,10 @@ export default function AuditLogPage() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('/api/admin/knowledge/audit/stats/summary', {
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch("/api/admin/knowledge/audit/stats/summary", {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -80,20 +86,20 @@ export default function AuditLogPage() {
         setStats(data);
       }
     } catch (error) {
-      console.error('Error fetching audit stats:', error);
+      console.error("Error fetching audit stats:", error);
     }
   };
 
   const getActionBadgeClass = (action: string) => {
     switch (action) {
-      case 'CREATE':
-        return 'bg-green-100 text-green-800';
-      case 'UPDATE':
-        return 'bg-blue-100 text-blue-800';
-      case 'DELETE':
-        return 'bg-red-100 text-red-800';
+      case "CREATE":
+        return "bg-green-100 text-green-800";
+      case "UPDATE":
+        return "bg-blue-100 text-blue-800";
+      case "DELETE":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -106,7 +112,7 @@ export default function AuditLogPage() {
             <div className="flex justify-between items-center">
               <div>
                 <button
-                  onClick={() => router.push('/admin/knowledge')}
+                  onClick={() => router.push("/admin/knowledge")}
                   className="text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center"
                 >
                   ← Back to Knowledge Vault
@@ -267,7 +273,7 @@ export default function AuditLogPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getActionBadgeClass(
-                              log.action
+                              log.action,
                             )}`}
                           >
                             {log.action}
@@ -275,7 +281,7 @@ export default function AuditLogPage() {
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-900">
                           <div className="font-medium">
-                            {log.entityType.replace('_', ' ')}
+                            {log.entityType.replace("_", " ")}
                           </div>
                           <div className="text-xs text-gray-500 truncate max-w-xs">
                             {log.entityId}
@@ -286,7 +292,7 @@ export default function AuditLogPage() {
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-500">
                           <div className="max-w-xs truncate">
-                            {log.reason || '-'}
+                            {log.reason || "-"}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { healthMonitor } from './healthMonitor';
-import { integrityManager } from '../services/integrity/featureIntegrity';
+import { Request, Response, NextFunction } from "express";
+import { healthMonitor } from "./healthMonitor";
+import { integrityManager } from "../services/integrity/featureIntegrity";
 
 export interface MetricsData {
   // snake_case (legacy)
@@ -57,7 +57,7 @@ class MetricsCollector {
 
   constructor() {
     // Enabled by default unless explicitly disabled for tests/environments
-    this.enabled = process.env.METRICS_ENABLED !== 'false';
+    this.enabled = process.env.METRICS_ENABLED !== "false";
     this.token = process.env.METRICS_TOKEN;
   }
 
@@ -85,22 +85,26 @@ class MetricsCollector {
   /**
    * Middleware to track request counts by route
    */
-  public trackRequest(): (req: Request, res: Response, next: NextFunction) => void {
+  public trackRequest(): (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => void {
     return (req: Request, res: Response, next: NextFunction) => {
       // Always count requests so tests and diagnostics can inspect traffic
 
       const path = req.path;
 
       // Categorize by route prefix
-      if (path.startsWith('/health')) {
+      if (path.startsWith("/health")) {
         this.requestCounts.health++;
-      } else if (path.startsWith('/api/analysis')) {
+      } else if (path.startsWith("/api/analysis")) {
         this.requestCounts.analysis++;
-      } else if (path.startsWith('/api/export')) {
+      } else if (path.startsWith("/api/export")) {
         this.requestCounts.export++;
-      } else if (path.startsWith('/api/support')) {
+      } else if (path.startsWith("/api/support")) {
         this.requestCounts.support++;
-      } else if (path.startsWith('/api')) {
+      } else if (path.startsWith("/api")) {
         this.requestCounts.api++;
       }
 
@@ -132,8 +136,10 @@ class MetricsCollector {
     const computedUptime = Math.floor((Date.now() - this.startTime) / 1000);
 
     // Determine readiness: prefer integrity.ready, fallback to health.status
-    const readyFlag = integrity?.ready || health?.status === 'ready';
-    const degradedFlag = (health?.status === 'degraded') || (health?.degraded?.enabled ? true : false);
+    const readyFlag = integrity?.ready || health?.status === "ready";
+    const degradedFlag =
+      health?.status === "degraded" ||
+      (health?.degraded?.enabled ? true : false);
 
     const metrics: MetricsData = {
       uptime_seconds: health?.uptimeSec ?? health?.uptime ?? computedUptime,
@@ -169,46 +175,74 @@ class MetricsCollector {
     const lines: string[] = [];
 
     // Add HELP and TYPE for each metric
-    lines.push('# HELP care2system_uptime_seconds Server uptime in seconds');
-    lines.push('# TYPE care2system_uptime_seconds gauge');
+    lines.push("# HELP care2system_uptime_seconds Server uptime in seconds");
+    lines.push("# TYPE care2system_uptime_seconds gauge");
     lines.push(`care2system_uptime_seconds ${metrics.uptime_seconds}`);
-    lines.push('');
+    lines.push("");
 
-    lines.push('# HELP care2system_health_ready_ok Health check ready status (1=ready, 0=not ready)');
-    lines.push('# TYPE care2system_health_ready_ok gauge');
+    lines.push(
+      "# HELP care2system_health_ready_ok Health check ready status (1=ready, 0=not ready)",
+    );
+    lines.push("# TYPE care2system_health_ready_ok gauge");
     lines.push(`care2system_health_ready_ok ${metrics.health_ready_ok}`);
-    lines.push('');
+    lines.push("");
 
-    lines.push('# HELP care2system_health_degraded Health check degraded status (1=degraded, 0=normal)');
-    lines.push('# TYPE care2system_health_degraded gauge');
+    lines.push(
+      "# HELP care2system_health_degraded Health check degraded status (1=degraded, 0=normal)",
+    );
+    lines.push("# TYPE care2system_health_degraded gauge");
     lines.push(`care2system_health_degraded ${metrics.health_degraded}`);
-    lines.push('');
+    lines.push("");
 
-    lines.push('# HELP care2system_db_reconnect_attempts Database reconnection attempts');
-    lines.push('# TYPE care2system_db_reconnect_attempts counter');
-    lines.push(`care2system_db_reconnect_attempts ${metrics.db_reconnect_attempts}`);
-    lines.push('');
+    lines.push(
+      "# HELP care2system_db_reconnect_attempts Database reconnection attempts",
+    );
+    lines.push("# TYPE care2system_db_reconnect_attempts counter");
+    lines.push(
+      `care2system_db_reconnect_attempts ${metrics.db_reconnect_attempts}`,
+    );
+    lines.push("");
 
-    lines.push('# HELP care2system_memory_usage_bytes Memory usage in bytes (RSS)');
-    lines.push('# TYPE care2system_memory_usage_bytes gauge');
+    lines.push(
+      "# HELP care2system_memory_usage_bytes Memory usage in bytes (RSS)",
+    );
+    lines.push("# TYPE care2system_memory_usage_bytes gauge");
     lines.push(`care2system_memory_usage_bytes ${metrics.memory_usage_bytes}`);
-    lines.push('');
+    lines.push("");
 
-    lines.push('# HELP care2system_memory_usage_heap_bytes Heap memory usage in bytes');
-    lines.push('# TYPE care2system_memory_usage_heap_bytes gauge');
-    lines.push(`care2system_memory_usage_heap_bytes ${metrics.memory_usage_heap_bytes}`);
-    lines.push('');
+    lines.push(
+      "# HELP care2system_memory_usage_heap_bytes Heap memory usage in bytes",
+    );
+    lines.push("# TYPE care2system_memory_usage_heap_bytes gauge");
+    lines.push(
+      `care2system_memory_usage_heap_bytes ${metrics.memory_usage_heap_bytes}`,
+    );
+    lines.push("");
 
-    lines.push('# HELP care2system_request_count_total Total HTTP requests by route group');
-    lines.push('# TYPE care2system_request_count_total counter');
-    lines.push(`care2system_request_count_total{route="health"} ${metrics.request_count_health}`);
-    lines.push(`care2system_request_count_total{route="analysis"} ${metrics.request_count_analysis}`);
-    lines.push(`care2system_request_count_total{route="export"} ${metrics.request_count_export}`);
-    lines.push(`care2system_request_count_total{route="support"} ${metrics.request_count_support}`);
-    lines.push(`care2system_request_count_total{route="api"} ${metrics.request_count_api}`);
-    lines.push(`care2system_request_count_total{route="total"} ${metrics.request_count_total}`);
+    lines.push(
+      "# HELP care2system_request_count_total Total HTTP requests by route group",
+    );
+    lines.push("# TYPE care2system_request_count_total counter");
+    lines.push(
+      `care2system_request_count_total{route="health"} ${metrics.request_count_health}`,
+    );
+    lines.push(
+      `care2system_request_count_total{route="analysis"} ${metrics.request_count_analysis}`,
+    );
+    lines.push(
+      `care2system_request_count_total{route="export"} ${metrics.request_count_export}`,
+    );
+    lines.push(
+      `care2system_request_count_total{route="support"} ${metrics.request_count_support}`,
+    );
+    lines.push(
+      `care2system_request_count_total{route="api"} ${metrics.request_count_api}`,
+    );
+    lines.push(
+      `care2system_request_count_total{route="total"} ${metrics.request_count_total}`,
+    );
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 
   /**

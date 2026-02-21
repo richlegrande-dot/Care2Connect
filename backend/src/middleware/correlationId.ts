@@ -3,8 +3,8 @@
  * Adds X-Request-Id to all requests for distributed tracing
  */
 
-import { Request, Response, NextFunction } from 'express';
-import { v4 as uuidv4 } from 'uuid';
+import { Request, Response, NextFunction } from "express";
+import { v4 as uuidv4 } from "uuid";
 
 // Extend Express Request type
 declare global {
@@ -18,16 +18,20 @@ declare global {
 /**
  * Middleware to add correlation ID to requests
  */
-export function correlationIdMiddleware(req: Request, res: Response, next: NextFunction): void {
+export function correlationIdMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
   // Use existing X-Request-Id if provided, otherwise generate new one
-  const requestId = (req.headers['x-request-id'] as string) || uuidv4();
-  
+  const requestId = (req.headers["x-request-id"] as string) || uuidv4();
+
   // Store in request object
   req.requestId = requestId;
-  
+
   // Add to response headers
-  res.setHeader('X-Request-Id', requestId);
-  
+  res.setHeader("X-Request-Id", requestId);
+
   next();
 }
 
@@ -35,5 +39,5 @@ export function correlationIdMiddleware(req: Request, res: Response, next: NextF
  * Get request ID from request object
  */
 export function getRequestId(req: Request): string {
-  return req.requestId || 'unknown';
+  return req.requestId || "unknown";
 }

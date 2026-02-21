@@ -1,13 +1,17 @@
 /**
  * Pipeline Failure Handler
- * 
+ *
  * Unified error handling for donation pipeline that returns
  * PipelineFailureResponse instead of throwing uncaught errors
  */
 
-import { PipelineFailureResponse, PipelineFailureReasonCode, FALLBACK_USER_MESSAGES } from '../types/fallback';
-import { PrismaClient } from '@prisma/client';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  PipelineFailureResponse,
+  PipelineFailureReasonCode,
+  FALLBACK_USER_MESSAGES,
+} from "../types/fallback";
+import { PrismaClient } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 const prisma = new PrismaClient();
 
@@ -23,9 +27,8 @@ interface CreateIncidentOptions {
  */
 export async function createPipelineFailure(
   reasonCode: PipelineFailureReasonCode,
-  options: CreateIncidentOptions = {} as CreateIncidentOptions
+  options: CreateIncidentOptions = {} as CreateIncidentOptions,
 ): Promise<PipelineFailureResponse> {
-  
   const debugId = uuidv4();
   const userMessage = FALLBACK_USER_MESSAGES[reasonCode];
 
@@ -34,10 +37,10 @@ export async function createPipelineFailure(
     await logPipelineIncident({
       debugId,
       reasonCode,
-      ...options
+      ...options,
     });
   } catch (logError) {
-    console.error('[Pipeline Failure] Failed to log incident:', logError);
+    console.error("[Pipeline Failure] Failed to log incident:", logError);
     // Don't block the response if logging fails
   }
 
@@ -47,12 +50,12 @@ export async function createPipelineFailure(
     reasonCode,
     userMessage,
     debugId,
-    partialData: options.context?.partialData
+    partialData: options.context?.partialData,
   };
 
   console.warn(`[Pipeline Failure] ${reasonCode} - debugId: ${debugId}`, {
     ticketId: options.ticketId,
-    error: options.error?.message
+    error: options.error?.message,
   });
 
   return response;
@@ -62,23 +65,20 @@ export async function createPipelineFailure(
  * Log pipeline incident to database
  */
 async function logPipelineIncident(
-  options: CreateIncidentOptions & { debugId: string; reasonCode: PipelineFailureReasonCode }
+  options: CreateIncidentOptions & {
+    debugId: string;
+    reasonCode: PipelineFailureReasonCode;
+  },
 ): Promise<void> {
-  const {
-    debugId,
-    ticketId,
-    recordingId,
-    reasonCode,
-    error,
-    context
-  } = options;
+  const { debugId, ticketId, recordingId, reasonCode, error, context } =
+    options;
 
   try {
     await prisma.system_incidents.create({
       data: {
         id: debugId,
-        severity: 'WARN',
-        category: 'PIPELINE_FALLBACK',
+        severity: "WARN",
+        category: "PIPELINE_FALLBACK",
         title: `Pipeline Fallback: ${reasonCode}`,
         description: `Automated pipeline failed with reason: ${reasonCode}`,
         metadata: {
@@ -87,16 +87,16 @@ async function logPipelineIncident(
           recordingId,
           errorMessage: error?.message,
           errorStack: error?.stack,
-          ...context
+          ...context,
         },
         occurredAt: new Date(),
         resolved: false,
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     });
   } catch (dbError) {
     // Log but don't throw - incident logging is non-critical
-    console.error('[Pipeline Incident] DB write failed:', dbError);
+    console.error("[Pipeline Incident] DB write failed:", dbError);
   }
 }
 
@@ -106,20 +106,20 @@ async function logPipelineIncident(
 export async function executePipelineWithFallback<T>(
   ticketId: string,
   operation: () => Promise<T>,
-  reasonCode: PipelineFailureReasonCode = 'PIPELINE_EXCEPTION'
+  reasonCode: PipelineFailureReasonCode = "PIPELINE_EXCEPTION",
 ): Promise<T | PipelineFailureResponse> {
   try {
     return await operation();
   } catch (error: any) {
     console.error(`[Pipeline] ${reasonCode} error:`, error);
-    
+
     return await createPipelineFailure(reasonCode, {
       ticketId,
       error,
       context: {
         errorType: error.constructor.name,
-        errorMessage: error.message
-      }
+        errorMessage: error.message,
+      },
     });
   }
 }
@@ -127,7 +127,9 @@ export async function executePipelineWithFallback<T>(
 /**
  * Check if response is a failure requiring fallback
  */
-export function isFallbackRequired(response: any): response is PipelineFailureResponse {
+export function isFallbackRequired(
+  response: any,
+): response is PipelineFailureResponse {
   return response && response.fallbackRequired === true;
 }
 
@@ -137,22 +139,23 @@ export function isFallbackRequired(response: any): response is PipelineFailureRe
 export async function isSystemDegraded(): Promise<boolean> {
   try {
     // Check background services status
-    if (process.env.START_BACKGROUND_SERVICES === 'false') {
+    if (process.env.START_BACKGROUND_SERVICES === "false") {
       return true;
     }
 
     // Check health endpoint
-    const healthCheck = await fetch('http://localhost:3001/health/status').catch(() => null);
+    const healthCheck = await fetch(
+      "http://localhost:3001/health/status",
+    ).catch(() => null);
 
     if (!healthCheck || !healthCheck.ok) {
       return true;
     }
 
     const health: any = await healthCheck.json();
-    return health.status === 'degraded' || health.status === 'error';
-
+    return health.status === "degraded" || health.status === "error";
   } catch (error) {
-    console.warn('[Pipeline] System health check failed:', error);
+    console.warn("[Pipeline] System health check failed:", error);
     return true; // Fail-safe: assume degraded if check fails
   }
 }
@@ -162,19 +165,20 @@ export async function isSystemDegraded(): Promise<boolean> {
  */
 export function extractPartialData(
   transcript?: string,
-  extractedFields?: any
-): PipelineFailureResponse['partialData'] | undefined {
-  
+  extractedFields?: any,
+): PipelineFailureResponse["partialData"] | undefined {
   if (!transcript && !extractedFields) {
     return undefined;
   }
 
   return {
     transcript: transcript || undefined,
-    extractedFields: extractedFields ? {
-      title: extractedFields.title,
-      story: extractedFields.story,
-      goalAmount: extractedFields.goalAmount
-    } : undefined
+    extractedFields: extractedFields
+      ? {
+          title: extractedFields.title,
+          story: extractedFields.story,
+          goalAmount: extractedFields.goalAmount,
+        }
+      : undefined,
   };
 }

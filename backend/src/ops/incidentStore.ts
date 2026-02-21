@@ -3,14 +3,14 @@
  * Handles service outages and health issues with persistent storage
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 export interface Incident {
   id: string;
-  service: 'openai' | 'stripe' | 'prisma' | 'cloudflare' | 'tunnel' | 'speech';
-  severity: 'info' | 'warn' | 'critical';
-  status: 'open' | 'investigating' | 'resolved';
+  service: "openai" | "stripe" | "prisma" | "cloudflare" | "tunnel" | "speech";
+  severity: "info" | "warn" | "critical";
+  status: "open" | "investigating" | "resolved";
   firstSeenAt: Date;
   lastSeenAt: Date;
   resolvedAt?: Date;
@@ -21,8 +21,8 @@ export interface Incident {
 }
 
 export interface CreateIncidentInput {
-  service: Incident['service'];
-  severity: Incident['severity'];
+  service: Incident["service"];
+  severity: Incident["severity"];
   summary: string;
   details: string;
   lastCheckPayload?: any;
@@ -30,8 +30,8 @@ export interface CreateIncidentInput {
 }
 
 class IncidentStore {
-  private storageDir = path.join(process.cwd(), 'backend', 'storage', 'ops');
-  private filePath = path.join(this.storageDir, 'incidents.json');
+  private storageDir = path.join(process.cwd(), "backend", "storage", "ops");
+  private filePath = path.join(this.storageDir, "incidents.json");
   private incidents: Map<string, Incident> = new Map();
 
   constructor() {
@@ -52,21 +52,23 @@ class IncidentStore {
   private loadFromFile(): void {
     try {
       if (fs.existsSync(this.filePath)) {
-        const data = fs.readFileSync(this.filePath, 'utf-8');
+        const data = fs.readFileSync(this.filePath, "utf-8");
         const parsed = JSON.parse(data);
-        
+
         // Convert dates back from strings
         Object.entries(parsed).forEach(([id, incident]: [string, any]) => {
           this.incidents.set(id, {
             ...incident,
             firstSeenAt: new Date(incident.firstSeenAt),
             lastSeenAt: new Date(incident.lastSeenAt),
-            resolvedAt: incident.resolvedAt ? new Date(incident.resolvedAt) : undefined
+            resolvedAt: incident.resolvedAt
+              ? new Date(incident.resolvedAt)
+              : undefined,
           });
         });
       }
     } catch (error) {
-      console.warn('Failed to load incidents from file:', error);
+      console.warn("Failed to load incidents from file:", error);
       this.incidents.clear();
     }
   }
@@ -76,36 +78,41 @@ class IncidentStore {
       const serializable = Object.fromEntries(this.incidents.entries());
       fs.writeFileSync(this.filePath, JSON.stringify(serializable, null, 2));
     } catch (error) {
-      console.error('Failed to save incidents to file:', error);
+      console.error("Failed to save incidents to file:", error);
     }
   }
 
   async createIncident(input: CreateIncidentInput): Promise<Incident> {
     const id = this.generateId();
     const now = new Date();
-    
+
     const incident: Incident = {
       id,
       service: input.service,
       severity: input.severity,
-      status: 'open',
+      status: "open",
       firstSeenAt: now,
       lastSeenAt: now,
       summary: input.summary,
       details: input.details,
       lastCheckPayload: input.lastCheckPayload,
-      recommendation: input.recommendation
+      recommendation: input.recommendation,
     };
 
     this.incidents.set(id, incident);
     this.saveToFile();
-    
-    console.warn(`🚨 New ${incident.severity} incident: ${incident.summary} (${id})`);
-    
+
+    console.warn(
+      `🚨 New ${incident.severity} incident: ${incident.summary} (${id})`,
+    );
+
     return incident;
   }
 
-  async updateIncident(id: string, lastCheckPayload?: any): Promise<Incident | null> {
+  async updateIncident(
+    id: string,
+    lastCheckPayload?: any,
+  ): Promise<Incident | null> {
     const incident = this.incidents.get(id);
     if (!incident) return null;
 
@@ -116,7 +123,7 @@ class IncidentStore {
 
     this.incidents.set(id, incident);
     this.saveToFile();
-    
+
     return incident;
   }
 
@@ -124,46 +131,53 @@ class IncidentStore {
     const incident = this.incidents.get(id);
     if (!incident) return null;
 
-    incident.status = 'resolved';
+    incident.status = "resolved";
     incident.resolvedAt = new Date();
 
     this.incidents.set(id, incident);
     this.saveToFile();
-    
+
     console.log(`✅ Resolved incident: ${incident.summary} (${id})`);
-    
+
     return incident;
   }
 
-  async findOpenIncident(service: string, summary: string): Promise<Incident | null> {
+  async findOpenIncident(
+    service: string,
+    summary: string,
+  ): Promise<Incident | null> {
     for (const incident of this.incidents.values()) {
-      if (incident.service === service && 
-          incident.status === 'open' && 
-          incident.summary === summary) {
+      if (
+        incident.service === service &&
+        incident.status === "open" &&
+        incident.summary === summary
+      ) {
         return incident;
       }
     }
     return null;
   }
 
-  async getIncidents(status?: Incident['status']): Promise<Incident[]> {
+  async getIncidents(status?: Incident["status"]): Promise<Incident[]> {
     const incidents = Array.from(this.incidents.values());
-    
+
     if (status) {
-      return incidents.filter(inc => inc.status === status);
+      return incidents.filter((inc) => inc.status === status);
     }
-    
-    return incidents.sort((a, b) => b.lastSeenAt.getTime() - a.lastSeenAt.getTime());
+
+    return incidents.sort(
+      (a, b) => b.lastSeenAt.getTime() - a.lastSeenAt.getTime(),
+    );
   }
 
   async getIncidentsByService(service: string): Promise<Incident[]> {
     return Array.from(this.incidents.values())
-      .filter(inc => inc.service === service)
+      .filter((inc) => inc.service === service)
       .sort((a, b) => b.lastSeenAt.getTime() - a.lastSeenAt.getTime());
   }
 
   async getOpenIncidents(): Promise<Incident[]> {
-    return this.getIncidents('open');
+    return this.getIncidents("open");
   }
 }
 
@@ -172,19 +186,27 @@ export const incidentStore = new IncidentStore();
 
 // Helper functions
 export async function createOrUpdateIncident(
-  service: Incident['service'],
-  severity: Incident['severity'], 
+  service: Incident["service"],
+  severity: Incident["severity"],
   summary: string,
   details: string,
   lastCheckPayload?: any,
-  recommendation?: string
+  recommendation?: string,
 ): Promise<Incident> {
   // Check if we already have an open incident for this issue
-  const existingIncident = await incidentStore.findOpenIncident(service, summary);
-  
+  const existingIncident = await incidentStore.findOpenIncident(
+    service,
+    summary,
+  );
+
   if (existingIncident) {
     // Update existing incident
-    return await incidentStore.updateIncident(existingIncident.id, lastCheckPayload) || existingIncident;
+    return (
+      (await incidentStore.updateIncident(
+        existingIncident.id,
+        lastCheckPayload,
+      )) || existingIncident
+    );
   } else {
     // Create new incident
     return await incidentStore.createIncident({
@@ -193,16 +215,18 @@ export async function createOrUpdateIncident(
       summary,
       details,
       lastCheckPayload,
-      recommendation
+      recommendation,
     });
   }
 }
 
-export async function resolveIncidentsByService(service: string): Promise<void> {
+export async function resolveIncidentsByService(
+  service: string,
+): Promise<void> {
   const incidents = await incidentStore.getIncidentsByService(service);
-  
+
   for (const incident of incidents) {
-    if (incident.status === 'open') {
+    if (incident.status === "open") {
       await incidentStore.resolveIncident(incident.id);
     }
   }

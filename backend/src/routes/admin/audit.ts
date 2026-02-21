@@ -3,9 +3,9 @@
  * Password-protected endpoints to view audit logs
  */
 
-import express, { Response } from 'express';
-import { requireAdminAuth, AdminAuthRequest } from '../../middleware/adminAuth';
-import { PrismaClient, AuditAction, AuditEntityType } from '@prisma/client';
+import express, { Response } from "express";
+import { requireAdminAuth, AdminAuthRequest } from "../../middleware/adminAuth";
+import { PrismaClient, AuditAction, AuditEntityType } from "@prisma/client";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -17,11 +17,11 @@ router.use(requireAdminAuth);
  * GET /admin/knowledge/audit
  * List audit logs with pagination and filtering
  */
-router.get('/', async (req: AdminAuthRequest, res: Response) => {
+router.get("/", async (req: AdminAuthRequest, res: Response) => {
   try {
     const {
-      page = '1',
-      limit = '50',
+      page = "1",
+      limit = "50",
       action,
       entityType,
       entityId,
@@ -43,22 +43,22 @@ router.get('/', async (req: AdminAuthRequest, res: Response) => {
     }
 
     // Filter by entity ID
-    if (entityId && typeof entityId === 'string') {
+    if (entityId && typeof entityId === "string") {
       where.entityId = entityId;
     }
 
     // Filter by actor
-    if (actor && typeof actor === 'string') {
+    if (actor && typeof actor === "string") {
       where.actor = actor;
     }
 
     // Filter by date range
     if (startDate || endDate) {
       where.createdAt = {};
-      if (startDate && typeof startDate === 'string') {
+      if (startDate && typeof startDate === "string") {
         where.createdAt.gte = new Date(startDate);
       }
-      if (endDate && typeof endDate === 'string') {
+      if (endDate && typeof endDate === "string") {
         where.createdAt.lte = new Date(endDate);
       }
     }
@@ -73,7 +73,7 @@ router.get('/', async (req: AdminAuthRequest, res: Response) => {
         where,
         skip,
         take: limitNum,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
       }),
       prisma.knowledgeAuditLog.count({ where }),
     ]);
@@ -88,10 +88,10 @@ router.get('/', async (req: AdminAuthRequest, res: Response) => {
       },
     });
   } catch (error) {
-    console.error('[Audit Viewer] Error listing audit logs:', error);
+    console.error("[Audit Viewer] Error listing audit logs:", error);
     res.status(500).json({
-      error: 'Failed to fetch audit logs',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to fetch audit logs",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -100,7 +100,7 @@ router.get('/', async (req: AdminAuthRequest, res: Response) => {
  * GET /admin/knowledge/audit/:id
  * Get a single audit log with full details
  */
-router.get('/:id', async (req: AdminAuthRequest, res: Response) => {
+router.get("/:id", async (req: AdminAuthRequest, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -110,7 +110,7 @@ router.get('/:id', async (req: AdminAuthRequest, res: Response) => {
 
     if (!log) {
       return res.status(404).json({
-        error: 'Audit log not found',
+        error: "Audit log not found",
         message: `No audit log found with id: ${id}`,
       });
     }
@@ -138,7 +138,7 @@ router.get('/:id', async (req: AdminAuthRequest, res: Response) => {
       }
     } catch (entityError) {
       // Entity might not exist anymore (hard deleted) - this is ok
-      console.log('[Audit Viewer] Related entity not found:', entityError);
+      console.log("[Audit Viewer] Related entity not found:", entityError);
     }
 
     res.json({
@@ -146,10 +146,10 @@ router.get('/:id', async (req: AdminAuthRequest, res: Response) => {
       relatedEntity,
     });
   } catch (error) {
-    console.error('[Audit Viewer] Error fetching audit log:', error);
+    console.error("[Audit Viewer] Error fetching audit log:", error);
     res.status(500).json({
-      error: 'Failed to fetch audit log',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to fetch audit log",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -159,7 +159,7 @@ router.get('/:id', async (req: AdminAuthRequest, res: Response) => {
  * Get all audit logs for a specific entity
  */
 router.get(
-  '/entity/:entityType/:entityId',
+  "/entity/:entityType/:entityId",
   async (req: AdminAuthRequest, res: Response) => {
     try {
       const { entityType, entityId } = req.params;
@@ -170,7 +170,7 @@ router.get(
         entityType !== AuditEntityType.KNOWLEDGE_CHUNK
       ) {
         return res.status(400).json({
-          error: 'Invalid entity type',
+          error: "Invalid entity type",
           message: `Entity type must be ${AuditEntityType.KNOWLEDGE_SOURCE} or ${AuditEntityType.KNOWLEDGE_CHUNK}`,
         });
       }
@@ -180,7 +180,7 @@ router.get(
           entityType: entityType as AuditEntityType,
           entityId,
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
       });
 
       res.json({
@@ -190,20 +190,20 @@ router.get(
         count: logs.length,
       });
     } catch (error) {
-      console.error('[Audit Viewer] Error fetching entity audit logs:', error);
+      console.error("[Audit Viewer] Error fetching entity audit logs:", error);
       res.status(500).json({
-        error: 'Failed to fetch entity audit logs',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        error: "Failed to fetch entity audit logs",
+        message: error instanceof Error ? error.message : "Unknown error",
       });
     }
-  }
+  },
 );
 
 /**
  * GET /admin/knowledge/audit/stats
  * Get audit log statistics
  */
-router.get('/stats/summary', async (req: AdminAuthRequest, res: Response) => {
+router.get("/stats/summary", async (req: AdminAuthRequest, res: Response) => {
   try {
     const [
       totalLogs,
@@ -239,10 +239,10 @@ router.get('/stats/summary', async (req: AdminAuthRequest, res: Response) => {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('[Audit Viewer] Error fetching audit stats:', error);
+    console.error("[Audit Viewer] Error fetching audit stats:", error);
     res.status(500).json({
-      error: 'Failed to fetch audit statistics',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to fetch audit statistics",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });

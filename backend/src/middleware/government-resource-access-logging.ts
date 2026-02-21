@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
-import logger from '../config/logger';
+import { Request, Response, NextFunction } from "express";
+import logger from "../config/logger";
 
 interface GovernmentAccessLog {
   id: string;
   userId: string;
-  agencyType: 'federal' | 'state' | 'local' | 'partner';
+  agencyType: "federal" | "state" | "local" | "partner";
   agencyName: string;
   accessorId: string;
   resourceAccessed: string;
@@ -16,105 +16,125 @@ interface GovernmentAccessLog {
   ipAddress: string;
   userAgent: string;
   sessionId: string;
-  auditLevel: 'standard' | 'high' | 'critical';
+  auditLevel: "standard" | "high" | "critical";
 }
 
 interface AccessContext {
   endpoint: string;
   method: string;
   dataAccessed: string[];
-  sensitivityLevel: 'low' | 'medium' | 'high' | 'critical';
+  sensitivityLevel: "low" | "medium" | "high" | "critical";
 }
 
 // Government partner organizations
 const GOVERNMENT_AGENCIES = {
   hud: {
-    name: 'U.S. Department of Housing and Urban Development',
-    type: 'federal' as const,
-    allowedResources: ['housing', 'shelter', 'voucher'],
-    auditLevel: 'high' as const
+    name: "U.S. Department of Housing and Urban Development",
+    type: "federal" as const,
+    allowedResources: ["housing", "shelter", "voucher"],
+    auditLevel: "high" as const,
   },
   hhs: {
-    name: 'U.S. Department of Health and Human Services',
-    type: 'federal' as const,
-    allowedResources: ['healthcare', 'mental-health', 'benefits'],
-    auditLevel: 'critical' as const
+    name: "U.S. Department of Health and Human Services",
+    type: "federal" as const,
+    allowedResources: ["healthcare", "mental-health", "benefits"],
+    auditLevel: "critical" as const,
   },
   dol: {
-    name: 'U.S. Department of Labor',
-    type: 'federal' as const,
-    allowedResources: ['employment', 'training', 'unemployment'],
-    auditLevel: 'high' as const
+    name: "U.S. Department of Labor",
+    type: "federal" as const,
+    allowedResources: ["employment", "training", "unemployment"],
+    auditLevel: "high" as const,
   },
   snap: {
-    name: 'Supplemental Nutrition Assistance Program',
-    type: 'federal' as const,
-    allowedResources: ['benefits', 'food-assistance'],
-    auditLevel: 'high' as const
+    name: "Supplemental Nutrition Assistance Program",
+    type: "federal" as const,
+    allowedResources: ["benefits", "food-assistance"],
+    auditLevel: "high" as const,
   },
   local_health: {
-    name: 'Local Health Department',
-    type: 'local' as const,
-    allowedResources: ['healthcare', 'mental-health', 'emergency'],
-    auditLevel: 'high' as const
+    name: "Local Health Department",
+    type: "local" as const,
+    allowedResources: ["healthcare", "mental-health", "emergency"],
+    auditLevel: "high" as const,
   },
   social_services: {
-    name: 'County Social Services',
-    type: 'local' as const,
-    allowedResources: ['benefits', 'housing', 'emergency'],
-    auditLevel: 'standard' as const
-  }
+    name: "County Social Services",
+    type: "local" as const,
+    allowedResources: ["benefits", "housing", "emergency"],
+    auditLevel: "standard" as const,
+  },
 };
 
 // Resources requiring government audit logging
 const GOVERNMENT_RESOURCES = {
-  '/api/housing/applications': {
-    dataFields: ['personal_info', 'income', 'housing_history', 'disability_status'],
-    sensitivityLevel: 'high' as const,
-    legalBasis: 'Housing assistance program eligibility verification'
+  "/api/housing/applications": {
+    dataFields: [
+      "personal_info",
+      "income",
+      "housing_history",
+      "disability_status",
+    ],
+    sensitivityLevel: "high" as const,
+    legalBasis: "Housing assistance program eligibility verification",
   },
-  '/api/benefits/snap/apply': {
-    dataFields: ['personal_info', 'income', 'household_size', 'assets'],
-    sensitivityLevel: 'high' as const,
-    legalBasis: 'SNAP eligibility verification and fraud prevention'
+  "/api/benefits/snap/apply": {
+    dataFields: ["personal_info", "income", "household_size", "assets"],
+    sensitivityLevel: "high" as const,
+    legalBasis: "SNAP eligibility verification and fraud prevention",
   },
-  '/api/healthcare/appointments': {
-    dataFields: ['personal_info', 'health_conditions', 'insurance_info'],
-    sensitivityLevel: 'critical' as const,
-    legalBasis: 'Healthcare coordination and Medicaid eligibility'
+  "/api/healthcare/appointments": {
+    dataFields: ["personal_info", "health_conditions", "insurance_info"],
+    sensitivityLevel: "critical" as const,
+    legalBasis: "Healthcare coordination and Medicaid eligibility",
   },
-  '/api/health/records': {
-    dataFields: ['personal_info', 'medical_history', 'medications', 'diagnoses'],
-    sensitivityLevel: 'critical' as const,
-    legalBasis: 'HIPAA-compliant healthcare coordination'
+  "/api/health/records": {
+    dataFields: [
+      "personal_info",
+      "medical_history",
+      "medications",
+      "diagnoses",
+    ],
+    sensitivityLevel: "critical" as const,
+    legalBasis: "HIPAA-compliant healthcare coordination",
   },
-  '/api/mental-health/sessions': {
-    dataFields: ['personal_info', 'mental_health_status', 'treatment_history'],
-    sensitivityLevel: 'critical' as const,
-    legalBasis: 'Mental health service coordination and crisis prevention'
+  "/api/mental-health/sessions": {
+    dataFields: ["personal_info", "mental_health_status", "treatment_history"],
+    sensitivityLevel: "critical" as const,
+    legalBasis: "Mental health service coordination and crisis prevention",
   },
-  '/api/employment/training/enroll': {
-    dataFields: ['personal_info', 'employment_history', 'skills', 'education'],
-    sensitivityLevel: 'medium' as const,
-    legalBasis: 'Workforce development program eligibility'
+  "/api/employment/training/enroll": {
+    dataFields: ["personal_info", "employment_history", "skills", "education"],
+    sensitivityLevel: "medium" as const,
+    legalBasis: "Workforce development program eligibility",
   },
-  '/api/legal/consultation': {
-    dataFields: ['personal_info', 'legal_issues', 'case_details'],
-    sensitivityLevel: 'high' as const,
-    legalBasis: 'Legal aid coordination and public defender assignment'
+  "/api/legal/consultation": {
+    dataFields: ["personal_info", "legal_issues", "case_details"],
+    sensitivityLevel: "high" as const,
+    legalBasis: "Legal aid coordination and public defender assignment",
   },
-  '/api/emergency/request': {
-    dataFields: ['personal_info', 'location', 'emergency_type', 'health_status'],
-    sensitivityLevel: 'critical' as const,
-    legalBasis: 'Emergency response and public safety'
-  }
+  "/api/emergency/request": {
+    dataFields: [
+      "personal_info",
+      "location",
+      "emergency_type",
+      "health_status",
+    ],
+    sensitivityLevel: "critical" as const,
+    legalBasis: "Emergency response and public safety",
+  },
 };
 
 export const governmentResourceAccessLogger = () => {
-  return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+  return async (
+    req: Request & { user?: any },
+    res: Response,
+    next: NextFunction,
+  ) => {
     const endpoint = req.path;
-    const resource = GOVERNMENT_RESOURCES[endpoint as keyof typeof GOVERNMENT_RESOURCES];
-    
+    const resource =
+      GOVERNMENT_RESOURCES[endpoint as keyof typeof GOVERNMENT_RESOURCES];
+
     // Skip non-government resources
     if (!resource) {
       return next();
@@ -130,47 +150,48 @@ export const governmentResourceAccessLogger = () => {
         endpoint,
         method: req.method,
         dataAccessed: resource.dataFields,
-        sensitivityLevel: resource.sensitivityLevel
+        sensitivityLevel: resource.sensitivityLevel,
       };
 
       // Pre-access logging
       await logGovernmentAccess({
-        userId: userId || 'anonymous',
-        accessorId: req.user?.userId || 'system',
+        userId: userId || "anonymous",
+        accessorId: req.user?.userId || "system",
         resourceAccessed: endpoint,
         dataFields: resource.dataFields,
         purpose: extractPurpose(req),
         legalBasis: resource.legalBasis,
-        consentGranted: await hasValidConsent(userId, 'government_access'),
+        consentGranted: await hasValidConsent(userId, "government_access"),
         timestamp: new Date(),
-        ipAddress: req.ip || 'unknown',
-        userAgent: req.get('User-Agent') || 'unknown',
-        sessionId: req.user?.sessionId || 'unknown',
+        ipAddress: req.ip || "unknown",
+        userAgent: req.get("User-Agent") || "unknown",
+        sessionId: req.user?.sessionId || "unknown",
         agencyType: determineAgencyType(accessorRole),
         agencyName: determineAgencyName(accessorRole),
-        auditLevel: resource.sensitivityLevel === 'critical' ? 'critical' : 'high'
+        auditLevel:
+          resource.sensitivityLevel === "critical" ? "critical" : "high",
       });
 
       // Add response logging
       const originalSend = res.send;
-      res.send = function(data) {
+      res.send = function (data) {
         // Log successful access
         if (res.statusCode < 400) {
           logSuccessfulAccess(accessContext, req.user, data);
         } else {
           logFailedAccess(accessContext, req.user, res.statusCode);
         }
-        
+
         return originalSend.call(this, data);
       };
 
       next();
     } catch (error) {
-      logger.error('Government access logging failed', {
-        error: error instanceof Error ? error.message : 'Unknown error',
+      logger.error("Government access logging failed", {
+        error: error instanceof Error ? error.message : "Unknown error",
         endpoint,
         userId: req.user?.userId,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       // Continue with request even if logging fails
@@ -179,26 +200,28 @@ export const governmentResourceAccessLogger = () => {
   };
 };
 
-async function logGovernmentAccess(accessLog: Omit<GovernmentAccessLog, 'id'>): Promise<void> {
+async function logGovernmentAccess(
+  accessLog: Omit<GovernmentAccessLog, "id">,
+): Promise<void> {
   const logEntry: GovernmentAccessLog = {
     id: generateAccessLogId(),
-    ...accessLog
+    ...accessLog,
   };
 
   // Log to application logger
-  logger.warn('Government resource access', {
-    type: 'GOVERNMENT_ACCESS',
+  logger.warn("Government resource access", {
+    type: "GOVERNMENT_ACCESS",
     ...logEntry,
-    compliance: 'AUDIT_REQUIRED'
+    compliance: "AUDIT_REQUIRED",
   });
 
   // Save to audit database (implement with your ORM)
   try {
     await saveAuditLog(logEntry);
   } catch (error) {
-    logger.error('Failed to save government access audit log', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      accessLogId: logEntry.id
+    logger.error("Failed to save government access audit log", {
+      error: error instanceof Error ? error.message : "Unknown error",
+      accessLogId: logEntry.id,
     });
   }
 
@@ -207,71 +230,77 @@ async function logGovernmentAccess(accessLog: Omit<GovernmentAccessLog, 'id'>): 
     try {
       await sendToExternalAudit(logEntry);
     } catch (error) {
-      logger.error('Failed to send to external audit system', {
-        error: error instanceof Error ? error.message : 'Unknown error',
-        accessLogId: logEntry.id
+      logger.error("Failed to send to external audit system", {
+        error: error instanceof Error ? error.message : "Unknown error",
+        accessLogId: logEntry.id,
       });
     }
   }
 
   // Real-time monitoring for critical access
-  if (logEntry.auditLevel === 'critical') {
+  if (logEntry.auditLevel === "critical") {
     await sendCriticalAccessAlert(logEntry);
   }
 }
 
 function isGovernmentAccessor(user: any): boolean {
   if (!user || !user.roles) return false;
-  
+
   const governmentRoles = [
-    'government_partner',
-    'case_worker',
-    'legal_aid',
-    'emergency_responder',
-    'system_admin'
+    "government_partner",
+    "case_worker",
+    "legal_aid",
+    "emergency_responder",
+    "system_admin",
   ];
-  
+
   return user.roles.some((role: string) => governmentRoles.includes(role));
 }
 
-function determineAgencyType(role: string): 'federal' | 'state' | 'local' | 'partner' {
-  const roleMapping: Record<string, 'federal' | 'state' | 'local' | 'partner'> = {
-    'government_partner': 'federal',
-    'case_worker': 'local',
-    'legal_aid': 'local', 
-    'emergency_responder': 'local',
-    'system_admin': 'partner'
-  };
-  
-  return roleMapping[role] || 'partner';
+function determineAgencyType(
+  role: string,
+): "federal" | "state" | "local" | "partner" {
+  const roleMapping: Record<string, "federal" | "state" | "local" | "partner"> =
+    {
+      government_partner: "federal",
+      case_worker: "local",
+      legal_aid: "local",
+      emergency_responder: "local",
+      system_admin: "partner",
+    };
+
+  return roleMapping[role] || "partner";
 }
 
 function determineAgencyName(role: string): string {
   const agencyMapping: Record<string, string> = {
-    'government_partner': 'Federal Agency Partner',
-    'case_worker': 'Local Social Services',
-    'legal_aid': 'Legal Aid Organization',
-    'emergency_responder': 'Emergency Services',
-    'system_admin': 'CareConnect System'
+    government_partner: "Federal Agency Partner",
+    case_worker: "Local Social Services",
+    legal_aid: "Legal Aid Organization",
+    emergency_responder: "Emergency Services",
+    system_admin: "CareConnect System",
   };
-  
-  return agencyMapping[role] || 'Unknown Agency';
+
+  return agencyMapping[role] || "Unknown Agency";
 }
 
 function extractPurpose(req: Request): string {
   // Extract purpose from request headers, query params, or body
-  const purpose = 
-    req.headers['x-access-purpose'] as string ||
-    req.query.purpose as string ||
+  const purpose =
+    (req.headers["x-access-purpose"] as string) ||
+    (req.query.purpose as string) ||
     req.body?.purpose ||
-    'Service coordination and eligibility verification';
-    
+    "Service coordination and eligibility verification";
+
   return purpose;
 }
 
-async function hasValidConsent(userId: string, consentType: string): Promise<boolean> {
+async function hasValidConsent(
+  userId: string,
+  consentType: string,
+): Promise<boolean> {
   if (!userId) return false;
-  
+
   try {
     // Check user consent (implement with your consent system)
     // const consent = await prisma.userConsent.findFirst({
@@ -282,11 +311,11 @@ async function hasValidConsent(userId: string, consentType: string): Promise<boo
     //   }
     // });
     // return !!consent;
-    
+
     // Mock implementation - replace with actual consent check
     return true;
   } catch (error) {
-    logger.error('Failed to check consent', { userId, consentType, error });
+    logger.error("Failed to check consent", { userId, consentType, error });
     return false;
   }
 }
@@ -301,110 +330,139 @@ async function saveAuditLog(logEntry: GovernmentAccessLog): Promise<void> {
   // await prisma.governmentAccessLog.create({
   //   data: logEntry
   // });
-  
-  logger.info('Government access audit log saved', { 
+
+  logger.info("Government access audit log saved", {
     id: logEntry.id,
-    resource: logEntry.resourceAccessed 
+    resource: logEntry.resourceAccessed,
   });
 }
 
-async function sendToExternalAudit(logEntry: GovernmentAccessLog): Promise<void> {
+async function sendToExternalAudit(
+  logEntry: GovernmentAccessLog,
+): Promise<void> {
   const auditEndpoint = process.env.EXTERNAL_AUDIT_ENDPOINT;
   const auditKey = process.env.EXTERNAL_AUDIT_KEY;
-  
+
   if (!auditEndpoint || !auditKey) return;
 
   try {
     const response = await fetch(auditEndpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${auditKey}`,
-        'X-Audit-Source': 'careconnect-api'
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auditKey}`,
+        "X-Audit-Source": "careconnect-api",
       },
       body: JSON.stringify({
         ...logEntry,
-        source: 'careconnect',
-        version: '1.0'
-      })
+        source: "careconnect",
+        version: "1.0",
+      }),
     });
 
     if (!response.ok) {
       throw new Error(`External audit API returned ${response.status}`);
     }
 
-    logger.info('Government access log sent to external audit', { 
+    logger.info("Government access log sent to external audit", {
       id: logEntry.id,
-      status: response.status 
+      status: response.status,
     });
   } catch (error) {
     throw error;
   }
 }
 
-async function sendCriticalAccessAlert(logEntry: GovernmentAccessLog): Promise<void> {
+async function sendCriticalAccessAlert(
+  logEntry: GovernmentAccessLog,
+): Promise<void> {
   const alertData = {
-    type: 'CRITICAL_GOVERNMENT_ACCESS',
-    severity: 'HIGH',
+    type: "CRITICAL_GOVERNMENT_ACCESS",
+    severity: "HIGH",
     message: `Critical government resource access: ${logEntry.resourceAccessed}`,
     userId: logEntry.userId,
     accessorId: logEntry.accessorId,
     agency: logEntry.agencyName,
     timestamp: logEntry.timestamp,
-    dataFields: logEntry.dataFields
+    dataFields: logEntry.dataFields,
   };
 
   // Send to monitoring system
-  logger.error('CRITICAL GOVERNMENT ACCESS ALERT', alertData);
+  logger.error("CRITICAL GOVERNMENT ACCESS ALERT", alertData);
 
   // Send to Slack/Teams if configured
   if (process.env.SLACK_WEBHOOK_URL) {
     try {
       await fetch(process.env.SLACK_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           text: `🚨 CRITICAL: Government access to sensitive data`,
-          attachments: [{
-            color: 'danger',
-            fields: [
-              { title: 'Resource', value: logEntry.resourceAccessed, short: true },
-              { title: 'Agency', value: logEntry.agencyName, short: true },
-              { title: 'User ID', value: logEntry.userId, short: true },
-              { title: 'Data Fields', value: logEntry.dataFields.join(', '), short: false },
-              { title: 'Time', value: logEntry.timestamp.toISOString(), short: true }
-            ]
-          }]
-        })
+          attachments: [
+            {
+              color: "danger",
+              fields: [
+                {
+                  title: "Resource",
+                  value: logEntry.resourceAccessed,
+                  short: true,
+                },
+                { title: "Agency", value: logEntry.agencyName, short: true },
+                { title: "User ID", value: logEntry.userId, short: true },
+                {
+                  title: "Data Fields",
+                  value: logEntry.dataFields.join(", "),
+                  short: false,
+                },
+                {
+                  title: "Time",
+                  value: logEntry.timestamp.toISOString(),
+                  short: true,
+                },
+              ],
+            },
+          ],
+        }),
       });
     } catch (error) {
-      logger.error('Failed to send Slack alert', { error });
+      logger.error("Failed to send Slack alert", { error });
     }
   }
 }
 
-function logSuccessfulAccess(context: AccessContext, user: any, responseData: any): void {
-  logger.info('Government resource access completed', {
-    type: 'GOVERNMENT_ACCESS_SUCCESS',
+function logSuccessfulAccess(
+  context: AccessContext,
+  user: any,
+  responseData: any,
+): void {
+  logger.info("Government resource access completed", {
+    type: "GOVERNMENT_ACCESS_SUCCESS",
     endpoint: context.endpoint,
     method: context.method,
     userId: user?.userId,
     dataAccessed: context.dataAccessed,
     sensitivityLevel: context.sensitivityLevel,
-    responseSize: typeof responseData === 'string' ? responseData.length : JSON.stringify(responseData).length,
-    timestamp: new Date().toISOString()
+    responseSize:
+      typeof responseData === "string"
+        ? responseData.length
+        : JSON.stringify(responseData).length,
+    timestamp: new Date().toISOString(),
   });
 }
 
-function logFailedAccess(context: AccessContext, user: any, statusCode: number): void {
-  logger.warn('Government resource access failed', {
-    type: 'GOVERNMENT_ACCESS_FAILURE',
+function logFailedAccess(
+  context: AccessContext,
+  user: any,
+  statusCode: number,
+): void {
+  logger.warn("Government resource access failed", {
+    type: "GOVERNMENT_ACCESS_FAILURE",
     endpoint: context.endpoint,
     method: context.method,
     userId: user?.userId,
     statusCode,
     sensitivityLevel: context.sensitivityLevel,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 }
 
@@ -412,7 +470,7 @@ function logFailedAccess(context: AccessContext, user: any, statusCode: number):
 export const generateGovernmentAccessReport = async (
   startDate: Date,
   endDate: Date,
-  agencyType?: string
+  agencyType?: string,
 ) => {
   try {
     // Query audit logs from database
@@ -433,26 +491,33 @@ export const generateGovernmentAccessReport = async (
     const report = {
       period: { start: startDate, end: endDate },
       totalAccesses: logs.length,
-      byAgency: logs.reduce((acc, log) => {
-        acc[log.agencyName] = (acc[log.agencyName] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
-      byResource: logs.reduce((acc, log) => {
-        acc[log.resourceAccessed] = (acc[log.resourceAccessed] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
-      criticalAccesses: logs.filter(log => log.auditLevel === 'critical').length,
-      unconsentedAccesses: logs.filter(log => !log.consentGranted).length,
-      details: logs
+      byAgency: logs.reduce(
+        (acc, log) => {
+          acc[log.agencyName] = (acc[log.agencyName] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
+      byResource: logs.reduce(
+        (acc, log) => {
+          acc[log.resourceAccessed] = (acc[log.resourceAccessed] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
+      criticalAccesses: logs.filter((log) => log.auditLevel === "critical")
+        .length,
+      unconsentedAccesses: logs.filter((log) => !log.consentGranted).length,
+      details: logs,
     };
 
     return report;
   } catch (error) {
-    logger.error('Failed to generate government access report', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+    logger.error("Failed to generate government access report", {
+      error: error instanceof Error ? error.message : "Unknown error",
       startDate,
       endDate,
-      agencyType
+      agencyType,
     });
     throw error;
   }

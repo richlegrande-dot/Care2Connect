@@ -1,1 +1,696 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[684],{53549:function(e,t,s){Promise.resolve().then(s.bind(s,57486))},57486:function(e,t,s){"use strict";s.r(t),s.d(t,{default:function(){return d}});var a=s(37821),r=s(58078),n=s(46179),l=s(39052);function d(e){let{params:t}=e,s=(0,n.useRouter)(),[d,i]=(0,r.useState)(null),[c,o]=(0,r.useState)(!0),[m,u]=(0,r.useState)(!1),[x,h]=(0,r.useState)(""),[g,p]=(0,r.useState)(""),[b,f]=(0,r.useState)("");(0,r.useEffect)(()=>{y()},[t.sourceId]);let y=async()=>{o(!0);try{let e=localStorage.getItem("adminToken"),a=await fetch("/api/admin/knowledge/sources/".concat(t.sourceId),{headers:{Authorization:"Bearer ".concat(e)}});if(a.ok){let e=await a.json();i(e),h(e.title),p(e.url||""),f(e.licenseNote||"")}else 404===a.status&&(alert("Source not found"),s.push("/admin/knowledge"))}catch(e){console.error("Error fetching source:",e)}finally{o(!1)}},j=async()=>{if(d){u(!0);try{let e=localStorage.getItem("adminToken"),t=await fetch("/api/admin/knowledge/sources/".concat(d.id),{method:"PATCH",headers:{Authorization:"Bearer ".concat(e),"Content-Type":"application/json"},body:JSON.stringify({title:x,url:g||null,licenseNote:b||null,reason:"Updated from Knowledge Vault admin interface"})});t.ok?(await y(),alert("Source updated successfully")):alert("Failed to update source")}catch(e){alert("Error updating source")}finally{u(!1)}}},v=async e=>{if(confirm("Delete this chunk? It will be soft-deleted and kept in the database."))try{let t=localStorage.getItem("adminToken"),s=await fetch("/api/admin/knowledge/chunks/".concat(e),{method:"DELETE",headers:{Authorization:"Bearer ".concat(t),"Content-Type":"application/json"},body:JSON.stringify({reason:"Deleted from Knowledge Vault admin interface"})});s.ok?await y():alert("Failed to delete chunk")}catch(e){alert("Error deleting chunk")}};return c?(0,a.jsx)(l.t,{children:(0,a.jsx)("div",{className:"min-h-screen flex items-center justify-center",children:(0,a.jsxs)("div",{className:"text-center",children:[(0,a.jsx)("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"}),(0,a.jsx)("p",{className:"text-gray-600",children:"Loading source..."})]})})}):d?(0,a.jsx)(l.t,{children:(0,a.jsxs)("div",{className:"min-h-screen bg-gray-50",children:[(0,a.jsx)("div",{className:"bg-white border-b border-gray-200",children:(0,a.jsx)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",children:(0,a.jsxs)("div",{className:"flex justify-between items-center",children:[(0,a.jsxs)("div",{children:[(0,a.jsx)("button",{onClick:()=>s.push("/admin/knowledge"),className:"text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center",children:"← Back to Knowledge Vault"}),(0,a.jsx)("h1",{className:"text-3xl font-bold text-gray-900",children:"Edit Knowledge Source"}),(0,a.jsx)("p",{className:"mt-1 text-sm text-gray-500",children:d.id})]}),(0,a.jsxs)("div",{className:"flex space-x-3",children:[(0,a.jsx)("button",{onClick:()=>s.push("/admin/knowledge/audit?entityId=".concat(d.id)),className:"px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50",children:"View Audit History"}),(0,a.jsx)("button",{onClick:j,disabled:m,className:"px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50",children:m?"Saving...":"Save Changes"})]})]})})}),(0,a.jsxs)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",children:[(0,a.jsxs)("div",{className:"bg-white rounded-lg shadow mb-6 p-6",children:[(0,a.jsx)("h2",{className:"text-lg font-semibold text-gray-900 mb-4",children:"Source Details"}),(0,a.jsxs)("div",{className:"space-y-4",children:[(0,a.jsxs)("div",{children:[(0,a.jsx)("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Title"}),(0,a.jsx)("input",{type:"text",value:x,onChange:e=>h(e.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"})]}),(0,a.jsxs)("div",{children:[(0,a.jsx)("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Source Type"}),(0,a.jsxs)("div",{className:"px-4 py-2 bg-gray-100 rounded-md text-gray-700",children:[d.sourceType,(0,a.jsx)("span",{className:"ml-2 text-sm text-gray-500",children:"(cannot be changed)"})]})]}),(0,a.jsxs)("div",{children:[(0,a.jsx)("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"URL (optional)"}),(0,a.jsx)("input",{type:"url",value:g,onChange:e=>p(e.target.value),placeholder:"https://example.com",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"})]}),(0,a.jsxs)("div",{children:[(0,a.jsx)("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"License Note (optional)"}),(0,a.jsx)("textarea",{value:b,onChange:e=>f(e.target.value),rows:3,placeholder:"e.g., MIT License, CC BY 4.0, etc.",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"})]}),(0,a.jsxs)("div",{className:"grid grid-cols-2 gap-4 text-sm text-gray-600",children:[(0,a.jsxs)("div",{children:[(0,a.jsx)("span",{className:"font-medium",children:"Created:"})," ",new Date(d.createdAt).toLocaleString()]}),(0,a.jsxs)("div",{children:[(0,a.jsx)("span",{className:"font-medium",children:"Updated:"})," ",new Date(d.updatedAt).toLocaleString()]})]})]})]}),(0,a.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[(0,a.jsxs)("div",{className:"flex justify-between items-center mb-4",children:[(0,a.jsxs)("h2",{className:"text-lg font-semibold text-gray-900",children:["Knowledge Chunks (",d.chunks.filter(e=>!e.isDeleted).length,")"]}),(0,a.jsx)("button",{className:"px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700",onClick:()=>alert("Add chunk feature coming soon"),children:"Add Chunk"})]}),0===d.chunks.length?(0,a.jsx)("p",{className:"text-center text-gray-500 py-8",children:"No chunks yet. Add your first chunk to get started."}):(0,a.jsx)("div",{className:"space-y-4",children:d.chunks.map(e=>(0,a.jsxs)("div",{className:"border rounded-lg p-4 ".concat(e.isDeleted?"bg-red-50 border-red-200 opacity-50":"border-gray-200"),children:[(0,a.jsxs)("div",{className:"flex justify-between items-start mb-2",children:[(0,a.jsxs)("div",{className:"flex-1",children:[(0,a.jsxs)("div",{className:"text-sm text-gray-500 mb-1",children:[e.language&&(0,a.jsxs)("span",{className:"mr-3",children:["Language: ",e.language]}),e.tags.length>0&&(0,a.jsxs)("span",{children:["Tags:"," ",e.tags.map(e=>(0,a.jsx)("span",{className:"inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1",children:e},e))]})]}),(0,a.jsx)("div",{className:"text-gray-900 whitespace-pre-wrap",children:e.chunkText})]}),(0,a.jsxs)("div",{className:"ml-4 flex space-x-2",children:[(0,a.jsx)("button",{onClick:()=>alert("Edit chunk feature coming soon"),className:"text-blue-600 hover:text-blue-900 text-sm",children:"Edit"}),!e.isDeleted&&(0,a.jsx)("button",{onClick:()=>v(e.id),className:"text-red-600 hover:text-red-900 text-sm",children:"Delete"})]})]}),(0,a.jsxs)("div",{className:"text-xs text-gray-500 mt-2",children:["Updated: ",new Date(e.updatedAt).toLocaleString(),e.isDeleted&&(0,a.jsx)("span",{className:"ml-2 text-red-600 font-medium",children:"(Deleted)"})]})]},e.id))})]})]})]})}):(0,a.jsx)(l.t,{children:(0,a.jsx)("div",{className:"min-h-screen flex items-center justify-center",children:(0,a.jsxs)("div",{className:"text-center",children:[(0,a.jsx)("p",{className:"text-gray-600",children:"Source not found"}),(0,a.jsx)("button",{onClick:()=>s.push("/admin/knowledge"),className:"mt-4 text-blue-600 hover:text-blue-700 underline",children:"Back to Knowledge Vault"})]})})})}},39052:function(e,t,s){"use strict";s.d(t,{t:function(){return l}});var a=s(37821),r=s(58078),n=s(46179);function l(e){let{children:t}=e,[s,l]=(0,r.useState)(!1),[d,i]=(0,r.useState)(!0),[c,o]=(0,r.useState)(""),[m,u]=(0,r.useState)("");(0,n.useRouter)(),(0,r.useEffect)(()=>{let e=localStorage.getItem("adminToken");e?x(e):i(!1)},[]);let x=async e=>{try{let t=await fetch("/api/admin/db/connection-info",{headers:{Authorization:"Bearer ".concat(e)}});t.ok?l(!0):localStorage.removeItem("adminToken")}catch(e){l(!0)}finally{i(!1)}},h=async e=>{e.preventDefault(),u("");try{let e=await fetch("/api/admin/db/connection-info",{headers:{Authorization:"Bearer ".concat(c)}});e.ok?(localStorage.setItem("adminToken",c),l(!0),o("")):u("Invalid admin password")}catch(e){u("Authentication failed - server may be unavailable")}};return d?(0,a.jsx)("div",{className:"min-h-screen flex items-center justify-center bg-gray-50",children:(0,a.jsxs)("div",{className:"text-center",children:[(0,a.jsx)("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"}),(0,a.jsx)("p",{className:"text-gray-600",children:"Verifying authentication..."})]})}):s?(0,a.jsxs)("div",{children:[(0,a.jsxs)("div",{className:"bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center",children:[(0,a.jsxs)("div",{className:"flex items-center space-x-2",children:[(0,a.jsx)("div",{className:"w-2 h-2 bg-green-500 rounded-full"}),(0,a.jsx)("span",{className:"text-sm text-gray-600",children:"Admin authenticated"})]}),(0,a.jsx)("button",{onClick:()=>{localStorage.removeItem("adminToken"),l(!1),o("")},className:"text-sm text-gray-600 hover:text-gray-900 underline",children:"Logout"})]}),t]}):(0,a.jsx)("div",{className:"min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100",children:(0,a.jsx)("div",{className:"max-w-md w-full mx-4",children:(0,a.jsxs)("div",{className:"bg-white rounded-lg shadow-xl p-8",children:[(0,a.jsxs)("div",{className:"text-center mb-8",children:[(0,a.jsx)("div",{className:"inline-block p-3 bg-blue-100 rounded-full mb-4",children:(0,a.jsx)("svg",{className:"w-8 h-8 text-blue-600",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24",children:(0,a.jsx)("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"})})}),(0,a.jsx)("h2",{className:"text-2xl font-bold text-gray-900 mb-2",children:"Admin Access Required"}),(0,a.jsx)("p",{className:"text-gray-600",children:"Enter admin password to access Knowledge Vault"})]}),(0,a.jsxs)("form",{onSubmit:h,className:"space-y-4",children:[(0,a.jsxs)("div",{children:[(0,a.jsx)("label",{htmlFor:"password",className:"block text-sm font-medium text-gray-700 mb-1",children:"Admin Password"}),(0,a.jsx)("input",{id:"password",type:"password",value:c,onChange:e=>o(e.target.value),placeholder:"Enter admin password",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",autoFocus:!0,required:!0})]}),m&&(0,a.jsx)("div",{className:"bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded",children:m}),(0,a.jsx)("button",{type:"submit",className:"w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors",children:"Unlock"})]}),(0,a.jsx)("div",{className:"mt-6 text-center text-sm text-gray-500",children:(0,a.jsx)("p",{children:"This is the same password used for the System Health page"})})]})})})}},8489:function(e,t,s){"use strict";var a=s(58078),r=Symbol.for("react.element"),n=Symbol.for("react.fragment"),l=Object.prototype.hasOwnProperty,d=a.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,i={key:!0,ref:!0,__self:!0,__source:!0};function c(e,t,s){var a,n={},c=null,o=null;for(a in void 0!==s&&(c=""+s),void 0!==t.key&&(c=""+t.key),void 0!==t.ref&&(o=t.ref),t)l.call(t,a)&&!i.hasOwnProperty(a)&&(n[a]=t[a]);if(e&&e.defaultProps)for(a in t=e.defaultProps)void 0===n[a]&&(n[a]=t[a]);return{$$typeof:r,type:e,key:c,ref:o,props:n,_owner:d.current}}t.Fragment=n,t.jsx=c,t.jsxs=c},37821:function(e,t,s){"use strict";e.exports=s(8489)},46179:function(e,t,s){e.exports=s(85353)}},function(e){e.O(0,[115,835,744],function(){return e(e.s=53549)}),_N_E=e.O()}]);
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [684],
+  {
+    53549: function (e, t, s) {
+      Promise.resolve().then(s.bind(s, 57486));
+    },
+    57486: function (e, t, s) {
+      "use strict";
+      (s.r(t),
+        s.d(t, {
+          default: function () {
+            return d;
+          },
+        }));
+      var a = s(37821),
+        r = s(58078),
+        n = s(46179),
+        l = s(39052);
+      function d(e) {
+        let { params: t } = e,
+          s = (0, n.useRouter)(),
+          [d, i] = (0, r.useState)(null),
+          [c, o] = (0, r.useState)(!0),
+          [m, u] = (0, r.useState)(!1),
+          [x, h] = (0, r.useState)(""),
+          [g, p] = (0, r.useState)(""),
+          [b, f] = (0, r.useState)("");
+        (0, r.useEffect)(() => {
+          y();
+        }, [t.sourceId]);
+        let y = async () => {
+            o(!0);
+            try {
+              let e = localStorage.getItem("adminToken"),
+                a = await fetch(
+                  "/api/admin/knowledge/sources/".concat(t.sourceId),
+                  { headers: { Authorization: "Bearer ".concat(e) } },
+                );
+              if (a.ok) {
+                let e = await a.json();
+                (i(e), h(e.title), p(e.url || ""), f(e.licenseNote || ""));
+              } else
+                404 === a.status &&
+                  (alert("Source not found"), s.push("/admin/knowledge"));
+            } catch (e) {
+              console.error("Error fetching source:", e);
+            } finally {
+              o(!1);
+            }
+          },
+          j = async () => {
+            if (d) {
+              u(!0);
+              try {
+                let e = localStorage.getItem("adminToken"),
+                  t = await fetch(
+                    "/api/admin/knowledge/sources/".concat(d.id),
+                    {
+                      method: "PATCH",
+                      headers: {
+                        Authorization: "Bearer ".concat(e),
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        title: x,
+                        url: g || null,
+                        licenseNote: b || null,
+                        reason: "Updated from Knowledge Vault admin interface",
+                      }),
+                    },
+                  );
+                t.ok
+                  ? (await y(), alert("Source updated successfully"))
+                  : alert("Failed to update source");
+              } catch (e) {
+                alert("Error updating source");
+              } finally {
+                u(!1);
+              }
+            }
+          },
+          v = async (e) => {
+            if (
+              confirm(
+                "Delete this chunk? It will be soft-deleted and kept in the database.",
+              )
+            )
+              try {
+                let t = localStorage.getItem("adminToken"),
+                  s = await fetch("/api/admin/knowledge/chunks/".concat(e), {
+                    method: "DELETE",
+                    headers: {
+                      Authorization: "Bearer ".concat(t),
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      reason: "Deleted from Knowledge Vault admin interface",
+                    }),
+                  });
+                s.ok ? await y() : alert("Failed to delete chunk");
+              } catch (e) {
+                alert("Error deleting chunk");
+              }
+          };
+        return c
+          ? (0, a.jsx)(l.t, {
+              children: (0, a.jsx)("div", {
+                className: "min-h-screen flex items-center justify-center",
+                children: (0, a.jsxs)("div", {
+                  className: "text-center",
+                  children: [
+                    (0, a.jsx)("div", {
+                      className:
+                        "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4",
+                    }),
+                    (0, a.jsx)("p", {
+                      className: "text-gray-600",
+                      children: "Loading source...",
+                    }),
+                  ],
+                }),
+              }),
+            })
+          : d
+            ? (0, a.jsx)(l.t, {
+                children: (0, a.jsxs)("div", {
+                  className: "min-h-screen bg-gray-50",
+                  children: [
+                    (0, a.jsx)("div", {
+                      className: "bg-white border-b border-gray-200",
+                      children: (0, a.jsx)("div", {
+                        className:
+                          "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",
+                        children: (0, a.jsxs)("div", {
+                          className: "flex justify-between items-center",
+                          children: [
+                            (0, a.jsxs)("div", {
+                              children: [
+                                (0, a.jsx)("button", {
+                                  onClick: () => s.push("/admin/knowledge"),
+                                  className:
+                                    "text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center",
+                                  children: "← Back to Knowledge Vault",
+                                }),
+                                (0, a.jsx)("h1", {
+                                  className: "text-3xl font-bold text-gray-900",
+                                  children: "Edit Knowledge Source",
+                                }),
+                                (0, a.jsx)("p", {
+                                  className: "mt-1 text-sm text-gray-500",
+                                  children: d.id,
+                                }),
+                              ],
+                            }),
+                            (0, a.jsxs)("div", {
+                              className: "flex space-x-3",
+                              children: [
+                                (0, a.jsx)("button", {
+                                  onClick: () =>
+                                    s.push(
+                                      "/admin/knowledge/audit?entityId=".concat(
+                                        d.id,
+                                      ),
+                                    ),
+                                  className:
+                                    "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50",
+                                  children: "View Audit History",
+                                }),
+                                (0, a.jsx)("button", {
+                                  onClick: j,
+                                  disabled: m,
+                                  className:
+                                    "px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50",
+                                  children: m ? "Saving..." : "Save Changes",
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                      }),
+                    }),
+                    (0, a.jsxs)("div", {
+                      className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+                      children: [
+                        (0, a.jsxs)("div", {
+                          className: "bg-white rounded-lg shadow mb-6 p-6",
+                          children: [
+                            (0, a.jsx)("h2", {
+                              className:
+                                "text-lg font-semibold text-gray-900 mb-4",
+                              children: "Source Details",
+                            }),
+                            (0, a.jsxs)("div", {
+                              className: "space-y-4",
+                              children: [
+                                (0, a.jsxs)("div", {
+                                  children: [
+                                    (0, a.jsx)("label", {
+                                      className:
+                                        "block text-sm font-medium text-gray-700 mb-1",
+                                      children: "Title",
+                                    }),
+                                    (0, a.jsx)("input", {
+                                      type: "text",
+                                      value: x,
+                                      onChange: (e) => h(e.target.value),
+                                      className:
+                                        "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                    }),
+                                  ],
+                                }),
+                                (0, a.jsxs)("div", {
+                                  children: [
+                                    (0, a.jsx)("label", {
+                                      className:
+                                        "block text-sm font-medium text-gray-700 mb-1",
+                                      children: "Source Type",
+                                    }),
+                                    (0, a.jsxs)("div", {
+                                      className:
+                                        "px-4 py-2 bg-gray-100 rounded-md text-gray-700",
+                                      children: [
+                                        d.sourceType,
+                                        (0, a.jsx)("span", {
+                                          className:
+                                            "ml-2 text-sm text-gray-500",
+                                          children: "(cannot be changed)",
+                                        }),
+                                      ],
+                                    }),
+                                  ],
+                                }),
+                                (0, a.jsxs)("div", {
+                                  children: [
+                                    (0, a.jsx)("label", {
+                                      className:
+                                        "block text-sm font-medium text-gray-700 mb-1",
+                                      children: "URL (optional)",
+                                    }),
+                                    (0, a.jsx)("input", {
+                                      type: "url",
+                                      value: g,
+                                      onChange: (e) => p(e.target.value),
+                                      placeholder: "https://example.com",
+                                      className:
+                                        "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                    }),
+                                  ],
+                                }),
+                                (0, a.jsxs)("div", {
+                                  children: [
+                                    (0, a.jsx)("label", {
+                                      className:
+                                        "block text-sm font-medium text-gray-700 mb-1",
+                                      children: "License Note (optional)",
+                                    }),
+                                    (0, a.jsx)("textarea", {
+                                      value: b,
+                                      onChange: (e) => f(e.target.value),
+                                      rows: 3,
+                                      placeholder:
+                                        "e.g., MIT License, CC BY 4.0, etc.",
+                                      className:
+                                        "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                    }),
+                                  ],
+                                }),
+                                (0, a.jsxs)("div", {
+                                  className:
+                                    "grid grid-cols-2 gap-4 text-sm text-gray-600",
+                                  children: [
+                                    (0, a.jsxs)("div", {
+                                      children: [
+                                        (0, a.jsx)("span", {
+                                          className: "font-medium",
+                                          children: "Created:",
+                                        }),
+                                        " ",
+                                        new Date(d.createdAt).toLocaleString(),
+                                      ],
+                                    }),
+                                    (0, a.jsxs)("div", {
+                                      children: [
+                                        (0, a.jsx)("span", {
+                                          className: "font-medium",
+                                          children: "Updated:",
+                                        }),
+                                        " ",
+                                        new Date(d.updatedAt).toLocaleString(),
+                                      ],
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                        (0, a.jsxs)("div", {
+                          className: "bg-white rounded-lg shadow p-6",
+                          children: [
+                            (0, a.jsxs)("div", {
+                              className:
+                                "flex justify-between items-center mb-4",
+                              children: [
+                                (0, a.jsxs)("h2", {
+                                  className:
+                                    "text-lg font-semibold text-gray-900",
+                                  children: [
+                                    "Knowledge Chunks (",
+                                    d.chunks.filter((e) => !e.isDeleted).length,
+                                    ")",
+                                  ],
+                                }),
+                                (0, a.jsx)("button", {
+                                  className:
+                                    "px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700",
+                                  onClick: () =>
+                                    alert("Add chunk feature coming soon"),
+                                  children: "Add Chunk",
+                                }),
+                              ],
+                            }),
+                            0 === d.chunks.length
+                              ? (0, a.jsx)("p", {
+                                  className: "text-center text-gray-500 py-8",
+                                  children:
+                                    "No chunks yet. Add your first chunk to get started.",
+                                })
+                              : (0, a.jsx)("div", {
+                                  className: "space-y-4",
+                                  children: d.chunks.map((e) =>
+                                    (0, a.jsxs)(
+                                      "div",
+                                      {
+                                        className:
+                                          "border rounded-lg p-4 ".concat(
+                                            e.isDeleted
+                                              ? "bg-red-50 border-red-200 opacity-50"
+                                              : "border-gray-200",
+                                          ),
+                                        children: [
+                                          (0, a.jsxs)("div", {
+                                            className:
+                                              "flex justify-between items-start mb-2",
+                                            children: [
+                                              (0, a.jsxs)("div", {
+                                                className: "flex-1",
+                                                children: [
+                                                  (0, a.jsxs)("div", {
+                                                    className:
+                                                      "text-sm text-gray-500 mb-1",
+                                                    children: [
+                                                      e.language &&
+                                                        (0, a.jsxs)("span", {
+                                                          className: "mr-3",
+                                                          children: [
+                                                            "Language: ",
+                                                            e.language,
+                                                          ],
+                                                        }),
+                                                      e.tags.length > 0 &&
+                                                        (0, a.jsxs)("span", {
+                                                          children: [
+                                                            "Tags:",
+                                                            " ",
+                                                            e.tags.map((e) =>
+                                                              (0, a.jsx)(
+                                                                "span",
+                                                                {
+                                                                  className:
+                                                                    "inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1",
+                                                                  children: e,
+                                                                },
+                                                                e,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        }),
+                                                    ],
+                                                  }),
+                                                  (0, a.jsx)("div", {
+                                                    className:
+                                                      "text-gray-900 whitespace-pre-wrap",
+                                                    children: e.chunkText,
+                                                  }),
+                                                ],
+                                              }),
+                                              (0, a.jsxs)("div", {
+                                                className:
+                                                  "ml-4 flex space-x-2",
+                                                children: [
+                                                  (0, a.jsx)("button", {
+                                                    onClick: () =>
+                                                      alert(
+                                                        "Edit chunk feature coming soon",
+                                                      ),
+                                                    className:
+                                                      "text-blue-600 hover:text-blue-900 text-sm",
+                                                    children: "Edit",
+                                                  }),
+                                                  !e.isDeleted &&
+                                                    (0, a.jsx)("button", {
+                                                      onClick: () => v(e.id),
+                                                      className:
+                                                        "text-red-600 hover:text-red-900 text-sm",
+                                                      children: "Delete",
+                                                    }),
+                                                ],
+                                              }),
+                                            ],
+                                          }),
+                                          (0, a.jsxs)("div", {
+                                            className:
+                                              "text-xs text-gray-500 mt-2",
+                                            children: [
+                                              "Updated: ",
+                                              new Date(
+                                                e.updatedAt,
+                                              ).toLocaleString(),
+                                              e.isDeleted &&
+                                                (0, a.jsx)("span", {
+                                                  className:
+                                                    "ml-2 text-red-600 font-medium",
+                                                  children: "(Deleted)",
+                                                }),
+                                            ],
+                                          }),
+                                        ],
+                                      },
+                                      e.id,
+                                    ),
+                                  ),
+                                }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              })
+            : (0, a.jsx)(l.t, {
+                children: (0, a.jsx)("div", {
+                  className: "min-h-screen flex items-center justify-center",
+                  children: (0, a.jsxs)("div", {
+                    className: "text-center",
+                    children: [
+                      (0, a.jsx)("p", {
+                        className: "text-gray-600",
+                        children: "Source not found",
+                      }),
+                      (0, a.jsx)("button", {
+                        onClick: () => s.push("/admin/knowledge"),
+                        className:
+                          "mt-4 text-blue-600 hover:text-blue-700 underline",
+                        children: "Back to Knowledge Vault",
+                      }),
+                    ],
+                  }),
+                }),
+              });
+      }
+    },
+    39052: function (e, t, s) {
+      "use strict";
+      s.d(t, {
+        t: function () {
+          return l;
+        },
+      });
+      var a = s(37821),
+        r = s(58078),
+        n = s(46179);
+      function l(e) {
+        let { children: t } = e,
+          [s, l] = (0, r.useState)(!1),
+          [d, i] = (0, r.useState)(!0),
+          [c, o] = (0, r.useState)(""),
+          [m, u] = (0, r.useState)("");
+        ((0, n.useRouter)(),
+          (0, r.useEffect)(() => {
+            let e = localStorage.getItem("adminToken");
+            e ? x(e) : i(!1);
+          }, []));
+        let x = async (e) => {
+            try {
+              let t = await fetch("/api/admin/db/connection-info", {
+                headers: { Authorization: "Bearer ".concat(e) },
+              });
+              t.ok ? l(!0) : localStorage.removeItem("adminToken");
+            } catch (e) {
+              l(!0);
+            } finally {
+              i(!1);
+            }
+          },
+          h = async (e) => {
+            (e.preventDefault(), u(""));
+            try {
+              let e = await fetch("/api/admin/db/connection-info", {
+                headers: { Authorization: "Bearer ".concat(c) },
+              });
+              e.ok
+                ? (localStorage.setItem("adminToken", c), l(!0), o(""))
+                : u("Invalid admin password");
+            } catch (e) {
+              u("Authentication failed - server may be unavailable");
+            }
+          };
+        return d
+          ? (0, a.jsx)("div", {
+              className:
+                "min-h-screen flex items-center justify-center bg-gray-50",
+              children: (0, a.jsxs)("div", {
+                className: "text-center",
+                children: [
+                  (0, a.jsx)("div", {
+                    className:
+                      "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4",
+                  }),
+                  (0, a.jsx)("p", {
+                    className: "text-gray-600",
+                    children: "Verifying authentication...",
+                  }),
+                ],
+              }),
+            })
+          : s
+            ? (0, a.jsxs)("div", {
+                children: [
+                  (0, a.jsxs)("div", {
+                    className:
+                      "bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center",
+                    children: [
+                      (0, a.jsxs)("div", {
+                        className: "flex items-center space-x-2",
+                        children: [
+                          (0, a.jsx)("div", {
+                            className: "w-2 h-2 bg-green-500 rounded-full",
+                          }),
+                          (0, a.jsx)("span", {
+                            className: "text-sm text-gray-600",
+                            children: "Admin authenticated",
+                          }),
+                        ],
+                      }),
+                      (0, a.jsx)("button", {
+                        onClick: () => {
+                          (localStorage.removeItem("adminToken"), l(!1), o(""));
+                        },
+                        className:
+                          "text-sm text-gray-600 hover:text-gray-900 underline",
+                        children: "Logout",
+                      }),
+                    ],
+                  }),
+                  t,
+                ],
+              })
+            : (0, a.jsx)("div", {
+                className:
+                  "min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100",
+                children: (0, a.jsx)("div", {
+                  className: "max-w-md w-full mx-4",
+                  children: (0, a.jsxs)("div", {
+                    className: "bg-white rounded-lg shadow-xl p-8",
+                    children: [
+                      (0, a.jsxs)("div", {
+                        className: "text-center mb-8",
+                        children: [
+                          (0, a.jsx)("div", {
+                            className:
+                              "inline-block p-3 bg-blue-100 rounded-full mb-4",
+                            children: (0, a.jsx)("svg", {
+                              className: "w-8 h-8 text-blue-600",
+                              fill: "none",
+                              stroke: "currentColor",
+                              viewBox: "0 0 24 24",
+                              children: (0, a.jsx)("path", {
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                strokeWidth: 2,
+                                d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
+                              }),
+                            }),
+                          }),
+                          (0, a.jsx)("h2", {
+                            className: "text-2xl font-bold text-gray-900 mb-2",
+                            children: "Admin Access Required",
+                          }),
+                          (0, a.jsx)("p", {
+                            className: "text-gray-600",
+                            children:
+                              "Enter admin password to access Knowledge Vault",
+                          }),
+                        ],
+                      }),
+                      (0, a.jsxs)("form", {
+                        onSubmit: h,
+                        className: "space-y-4",
+                        children: [
+                          (0, a.jsxs)("div", {
+                            children: [
+                              (0, a.jsx)("label", {
+                                htmlFor: "password",
+                                className:
+                                  "block text-sm font-medium text-gray-700 mb-1",
+                                children: "Admin Password",
+                              }),
+                              (0, a.jsx)("input", {
+                                id: "password",
+                                type: "password",
+                                value: c,
+                                onChange: (e) => o(e.target.value),
+                                placeholder: "Enter admin password",
+                                className:
+                                  "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                autoFocus: !0,
+                                required: !0,
+                              }),
+                            ],
+                          }),
+                          m &&
+                            (0, a.jsx)("div", {
+                              className:
+                                "bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded",
+                              children: m,
+                            }),
+                          (0, a.jsx)("button", {
+                            type: "submit",
+                            className:
+                              "w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors",
+                            children: "Unlock",
+                          }),
+                        ],
+                      }),
+                      (0, a.jsx)("div", {
+                        className: "mt-6 text-center text-sm text-gray-500",
+                        children: (0, a.jsx)("p", {
+                          children:
+                            "This is the same password used for the System Health page",
+                        }),
+                      }),
+                    ],
+                  }),
+                }),
+              });
+      }
+    },
+    8489: function (e, t, s) {
+      "use strict";
+      var a = s(58078),
+        r = Symbol.for("react.element"),
+        n = Symbol.for("react.fragment"),
+        l = Object.prototype.hasOwnProperty,
+        d =
+          a.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
+            .ReactCurrentOwner,
+        i = { key: !0, ref: !0, __self: !0, __source: !0 };
+      function c(e, t, s) {
+        var a,
+          n = {},
+          c = null,
+          o = null;
+        for (a in (void 0 !== s && (c = "" + s),
+        void 0 !== t.key && (c = "" + t.key),
+        void 0 !== t.ref && (o = t.ref),
+        t))
+          l.call(t, a) && !i.hasOwnProperty(a) && (n[a] = t[a]);
+        if (e && e.defaultProps)
+          for (a in (t = e.defaultProps)) void 0 === n[a] && (n[a] = t[a]);
+        return {
+          $$typeof: r,
+          type: e,
+          key: c,
+          ref: o,
+          props: n,
+          _owner: d.current,
+        };
+      }
+      ((t.Fragment = n), (t.jsx = c), (t.jsxs = c));
+    },
+    37821: function (e, t, s) {
+      "use strict";
+      e.exports = s(8489);
+    },
+    46179: function (e, t, s) {
+      e.exports = s(85353);
+    },
+  },
+  function (e) {
+    (e.O(0, [115, 835, 744], function () {
+      return e((e.s = 53549));
+    }),
+      (_N_E = e.O()));
+  },
+]);

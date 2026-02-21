@@ -1,13 +1,13 @@
 /**
  * Manual Draft Page
- * 
+ *
  * Route: /story/[recordingId]/manual-draft
  * Purpose: Fallback UI when automated pipeline fails
  */
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import ManualDraftEditor from '@/components/ManualDraftEditor';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import ManualDraftEditor from "@/components/ManualDraftEditor";
 
 interface PipelineFailure {
   success: false;
@@ -30,7 +30,7 @@ export default function ManualDraftPage() {
   const { recordingId } = router.query;
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [failureData, setFailureData] = useState<PipelineFailure | null>(null);
   const [existingDraft, setExistingDraft] = useState<any>(null);
 
@@ -39,39 +39,43 @@ export default function ManualDraftPage() {
 
     const loadDraftData = async () => {
       setLoading(true);
-      setError('');
+      setError("");
 
       try {
         // Try to load existing manual draft
-        const response = await fetch(`/api/donations/manual-draft/${recordingId}`);
-        
+        const response = await fetch(
+          `/api/donations/manual-draft/${recordingId}`,
+        );
+
         if (response.ok) {
           const data = await response.json();
-          
+
           if (data.success && data.draft) {
             setExistingDraft(data.draft);
-            
+
             // If we have an existing draft, use it
             setFailureData({
               success: false,
-              reasonCode: 'MANUAL_EDIT',
-              userMessage: 'Continue editing your draft',
+              reasonCode: "MANUAL_EDIT",
+              userMessage: "Continue editing your draft",
               debugId: data.draft.ticketId,
               ticketId: data.draft.ticketId,
               partialData: {
                 extractedFields: {
                   title: data.draft.title,
                   story: data.draft.story,
-                  goalAmount: data.draft.goalAmount
-                }
-              }
+                  goalAmount: data.draft.goalAmount,
+                },
+              },
             });
           }
         } else {
           // No existing draft - this is a fresh fallback from pipeline
           // Check if we have failure data in sessionStorage or query params
-          const storedFailure = sessionStorage.getItem(`pipeline_failure_${recordingId}`);
-          
+          const storedFailure = sessionStorage.getItem(
+            `pipeline_failure_${recordingId}`,
+          );
+
           if (storedFailure) {
             const parsedFailure = JSON.parse(storedFailure);
             setFailureData(parsedFailure);
@@ -79,16 +83,16 @@ export default function ManualDraftPage() {
             // Fallback to basic mode
             setFailureData({
               success: false,
-              reasonCode: 'UNKNOWN',
-              userMessage: 'Please create your fundraising campaign manually',
+              reasonCode: "UNKNOWN",
+              userMessage: "Please create your fundraising campaign manually",
               debugId: String(recordingId),
-              ticketId: String(recordingId)
+              ticketId: String(recordingId),
             });
           }
         }
       } catch (err) {
-        console.error('Failed to load draft data:', err);
-        setError('Failed to load draft. Please try again.');
+        console.error("Failed to load draft data:", err);
+        setError("Failed to load draft. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -122,8 +126,12 @@ export default function ManualDraftPage() {
           }
 
           @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
           }
         `}</style>
       </div>

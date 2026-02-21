@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express';
-import { healthMonitor } from '../monitoring/healthMonitor';
-import { getHealthScheduler } from '../utils/healthCheckScheduler';
-import { healthCheckRunner } from '../ops/healthCheckRunner';
-import { incidentStore } from '../ops/incidentStore';
-import { getEnvProof } from '../utils/envProof';
+import { Router, Request, Response } from "express";
+import { healthMonitor } from "../monitoring/healthMonitor";
+import { getHealthScheduler } from "../utils/healthCheckScheduler";
+import { healthCheckRunner } from "../ops/healthCheckRunner";
+import { incidentStore } from "../ops/incidentStore";
+import { getEnvProof } from "../utils/envProof";
 
 const router = Router();
 
@@ -13,9 +13,9 @@ const router = Router();
 function extractDbHost(dbUrl: string): string {
   try {
     const match = dbUrl.match(/@([^:\/]+)/);
-    return match ? match[1] : 'unknown';
+    return match ? match[1] : "unknown";
   } catch {
-    return 'unknown';
+    return "unknown";
   }
 }
 
@@ -23,23 +23,25 @@ function extractDbHost(dbUrl: string): string {
  * GET /health/live
  * Liveness probe - returns 200 if server process is running
  */
-router.get('/live', (req: Request, res: Response) => {
-  const configuredPort = process.env.PORT || '3001';
-  const actualPort = (req.socket.localPort || '').toString();
+router.get("/live", (req: Request, res: Response) => {
+  const configuredPort = process.env.PORT || "3001";
+  const actualPort = (req.socket.localPort || "").toString();
   const portMismatch = actualPort && actualPort !== configuredPort;
-  
+
   res.status(200).json({
-    status: 'alive',
+    status: "alive",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     pid: process.pid,
     port: {
       configured: configuredPort,
       actual: actualPort || configuredPort,
-      mismatch: portMismatch
+      mismatch: portMismatch,
     },
-    warning: portMismatch ? 'Server is running on a different port than configured' : undefined,
-    message: 'Server is running and accepting connections'
+    warning: portMismatch
+      ? "Server is running on a different port than configured"
+      : undefined,
+    message: "Server is running and accepting connections",
   });
 });
 
@@ -47,26 +49,26 @@ router.get('/live', (req: Request, res: Response) => {
  * GET /health/db
  * Database health check - returns 200 if database is accessible
  */
-router.get('/db', async (req: Request, res: Response) => {
+router.get("/db", async (req: Request, res: Response) => {
   try {
-    const { prisma } = require('../utils/database');
-    
+    const { prisma } = require("../utils/database");
+
     // Quick database ping
     await prisma.$queryRaw`SELECT 1 as test`;
-    
+
     res.status(200).json({
       ready: true,
-      message: 'Database is accessible',
-      timestamp: new Date().toISOString()
+      message: "Database is accessible",
+      timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
-    console.error('[Health] Database check failed:', error.message);
-    
+    console.error("[Health] Database check failed:", error.message);
+
     res.status(503).json({
       ready: false,
-      message: 'Database is not accessible',
+      message: "Database is not accessible",
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 });
@@ -174,7 +176,7 @@ router.get('/status', async (req: Request, res: Response) => {
  * GET /health/test
  * Simple HTML page for browser testing
  */
-router.get('/test', (req: Request, res: Response) => {
+router.get("/test", (req: Request, res: Response) => {
   const html = `
 <!DOCTYPE html>
 <html>
@@ -194,7 +196,7 @@ router.get('/test', (req: Request, res: Response) => {
         <div class="info">🚀 Status: <span class="badge">ONLINE</span></div>
         <div class="info">📊 Process ID: ${process.pid}</div>
         <div class="info">⏱️ Uptime: ${Math.round(process.uptime())} seconds</div>
-        <div class="info">🌐 Port: ${process.env.PORT || '3002'}</div>
+        <div class="info">🌐 Port: ${process.env.PORT || "3002"}</div>
         <div class="info">📅 Timestamp: ${new Date().toISOString()}</div>
         <div class="info">🎯 Ready for Stripe webhook creation!</div>
         <hr style="margin: 20px 0;">
@@ -205,7 +207,7 @@ router.get('/test', (req: Request, res: Response) => {
     </div>
 </body>
 </html>`;
-  
+
   res.status(200).send(html);
 });
 
@@ -214,16 +216,16 @@ router.get('/test', (req: Request, res: Response) => {
  * Readiness probe - returns 200 if server is ready to handle requests
  * Returns degraded status if non-critical services are down
  */
-router.get('/ready', async (req: Request, res: Response) => {
+router.get("/ready", async (req: Request, res: Response) => {
   try {
     const snapshot = await healthMonitor.performHealthCheck();
-    
+
     // Readiness requires both core services OK and integrity indicating readiness
     const integrityReady = snapshot?.integrity?.ready === true;
-    const isReady = (snapshot?.ok === true) && integrityReady;
+    const isReady = snapshot?.ok === true && integrityReady;
 
     res.status(isReady ? 200 : 503).json({
-      status: isReady ? 'ready' : 'not_ready',
+      status: isReady ? "ready" : "not_ready",
       integrity: snapshot?.integrity || null,
       connectedSince: snapshot?.connectedSince || {},
       degraded: snapshot?.degraded?.enabled ?? false,
@@ -236,7 +238,7 @@ router.get('/ready', async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(503).json({
-      status: 'not_ready',
+      status: "not_ready",
       error: error.message,
       timestamp: new Date().toISOString(),
     });
@@ -247,7 +249,7 @@ router.get('/ready', async (req: Request, res: Response) => {
  * GET /health/status
  * Full health status with all subsystems
  */
-router.get('/status', async (req: Request, res: Response) => {
+router.get("/status", async (req: Request, res: Response) => {
   try {
     const snapshot = await healthMonitor.performHealthCheck();
     res.status(200).json(snapshot);
@@ -265,61 +267,66 @@ router.get('/status', async (req: Request, res: Response) => {
  * Returns comprehensive health status including integration checks
  * Always returns 200 (liveness) with detailed status information
  */
-router.get('/status', async (req: Request, res: Response) => {
+router.get("/status", async (req: Request, res: Response) => {
   try {
     // Get current health check results
     const scheduler = getHealthScheduler();
     const healthStatus = scheduler.getLastStatus();
-    
+
     // Get legacy health monitor results
     const legacySnapshot = await healthMonitor.performHealthCheck();
 
     // Get env proof
-    const envProof = getEnvProof(['DATABASE_URL', 'OPENAI_API_KEY', 'ASSEMBLYAI_API_KEY']);
+    const envProof = getEnvProof([
+      "DATABASE_URL",
+      "OPENAI_API_KEY",
+      "ASSEMBLYAI_API_KEY",
+    ]);
 
     // Combine results
     const response = {
       ok: healthStatus?.overall ?? true, // Default to true if no checks run yet
-      status: healthStatus?.overall ? 'healthy' : 'degraded',
+      status: healthStatus?.overall ? "healthy" : "degraded",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       envProof,
-      
+
       // Integration health checks
-      integrations: healthStatus ? {
-        overall: healthStatus.overall,
-        services: healthStatus.services.map(s => ({
-          service: s.service,
-          healthy: s.healthy,
-          latency: s.latency,
-          lastCheck: s.lastCheck,
-          error: s.error
-        })),
-        lastRun: healthStatus.lastRun
-      } : {
-        overall: true,
-        services: [],
-        message: 'No health checks run yet'
-      },
+      integrations: healthStatus
+        ? {
+            overall: healthStatus.overall,
+            services: healthStatus.services.map((s) => ({
+              service: s.service,
+              healthy: s.healthy,
+              latency: s.latency,
+              lastCheck: s.lastCheck,
+              error: s.error,
+            })),
+            lastRun: healthStatus.lastRun,
+          }
+        : {
+            overall: true,
+            services: [],
+            message: "No health checks run yet",
+          },
 
       // Legacy monitoring (for backward compatibility)
       legacy: {
         integrity: legacySnapshot?.integrity || null,
         connectedSince: legacySnapshot?.connectedSince || {},
-        degraded: legacySnapshot?.degraded?.enabled ?? false
-      }
+        degraded: legacySnapshot?.degraded?.enabled ?? false,
+      },
     };
 
     res.status(200).json(response);
-
   } catch (error: any) {
     // Always return 200 for liveness, but indicate error in response
     res.status(200).json({
       ok: false,
-      status: 'error',
+      status: "error",
       error: error.message,
       timestamp: new Date().toISOString(),
-      uptime: process.uptime()
+      uptime: process.uptime(),
     });
   }
 });
@@ -328,36 +335,36 @@ router.get('/status', async (req: Request, res: Response) => {
  * GET /health/history
  * Returns health check history from database (graph-ready format)
  */
-router.get('/history', async (req: Request, res: Response) => {
-  const { prisma } = require('../utils/database');
-  
+router.get("/history", async (req: Request, res: Response) => {
+  const { prisma } = require("../utils/database");
+
   try {
-    const windowParam = req.query.window as string || '24h';
+    const windowParam = (req.query.window as string) || "24h";
     const limitParam = parseInt(req.query.limit as string) || 100;
-    
+
     // Parse window parameter (e.g., "24h", "7d", "30d")
     let hoursBack = 24;
     const windowMatch = windowParam.match(/^(\d+)([hd])$/);
     if (windowMatch) {
       const value = parseInt(windowMatch[1]);
       const unit = windowMatch[2];
-      hoursBack = unit === 'h' ? value : value * 24;
+      hoursBack = unit === "h" ? value : value * 24;
     }
-    
+
     const startTime = new Date(Date.now() - hoursBack * 60 * 60 * 1000);
-    
+
     const healthChecks = await prisma.healthCheckRun.findMany({
       where: {
         createdAt: {
-          gte: startTime
-        }
+          gte: startTime,
+        },
       },
       orderBy: {
-        createdAt: 'asc'
+        createdAt: "asc",
       },
-      take: limitParam
+      take: limitParam,
     });
-    
+
     // Transform for graph rendering
     const systemSeries = healthChecks.map((check: any) => ({
       timestamp: check.createdAt,
@@ -365,14 +372,14 @@ router.get('/history', async (req: Request, res: Response) => {
       latency: check.latency,
       cpuUsage: check.cpuUsage,
       memoryUsage: check.memoryUsage,
-      eventLoopDelay: check.eventLoopDelay
+      eventLoopDelay: check.eventLoopDelay,
     }));
-    
+
     // Extract service-specific data
     const serviceSeries: any = {};
     for (const check of healthChecks) {
       const checks = check.checks as any;
-      if (checks && typeof checks === 'object') {
+      if (checks && typeof checks === "object") {
         Object.entries(checks).forEach(([service, result]: [string, any]) => {
           if (!serviceSeries[service]) {
             serviceSeries[service] = [];
@@ -381,12 +388,12 @@ router.get('/history', async (req: Request, res: Response) => {
             timestamp: check.createdAt,
             healthy: result.ok || false,
             latency: result.latency || null,
-            error: result.error || null
+            error: result.error || null,
           });
         });
       }
     }
-    
+
     res.status(200).json({
       window: windowParam,
       startTime,
@@ -396,19 +403,27 @@ router.get('/history', async (req: Request, res: Response) => {
       serviceSeries,
       summary: {
         totalChecks: healthChecks.length,
-        healthyChecks: healthChecks.filter((c: any) => c.status === 'healthy').length,
-        degradedChecks: healthChecks.filter((c: any) => c.status === 'degraded').length,
-        avgLatency: healthChecks.length > 0 ? 
-          healthChecks.reduce((sum: number, c: any) => sum + (c.latency || 0), 0) / healthChecks.length : 
-          0
-      }
+        healthyChecks: healthChecks.filter((c: any) => c.status === "healthy")
+          .length,
+        degradedChecks: healthChecks.filter((c: any) => c.status === "degraded")
+          .length,
+        avgLatency:
+          healthChecks.length > 0
+            ? healthChecks.reduce(
+                (sum: number, c: any) => sum + (c.latency || 0),
+                0,
+              ) / healthChecks.length
+            : 0,
+      },
     });
   } catch (error) {
     res.status(200).json({
-      error: 'Failed to retrieve health history',
+      error: "Failed to retrieve health history",
       details: error instanceof Error ? error.message : String(error),
-      fallback: 'Using in-memory history',
-      memory: healthMonitor.getHistory(parseInt(req.query.limit as string) || 50)
+      fallback: "Using in-memory history",
+      memory: healthMonitor.getHistory(
+        parseInt(req.query.limit as string) || 50,
+      ),
     });
   }
 });
@@ -418,29 +433,31 @@ router.get('/history', async (req: Request, res: Response) => {
  * Returns latest Speech Intelligence smoke test results
  * Includes EVTS-first strategy details (engineUsed, fallbackUsed)
  */
-router.get('/speech-smoke-test', (req: Request, res: Response) => {
+router.get("/speech-smoke-test", (req: Request, res: Response) => {
   try {
-    const { getSpeechIntelligenceScheduler } = require('../services/speechIntelligence');
+    const {
+      getSpeechIntelligenceScheduler,
+    } = require("../services/speechIntelligence");
     const scheduler = getSpeechIntelligenceScheduler();
-    
+
     if (!scheduler) {
       return res.status(200).json({
         enabled: false,
-        message: 'Speech Intelligence scheduler not running',
-        hint: 'Check SPEECH_TELEMETRY_ENABLED environment variable'
+        message: "Speech Intelligence scheduler not running",
+        hint: "Check SPEECH_TELEMETRY_ENABLED environment variable",
       });
     }
 
     const lastResult = scheduler.getLastSmokeTestResult();
     const health = scheduler.getSchedulerHealth();
-    
+
     if (!lastResult) {
       return res.status(200).json({
         enabled: true,
-        status: 'pending',
-        message: 'No smoke test has run yet',
-        nextRunEstimate: 'Within 6 hours of scheduler start (default interval)',
-        intervalHours: parseInt(process.env.SPEECH_SMOKE_INTERVAL_HOURS || '6')
+        status: "pending",
+        message: "No smoke test has run yet",
+        nextRunEstimate: "Within 6 hours of scheduler start (default interval)",
+        intervalHours: parseInt(process.env.SPEECH_SMOKE_INTERVAL_HOURS || "6"),
       });
     }
 
@@ -459,19 +476,19 @@ router.get('/speech-smoke-test', (req: Request, res: Response) => {
       wordCount: lastResult.wordCount,
       schedulerHealth: {
         running: health.running,
-        recentErrors: health.recentErrors
+        recentErrors: health.recentErrors,
       },
       config: {
-        intervalHours: parseInt(process.env.SPEECH_SMOKE_INTERVAL_HOURS || '6'),
-        preferEVTS: process.env.SPEECH_SMOKE_PREFER_EVTS !== 'false',
-        fallbackOpenAI: process.env.SPEECH_SMOKE_FALLBACK_OPENAI !== 'false'
-      }
+        intervalHours: parseInt(process.env.SPEECH_SMOKE_INTERVAL_HOURS || "6"),
+        preferEVTS: process.env.SPEECH_SMOKE_PREFER_EVTS !== "false",
+        fallbackOpenAI: process.env.SPEECH_SMOKE_FALLBACK_OPENAI !== "false",
+      },
     });
   } catch (error) {
     res.status(200).json({
       enabled: false,
-      error: 'Failed to retrieve smoke test results',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: "Failed to retrieve smoke test results",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
@@ -480,17 +497,18 @@ router.get('/speech-smoke-test', (req: Request, res: Response) => {
  * GET /health/dns
  * DNS validation endpoint - reports expected vs actual hostnames
  */
-router.get('/dns', (req: Request, res: Response) => {
+router.get("/dns", (req: Request, res: Response) => {
   const expectedHostnames = [
-    'care2connects.org',
-    'www.care2connects.org',
-    'api.care2connects.org'
+    "care2connects.org",
+    "www.care2connects.org",
+    "api.care2connects.org",
   ];
 
-  const tunnelId = process.env.CLOUDFLARE_TUNNEL_ID || '07e7c160-451b-4d41-875c-a58f79700ae8';
+  const tunnelId =
+    process.env.CLOUDFLARE_TUNNEL_ID || "07e7c160-451b-4d41-875c-a58f79700ae8";
   const tunnelHostname = `${tunnelId}.cfargotunnel.com`;
 
-  const currentHostname = req.hostname || req.get('host') || 'localhost';
+  const currentHostname = req.hostname || req.get("host") || "localhost";
   const baseUrl = `${req.protocol}://${currentHostname}`;
 
   // Check if Cloudflare config is consistent
@@ -498,31 +516,32 @@ router.get('/dns', (req: Request, res: Response) => {
   const hasTunnelId = !!process.env.CLOUDFLARE_TUNNEL_ID;
 
   res.status(200).json({
-    status: 'dns_validation',
+    status: "dns_validation",
     expected: {
       hostnames: expectedHostnames,
       tunnelTarget: tunnelHostname,
-      recordType: 'CNAME',
-      proxyEnabled: true
+      recordType: "CNAME",
+      proxyEnabled: true,
     },
     current: {
       hostname: currentHostname,
       baseUrl,
       requestHeaders: {
-        host: req.get('host'),
-        'x-forwarded-host': req.get('x-forwarded-host'),
-        'x-forwarded-proto': req.get('x-forwarded-proto')
-      }
+        host: req.get("host"),
+        "x-forwarded-host": req.get("x-forwarded-host"),
+        "x-forwarded-proto": req.get("x-forwarded-proto"),
+      },
     },
     cloudflareConfig: {
       tokenConfigured: hasCloudflareToken,
       tunnelIdConfigured: hasTunnelId,
-      consistent: hasCloudflareToken && hasTunnelId
+      consistent: hasCloudflareToken && hasTunnelId,
     },
-    note: 'This endpoint cannot change nameservers. Manual registrar configuration required.',
-    recommendation: currentHostname === 'localhost' ? 
-      'Domain not reaching tunnel - check nameserver delegation at registrar' : 
-      'Domain routing through Cloudflare successfully'
+    note: "This endpoint cannot change nameservers. Manual registrar configuration required.",
+    recommendation:
+      currentHostname === "localhost"
+        ? "Domain not reaching tunnel - check nameserver delegation at registrar"
+        : "Domain routing through Cloudflare successfully",
   });
 });
 
@@ -530,26 +549,29 @@ router.get('/dns', (req: Request, res: Response) => {
  * GET /health/cloudflare
  * Cloudflare API health check
  */
-router.get('/cloudflare', async (req: Request, res: Response) => {
+router.get("/cloudflare", async (req: Request, res: Response) => {
   const token = process.env.CLOUDFLARE_API_TOKEN;
   const tunnelId = process.env.CLOUDFLARE_TUNNEL_ID;
 
   if (!token) {
     return res.status(200).json({
       healthy: false,
-      error: 'CLOUDFLARE_API_TOKEN not configured',
-      recommendation: 'Set CLOUDFLARE_API_TOKEN environment variable'
+      error: "CLOUDFLARE_API_TOKEN not configured",
+      recommendation: "Set CLOUDFLARE_API_TOKEN environment variable",
     });
   }
 
   try {
-    const response = await fetch('https://api.cloudflare.com/v4/user/tokens/verify', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
+    const response = await fetch(
+      "https://api.cloudflare.com/v4/user/tokens/verify",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
     if (!response.ok) {
       const error = await response.text();
@@ -557,24 +579,25 @@ router.get('/cloudflare', async (req: Request, res: Response) => {
         healthy: false,
         error: `Cloudflare API returned ${response.status}: ${response.statusText}`,
         details: error,
-        recommendation: 'Check if CLOUDFLARE_API_TOKEN is valid and has correct permissions'
+        recommendation:
+          "Check if CLOUDFLARE_API_TOKEN is valid and has correct permissions",
       });
     }
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     res.status(200).json({
       healthy: true,
       tokenValid: data.success,
-      tokenStatus: data.result?.status || 'unknown',
+      tokenStatus: data.result?.status || "unknown",
       tunnelIdConfigured: !!tunnelId,
-      message: 'Cloudflare API connection successful'
+      message: "Cloudflare API connection successful",
     });
   } catch (error) {
     res.status(200).json({
       healthy: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      recommendation: 'Check network connectivity to Cloudflare API'
+      error: error instanceof Error ? error.message : "Unknown error",
+      recommendation: "Check network connectivity to Cloudflare API",
     });
   }
 });
@@ -584,42 +607,42 @@ router.get('/cloudflare', async (req: Request, res: Response) => {
  * PHASE 6M HARDENING: Trigger auto-recovery for unhealthy services
  * Requires admin password
  */
-router.post('/recover', async (req: Request, res: Response) => {
+router.post("/recover", async (req: Request, res: Response) => {
   // Check admin password
-  const adminPassword = req.headers['x-admin-password'];
+  const adminPassword = req.headers["x-admin-password"];
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
     return res.status(401).json({
-      error: 'Unauthorized',
-      message: 'Admin password required'
+      error: "Unauthorized",
+      message: "Admin password required",
     });
   }
 
   try {
-    const { autoRecoveryService } = await import('../ops/autoRecoveryService');
-    
+    const { autoRecoveryService } = await import("../ops/autoRecoveryService");
+
     // Check if recovery is needed
     const needsRecovery = await autoRecoveryService.needsRecovery();
-    
+
     if (!needsRecovery.needed) {
       return res.status(200).json({
-        message: 'All services healthy - no recovery needed',
+        message: "All services healthy - no recovery needed",
         services: [],
-        attempted: false
+        attempted: false,
       });
     }
 
     // Attempt recovery
     const result = await autoRecoveryService.attemptRecovery();
-    
+
     res.status(200).json({
-      message: 'Recovery attempted',
+      message: "Recovery attempted",
       ...result,
-      stats: autoRecoveryService.getRecoveryStats()
+      stats: autoRecoveryService.getRecoveryStats(),
     });
   } catch (error: any) {
     res.status(500).json({
-      error: 'Recovery failed',
-      message: error.message
+      error: "Recovery failed",
+      message: error.message,
     });
   }
 });
@@ -628,10 +651,10 @@ router.post('/recover', async (req: Request, res: Response) => {
  * GET /health/recovery-stats
  * PHASE 6M HARDENING: Get auto-recovery statistics
  */
-router.get('/recovery-stats', async (req: Request, res: Response) => {
+router.get("/recovery-stats", async (req: Request, res: Response) => {
   try {
-    const { autoRecoveryService } = await import('../ops/autoRecoveryService');
-    
+    const { autoRecoveryService } = await import("../ops/autoRecoveryService");
+
     const stats = autoRecoveryService.getRecoveryStats();
     const history = autoRecoveryService.getRecoveryHistory(20);
     const needsRecovery = await autoRecoveryService.needsRecovery();
@@ -640,12 +663,12 @@ router.get('/recovery-stats', async (req: Request, res: Response) => {
       stats,
       history,
       needsRecovery,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
     res.status(500).json({
-      error: 'Failed to get recovery stats',
-      message: error.message
+      error: "Failed to get recovery stats",
+      message: error.message,
     });
   }
 });
@@ -654,22 +677,28 @@ router.get('/recovery-stats', async (req: Request, res: Response) => {
  * GET /health/pm2-diagnostics
  * PM2 process manager diagnostics and health status
  */
-router.get('/pm2-diagnostics', async (req: Request, res: Response) => {
+router.get("/pm2-diagnostics", async (req: Request, res: Response) => {
   try {
-    const { execSync } = require('child_process');
-    const os = require('os');
-    
+    const { execSync } = require("child_process");
+    const os = require("os");
+
     let pm2Status = { installed: false, processes: [], daemon: null };
-    
+
     try {
       // Check if PM2 is installed
-      const pm2Version = execSync('pm2 --version', { encoding: 'utf8', timeout: 5000 }).trim();
+      const pm2Version = execSync("pm2 --version", {
+        encoding: "utf8",
+        timeout: 5000,
+      }).trim();
       pm2Status.installed = true;
-      
+
       // Get PM2 process list
-      const pm2List = execSync('pm2 jlist', { encoding: 'utf8', timeout: 5000 });
+      const pm2List = execSync("pm2 jlist", {
+        encoding: "utf8",
+        timeout: 5000,
+      });
       const processes = JSON.parse(pm2List);
-      
+
       pm2Status.processes = processes.map((p: any) => ({
         name: p.name,
         pid: p.pid,
@@ -678,28 +707,34 @@ router.get('/pm2-diagnostics', async (req: Request, res: Response) => {
         restarts: p.pm2_env?.restart_time,
         memory: p.monit?.memory,
         cpu: p.monit?.cpu,
-        pm_id: p.pm_id
+        pm_id: p.pm_id,
       }));
-      
+
       // Get daemon info
       pm2Status.daemon = {
         version: pm2Version,
         processCount: processes.length,
-        onlineCount: processes.filter((p: any) => p.pm2_env?.status === 'online').length,
-        stoppedCount: processes.filter((p: any) => p.pm2_env?.status === 'stopped').length,
-        errorCount: processes.filter((p: any) => p.pm2_env?.status === 'errored').length
+        onlineCount: processes.filter(
+          (p: any) => p.pm2_env?.status === "online",
+        ).length,
+        stoppedCount: processes.filter(
+          (p: any) => p.pm2_env?.status === "stopped",
+        ).length,
+        errorCount: processes.filter(
+          (p: any) => p.pm2_env?.status === "errored",
+        ).length,
       };
     } catch (error: any) {
       pm2Status = {
         installed: false,
         processes: [],
-        daemon: { error: error.message }
+        daemon: { error: error.message },
       };
     }
-    
+
     // Check if current process is managed by PM2
     const isUnderPM2 = !!process.env.PM2_HOME;
-    
+
     // Get Node.js info
     const nodeInfo = {
       version: process.version,
@@ -707,49 +742,54 @@ router.get('/pm2-diagnostics', async (req: Request, res: Response) => {
       arch: os.arch(),
       pid: process.pid,
       uptime: process.uptime(),
-      managedByPM2: isUnderPM2
+      managedByPM2: isUnderPM2,
     };
-    
+
     // Assess overall health
-    let health = 'unknown';
+    let health = "unknown";
     let issues = [];
-    
+
     if (!pm2Status.installed) {
-      health = 'error';
-      issues.push('PM2 not installed or not accessible');
+      health = "error";
+      issues.push("PM2 not installed or not accessible");
     } else if (pm2Status.daemon) {
       if (pm2Status.daemon.errorCount > 0) {
-        health = 'degraded';
+        health = "degraded";
         issues.push(`${pm2Status.daemon.errorCount} processes in error state`);
       } else if (pm2Status.daemon.stoppedCount > 0) {
-        health = 'degraded';
+        health = "degraded";
         issues.push(`${pm2Status.daemon.stoppedCount} processes stopped`);
-      } else if (pm2Status.daemon.onlineCount === pm2Status.daemon.processCount) {
-        health = 'healthy';
+      } else if (
+        pm2Status.daemon.onlineCount === pm2Status.daemon.processCount
+      ) {
+        health = "healthy";
       } else {
-        health = 'warning';
-        issues.push('Some processes not in expected state');
+        health = "warning";
+        issues.push("Some processes not in expected state");
       }
     }
-    
+
     res.status(200).json({
       health,
       issues,
       pm2: pm2Status,
       node: nodeInfo,
-      recommendations: issues.length > 0 ? [
-        'Run: pm2 restart all',
-        'Check: pm2 logs for error details',
-        'Validate: \\scripts\\validate-pm2-config.ps1 -AutoFix'
-      ] : [],
-      timestamp: new Date().toISOString()
+      recommendations:
+        issues.length > 0
+          ? [
+              "Run: pm2 restart all",
+              "Check: pm2 logs for error details",
+              "Validate: \\scripts\\validate-pm2-config.ps1 -AutoFix",
+            ]
+          : [],
+      timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
     res.status(500).json({
-      error: 'Failed to get PM2 diagnostics',
+      error: "Failed to get PM2 diagnostics",
       message: error.message,
-      recommendation: 'PM2 may not be installed. Run: npm install -g pm2',
-      timestamp: new Date().toISOString()
+      recommendation: "PM2 may not be installed. Run: npm install -g pm2",
+      timestamp: new Date().toISOString(),
     });
   }
 });

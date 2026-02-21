@@ -1,11 +1,11 @@
-import express from 'express';
-import multer from 'multer';
-import { v4 as uuidv4 } from 'uuid';
-import { prisma } from '../utils/database';
-import QRCode from 'qrcode';
-import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
-import path from 'path';
-import fs from 'fs/promises';
+import express from "express";
+import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
+import { prisma } from "../utils/database";
+import QRCode from "qrcode";
+import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
+import path from "path";
+import fs from "fs/promises";
 
 const router = express.Router();
 
@@ -16,17 +16,23 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB
   },
   fileFilter: (req, file, cb) => {
-    const allowedMimes = ['audio/webm', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/mpeg'];
+    const allowedMimes = [
+      "audio/webm",
+      "audio/wav",
+      "audio/mp3",
+      "audio/ogg",
+      "audio/mpeg",
+    ];
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only audio files are allowed.'));
+      cb(new Error("Invalid file type. Only audio files are allowed."));
     }
   },
 });
 
 // Create a new story ticket
-router.post('/start', async (req, res) => {
+router.post("/start", async (req, res) => {
   try {
     const { name, age, location, language } = req.body;
 
@@ -35,8 +41,8 @@ router.post('/start', async (req, res) => {
         name: name || null,
         age: age ? parseInt(age) : null,
         location: location || null,
-        language: language || 'en',
-        status: 'CREATED',
+        language: language || "en",
+        status: "CREATED",
       },
     });
 
@@ -45,23 +51,23 @@ router.post('/start', async (req, res) => {
       ticketId: profileTicket.id,
     });
   } catch (error) {
-    console.error('Error creating story ticket:', error);
+    console.error("Error creating story ticket:", error);
     res.status(500).json({
-      error: 'Failed to create story ticket',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to create story ticket",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
 
 // Upload audio for a ticket and start processing
-router.post('/:ticketId/upload', upload.single('audio'), async (req, res) => {
+router.post("/:ticketId/upload", upload.single("audio"), async (req, res) => {
   try {
     const { ticketId } = req.params;
     const audioFile = req.file;
     const { language } = req.body;
 
     if (!audioFile) {
-      return res.status(400).json({ error: 'No audio file provided' });
+      return res.status(400).json({ error: "No audio file provided" });
     }
 
     // Find the ticket
@@ -70,43 +76,45 @@ router.post('/:ticketId/upload', upload.single('audio'), async (req, res) => {
     });
 
     if (!ticket) {
-      return res.status(404).json({ error: 'Ticket not found' });
+      return res.status(404).json({ error: "Ticket not found" });
     }
 
     // Update ticket status to UPLOADING
     await prisma.profileTicket.update({
       where: { id: ticketId },
-      data: { status: 'UPLOADING' },
+      data: { status: "UPLOADING" },
     });
 
     // Start background processing (we'll implement this incrementally)
     // For now, we'll process it synchronously
-    processStoryPipeline(ticketId, audioFile.buffer, language || 'en').catch((error) => {
-      console.error(`Pipeline error for ticket ${ticketId}:`, error);
-      prisma.profileTicket.update({
-        where: { id: ticketId },
-        data: {
-          status: 'FAILED',
-          processingErrors: { error: error.message },
-        },
-      });
-    });
+    processStoryPipeline(ticketId, audioFile.buffer, language || "en").catch(
+      (error) => {
+        console.error(`Pipeline error for ticket ${ticketId}:`, error);
+        prisma.profileTicket.update({
+          where: { id: ticketId },
+          data: {
+            status: "FAILED",
+            processingErrors: { error: error.message },
+          },
+        });
+      },
+    );
 
     res.json({
       success: true,
-      message: 'Upload started, processing in background',
+      message: "Upload started, processing in background",
     });
   } catch (error) {
-    console.error('Error uploading audio:', error);
+    console.error("Error uploading audio:", error);
     res.status(500).json({
-      error: 'Failed to upload audio',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to upload audio",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
 
 // Get ticket status
-router.get('/:ticketId/status', async (req, res) => {
+router.get("/:ticketId/status", async (req, res) => {
   try {
     const { ticketId } = req.params;
 
@@ -115,7 +123,7 @@ router.get('/:ticketId/status', async (req, res) => {
     });
 
     if (!ticket) {
-      return res.status(404).json({ error: 'Ticket not found' });
+      return res.status(404).json({ error: "Ticket not found" });
     }
 
     res.json({
@@ -123,19 +131,19 @@ router.get('/:ticketId/status', async (req, res) => {
       status: ticket.status,
       progress: getProgressFromStatus(ticket.status),
       errors: ticket.processingErrors || null,
-      assetsReady: ticket.status === 'COMPLETED',
+      assetsReady: ticket.status === "COMPLETED",
     });
   } catch (error) {
-    console.error('Error getting ticket status:', error);
+    console.error("Error getting ticket status:", error);
     res.status(500).json({
-      error: 'Failed to get ticket status',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to get ticket status",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
 
 // Get ticket assets
-router.get('/:ticketId/assets', async (req, res) => {
+router.get("/:ticketId/assets", async (req, res) => {
   try {
     const { ticketId } = req.params;
 
@@ -144,12 +152,12 @@ router.get('/:ticketId/assets', async (req, res) => {
     });
 
     if (!ticket) {
-      return res.status(404).json({ error: 'Ticket not found' });
+      return res.status(404).json({ error: "Ticket not found" });
     }
 
-    if (ticket.status !== 'COMPLETED') {
+    if (ticket.status !== "COMPLETED") {
       return res.status(400).json({
-        error: 'Assets not ready yet',
+        error: "Assets not ready yet",
         status: ticket.status,
       });
     }
@@ -161,23 +169,27 @@ router.get('/:ticketId/assets', async (req, res) => {
       gofundmeDraftUrl: ticket.gofundmeDraftUrl,
     });
   } catch (error) {
-    console.error('Error getting ticket assets:', error);
+    console.error("Error getting ticket assets:", error);
     res.status(500).json({
-      error: 'Failed to get ticket assets',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      error: "Failed to get ticket assets",
+      message: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
 
 // Process the story pipeline
-async function processStoryPipeline(ticketId: string, audioBuffer: Buffer, language: string) {
+async function processStoryPipeline(
+  ticketId: string,
+  audioBuffer: Buffer,
+  language: string,
+) {
   try {
     console.log(`[Story Pipeline] Starting for ticket ${ticketId}`);
 
     // Update status: TRANSCRIBING
     await prisma.profileTicket.update({
       where: { id: ticketId },
-      data: { status: 'TRANSCRIBING' },
+      data: { status: "TRANSCRIBING" },
     });
 
     // Step 1: Transcribe audio
@@ -192,7 +204,7 @@ async function processStoryPipeline(ticketId: string, audioBuffer: Buffer, langu
     // Update status: ANALYZING
     await prisma.profileTicket.update({
       where: { id: ticketId },
-      data: { status: 'ANALYZING' },
+      data: { status: "ANALYZING" },
     });
 
     // Step 2: Analyze transcript (extract details)
@@ -211,7 +223,7 @@ async function processStoryPipeline(ticketId: string, audioBuffer: Buffer, langu
     // Update status: GENERATING_QR
     await prisma.profileTicket.update({
       where: { id: ticketId },
-      data: { status: 'GENERATING_QR' },
+      data: { status: "GENERATING_QR" },
     });
 
     // Step 3: Generate QR code
@@ -221,19 +233,23 @@ async function processStoryPipeline(ticketId: string, audioBuffer: Buffer, langu
     await prisma.profileTicket.update({
       where: { id: ticketId },
       data: {
-        status: 'GENERATING_DOC',
+        status: "GENERATING_DOC",
         qrCodeUrl,
       },
     });
 
     // Step 4: Generate GoFundMe draft Word doc
-    const gofundmeDraftUrl = await generateGoFundMeDraft(ticketId, analysis, transcript);
+    const gofundmeDraftUrl = await generateGoFundMeDraft(
+      ticketId,
+      analysis,
+      transcript,
+    );
 
     // Update status: COMPLETED
     await prisma.profileTicket.update({
       where: { id: ticketId },
       data: {
-        status: 'COMPLETED',
+        status: "COMPLETED",
         gofundmeDraftUrl,
         profilePageUrl: `https://www.care2connects.org/profile/${ticketId}`,
         analysisComplete: true,
@@ -246,9 +262,9 @@ async function processStoryPipeline(ticketId: string, audioBuffer: Buffer, langu
     await prisma.profileTicket.update({
       where: { id: ticketId },
       data: {
-        status: 'FAILED',
+        status: "FAILED",
         processingErrors: {
-          error: error instanceof Error ? error.message : 'Unknown error',
+          error: error instanceof Error ? error.message : "Unknown error",
           stack: error instanceof Error ? error.stack : undefined,
         },
       },
@@ -258,73 +274,98 @@ async function processStoryPipeline(ticketId: string, audioBuffer: Buffer, langu
 }
 
 // Transcribe audio using AssemblyAI or fallback
-async function transcribeAudio(audioBuffer: Buffer, language: string): Promise<string> {
+async function transcribeAudio(
+  audioBuffer: Buffer,
+  language: string,
+): Promise<string> {
   try {
     // Try AssemblyAI first if available
-    if (process.env.ASSEMBLYAI_API_KEY && !process.env.ASSEMBLYAI_API_KEY.includes('placeholder')) {
-      const { AssemblyAI } = require('assemblyai');
-      const assemblyai = new AssemblyAI({ apiKey: process.env.ASSEMBLYAI_API_KEY });
+    if (
+      process.env.ASSEMBLYAI_API_KEY &&
+      !process.env.ASSEMBLYAI_API_KEY.includes("placeholder")
+    ) {
+      const { AssemblyAI } = require("assemblyai");
+      const assemblyai = new AssemblyAI({
+        apiKey: process.env.ASSEMBLYAI_API_KEY,
+      });
 
       // Save audio to temp file
-      const tempPath = path.join(process.cwd(), 'uploads', `temp-${Date.now()}.webm`);
+      const tempPath = path.join(
+        process.cwd(),
+        "uploads",
+        `temp-${Date.now()}.webm`,
+      );
       await fs.mkdir(path.dirname(tempPath), { recursive: true });
       await fs.writeFile(tempPath, audioBuffer);
 
       try {
-        console.log('[AssemblyAI] Starting transcription...');
+        console.log("[AssemblyAI] Starting transcription...");
         const transcript = await assemblyai.transcripts.transcribe({
           audio: tempPath,
-          language_code: language === 'auto' ? undefined : language,
-          speech_model: 'best'
+          language_code: language === "auto" ? undefined : language,
+          speech_model: "best",
         });
 
         // Clean up temp file
         await fs.unlink(tempPath).catch(() => {});
 
-        if (transcript.status === 'error') {
+        if (transcript.status === "error") {
           throw new Error(`AssemblyAI error: ${transcript.error}`);
         }
 
-        console.log('[AssemblyAI] Transcription completed successfully');
-        return transcript.text || '';
+        console.log("[AssemblyAI] Transcription completed successfully");
+        return transcript.text || "";
       } catch (assemblyaiError) {
-        console.error('[Transcription] AssemblyAI failed, using fallback:', assemblyaiError);
+        console.error(
+          "[Transcription] AssemblyAI failed, using fallback:",
+          assemblyaiError,
+        );
         await fs.unlink(tempPath).catch(() => {});
 
         // Log incident
         await prisma.incident.create({
           data: {
-            service: 'assemblyai',
-            severity: 'warn',
-            status: 'open',
-            summary: 'AssemblyAI transcription failed, using fallback',
-            details: `Error: ${assemblyaiError instanceof Error ? assemblyaiError.message : 'Unknown'}`,
-            recommendation: 'Check AssemblyAI API key and quota',
+            service: "assemblyai",
+            severity: "warn",
+            status: "open",
+            summary: "AssemblyAI transcription failed, using fallback",
+            details: `Error: ${assemblyaiError instanceof Error ? assemblyaiError.message : "Unknown"}`,
+            recommendation: "Check AssemblyAI API key and quota",
           },
         });
       }
     }
 
     // Fallback: Use Speech Intelligence DB Loop (EVTS/NVT)
-    console.log('[Transcription] Using fallback transcription (EVTS/local)');
+    console.log("[Transcription] Using fallback transcription (EVTS/local)");
 
     // For demo purposes, return a placeholder that indicates fallback was used
     return `[Transcription via fallback system - ${language}]\n\nThis is a placeholder transcript. In production, this would use EVTS (whisper.cpp/vosk) or NVT (Web Speech API) for local transcription. The audio was received and would be processed offline.\n\nAudio received: ${audioBuffer.length} bytes\nLanguage: ${language}`;
   } catch (error) {
-    console.error('[Transcription] All transcription methods failed:', error);
-    throw new Error('Transcription failed. Please try again or contact support.');
+    console.error("[Transcription] All transcription methods failed:", error);
+    throw new Error(
+      "Transcription failed. Please try again or contact support.",
+    );
   }
 }
 
 // Analyze transcript to extract information
 async function analyzeTranscript(
   transcript: string,
-  language: string
-): Promise<{ name?: string; age?: number; location?: string; summary: string }> {
+  language: string,
+): Promise<{
+  name?: string;
+  age?: number;
+  location?: string;
+  summary: string;
+}> {
   try {
     // Try OpenAI for analysis if available
-    if (process.env.OPENAI_API_KEY && !process.env.OPENAI_API_KEY.includes('placeholder')) {
-      const OpenAI = require('openai').default;
+    if (
+      process.env.OPENAI_API_KEY &&
+      !process.env.OPENAI_API_KEY.includes("placeholder")
+    ) {
+      const OpenAI = require("openai").default;
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
       const prompt = `Analyze this person's story and extract the following information in JSON format:
@@ -346,48 +387,53 @@ Return only valid JSON in this format:
 
       try {
         const response = await openai.chat.completions.create({
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: prompt }],
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: prompt }],
           temperature: 0.3,
         });
 
-        const content = response.choices[0]?.message?.content || '{}';
+        const content = response.choices[0]?.message?.content || "{}";
         const analysis = JSON.parse(content);
         return analysis;
       } catch (openaiError) {
-        console.error('[Analysis] OpenAI failed, using fallback:', openaiError);
+        console.error("[Analysis] OpenAI failed, using fallback:", openaiError);
 
         // Log incident
         await prisma.incident.create({
           data: {
-            service: 'openai',
-            severity: 'warn',
-            status: 'open',
-            summary: 'OpenAI analysis failed, using fallback',
-            details: `Error: ${openaiError instanceof Error ? openaiError.message : 'Unknown'}`,
-            recommendation: 'Check OpenAI API key and quota',
+            service: "openai",
+            severity: "warn",
+            status: "open",
+            summary: "OpenAI analysis failed, using fallback",
+            details: `Error: ${openaiError instanceof Error ? openaiError.message : "Unknown"}`,
+            recommendation: "Check OpenAI API key and quota",
           },
         });
       }
     }
 
     // Fallback: Basic regex extraction
-    console.log('[Analysis] Using fallback analysis');
+    console.log("[Analysis] Using fallback analysis");
 
-    const nameMatch = transcript.match(/my name is (\w+)/i) || transcript.match(/I'm (\w+)/i);
+    const nameMatch =
+      transcript.match(/my name is (\w+)/i) || transcript.match(/I'm (\w+)/i);
     const ageMatch = transcript.match(/(\d+) years old/i);
-    const locationMatch = transcript.match(/(?:from|in|live in) ([A-Z][a-z]+(?:,?\s+[A-Z][a-z]+)?)/);
+    const locationMatch = transcript.match(
+      /(?:from|in|live in) ([A-Z][a-z]+(?:,?\s+[A-Z][a-z]+)?)/,
+    );
 
     return {
       name: nameMatch ? nameMatch[1] : undefined,
       age: ageMatch ? parseInt(ageMatch[1]) : undefined,
       location: locationMatch ? locationMatch[1] : undefined,
-      summary: transcript.substring(0, 200) + (transcript.length > 200 ? '...' : ''),
+      summary:
+        transcript.substring(0, 200) + (transcript.length > 200 ? "..." : ""),
     };
   } catch (error) {
-    console.error('[Analysis] Error analyzing transcript:', error);
+    console.error("[Analysis] Error analyzing transcript:", error);
     return {
-      summary: transcript.substring(0, 200) + (transcript.length > 200 ? '...' : ''),
+      summary:
+        transcript.substring(0, 200) + (transcript.length > 200 ? "..." : ""),
     };
   }
 }
@@ -399,7 +445,7 @@ async function generateQRCode(ticketId: string): Promise<string> {
 
     // Generate QR code as data URL
     const qrDataUrl = await QRCode.toDataURL(url, {
-      errorCorrectionLevel: 'M',
+      errorCorrectionLevel: "M",
       margin: 4,
       width: 300,
     });
@@ -408,8 +454,8 @@ async function generateQRCode(ticketId: string): Promise<string> {
     // For now, we'll return the data URL directly
     return qrDataUrl;
   } catch (error) {
-    console.error('[QR Code] Error generating QR code:', error);
-    throw new Error('Failed to generate QR code');
+    console.error("[QR Code] Error generating QR code:", error);
+    throw new Error("Failed to generate QR code");
   }
 }
 
@@ -417,7 +463,7 @@ async function generateQRCode(ticketId: string): Promise<string> {
 async function generateGoFundMeDraft(
   ticketId: string,
   analysis: any,
-  transcript: string
+  transcript: string,
 ): Promise<string> {
   try {
     const doc = new Document({
@@ -426,7 +472,7 @@ async function generateGoFundMeDraft(
           properties: {},
           children: [
             new Paragraph({
-              text: 'GoFundMe Campaign Draft',
+              text: "GoFundMe Campaign Draft",
               heading: HeadingLevel.HEADING_1,
             }),
             new Paragraph({
@@ -434,28 +480,28 @@ async function generateGoFundMeDraft(
               spacing: { after: 200 },
             }),
             new Paragraph({
-              text: '',
+              text: "",
             }),
             new Paragraph({
-              text: 'Campaign Title Suggestions:',
+              text: "Campaign Title Suggestions:",
               heading: HeadingLevel.HEADING_2,
             }),
             new Paragraph({
-              text: `• Help ${analysis.name || '[Name]'} Get Back on Their Feet`,
+              text: `• Help ${analysis.name || "[Name]"} Get Back on Their Feet`,
               spacing: { before: 100 },
             }),
             new Paragraph({
-              text: `• Support ${analysis.name || '[Name]'}'s Journey to Stability`,
+              text: `• Support ${analysis.name || "[Name]"}'s Journey to Stability`,
             }),
             new Paragraph({
-              text: `• A Fresh Start for ${analysis.name || '[Name]'}`,
+              text: `• A Fresh Start for ${analysis.name || "[Name]"}`,
               spacing: { after: 200 },
             }),
             new Paragraph({
-              text: '',
+              text: "",
             }),
             new Paragraph({
-              text: 'Campaign Story:',
+              text: "Campaign Story:",
               heading: HeadingLevel.HEADING_2,
             }),
             new Paragraph({
@@ -463,17 +509,17 @@ async function generateGoFundMeDraft(
               spacing: { before: 100, after: 200 },
             }),
             new Paragraph({
-              text: '',
+              text: "",
             }),
             new Paragraph({
-              text: 'About:',
+              text: "About:",
               heading: HeadingLevel.HEADING_2,
             }),
             ...(analysis.name
               ? [
                   new Paragraph({
                     children: [
-                      new TextRun({ text: 'Name: ', bold: true }),
+                      new TextRun({ text: "Name: ", bold: true }),
                       new TextRun(analysis.name),
                     ],
                     spacing: { before: 100 },
@@ -484,7 +530,7 @@ async function generateGoFundMeDraft(
               ? [
                   new Paragraph({
                     children: [
-                      new TextRun({ text: 'Age: ', bold: true }),
+                      new TextRun({ text: "Age: ", bold: true }),
                       new TextRun(analysis.age.toString()),
                     ],
                   }),
@@ -494,45 +540,45 @@ async function generateGoFundMeDraft(
               ? [
                   new Paragraph({
                     children: [
-                      new TextRun({ text: 'Location: ', bold: true }),
+                      new TextRun({ text: "Location: ", bold: true }),
                       new TextRun(analysis.location),
                     ],
                   }),
                 ]
               : []),
             new Paragraph({
-              text: '',
+              text: "",
               spacing: { after: 200 },
             }),
             new Paragraph({
-              text: 'How You Can Help:',
+              text: "How You Can Help:",
               heading: HeadingLevel.HEADING_2,
             }),
             new Paragraph({
-              text: 'Your donation will help provide:',
+              text: "Your donation will help provide:",
               spacing: { before: 100 },
             }),
             new Paragraph({
-              text: '• Temporary housing and shelter',
+              text: "• Temporary housing and shelter",
             }),
             new Paragraph({
-              text: '• Food and basic necessities',
+              text: "• Food and basic necessities",
             }),
             new Paragraph({
-              text: '• Job training and employment support',
+              text: "• Job training and employment support",
             }),
             new Paragraph({
-              text: '• Healthcare and mental health services',
+              text: "• Healthcare and mental health services",
             }),
             new Paragraph({
-              text: '• Transportation assistance',
+              text: "• Transportation assistance",
             }),
             new Paragraph({
-              text: '',
+              text: "",
               spacing: { after: 200 },
             }),
             new Paragraph({
-              text: 'Profile Link:',
+              text: "Profile Link:",
               heading: HeadingLevel.HEADING_2,
             }),
             new Paragraph({
@@ -548,7 +594,7 @@ async function generateGoFundMeDraft(
     const buffer = await Packer.toBuffer(doc);
 
     // Save to uploads folder
-    const uploadsDir = path.join(process.cwd(), 'uploads', 'gofundme-drafts');
+    const uploadsDir = path.join(process.cwd(), "uploads", "gofundme-drafts");
     await fs.mkdir(uploadsDir, { recursive: true });
 
     const filename = `gofundme-draft-${ticketId}.docx`;
@@ -559,8 +605,8 @@ async function generateGoFundMeDraft(
     // Return URL (in production, this would be a cloud storage URL)
     return `/api/profile/${ticketId}/gofundme-draft.docx`;
   } catch (error) {
-    console.error('[GoFundMe Draft] Error generating document:', error);
-    throw new Error('Failed to generate GoFundMe draft');
+    console.error("[GoFundMe Draft] Error generating document:", error);
+    throw new Error("Failed to generate GoFundMe draft");
   }
 }
 

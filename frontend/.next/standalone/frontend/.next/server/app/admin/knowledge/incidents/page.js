@@ -1,1 +1,1063 @@
-(()=>{var e={};e.id=809,e.ids=[809],e.modules={55403:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external")},94749:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external")},20399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},25528:e=>{"use strict";e.exports=require("next/dist\\client\\components\\action-async-storage.external.js")},91877:e=>{"use strict";e.exports=require("next/dist\\client\\components\\request-async-storage.external.js")},25319:e=>{"use strict";e.exports=require("next/dist\\client\\components\\static-generation-async-storage.external.js")},63217:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>i.a,__next_app__:()=>m,originalPathname:()=>x,pages:()=>c,routeModule:()=>u,tree:()=>o});var r=s(36577),a=s(55533),n=s(40443),i=s.n(n),l=s(53320),d={};for(let e in l)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(d[e]=()=>l[e]);s.d(t,d);let o=["",{children:["admin",{children:["knowledge",{children:["incidents",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,16713)),"C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\incidents\\page.tsx"]}]},{}]},{}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,18685)),"C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,31459,23)),"next/dist/client/components/not-found-error"]}],c=["C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\incidents\\page.tsx"],x="/admin/knowledge/incidents/page",m={require:s,loadChunk:()=>Promise.resolve()},u=new r.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/admin/knowledge/incidents/page",pathname:"/admin/knowledge/incidents",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:o}})},16754:(e,t,s)=>{Promise.resolve().then(s.bind(s,28540))},20717:(e,t,s)=>{Promise.resolve().then(s.bind(s,56253)),Promise.resolve().then(s.bind(s,9690)),Promise.resolve().then(s.bind(s,33999))},19191:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,28913,23)),Promise.resolve().then(s.t.bind(s,50409,23)),Promise.resolve().then(s.t.bind(s,75054,23)),Promise.resolve().then(s.t.bind(s,34892,23)),Promise.resolve().then(s.t.bind(s,80356,23)),Promise.resolve().then(s.t.bind(s,73559,23))},28540:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>o});var r=s(73658),a=s(55459),n=s(32241),i=s(9567);let l={INFO:"bg-blue-100 text-blue-800",WARN:"bg-yellow-100 text-yellow-800",ERROR:"bg-red-100 text-red-800",CRITICAL:"bg-purple-100 text-purple-800"},d={OPEN:"bg-orange-100 text-orange-800",RESOLVED:"bg-green-100 text-green-800",AUTO_RESOLVED:"bg-teal-100 text-teal-800"};function o(){let e=(0,n.useRouter)(),[t,s]=(0,a.useState)([]),[o,c]=(0,a.useState)(null),[x,m]=(0,a.useState)({page:1,limit:50,total:0,totalPages:0}),[u,h]=(0,a.useState)(!0),[p,g]=(0,a.useState)(null),[b,y]=(0,a.useState)(""),[f,j]=(0,a.useState)(""),[v,N]=(0,a.useState)(""),[w,k]=(0,a.useState)("");(0,a.useEffect)(()=>{S(),P()},[x.page,b,f,v,w]);let S=async()=>{try{h(!0),g(null);let e=localStorage.getItem("adminToken");if(!e)throw Error("No admin token found");let t=new URLSearchParams({page:x.page.toString(),limit:x.limit.toString()});b&&t.append("status",b),f&&t.append("stage",f),v&&t.append("severity",v),w&&t.append("ticketId",w);let r=await fetch(`http://localhost:3005/admin/incidents?${t}`,{headers:{"x-admin-password":e}});if(!r.ok)throw Error(`Failed to fetch incidents: ${r.statusText}`);let a=await r.json();s(a.incidents),m(a.pagination)}catch(e){console.error("Error fetching incidents:",e),g(e instanceof Error?e.message:"Unknown error")}finally{h(!1)}},P=async()=>{try{let e=localStorage.getItem("adminToken");if(!e)return;let t=new URLSearchParams;w&&t.append("ticketId",w);let s=await fetch(`http://localhost:3005/admin/incidents/stats?${t}`,{headers:{"x-admin-password":e}});if(s.ok){let e=await s.json();c(e)}}catch(e){console.error("Error fetching stats:",e)}},C=t=>{e.push(`/admin/knowledge/incidents/${t}`)};return r.jsx(i.t,{children:r.jsx("div",{className:"min-h-screen bg-gray-50 p-8",children:(0,r.jsxs)("div",{className:"max-w-7xl mx-auto",children:[(0,r.jsxs)("div",{className:"mb-8",children:[r.jsx("h1",{className:"text-3xl font-bold text-gray-900 mb-2",children:"Pipeline Incidents"}),r.jsx("p",{className:"text-gray-600",children:"Monitor pipeline failures and quality issues with Knowledge Vault recommendations"})]}),o&&(0,r.jsxs)("div",{className:"grid grid-cols-1 md:grid-cols-4 gap-4 mb-8",children:[(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[r.jsx("div",{className:"text-sm font-medium text-gray-500 mb-1",children:"Total Incidents"}),r.jsx("div",{className:"text-3xl font-bold text-gray-900",children:o.total})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[r.jsx("div",{className:"text-sm font-medium text-gray-500 mb-1",children:"Open"}),r.jsx("div",{className:"text-3xl font-bold text-orange-600",children:o.byStatus.OPEN||0})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[r.jsx("div",{className:"text-sm font-medium text-gray-500 mb-1",children:"Resolved"}),r.jsx("div",{className:"text-3xl font-bold text-green-600",children:o.byStatus.RESOLVED||0})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6",children:[r.jsx("div",{className:"text-sm font-medium text-gray-500 mb-1",children:"Auto-Resolved"}),r.jsx("div",{className:"text-3xl font-bold text-teal-600",children:o.byStatus.AUTO_RESOLVED||0})]})]}),(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow p-6 mb-6",children:[(0,r.jsxs)("div",{className:"flex items-center justify-between mb-4",children:[r.jsx("h2",{className:"text-lg font-semibold text-gray-900",children:"Filters"}),(b||f||v||w)&&r.jsx("button",{onClick:()=>{y(""),j(""),N(""),k(""),m({...x,page:1})},className:"text-sm text-blue-600 hover:text-blue-800",children:"Clear All"})]}),(0,r.jsxs)("div",{className:"grid grid-cols-1 md:grid-cols-4 gap-4",children:[(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Status"}),(0,r.jsxs)("select",{value:b,onChange:e=>y(e.target.value),className:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",children:[r.jsx("option",{value:"",children:"All"}),r.jsx("option",{value:"OPEN",children:"Open"}),r.jsx("option",{value:"RESOLVED",children:"Resolved"}),r.jsx("option",{value:"AUTO_RESOLVED",children:"Auto-Resolved"})]})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Stage"}),(0,r.jsxs)("select",{value:f,onChange:e=>j(e.target.value),className:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",children:[r.jsx("option",{value:"",children:"All"}),r.jsx("option",{value:"TRANSCRIPTION",children:"Transcription"}),r.jsx("option",{value:"ANALYSIS",children:"Analysis"}),r.jsx("option",{value:"DRAFT",children:"Draft"}),r.jsx("option",{value:"STRIPE",children:"Stripe"}),r.jsx("option",{value:"WEBHOOK",children:"Webhook"}),r.jsx("option",{value:"DB",children:"Database"})]})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Severity"}),(0,r.jsxs)("select",{value:v,onChange:e=>N(e.target.value),className:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",children:[r.jsx("option",{value:"",children:"All"}),r.jsx("option",{value:"INFO",children:"Info"}),r.jsx("option",{value:"WARN",children:"Warning"}),r.jsx("option",{value:"ERROR",children:"Error"}),r.jsx("option",{value:"CRITICAL",children:"Critical"})]})]}),(0,r.jsxs)("div",{children:[r.jsx("label",{className:"block text-sm font-medium text-gray-700 mb-1",children:"Ticket ID"}),r.jsx("input",{type:"text",value:w,onChange:e=>k(e.target.value),placeholder:"Filter by ticket...",className:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"})]})]})]}),r.jsx("div",{className:"bg-white rounded-lg shadow overflow-hidden",children:u&&0===t.length?(0,r.jsxs)("div",{className:"p-8 text-center text-gray-500",children:[r.jsx("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"}),"Loading incidents..."]}):p?(0,r.jsxs)("div",{className:"p-8 text-center text-red-600",children:["Error: ",p]}):0===t.length?r.jsx("div",{className:"p-8 text-center text-gray-500",children:"No incidents found. Try adjusting your filters."}):(0,r.jsxs)(r.Fragment,{children:[(0,r.jsxs)("table",{className:"min-w-full divide-y divide-gray-200",children:[r.jsx("thead",{className:"bg-gray-50",children:(0,r.jsxs)("tr",{children:[r.jsx("th",{className:"px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",children:"Timestamp"}),r.jsx("th",{className:"px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",children:"Stage"}),r.jsx("th",{className:"px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",children:"Severity"}),r.jsx("th",{className:"px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",children:"Ticket"}),r.jsx("th",{className:"px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",children:"Status"}),r.jsx("th",{className:"px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",children:"Knowledge"})]})}),r.jsx("tbody",{className:"bg-white divide-y divide-gray-200",children:t.map(e=>(0,r.jsxs)("tr",{onClick:()=>C(e.id),className:"hover:bg-gray-50 cursor-pointer transition-colors",children:[r.jsx("td",{className:"px-6 py-4 whitespace-nowrap text-sm text-gray-900",children:new Date(e.createdAt).toLocaleString()}),r.jsx("td",{className:"px-6 py-4 whitespace-nowrap",children:r.jsx("span",{className:"px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded",children:e.stage})}),r.jsx("td",{className:"px-6 py-4 whitespace-nowrap",children:r.jsx("span",{className:`px-2 py-1 text-xs font-medium rounded ${l[e.severity]||"bg-gray-100 text-gray-800"}`,children:e.severity})}),r.jsx("td",{className:"px-6 py-4 whitespace-nowrap text-sm",children:e.ticket?(0,r.jsxs)("div",{children:[r.jsx("div",{className:"font-medium text-gray-900",children:e.ticket.displayName||"Unnamed"}),(0,r.jsxs)("div",{className:"text-gray-500 text-xs",children:[e.ticketId?.substring(0,8),"..."]})]}):r.jsx("span",{className:"text-gray-400",children:"System-wide"})}),r.jsx("td",{className:"px-6 py-4 whitespace-nowrap",children:r.jsx("span",{className:`px-2 py-1 text-xs font-medium rounded ${d[e.status]||"bg-gray-100 text-gray-800"}`,children:e.status})}),r.jsx("td",{className:"px-6 py-4 whitespace-nowrap text-sm text-gray-500",children:e.knowledgeBindings.length>0?(0,r.jsxs)("span",{className:"text-blue-600",children:[e.knowledgeBindings.length," match",1!==e.knowledgeBindings.length?"es":""]}):r.jsx("span",{className:"text-gray-400",children:"None"})})]},e.id))})]}),x.totalPages>1&&(0,r.jsxs)("div",{className:"px-6 py-4 flex items-center justify-between border-t border-gray-200",children:[(0,r.jsxs)("div",{className:"text-sm text-gray-700",children:["Showing page ",x.page," of ",x.totalPages," (",x.total," total)"]}),(0,r.jsxs)("div",{className:"flex gap-2",children:[r.jsx("button",{onClick:()=>m({...x,page:x.page-1}),disabled:1===x.page,className:"px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed",children:"Previous"}),r.jsx("button",{onClick:()=>m({...x,page:x.page+1}),disabled:x.page>=x.totalPages,className:"px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed",children:"Next"})]})]})]})})]})})})}},56253:(e,t,s)=>{"use strict";s.r(t),s.d(t,{Providers:()=>l});var r=s(73658),a=s(58758),n=s(60459),i=s(55459);function l({children:e}){let[t]=(0,i.useState)(()=>new a.S({defaultOptions:{queries:{staleTime:3e5,gcTime:6e5}}}));return r.jsx(n.aH,{client:t,children:e})}},9567:(e,t,s)=>{"use strict";s.d(t,{t:()=>i});var r=s(73658),a=s(55459),n=s(32241);function i({children:e}){let[t,s]=(0,a.useState)(!1),[i,l]=(0,a.useState)(!0),[d,o]=(0,a.useState)(""),[c,x]=(0,a.useState)("");(0,n.useRouter)(),(0,a.useEffect)(()=>{let e=localStorage.getItem("adminToken");e?m(e):l(!1)},[]);let m=async e=>{try{let t=await fetch("/api/admin/db/connection-info",{headers:{Authorization:`Bearer ${e}`}});t.ok?s(!0):localStorage.removeItem("adminToken")}catch(e){s(!0)}finally{l(!1)}},u=async e=>{e.preventDefault(),x("");try{let e=await fetch("/api/admin/db/connection-info",{headers:{Authorization:`Bearer ${d}`}});e.ok?(localStorage.setItem("adminToken",d),s(!0),o("")):x("Invalid admin password")}catch(e){x("Authentication failed - server may be unavailable")}};return i?r.jsx("div",{className:"min-h-screen flex items-center justify-center bg-gray-50",children:(0,r.jsxs)("div",{className:"text-center",children:[r.jsx("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"}),r.jsx("p",{className:"text-gray-600",children:"Verifying authentication..."})]})}):t?(0,r.jsxs)("div",{children:[(0,r.jsxs)("div",{className:"bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center",children:[(0,r.jsxs)("div",{className:"flex items-center space-x-2",children:[r.jsx("div",{className:"w-2 h-2 bg-green-500 rounded-full"}),r.jsx("span",{className:"text-sm text-gray-600",children:"Admin authenticated"})]}),r.jsx("button",{onClick:()=>{localStorage.removeItem("adminToken"),s(!1),o("")},className:"text-sm text-gray-600 hover:text-gray-900 underline",children:"Logout"})]}),e]}):r.jsx("div",{className:"min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100",children:r.jsx("div",{className:"max-w-md w-full mx-4",children:(0,r.jsxs)("div",{className:"bg-white rounded-lg shadow-xl p-8",children:[(0,r.jsxs)("div",{className:"text-center mb-8",children:[r.jsx("div",{className:"inline-block p-3 bg-blue-100 rounded-full mb-4",children:r.jsx("svg",{className:"w-8 h-8 text-blue-600",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24",children:r.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"})})}),r.jsx("h2",{className:"text-2xl font-bold text-gray-900 mb-2",children:"Admin Access Required"}),r.jsx("p",{className:"text-gray-600",children:"Enter admin password to access Knowledge Vault"})]}),(0,r.jsxs)("form",{onSubmit:u,className:"space-y-4",children:[(0,r.jsxs)("div",{children:[r.jsx("label",{htmlFor:"password",className:"block text-sm font-medium text-gray-700 mb-1",children:"Admin Password"}),r.jsx("input",{id:"password",type:"password",value:d,onChange:e=>o(e.target.value),placeholder:"Enter admin password",className:"w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",autoFocus:!0,required:!0})]}),c&&r.jsx("div",{className:"bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded",children:c}),r.jsx("button",{type:"submit",className:"w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors",children:"Unlock"})]}),r.jsx("div",{className:"mt-6 text-center text-sm text-gray-500",children:r.jsx("p",{children:"This is the same password used for the System Health page"})})]})})})}},9690:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>d});var r=s(73658),a=s(84874),n=s.n(a),i=s(32241),l=s(17872);function d(){let e=(0,i.usePathname)();return"/system"===e?null:r.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200",children:r.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:(0,r.jsxs)("div",{className:"flex justify-between items-center py-4",children:[(0,r.jsxs)("div",{className:"flex items-center gap-4",children:[r.jsx(n(),{href:"/",className:"flex items-center gap-2",children:r.jsx("div",{className:"text-3xl font-black text-blue-900",children:"CareConnect"})}),r.jsx("div",{className:"hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",children:"Community-Supported Homeless Initiative"})]}),(0,r.jsxs)("div",{className:"flex items-center gap-6",children:[(0,r.jsxs)("nav",{className:"hidden md:flex items-center gap-6",children:[r.jsx(n(),{href:"/about",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"About"}),r.jsx(n(),{href:"/resources",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Resources"}),r.jsx(n(),{href:"/find",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Find"}),r.jsx(n(),{href:"/support",className:"text-sm font-medium text-gray-700 hover:text-blue-600 transition",children:"Support"})]}),(0,r.jsxs)(n(),{href:"/system",className:"flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",title:"System Diagnostics",children:[r.jsx(l.Z,{size:16,className:"group-hover:text-blue-600"}),r.jsx("span",{className:"hidden sm:inline",children:"System"})]})]})]})})})}},16713:(e,t,s)=>{"use strict";s.r(t),s.d(t,{$$typeof:()=>i,__esModule:()=>n,default:()=>d});var r=s(19894);let a=(0,r.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\admin\knowledge\incidents\page.tsx`),{__esModule:n,$$typeof:i}=a,l=a.default,d=l},18685:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>b,metadata:()=>g});var r=s(31487),a=s(72972),n=s.n(a);s(40642);var i=s(19894);let l=(0,i.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`),{__esModule:d,$$typeof:o}=l;l.default;let c=(0,i.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`);var x=s(15762);let m=(0,i.createProxy)(String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`),{__esModule:u,$$typeof:h}=m,p=m.default,g={title:"CareConnect - Supporting Our Community",description:"A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",keywords:"homeless support, community resources, job opportunities, donations, assistance"};function b({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:n().className,children:(0,r.jsxs)(c,{children:[r.jsx(p,{}),r.jsx("div",{className:"min-h-screen bg-gray-50",children:r.jsx("main",{children:e})}),r.jsx(x.x7,{position:"top-right",toastOptions:{duration:4e3,style:{background:"#363636",color:"#fff"},success:{style:{background:"#10b981"}},error:{style:{background:"#ef4444"}}}})]})})})}},40642:()=>{}};var t=require("../../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[623,934],()=>s(63217));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 809),
+    (e.ids = [809]),
+    (e.modules = {
+      55403: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/request-async-storage.external");
+      },
+      94749: (e) => {
+        "use strict";
+        e.exports = require("next/dist/client/components/static-generation-async-storage.external");
+      },
+      20399: (e) => {
+        "use strict";
+        e.exports = require("next/dist/compiled/next-server/app-page.runtime.prod.js");
+      },
+      25528: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\action-async-storage.external.js");
+      },
+      91877: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\request-async-storage.external.js");
+      },
+      25319: (e) => {
+        "use strict";
+        e.exports = require("next/dist\\client\\components\\static-generation-async-storage.external.js");
+      },
+      63217: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => i.a,
+            __next_app__: () => m,
+            originalPathname: () => x,
+            pages: () => c,
+            routeModule: () => u,
+            tree: () => o,
+          }));
+        var r = s(36577),
+          a = s(55533),
+          n = s(40443),
+          i = s.n(n),
+          l = s(53320),
+          d = {};
+        for (let e in l)
+          0 >
+            [
+              "default",
+              "tree",
+              "pages",
+              "GlobalError",
+              "originalPathname",
+              "__next_app__",
+              "routeModule",
+            ].indexOf(e) && (d[e] = () => l[e]);
+        s.d(t, d);
+        let o = [
+            "",
+            {
+              children: [
+                "admin",
+                {
+                  children: [
+                    "knowledge",
+                    {
+                      children: [
+                        "incidents",
+                        {
+                          children: [
+                            "__PAGE__",
+                            {},
+                            {
+                              page: [
+                                () => Promise.resolve().then(s.bind(s, 16713)),
+                                "C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\incidents\\page.tsx",
+                              ],
+                            },
+                          ],
+                        },
+                        {},
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 18685)),
+                "C:\\Users\\richl\\Care2system\\frontend\\app\\layout.tsx",
+              ],
+              "not-found": [
+                () => Promise.resolve().then(s.t.bind(s, 31459, 23)),
+                "next/dist/client/components/not-found-error",
+              ],
+            },
+          ],
+          c = [
+            "C:\\Users\\richl\\Care2system\\frontend\\app\\admin\\knowledge\\incidents\\page.tsx",
+          ],
+          x = "/admin/knowledge/incidents/page",
+          m = { require: s, loadChunk: () => Promise.resolve() },
+          u = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: "/admin/knowledge/incidents/page",
+              pathname: "/admin/knowledge/incidents",
+              bundlePath: "",
+              filename: "",
+              appPaths: [],
+            },
+            userland: { loaderTree: o },
+          });
+      },
+      16754: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 28540));
+      },
+      20717: (e, t, s) => {
+        (Promise.resolve().then(s.bind(s, 56253)),
+          Promise.resolve().then(s.bind(s, 9690)),
+          Promise.resolve().then(s.bind(s, 33999)));
+      },
+      19191: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 28913, 23)),
+          Promise.resolve().then(s.t.bind(s, 50409, 23)),
+          Promise.resolve().then(s.t.bind(s, 75054, 23)),
+          Promise.resolve().then(s.t.bind(s, 34892, 23)),
+          Promise.resolve().then(s.t.bind(s, 80356, 23)),
+          Promise.resolve().then(s.t.bind(s, 73559, 23)));
+      },
+      28540: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => o }));
+        var r = s(73658),
+          a = s(55459),
+          n = s(32241),
+          i = s(9567);
+        let l = {
+            INFO: "bg-blue-100 text-blue-800",
+            WARN: "bg-yellow-100 text-yellow-800",
+            ERROR: "bg-red-100 text-red-800",
+            CRITICAL: "bg-purple-100 text-purple-800",
+          },
+          d = {
+            OPEN: "bg-orange-100 text-orange-800",
+            RESOLVED: "bg-green-100 text-green-800",
+            AUTO_RESOLVED: "bg-teal-100 text-teal-800",
+          };
+        function o() {
+          let e = (0, n.useRouter)(),
+            [t, s] = (0, a.useState)([]),
+            [o, c] = (0, a.useState)(null),
+            [x, m] = (0, a.useState)({
+              page: 1,
+              limit: 50,
+              total: 0,
+              totalPages: 0,
+            }),
+            [u, h] = (0, a.useState)(!0),
+            [p, g] = (0, a.useState)(null),
+            [b, y] = (0, a.useState)(""),
+            [f, j] = (0, a.useState)(""),
+            [v, N] = (0, a.useState)(""),
+            [w, k] = (0, a.useState)("");
+          (0, a.useEffect)(() => {
+            (S(), P());
+          }, [x.page, b, f, v, w]);
+          let S = async () => {
+              try {
+                (h(!0), g(null));
+                let e = localStorage.getItem("adminToken");
+                if (!e) throw Error("No admin token found");
+                let t = new URLSearchParams({
+                  page: x.page.toString(),
+                  limit: x.limit.toString(),
+                });
+                (b && t.append("status", b),
+                  f && t.append("stage", f),
+                  v && t.append("severity", v),
+                  w && t.append("ticketId", w));
+                let r = await fetch(
+                  `http://localhost:3005/admin/incidents?${t}`,
+                  { headers: { "x-admin-password": e } },
+                );
+                if (!r.ok)
+                  throw Error(`Failed to fetch incidents: ${r.statusText}`);
+                let a = await r.json();
+                (s(a.incidents), m(a.pagination));
+              } catch (e) {
+                (console.error("Error fetching incidents:", e),
+                  g(e instanceof Error ? e.message : "Unknown error"));
+              } finally {
+                h(!1);
+              }
+            },
+            P = async () => {
+              try {
+                let e = localStorage.getItem("adminToken");
+                if (!e) return;
+                let t = new URLSearchParams();
+                w && t.append("ticketId", w);
+                let s = await fetch(
+                  `http://localhost:3005/admin/incidents/stats?${t}`,
+                  { headers: { "x-admin-password": e } },
+                );
+                if (s.ok) {
+                  let e = await s.json();
+                  c(e);
+                }
+              } catch (e) {
+                console.error("Error fetching stats:", e);
+              }
+            },
+            C = (t) => {
+              e.push(`/admin/knowledge/incidents/${t}`);
+            };
+          return r.jsx(i.t, {
+            children: r.jsx("div", {
+              className: "min-h-screen bg-gray-50 p-8",
+              children: (0, r.jsxs)("div", {
+                className: "max-w-7xl mx-auto",
+                children: [
+                  (0, r.jsxs)("div", {
+                    className: "mb-8",
+                    children: [
+                      r.jsx("h1", {
+                        className: "text-3xl font-bold text-gray-900 mb-2",
+                        children: "Pipeline Incidents",
+                      }),
+                      r.jsx("p", {
+                        className: "text-gray-600",
+                        children:
+                          "Monitor pipeline failures and quality issues with Knowledge Vault recommendations",
+                      }),
+                    ],
+                  }),
+                  o &&
+                    (0, r.jsxs)("div", {
+                      className: "grid grid-cols-1 md:grid-cols-4 gap-4 mb-8",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "bg-white rounded-lg shadow p-6",
+                          children: [
+                            r.jsx("div", {
+                              className:
+                                "text-sm font-medium text-gray-500 mb-1",
+                              children: "Total Incidents",
+                            }),
+                            r.jsx("div", {
+                              className: "text-3xl font-bold text-gray-900",
+                              children: o.total,
+                            }),
+                          ],
+                        }),
+                        (0, r.jsxs)("div", {
+                          className: "bg-white rounded-lg shadow p-6",
+                          children: [
+                            r.jsx("div", {
+                              className:
+                                "text-sm font-medium text-gray-500 mb-1",
+                              children: "Open",
+                            }),
+                            r.jsx("div", {
+                              className: "text-3xl font-bold text-orange-600",
+                              children: o.byStatus.OPEN || 0,
+                            }),
+                          ],
+                        }),
+                        (0, r.jsxs)("div", {
+                          className: "bg-white rounded-lg shadow p-6",
+                          children: [
+                            r.jsx("div", {
+                              className:
+                                "text-sm font-medium text-gray-500 mb-1",
+                              children: "Resolved",
+                            }),
+                            r.jsx("div", {
+                              className: "text-3xl font-bold text-green-600",
+                              children: o.byStatus.RESOLVED || 0,
+                            }),
+                          ],
+                        }),
+                        (0, r.jsxs)("div", {
+                          className: "bg-white rounded-lg shadow p-6",
+                          children: [
+                            r.jsx("div", {
+                              className:
+                                "text-sm font-medium text-gray-500 mb-1",
+                              children: "Auto-Resolved",
+                            }),
+                            r.jsx("div", {
+                              className: "text-3xl font-bold text-teal-600",
+                              children: o.byStatus.AUTO_RESOLVED || 0,
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  (0, r.jsxs)("div", {
+                    className: "bg-white rounded-lg shadow p-6 mb-6",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center justify-between mb-4",
+                        children: [
+                          r.jsx("h2", {
+                            className: "text-lg font-semibold text-gray-900",
+                            children: "Filters",
+                          }),
+                          (b || f || v || w) &&
+                            r.jsx("button", {
+                              onClick: () => {
+                                (y(""),
+                                  j(""),
+                                  N(""),
+                                  k(""),
+                                  m({ ...x, page: 1 }));
+                              },
+                              className:
+                                "text-sm text-blue-600 hover:text-blue-800",
+                              children: "Clear All",
+                            }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "grid grid-cols-1 md:grid-cols-4 gap-4",
+                        children: [
+                          (0, r.jsxs)("div", {
+                            children: [
+                              r.jsx("label", {
+                                className:
+                                  "block text-sm font-medium text-gray-700 mb-1",
+                                children: "Status",
+                              }),
+                              (0, r.jsxs)("select", {
+                                value: b,
+                                onChange: (e) => y(e.target.value),
+                                className:
+                                  "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                children: [
+                                  r.jsx("option", {
+                                    value: "",
+                                    children: "All",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "OPEN",
+                                    children: "Open",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "RESOLVED",
+                                    children: "Resolved",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "AUTO_RESOLVED",
+                                    children: "Auto-Resolved",
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              r.jsx("label", {
+                                className:
+                                  "block text-sm font-medium text-gray-700 mb-1",
+                                children: "Stage",
+                              }),
+                              (0, r.jsxs)("select", {
+                                value: f,
+                                onChange: (e) => j(e.target.value),
+                                className:
+                                  "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                children: [
+                                  r.jsx("option", {
+                                    value: "",
+                                    children: "All",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "TRANSCRIPTION",
+                                    children: "Transcription",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "ANALYSIS",
+                                    children: "Analysis",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "DRAFT",
+                                    children: "Draft",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "STRIPE",
+                                    children: "Stripe",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "WEBHOOK",
+                                    children: "Webhook",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "DB",
+                                    children: "Database",
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              r.jsx("label", {
+                                className:
+                                  "block text-sm font-medium text-gray-700 mb-1",
+                                children: "Severity",
+                              }),
+                              (0, r.jsxs)("select", {
+                                value: v,
+                                onChange: (e) => N(e.target.value),
+                                className:
+                                  "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                children: [
+                                  r.jsx("option", {
+                                    value: "",
+                                    children: "All",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "INFO",
+                                    children: "Info",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "WARN",
+                                    children: "Warning",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "ERROR",
+                                    children: "Error",
+                                  }),
+                                  r.jsx("option", {
+                                    value: "CRITICAL",
+                                    children: "Critical",
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)("div", {
+                            children: [
+                              r.jsx("label", {
+                                className:
+                                  "block text-sm font-medium text-gray-700 mb-1",
+                                children: "Ticket ID",
+                              }),
+                              r.jsx("input", {
+                                type: "text",
+                                value: w,
+                                onChange: (e) => k(e.target.value),
+                                placeholder: "Filter by ticket...",
+                                className:
+                                  "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  r.jsx("div", {
+                    className: "bg-white rounded-lg shadow overflow-hidden",
+                    children:
+                      u && 0 === t.length
+                        ? (0, r.jsxs)("div", {
+                            className: "p-8 text-center text-gray-500",
+                            children: [
+                              r.jsx("div", {
+                                className:
+                                  "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4",
+                              }),
+                              "Loading incidents...",
+                            ],
+                          })
+                        : p
+                          ? (0, r.jsxs)("div", {
+                              className: "p-8 text-center text-red-600",
+                              children: ["Error: ", p],
+                            })
+                          : 0 === t.length
+                            ? r.jsx("div", {
+                                className: "p-8 text-center text-gray-500",
+                                children:
+                                  "No incidents found. Try adjusting your filters.",
+                              })
+                            : (0, r.jsxs)(r.Fragment, {
+                                children: [
+                                  (0, r.jsxs)("table", {
+                                    className:
+                                      "min-w-full divide-y divide-gray-200",
+                                    children: [
+                                      r.jsx("thead", {
+                                        className: "bg-gray-50",
+                                        children: (0, r.jsxs)("tr", {
+                                          children: [
+                                            r.jsx("th", {
+                                              className:
+                                                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                              children: "Timestamp",
+                                            }),
+                                            r.jsx("th", {
+                                              className:
+                                                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                              children: "Stage",
+                                            }),
+                                            r.jsx("th", {
+                                              className:
+                                                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                              children: "Severity",
+                                            }),
+                                            r.jsx("th", {
+                                              className:
+                                                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                              children: "Ticket",
+                                            }),
+                                            r.jsx("th", {
+                                              className:
+                                                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                              children: "Status",
+                                            }),
+                                            r.jsx("th", {
+                                              className:
+                                                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                              children: "Knowledge",
+                                            }),
+                                          ],
+                                        }),
+                                      }),
+                                      r.jsx("tbody", {
+                                        className:
+                                          "bg-white divide-y divide-gray-200",
+                                        children: t.map((e) =>
+                                          (0, r.jsxs)(
+                                            "tr",
+                                            {
+                                              onClick: () => C(e.id),
+                                              className:
+                                                "hover:bg-gray-50 cursor-pointer transition-colors",
+                                              children: [
+                                                r.jsx("td", {
+                                                  className:
+                                                    "px-6 py-4 whitespace-nowrap text-sm text-gray-900",
+                                                  children: new Date(
+                                                    e.createdAt,
+                                                  ).toLocaleString(),
+                                                }),
+                                                r.jsx("td", {
+                                                  className:
+                                                    "px-6 py-4 whitespace-nowrap",
+                                                  children: r.jsx("span", {
+                                                    className:
+                                                      "px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded",
+                                                    children: e.stage,
+                                                  }),
+                                                }),
+                                                r.jsx("td", {
+                                                  className:
+                                                    "px-6 py-4 whitespace-nowrap",
+                                                  children: r.jsx("span", {
+                                                    className: `px-2 py-1 text-xs font-medium rounded ${l[e.severity] || "bg-gray-100 text-gray-800"}`,
+                                                    children: e.severity,
+                                                  }),
+                                                }),
+                                                r.jsx("td", {
+                                                  className:
+                                                    "px-6 py-4 whitespace-nowrap text-sm",
+                                                  children: e.ticket
+                                                    ? (0, r.jsxs)("div", {
+                                                        children: [
+                                                          r.jsx("div", {
+                                                            className:
+                                                              "font-medium text-gray-900",
+                                                            children:
+                                                              e.ticket
+                                                                .displayName ||
+                                                              "Unnamed",
+                                                          }),
+                                                          (0, r.jsxs)("div", {
+                                                            className:
+                                                              "text-gray-500 text-xs",
+                                                            children: [
+                                                              e.ticketId?.substring(
+                                                                0,
+                                                                8,
+                                                              ),
+                                                              "...",
+                                                            ],
+                                                          }),
+                                                        ],
+                                                      })
+                                                    : r.jsx("span", {
+                                                        className:
+                                                          "text-gray-400",
+                                                        children: "System-wide",
+                                                      }),
+                                                }),
+                                                r.jsx("td", {
+                                                  className:
+                                                    "px-6 py-4 whitespace-nowrap",
+                                                  children: r.jsx("span", {
+                                                    className: `px-2 py-1 text-xs font-medium rounded ${d[e.status] || "bg-gray-100 text-gray-800"}`,
+                                                    children: e.status,
+                                                  }),
+                                                }),
+                                                r.jsx("td", {
+                                                  className:
+                                                    "px-6 py-4 whitespace-nowrap text-sm text-gray-500",
+                                                  children:
+                                                    e.knowledgeBindings.length >
+                                                    0
+                                                      ? (0, r.jsxs)("span", {
+                                                          className:
+                                                            "text-blue-600",
+                                                          children: [
+                                                            e.knowledgeBindings
+                                                              .length,
+                                                            " match",
+                                                            1 !==
+                                                            e.knowledgeBindings
+                                                              .length
+                                                              ? "es"
+                                                              : "",
+                                                          ],
+                                                        })
+                                                      : r.jsx("span", {
+                                                          className:
+                                                            "text-gray-400",
+                                                          children: "None",
+                                                        }),
+                                                }),
+                                              ],
+                                            },
+                                            e.id,
+                                          ),
+                                        ),
+                                      }),
+                                    ],
+                                  }),
+                                  x.totalPages > 1 &&
+                                    (0, r.jsxs)("div", {
+                                      className:
+                                        "px-6 py-4 flex items-center justify-between border-t border-gray-200",
+                                      children: [
+                                        (0, r.jsxs)("div", {
+                                          className: "text-sm text-gray-700",
+                                          children: [
+                                            "Showing page ",
+                                            x.page,
+                                            " of ",
+                                            x.totalPages,
+                                            " (",
+                                            x.total,
+                                            " total)",
+                                          ],
+                                        }),
+                                        (0, r.jsxs)("div", {
+                                          className: "flex gap-2",
+                                          children: [
+                                            r.jsx("button", {
+                                              onClick: () =>
+                                                m({ ...x, page: x.page - 1 }),
+                                              disabled: 1 === x.page,
+                                              className:
+                                                "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed",
+                                              children: "Previous",
+                                            }),
+                                            r.jsx("button", {
+                                              onClick: () =>
+                                                m({ ...x, page: x.page + 1 }),
+                                              disabled: x.page >= x.totalPages,
+                                              className:
+                                                "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed",
+                                              children: "Next",
+                                            }),
+                                          ],
+                                        }),
+                                      ],
+                                    }),
+                                ],
+                              }),
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      56253: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { Providers: () => l }));
+        var r = s(73658),
+          a = s(58758),
+          n = s(60459),
+          i = s(55459);
+        function l({ children: e }) {
+          let [t] = (0, i.useState)(
+            () =>
+              new a.S({
+                defaultOptions: { queries: { staleTime: 3e5, gcTime: 6e5 } },
+              }),
+          );
+          return r.jsx(n.aH, { client: t, children: e });
+        }
+      },
+      9567: (e, t, s) => {
+        "use strict";
+        s.d(t, { t: () => i });
+        var r = s(73658),
+          a = s(55459),
+          n = s(32241);
+        function i({ children: e }) {
+          let [t, s] = (0, a.useState)(!1),
+            [i, l] = (0, a.useState)(!0),
+            [d, o] = (0, a.useState)(""),
+            [c, x] = (0, a.useState)("");
+          ((0, n.useRouter)(),
+            (0, a.useEffect)(() => {
+              let e = localStorage.getItem("adminToken");
+              e ? m(e) : l(!1);
+            }, []));
+          let m = async (e) => {
+              try {
+                let t = await fetch("/api/admin/db/connection-info", {
+                  headers: { Authorization: `Bearer ${e}` },
+                });
+                t.ok ? s(!0) : localStorage.removeItem("adminToken");
+              } catch (e) {
+                s(!0);
+              } finally {
+                l(!1);
+              }
+            },
+            u = async (e) => {
+              (e.preventDefault(), x(""));
+              try {
+                let e = await fetch("/api/admin/db/connection-info", {
+                  headers: { Authorization: `Bearer ${d}` },
+                });
+                e.ok
+                  ? (localStorage.setItem("adminToken", d), s(!0), o(""))
+                  : x("Invalid admin password");
+              } catch (e) {
+                x("Authentication failed - server may be unavailable");
+              }
+            };
+          return i
+            ? r.jsx("div", {
+                className:
+                  "min-h-screen flex items-center justify-center bg-gray-50",
+                children: (0, r.jsxs)("div", {
+                  className: "text-center",
+                  children: [
+                    r.jsx("div", {
+                      className:
+                        "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4",
+                    }),
+                    r.jsx("p", {
+                      className: "text-gray-600",
+                      children: "Verifying authentication...",
+                    }),
+                  ],
+                }),
+              })
+            : t
+              ? (0, r.jsxs)("div", {
+                  children: [
+                    (0, r.jsxs)("div", {
+                      className:
+                        "bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "flex items-center space-x-2",
+                          children: [
+                            r.jsx("div", {
+                              className: "w-2 h-2 bg-green-500 rounded-full",
+                            }),
+                            r.jsx("span", {
+                              className: "text-sm text-gray-600",
+                              children: "Admin authenticated",
+                            }),
+                          ],
+                        }),
+                        r.jsx("button", {
+                          onClick: () => {
+                            (localStorage.removeItem("adminToken"),
+                              s(!1),
+                              o(""));
+                          },
+                          className:
+                            "text-sm text-gray-600 hover:text-gray-900 underline",
+                          children: "Logout",
+                        }),
+                      ],
+                    }),
+                    e,
+                  ],
+                })
+              : r.jsx("div", {
+                  className:
+                    "min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100",
+                  children: r.jsx("div", {
+                    className: "max-w-md w-full mx-4",
+                    children: (0, r.jsxs)("div", {
+                      className: "bg-white rounded-lg shadow-xl p-8",
+                      children: [
+                        (0, r.jsxs)("div", {
+                          className: "text-center mb-8",
+                          children: [
+                            r.jsx("div", {
+                              className:
+                                "inline-block p-3 bg-blue-100 rounded-full mb-4",
+                              children: r.jsx("svg", {
+                                className: "w-8 h-8 text-blue-600",
+                                fill: "none",
+                                stroke: "currentColor",
+                                viewBox: "0 0 24 24",
+                                children: r.jsx("path", {
+                                  strokeLinecap: "round",
+                                  strokeLinejoin: "round",
+                                  strokeWidth: 2,
+                                  d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
+                                }),
+                              }),
+                            }),
+                            r.jsx("h2", {
+                              className:
+                                "text-2xl font-bold text-gray-900 mb-2",
+                              children: "Admin Access Required",
+                            }),
+                            r.jsx("p", {
+                              className: "text-gray-600",
+                              children:
+                                "Enter admin password to access Knowledge Vault",
+                            }),
+                          ],
+                        }),
+                        (0, r.jsxs)("form", {
+                          onSubmit: u,
+                          className: "space-y-4",
+                          children: [
+                            (0, r.jsxs)("div", {
+                              children: [
+                                r.jsx("label", {
+                                  htmlFor: "password",
+                                  className:
+                                    "block text-sm font-medium text-gray-700 mb-1",
+                                  children: "Admin Password",
+                                }),
+                                r.jsx("input", {
+                                  id: "password",
+                                  type: "password",
+                                  value: d,
+                                  onChange: (e) => o(e.target.value),
+                                  placeholder: "Enter admin password",
+                                  className:
+                                    "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                                  autoFocus: !0,
+                                  required: !0,
+                                }),
+                              ],
+                            }),
+                            c &&
+                              r.jsx("div", {
+                                className:
+                                  "bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded",
+                                children: c,
+                              }),
+                            r.jsx("button", {
+                              type: "submit",
+                              className:
+                                "w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors",
+                              children: "Unlock",
+                            }),
+                          ],
+                        }),
+                        r.jsx("div", {
+                          className: "mt-6 text-center text-sm text-gray-500",
+                          children: r.jsx("p", {
+                            children:
+                              "This is the same password used for the System Health page",
+                          }),
+                        }),
+                      ],
+                    }),
+                  }),
+                });
+        }
+      },
+      9690: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => d }));
+        var r = s(73658),
+          a = s(84874),
+          n = s.n(a),
+          i = s(32241),
+          l = s(17872);
+        function d() {
+          let e = (0, i.usePathname)();
+          return "/system" === e
+            ? null
+            : r.jsx("header", {
+                className: "bg-white shadow-sm border-b border-gray-200",
+                children: r.jsx("div", {
+                  className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                  children: (0, r.jsxs)("div", {
+                    className: "flex justify-between items-center py-4",
+                    children: [
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-4",
+                        children: [
+                          r.jsx(n(), {
+                            href: "/",
+                            className: "flex items-center gap-2",
+                            children: r.jsx("div", {
+                              className: "text-3xl font-black text-blue-900",
+                              children: "CareConnect",
+                            }),
+                          }),
+                          r.jsx("div", {
+                            className:
+                              "hidden sm:block text-sm text-gray-600 font-medium border-l border-gray-300 pl-4",
+                            children: "Community-Supported Homeless Initiative",
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)("div", {
+                        className: "flex items-center gap-6",
+                        children: [
+                          (0, r.jsxs)("nav", {
+                            className: "hidden md:flex items-center gap-6",
+                            children: [
+                              r.jsx(n(), {
+                                href: "/about",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "About",
+                              }),
+                              r.jsx(n(), {
+                                href: "/resources",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Resources",
+                              }),
+                              r.jsx(n(), {
+                                href: "/find",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Find",
+                              }),
+                              r.jsx(n(), {
+                                href: "/support",
+                                className:
+                                  "text-sm font-medium text-gray-700 hover:text-blue-600 transition",
+                                children: "Support",
+                              }),
+                            ],
+                          }),
+                          (0, r.jsxs)(n(), {
+                            href: "/system",
+                            className:
+                              "flex items-center gap-2 text-xs text-gray-500 hover:text-blue-600 transition group",
+                            title: "System Diagnostics",
+                            children: [
+                              r.jsx(l.Z, {
+                                size: 16,
+                                className: "group-hover:text-blue-600",
+                              }),
+                              r.jsx("span", {
+                                className: "hidden sm:inline",
+                                children: "System",
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              });
+        }
+      },
+      16713: (e, t, s) => {
+        "use strict";
+        (s.r(t),
+          s.d(t, { $$typeof: () => i, __esModule: () => n, default: () => d }));
+        var r = s(19894);
+        let a = (0, r.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\admin\knowledge\incidents\page.tsx`,
+          ),
+          { __esModule: n, $$typeof: i } = a,
+          l = a.default,
+          d = l;
+      },
+      18685: (e, t, s) => {
+        "use strict";
+        (s.r(t), s.d(t, { default: () => b, metadata: () => g }));
+        var r = s(31487),
+          a = s(72972),
+          n = s.n(a);
+        s(40642);
+        var i = s(19894);
+        let l = (0, i.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx`,
+          ),
+          { __esModule: d, $$typeof: o } = l;
+        l.default;
+        let c = (0, i.createProxy)(
+          String.raw`C:\Users\richl\Care2system\frontend\app\providers.tsx#Providers`,
+        );
+        var x = s(15762);
+        let m = (0, i.createProxy)(
+            String.raw`C:\Users\richl\Care2system\frontend\components\Header.tsx`,
+          ),
+          { __esModule: u, $$typeof: h } = m,
+          p = m.default,
+          g = {
+            title: "CareConnect - Supporting Our Community",
+            description:
+              "A platform connecting individuals experiencing homelessness with resources, opportunities, and community support.",
+            keywords:
+              "homeless support, community resources, job opportunities, donations, assistance",
+          };
+        function b({ children: e }) {
+          return r.jsx("html", {
+            lang: "en",
+            children: r.jsx("body", {
+              className: n().className,
+              children: (0, r.jsxs)(c, {
+                children: [
+                  r.jsx(p, {}),
+                  r.jsx("div", {
+                    className: "min-h-screen bg-gray-50",
+                    children: r.jsx("main", { children: e }),
+                  }),
+                  r.jsx(x.x7, {
+                    position: "top-right",
+                    toastOptions: {
+                      duration: 4e3,
+                      style: { background: "#363636", color: "#fff" },
+                      success: { style: { background: "#10b981" } },
+                      error: { style: { background: "#ef4444" } },
+                    },
+                  }),
+                ],
+              }),
+            }),
+          });
+        }
+      },
+      40642: () => {},
+    }));
+  var t = require("../../../../webpack-runtime.js");
+  t.C(e);
+  var s = (e) => t((t.s = e)),
+    r = t.X(0, [623, 934], () => s(63217));
+  module.exports = r;
+})();

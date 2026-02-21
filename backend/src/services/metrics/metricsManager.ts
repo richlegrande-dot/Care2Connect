@@ -1,11 +1,11 @@
 /**
  * Metrics Endpoint (Prometheus-compatible)
- * 
+ *
  * Exposes operational metrics for monitoring.
  */
 
-import express, { Request, Response, Router } from 'express';
-import { integrityManager } from '../integrity/featureIntegrity';
+import express, { Request, Response, Router } from "express";
+import { integrityManager } from "../integrity/featureIntegrity";
 
 export interface MetricsData {
   uptime_seconds: number;
@@ -36,7 +36,11 @@ class MetricsManager {
     this.errorCount++;
   }
 
-  public updateHealthStatus(ready: boolean, dbConnected: boolean, storageConnected: boolean): void {
+  public updateHealthStatus(
+    ready: boolean,
+    dbConnected: boolean,
+    storageConnected: boolean,
+  ): void {
     this.lastHealthReady = ready;
     this.lastDbConnected = dbConnected;
     this.lastStorageConnected = storageConnected;
@@ -63,7 +67,7 @@ class MetricsManager {
 
   public getPrometheusFormat(): string {
     const metrics = this.getMetrics();
-    let output = '';
+    let output = "";
 
     // Uptime
     output += `# HELP careconnect_uptime_seconds Server uptime in seconds\n`;
@@ -101,7 +105,7 @@ class MetricsManager {
     Object.entries(metrics.requests_total).forEach(([route, count]) => {
       output += `careconnect_requests_total{route="${route}"} ${count}\n`;
     });
-    output += '\n';
+    output += "\n";
 
     // Errors
     output += `# HELP careconnect_errors_total Total errors encountered\n`;
@@ -122,23 +126,23 @@ export const metricsManager = new MetricsManager();
 
 // Metrics middleware
 export function metricsMiddleware(req: Request, res: Response, next: Function) {
-  const routeGroup = req.path.split('/')[1] || 'root';
+  const routeGroup = req.path.split("/")[1] || "root";
   metricsManager.recordRequest(routeGroup);
   next();
 }
 
 // Token authentication middleware
 function metricsAuthMiddleware(req: Request, res: Response, next: Function) {
-  const enabled = process.env.METRICS_ENABLED === 'true';
-  
+  const enabled = process.env.METRICS_ENABLED === "true";
+
   if (!enabled) {
     return res.status(404).json({
-      error: 'Metrics endpoint not enabled. Set METRICS_ENABLED=true',
+      error: "Metrics endpoint not enabled. Set METRICS_ENABLED=true",
     });
   }
 
   const token = process.env.METRICS_TOKEN;
-  
+
   // If no token is configured, allow access (dev mode)
   if (!token) {
     return next();
@@ -153,7 +157,8 @@ function metricsAuthMiddleware(req: Request, res: Response, next: Function) {
   }
 
   return res.status(401).json({
-    error: 'Unauthorized. Provide METRICS_TOKEN via Authorization header or ?token= query param',
+    error:
+      "Unauthorized. Provide METRICS_TOKEN via Authorization header or ?token= query param",
   });
 }
 
@@ -161,16 +166,20 @@ function metricsAuthMiddleware(req: Request, res: Response, next: Function) {
 export function createMetricsRouter(): Router {
   const router = Router();
 
-  router.get('/metrics', metricsAuthMiddleware, (req: Request, res: Response) => {
-    const format = req.query.format as string;
+  router.get(
+    "/metrics",
+    metricsAuthMiddleware,
+    (req: Request, res: Response) => {
+      const format = req.query.format as string;
 
-    if (format === 'prometheus') {
-      res.set('Content-Type', 'text/plain; version=0.0.4');
-      res.send(metricsManager.getPrometheusFormat());
-    } else {
-      res.json(metricsManager.getMetrics());
-    }
-  });
+      if (format === "prometheus") {
+        res.set("Content-Type", "text/plain; version=0.0.4");
+        res.send(metricsManager.getPrometheusFormat());
+      } else {
+        res.json(metricsManager.getMetrics());
+      }
+    },
+  );
 
   return router;
 }

@@ -1,13 +1,13 @@
 /**
  * Updated QR Code Generation for Manual Mode
- * 
+ *
  * Ensures QR/Stripe works identically for automated and manual drafts
  */
 
-import QRCode from 'qrcode';
-import { PrismaClient } from '@prisma/client';
-import { createCheckoutSession } from './stripeService';
-import { GenerationMode } from '../types/fallback';
+import QRCode from "qrcode";
+import { PrismaClient } from "@prisma/client";
+import { createCheckoutSession } from "./stripeService";
+import { GenerationMode } from "../types/fallback";
 
 const prisma = new PrismaClient();
 
@@ -26,25 +26,26 @@ export interface EnhancedCreatePaymentQROptions {
  * Create payment QR with generation mode metadata
  */
 export async function createPaymentQRWithMode(
-  options: EnhancedCreatePaymentQROptions
+  options: EnhancedCreatePaymentQROptions,
 ): Promise<any> {
-  
   const {
     ticketId,
     amount,
-    currency = 'USD',
+    currency = "USD",
     description,
     successUrl,
     cancelUrl,
-    generationMode = 'AUTOMATED',
-    draftId
+    generationMode = "AUTOMATED",
+    draftId,
   } = options;
 
-  console.log(`[QR Generator] Creating QR for ticket ${ticketId} (${generationMode} mode)`);
+  console.log(
+    `[QR Generator] Creating QR for ticket ${ticketId} (${generationMode} mode)`,
+  );
 
   // Verify ticket exists
   const ticket = await prisma.recordingTicket.findUnique({
-    where: { id: ticketId }
+    where: { id: ticketId },
   });
 
   if (!ticket) {
@@ -54,42 +55,46 @@ export async function createPaymentQRWithMode(
   const amountCents = Math.round(amount * 100);
 
   // Build URLs
-  const baseUrl = process.env.FRONTEND_URL || 'https://care2connects.org';
-  const finalSuccessUrl = successUrl || `${baseUrl}/payment-success?ticket=${ticketId}`;
-  const finalCancelUrl = cancelUrl || `${baseUrl}/payment-cancel?ticket=${ticketId}`;
+  const baseUrl = process.env.FRONTEND_URL || "https://care2connects.org";
+  const finalSuccessUrl =
+    successUrl || `${baseUrl}/payment-success?ticket=${ticketId}`;
+  const finalCancelUrl =
+    cancelUrl || `${baseUrl}/payment-cancel?ticket=${ticketId}`;
 
   // Create Stripe Checkout Session with enhanced metadata
   const checkoutResult = await createCheckoutSession({
     ticketId,
     amount,
     currency,
-    description: description || `Donation for ${ticket.displayName || 'Campaign'}`,
+    description:
+      description || `Donation for ${ticket.displayName || "Campaign"}`,
     successUrl: finalSuccessUrl,
     cancelUrl: finalCancelUrl,
     metadata: {
       ticketId,
       generationMode,
-      source: generationMode === 'MANUAL_FALLBACK' ? 'manual_fallback' : 'automated',
-      draftId: draftId || '',
-      recordingId: ticket.recordingId || ''
-    }
+      source:
+        generationMode === "MANUAL_FALLBACK" ? "manual_fallback" : "automated",
+      draftId: draftId || "",
+      recordingId: ticket.recordingId || "",
+    },
   });
 
   if (!checkoutResult.checkoutUrl) {
-    throw new Error('Failed to create Stripe Checkout Session');
+    throw new Error("Failed to create Stripe Checkout Session");
   }
 
   // Generate QR Code
   const qrCodeData = await QRCode.toDataURL(checkoutResult.checkoutUrl, {
-    errorCorrectionLevel: 'M',
-    type: 'image/png',
+    errorCorrectionLevel: "M",
+    type: "image/png",
     width: 300,
-    margin: 2
+    margin: 2,
   });
 
   // Save/update QR code link with generation mode
   let qrCode = await prisma.qr_code_links.findUnique({
-    where: { ticketId }
+    where: { ticketId },
   });
 
   if (qrCode) {
@@ -101,10 +106,10 @@ export async function createPaymentQRWithMode(
         metadata: {
           generationMode,
           draftId,
-          checkoutSessionId: checkoutResult.checkoutSessionId
+          checkoutSessionId: checkoutResult.checkoutSessionId,
         },
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     });
   } else {
     qrCode = await prisma.qr_code_links.create({
@@ -116,13 +121,15 @@ export async function createPaymentQRWithMode(
         metadata: {
           generationMode,
           draftId,
-          checkoutSessionId: checkoutResult.checkoutSessionId
-        }
-      }
+          checkoutSessionId: checkoutResult.checkoutSessionId,
+        },
+      },
     });
   }
 
-  console.log(`[QR Generator] QR created for ${generationMode} draft: ${qrCode.id}`);
+  console.log(
+    `[QR Generator] QR created for ${generationMode} draft: ${qrCode.id}`,
+  );
 
   return {
     success: true,
@@ -130,7 +137,7 @@ export async function createPaymentQRWithMode(
     checkoutSessionId: checkoutResult.checkoutSessionId,
     checkoutUrl: checkoutResult.checkoutUrl,
     qrCodeData,
-    generationMode
+    generationMode,
   };
 }
 
@@ -139,12 +146,11 @@ export async function createPaymentQRWithMode(
  */
 export async function generateQRFromManualDraft(
   ticketId: string,
-  draftId: string
+  draftId: string,
 ): Promise<any> {
-  
   // Get draft
   const draft = await prisma.donation_drafts.findUnique({
-    where: { id: draftId }
+    where: { id: draftId },
   });
 
   if (!draft) {
@@ -152,16 +158,16 @@ export async function generateQRFromManualDraft(
   }
 
   if (draft.ticketId !== ticketId) {
-    throw new Error('Draft ticket ID mismatch');
+    throw new Error("Draft ticket ID mismatch");
   }
 
   // Generate QR with manual mode metadata
   return await createPaymentQRWithMode({
     ticketId,
     amount: draft.goalAmount,
-    currency: draft.currency || 'USD',
+    currency: draft.currency || "USD",
     description: draft.title,
-    generationMode: 'MANUAL_FALLBACK',
-    draftId: draft.id
+    generationMode: "MANUAL_FALLBACK",
+    draftId: draft.id,
   });
 }

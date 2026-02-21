@@ -3,10 +3,10 @@
  * Runs automated health checks on a schedule and persists results to database
  */
 
-import cron from 'node-cron';
-import { prisma } from '../utils/database';
-import os from 'os';
-import { performance } from 'perf_hooks';
+import cron from "node-cron";
+import { prisma } from "../utils/database";
+import os from "os";
+import { performance } from "perf_hooks";
 
 interface HealthCheckResult {
   db: { ok: boolean; latency?: number; error?: string };
@@ -25,18 +25,22 @@ class HealthCheckScheduler {
    * Start the health check scheduler
    * Runs every 5 minutes by default
    */
-  start(cronExpression: string = '*/5 * * * *', gracePeriodMs: number = 10000) {
+  start(cronExpression: string = "*/5 * * * *", gracePeriodMs: number = 10000) {
     if (this.cronJob) {
-      console.log('[Health Scheduler] Already running');
+      console.log("[Health Scheduler] Already running");
       return;
     }
 
     console.log(`[Health Scheduler] Starting with schedule: ${cronExpression}`);
-    console.log(`[Health Scheduler] Grace period: ${gracePeriodMs}ms before first check`);
+    console.log(
+      `[Health Scheduler] Grace period: ${gracePeriodMs}ms before first check`,
+    );
 
     this.cronJob = cron.schedule(cronExpression, async () => {
       if (this.isRunning) {
-        console.log('[Health Scheduler] Previous check still running, skipping...');
+        console.log(
+          "[Health Scheduler] Previous check still running, skipping...",
+        );
         return;
       }
 
@@ -44,7 +48,7 @@ class HealthCheckScheduler {
       try {
         await this.runHealthCheck();
       } catch (error) {
-        console.error('[Health Scheduler] Error running health check:', error);
+        console.error("[Health Scheduler] Error running health check:", error);
       } finally {
         this.isRunning = false;
       }
@@ -53,7 +57,10 @@ class HealthCheckScheduler {
     // Run initial check after grace period (allow server to fully start)
     setTimeout(() => {
       this.runHealthCheck().catch((error) => {
-        console.error('[Health Scheduler] Error in initial health check:', error);
+        console.error(
+          "[Health Scheduler] Error in initial health check:",
+          error,
+        );
       });
     }, gracePeriodMs);
   }
@@ -65,7 +72,7 @@ class HealthCheckScheduler {
     if (this.cronJob) {
       this.cronJob.stop();
       this.cronJob = null;
-      console.log('[Health Scheduler] Stopped');
+      console.log("[Health Scheduler] Stopped");
     }
   }
 
@@ -73,7 +80,7 @@ class HealthCheckScheduler {
    * Run a complete health check and persist results
    */
   async runHealthCheck(): Promise<void> {
-    console.log('[Health Scheduler] Running health check...');
+    console.log("[Health Scheduler] Running health check...");
 
     const startTime = performance.now();
 
@@ -104,9 +111,14 @@ class HealthCheckScheduler {
         },
       });
 
-      console.log(`[Health Scheduler] Check completed: ${status} (${latency}ms)`);
+      console.log(
+        `[Health Scheduler] Check completed: ${status} (${latency}ms)`,
+      );
     } catch (error) {
-      console.error('[Health Scheduler] Failed to persist health check:', error);
+      console.error(
+        "[Health Scheduler] Failed to persist health check:",
+        error,
+      );
     }
 
     // Clean up old checks (keep last 1000)
@@ -115,7 +127,7 @@ class HealthCheckScheduler {
       if (count > 1000) {
         const toDelete = count - 1000;
         const oldestRecords = await prisma.healthCheckRun.findMany({
-          orderBy: { createdAt: 'asc' },
+          orderBy: { createdAt: "asc" },
           take: toDelete,
           select: { id: true },
         });
@@ -128,10 +140,12 @@ class HealthCheckScheduler {
           },
         });
 
-        console.log(`[Health Scheduler] Cleaned up ${toDelete} old health checks`);
+        console.log(
+          `[Health Scheduler] Cleaned up ${toDelete} old health checks`,
+        );
       }
     } catch (error) {
-      console.error('[Health Scheduler] Failed to clean up old checks:', error);
+      console.error("[Health Scheduler] Failed to clean up old checks:", error);
     }
   }
 
@@ -152,24 +166,30 @@ class HealthCheckScheduler {
     checks.db = await this.checkDatabase();
 
     // OpenAI check (only if configured)
-    if (process.env.OPENAI_API_KEY && !process.env.OPENAI_API_KEY.includes('placeholder')) {
+    if (
+      process.env.OPENAI_API_KEY &&
+      !process.env.OPENAI_API_KEY.includes("placeholder")
+    ) {
       checks.openai = await this.checkOpenAI();
     } else {
-      checks.openai = { ok: true, error: 'Not configured (optional)' };
+      checks.openai = { ok: true, error: "Not configured (optional)" };
     }
 
     // Stripe check (only if configured)
-    if (process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.includes('placeholder')) {
+    if (
+      process.env.STRIPE_SECRET_KEY &&
+      !process.env.STRIPE_SECRET_KEY.includes("placeholder")
+    ) {
       checks.stripe = await this.checkStripe();
     } else {
-      checks.stripe = { ok: true, error: 'Not configured (optional)' };
+      checks.stripe = { ok: true, error: "Not configured (optional)" };
     }
 
     // Cloudflare check (only if configured)
     if (process.env.CLOUDFLARE_API_TOKEN) {
       checks.cloudflare = await this.checkCloudflare();
     } else {
-      checks.cloudflare = { ok: false, error: 'Not configured' };
+      checks.cloudflare = { ok: false, error: "Not configured" };
     }
 
     // Tunnel check
@@ -184,7 +204,11 @@ class HealthCheckScheduler {
   /**
    * Check database connectivity
    */
-  private async checkDatabase(): Promise<{ ok: boolean; latency?: number; error?: string }> {
+  private async checkDatabase(): Promise<{
+    ok: boolean;
+    latency?: number;
+    error?: string;
+  }> {
     try {
       const start = performance.now();
       await prisma.$queryRaw`SELECT 1`;
@@ -194,7 +218,8 @@ class HealthCheckScheduler {
     } catch (error) {
       return {
         ok: false,
-        error: error instanceof Error ? error.message : 'Database connection failed',
+        error:
+          error instanceof Error ? error.message : "Database connection failed",
       };
     }
   }
@@ -203,21 +228,27 @@ class HealthCheckScheduler {
    * Check OpenAI connectivity
    * DISABLED in V1_STABLE/ZERO_OPENAI_MODE
    */
-  private async checkOpenAI(): Promise<{ ok: boolean; latency?: number; error?: string }> {
+  private async checkOpenAI(): Promise<{
+    ok: boolean;
+    latency?: number;
+    error?: string;
+  }> {
     // V1_STABLE / ZERO_OPENAI_MODE: OpenAI health checks are disabled
-    const isV1Mode = process.env.V1_STABLE === 'true' || 
-                     process.env.ZERO_OPENAI_MODE === 'true' || 
-                     (process.env.AI_PROVIDER && !['openai'].includes(process.env.AI_PROVIDER));
-    
+    const isV1Mode =
+      process.env.V1_STABLE === "true" ||
+      process.env.ZERO_OPENAI_MODE === "true" ||
+      (process.env.AI_PROVIDER &&
+        !["openai"].includes(process.env.AI_PROVIDER));
+
     if (isV1Mode) {
-      return { 
-        ok: false, 
-        error: 'disabled (V1_STABLE/ZERO_OPENAI_MODE)'
+      return {
+        ok: false,
+        error: "disabled (V1_STABLE/ZERO_OPENAI_MODE)",
       };
     }
-    
+
     try {
-      const OpenAI = require('openai').default;
+      const OpenAI = require("openai").default;
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
       const start = performance.now();
@@ -228,7 +259,7 @@ class HealthCheckScheduler {
     } catch (error) {
       return {
         ok: false,
-        error: error instanceof Error ? error.message : 'OpenAI check failed',
+        error: error instanceof Error ? error.message : "OpenAI check failed",
       };
     }
   }
@@ -236,9 +267,13 @@ class HealthCheckScheduler {
   /**
    * Check Stripe connectivity
    */
-  private async checkStripe(): Promise<{ ok: boolean; latency?: number; error?: string }> {
+  private async checkStripe(): Promise<{
+    ok: boolean;
+    latency?: number;
+    error?: string;
+  }> {
     try {
-      const Stripe = require('stripe').default;
+      const Stripe = require("stripe").default;
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
       const start = performance.now();
@@ -249,7 +284,7 @@ class HealthCheckScheduler {
     } catch (error) {
       return {
         ok: false,
-        error: error instanceof Error ? error.message : 'Stripe check failed',
+        error: error instanceof Error ? error.message : "Stripe check failed",
       };
     }
   }
@@ -257,57 +292,71 @@ class HealthCheckScheduler {
   /**
    * Check Cloudflare API
    */
-  private async checkCloudflare(): Promise<{ ok: boolean; latency?: number; error?: string }> {
+  private async checkCloudflare(): Promise<{
+    ok: boolean;
+    latency?: number;
+    error?: string;
+  }> {
     // Skip if not configured
-    if (!process.env.CLOUDFLARE_API_TOKEN || process.env.CLOUDFLARE_API_TOKEN.length < 20) {
-      return { ok: true, error: 'Not configured - Cloudflare API token missing or invalid' };
+    if (
+      !process.env.CLOUDFLARE_API_TOKEN ||
+      process.env.CLOUDFLARE_API_TOKEN.length < 20
+    ) {
+      return {
+        ok: true,
+        error: "Not configured - Cloudflare API token missing or invalid",
+      };
     }
 
     try {
-      const axios = require('axios');
+      const axios = require("axios");
 
       const start = performance.now();
-      const response = await axios.get('https://api.cloudflare.com/client/v4/user/tokens/verify', {
-        headers: {
-          'Authorization': `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
-          'Content-Type': 'application/json'
+      const response = await axios.get(
+        "https://api.cloudflare.com/client/v4/user/tokens/verify",
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          timeout: 5000,
         },
-        timeout: 5000,
-      });
+      );
       const latency = Math.round(performance.now() - start);
 
       // Check if response indicates success
       if (response.data && response.data.success === false) {
         return {
           ok: false,
-          error: response.data.errors?.[0]?.message || 'Token verification failed',
-          latency
+          error:
+            response.data.errors?.[0]?.message || "Token verification failed",
+          latency,
         };
       }
 
       return { ok: true, latency };
     } catch (error: any) {
       // Extract more specific error information
-      let errorMessage = 'Cloudflare check failed';
-      
+      let errorMessage = "Cloudflare check failed";
+
       if (error.response) {
         // API returned an error response
         if (error.response.status === 400) {
-          errorMessage = 'Invalid request headers';
+          errorMessage = "Invalid request headers";
         } else if (error.response.status === 401) {
-          errorMessage = 'Invalid or expired API token';
+          errorMessage = "Invalid or expired API token";
         } else if (error.response.status === 403) {
-          errorMessage = 'API token lacks required permissions';
+          errorMessage = "API token lacks required permissions";
         } else {
           errorMessage = `HTTP ${error.response.status}: ${error.response.statusText}`;
         }
-        
+
         // Add detailed error from response if available
         if (error.response.data?.errors?.[0]?.message) {
           errorMessage += ` - ${error.response.data.errors[0].message}`;
         }
       } else if (error.request) {
-        errorMessage = 'Network error - could not reach Cloudflare API';
+        errorMessage = "Network error - could not reach Cloudflare API";
       } else if (error.message) {
         errorMessage = error.message;
       }
@@ -325,14 +374,17 @@ class HealthCheckScheduler {
   private async checkTunnel(): Promise<{ ok: boolean; error?: string }> {
     // Skip if not configured
     if (!process.env.CLOUDFLARE_TUNNEL_ID) {
-      return { ok: true, error: 'Not configured - Cloudflare tunnel ID missing' };
+      return {
+        ok: true,
+        error: "Not configured - Cloudflare tunnel ID missing",
+      };
     }
 
     try {
-      const axios = require('axios');
+      const axios = require("axios");
 
       // Try to reach the public API endpoint
-      const domain = process.env.CLOUDFLARE_DOMAIN || 'care2connects.org';
+      const domain = process.env.CLOUDFLARE_DOMAIN || "care2connects.org";
       await axios.get(`https://api.${domain}/health/live`, {
         timeout: 5000,
       });
@@ -341,7 +393,7 @@ class HealthCheckScheduler {
     } catch (error) {
       return {
         ok: false,
-        error: 'Tunnel check failed - public API not reachable',
+        error: "Tunnel check failed - public API not reachable",
       };
     }
   }
@@ -349,7 +401,11 @@ class HealthCheckScheduler {
   /**
    * Speech intelligence smoke test
    */
-  private async checkSpeechIntelligence(): Promise<{ ok: boolean; latency?: number; error?: string }> {
+  private async checkSpeechIntelligence(): Promise<{
+    ok: boolean;
+    latency?: number;
+    error?: string;
+  }> {
     try {
       // Simple smoke test: check if speech intelligence routes are accessible
       // In production, you would run a real transcription test with a fixture audio file
@@ -358,10 +414,10 @@ class HealthCheckScheduler {
       // Check if the transcription session can be created
       const session = await prisma.transcriptionSession.findFirst({
         where: {
-          source: 'SYSTEM_SMOKE_TEST',
+          source: "SYSTEM_SMOKE_TEST",
         },
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
       });
 
@@ -372,7 +428,10 @@ class HealthCheckScheduler {
     } catch (error) {
       return {
         ok: false,
-        error: error instanceof Error ? error.message : 'Speech intelligence check failed',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Speech intelligence check failed",
       };
     }
   }
@@ -428,13 +487,19 @@ class HealthCheckScheduler {
    * Determine overall status from checks
    */
   private determineStatus(checks: HealthCheckResult): string {
-    const criticalChecks = ['db'];
-    const optionalChecks = ['openai', 'stripe', 'cloudflare', 'tunnel', 'speech'];
+    const criticalChecks = ["db"];
+    const optionalChecks = [
+      "openai",
+      "stripe",
+      "cloudflare",
+      "tunnel",
+      "speech",
+    ];
 
     // Check critical services
     for (const key of criticalChecks) {
       if (!checks[key as keyof HealthCheckResult].ok) {
-        return 'unhealthy';
+        return "unhealthy";
       }
     }
 
@@ -442,18 +507,18 @@ class HealthCheckScheduler {
     let failedOptional = 0;
     for (const key of optionalChecks) {
       const check = checks[key as keyof HealthCheckResult];
-      if (!check.ok && !check.error?.includes('Not configured')) {
+      if (!check.ok && !check.error?.includes("Not configured")) {
         failedOptional++;
       }
     }
 
     if (failedOptional >= 3) {
-      return 'unhealthy';
+      return "unhealthy";
     } else if (failedOptional > 0) {
-      return 'degraded';
+      return "degraded";
     }
 
-    return 'healthy';
+    return "healthy";
   }
 }
 
@@ -461,10 +526,13 @@ class HealthCheckScheduler {
 export const healthCheckScheduler = new HealthCheckScheduler();
 
 // Auto-start if enabled in environment
-if (process.env.HEALTHCHECKS_ENABLED === 'true' && process.env.NODE_ENV !== 'test') {
+if (
+  process.env.HEALTHCHECKS_ENABLED === "true" &&
+  process.env.NODE_ENV !== "test"
+) {
   const interval = process.env.HEALTHCHECKS_INTERVAL_SEC
     ? `*/${Math.floor(parseInt(process.env.HEALTHCHECKS_INTERVAL_SEC) / 60)} * * * *`
-    : '*/5 * * * *'; // Default: every 5 minutes
+    : "*/5 * * * *"; // Default: every 5 minutes
 
   healthCheckScheduler.start(interval);
 }

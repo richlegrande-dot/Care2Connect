@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import Link from 'next/link'
-import toast from 'react-hot-toast'
-import { HeartIcon } from '@heroicons/react/24/solid'
-import { ShareIcon, CreditCardIcon } from '@heroicons/react/24/outline'
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { HeartIcon } from "@heroicons/react/24/solid";
+import { ShareIcon, CreditCardIcon } from "@heroicons/react/24/outline";
 
 const suggestedAmounts = [
-  { amount: 10, label: '$10' },
-  { amount: 25, label: '$25' },
-  { amount: 50, label: '$50' },
-  { amount: 100, label: '$100' }
-]
+  { amount: 10, label: "$10" },
+  { amount: 25, label: "$25" },
+  { amount: 50, label: "$50" },
+  { amount: 100, label: "$100" },
+];
 
 interface ClientInfo {
   name: string;
@@ -24,125 +24,150 @@ interface ClientInfo {
 }
 
 export default function DonatePage() {
-  const params = useParams()
-  const publicSlug = (params?.slug as string) || ''
-  
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(25)
-  const [customAmount, setCustomAmount] = useState('')
-  const [donorEmail, setDonorEmail] = useState('')
-  const [donorMessage, setDonorMessage] = useState('')
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [showCustom, setShowCustom] = useState(false)
+  const params = useParams();
+  const publicSlug = (params?.slug as string) || "";
+
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(25);
+  const [customAmount, setCustomAmount] = useState("");
+  const [donorEmail, setDonorEmail] = useState("");
+  const [donorMessage, setDonorMessage] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showCustom, setShowCustom] = useState(false);
   const [clientInfo, setClientInfo] = useState<ClientInfo>({
-    name: 'Community Member',
-    story: 'This person is seeking support from the community to improve their situation and work towards stability.',
-    summary: 'Help provide essential support for someone in our community.',
+    name: "Community Member",
+    story:
+      "This person is seeking support from the community to improve their situation and work towards stability.",
+    summary: "Help provide essential support for someone in our community.",
     goalAmount: 2500,
     amountRaised: 0,
-    donationCount: 0
-  })
-  const [stripeConfigured, setStripeConfigured] = useState(false)
+    donationCount: 0,
+  });
+  const [stripeConfigured, setStripeConfigured] = useState(false);
 
   useEffect(() => {
-    checkStripeConfiguration()
+    checkStripeConfiguration();
     // In a real app, you'd fetch client info from your API using the publicSlug
-    setClientInfo(prev => ({
+    setClientInfo((prev) => ({
       ...prev,
-      name: publicSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-    }))
-  }, [publicSlug])
+      name: publicSlug
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase()),
+    }));
+  }, [publicSlug]);
 
   const checkStripeConfiguration = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/qr/status`)
-      const data = await response.json()
-      
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/qr/status`,
+      );
+      const data = await response.json();
+
       if (data.success) {
-        setStripeConfigured(data.data.configured)
+        setStripeConfigured(data.data.configured);
       }
     } catch (error) {
-      console.error('Error checking Stripe status:', error)
+      console.error("Error checking Stripe status:", error);
     }
-  }
+  };
 
   const handleAmountSelect = (amount: number) => {
-    setSelectedAmount(amount)
-    setCustomAmount('')
-    setShowCustom(false)
-  }
+    setSelectedAmount(amount);
+    setCustomAmount("");
+    setShowCustom(false);
+  };
 
   const handleCustomAmountChange = (value: string) => {
-    setCustomAmount(value)
-    const numValue = parseFloat(value)
+    setCustomAmount(value);
+    const numValue = parseFloat(value);
     if (!isNaN(numValue) && numValue > 0) {
-      setSelectedAmount(numValue)
+      setSelectedAmount(numValue);
     } else {
-      setSelectedAmount(null)
+      setSelectedAmount(null);
     }
-  }
+  };
 
   const handleDonate = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!selectedAmount || selectedAmount < 0.50) {
-      toast.error('Minimum donation amount is $0.50')
-      return
+    e.preventDefault();
+
+    if (!selectedAmount || selectedAmount < 0.5) {
+      toast.error("Minimum donation amount is $0.50");
+      return;
     }
 
     if (!stripeConfigured) {
-      toast.error('Payment system is not configured. Please try again later.')
-      return
+      toast.error("Payment system is not configured. Please try again later.");
+      return;
     }
 
-    setIsProcessing(true)
+    setIsProcessing(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/qr/checkout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/qr/checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            publicSlug,
+            amount: selectedAmount,
+            donorEmail: donorEmail || undefined,
+          }),
         },
-        body: JSON.stringify({
-          publicSlug,
-          amount: selectedAmount,
-          donorEmail: donorEmail || undefined
-        }),
-      })
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (data.success) {
         // Redirect to Stripe checkout
-        window.location.href = data.data.checkoutUrl
+        window.location.href = data.data.checkoutUrl;
       } else {
-        toast.error(data.error || 'Failed to create checkout session')
+        toast.error(data.error || "Failed to create checkout session");
       }
     } catch (error) {
-      console.error('Donation error:', error)
-      toast.error('Failed to process donation. Please try again.')
+      console.error("Donation error:", error);
+      toast.error("Failed to process donation. Please try again.");
     } finally {
-      setIsProcessing(false)
+      setIsProcessing(false);
     }
-  }
+  };
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(shareUrl)
-    toast.success('Link copied to clipboard!')
-  }
+    navigator.clipboard.writeText(shareUrl);
+    toast.success("Link copied to clipboard!");
+  };
 
-  const progressPercentage = clientInfo.goalAmount ? 
-    Math.min((clientInfo.amountRaised || 0) / clientInfo.goalAmount * 100, 100) : 0
+  const progressPercentage = clientInfo.goalAmount
+    ? Math.min(
+        ((clientInfo.amountRaised || 0) / clientInfo.goalAmount) * 100,
+        100,
+      )
+    : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Header */}
       <header className="bg-white border-b shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <Link href="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
             </svg>
             <span>Back to CareConnect</span>
           </Link>
@@ -157,7 +182,7 @@ export default function DonatePage() {
               <h1 className="text-2xl font-bold text-gray-900 mb-2">
                 Support {clientInfo.name}
               </h1>
-              
+
               {clientInfo.summary && (
                 <p className="text-lg text-gray-600 mb-4">
                   {clientInfo.summary}
@@ -168,11 +193,13 @@ export default function DonatePage() {
               {clientInfo.goalAmount && (
                 <div className="mb-6">
                   <div className="flex justify-between text-sm text-gray-600 mb-1">
-                    <span>${(clientInfo.amountRaised || 0).toLocaleString()} raised</span>
+                    <span>
+                      ${(clientInfo.amountRaised || 0).toLocaleString()} raised
+                    </span>
                     <span>${clientInfo.goalAmount.toLocaleString()} goal</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div 
+                    <div
                       className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500"
                       style={{ width: `${progressPercentage}%` }}
                     />
@@ -194,7 +221,9 @@ export default function DonatePage() {
             {/* Share section */}
             <div className="border-t pt-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Share this campaign:</span>
+                <span className="text-sm font-medium text-gray-700">
+                  Share this campaign:
+                </span>
                 <button
                   onClick={copyToClipboard}
                   className="flex items-center gap-2 px-3 py-1 text-sm text-blue-600 hover:text-blue-700 transition-colors"
@@ -221,8 +250,8 @@ export default function DonatePage() {
             {!stripeConfigured && (
               <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <p className="text-yellow-800 text-sm">
-                  <strong>Note:</strong> The payment system is currently being set up. 
-                  Please check back soon to make a donation.
+                  <strong>Note:</strong> The payment system is currently being
+                  set up. Please check back soon to make a donation.
                 </p>
               </div>
             )}
@@ -233,7 +262,7 @@ export default function DonatePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Choose Amount (USD)
                 </label>
-                
+
                 {/* Suggested amounts */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   {suggestedAmounts.map(({ amount, label }) => (
@@ -243,8 +272,8 @@ export default function DonatePage() {
                       onClick={() => handleAmountSelect(amount)}
                       className={`p-3 rounded-lg border-2 font-semibold transition-all ${
                         selectedAmount === amount && !showCustom
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
                       }`}
                     >
                       {label}
@@ -259,9 +288,9 @@ export default function DonatePage() {
                     onClick={() => setShowCustom(!showCustom)}
                     className="text-blue-600 text-sm hover:text-blue-700 transition-colors"
                   >
-                    {showCustom ? 'Hide custom amount' : 'Enter custom amount'}
+                    {showCustom ? "Hide custom amount" : "Enter custom amount"}
                   </button>
-                  
+
                   {showCustom && (
                     <input
                       type="number"
@@ -311,7 +340,12 @@ export default function DonatePage() {
               {/* Donation button */}
               <button
                 type="submit"
-                disabled={!selectedAmount || selectedAmount < 0.50 || !stripeConfigured || isProcessing}
+                disabled={
+                  !selectedAmount ||
+                  selectedAmount < 0.5 ||
+                  !stripeConfigured ||
+                  isProcessing
+                }
                 className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2"
               >
                 {isProcessing ? (
@@ -323,7 +357,8 @@ export default function DonatePage() {
                   <>
                     <CreditCardIcon className="w-5 h-5" />
                     <span>
-                      Donate {selectedAmount ? `$${selectedAmount}` : ''} with Card
+                      Donate {selectedAmount ? `$${selectedAmount}` : ""} with
+                      Card
                     </span>
                   </>
                 )}
@@ -333,7 +368,8 @@ export default function DonatePage() {
             {/* Security notice */}
             <div className="mt-6 p-3 bg-gray-50 rounded-lg">
               <p className="text-xs text-gray-600 text-center">
-                🔒 Secure payment powered by Stripe. Your card information is never stored by CareConnect.
+                🔒 Secure payment powered by Stripe. Your card information is
+                never stored by CareConnect.
               </p>
             </div>
 
@@ -352,5 +388,5 @@ export default function DonatePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

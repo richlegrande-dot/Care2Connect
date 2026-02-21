@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   WrenchScrewdriverIcon,
   MapIcon,
@@ -10,12 +10,12 @@ import {
   HomeModernIcon,
   HeartIcon,
   BriefcaseIcon,
-} from '@heroicons/react/24/outline';
+} from "@heroicons/react/24/outline";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  transition: { duration: 0.5 },
 };
 
 export default function ResourcesPage() {
@@ -58,9 +58,9 @@ export default function ResourcesPage() {
             In Development for V2 Release
           </h2>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
-            We're building a comprehensive resource discovery system that will help you 
-            find and access essential services in real-time. This feature will be part 
-            of our V2 platform with AI-powered assistance.
+            We're building a comprehensive resource discovery system that will
+            help you find and access essential services in real-time. This
+            feature will be part of our V2 platform with AI-powered assistance.
           </p>
           <Link
             href="/about"
@@ -80,44 +80,49 @@ export default function ResourcesPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             What's Coming in V2
           </h2>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 icon: HomeModernIcon,
-                title: 'Shelter Availability',
-                description: 'Real-time bed availability at nearby shelters with direct contact information',
-                color: 'blue'
+                title: "Shelter Availability",
+                description:
+                  "Real-time bed availability at nearby shelters with direct contact information",
+                color: "blue",
               },
               {
                 icon: HeartIcon,
-                title: 'Food Programs',
-                description: 'Locations and schedules for food banks, soup kitchens, and meal programs',
-                color: 'red'
+                title: "Food Programs",
+                description:
+                  "Locations and schedules for food banks, soup kitchens, and meal programs",
+                color: "red",
               },
               {
                 icon: BuildingLibraryIcon,
-                title: 'Support Services',
-                description: 'Healthcare, mental health, addiction recovery, and counseling services',
-                color: 'green'
+                title: "Support Services",
+                description:
+                  "Healthcare, mental health, addiction recovery, and counseling services",
+                color: "green",
               },
               {
                 icon: BriefcaseIcon,
-                title: 'Employment Help',
-                description: 'Job listings, training programs, and career development resources',
-                color: 'orange'
+                title: "Employment Help",
+                description:
+                  "Job listings, training programs, and career development resources",
+                color: "orange",
               },
               {
                 icon: MapIcon,
-                title: 'Location-Based Search',
-                description: 'Find resources near you with maps and directions',
-                color: 'purple'
+                title: "Location-Based Search",
+                description: "Find resources near you with maps and directions",
+                color: "purple",
               },
               {
                 icon: WrenchScrewdriverIcon,
-                title: 'AI-Guided Navigation',
-                description: 'Personalized assistance to help you access the right resources',
-                color: 'indigo'
+                title: "AI-Guided Navigation",
+                description:
+                  "Personalized assistance to help you access the right resources",
+                color: "indigo",
               },
             ].map((feature, index) => (
               <motion.div
@@ -127,13 +132,13 @@ export default function ResourcesPage() {
                 transition={{ delay: 0.5 + index * 0.1 }}
                 className="bg-white rounded-lg p-6 shadow-md border-2 border-dashed border-gray-200"
               >
-                <feature.icon className={`w-12 h-12 text-${feature.color}-600 mb-4`} />
+                <feature.icon
+                  className={`w-12 h-12 text-${feature.color}-600 mb-4`}
+                />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 text-sm">
-                  {feature.description}
-                </p>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -152,15 +157,25 @@ export default function ResourcesPage() {
           <p className="text-gray-600 text-center mb-6">
             While we build V2, you can use these features today:
           </p>
-          
+
           <div className="grid md:grid-cols-2 gap-4">
             <Link
               href="/tell-story"
               className="flex flex-col items-center p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border-2 border-blue-200"
             >
               <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                <svg
+                  className="w-6 h-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                  />
                 </svg>
               </div>
               <h3 className="font-bold text-gray-900 mb-1">Tell Your Story</h3>
@@ -174,8 +189,18 @@ export default function ResourcesPage() {
               className="flex flex-col items-center p-6 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors border-2 border-purple-200"
             >
               <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                <svg
+                  className="w-6 h-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
                 </svg>
               </div>
               <h3 className="font-bold text-gray-900 mb-1">Get Support</h3>
@@ -194,8 +219,11 @@ export default function ResourcesPage() {
           className="mt-12 text-center text-gray-500 text-sm"
         >
           <p>
-            Have feedback or suggestions for the resources you'd like to see?{' '}
-            <Link href="/support" className="text-blue-600 hover:underline font-semibold">
+            Have feedback or suggestions for the resources you'd like to see?{" "}
+            <Link
+              href="/support"
+              className="text-blue-600 hover:underline font-semibold"
+            >
               Let us know
             </Link>
           </p>

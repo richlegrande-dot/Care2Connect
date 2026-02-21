@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { prisma } from '../utils/database';
-import { v4 as uuidv4 } from 'uuid';
+import { Request, Response } from "express";
+import { prisma } from "../utils/database";
+import { v4 as uuidv4 } from "uuid";
 
 export class AuthController {
   /**
@@ -25,10 +25,11 @@ export class AuthController {
         },
       });
     } catch (error) {
-      console.error('Anonymous user creation error:', error);
+      console.error("Anonymous user creation error:", error);
       res.status(500).json({
-        error: 'Failed to create anonymous user',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to create anonymous user",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -55,8 +56,8 @@ export class AuthController {
 
         if (existingUser) {
           return res.status(409).json({
-            error: 'Email already registered',
-            message: 'A user with this email already exists',
+            error: "Email already registered",
+            message: "A user with this email already exists",
           });
         }
       }
@@ -88,10 +89,11 @@ export class AuthController {
         },
       });
     } catch (error) {
-      console.error('User registration error:', error);
+      console.error("User registration error:", error);
       res.status(500).json({
-        error: 'Failed to register user',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to register user",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -109,7 +111,7 @@ export class AuthController {
 
       if (!user) {
         return res.status(404).json({
-          error: 'User not found',
+          error: "User not found",
         });
       }
 
@@ -117,7 +119,10 @@ export class AuthController {
         where: { id: userId },
         data: {
           consentGiven,
-          isProfilePublic: isProfilePublic !== undefined ? isProfilePublic : user.isProfilePublic,
+          isProfilePublic:
+            isProfilePublic !== undefined
+              ? isProfilePublic
+              : user.isProfilePublic,
           updatedAt: new Date(),
         },
       });
@@ -132,10 +137,11 @@ export class AuthController {
         },
       });
     } catch (error) {
-      console.error('Consent update error:', error);
+      console.error("Consent update error:", error);
       res.status(500).json({
-        error: 'Failed to update consent',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to update consent",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -169,7 +175,7 @@ export class AuthController {
 
       if (!user) {
         return res.status(404).json({
-          error: 'User not found',
+          error: "User not found",
         });
       }
 
@@ -192,10 +198,11 @@ export class AuthController {
         },
       });
     } catch (error) {
-      console.error('Get user info error:', error);
+      console.error("Get user info error:", error);
       res.status(500).json({
-        error: 'Failed to get user information',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: "Failed to get user information",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }

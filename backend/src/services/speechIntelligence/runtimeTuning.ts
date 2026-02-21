@@ -3,8 +3,8 @@
  * Uses DB data to improve engine/settings selection
  */
 
-import { prisma } from '../../lib/prisma';
-import { TranscriptionEngine, TuningScope } from '@prisma/client';
+import { prisma } from "../../lib/prisma";
+import { TranscriptionEngine, TuningScope } from "@prisma/client";
 
 export interface TuningRecommendation {
   engine: TranscriptionEngine;
@@ -17,7 +17,7 @@ export interface TuningRecommendation {
 
 export class RuntimeTuning {
   private readonly MIN_SAMPLES = 30; // Minimum sessions before changing profile
-  
+
   /**
    * Get tuned settings for a given context
    */
@@ -33,13 +33,19 @@ export class RuntimeTuning {
           where: {
             scope_scopeKey: {
               scope: TuningScope.LANGUAGE,
-              scopeKey: context.language
-            }
-          }
+              scopeKey: context.language,
+            },
+          },
         });
 
-        if (languageProfile && (languageProfile.sampleCount ?? 0) >= this.MIN_SAMPLES) {
-          return this.profileToRecommendation(languageProfile, context.defaultEngine);
+        if (
+          languageProfile &&
+          (languageProfile.sampleCount ?? 0) >= this.MIN_SAMPLES
+        ) {
+          return this.profileToRecommendation(
+            languageProfile,
+            context.defaultEngine,
+          );
         }
       }
 
@@ -49,13 +55,19 @@ export class RuntimeTuning {
           where: {
             scope_scopeKey: {
               scope: TuningScope.ROUTE,
-              scopeKey: context.route
-            }
-          }
+              scopeKey: context.route,
+            },
+          },
         });
 
-        if (routeProfile && (routeProfile.sampleCount ?? 0) >= this.MIN_SAMPLES) {
-          return this.profileToRecommendation(routeProfile, context.defaultEngine);
+        if (
+          routeProfile &&
+          (routeProfile.sampleCount ?? 0) >= this.MIN_SAMPLES
+        ) {
+          return this.profileToRecommendation(
+            routeProfile,
+            context.defaultEngine,
+          );
         }
       }
 
@@ -64,28 +76,34 @@ export class RuntimeTuning {
         where: {
           scope_scopeKey: {
             scope: TuningScope.GLOBAL,
-            scopeKey: 'default'
-          }
-        }
+            scopeKey: "default",
+          },
+        },
       });
 
-      if (globalProfile && (globalProfile.sampleCount ?? 0) >= this.MIN_SAMPLES) {
-        return this.profileToRecommendation(globalProfile, context.defaultEngine);
+      if (
+        globalProfile &&
+        (globalProfile.sampleCount ?? 0) >= this.MIN_SAMPLES
+      ) {
+        return this.profileToRecommendation(
+          globalProfile,
+          context.defaultEngine,
+        );
       }
 
       // No profiles available, use defaults
       return {
         engine: context.defaultEngine,
         confidence: 0,
-        sampleCount: 0
+        sampleCount: 0,
       };
     } catch (error) {
-      console.warn('Failed to fetch tuning recommendation:', error);
+      console.warn("Failed to fetch tuning recommendation:", error);
       // On DB error, return safe defaults
       return {
         engine: context.defaultEngine,
         confidence: 0,
-        sampleCount: 0
+        sampleCount: 0,
       };
     }
   }
@@ -102,7 +120,7 @@ export class RuntimeTuning {
     const results = {
       updated: 0,
       skipped: 0,
-      errors: [] as string[]
+      errors: [] as string[],
     };
 
     try {
@@ -114,16 +132,21 @@ export class RuntimeTuning {
 
       // Compute route-specific profiles
       await this.computeRouteProfiles(results);
-
     } catch (error) {
-      results.errors.push(`Profile computation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      results.errors.push(
+        `Profile computation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
 
     return results;
   }
 
-  private async computeGlobalProfile(results: { updated: number; skipped: number; errors: string[] }) {
-    const stats = await this.getEngineStats({ scope: 'global' });
+  private async computeGlobalProfile(results: {
+    updated: number;
+    skipped: number;
+    errors: string[];
+  }) {
+    const stats = await this.getEngineStats({ scope: "global" });
 
     if (stats.totalSessions < this.MIN_SAMPLES) {
       results.skipped++;
@@ -136,19 +159,19 @@ export class RuntimeTuning {
       where: {
         scope_scopeKey: {
           scope: TuningScope.GLOBAL,
-          scopeKey: 'default'
-        }
+          scopeKey: "default",
+        },
       },
       create: {
         id: `global-default-${Date.now()}`,
         scope: TuningScope.GLOBAL,
-        scopeKey: 'default',
+        scopeKey: "default",
         recommendedEngine: bestEngine,
         sampleCount: stats.totalSessions,
         successRate: stats.overallSuccessRate,
         avgLatencyMs: stats.avgLatencyMs,
         lastComputedAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       update: {
         recommendedEngine: bestEngine,
@@ -156,29 +179,33 @@ export class RuntimeTuning {
         successRate: stats.overallSuccessRate,
         avgLatencyMs: stats.avgLatencyMs,
         lastComputedAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     });
 
     results.updated++;
   }
 
-  private async computeLanguageProfiles(results: { updated: number; skipped: number; errors: string[] }) {
+  private async computeLanguageProfiles(results: {
+    updated: number;
+    skipped: number;
+    errors: string[];
+  }) {
     // Get unique languages from sessions
     const languages = await prisma.transcription_sessions.groupBy({
-      by: ['detectedLanguage'],
+      by: ["detectedLanguage"],
       where: {
-        detectedLanguage: { not: null }
+        detectedLanguage: { not: null },
       },
-      _count: true
+      _count: true,
     });
 
     for (const lang of languages) {
       if (!lang.detectedLanguage) continue;
 
-      const stats = await this.getEngineStats({ 
-        scope: 'language', 
-        value: lang.detectedLanguage 
+      const stats = await this.getEngineStats({
+        scope: "language",
+        value: lang.detectedLanguage,
       });
 
       if (stats.totalSessions < this.MIN_SAMPLES) {
@@ -192,8 +219,8 @@ export class RuntimeTuning {
         where: {
           scope_scopeKey: {
             scope: TuningScope.LANGUAGE,
-            scopeKey: lang.detectedLanguage
-          }
+            scopeKey: lang.detectedLanguage,
+          },
         },
         create: {
           id: `language-${lang.detectedLanguage}-${Date.now()}`,
@@ -204,7 +231,7 @@ export class RuntimeTuning {
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
           lastComputedAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         update: {
           recommendedEngine: bestEngine,
@@ -212,25 +239,29 @@ export class RuntimeTuning {
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
           lastComputedAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       });
 
       results.updated++;
     }
   }
 
-  private async computeRouteProfiles(results: { updated: number; skipped: number; errors: string[] }) {
+  private async computeRouteProfiles(results: {
+    updated: number;
+    skipped: number;
+    errors: string[];
+  }) {
     // Get unique sources (routes)
     const sources = await prisma.transcription_sessions.groupBy({
-      by: ['source'],
-      _count: true
+      by: ["source"],
+      _count: true,
     });
 
     for (const src of sources) {
-      const stats = await this.getEngineStats({ 
-        scope: 'route', 
-        value: src.source 
+      const stats = await this.getEngineStats({
+        scope: "route",
+        value: src.source,
       });
 
       if (stats.totalSessions < this.MIN_SAMPLES) {
@@ -244,8 +275,8 @@ export class RuntimeTuning {
         where: {
           scope_scopeKey: {
             scope: TuningScope.ROUTE,
-            scopeKey: src.source
-          }
+            scopeKey: src.source,
+          },
         },
         create: {
           id: `route-${src.source}-${Date.now()}`,
@@ -256,7 +287,7 @@ export class RuntimeTuning {
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
           lastComputedAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         update: {
           recommendedEngine: bestEngine,
@@ -264,8 +295,8 @@ export class RuntimeTuning {
           successRate: stats.overallSuccessRate,
           avgLatencyMs: stats.avgLatencyMs,
           lastComputedAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       });
 
       results.updated++;
@@ -275,13 +306,13 @@ export class RuntimeTuning {
   private async getEngineStats(filter: { scope: string; value?: string }) {
     const where: any = {
       createdAt: {
-        gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // Last 30 days
-      }
+        gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+      },
     };
 
-    if (filter.scope === 'language' && filter.value) {
+    if (filter.scope === "language" && filter.value) {
       where.detectedLanguage = filter.value;
-    } else if (filter.scope === 'route' && filter.value) {
+    } else if (filter.scope === "route" && filter.value) {
       where.source = filter.value;
     }
 
@@ -292,11 +323,14 @@ export class RuntimeTuning {
         status: true,
         durationMs: true,
         createdAt: true,
-        updatedAt: true
-      }
+        updatedAt: true,
+      },
     });
 
-    const engineStats: Record<string, { success: number; total: number; avgLatency: number }> = {};
+    const engineStats: Record<
+      string,
+      { success: number; total: number; avgLatency: number }
+    > = {};
 
     for (const session of sessions) {
       if (!engineStats[session.engine]) {
@@ -304,8 +338,8 @@ export class RuntimeTuning {
       }
 
       engineStats[session.engine].total++;
-      
-      if (session.status === 'SUCCESS') {
+
+      if (session.status === "SUCCESS") {
         engineStats[session.engine].success++;
       }
 
@@ -319,21 +353,33 @@ export class RuntimeTuning {
     }
 
     const totalSessions = sessions.length;
-    const successSessions = sessions.filter(s => s.status === 'SUCCESS').length;
-    const overallSuccessRate = totalSessions > 0 ? successSessions / totalSessions : 0;
-    const avgLatencyMs = sessions.length > 0 
-      ? sessions.reduce((sum, s) => sum + (s.updatedAt.getTime() - s.createdAt.getTime()), 0) / sessions.length
-      : 0;
+    const successSessions = sessions.filter(
+      (s) => s.status === "SUCCESS",
+    ).length;
+    const overallSuccessRate =
+      totalSessions > 0 ? successSessions / totalSessions : 0;
+    const avgLatencyMs =
+      sessions.length > 0
+        ? sessions.reduce(
+            (sum, s) => sum + (s.updatedAt.getTime() - s.createdAt.getTime()),
+            0,
+          ) / sessions.length
+        : 0;
 
     return {
       totalSessions,
       overallSuccessRate,
       avgLatencyMs,
-      engineStats
+      engineStats,
     };
   }
 
-  private selectBestEngine(engineStats: Record<string, { success: number; total: number; avgLatency: number }>): TranscriptionEngine {
+  private selectBestEngine(
+    engineStats: Record<
+      string,
+      { success: number; total: number; avgLatency: number }
+    >,
+  ): TranscriptionEngine {
     let bestEngine: TranscriptionEngine = TranscriptionEngine.OPENAI;
     let bestScore = 0;
 
@@ -353,14 +399,20 @@ export class RuntimeTuning {
     return bestEngine;
   }
 
-  private profileToRecommendation(profile: any, defaultEngine: TranscriptionEngine): TuningRecommendation {
+  private profileToRecommendation(
+    profile: any,
+    defaultEngine: TranscriptionEngine,
+  ): TuningRecommendation {
     return {
       engine: profile.recommendedEngine ?? defaultEngine,
       vadSensitivity: profile.vadSensitivity ?? undefined,
       chunkSeconds: profile.chunkSeconds ?? undefined,
       silenceTrimMs: profile.silenceTrimMs ?? undefined,
-      confidence: Math.min((profile.sampleCount ?? 0) / (this.MIN_SAMPLES * 3), 1),
-      sampleCount: profile.sampleCount ?? 0
+      confidence: Math.min(
+        (profile.sampleCount ?? 0) / (this.MIN_SAMPLES * 3),
+        1,
+      ),
+      sampleCount: profile.sampleCount ?? 0,
     };
   }
 }

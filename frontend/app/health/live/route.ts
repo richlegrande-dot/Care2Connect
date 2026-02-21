@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 /**
  * GET /health/live
@@ -7,10 +7,10 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   return NextResponse.json({
-    status: 'alive',
+    status: "alive",
     timestamp: new Date().toISOString(),
-    message: 'Frontend is running'
+    message: "Frontend is running",
   });
 }
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";

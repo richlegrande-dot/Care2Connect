@@ -1,6 +1,6 @@
-import * as dotenv from 'dotenv';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
 
 interface LoadResult {
   loaded: boolean;
@@ -17,20 +17,20 @@ class EnvProof {
         return {
           loaded: false,
           path: envPath,
-          error: new Error(`Environment file not found: ${envPath}`)
+          error: new Error(`Environment file not found: ${envPath}`),
         };
       }
 
       // Read and parse the file manually to ensure it works
-      const fileContent = fs.readFileSync(envPath, 'utf-8');
+      const fileContent = fs.readFileSync(envPath, "utf-8");
       const parsed: Record<string, string> = {};
-      
+
       // Simple .env parsing
-      fileContent.split('\n').forEach(line => {
+      fileContent.split("\n").forEach((line) => {
         const trimmed = line.trim();
-        if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
-          const [key, ...valueParts] = trimmed.split('=');
-          const value = valueParts.join('=');
+        if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+          const [key, ...valueParts] = trimmed.split("=");
+          const value = valueParts.join("=");
           parsed[key.trim()] = value.trim();
         }
       });
@@ -41,13 +41,16 @@ class EnvProof {
       return {
         loaded: true,
         path: envPath,
-        parsed
+        parsed,
       };
     } catch (error) {
       return {
         loaded: false,
         path: envPath,
-        error: error instanceof Error ? error : new Error('Unknown error loading env file')
+        error:
+          error instanceof Error
+            ? error
+            : new Error("Unknown error loading env file"),
       };
     }
   }
@@ -55,9 +58,12 @@ class EnvProof {
   /**
    * Verify that required environment variables are present
    */
-  validateRequired(requiredVars: string[]): { valid: boolean; missing: string[] } {
+  validateRequired(requiredVars: string[]): {
+    valid: boolean;
+    missing: string[];
+  } {
     const missing: string[] = [];
-    
+
     for (const varName of requiredVars) {
       if (!process.env[varName]) {
         missing.push(varName);
@@ -66,7 +72,7 @@ class EnvProof {
 
     return {
       valid: missing.length === 0,
-      missing
+      missing,
     };
   }
 
@@ -83,8 +89,8 @@ class EnvProof {
   getBoolean(varName: string, defaultValue: boolean = false): boolean {
     const value = process.env[varName];
     if (value === undefined) return defaultValue;
-    
-    return value.toLowerCase() === 'true' || value === '1';
+
+    return value.toLowerCase() === "true" || value === "1";
   }
 
   /**
@@ -93,7 +99,7 @@ class EnvProof {
   getNumber(varName: string, defaultValue?: number): number | undefined {
     const value = process.env[varName];
     if (value === undefined) return defaultValue;
-    
+
     const parsed = parseInt(value, 10);
     return isNaN(parsed) ? defaultValue : parsed;
   }
@@ -104,24 +110,24 @@ class EnvProof {
   getEnvProof(keys: string[]): any {
     const keyProof: Record<string, any> = {};
     let presentCount = 0;
-    
+
     for (const key of keys) {
       const present = !!process.env[key];
       if (present) presentCount++;
-      
+
       keyProof[key] = {
         present,
-        fingerprint: present ? this.createFingerprint(process.env[key]!) : null
+        fingerprint: present ? this.createFingerprint(process.env[key]!) : null,
       };
     }
-    
+
     return {
       dotenvLoaded: true, // Assuming dotenv was loaded
       dotenvParsedKeyCount: presentCount,
-      keys: keyProof
+      keys: keyProof,
     };
   }
-  
+
   /**
    * Create a 10-character fingerprint from a value
    */
@@ -130,10 +136,10 @@ class EnvProof {
     let hash = 0;
     for (let i = 0; i < value.length; i++) {
       const char = value.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
-    return Math.abs(hash).toString(16).padStart(10, '0').slice(0, 10);
+    return Math.abs(hash).toString(16).padStart(10, "0").slice(0, 10);
   }
 }
 

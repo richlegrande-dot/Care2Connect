@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  return NextResponse.json({ 
-    ok: true, 
+  return NextResponse.json({
+    ok: true,
     timestamp: new Date().toISOString(),
-    service: 'frontend'
-  })
+    service: "frontend",
+  });
 }
 
 export async function HEAD() {
-  return new NextResponse(null, { status: 200 })
+  return new NextResponse(null, { status: 200 });
 }

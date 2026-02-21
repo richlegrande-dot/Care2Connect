@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express';
-import qrcode from 'qrcode';
-import { resolveStripeKeysFromEnv } from '../utils/stripeKeyDetector';
+import { Router, Request, Response } from "express";
+import qrcode from "qrcode";
+import { resolveStripeKeysFromEnv } from "../utils/stripeKeyDetector";
 
 const router = Router();
 
@@ -9,14 +9,14 @@ const router = Router();
  * POST /api/qr/generate
  * Body: { url: string, size?: number }
  */
-router.post('/generate', async (req: Request, res: Response) => {
+router.post("/generate", async (req: Request, res: Response) => {
   try {
     const { url, size = 300 } = req.body;
 
     if (!url) {
       return res.status(400).json({
         success: false,
-        error: 'URL is required'
+        error: "URL is required",
       });
     }
 
@@ -25,23 +25,23 @@ router.post('/generate', async (req: Request, res: Response) => {
       width: size,
       margin: 2,
       color: {
-        dark: '#000000',
-        light: '#FFFFFF'
+        dark: "#000000",
+        light: "#FFFFFF",
       },
-      errorCorrectionLevel: 'M'
+      errorCorrectionLevel: "M",
     });
 
     return res.status(200).json({
       success: true,
       qrCodeUrl: qrDataUrl,
-      url
+      url,
     });
   } catch (error: any) {
-    console.error('[QR] Generation error:', error);
+    console.error("[QR] Generation error:", error);
     return res.status(500).json({
       success: false,
-      error: 'Failed to generate QR code',
-      message: error.message
+      error: "Failed to generate QR code",
+      message: error.message,
     });
   }
 });
@@ -50,7 +50,7 @@ router.post('/generate', async (req: Request, res: Response) => {
  * Generate QR code as PNG buffer
  * GET /api/qr/download/:encodedUrl
  */
-router.get('/download/:encodedUrl', async (req: Request, res: Response) => {
+router.get("/download/:encodedUrl", async (req: Request, res: Response) => {
   try {
     const url = decodeURIComponent(req.params.encodedUrl);
     const size = parseInt(req.query.size as string) || 300;
@@ -59,18 +59,18 @@ router.get('/download/:encodedUrl', async (req: Request, res: Response) => {
     const qrBuffer = await qrcode.toBuffer(url, {
       width: size,
       margin: 2,
-      type: 'png'
+      type: "png",
     });
 
-    res.setHeader('Content-Type', 'image/png');
-    res.setHeader('Content-Disposition', `attachment; filename="qr-code.png"`);
+    res.setHeader("Content-Type", "image/png");
+    res.setHeader("Content-Disposition", `attachment; filename="qr-code.png"`);
     res.send(qrBuffer);
   } catch (error: any) {
-    console.error('[QR] Download error:', error);
+    console.error("[QR] Download error:", error);
     return res.status(500).json({
       success: false,
-      error: 'Failed to generate QR code',
-      message: error.message
+      error: "Failed to generate QR code",
+      message: error.message,
     });
   }
 });
@@ -78,19 +78,21 @@ router.get('/download/:encodedUrl', async (req: Request, res: Response) => {
 export default router;
 
 // Status endpoint to report stripe/qr configuration for tests
-router.get('/status', (req: Request, res: Response) => {
+router.get("/status", (req: Request, res: Response) => {
   const { secret, publishable } = resolveStripeKeysFromEnv();
   const hasWebhookSecret = !!process.env.STRIPE_WEBHOOK_SECRET;
-  const checkoutMode = (process.env.STRIPE_CHECKOUT_MODE || 'redirect_only').toLowerCase();
+  const checkoutMode = (
+    process.env.STRIPE_CHECKOUT_MODE || "redirect_only"
+  ).toLowerCase();
 
   const requirements = {
     secretKey: !!secret,
     publishableKey: !!publishable,
-    webhookSecret: hasWebhookSecret
+    webhookSecret: hasWebhookSecret,
   };
 
   let configured = false;
-  if (checkoutMode === 'redirect_only') {
+  if (checkoutMode === "redirect_only") {
     configured = !!secret; // publishable not required
   } else {
     configured = !!secret && !!publishable;
@@ -103,8 +105,8 @@ router.get('/status', (req: Request, res: Response) => {
       checkoutMode,
       webhookConfigured: hasWebhookSecret,
       publishableKey: publishable || null,
-      testMode: process.env.NODE_ENV !== 'production',
-      requirements
-    }
+      testMode: process.env.NODE_ENV !== "production",
+      requirements,
+    },
   });
 });

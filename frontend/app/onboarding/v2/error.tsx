@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 interface ErrorBoundaryProps {
   error: Error & { digest?: string };
@@ -10,7 +10,7 @@ interface ErrorBoundaryProps {
 export default function V2WizardError({ error, reset }: ErrorBoundaryProps) {
   useEffect(() => {
     // Log to console so Playwright debug script can capture it
-    console.error('[V2 Wizard Error Boundary]', error.message, error.stack);
+    console.error("[V2 Wizard Error Boundary]", error.message, error.stack);
   }, [error]);
 
   return (
@@ -21,10 +21,12 @@ export default function V2WizardError({ error, reset }: ErrorBoundaryProps) {
       aria-live="assertive"
     >
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-xl font-bold text-red-700 mb-4">V2 Wizard crashed</h1>
+        <h1 className="text-xl font-bold text-red-700 mb-4">
+          V2 Wizard crashed
+        </h1>
 
         <p className="text-gray-800 text-sm mb-4">
-          <strong>Error:</strong> {error.message || 'Unknown error'}
+          <strong>Error:</strong> {error.message || "Unknown error"}
         </p>
 
         {error.stack && (

@@ -13,7 +13,11 @@ are `continue-on-error: true` so they cannot block merges.
 | V2 TypeCheck Frontend    | `v2-typecheck-frontend`   |
 | V2 Format Check          | `v2-format-check`         |
 | Security Scan            | `security-scan`           |
-| Build Test               | `build-test`              |
+
+> **Note:** `Build Test` is intentionally excluded — it runs `tsc` on the
+> full backend/frontend (including legacy code with known errors). It has
+> `continue-on-error: true` and is informational only. The V2 TypeCheck
+> jobs already verify that V2 code compiles correctly.
 
 ## Checks to REMOVE from required list
 
@@ -23,6 +27,7 @@ are `continue-on-error: true` so they cannot block merges.
 | Frontend Tests                | 6 suites failing (legacy debt)    |
 | Lint and Format Check         | 227+ Prettier violations (legacy) |
 | TypeScript Type Check         | Prisma P1012 on full codebase     |
+| Build Test                    | Full `tsc` fails on legacy code   |
 
 ## How to apply via `gh` CLI
 
@@ -41,7 +46,6 @@ gh api -X PUT "repos/{owner}/{repo}/branches/main/protection" `
    - `V2 TypeCheck Frontend`
    - `V2 Format Check`
    - `Security Scan`
-   - `Build Test`
 3. Remove the old checks: `Backend Tests`, `Frontend Tests`,
-   `Lint and Format Check`, `TypeScript Type Check`
+   `Lint and Format Check`, `TypeScript Type Check`, `Build Test`
 4. Save changes

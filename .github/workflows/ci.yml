@@ -51,7 +51,7 @@ jobs:
 
       - name: Run database migrations
         working-directory: ./backend
-        run: npx --no-install prisma migrate deploy
+        run: npx prisma migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_test
 
@@ -340,6 +340,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install backend dependencies
         working-directory: ./backend
@@ -410,7 +412,7 @@ jobs:
         working-directory: ./backend
         run: |
           npm run prisma:generate:ci
-          npx --no-install prisma migrate deploy
+          npx prisma migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/careconnect_e2e
 

@@ -441,7 +441,7 @@ const dbReadyCheck = (req: any, res: any, next: any) => {
 };
 app.use(dbReadyCheck);
 
-// Rate limiting (exempt health, metrics, and admin endpoints)
+// Rate limiting (exempt health, metrics, admin, and test endpoints)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
@@ -449,7 +449,8 @@ const limiter = rateLimit({
   skip: (req) =>
     req.path.startsWith("/health") ||
     req.path.startsWith("/metrics") ||
-    req.path.startsWith("/admin"), // Exempt admin portal (password-protected)
+    req.path.startsWith("/admin") || // Exempt admin portal (password-protected)
+    req.headers["x-c2c-test"] === "1", // Exempt automated test traffic
 });
 app.use(limiter);
 

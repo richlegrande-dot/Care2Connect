@@ -16,7 +16,6 @@
 module.exports = {
   apps: [
     {
-    {
       name: 'careconnect-backend-prod',
       cwd: './backend',
       script: './dist/server.js',
@@ -49,9 +48,6 @@ module.exports = {
       // Health monitoring
       health_check_grace_period: 30000,  // 30s grace period for health checks
       
-      // Crash loop detection logging
-      error_file: './backend/logs/backend-prod-error.log',
-      out_file: './backend/logs/backend-prod-out.log',
       merge_logs: true,             // Merge stdout and stderr for easier troubleshooting
       
       watch: false,
@@ -97,6 +93,58 @@ module.exports = {
       kill_timeout: 10000,          // Graceful shutdown timeout
       listen_timeout: 8000,         // Port binding timeout
       
+      watch: false,
+      instances: 1,
+      exec_mode: 'fork'
+    },
+
+    // ---- INFRASTRUCTURE: Caddy Reverse Proxy ----
+    {
+      name: 'care2connect-caddy',
+      script: './bin/caddy/caddy.exe',
+      args: ['run', '--config', 'Caddyfile.production'],
+      cwd: './',
+      interpreter: 'none',
+      env: {},
+
+      error_file: './logs/caddy-prod-error.log',
+      out_file: './logs/caddy-prod-out.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      time: true,
+      autorestart: true,
+
+      max_restarts: 5,
+      min_uptime: '30s',
+      restart_delay: 5000,
+      exp_backoff_restart_delay: 1000,
+
+      kill_timeout: 5000,
+      watch: false,
+      instances: 1,
+      exec_mode: 'fork'
+    },
+
+    // ---- INFRASTRUCTURE: Cloudflare Tunnel ----
+    {
+      name: 'care2connect-tunnel',
+      script: 'C:\\Program Files (x86)\\cloudflared\\cloudflared.exe',
+      args: ['tunnel', '--edge-ip-version', '4', 'run', 'care2connects-tunnel'],
+      cwd: './',
+      interpreter: 'none',
+      env: {},
+
+      error_file: './logs/tunnel-prod-error.log',
+      out_file: './logs/tunnel-prod-out.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      time: true,
+      autorestart: true,
+
+      max_restarts: 5,
+      min_uptime: '30s',
+      restart_delay: 5000,
+      exp_backoff_restart_delay: 2000,
+
+      kill_timeout: 5000,
       watch: false,
       instances: 1,
       exec_mode: 'fork'

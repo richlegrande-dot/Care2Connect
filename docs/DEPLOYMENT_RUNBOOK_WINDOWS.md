@@ -71,26 +71,49 @@ All must exit 0 before proceeding.
 # Kill leftover processes on target ports
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev/stop-clean.ps1
 
-# Start both services via PM2
+# Start ALL services via PM2 (includes backend, frontend, Caddy, and cloudflared)
 pm2 start ecosystem.dev.config.js    # development
 pm2 start ecosystem.prod.config.js   # production
 ```
 
+PM2 now manages Caddy and cloudflared alongside backend/frontend. They auto-restart
+on crash with exponential backoff (see ecosystem configs for details).
+
 ### 3. Verify services
 
 ```powershell
-# Full port sweep + identity verification
+# Full port sweep + identity verification + infrastructure + public endpoints
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/ports-and-identity.ps1 -SkipSweep
 ```
 
 Expected output: `READY FOR MANUAL TESTING` with all checks green.
 
-### 4. Start Caddy + Tunnel (production only)
+### 4. Watchdog (recommended for OpenTesting/Demo sessions)
+
+For sessions where the site is open to external testers or during a demo,
+start the watchdog for continuous auto-recovery:
 
 ```powershell
-caddy start --config Caddyfile.production
-cloudflared tunnel run care2connect
+# Start in a dedicated terminal (runs continuously)
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ops/watchdog-stack.ps1
 ```
+
+The watchdog:
+- Checks every 12 seconds: backend health, frontend reachability, Caddy port, cloudflared process
+- Auto-restarts only the specific failed service via PM2 (not all services)
+- Throttles restarts to max 3 per service per 5-minute window
+- Logs to `logs/watchdog-stack.log`
+
+**To stop**: Press `Ctrl+C` in the watchdog terminal.
+
+**When NOT to use**: Routine local development where you're frequently stopping/starting services manually.
+
+> **Note**: If you prefer to run Caddy/cloudflared outside PM2 (e.g. for debugging),
+> you can start them manually:
+> ```powershell
+> bin\caddy\caddy.exe run --config Caddyfile.production
+> cloudflared tunnel --edge-ip-version 4 run care2connects-tunnel
+> ```
 
 ---
 
@@ -215,6 +238,10 @@ Before any demo, QA session, or production verification:
 - [ ] Frontend index page loads at `http://localhost:3000/`
 - [ ] Provider login page loads at `http://localhost:3000/provider/login`
 - [ ] `/papi/sessions?limit=1` returns 401 (not timeout, not 502)
+- [ ] Caddy is listening on port 8080
+- [ ] cloudflared process is running
+- [ ] `https://care2connects.org/onboarding/v2` returns 200
+- [ ] `https://care2connects.org/provider/login` returns 200
 
 ---
 
@@ -228,7 +255,8 @@ Before any demo, QA session, or production verification:
 | `scripts/preflight/validate-env.ps1` | Verify .env and .env.local have required keys | 0=pass, 1=missing |
 | `scripts/preflight/check-pm2-shims.ps1` | Detect .bin/ bash shim references in PM2 configs | 0=clean, 1=found |
 | `scripts/preflight/check-next-rewrite-shadow.ps1` | Find App Router routes shadowed by /api rewrite | 0=clean, 1=found |
-| `scripts/preflight/ports-and-identity.ps1` | Port sweep + backend/frontend identity check | 0=ready, 1=failed |
+| `scripts/preflight/ports-and-identity.ps1` | Port sweep + identity + infra + public endpoints | 0=ready, 1=failed |
+| `scripts/ops/watchdog-stack.ps1` | Continuous auto-recovery watchdog (12s interval) | Runs until Ctrl+C |
 | `scripts/dev/stop-clean.ps1` | Kill all services and sweep ports | 0=clean, 1=stuck |
 
 ---

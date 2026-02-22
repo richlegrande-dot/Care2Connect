@@ -465,6 +465,7 @@ app.use(cookieParser());
 app.get("/health/live", (req, res) => {
   res.status(200).json({
     status: "alive",
+    service: "backend",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     pid: process.pid,

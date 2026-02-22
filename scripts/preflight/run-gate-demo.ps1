@@ -87,8 +87,28 @@ if ($pfExit -ne 0) {
 
 Write-Host "  [OK] Preflight passed" -ForegroundColor Green
 
-# ===========================================================================
-# Stage 2 -- Smoke Suite
+# Load PROVIDER_DASHBOARD_TOKEN from backend/.env for smoke suite
+if (-not $env:PROVIDER_DASHBOARD_TOKEN) {
+    $envFile = Join-Path $Root "backend\.env"
+    if (Test-Path $envFile) {
+        $tokenLine = Get-Content $envFile | Where-Object { $_ -match '^PROVIDER_DASHBOARD_TOKEN=' }
+        if ($tokenLine) {
+            $env:PROVIDER_DASHBOARD_TOKEN = ($tokenLine -replace 'PROVIDER_DASHBOARD_TOKEN=', '').Trim()
+            Write-Host "  [INFO] PROVIDER_DASHBOARD_TOKEN loaded from backend/.env" -ForegroundColor Gray
+        }
+    }
+}
+# Load V2_INTAKE_TOKEN from backend/.env for chat pipeline smoke
+if (-not $env:V2_INTAKE_TOKEN) {
+    $envFile = Join-Path $Root "backend\.env"
+    if (Test-Path $envFile) {
+        $intakeLine = Get-Content $envFile | Where-Object { $_ -match '^V2_INTAKE_TOKEN=' }
+        if ($intakeLine) {
+            $env:V2_INTAKE_TOKEN = ($intakeLine -replace 'V2_INTAKE_TOKEN=', '').Trim()
+            Write-Host "  [INFO] V2_INTAKE_TOKEN loaded from backend/.env" -ForegroundColor Gray
+        }
+    }
+}
 # ===========================================================================
 Write-Host ""
 Write-Host "--- Stage 2: Smoke Suite ---" -ForegroundColor Cyan

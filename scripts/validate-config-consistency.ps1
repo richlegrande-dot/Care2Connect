@@ -1,4 +1,4 @@
-# Configuration Drift Immunity Validation
+﻿# Configuration Drift Immunity Validation
 # PRODUCTION INVARIANT: Ensures all configuration is consistent across all components
 # 
 # This script validates that:
@@ -244,7 +244,7 @@ if (Test-Path $tunnelConfigPath) {
 Write-Host "  ✅ Tunnel configuration checked" -ForegroundColor Green
 
 # VALIDATION 5: CI/Deployment Configuration Consistency  
-Write-Host "[5/5] Validating CI/deployment configuration..." -ForegroundColor Yellow
+Write-Host "[5/6] Validating CI/deployment configuration..." -ForegroundColor Yellow
 
 $ciFiles = @(
     ".github\workflows\ci.yml",
@@ -279,6 +279,33 @@ foreach ($ciFile in $ciFiles) {
 }
 
 Write-Host "  ✅ CI/deployment configuration checked" -ForegroundColor Green
+
+# VALIDATION 6: PowerShell 5.1 Script Parse Validation
+Write-Host "[6/6] Validating PowerShell script syntax (PS 5.1 compatibility)..." -ForegroundColor Yellow
+
+$psScriptDirs = @("scripts\preflight", "scripts\ops", "scripts\smoke")
+$psParseErrors = 0
+
+foreach ($dir in $psScriptDirs) {
+    if (-not (Test-Path $dir)) { continue }
+    $ps1Files = Get-ChildItem -Path $dir -Filter "*.ps1" -ErrorAction SilentlyContinue
+    foreach ($f in $ps1Files) {
+        $parseErrs = $null
+        [void][System.Management.Automation.Language.Parser]::ParseFile(
+            $f.FullName, [ref]$null, [ref]$parseErrs)
+        if ($parseErrs -and $parseErrs.Count -gt 0) {
+            $psParseErrors++
+            $msgs = ($parseErrs | ForEach-Object { $_.Message }) -join "; "
+            Add-Issue "PS5.1 Syntax" "Parse error in $($f.Name): $msgs" "ERROR" "Fix variable interpolation and PS5.1 incompatibilities"
+        }
+    }
+}
+
+if ($psParseErrors -eq 0) {
+    Write-Host "  [OK] All PowerShell scripts parse cleanly" -ForegroundColor Green
+} else {
+    Write-Host "  [FAIL] $psParseErrors script(s) have PS5.1 parse errors" -ForegroundColor Red
+}
 
 # SUMMARY REPORT
 Write-Host ""

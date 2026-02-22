@@ -133,6 +133,17 @@ if (-not $SkipPreflight) {
         Write-Host "  [FAIL] PROVIDER_DASHBOARD_TOKEN not set" -ForegroundColor Red
     }
 
+    # Check 3b: V2 Intake token available (required when ENABLE_V2_INTAKE_AUTH=true)
+    if ($IntakeToken) {
+        $preflightResults += @{ check = "V2_INTAKE_TOKEN"; status = "PASS"; detail = "Set (value not printed)" }
+        Write-Host "  [PASS] V2_INTAKE_TOKEN is set" -ForegroundColor Green
+    } else {
+        $preflightResults += @{ check = "V2_INTAKE_TOKEN"; status = "FAIL"; detail = "Not set -- chat pipeline smoke will return 401 if ENABLE_V2_INTAKE_AUTH=true" }
+        $preflightPass = $false
+        Write-Host "  [FAIL] V2_INTAKE_TOKEN not set -- chat pipeline smoke will return 401" -ForegroundColor Red
+        Write-Host "         Generate with: scripts\ops\bootstrap-smoke-tokens.ps1" -ForegroundColor Gray
+    }
+
     # Check 4: Chat tables exist (verify by trying to create a thread on non-existent session)
     $chatCheckHeaders = @{}
     if ($IntakeToken) { $chatCheckHeaders["Authorization"] = "Bearer $IntakeToken" }

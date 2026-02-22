@@ -165,6 +165,25 @@ foreach ($path_ in @("/", "/onboarding/v2", "/provider/login")) {
     }
 }
 
+# ---- B2b: FRONTEND BUILD FRESHNESS (WARN if stale) -----------------------
+$Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+$buildIdPath = Join-Path $Root "frontend\.next\BUILD_ID"
+$srcPath     = Join-Path $Root "frontend\src"
+if ((Test-Path $buildIdPath) -and (Test-Path $srcPath)) {
+    $buildTime = (Get-Item $buildIdPath).LastWriteTime
+    $staleSrc  = Get-ChildItem $srcPath -Recurse -Include "*.ts","*.tsx" -ErrorAction SilentlyContinue |
+                    Where-Object { $_.LastWriteTime -gt $buildTime } |
+                    Select-Object -First 1
+    if ($staleSrc) {
+        Write-Host "  [WARN] Frontend build may be stale: $($staleSrc.Name) is newer than BUILD_ID" -ForegroundColor Yellow
+        Write-Host "         Consider: cd frontend ; npm run build" -ForegroundColor Gray
+    } else {
+        Pass "Frontend build is current (no .ts/.tsx files newer than BUILD_ID)"
+    }
+} else {
+    Write-Host "  [SKIP] Frontend build freshness check (BUILD_ID or src not found)" -ForegroundColor Gray
+}
+
 # ---- B3: PROVIDER PROXY FAST + ALIVE -------------------------------------
 Sect "B3 -- Provider Proxy (/papi)"
 

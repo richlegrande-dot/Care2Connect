@@ -31,10 +31,9 @@ $AppApiDir  = Join-Path (Join-Path $Root "frontend") "app\api"
 # Add relative-to-AppApiDir paths here if you consciously accept the shadow.
 # ---------------------------------------------------------------------------
 $Allowlist = @(
-    # FIXME: app/api/health/route.ts is shadowed by the /api/:path* rewrite.
-    # The /api/health fetch in health/page.tsx intentionally hits the backend.
-    # This must be moved to /papi/health or the rewrite must be narrowed.
-    "health\route.ts"
+    # No allowlisted routes. The former app/api/health/route.ts was removed
+    # in Phase 11 (shadowed dead code -- the /api/health fetch in
+    # health/page.tsx intentionally hits the backend via the rewrite).
 )
 
 Write-Host ""

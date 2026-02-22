@@ -54,6 +54,46 @@ module.exports = {
       restart_delay: 2000,
       kill_timeout: 180000, // 3 minutes
       watch: false
+    },
+
+    // ---- INFRASTRUCTURE: Caddy Reverse Proxy ----
+    {
+      name: 'care2connect-caddy-dev',
+      script: './bin/caddy/caddy.exe',
+      args: ['run', '--config', 'Caddyfile.production'],
+      cwd: './',
+      interpreter: 'none',
+      env: {},
+
+      error_file: './logs/caddy-dev-error.log',
+      out_file: './logs/caddy-dev-out.log',
+      time: true,
+      autorestart: true,
+      max_restarts: 5,
+      min_uptime: '30s',
+      restart_delay: 3000,
+      kill_timeout: 5000,
+      watch: false
+    },
+
+    // ---- INFRASTRUCTURE: Cloudflare Tunnel ----
+    {
+      name: 'care2connect-tunnel-dev',
+      script: 'C:\\Program Files (x86)\\cloudflared\\cloudflared.exe',
+      args: ['tunnel', '--edge-ip-version', '4', 'run', 'care2connects-tunnel'],
+      cwd: './',
+      interpreter: 'none',
+      env: {},
+
+      error_file: './logs/tunnel-dev-error.log',
+      out_file: './logs/tunnel-dev-out.log',
+      time: true,
+      autorestart: true,
+      max_restarts: 5,
+      min_uptime: '30s',
+      restart_delay: 3000,
+      kill_timeout: 5000,
+      watch: false
     }
   ]
 };

@@ -206,6 +206,67 @@ try {
     else { Fail "POST $authUrl (bad token) => $scode2 (expected 401)" }
 } catch { Fail "POST $authUrl exception: $_" }
 
+# ---- B4: INFRASTRUCTURE -- Caddy + Cloudflared ----------------------------
+Sect "B4 -- Infrastructure (Caddy + Cloudflared)"
+
+# Check Caddy on port 8080
+$caddyListeners = @(Get-NetTCPConnection -LocalPort 8080 -State Listen -EA SilentlyContinue)
+if ($caddyListeners.Count -eq 0) {
+    Fail "Port 8080 -- nobody listening. Start Caddy: pm2 start ecosystem.prod.config.js (or bin\caddy\caddy.exe run --config Caddyfile.production)"
+} else {
+    Pass "Caddy listening on port 8080"
+}
+
+# Check cloudflared process
+$cfProcs = @(Get-Process -Name "cloudflared" -EA SilentlyContinue)
+if ($cfProcs.Count -eq 0) {
+    Fail "cloudflared process not running. Start tunnel: pm2 start ecosystem.prod.config.js (or cloudflared tunnel --edge-ip-version 4 run care2connects-tunnel)"
+} else {
+    Pass "cloudflared process running (PID $($cfProcs[0].Id))"
+}
+
+# ---- B5: PUBLIC ENDPOINTS -- production URL reachability -------------------
+Sect "B5 -- Public Endpoint Reachability"
+
+foreach ($pubUrl in @("https://care2connects.org/onboarding/v2", "https://care2connects.org/provider/login")) {
+    try {
+        $pubResp = Invoke-WebRequest -Uri $pubUrl -TimeoutSec 10 -UseBasicParsing -EA Stop
+        if ([int]$pubResp.StatusCode -eq 200) {
+            Pass "GET $pubUrl => 200"
+        } else {
+            Fail "GET $pubUrl => $([int]$pubResp.StatusCode) (expected 200)"
+        }
+    } catch {
+        Fail "GET $pubUrl failed: $($_.Exception.Message). Is cloudflared + Caddy running?"
+    }
+}
+
+# Quick papi auth check via public URL (should return 401 within 2s)
+$pubPapi = "http://localhost:$FrontendPort/papi/sessions?limit=1"
+$swPub = [System.Diagnostics.Stopwatch]::StartNew()
+$pubPapiCode = $null
+try {
+    try {
+        $wrPub = Invoke-WebRequest -Uri $pubPapi -TimeoutSec $ProxyTimeout -UseBasicParsing -EA Stop
+        $pubPapiCode = [int]$wrPub.StatusCode
+    } catch [System.Net.WebException] {
+        $respPub = $_.Exception.Response
+        if ($respPub) { $pubPapiCode = [int]$respPub.StatusCode }
+    }
+} catch {}
+$swPub.Stop()
+$elapsedPub = [math]::Round($swPub.Elapsed.TotalSeconds, 2)
+
+if ($pubPapiCode -eq 401 -and $elapsedPub -le 2) {
+    Pass "papi/sessions?limit=1 => 401 in ${elapsedPub}s (fast, auth enforced)"
+} elseif ($pubPapiCode -eq 401) {
+    Fail "papi/sessions?limit=1 => 401 but took ${elapsedPub}s (expected <=2s) -- backend may be slow"
+} elseif ($pubPapiCode) {
+    Fail "papi/sessions?limit=1 => $pubPapiCode (expected 401)"
+} else {
+    Fail "papi/sessions?limit=1 => no response in ${elapsedPub}s -- proxy or backend down"
+}
+
 # ---- SUMMARY --------------------------------------------------------------
 Sect "Port Binding Summary"
 foreach ($p in @(3000, 3001, 8080)) {

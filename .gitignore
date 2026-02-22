@@ -36,6 +36,7 @@ jspm_packages/
 .env
 .env.*
 !.env.example
+!.env.local.example
 
 # Models (do not commit large model files)
 models/

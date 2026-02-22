@@ -3,13 +3,15 @@
 # Usage: .\scripts\start-server-and-test.ps1
 
 param(
-    [switch]$SkipStartup = $false,
-    [switch]$SkipPreflight = $false
+    [switch]$SkipStartup      = $false,
+    [switch]$SkipPreflight    = $false,  # Requires ALLOW_SKIP_PREFLIGHT=true or -ForceSkipPreflight
+    [switch]$ForceSkipPreflight = $false  # Explicit override; logs the bypass
 )
 
 # -- Preflight Gate (mandatory unless -SkipPreflight) -----------------------
+$_ssatRoot = Split-Path -Parent $PSScriptRoot
 if (-not $SkipStartup -and -not $SkipPreflight) {
-    $workspaceRoot = Split-Path -Parent $PSScriptRoot
+    $workspaceRoot = $_ssatRoot
     $preflightScript = Join-Path $workspaceRoot "scripts\preflight\start-preflight.ps1"
     if (Test-Path $preflightScript) {
         Write-Host "`n=== Running Preflight Gate ===" -ForegroundColor Cyan
@@ -23,6 +25,21 @@ if (-not $SkipStartup -and -not $SkipPreflight) {
         }
         Write-Host ""
     }
+} elseif ($SkipPreflight -and -not $SkipStartup) {
+    $allowSkip = ($env:ALLOW_SKIP_PREFLIGHT -eq 'true') -or $ForceSkipPreflight
+    if (-not $allowSkip) {
+        Write-Host "" -ForegroundColor Red
+        Write-Host "ABORT: -SkipPreflight requires either:" -ForegroundColor Red
+        Write-Host "  (a) environment variable ALLOW_SKIP_PREFLIGHT=true, OR" -ForegroundColor Red
+        Write-Host "  (b) the -ForceSkipPreflight switch." -ForegroundColor Red
+        exit 1
+    }
+    $skipMsg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') PREFLIGHT SKIPPED -- user=$($env:USERNAME) script=start-server-and-test.ps1 force=$ForceSkipPreflight env=$($env:ALLOW_SKIP_PREFLIGHT)"
+    Write-Warning "Preflight skipped (authorized). Entry logged."
+    $skipLog = Join-Path $_ssatRoot "logs\preflight\skip_preflight.log"
+    $skipLogDir = Split-Path $skipLog
+    if (-not (Test-Path $skipLogDir)) { New-Item -ItemType Directory -Path $skipLogDir -Force | Out-Null }
+    Add-Content -Path $skipLog -Value $skipMsg
 }
 
 $ErrorActionPreference = "Continue"

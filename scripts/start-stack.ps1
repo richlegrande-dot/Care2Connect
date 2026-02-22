@@ -18,11 +18,34 @@
 #>
 
 param(
-    [switch]$SkipValidation  # Skip public endpoint validation (for testing)
+    [switch]$SkipValidation,  # Skip public endpoint validation (for testing)
+    [switch]$SkipPreflight    # Skip preflight gate (NOT recommended)
 )
 
 $ErrorActionPreference = "Stop"
 $workspaceRoot = Split-Path -Parent $PSScriptRoot
+
+# -- Preflight Gate (mandatory unless -SkipPreflight) -----------------------
+if (-not $SkipPreflight) {
+    $preflightScript = Join-Path $workspaceRoot "scripts\preflight\start-preflight.ps1"
+    if (Test-Path $preflightScript) {
+        Write-Host "`n=== Running Preflight Gate ===" -ForegroundColor Cyan
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $preflightScript -Mode Demo
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "" -ForegroundColor Red
+            Write-Host "PREFLIGHT FAILED -- aborting stack startup." -ForegroundColor Red
+            Write-Host "Fix the issues above, then try again." -ForegroundColor Yellow
+            Write-Host "To skip (NOT recommended): .\scripts\start-stack.ps1 -SkipPreflight" -ForegroundColor Gray
+            exit 1
+        }
+        Write-Host ""
+    } else {
+        Write-Host "WARNING: Preflight script not found at $preflightScript" -ForegroundColor Yellow
+        Write-Host "Continuing without preflight (merge Phase 11.2 to enable)." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "`n[WARN] Preflight skipped via -SkipPreflight flag" -ForegroundColor Yellow
+}
 
 # Load canonical ports
 $portsFile = "$workspaceRoot\config\ports.json"

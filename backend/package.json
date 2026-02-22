@@ -5,8 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "build:backend": "tsc",
+    "build": "tsc -p tsconfig.build.json",
+    "build:backend": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
     "start:prod": "NODE_ENV=production node dist/server.js",
     "doctor": "ts-node scripts/startup-doctor.ts",

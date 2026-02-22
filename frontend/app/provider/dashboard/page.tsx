@@ -52,7 +52,7 @@ export default function ProviderDashboard() {
     setLoading(true);
     setError("");
     try {
-      const r = await fetch(`/api/provider/sessions?limit=${limit}&offset=${offset}`, {
+      const r = await fetch(`/papi/sessions?limit=${limit}&offset=${offset}`, {
         credentials: "include",
       });
       if (r.status === 401) {
@@ -73,7 +73,7 @@ export default function ProviderDashboard() {
   useEffect(() => { load(page * limit); }, [load, page]);
 
   async function handleLogout() {
-    await fetch("/api/provider/logout", { method: "POST", credentials: "include" }).catch(() => {});
+    await fetch("/papi/logout", { method: "POST", credentials: "include" }).catch(() => {});
     router.replace("/provider/login");
   }
 

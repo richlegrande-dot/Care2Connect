@@ -13,7 +13,7 @@ export default function ProviderLoginPage() {
 
   // If already auth'd, skip login
   useEffect(() => {
-    fetch("/api/provider/sessions?limit=1", { credentials: "include" })
+    fetch("/papi/sessions?limit=1", { credentials: "include" })
       .then((r) => { if (r.ok) router.replace("/provider/dashboard"); })
       .catch(() => {});
   }, [router]);
@@ -23,7 +23,7 @@ export default function ProviderLoginPage() {
     setError("");
     setLoading(true);
     try {
-      const r = await fetch("/api/provider/auth", {
+      const r = await fetch("/papi/auth", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

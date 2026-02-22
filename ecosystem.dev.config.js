@@ -38,7 +38,7 @@ module.exports = {
     {
       name: 'care2connect-frontend-dev',
       script: 'node',
-      args: ['C:/Users/richl/Care2system/node_modules/.bin/next', 'dev', '--port', '3000'],
+      args: ['node_modules/next/dist/bin/next', 'dev', '--port', '3000'],
       cwd: './frontend',
       env: {
         NODE_ENV: 'development',

@@ -67,3 +67,12 @@ test-results/
 # Runtime artifacts
 health-status.json
 
+# Report / handoff spam guard — generated docs must NOT be committed to main
+# Use reports-archive/* branch or PR descriptions instead
+docs/reports/
+docs/handoffs/
+**/AGENT_HANDOFF_*.md
+**/NAVIGATOR_HANDOFF_*.md
+**/SYSTEM_STATE_REPORT*.md
+**/PHASE*_COMPLETION_REPORT_*.md
+

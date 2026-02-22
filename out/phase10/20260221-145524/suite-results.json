@@ -1,0 +1,57 @@
+﻿{
+    "sections":  [
+                     {
+                         "detail":  "",
+                         "status":  "FAIL",
+                         "name":  "Preflight Checks",
+                         "time":  "2026-02-21T14:55:27.6569201-05:00",
+                         "subResults":  [
+                                            {
+                                                "detail":  "GET /api/v2/intake/health -\u003e 200",
+                                                "status":  "PASS",
+                                                "check":  "API reachable"
+                                            },
+                                            {
+                                                "detail":  "Intake health: healthy, db: connected",
+                                                "status":  "PASS",
+                                                "check":  "ENABLE_V2_INTAKE"
+                                            },
+                                            {
+                                                "detail":  "Not set",
+                                                "status":  "FAIL",
+                                                "check":  "PROVIDER_DASHBOARD_TOKEN"
+                                            },
+                                            {
+                                                "detail":  "status=401",
+                                                "status":  "WARN",
+                                                "check":  "Chat endpoint active"
+                                            },
+                                            {
+                                                "detail":  "Returns 401 for invalid token",
+                                                "status":  "PASS",
+                                                "check":  "Provider auth endpoint"
+                                            }
+                                        ]
+                     },
+                     {
+                         "detail":  "Exit code: 1",
+                         "status":  "FAIL",
+                         "name":  "Chat Pipeline",
+                         "time":  "2026-02-21T14:55:28.6972075-05:00",
+                         "subResults":  [
+
+                                        ]
+                     },
+                     {
+                         "detail":  "Exit code: 1",
+                         "status":  "FAIL",
+                         "name":  "Provider Dashboard",
+                         "time":  "2026-02-21T14:55:28.7429716-05:00",
+                         "subResults":  [
+
+                                        ]
+                     }
+                 ],
+    "timestamp":  "2026-02-21T14:55:24.8935126-05:00",
+    "apiBase":  "https://api.care2connects.org"
+}

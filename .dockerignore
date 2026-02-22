@@ -1,0 +1,16 @@
+# Exclude documentation and reports from Docker build context.
+# These are never needed inside containers — exclusion keeps builds fast
+# and prevents accidental secret exposure via markdown files.
+
+docs/
+scripts/archive/
+logs/
+**/*.log
+**/*.md
+!README.md
+
+# Test / dev artifacts
+playwright-report/
+test-results/
+coverage/
+*.test-results.json

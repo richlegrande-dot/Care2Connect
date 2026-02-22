@@ -1,0 +1,110 @@
+﻿{
+    "sessionId":  "cmlwre8x70006z808nbp4tow9",
+    "timestamp":  "2026-02-21T15:16:10.2602275-05:00",
+    "apiBase":  "https://api.care2connects.org",
+    "assertions":  [
+                       {
+                           "detail":  "sessionId=cmlwre8x70006z808nbp4tow9, isTest=False",
+                           "status":  "PASS",
+                           "name":  "Session created (201)",
+                           "id":  "S1",
+                           "time":  "2026-02-21T15:16:11.2429543-05:00"
+                       },
+                       {
+                           "detail":  "score=7",
+                           "status":  "PASS",
+                           "name":  "Session completed (non-DV)",
+                           "id":  "S2",
+                           "time":  "2026-02-21T15:16:15.9727453-05:00"
+                       },
+                       {
+                           "detail":  "The remote server returned an error: (500) Internal Server Error.",
+                           "status":  "FAIL",
+                           "name":  "Chat thread creation",
+                           "id":  "C1",
+                           "time":  "2026-02-21T15:16:16.9632789-05:00"
+                       },
+                       {
+                           "detail":  "Skipped - no threadId",
+                           "status":  "WARN",
+                           "name":  "Normal chat message",
+                           "id":  "C3",
+                           "time":  "2026-02-21T15:16:16.9721633-05:00"
+                       },
+                       {
+                           "detail":  "sessionId=cmlwree1x000rz808b9hlovz3",
+                           "status":  "PASS",
+                           "name":  "DV-safe session created + completed",
+                           "id":  "DV1",
+                           "time":  "2026-02-21T15:16:22.3859159-05:00"
+                       },
+                       {
+                           "detail":  "The remote server returned an error: (500) Internal Server Error.",
+                           "status":  "FAIL",
+                           "name":  "DV-safe mode test",
+                           "id":  "DV1",
+                           "time":  "2026-02-21T15:16:23.2426421-05:00"
+                       },
+                       {
+                           "detail":  "Skipped - no threadId",
+                           "status":  "WARN",
+                           "name":  "Message retrieval",
+                           "id":  "C4",
+                           "time":  "2026-02-21T15:16:23.2458580-05:00"
+                       },
+                       {
+                           "detail":  "Not found (may be a known signature issue)",
+                           "status":  "WARN",
+                           "name":  "Audit event: CHAT_THREAD_CREATED",
+                           "id":  "A-CHAT_THREAD_CREATED",
+                           "time":  "2026-02-21T15:16:24.1694094-05:00"
+                       },
+                       {
+                           "detail":  "Not found (may be a known signature issue)",
+                           "status":  "WARN",
+                           "name":  "Audit event: CHAT_MESSAGE_USER",
+                           "id":  "A-CHAT_MESSAGE_USER",
+                           "time":  "2026-02-21T15:16:24.1741023-05:00"
+                       },
+                       {
+                           "detail":  "Not found (may be a known signature issue)",
+                           "status":  "WARN",
+                           "name":  "Audit event: CHAT_MESSAGE_ASSISTANT",
+                           "id":  "A-CHAT_MESSAGE_ASSISTANT",
+                           "time":  "2026-02-21T15:16:24.1766480-05:00"
+                       },
+                       {
+                           "detail":  "No chat audit events to inspect",
+                           "status":  "WARN",
+                           "name":  "Audit meta check",
+                           "id":  "A4",
+                           "time":  "2026-02-21T15:16:24.2272404-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "All evidence files clean of PII",
+                           "id":  "PII-ALL",
+                           "time":  "2026-02-21T15:16:24.2790577-05:00"
+                       }
+                   ],
+    "piiScanResults":  [
+                           {
+                               "context":  "chat-audit-events.json",
+                               "clean":  true,
+                               "piiFound":  [
+
+                                            ]
+                           }
+                       ],
+    "testSuite":  "Phase10-ChatPipeline",
+    "summary":  {
+                    "total":  12,
+                    "verdict":  "FAIL",
+                    "warnings":  6,
+                    "failed":  2,
+                    "passed":  4
+                },
+    "dvSessionId":  "cmlwree1x000rz808b9hlovz3",
+    "threadId":  null
+}

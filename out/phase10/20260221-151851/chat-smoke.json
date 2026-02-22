@@ -1,0 +1,180 @@
+﻿{
+    "sessionId":  "cmlwrhpnv001gz808dtm8dc9b",
+    "timestamp":  "2026-02-21T15:18:51.9294515-05:00",
+    "apiBase":  "https://api.care2connects.org",
+    "assertions":  [
+                       {
+                           "detail":  "sessionId=cmlwrhpnv001gz808dtm8dc9b, isTest=False",
+                           "status":  "PASS",
+                           "name":  "Session created (201)",
+                           "id":  "S1",
+                           "time":  "2026-02-21T15:18:52.8863263-05:00"
+                       },
+                       {
+                           "detail":  "score=7",
+                           "status":  "PASS",
+                           "name":  "Session completed (non-DV)",
+                           "id":  "S2",
+                           "time":  "2026-02-21T15:18:57.4100934-05:00"
+                       },
+                       {
+                           "detail":  "threadId=cmlwrhtug0022z808z37ka8fn, mode=DETERMINISTIC",
+                           "status":  "PASS",
+                           "name":  "Chat thread created (200)",
+                           "id":  "C1",
+                           "time":  "2026-02-21T15:18:58.2999908-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Thread idempotency (same threadId)",
+                           "id":  "C2",
+                           "time":  "2026-02-21T15:18:59.2454638-05:00"
+                       },
+                       {
+                           "detail":  "responseLength=467",
+                           "status":  "PASS",
+                           "name":  "Normal message -\u003e deterministic response (200)",
+                           "id":  "C3",
+                           "time":  "2026-02-21T15:19:00.2231499-05:00"
+                       },
+                       {
+                           "detail":  "preview=**What You Can Do Next**\n\n**Building Long-term Stability:**\n• Focus on employmen...",
+                           "status":  "PASS",
+                           "name":  "Response has substantive content",
+                           "id":  "C3a",
+                           "time":  "2026-02-21T15:19:00.2332163-05:00"
+                       },
+                       {
+                           "detail":  "sessionId=cmlwrhw10002dz808lzhfgdj1",
+                           "status":  "PASS",
+                           "name":  "DV-safe session created + completed",
+                           "id":  "DV1",
+                           "time":  "2026-02-21T15:19:05.7492606-05:00"
+                       },
+                       {
+                           "detail":  "threadId=cmlwri0bk002zz8083xu9iikp",
+                           "status":  "PASS",
+                           "name":  "DV chat thread created",
+                           "id":  "DV2",
+                           "time":  "2026-02-21T15:19:06.6946068-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "DV-safe message accepted (200)",
+                           "id":  "DV3",
+                           "time":  "2026-02-21T15:19:07.6069253-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Response does NOT echo sensitive text",
+                           "id":  "DV4",
+                           "time":  "2026-02-21T15:19:07.6069253-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Response includes safety/support guidance",
+                           "id":  "DV5",
+                           "time":  "2026-02-21T15:19:07.6069253-05:00"
+                       },
+                       {
+                           "detail":  "content=[User message - redacted for safety]",
+                           "status":  "PASS",
+                           "name":  "User message stored as redacted placeholder",
+                           "id":  "DV6",
+                           "time":  "2026-02-21T15:19:08.5835409-05:00"
+                       },
+                       {
+                           "detail":  "count=2",
+                           "status":  "PASS",
+                           "name":  "Messages retrieved (\u003e= 2)",
+                           "id":  "C4",
+                           "time":  "2026-02-21T15:19:09.4768226-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Both user + assistant roles present",
+                           "id":  "C5",
+                           "time":  "2026-02-21T15:19:09.4993896-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Audit event: CHAT_THREAD_CREATED",
+                           "id":  "A-CHAT_THREAD_CREATED",
+                           "time":  "2026-02-21T15:19:10.3755196-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Audit event: CHAT_MESSAGE_USER",
+                           "id":  "A-CHAT_MESSAGE_USER",
+                           "time":  "2026-02-21T15:19:10.3795336-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Audit event: CHAT_MESSAGE_ASSISTANT",
+                           "id":  "A-CHAT_MESSAGE_ASSISTANT",
+                           "time":  "2026-02-21T15:19:10.3808010-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "Audit meta excludes message content",
+                           "id":  "A4",
+                           "time":  "2026-02-21T15:19:10.3851244-05:00"
+                       },
+                       {
+                           "detail":  "",
+                           "status":  "PASS",
+                           "name":  "All evidence files clean of PII",
+                           "id":  "PII-ALL",
+                           "time":  "2026-02-21T15:19:10.4577786-05:00"
+                       }
+                   ],
+    "piiScanResults":  [
+                           {
+                               "context":  "chat-audit-events.json",
+                               "clean":  true,
+                               "piiFound":  [
+
+                                            ]
+                           },
+                           {
+                               "context":  "chat-dv-safe-response.json",
+                               "clean":  true,
+                               "piiFound":  [
+
+                                            ]
+                           },
+                           {
+                               "context":  "chat-messages-list.json",
+                               "clean":  true,
+                               "piiFound":  [
+
+                                            ]
+                           },
+                           {
+                               "context":  "chat-normal-message-response.json",
+                               "clean":  true,
+                               "piiFound":  [
+
+                                            ]
+                           }
+                       ],
+    "testSuite":  "Phase10-ChatPipeline",
+    "summary":  {
+                    "total":  19,
+                    "verdict":  "PASS",
+                    "warnings":  0,
+                    "failed":  0,
+                    "passed":  19
+                },
+    "dvSessionId":  "cmlwrhw10002dz808lzhfgdj1",
+    "threadId":  "cmlwrhtug0022z808z37ka8fn"
+}

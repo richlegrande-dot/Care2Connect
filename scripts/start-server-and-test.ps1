@@ -3,8 +3,27 @@
 # Usage: .\scripts\start-server-and-test.ps1
 
 param(
-    [switch]$SkipStartup = $false
+    [switch]$SkipStartup = $false,
+    [switch]$SkipPreflight = $false
 )
+
+# -- Preflight Gate (mandatory unless -SkipPreflight) -----------------------
+if (-not $SkipStartup -and -not $SkipPreflight) {
+    $workspaceRoot = Split-Path -Parent $PSScriptRoot
+    $preflightScript = Join-Path $workspaceRoot "scripts\preflight\start-preflight.ps1"
+    if (Test-Path $preflightScript) {
+        Write-Host "`n=== Running Preflight Gate ===" -ForegroundColor Cyan
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $preflightScript -Mode Demo
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "" -ForegroundColor Red
+            Write-Host "PREFLIGHT FAILED -- aborting server start." -ForegroundColor Red
+            Write-Host "Fix the issues above, then try again." -ForegroundColor Yellow
+            Write-Host "To skip (NOT recommended): .\scripts\start-server-and-test.ps1 -SkipPreflight" -ForegroundColor Gray
+            exit 1
+        }
+        Write-Host ""
+    }
+}
 
 $ErrorActionPreference = "Continue"
 $testResults = @{

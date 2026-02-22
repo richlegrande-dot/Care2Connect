@@ -15,16 +15,22 @@
       6. Port identity + proxy          (ports-and-identity.ps1)            -- Demo/OpenTesting
       7. Provider auth round-trip       (provider-auth-check.ps1)           -- Demo/OpenTesting
       8. Chat backend readiness         (chat-backend-check.ps1)            -- Demo/OpenTesting
-      9. Uptime drill                   (uptime-drill.ps1)                  -- if -IncludeUptimeDrill
+      9. Caddy host-routing / public    (caddy-public-check.ps1)            -- if -UseCaddy/-UsePublic
+     10. Rate-limit bypass safety       (rate-limit-bypass-check.ps1)       -- OpenTesting only
+     11. Uptime drill                   (uptime-drill.ps1)                  -- if -IncludeUptimeDrill
 
     Each run generates a unique RunId and writes full output to
-    logs/preflight/preflight_<RunId>.log.
+    logs/preflight/preflight_<RunId>.log.  Old logs are auto-pruned
+    per -RetentionDays.
+
+    On PASS in Demo/OpenTesting: writes logs/preflight/LAST_GOOD_<Mode>.txt
+    as a "manual testing ready" stamp.
 
     Prints a clean PASS/FAIL banner and returns non-zero on ANY failure.
 
 .PARAMETER Mode
     Demo         -- full checks including auth round-trip, DB, chat backend
-    OpenTesting  -- same as Demo (higher risk = same strictness)
+    OpenTesting  -- same as Demo + rate-limit bypass check
     LocalDev     -- env + shim + shadow + collision only; skips ports/auth unless forced
 
 .PARAMETER IncludeUptimeDrill
@@ -32,6 +38,16 @@
 
 .PARAMETER NonDisruptiveUptimeDrill
     If IncludeUptimeDrill is set, use non-disruptive (poll-only) mode.
+
+.PARAMETER UseCaddy
+    Run Caddy host-routing checks (localhost:8080 with Host headers).
+
+.PARAMETER UsePublic
+    Run public domain probes (care2connects.org via Cloudflare).
+
+.PARAMETER RetentionDays
+    Delete preflight logs older than this many days (default: 7).
+    Today's logs are never deleted.
 
 .PARAMETER IncludeProviderAuthCheck
     Run provider dashboard auth round-trip check.
@@ -53,8 +69,11 @@
     # Before a demo (standard gate)
     .\scripts\preflight\start-preflight.ps1 -Mode Demo
 
-    # Before a demo with uptime proof
-    .\scripts\preflight\start-preflight.ps1 -Mode Demo -IncludeUptimeDrill
+    # Demo with Caddy host-routing verification
+    .\scripts\preflight\start-preflight.ps1 -Mode Demo -UseCaddy
+
+    # OpenTesting with public domain probes
+    .\scripts\preflight\start-preflight.ps1 -Mode OpenTesting -UsePublic
 
     # Non-disruptive uptime check (no restarts)
     .\scripts\preflight\start-preflight.ps1 -Mode OpenTesting -IncludeUptimeDrill -NonDisruptiveUptimeDrill
@@ -73,6 +92,12 @@ param(
     [switch]$IncludeUptimeDrill,
 
     [switch]$NonDisruptiveUptimeDrill,
+
+    [switch]$UseCaddy,
+
+    [switch]$UsePublic,
+
+    [int]$RetentionDays = 7,
 
     [Nullable[bool]]$IncludeProviderAuthCheck,
 
@@ -96,6 +121,17 @@ $RunId = (Get-Date -Format "yyyyMMdd-HHmmss") + "-" + ([System.Guid]::NewGuid().
 $LogDir = Join-Path $Root "logs"; $LogDir = Join-Path $LogDir "preflight"
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
 $LogFile = Join-Path $LogDir "preflight_$RunId.log"
+
+# -- Log retention: prune old logs -------------------------------------------
+$today = (Get-Date).Date
+$cutoff = $today.AddDays(-$RetentionDays)
+$pruned = 0
+Get-ChildItem -Path $LogDir -Filter "preflight_*.log" -ErrorAction SilentlyContinue | ForEach-Object {
+    if ($_.LastWriteTime -lt $cutoff -and $_.LastWriteTime.Date -ne $today) {
+        Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+        $pruned++
+    }
+}
 
 # Tee helper: write to both console and log
 function Write-Tee {
@@ -193,10 +229,15 @@ Write-Tee "  Log  : $LogFile" -Color Gray
 $flags = @()
 if ($IncludeUptimeDrill)        { $flags += "UptimeDrill" }
 if ($NonDisruptiveUptimeDrill)  { $flags += "NonDisruptive" }
+if ($UseCaddy)                  { $flags += "UseCaddy" }
+if ($UsePublic)                 { $flags += "UsePublic" }
 if ($RunProviderAuth)           { $flags += "ProviderAuth" }
 if ($RunPorts)                  { $flags += "Ports" }
 if ($flags.Count -gt 0) {
     Write-Tee "  Flags: $($flags -join ', ')" -Color Gray
+}
+if ($pruned -gt 0) {
+    Write-Tee "  Pruned $pruned old log(s) (retention: ${RetentionDays}d)" -Color Gray
 }
 Write-Tee ""
 
@@ -285,7 +326,33 @@ if ($Mode -eq "Demo" -or $Mode -eq "OpenTesting") {
 }
 
 # ============================================================================
-# STEP 9 -- Uptime Drill (optional, flag-gated)
+# STEP 9 -- Caddy Host-Routing / Public Domain Probes (flag-gated)
+# ============================================================================
+if ($UseCaddy -or $UsePublic) {
+    $checkArgs = @("-TimeoutSeconds", "$TimeoutSeconds")
+    if ($UseCaddy)  { $checkArgs += "-UseCaddy" }
+    if ($UsePublic) { $checkArgs += "-UsePublic" }
+    $checkLabel = if ($UseCaddy -and $UsePublic) { "Caddy + Public Probes" } elseif ($UseCaddy) { "Caddy Host-Routing" } else { "Public Domain Probes" }
+    Invoke-Step -Name $checkLabel `
+        -ScriptPath (Join-Path $PreflightDir "caddy-public-check.ps1") `
+        -ExtraArgs $checkArgs
+} else {
+    Write-Tee "  [SKIP] Caddy/Public Probes (use -UseCaddy or -UsePublic)" -Color Yellow
+}
+
+# ============================================================================
+# STEP 10 -- Rate-Limit Bypass Safety (OpenTesting only)
+# ============================================================================
+if ($Mode -eq "OpenTesting") {
+    Invoke-Step -Name "Rate-Limit Bypass Safety" `
+        -ScriptPath (Join-Path $PreflightDir "rate-limit-bypass-check.ps1") `
+        -ExtraArgs @("-TimeoutSeconds", "$TimeoutSeconds")
+} else {
+    Write-Tee "  [SKIP] Rate-Limit Bypass Safety (OpenTesting only)" -Color Yellow
+}
+
+# ============================================================================
+# STEP 11 -- Uptime Drill (optional, flag-gated)
 # ============================================================================
 if ($IncludeUptimeDrill) {
     $drillArgs = @("-TimeoutSeconds", "$TimeoutSeconds")
@@ -326,6 +393,21 @@ Write-Tee ""
 Write-Tee "  Log: $LogFile" -Color Gray
 
 if ($AllPass) {
+    # -- D6: Write "Manual Testing Ready" stamp ---------------------------------
+    if ($Mode -eq "Demo" -or $Mode -eq "OpenTesting") {
+        $stampFile = Join-Path $LogDir "LAST_GOOD_$Mode.txt"
+        $passCount = ($Steps | Where-Object { $_.Pass }).Count
+        $stampContent = @(
+            "RunId     : $RunId",
+            "Timestamp : $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",
+            "Mode      : $Mode",
+            "Checks    : $passCount PASS / $($Steps.Count) total",
+            "Log       : $LogFile"
+        ) -join "`r`n"
+        Set-Content -Path $stampFile -Value $stampContent -ErrorAction SilentlyContinue
+        Write-Tee "  Stamp : $stampFile" -Color Gray
+    }
+
     Write-Tee "" -Color Green
     Write-Tee "  PREFLIGHT PASS -- SAFE TO PROCEED" -Color Green
     Write-Tee ""

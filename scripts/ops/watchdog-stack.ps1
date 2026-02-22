@@ -20,10 +20,18 @@
     Max restarts per service per 5-minute window (default: 3).
 .PARAMETER LogFile
     Path to log file (default: logs/watchdog-stack.log).
+.PARAMETER Once
+    Run a single health-check cycle then exit (useful for preflight/CI).
+.PARAMETER DryRun
+    Detect issues but do NOT restart services. Logs intended actions.
 
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ops/watchdog-stack.ps1
     # Stop cleanly with Ctrl+C
+
+.EXAMPLE
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ops/watchdog-stack.ps1 -Once -DryRun
+    # Single cycle, report-only (no restarts)
 
 .NOTES
     PS 5.1 compatible. No unicode. No multi-arg Join-Path.
@@ -31,7 +39,9 @@
 param(
     [int]$IntervalSeconds = 12,
     [int]$MaxRestartsPerWindow = 3,
-    [string]$LogFile
+    [string]$LogFile,
+    [switch]$Once,
+    [switch]$DryRun
 )
 
 Set-StrictMode -Version Latest
@@ -103,6 +113,10 @@ function Restart-Service {
         Write-Log "$Service restart THROTTLED ($MaxRestartsPerWindow restarts in last 5 min)" "WARN"
         return
     }
+    if ($DryRun) {
+        Write-Log "[DRY-RUN] Would restart $Service via pm2 restart $PM2Name" "WARN"
+        return
+    }
     Write-Log "Restarting $Service via pm2 restart $PM2Name" "FIX"
     $output = & pm2 restart $PM2Name 2>&1 | Out-String
     $ec = $LASTEXITCODE
@@ -139,9 +153,12 @@ Write-Host ""
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host "  CARE2CONNECT WATCHDOG                                     " -ForegroundColor Cyan
 Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "  Interval: ${IntervalSeconds}s | Throttle: $MaxRestartsPerWindow restarts / 5 min" -ForegroundColor Gray
+$modeLabel = if ($Once) { "Single-cycle" } elseif ($DryRun) { "Dry-run" } else { "Continuous" }
+Write-Host "  Mode: $modeLabel | Interval: ${IntervalSeconds}s | Throttle: $MaxRestartsPerWindow restarts / 5 min" -ForegroundColor Gray
 Write-Host "  Log: $LogFile" -ForegroundColor Gray
-Write-Host "  Press Ctrl+C to stop" -ForegroundColor Gray
+if ($Once)   { Write-Host "  Running ONE cycle then exiting" -ForegroundColor Yellow }
+if ($DryRun) { Write-Host "  DRY-RUN: will NOT restart services" -ForegroundColor Yellow }
+if (-not $Once) { Write-Host "  Press Ctrl+C to stop" -ForegroundColor Gray }
 Write-Host ""
 
 Write-Log "Watchdog started (interval=${IntervalSeconds}s, throttle=$MaxRestartsPerWindow/5min)"
@@ -247,7 +264,20 @@ while ($true) {
         }
 
         # Post-restart: wait a bit extra for services to come up
-        Start-Sleep -Seconds 5
+        if (-not $DryRun) {
+            Start-Sleep -Seconds 5
+        }
+    }
+
+    # -Once: exit after one cycle
+    if ($Once) {
+        if ($issues.Count -eq 0) {
+            Write-Log "Single cycle complete -- all healthy" "OK"
+            exit 0
+        } else {
+            Write-Log "Single cycle complete -- $($issues.Count) issue(s) detected" "WARN"
+            exit 1
+        }
     }
 
     Start-Sleep -Seconds $IntervalSeconds

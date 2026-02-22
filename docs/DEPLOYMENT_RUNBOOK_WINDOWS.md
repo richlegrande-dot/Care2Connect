@@ -1,6 +1,44 @@
 # Care2Connect Deployment Runbook (Windows)
 
-> Last updated: 2026-02-21 | Branch: hardening/deploy-guardrails
+> Last updated: 2026-02-22 | Branch: hardening/deploy-guardrails
+
+## Before Anything: Run Preflight
+
+Run **one command** before any demo or testing session:
+
+```powershell
+# Before a demo
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/run-preflight-demo.ps1
+
+# Before opening the site to testers
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/run-preflight-open-testing.ps1
+```
+
+Both commands run the same checks (env vars, PM2 shims, rewrite shadows, port
+identity, papi proxy speed). If any check fails: **stop and fix before proceeding**.
+
+### Modes explained
+
+| Mode | When to use | What it checks |
+|------|-------------|----------------|
+| **Demo** | Before a live demo | All checks including port sweep + backend identity + proxy speed |
+| **OpenTesting** | Before leaving the site open for testers | Same as Demo (higher risk = same strictness) |
+| **LocalDev** | Routine local development | Env vars + PM2 shims + rewrite shadow only (add `-IncludePorts` for full) |
+
+### Advanced flags
+
+```powershell
+# Lightweight local dev check
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/preflight.ps1 -Mode LocalDev
+
+# Skip ports check even in Demo mode (emergency)
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/preflight.ps1 -Mode Demo -SkipPorts
+
+# See full output from each sub-script
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/preflight.ps1 -Mode Demo -VerboseOutput
+```
+
+---
 
 ## Quick Reference
 
@@ -15,7 +53,8 @@
 
 ### 1. Pre-flight checks
 
-Run all preflight scripts before starting services:
+The unified preflight command (above) replaces running individual scripts.
+You can still run them individually if needed:
 
 ```powershell
 # From repo root
@@ -171,10 +210,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight/check-next
 
 Before any demo, QA session, or production verification:
 
-- [ ] `validate-env.ps1` exits 0
-- [ ] `check-pm2-shims.ps1` exits 0
-- [ ] `check-next-rewrite-shadow.ps1` exits 0
-- [ ] `ports-and-identity.ps1 -SkipSweep` exits 0
+- [ ] `run-preflight-demo.ps1` (or `run-preflight-open-testing.ps1`) exits 0
 - [ ] Backend `/health/live` returns `service: "backend"`
 - [ ] Frontend index page loads at `http://localhost:3000/`
 - [ ] Provider login page loads at `http://localhost:3000/provider/login`
@@ -186,6 +222,9 @@ Before any demo, QA session, or production verification:
 
 | Script | Purpose | Exit Codes |
 |--------|---------|------------|
+| `scripts/preflight/preflight.ps1` | **Unified entrypoint** -- orchestrates all checks | 0=pass, 1=fail |
+| `scripts/preflight/run-preflight-demo.ps1` | One-liner wrapper: preflight -Mode Demo | 0=pass, 1=fail |
+| `scripts/preflight/run-preflight-open-testing.ps1` | One-liner wrapper: preflight -Mode OpenTesting | 0=pass, 1=fail |
 | `scripts/preflight/validate-env.ps1` | Verify .env and .env.local have required keys | 0=pass, 1=missing |
 | `scripts/preflight/check-pm2-shims.ps1` | Detect .bin/ bash shim references in PM2 configs | 0=clean, 1=found |
 | `scripts/preflight/check-next-rewrite-shadow.ps1` | Find App Router routes shadowed by /api rewrite | 0=clean, 1=found |

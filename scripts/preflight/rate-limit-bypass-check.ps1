@@ -101,7 +101,8 @@ try {
     $hBody = $hResp.Content | ConvertFrom-Json
 
     # Check that rate limiting reports as enabled
-    $rlConfig = $hBody.rateLimiting
+    $rlConfig = $null
+    try { $rlConfig = $hBody.rateLimiting } catch {}
     if ($null -ne $rlConfig) {
         if ($rlConfig.enabled -eq $true) {
             Pass "Rate limiting reported as enabled"

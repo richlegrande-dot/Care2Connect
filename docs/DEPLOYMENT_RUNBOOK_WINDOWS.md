@@ -257,7 +257,47 @@ Before any demo, QA session, or production verification:
 | `scripts/preflight/check-next-rewrite-shadow.ps1` | Find App Router routes shadowed by /api rewrite | 0=clean, 1=found |
 | `scripts/preflight/ports-and-identity.ps1` | Port sweep + identity + infra + public endpoints | 0=ready, 1=failed |
 | `scripts/ops/watchdog-stack.ps1` | Continuous auto-recovery watchdog (12s interval) | Runs until Ctrl+C |
+| `scripts/ops/pm2-enable-startup.ps1` | Register PM2 resurrect as Windows Scheduled Task (run once) | 0=ok, 1=fail |
 | `scripts/dev/stop-clean.ps1` | Kill all services and sweep ports | 0=clean, 1=stuck |
+| `scripts/preflight/run-gate-demo.ps1` | One-command gate: preflight Demo + smoke suite | 0=ready, 1=fail |
+| `scripts/preflight/run-gate-open-testing.ps1` | One-command gate: pm2 start + preflight OpenTesting + phase10 smoke | 0=ready, 1=fail |
+
+---
+
+## PM2 Startup Persistence
+
+To make PM2-managed services survive a Windows reboot, run this **once** after the stack is healthy:
+
+```powershell
+.\scripts\ops\pm2-enable-startup.ps1
+```
+
+This will:
+1. Run `pm2 save` to persist the current process list (`~/.pm2/dump.pm2`).
+2. Create a Windows Scheduled Task named `PM2-Resurrect` that calls `pm2 resurrect` at user logon.
+
+### Reboot checklist
+
+After a reboot:
+
+| Step | Command | Expected result |
+|------|---------|------------------|
+| 1 | _(log in)_ | Task Scheduler runs `pm2 resurrect` automatically |
+| 2 | `pm2 list` | All 4 processes show `status=online` |
+| 3 | `pm2 logs --lines 20` | No startup errors |
+| 4 | `.\scripts\preflight\run-gate-open-testing.ps1` | Exits 0, READY banner shown |
+
+### Verify the task exists
+
+```powershell
+Get-ScheduledTask -TaskName "PM2-Resurrect" | Select-Object TaskName, State
+```
+
+### Remove the task
+
+```powershell
+Unregister-ScheduledTask -TaskName "PM2-Resurrect" -Confirm:$false
+```
 
 ---
 
@@ -268,6 +308,15 @@ See `backend/.env.example` for the full template. Critical keys:
 - `PORT=3001` -- must match PM2 config
 - `JWT_SECRET` -- required for auth
 - `DATABASE_URL` -- required for DB access
+- `PROVIDER_DASHBOARD_TOKEN` -- required for provider dashboard smoke test
+- `V2_INTAKE_TOKEN` -- required for chat pipeline smoke test (when `ENABLE_V2_INTAKE_AUTH=true`)
+
+> **New environment bootstrap**: If `V2_INTAKE_TOKEN` is missing, generate it once:
+> ```powershell
+> .\scripts\ops\bootstrap-smoke-tokens.ps1
+> ```
+> This script reads `JWT_SECRET` from `backend/.env` and appends a 365-day `system-admin` JWT
+> as `V2_INTAKE_TOKEN`. The token is gitignored and stays local.
 
 ### Frontend (`frontend/.env.local`)
 See `frontend/.env.local.example` for the full template. Critical keys:

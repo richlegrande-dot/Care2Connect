@@ -18,8 +18,9 @@
 #>
 
 param(
-    [switch]$SkipValidation,  # Skip public endpoint validation (for testing)
-    [switch]$SkipPreflight    # Skip preflight gate (NOT recommended)
+    [switch]$SkipValidation,      # Skip public endpoint validation (for testing)
+    [switch]$SkipPreflight,       # Skip preflight gate -- requires ALLOW_SKIP_PREFLIGHT=true or -ForceSkipPreflight
+    [switch]$ForceSkipPreflight   # Explicit override; logs the bypass
 )
 
 $ErrorActionPreference = "Stop"
@@ -44,7 +45,22 @@ if (-not $SkipPreflight) {
         Write-Host "Continuing without preflight (merge Phase 11.2 to enable)." -ForegroundColor Yellow
     }
 } else {
-    Write-Host "`n[WARN] Preflight skipped via -SkipPreflight flag" -ForegroundColor Yellow
+    $allowSkip = ($env:ALLOW_SKIP_PREFLIGHT -eq 'true') -or $ForceSkipPreflight
+    if (-not $allowSkip) {
+        Write-Host "" -ForegroundColor Red
+        Write-Host "ABORT: -SkipPreflight requires either:" -ForegroundColor Red
+        Write-Host "  (a) environment variable ALLOW_SKIP_PREFLIGHT=true, OR" -ForegroundColor Red
+        Write-Host "  (b) the -ForceSkipPreflight switch." -ForegroundColor Red
+        Write-Host "" -ForegroundColor Red
+        Write-Host "This guard exists to prevent accidental gate bypass." -ForegroundColor Yellow
+        exit 1
+    }
+    $skipMsg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') PREFLIGHT SKIPPED -- user=$($env:USERNAME) script=start-stack.ps1 force=$ForceSkipPreflight env=$($env:ALLOW_SKIP_PREFLIGHT)"
+    Write-Warning "Preflight skipped (authorized). Entry logged."
+    $skipLog = Join-Path $workspaceRoot "logs\preflight\skip_preflight.log"
+    $skipLogDir = Split-Path $skipLog
+    if (-not (Test-Path $skipLogDir)) { New-Item -ItemType Directory -Path $skipLogDir -Force | Out-Null }
+    Add-Content -Path $skipLog -Value $skipMsg
 }
 
 # Load canonical ports

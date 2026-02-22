@@ -331,7 +331,8 @@ jobs:
     name: Build Test
     runs-on: ubuntu-latest
     needs: [test-v2-intake, v2-typecheck-backend, v2-typecheck-frontend, v2-format-check]
-    continue-on-error: true  # Full build includes legacy code with known TS errors
+    # continue-on-error removed (Phase 11.4): tsconfig.build.json excludes test files
+    # so the production build should always succeed cleanly.
 
     steps:
       - name: Checkout code
@@ -356,9 +357,18 @@ jobs:
         working-directory: ./backend
         run: npm run prisma:generate:ci
 
-      - name: Build backend
+      - name: Build backend (tsconfig.build.json)
         working-directory: ./backend
         run: npm run build
+
+      - name: Verify backend production artifact exists
+        run: |
+          if [ ! -f backend/dist/server.js ]; then
+            echo "ERROR: backend/dist/server.js was not produced by the build."
+            echo "Check tsconfig.build.json and npm run build output above."
+            exit 1
+          fi
+          echo "OK: backend/dist/server.js present ($(wc -c < backend/dist/server.js) bytes)"
 
       - name: Build frontend
         working-directory: ./frontend

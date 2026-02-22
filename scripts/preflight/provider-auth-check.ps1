@@ -155,10 +155,16 @@ if ($authCookie) {
 
     $sessUrl = "http://localhost:$FrontendPort/papi/sessions?limit=1"
     try {
-        $headers = @{ "Cookie" = "c2c_provider_auth=$authCookie" }
+        # PS 5.1: Cookie header cannot be set via -Headers; use CookieContainer + WebSession
+        $cookieJar = New-Object System.Net.CookieContainer
+        $cookieJar.Add([System.Uri]("http://localhost:$FrontendPort/"), `
+            (New-Object System.Net.Cookie("c2c_provider_auth", $authCookie, "/", "localhost")))
+        $ws = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $ws.Cookies = $cookieJar
+
         $sessResp = Invoke-WebRequest -Uri $sessUrl `
             -Method GET `
-            -Headers $headers `
+            -WebSession $ws `
             -TimeoutSec $TimeoutSeconds `
             -UseBasicParsing `
             -ErrorAction Stop

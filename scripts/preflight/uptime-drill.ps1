@@ -93,7 +93,7 @@ function Get-PM2Status {
     if (-not $raw -or $raw.Trim() -eq "[]") { return $null }
     try {
         # Parse JSON-ish: find name + status pairs
-        $procs = $raw | ConvertFrom-Json -ErrorAction SilentlyContinue
+        $procs = $raw | ConvertFrom-Json -ErrorAction Stop
         if ($procs) {
             foreach ($p in $procs) {
                 if ($p.name -like "*$Pattern*") {
@@ -103,7 +103,38 @@ function Get-PM2Status {
                 }
             }
         }
-    } catch {}
+    } catch {
+        # ConvertFrom-Json fails on PS5.1 when PM2 JSON has duplicate keys (username/USERNAME).
+        # Fall back to: regex-extract the name, then parse pm2 list text for status.
+        $nameMatches = [regex]::Matches($raw, '"name"\s*:\s*"([^"]*)"|"name"\s*:\s*\u0022([^\u0022]*)\u0022')
+        $appName = $null
+        foreach ($m in $nameMatches) {
+            $n = if ($m.Groups[1].Success) { $m.Groups[1].Value } else { $m.Groups[2].Value }
+            if ($n -like "*$Pattern*") { $appName = $n; break }
+        }
+        if (-not $appName) {
+            # Simpler fallback using Get-PM2Name which already uses regex
+            $appName = & {
+                $nameRe = [regex]::Matches($raw, '"name":\s*"([^"]+)"')
+                foreach ($mn in $nameRe) {
+                    if ($mn.Groups[1].Value -like "*$Pattern*") { return $mn.Groups[1].Value }
+                }
+                return $null
+            }
+        }
+        if (-not $appName) { return $null }
+        # Use pm2 list text output to determine status.
+        # PM2 truncates long app names in this table, so search by Pattern directly.
+        $listOut = & pm2 list 2>$null | Out-String
+        $statusLine = ($listOut -split "`n") | Where-Object { $_ -match [regex]::Escape($Pattern) } | Select-Object -First 1
+        # pm2 list uses Unicode box-drawing chars (│) not ASCII pipe; \b boundaries
+        # fail near those chars. Use simple substring match instead.
+        $status = if ($statusLine -match 'online') { "online" } `
+                  elseif ($statusLine -match 'stopped') { "stopped" } `
+                  elseif ($statusLine -match 'errored') { "errored" } `
+                  else { "unknown" }
+        return @{ Name = $appName; Status = $status }
+    }
     return $null
 }
 

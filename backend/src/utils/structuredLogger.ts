@@ -273,7 +273,7 @@ export const logger = new StructuredLogger();
 
 // Helper to create logger with request context
 export function getRequestLogger(req: Request): RequestLogger {
-  const requestId = getRequestId(req);
+  const requestId: string = getRequestId(req) || 'unknown';
   const baseLogger = new StructuredLogger();
 
   return {

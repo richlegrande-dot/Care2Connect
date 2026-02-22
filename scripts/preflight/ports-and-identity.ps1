@@ -109,6 +109,8 @@ if ($backendListeners.Count -eq 0) {
     Info "PID $bPid : $bCmd"
     if ($bCmd -match "server\.ts|backend" -and $bCmd -notmatch "next") {
         Pass "Process command line looks like backend."
+    } elseif ($bCmd -match "ProcessContainerFork") {
+        Pass "Process is PM2-managed (ProcessContainerFork -- accepted for PM2 production stack)."
     } else {
         Fail "Command line does not look like backend (may be rogue Next.js): $bCmd"
     }
@@ -124,7 +126,7 @@ try {
     } elseif ($svc -eq "(missing)") {
         Fail "Backend /health/live has no 'service' field. Add service:'backend' to the response."
     } else {
-        Fail "WRONG SERVICE on port $BackendPort: service='$svc' (expected 'backend'). Rogue process?"
+        Fail "WRONG SERVICE on port ${BackendPort}: service='$svc' (expected 'backend'). Rogue process?"
     }
     if ($sts -eq "alive") { Pass "Backend status: alive" } else { Fail "Backend status='$sts' (expected 'alive')" }
 } catch {
@@ -145,6 +147,8 @@ if ($frontendListeners.Count -eq 0) {
     Info "PID $fPid : $fCmd"
     if ($fCmd -match "next.*3000|start-server") {
         Pass "Frontend process looks correct."
+    } elseif ($fCmd -match "ProcessContainerFork") {
+        Pass "Frontend is PM2-managed (ProcessContainerFork -- accepted for PM2 production stack)."
     } else {
         Fail "Frontend command line does not match expected pattern: $fCmd"
     }
@@ -159,6 +163,25 @@ foreach ($path_ in @("/", "/onboarding/v2", "/provider/login")) {
     } catch {
         Fail "GET $url failed: $_"
     }
+}
+
+# ---- B2b: FRONTEND BUILD FRESHNESS (WARN if stale) -----------------------
+$Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+$buildIdPath = Join-Path $Root "frontend\.next\BUILD_ID"
+$srcPath     = Join-Path $Root "frontend\src"
+if ((Test-Path $buildIdPath) -and (Test-Path $srcPath)) {
+    $buildTime = (Get-Item $buildIdPath).LastWriteTime
+    $staleSrc  = Get-ChildItem $srcPath -Recurse -Include "*.ts","*.tsx" -ErrorAction SilentlyContinue |
+                    Where-Object { $_.LastWriteTime -gt $buildTime } |
+                    Select-Object -First 1
+    if ($staleSrc) {
+        Write-Host "  [WARN] Frontend build may be stale: $($staleSrc.Name) is newer than BUILD_ID" -ForegroundColor Yellow
+        Write-Host "         Consider: cd frontend ; npm run build" -ForegroundColor Gray
+    } else {
+        Pass "Frontend build is current (no .ts/.tsx files newer than BUILD_ID)"
+    }
+} else {
+    Write-Host "  [SKIP] Frontend build freshness check (BUILD_ID or src not found)" -ForegroundColor Gray
 }
 
 # ---- B3: PROVIDER PROXY FAST + ALIVE -------------------------------------

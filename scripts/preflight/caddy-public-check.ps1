@@ -45,6 +45,19 @@ function Fail ($msg) {
 function Pass ($msg) { Write-Host "  [OK]   $msg" -ForegroundColor Green }
 function Info ($msg) { Write-Host "  [INFO] $msg" -ForegroundColor Gray }
 
+# Safe JSON field check -- never prints secret values
+function Assert-JsonField {
+    param([string]$Label, [object]$Json, [string]$Field, [string]$Expected)
+    $actual = $Json.$Field
+    if ($null -eq $actual) {
+        Fail "$Label -- field '$Field' missing from response"
+    } elseif ("$actual" -ne $Expected) {
+        Fail "$Label -- '$Field' expected '$Expected', got '$actual'"
+    } else {
+        Pass "$Label -- $Field=$actual"
+    }
+}
+
 Write-Host ""
 Write-Host "-- Caddy / Public Domain Check --" -ForegroundColor Cyan
 
@@ -170,6 +183,77 @@ if ($UsePublic) {
     # API health
     Test-Endpoint -Label "Public -> API (/health/live)" `
         -Url "https://api.care2connects.org/health/live" | Out-Null
+
+    # --- D3: API hostname health checks ---
+    Write-Host ""
+    Write-Host "  API Hostname Health (api.care2connects.org):" -ForegroundColor Gray
+
+    # /health/live with JSON field assertion
+    try {
+        $resp = Invoke-WebRequest -Uri "https://api.care2connects.org/health/live" `
+            -TimeoutSec $TimeoutSeconds -UseBasicParsing -ErrorAction Stop
+        $code = [int]$resp.StatusCode
+        if ($code -ne 200) {
+            Fail "Public -> /health/live => $code (expected 200)"
+        } else {
+            Pass "Public -> /health/live => 200"
+            try {
+                $json = $resp.Content | ConvertFrom-Json -ErrorAction Stop
+                Assert-JsonField -Label "Public -> /health/live" -Json $json -Field "service" -Expected "backend"
+            } catch {
+                Info "Public -> /health/live JSON: could not parse (non-JSON response)"
+            }
+        }
+    } catch {
+        Fail "Public -> /health/live => $($_.Exception.Message)"
+    }
+
+    # /api/v2/intake/health
+    try {
+        $resp2 = Invoke-WebRequest -Uri "https://api.care2connects.org/api/v2/intake/health" `
+            -TimeoutSec $TimeoutSeconds -UseBasicParsing -ErrorAction Stop
+        $code2 = [int]$resp2.StatusCode
+        if ($code2 -ne 200) {
+            Fail "Public -> /api/v2/intake/health => $code2 (expected 200)"
+        } else {
+            Pass "Public -> /api/v2/intake/health => 200"
+            try {
+                $json2 = $resp2.Content | ConvertFrom-Json -ErrorAction Stop
+                Assert-JsonField -Label "Public -> /api/v2/intake/health" -Json $json2 -Field "status"   -Expected "healthy"
+                Assert-JsonField -Label "Public -> /api/v2/intake/health" -Json $json2 -Field "database" -Expected "connected"
+            } catch {
+                Info "Public -> /api/v2/intake/health JSON: could not parse"
+            }
+        }
+    } catch {
+        Fail "Public -> /api/v2/intake/health => $($_.Exception.Message)"
+    }
+
+    # /api/v2/provider/sessions (no cookie) -> expect 401
+    try {
+        $resp3 = Invoke-WebRequest -Uri "https://api.care2connects.org/api/v2/provider/sessions" `
+            -TimeoutSec $TimeoutSeconds -UseBasicParsing -ErrorAction Stop
+        $code3 = [int]$resp3.StatusCode
+        if ($code3 -eq 200) {
+            Fail "Public -> /api/v2/provider/sessions => 200 without auth (expected 401)"
+        } else {
+            Pass "Public -> /api/v2/provider/sessions => $code3 (expected 401)"
+        }
+    } catch {
+        $errMsg = $_.Exception.Message
+        if ($errMsg -match '401') {
+            Pass "Public -> /api/v2/provider/sessions => 401 (auth guard working)"
+        } elseif ($errMsg -match '(\d{3})') {
+            $sc = $Matches[1]
+            if ($sc -eq "403") {
+                Pass "Public -> /api/v2/provider/sessions => 403 (auth guard working)"
+            } else {
+                Fail "Public -> /api/v2/provider/sessions => HTTP $sc"
+            }
+        } else {
+            Fail "Public -> /api/v2/provider/sessions => $errMsg"
+        }
+    }
 
     # Papi auth (should return 401 with no token)
     Write-Host ""

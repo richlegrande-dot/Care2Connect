@@ -308,6 +308,15 @@ See `backend/.env.example` for the full template. Critical keys:
 - `PORT=3001` -- must match PM2 config
 - `JWT_SECRET` -- required for auth
 - `DATABASE_URL` -- required for DB access
+- `PROVIDER_DASHBOARD_TOKEN` -- required for provider dashboard smoke test
+- `V2_INTAKE_TOKEN` -- required for chat pipeline smoke test (when `ENABLE_V2_INTAKE_AUTH=true`)
+
+> **New environment bootstrap**: If `V2_INTAKE_TOKEN` is missing, generate it once:
+> ```powershell
+> .\scripts\ops\bootstrap-smoke-tokens.ps1
+> ```
+> This script reads `JWT_SECRET` from `backend/.env` and appends a 365-day `system-admin` JWT
+> as `V2_INTAKE_TOKEN`. The token is gitignored and stays local.
 
 ### Frontend (`frontend/.env.local`)
 See `frontend/.env.local.example` for the full template. Critical keys:

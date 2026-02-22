@@ -107,7 +107,7 @@ function Get-EnvValue {
 }
 
 # VALIDATION 1: Port Configuration Consistency
-Write-Host "[1/5] Validating port configuration consistency..." -ForegroundColor Yellow
+Write-Host "[1/7] Validating port configuration consistency..." -ForegroundColor Yellow
 
 $backendPackagePort = Get-JsonValue "backend\package.json" "scripts.start"
 $frontendPackagePort = Get-JsonValue "frontend\package.json" "scripts.dev"
@@ -146,7 +146,7 @@ if (Test-Path $frontendConfigFile) {
 Write-Host "  ✅ Port configuration checked" -ForegroundColor Green
 
 # VALIDATION 2: Environment Variable Consistency
-Write-Host "[2/5] Validating environment variable consistency..." -ForegroundColor Yellow
+Write-Host "[2/7] Validating environment variable consistency..." -ForegroundColor Yellow
 
 $envFiles = @(
     "backend\.env",
@@ -186,7 +186,7 @@ foreach ($ecosystemFile in $ecosystemFiles) {
 Write-Host "  ✅ Environment variables checked" -ForegroundColor Green
 
 # VALIDATION 3: API URL Consistency
-Write-Host "[3/5] Validating API URL consistency..." -ForegroundColor Yellow
+Write-Host "[3/7] Validating API URL consistency..." -ForegroundColor Yellow
 
 # Check frontend API configuration
 $apiUrls = @{
@@ -216,7 +216,7 @@ foreach ($file in @("frontend\src\lib\frontendConfig.ts", "frontend\next.config.
 Write-Host "  ✅ API URLs checked" -ForegroundColor Green
 
 # VALIDATION 4: Tunnel Configuration Consistency
-Write-Host "[4/5] Validating tunnel configuration..." -ForegroundColor Yellow
+Write-Host "[4/7] Validating tunnel configuration..." -ForegroundColor Yellow
 
 $tunnelConfigPath = "$env:USERPROFILE\.cloudflared\config.yml"
 if (Test-Path $tunnelConfigPath) {
@@ -244,7 +244,7 @@ if (Test-Path $tunnelConfigPath) {
 Write-Host "  ✅ Tunnel configuration checked" -ForegroundColor Green
 
 # VALIDATION 5: CI/Deployment Configuration Consistency  
-Write-Host "[5/6] Validating CI/deployment configuration..." -ForegroundColor Yellow
+Write-Host "[5/7] Validating CI/deployment configuration..." -ForegroundColor Yellow
 
 $ciFiles = @(
     ".github\workflows\ci.yml",
@@ -281,7 +281,7 @@ foreach ($ciFile in $ciFiles) {
 Write-Host "  ✅ CI/deployment configuration checked" -ForegroundColor Green
 
 # VALIDATION 6: PowerShell 5.1 Script Parse Validation
-Write-Host "[6/6] Validating PowerShell script syntax (PS 5.1 compatibility)..." -ForegroundColor Yellow
+Write-Host "[6/7] Validating PowerShell script syntax (PS 5.1 compatibility)..." -ForegroundColor Yellow
 
 $psScriptDirs = @("scripts\preflight", "scripts\ops", "scripts\smoke")
 $psParseErrors = 0
@@ -305,6 +305,58 @@ if ($psParseErrors -eq 0) {
     Write-Host "  [OK] All PowerShell scripts parse cleanly" -ForegroundColor Green
 } else {
     Write-Host "  [FAIL] $psParseErrors script(s) have PS5.1 parse errors" -ForegroundColor Red
+}
+
+# VALIDATION 7: V2_INTAKE_TOKEN Expiry Check
+Write-Host "[7/7] Checking V2_INTAKE_TOKEN expiry..." -ForegroundColor Yellow
+
+# Decode JWT exp claim without external tools (PS5.1 compatible)
+function Get-JwtExpiry([string]$tok) {
+    $parts = $tok.Split('.')
+    if ($parts.Count -lt 2) { return $null }
+    $b64 = $parts[1] -replace '-', '+' -replace '_', '/'
+    switch ($b64.Length % 4) {
+        1 { $b64 += '===' }
+        2 { $b64 += '==' }
+        3 { $b64 += '=' }
+    }
+    try {
+        $bytes   = [System.Convert]::FromBase64String($b64)
+        $payload = [System.Text.Encoding]::UTF8.GetString($bytes) | ConvertFrom-Json
+        if ($null -ne $payload.exp) {
+            $epoch = [DateTime]::new(1970, 1, 1, 0, 0, 0, [DateTimeKind]::Utc)
+            return $epoch.AddSeconds($payload.exp)
+        }
+    } catch {}
+    return $null
+}
+
+$intakeTokenVal = $env:V2_INTAKE_TOKEN
+if (-not $intakeTokenVal) {
+    $envFilePath = Join-Path $PSScriptRoot '..\backend\.env'
+    if (Test-Path $envFilePath) {
+        $tLine = Get-Content $envFilePath | Where-Object { $_ -match '^V2_INTAKE_TOKEN=' } | Select-Object -First 1
+        if ($tLine) { $intakeTokenVal = ($tLine -replace '^V2_INTAKE_TOKEN=', '').Trim() }
+    }
+}
+
+if (-not $intakeTokenVal) {
+    # Not a config error; token may not be relevant in all environments
+    Write-Host "  [SKIP] V2_INTAKE_TOKEN not present in env or backend/.env" -ForegroundColor Gray
+} else {
+    $expDate = Get-JwtExpiry $intakeTokenVal
+    if ($null -eq $expDate) {
+        Add-Issue "Token Hygiene" "V2_INTAKE_TOKEN present but expiry could not be decoded" "WARNING" "Verify the token is a valid JWT signed with JWT_SECRET"
+    } else {
+        $daysLeft = [int]($expDate.ToLocalTime() - (Get-Date)).TotalDays
+        if ($daysLeft -lt 0) {
+            Add-Issue "Token Hygiene" "V2_INTAKE_TOKEN EXPIRED $([Math]::Abs($daysLeft)) day(s) ago (was $($expDate.ToLocalTime().ToString('yyyy-MM-dd')))" "ERROR" "Regenerate with: .\scripts\ops\bootstrap-smoke-tokens.ps1 -Force"
+        } elseif ($daysLeft -lt 30) {
+            Add-Issue "Token Hygiene" "V2_INTAKE_TOKEN expires in $daysLeft day(s) ($($expDate.ToLocalTime().ToString('yyyy-MM-dd')))" "WARNING" "Regenerate soon: .\scripts\ops\bootstrap-smoke-tokens.ps1 -Force"
+        } else {
+            Write-Host "  [OK] V2_INTAKE_TOKEN valid for $daysLeft day(s) (expires $($expDate.ToLocalTime().ToString('yyyy-MM-dd')))" -ForegroundColor Green
+        }
+    }
 }
 
 # SUMMARY REPORT

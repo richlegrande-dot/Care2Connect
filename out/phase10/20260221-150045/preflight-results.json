@@ -1,0 +1,27 @@
+﻿[
+    {
+        "detail":  "The remote server returned an error: (530) \u003cnone\u003e.",
+        "status":  "FAIL",
+        "check":  "API reachable"
+    },
+    {
+        "detail":  "Intake health endpoint failed: The variable \u0027$healthResp\u0027 cannot be retrieved because it has not been set.",
+        "status":  "FAIL",
+        "check":  "ENABLE_V2_INTAKE"
+    },
+    {
+        "detail":  "Set (value not printed)",
+        "status":  "PASS",
+        "check":  "PROVIDER_DASHBOARD_TOKEN"
+    },
+    {
+        "detail":  "status=530",
+        "status":  "WARN",
+        "check":  "Chat endpoint active"
+    },
+    {
+        "detail":  "status=530",
+        "status":  "WARN",
+        "check":  "Provider auth endpoint"
+    }
+]

@@ -1,0 +1,66 @@
+﻿{
+    "summary":  {
+                    "total":  7,
+                    "verdict":  "FAIL",
+                    "warnings":  6,
+                    "failed":  1,
+                    "passed":  0
+                },
+    "headerChecks":  [
+
+                     ],
+    "testSuite":  "Phase10-ProviderDashboard",
+    "assertions":  [
+                       {
+                           "detail":  "Expected 401, got 530",
+                           "status":  "WARN",
+                           "name":  "Unauthenticated access",
+                           "id":  "P1",
+                           "time":  "2026-02-21T15:00:50.0765483-05:00"
+                       },
+                       {
+                           "detail":  "The remote server returned an error: (530) \u003cnone\u003e.",
+                           "status":  "FAIL",
+                           "name":  "Provider login",
+                           "id":  "P2",
+                           "time":  "2026-02-21T15:00:50.1490150-05:00"
+                       },
+                       {
+                           "detail":  "Skipped - no auth session",
+                           "status":  "WARN",
+                           "name":  "Session listing",
+                           "id":  "P3",
+                           "time":  "2026-02-21T15:00:50.1511959-05:00"
+                       },
+                       {
+                           "detail":  "Skipped - no auth or no session",
+                           "status":  "WARN",
+                           "name":  "Session detail",
+                           "id":  "P4",
+                           "time":  "2026-02-21T15:00:50.1539636-05:00"
+                       },
+                       {
+                           "detail":  "No header checks performed (earlier failures)",
+                           "status":  "WARN",
+                           "name":  "Privacy headers",
+                           "id":  "P5",
+                           "time":  "2026-02-21T15:00:50.1755114-05:00"
+                       },
+                       {
+                           "detail":  "Skipped - no auth session",
+                           "status":  "WARN",
+                           "name":  "Logout",
+                           "id":  "P6",
+                           "time":  "2026-02-21T15:00:50.1772526-05:00"
+                       },
+                       {
+                           "detail":  "Skipped - no auth session",
+                           "status":  "WARN",
+                           "name":  "Post-logout check",
+                           "id":  "P7",
+                           "time":  "2026-02-21T15:00:50.1801799-05:00"
+                       }
+                   ],
+    "timestamp":  "2026-02-21T15:00:50.0297020-05:00",
+    "apiBase":  "https://api.care2connects.org"
+}

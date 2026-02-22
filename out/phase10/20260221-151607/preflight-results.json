@@ -1,0 +1,27 @@
+﻿[
+    {
+        "detail":  "GET /api/v2/intake/health -\u003e 200",
+        "status":  "PASS",
+        "check":  "API reachable"
+    },
+    {
+        "detail":  "Intake health: healthy, db: connected",
+        "status":  "PASS",
+        "check":  "ENABLE_V2_INTAKE"
+    },
+    {
+        "detail":  "Set (value not printed)",
+        "status":  "PASS",
+        "check":  "PROVIDER_DASHBOARD_TOKEN"
+    },
+    {
+        "detail":  "Returns 404 for invalid session (endpoint wired)",
+        "status":  "PASS",
+        "check":  "Chat endpoint active"
+    },
+    {
+        "detail":  "Returns 401 for invalid token",
+        "status":  "PASS",
+        "check":  "Provider auth endpoint"
+    }
+]

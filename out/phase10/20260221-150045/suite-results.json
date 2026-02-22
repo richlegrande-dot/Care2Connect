@@ -1,0 +1,57 @@
+﻿{
+    "sections":  [
+                     {
+                         "detail":  "",
+                         "status":  "FAIL",
+                         "name":  "Preflight Checks",
+                         "time":  "2026-02-21T15:00:48.8383066-05:00",
+                         "subResults":  [
+                                            {
+                                                "detail":  "The remote server returned an error: (530) \u003cnone\u003e.",
+                                                "status":  "FAIL",
+                                                "check":  "API reachable"
+                                            },
+                                            {
+                                                "detail":  "Intake health endpoint failed: The variable \u0027$healthResp\u0027 cannot be retrieved because it has not been set.",
+                                                "status":  "FAIL",
+                                                "check":  "ENABLE_V2_INTAKE"
+                                            },
+                                            {
+                                                "detail":  "Set (value not printed)",
+                                                "status":  "PASS",
+                                                "check":  "PROVIDER_DASHBOARD_TOKEN"
+                                            },
+                                            {
+                                                "detail":  "status=530",
+                                                "status":  "WARN",
+                                                "check":  "Chat endpoint active"
+                                            },
+                                            {
+                                                "detail":  "status=530",
+                                                "status":  "WARN",
+                                                "check":  "Provider auth endpoint"
+                                            }
+                                        ]
+                     },
+                     {
+                         "detail":  "Exit code: 1",
+                         "status":  "FAIL",
+                         "name":  "Chat Pipeline",
+                         "time":  "2026-02-21T15:00:49.9838970-05:00",
+                         "subResults":  [
+
+                                        ]
+                     },
+                     {
+                         "detail":  "Exit code: 1",
+                         "status":  "FAIL",
+                         "name":  "Provider Dashboard",
+                         "time":  "2026-02-21T15:00:50.2033231-05:00",
+                         "subResults":  [
+
+                                        ]
+                     }
+                 ],
+    "timestamp":  "2026-02-21T15:00:45.0643018-05:00",
+    "apiBase":  "https://api.care2connects.org"
+}

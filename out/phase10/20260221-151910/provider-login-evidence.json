@@ -1,0 +1,5 @@
+﻿{
+    "cookieFlags":  "c2c_provider_auth=[REDACTED]; Max-Age=28800; Path=/; Expires=Sun, 22 Feb 2026 04:19:10 GMT; HttpOnly; SameSite=Strict",
+    "statusCode":  200,
+    "hasCookie":  true
+}

@@ -1,0 +1,20 @@
+﻿{
+    "sessionId":  "",
+    "timestamp":  "2026-02-21T14:55:23.5034460-05:00",
+    "apiBase":  "https://api.care2connects.org",
+    "assertions":  [
+                       {
+                           "detail":  "The remote server returned an error: (401) Unauthorized.",
+                           "status":  "FAIL",
+                           "name":  "Session setup",
+                           "id":  "S1",
+                           "time":  "2026-02-21T14:55:24.4526474-05:00"
+                       }
+                   ],
+    "piiScanResults":  [
+
+                       ],
+    "testSuite":  "Phase10-ChatPipeline",
+    "dvSessionId":  null,
+    "threadId":  null
+}

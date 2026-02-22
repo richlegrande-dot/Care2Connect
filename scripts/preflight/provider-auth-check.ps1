@@ -10,8 +10,10 @@
 
     Detects proxy, cookie relay, and backend auth issues before manual testing.
 
-    Token is read from NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN env var in
-    frontend/.env.local (never printed to output).
+    Token is resolved in order of preference (never printed to output):
+      1. PROVIDER_DASHBOARD_TOKEN from backend/.env
+      2. NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN from frontend/.env.local
+      3. Either variable from process environment
 
 .PARAMETER TimeoutSeconds
     HTTP request timeout (default: 10).
@@ -43,30 +45,56 @@ function Info ($msg) { Write-Host "  [INFO] $msg" -ForegroundColor Gray }
 Write-Host ""
 Write-Host "-- Provider Auth Round-Trip --" -ForegroundColor Cyan
 
-# ---- Step 0: Read token from frontend env (do NOT print it) ---------------
+# ---- Step 0: Read token (prefer PROVIDER_DASHBOARD_TOKEN, fallback NEXT_PUBLIC) ----
 $token = $null
-$envFile = Join-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) "frontend\.env.local"
-if (Test-Path $envFile) {
-    $lines = Get-Content $envFile -ErrorAction SilentlyContinue
+$tokenSource = $null
+$Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+
+# 1. Try PROVIDER_DASHBOARD_TOKEN from backend/.env
+$backendEnv = Join-Path $Root "backend\.env"
+if (Test-Path $backendEnv) {
+    $lines = Get-Content $backendEnv -ErrorAction SilentlyContinue
     foreach ($line in $lines) {
-        if ($line -match '^\s*NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN\s*=\s*(.+)$') {
+        if ($line -match '^\s*PROVIDER_DASHBOARD_TOKEN\s*=\s*(.+)$') {
             $token = $Matches[1].Trim()
+            $tokenSource = "backend/.env (PROVIDER_DASHBOARD_TOKEN)"
             break
         }
     }
 }
-# Also check the process environment
+
+# 2. Fallback: NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN from frontend/.env.local
+if (-not $token) {
+    $envFile = Join-Path $Root "frontend\.env.local"
+    if (Test-Path $envFile) {
+        $lines = Get-Content $envFile -ErrorAction SilentlyContinue
+        foreach ($line in $lines) {
+            if ($line -match '^\s*NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN\s*=\s*(.+)$') {
+                $token = $Matches[1].Trim()
+                $tokenSource = "frontend/.env.local (NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN)"
+                break
+            }
+        }
+    }
+}
+
+# 3. Fallback: process environment
+if (-not $token) {
+    $token = $env:PROVIDER_DASHBOARD_TOKEN
+    if ($token) { $tokenSource = "env:PROVIDER_DASHBOARD_TOKEN" }
+}
 if (-not $token) {
     $token = $env:NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN
+    if ($token) { $tokenSource = "env:NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN" }
 }
 
 if (-not $token) {
-    Fail "Cannot find NEXT_PUBLIC_PROVIDER_DASHBOARD_TOKEN in frontend/.env.local or environment."
+    Fail "Cannot find provider token in backend/.env, frontend/.env.local, or environment."
     Write-Host ""
     exit 1
 }
 
-Info "Token found (not printed for security)"
+Info "Token found via $tokenSource (not printed for security)"
 
 # ---- Step 1: POST /papi/auth with token -----------------------------------
 Write-Host ""

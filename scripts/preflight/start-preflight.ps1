@@ -6,23 +6,32 @@
 
 .DESCRIPTION
     Orchestrates all preflight sub-checks in order:
-      1. Environment variables        (validate-env.ps1)
-      2. PM2 bash-shim detection      (check-pm2-shims.ps1)
-      3. Rewrite shadow guard         (check-next-rewrite-shadow.ps1)
-      4. Port collision proof          (port-collision-check.ps1)
-      5. Port identity + proxy         (ports-and-identity.ps1)
-      6. Provider auth round-trip      (provider-auth-check.ps1)   -- Demo/OpenTesting
-      7. Uptime drill                  (uptime-drill.ps1)          -- if -IncludeUptimeDrill
+      0. Phase 11 baseline assertion    (assert-phase11-baseline.ps1)
+      1. Environment variables          (validate-env.ps1)
+      2. PM2 bash-shim detection        (check-pm2-shims.ps1)
+      3. Rewrite shadow guard           (check-next-rewrite-shadow.ps1)
+      4. Port collision proof           (port-collision-check.ps1)
+      5. Database connectivity          (db-connectivity-check.ps1)         -- Demo/OpenTesting
+      6. Port identity + proxy          (ports-and-identity.ps1)            -- Demo/OpenTesting
+      7. Provider auth round-trip       (provider-auth-check.ps1)           -- Demo/OpenTesting
+      8. Chat backend readiness         (chat-backend-check.ps1)            -- Demo/OpenTesting
+      9. Uptime drill                   (uptime-drill.ps1)                  -- if -IncludeUptimeDrill
+
+    Each run generates a unique RunId and writes full output to
+    logs/preflight/preflight_<RunId>.log.
 
     Prints a clean PASS/FAIL banner and returns non-zero on ANY failure.
 
 .PARAMETER Mode
-    Demo         -- full checks including auth round-trip
+    Demo         -- full checks including auth round-trip, DB, chat backend
     OpenTesting  -- same as Demo (higher risk = same strictness)
     LocalDev     -- env + shim + shadow + collision only; skips ports/auth unless forced
 
 .PARAMETER IncludeUptimeDrill
     Run the uptime drill (Caddy restart + verify recovery). Default: off.
+
+.PARAMETER NonDisruptiveUptimeDrill
+    If IncludeUptimeDrill is set, use non-disruptive (poll-only) mode.
 
 .PARAMETER IncludeProviderAuthCheck
     Run provider dashboard auth round-trip check.
@@ -47,6 +56,9 @@
     # Before a demo with uptime proof
     .\scripts\preflight\start-preflight.ps1 -Mode Demo -IncludeUptimeDrill
 
+    # Non-disruptive uptime check (no restarts)
+    .\scripts\preflight\start-preflight.ps1 -Mode OpenTesting -IncludeUptimeDrill -NonDisruptiveUptimeDrill
+
     # Lightweight local dev
     .\scripts\preflight\start-preflight.ps1 -Mode LocalDev
 
@@ -59,6 +71,8 @@ param(
     [string]$Mode = "Demo",
 
     [switch]$IncludeUptimeDrill,
+
+    [switch]$NonDisruptiveUptimeDrill,
 
     [Nullable[bool]]$IncludeProviderAuthCheck,
 
@@ -75,6 +89,20 @@ $ErrorActionPreference = "Stop"
 
 # -- Resolve paths ----------------------------------------------------------
 $PreflightDir = $PSScriptRoot
+$Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+
+# -- Run ID + log file -------------------------------------------------------
+$RunId = (Get-Date -Format "yyyyMMdd-HHmmss") + "-" + ([System.Guid]::NewGuid().ToString("N").Substring(0, 6))
+$LogDir = Join-Path $Root "logs"; $LogDir = Join-Path $LogDir "preflight"
+if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
+$LogFile = Join-Path $LogDir "preflight_$RunId.log"
+
+# Tee helper: write to both console and log
+function Write-Tee {
+    param([string]$Msg, [string]$Color = "White")
+    Write-Host $Msg -ForegroundColor $Color
+    Add-Content -Path $LogFile -Value $Msg -ErrorAction SilentlyContinue
+}
 
 # -- State -------------------------------------------------------------------
 $Steps   = [System.Collections.Generic.List[object]]::new()
@@ -122,9 +150,15 @@ function Invoke-Step {
     }
 
     if ($VerboseOutput) {
-        & powershell.exe $argList
+        & powershell.exe $argList 2>&1 | ForEach-Object {
+            $line = $_.ToString()
+            Write-Host $line
+            Add-Content -Path $script:LogFile -Value $line -ErrorAction SilentlyContinue
+        }
     } else {
-        & powershell.exe $argList 2>&1 | Out-Null
+        & powershell.exe $argList 2>&1 | ForEach-Object {
+            Add-Content -Path $script:LogFile -Value $_.ToString() -ErrorAction SilentlyContinue
+        }
     }
     $ec = $LASTEXITCODE
     if ($null -eq $ec) { $ec = 0 }
@@ -137,9 +171,9 @@ function Invoke-Step {
     $script:Steps.Add($entry)
 
     if ($ec -eq 0) {
-        Write-Host "  [PASS] $Name" -ForegroundColor Green
+        Write-Tee "  [PASS] $Name" -Color Green
     } else {
-        Write-Host "  [FAIL] $Name (exit code $ec)" -ForegroundColor Red
+        Write-Tee "  [FAIL] $Name (exit code $ec)" -Color Red
         $script:Failed.Add($Name)
         $script:AllPass = $false
     }
@@ -148,20 +182,40 @@ function Invoke-Step {
 # ============================================================================
 # HEADER
 # ============================================================================
-Write-Host ""
-Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "  CARE2CONNECT PREFLIGHT GATE  (Mode: $Mode)" -ForegroundColor Cyan
-Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "  $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -ForegroundColor Gray
+Write-Tee ""
+Write-Tee "============================================================" -Color Cyan
+Write-Tee "  CARE2CONNECT PREFLIGHT GATE  (Mode: $Mode)" -Color Cyan
+Write-Tee "  RunId: $RunId" -Color Cyan
+Write-Tee "============================================================" -Color Cyan
+Write-Tee "  $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -Color Gray
+Write-Tee "  Log  : $LogFile" -Color Gray
 
 $flags = @()
-if ($IncludeUptimeDrill)  { $flags += "UptimeDrill" }
-if ($RunProviderAuth)     { $flags += "ProviderAuth" }
-if ($RunPorts)            { $flags += "Ports" }
+if ($IncludeUptimeDrill)        { $flags += "UptimeDrill" }
+if ($NonDisruptiveUptimeDrill)  { $flags += "NonDisruptive" }
+if ($RunProviderAuth)           { $flags += "ProviderAuth" }
+if ($RunPorts)                  { $flags += "Ports" }
 if ($flags.Count -gt 0) {
-    Write-Host "  Flags: $($flags -join ', ')" -ForegroundColor Gray
+    Write-Tee "  Flags: $($flags -join ', ')" -Color Gray
 }
-Write-Host ""
+Write-Tee ""
+
+# ============================================================================
+# STEP 0 -- Phase 11 Baseline Assertion (always runs first)
+# ============================================================================
+Invoke-Step -Name "Phase 11 Baseline Assertion" `
+    -ScriptPath (Join-Path $PreflightDir "assert-phase11-baseline.ps1")
+
+# If baseline assertion fails, remaining checks may be meaningless
+if (-not $AllPass) {
+    Write-Tee "" -Color Yellow
+    Write-Tee "  Phase 11 baseline failed -- merge PR #6 before continuing." -Color Yellow
+    Write-Tee "  Skipping remaining checks." -Color Yellow
+    Write-Tee ""
+}
+
+# Only continue remaining steps if baseline passed
+if ($AllPass) {
 
 # ============================================================================
 # STEP 1 -- Environment Variables
@@ -188,7 +242,17 @@ Invoke-Step -Name "Port Collision Proof" `
     -ScriptPath (Join-Path $PreflightDir "port-collision-check.ps1")
 
 # ============================================================================
-# STEP 5 -- Port Identity + Proxy (Demo / OpenTesting only, unless forced)
+# STEP 5 -- Database Connectivity (Demo / OpenTesting only)
+# ============================================================================
+if ($Mode -eq "Demo" -or $Mode -eq "OpenTesting") {
+    Invoke-Step -Name "Database Connectivity" `
+        -ScriptPath (Join-Path $PreflightDir "db-connectivity-check.ps1")
+} else {
+    Write-Tee "  [SKIP] Database Connectivity (LocalDev mode)" -Color Yellow
+}
+
+# ============================================================================
+# STEP 6 -- Port Identity + Proxy (Demo / OpenTesting only, unless forced)
 # ============================================================================
 if ($RunPorts) {
     Invoke-Step -Name "Port Identity + Proxy" `
@@ -196,77 +260,96 @@ if ($RunPorts) {
         -ExtraArgs @("-SkipSweep")
 } else {
     $reason = if ($Mode -eq "LocalDev") { "LocalDev mode" } else { "-SkipPorts" }
-    Write-Host "  [SKIP] Port Identity + Proxy ($reason)" -ForegroundColor Yellow
+    Write-Tee "  [SKIP] Port Identity + Proxy ($reason)" -Color Yellow
 }
 
 # ============================================================================
-# STEP 6 -- Provider Auth Round-Trip (Demo / OpenTesting default)
+# STEP 7 -- Provider Auth Round-Trip (Demo / OpenTesting default)
 # ============================================================================
 if ($RunProviderAuth) {
     Invoke-Step -Name "Provider Auth Round-Trip" `
         -ScriptPath (Join-Path $PreflightDir "provider-auth-check.ps1") `
         -ExtraArgs @("-TimeoutSeconds", "$TimeoutSeconds")
 } else {
-    Write-Host "  [SKIP] Provider Auth Round-Trip (disabled for $Mode)" -ForegroundColor Yellow
+    Write-Tee "  [SKIP] Provider Auth Round-Trip (disabled for $Mode)" -Color Yellow
 }
 
 # ============================================================================
-# STEP 7 -- Uptime Drill (optional, flag-gated)
+# STEP 8 -- Chat Backend Readiness (Demo / OpenTesting only)
+# ============================================================================
+if ($Mode -eq "Demo" -or $Mode -eq "OpenTesting") {
+    Invoke-Step -Name "Chat Backend Readiness" `
+        -ScriptPath (Join-Path $PreflightDir "chat-backend-check.ps1")
+} else {
+    Write-Tee "  [SKIP] Chat Backend Readiness (LocalDev mode)" -Color Yellow
+}
+
+# ============================================================================
+# STEP 9 -- Uptime Drill (optional, flag-gated)
 # ============================================================================
 if ($IncludeUptimeDrill) {
     $drillArgs = @("-TimeoutSeconds", "$TimeoutSeconds")
     if ($Mode -eq "OpenTesting") {
         $drillArgs += "-IncludeTunnel"
     }
-    Invoke-Step -Name "Uptime Drill (restart recovery)" `
+    if ($NonDisruptiveUptimeDrill) {
+        $drillArgs += "-NonDisruptive"
+    }
+    $drillLabel = if ($NonDisruptiveUptimeDrill) { "Uptime Drill (non-disruptive)" } else { "Uptime Drill (restart recovery)" }
+    Invoke-Step -Name $drillLabel `
         -ScriptPath (Join-Path $PreflightDir "uptime-drill.ps1") `
         -ExtraArgs $drillArgs
 } else {
-    Write-Host "  [SKIP] Uptime Drill (use -IncludeUptimeDrill to enable)" -ForegroundColor Yellow
+    Write-Tee "  [SKIP] Uptime Drill (use -IncludeUptimeDrill to enable)" -Color Yellow
 }
+
+} # end if ($AllPass) -- baseline gate
 
 # ============================================================================
 # SUMMARY
 # ============================================================================
-Write-Host ""
-Write-Host "------------------------------------------------------------" -ForegroundColor Cyan
-Write-Host "  SUMMARY  ($($Steps.Count) check(s) executed)" -ForegroundColor Cyan
-Write-Host "------------------------------------------------------------" -ForegroundColor Cyan
-Write-Host ""
+Write-Tee ""
+Write-Tee "------------------------------------------------------------" -Color Cyan
+Write-Tee "  SUMMARY  ($($Steps.Count) check(s) executed)  RunId: $RunId" -Color Cyan
+Write-Tee "------------------------------------------------------------" -Color Cyan
+Write-Tee ""
 
 foreach ($s in $Steps) {
     if ($s.Pass) {
-        Write-Host "    [PASS] $($s.Name)" -ForegroundColor Green
+        Write-Tee "    [PASS] $($s.Name)" -Color Green
     } else {
-        Write-Host "    [FAIL] $($s.Name)" -ForegroundColor Red
+        Write-Tee "    [FAIL] $($s.Name)" -Color Red
     }
 }
 
-Write-Host ""
+Write-Tee ""
+Write-Tee "  Log: $LogFile" -Color Gray
 
 if ($AllPass) {
-    Write-Host "  PREFLIGHT PASS -- SAFE TO PROCEED" -ForegroundColor Green
-    Write-Host ""
+    Write-Tee "" -Color Green
+    Write-Tee "  PREFLIGHT PASS -- SAFE TO PROCEED" -Color Green
+    Write-Tee ""
     if ($Mode -eq "Demo") {
-        Write-Host "  Next: start services if not running, then demo." -ForegroundColor Gray
+        Write-Tee "  Next: start services if not running, then demo." -Color Gray
     } elseif ($Mode -eq "OpenTesting") {
-        Write-Host "  Next: start services if not running, then open to testers." -ForegroundColor Gray
+        Write-Tee "  Next: start services if not running, then open to testers." -Color Gray
     } else {
-        Write-Host "  Next: start services with pm2 start ecosystem.dev.config.js" -ForegroundColor Gray
+        Write-Tee "  Next: start services with pm2 start ecosystem.dev.config.js" -Color Gray
     }
-    Write-Host ""
+    Write-Tee ""
     exit 0
 } else {
-    Write-Host "  PREFLIGHT FAIL -- DO NOT PROCEED" -ForegroundColor Red
-    Write-Host ""
-    Write-Host "  Failed steps:" -ForegroundColor Red
+    Write-Tee "" -Color Red
+    Write-Tee "  PREFLIGHT FAIL -- DO NOT PROCEED" -Color Red
+    Write-Tee ""
+    Write-Tee "  Failed steps:" -Color Red
     foreach ($f in $Failed) {
-        Write-Host "    * $f" -ForegroundColor Red
+        Write-Tee "    * $f" -Color Red
     }
-    Write-Host ""
-    Write-Host "  Fix the above failures, then re-run:" -ForegroundColor Yellow
-    Write-Host "    .\scripts\preflight\start-preflight.ps1 -Mode $Mode" -ForegroundColor Yellow
-    Write-Host "  See docs/DEPLOYMENT_RUNBOOK_WINDOWS.md for remediation." -ForegroundColor Yellow
-    Write-Host ""
+    Write-Tee ""
+    Write-Tee "  Fix the above failures, then re-run:" -Color Yellow
+    Write-Tee "    .\scripts\preflight\start-preflight.ps1 -Mode $Mode" -Color Yellow
+    Write-Tee "  See docs/DEPLOYMENT_RUNBOOK_WINDOWS.md for remediation." -Color Yellow
+    Write-Tee ""
     exit 1
 }
